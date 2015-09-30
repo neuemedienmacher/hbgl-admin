@@ -411,7 +411,7 @@ feature 'Admin Backend' do
     # scenario 'Adding notes' ~> needs javascript for the "add note" button
 
     scenario 'Viewing notes in admin show and edit works' do
-      note = FactoryGirl.create :note, topic: 'history', notable: offers(:basic)
+      note = FactoryGirl.create :note, topic: 'todo', notable: offers(:basic)
       note_text = note.text
 
       visit rails_admin_path
@@ -425,7 +425,7 @@ feature 'Admin Backend' do
       page.must_have_content note_text
 
       page.must_have_css '.Note'
-      page.must_have_css '.topic.history'
+      page.must_have_css '.topic.todo'
     end
   end
 end
