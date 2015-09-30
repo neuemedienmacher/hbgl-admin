@@ -67,6 +67,12 @@ gem 'lograge' # opinionated slimmer logs for production
 # JavaScript #
 ##############
 
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+
+# Use CoffeeScript for .js.coffee assets and views
+gem 'coffee-rails', '~> 4.0.0'
+
 gem 'hogan_assets' # TODO: deprecated!
 group :assets do # TODO: deprecated!
   gem 'haml' # TODO: deprecated!
