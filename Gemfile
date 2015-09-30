@@ -41,6 +41,27 @@ gem 'cancan' # role based auth for rails_admin
 
 gem 'devise'
 
+########################
+# For Heroku & Add-Ons #
+########################
+
+gem 'newrelic_rpm'
+gem 'rack-cache'
+gem 'memcachier'
+gem 'dalli' # Memcached Client
+gem 'kgio'
+
+group :production, :staging do
+  gem 'rails_12factor' # heroku recommends this
+  gem 'heroku-deflater' # gzip compression
+end
+
+# email
+gem 'gibbon', '~> 1.2.0' # uses MailChimp API 2.0, remove version for 3.0+
+
+# Logging
+gem 'lograge' # opinionated slimmer logs for production
+
 ##############
 # JavaScript #
 ##############
