@@ -65,7 +65,7 @@ Rails.application.configure do
       failover: true,
       socket_timeout: 1.5,
       socket_failure_delay: 0.2,
-      value_max_bytes: 10.megabytes)
+      value_max_bytes: 10485760) # 10.megabytes
   config.action_dispatch.rack_cache = {
     metastore:   client,
     entitystore: client
