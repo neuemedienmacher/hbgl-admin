@@ -340,11 +340,6 @@ RailsAdmin.config do |config|
         z.B. 'Zentrale' eintragen"
       end
     end
-    field :role do
-      help do
-        "Z.b. 'Geschäftsführer'"
-      end
-    end
     field :responsibility do
       help do
         "Z.b. 'Zuständig für alle Anfragen von Menschen deren Nachname mit den
@@ -440,6 +435,14 @@ RailsAdmin.config do |config|
     field :aasm_state do
       read_only true
       help false
+    end
+
+    list do
+      field :contact_people
+    end
+
+    show do
+      field :contact_people
     end
 
     object_label_method :address
