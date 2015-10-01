@@ -204,8 +204,10 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Offer' do
+    weight(-1)
     list do
       field :name
+      field :section_filters
       field :location
       field :renewed
       field :aasm_state
@@ -217,7 +219,8 @@ RailsAdmin.config do |config|
       end
       field :created_by
     end
-    weight(-1)
+
+    field :section_filters
     field :name do
       css_class 'js-category-suggestions__trigger'
     end

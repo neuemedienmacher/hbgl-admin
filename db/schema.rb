@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923092622) do
+ActiveRecord::Schema.define(version: 20151001155524) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -223,8 +223,8 @@ ActiveRecord::Schema.define(version: 20150923092622) do
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
     t.string   "target_gender",                         default: "whatever"
-    t.integer  "age_from",                                                   null: false
-    t.integer  "age_to",                                                     null: false
+    t.integer  "age_from"
+    t.integer  "age_to"
     t.string   "target_audience"
     t.string   "aasm_state",                 limit: 32
   end

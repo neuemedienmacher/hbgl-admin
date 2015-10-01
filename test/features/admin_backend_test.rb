@@ -15,6 +15,7 @@ feature 'Admin Backend' do
       click_link 'Neu hinzufügen'
 
       assert_difference 'Offer.count', 1 do
+        select 'Family', from: 'offer_section_filter_ids'
         fill_in 'offer_name', with: 'testangebot'
         fill_in 'offer_description', with: 'testdescription'
         fill_in 'offer_next_steps', with: 'testnextsteps'
@@ -160,7 +161,13 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      # Age From and Age To are missing
+      # Age Filter missing: Doesnt matter when not in family
+      page.wont_have_content 'Age from muss ausgefüllt werden'
+      page.wont_have_content 'Age to muss ausgefüllt werden'
+
+      #          "          Does matter when in family section
+      select 'Family', from: 'offer_section_filter_ids'
+      click_button 'Speichern und bearbeiten'
       page.must_have_content 'Age from muss ausgefüllt werden'
       page.must_have_content 'Age to muss ausgefüllt werden'
 
@@ -257,11 +264,12 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Neu hinzufügen'
 
+      select 'Refugees', from: 'offer_section_filter_ids'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
       fill_in 'offer_next_steps', with: 'testnextsteps'
-      fill_in 'offer_age_from', with: 0
-      fill_in 'offer_age_to', with: 18
+      # fill_in 'offer_age_from', with: 0
+      # fill_in 'offer_age_to', with: 18
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
       fill_in 'offer_age_to', with: 6
