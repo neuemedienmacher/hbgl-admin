@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  # mount ClaratBase::Engine => ''
+  # General Routes
+  resources :offers, only: [:show]
+  resources :organizations, only: [:show]
 
+  # Devise
   devise_for :users, class_name: 'User'
-
   devise_scope :user do
     authenticated do
       root to: 'rails_admin/main#dashboard'
