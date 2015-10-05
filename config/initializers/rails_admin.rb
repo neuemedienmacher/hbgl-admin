@@ -86,9 +86,6 @@ RailsAdmin.config do |config|
     field :description do
       css_class 'js-count-character'
     end
-    field :description_html do
-      read_only true
-    end
     field :comment do
       css_class 'js-count-character'
     end
@@ -227,18 +224,12 @@ RailsAdmin.config do |config|
     field :description do
       css_class 'js-count-character'
     end
-    field :description_html do
-      read_only true
-    end
     field :comment do
       css_class 'js-count-character'
     end
     field :notes
     field :next_steps do
       css_class 'js-count-character'
-    end
-    field :next_steps_html do
-      read_only true
     end
     field :legal_information
     field :contact_people
@@ -276,9 +267,6 @@ RailsAdmin.config do |config|
         (Konstantin) auch gern bescheid, wenn ihr ein einheitliches Format
         gefunden habt, mit dem alle Fälle abgedeckt werden können.'
       end
-    end
-    field :opening_specification_html do
-      read_only true
     end
     field :websites
     field :keywords do
