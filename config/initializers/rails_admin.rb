@@ -396,6 +396,7 @@ RailsAdmin.config do |config|
 
   config.model 'Category' do
     field :name
+    field :section_filters
     field :parent
     field :sort_order
 

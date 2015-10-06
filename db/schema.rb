@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001155524) do
+ActiveRecord::Schema.define(version: 20151005073023) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 20151001155524) do
   end
 
   add_index "categories", ["name"], name: "index_categories_on_name"
+
+  create_table "categories_filters", id: false, force: true do |t|
+    t.integer "filter_id",   null: false
+    t.integer "category_id", null: false
+  end
+
+  add_index "categories_filters", ["category_id"], name: "index_filters_categories_on_category_id"
+  add_index "categories_filters", ["filter_id"], name: "index_filters_categories_on_filter_id"
 
   create_table "categories_offers", id: false, force: true do |t|
     t.integer "offer_id",    null: false
