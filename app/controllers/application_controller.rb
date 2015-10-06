@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # Security by default
+  before_action :authenticate_user!
+
   # HTTP password protection
   claradmin = Rails.application
   http_basic_authenticate_with(

@@ -1,4 +1,4 @@
-class OffersController < ApplicationController
+class OrganizationsController < ApplicationController
   include RemoteShow
 
   def show
