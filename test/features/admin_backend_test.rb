@@ -161,31 +161,40 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      # Age Filter missing: Doesnt matter when not in family
-      page.wont_have_content 'Age from muss ausgefüllt werden'
-      page.wont_have_content 'Age to muss ausgefüllt werden'
-
-      #          "          Does matter when in family section
-      select 'Family', from: 'offer_section_filter_ids'
-      click_button 'Speichern und bearbeiten'
+      # Age Filter needs to be set
       page.must_have_content 'Age from muss ausgefüllt werden'
       page.must_have_content 'Age to muss ausgefüllt werden'
 
-      # Age Filter given, but not in the correct range
       fill_in 'offer_age_from', with: -1
       fill_in 'offer_age_to', with: 19
       click_button 'Speichern und bearbeiten'
+
       page.wont_have_content 'Age from muss ausgefüllt werden'
       page.wont_have_content 'Age to muss ausgefüllt werden'
-      page.must_have_content 'Age from muss größer oder gleich 0 sein'
-      page.must_have_content 'Age to muss kleiner oder gleich 18 sein'
 
-      # Age  Filter in correct range, but from is higher than to
+      # Age filter needs correct lower bounds
+      page.must_have_content 'Age from muss größer oder gleich 0 sein'
+      fill_in 'offer_age_from', with: 99
+      click_button 'Speichern und bearbeiten'
+      page.wont_have_content 'Age from muss größer oder gleich 0 sein'
+
+      # Age Filter upper bounds: doesnt matter when not in family
+      page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
+      page.wont_have_content 'Age to muss kleiner oder gleich 18 sein'
+
+      #          "              does matter when in family section
+      select 'Family', from: 'offer_section_filter_ids'
+      click_button 'Speichern und bearbeiten'
+
+      page.must_have_content 'Age from muss kleiner oder gleich 17 sein'
+      page.must_have_content 'Age to muss kleiner oder gleich 18 sein'
       fill_in 'offer_age_from', with: 9
       fill_in 'offer_age_to', with: 8
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'Age from muss größer oder gleich 0 sein'
+      page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
       page.wont_have_content 'Age to muss kleiner oder gleich 18 sein'
+
+      # Age Filter in correct range, but from is higher than to
       page.must_have_content 'Age from darf nicht größer sein als Age to'
 
       # Age Filter correct, but wrong contact_person chosen
@@ -268,8 +277,8 @@ feature 'Admin Backend' do
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
       fill_in 'offer_next_steps', with: 'testnextsteps'
-      # fill_in 'offer_age_from', with: 0
-      # fill_in 'offer_age_to', with: 18
+      fill_in 'offer_age_from', with: 0
+      fill_in 'offer_age_to', with: 18
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
       fill_in 'offer_age_to', with: 6
