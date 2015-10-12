@@ -400,7 +400,7 @@ RailsAdmin.config do |config|
     field :parent
     field :sort_order
 
-    object_label_method :name_with_optional_asterisk
+    object_label_method :name_with_world_suffix_and_optional_asterisk
 
     list do
       sort_by :name
