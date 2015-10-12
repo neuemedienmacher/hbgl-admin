@@ -7,7 +7,7 @@ FactoryGirl.define do
     after :build do |category|
       # Filters
       category.section_filters << (
-        SectionFilter.all.sample || FactoryGirl.create(:section_filter)
+        SectionFilter.first || FactoryGirl.create(:section_filter)
       )
     end
 
