@@ -10,7 +10,9 @@ describe OrganizationsController do
     it 'should redirect to the remote frontend offers#show' do
       sign_in users(:researcher)
       get :show, id: 'doesntmatter'
-      assert_redirected_to 'http://test.host.com/organizations/doesntmatter'
+      assert_redirected_to(
+        'http://test.host.com/preview/organizations/doesntmatter'
+      )
     end
   end
 end
