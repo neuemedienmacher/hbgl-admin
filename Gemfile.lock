@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 8e3515dfc1663d2744286c693406f4916d861094
+  revision: 94d70790a6f11bb2914d70b4033de8b182710788
+  branch: feature/509-change-offer-duplication
   specs:
     clarat_base (0.1.4)
       aasm

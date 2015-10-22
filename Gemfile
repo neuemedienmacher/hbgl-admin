@@ -8,7 +8,8 @@ ruby '2.2.2'
 gem 'rails', '4.1.13'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base',  github: 'clarat-org/clarat_base',
+                    branch: 'feature/509-change-offer-duplication'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
