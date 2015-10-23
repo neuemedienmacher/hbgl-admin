@@ -14,6 +14,7 @@
                 %span.label.label-info{class: "#{field.type_css_class} #{field.css_class}"}
                   = field.label
               %dd.well
-                = field.pretty_value
-
-= render '/rails_admin/custom/notes', object: @object
+                - if field.label == 'Notes'
+                  = render '/rails_admin/custom/notes', object: @object, title: false
+                - else
+                  = field.pretty_value
