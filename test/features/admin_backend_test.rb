@@ -20,7 +20,7 @@ feature 'Admin Backend' do
         fill_in 'offer_description', with: 'testdescription'
         fill_in 'offer_next_steps', with: 'testnextsteps'
         fill_in 'offer_age_from', with: 0
-        fill_in 'offer_age_to', with: 18
+        fill_in 'offer_age_to', with: 17
         select 'Personal', from: 'offer_encounter'
         select 'basicLocation', from: 'offer_location_id'
         select 'foobar', from: 'offer_organization_ids'
@@ -180,26 +180,26 @@ feature 'Admin Backend' do
 
       # Age Filter upper bounds: doesnt matter when not in family
       page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.wont_have_content 'Age to muss kleiner oder gleich 18 sein'
+      page.wont_have_content 'Age to muss kleiner oder gleich 17 sein'
 
       #          "              does matter when in family section
       select 'Family', from: 'offer_section_filter_ids'
       click_button 'Speichern und bearbeiten'
 
       page.must_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.must_have_content 'Age to muss kleiner oder gleich 18 sein'
+      page.must_have_content 'Age to muss kleiner oder gleich 17 sein'
       fill_in 'offer_age_from', with: 9
       fill_in 'offer_age_to', with: 8
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.wont_have_content 'Age to muss kleiner oder gleich 18 sein'
+      page.wont_have_content 'Age to muss kleiner oder gleich 17 sein'
 
       # Age Filter in correct range, but from is higher than to
       page.must_have_content 'Age from darf nicht größer sein als Age to'
 
       # Age Filter correct, but wrong contact_person chosen
       fill_in 'offer_age_from', with: 0
-      fill_in 'offer_age_to', with: 18
+      fill_in 'offer_age_to', with: 17
       select contact_person.display_name, from: 'offer_contact_person_ids'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Age from darf nicht größer sein als Age to'
