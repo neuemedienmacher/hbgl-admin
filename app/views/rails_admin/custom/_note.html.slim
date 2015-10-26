@@ -6,7 +6,7 @@
     - user = note.user || User.system_user
     =<> link_to user.name, show_path('user', user)
     | notierte am
-    time<> title="#{time_ago_in_words note.created_at} zuvor"
+    time<> title="#{time_ago_in_words note.created_at}"
       = note.created_at.strftime '%d.%m.%Y %H:%M'
     | zum Thema
     span.topic< class=note.topic
