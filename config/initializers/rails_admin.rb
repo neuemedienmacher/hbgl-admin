@@ -403,6 +403,7 @@ RailsAdmin.config do |config|
     field :section_filters
     field :parent
     field :sort_order
+    field :visible
 
     object_label_method :name_with_world_suffix_and_optional_asterisk
 
