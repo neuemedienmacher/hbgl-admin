@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 4220f4781abcdc9dd1c8d124e5653a67764a92e2
+  revision: 7b9553bf92723264c263047a7e3284a93cfad931
+  branch: feature/534-target-audience-only-in-family
   specs:
     clarat_base (0.1.4)
       aasm
@@ -31,7 +32,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.4.0)
+    aasm (4.4.1)
     actionmailer (4.1.13)
       actionpack (= 4.1.13)
       actionview (= 4.1.13)
