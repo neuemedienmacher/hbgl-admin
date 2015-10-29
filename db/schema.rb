@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028112851) do
+ActiveRecord::Schema.define(version: 20151029134904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -266,14 +266,6 @@ ActiveRecord::Schema.define(version: 20151028112851) do
 
   add_index "openings", ["day"], name: "index_openings_on_day", using: :btree
   add_index "openings", ["name"], name: "index_openings_on_name", using: :btree
-
-  create_table "organization_connections", force: true do |t|
-    t.integer "parent_id", null: false
-    t.integer "child_id",  null: false
-  end
-
-  add_index "organization_connections", ["child_id"], name: "index_organization_connections_on_child_id", using: :btree
-  add_index "organization_connections", ["parent_id"], name: "index_organization_connections_on_parent_id", using: :btree
 
   create_table "organization_offers", force: true do |t|
     t.integer "offer_id",        null: false
