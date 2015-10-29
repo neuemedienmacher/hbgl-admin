@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 58fb82ade1fc79389136ae99146634cba675a7dd
-  branch: feature/489-delete-organizations-connections
+  revision: fc2152421474d36cb901325534b537f4a43b3e30
   specs:
     clarat_base (0.1.4)
       aasm
