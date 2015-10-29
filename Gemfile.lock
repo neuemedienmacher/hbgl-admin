@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 7b9553bf92723264c263047a7e3284a93cfad931
-  branch: feature/534-target-audience-only-in-family
+  revision: f63568104f69313eccd7b1c16c84eeb2e67bacb0
   specs:
     clarat_base (0.1.4)
       aasm
