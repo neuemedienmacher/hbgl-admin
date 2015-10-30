@@ -8,7 +8,8 @@ ruby '2.2.2'
 gem 'rails', '4.1.13'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base',
+                   branch: 'refactor/524-workers-to-claradmin'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'

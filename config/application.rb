@@ -24,5 +24,14 @@ module Claradmin
     # Run "rake -D time" for a list of tasks for finding time zone names.
     # Default is UTC.
     config.time_zone = 'Berlin'
+
+    # Custom directories with classes and modules you want to be autoloadable.
+    config.autoload_paths += %W(
+      #{config.root}/app/observers
+      #{config.root}/app/workers
+    )
+
+    # Activate observers that should always be running.
+    config.active_record.observers += %w(SubscriptionObserver)
   end
 end
