@@ -273,15 +273,14 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Neu hinzufügen'
 
-      select 'Refugees', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_filter_ids'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
       fill_in 'offer_next_steps', with: 'testnextsteps'
       fill_in 'offer_age_from', with: 0
-      fill_in 'offer_age_to', with: 18
+      fill_in 'offer_age_to', with: 6
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
-      fill_in 'offer_age_to', with: 6
 
       ## Test general validations
 

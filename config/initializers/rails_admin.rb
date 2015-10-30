@@ -34,8 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest
     LanguageFilter User Contact
     Keyword Definition Note Area
-    OrganizationConnection SearchLocation
-    ContactPerson Subscription
+    SearchLocation ContactPerson Subscription
   )
 
   config.actions do
@@ -95,8 +94,6 @@ RailsAdmin.config do |config|
     field :accredited_institution
     field :founded
     field :umbrella
-    field :parents
-    field :children
     field :slug do
       read_only do
         bindings[:object].new_record?
@@ -403,6 +400,7 @@ RailsAdmin.config do |config|
     field :section_filters
     field :parent
     field :sort_order
+    field :visible
 
     object_label_method :name_with_world_suffix_and_optional_asterisk
 
@@ -525,9 +523,6 @@ RailsAdmin.config do |config|
   config.model 'LanguageFilter' do
     parent Filter
   end
-  config.model 'AgeFilter' do
-    parent Filter
-  end
   config.model 'Target_AudienceFilter' do
     parent Filter
   end
@@ -583,10 +578,6 @@ RailsAdmin.config do |config|
   end
 
   config.model 'ContactPersonOffer' do
-    weight 3
-  end
-
-  config.model 'OrganizationConnection' do
     weight 3
   end
 
