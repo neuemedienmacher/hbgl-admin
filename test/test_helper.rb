@@ -30,6 +30,11 @@ Dir[Rails.root.join('test/support/matchers/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/support/modules/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/support/spec_helpers/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/features/*.rb')].each { |f| require f }
+# TODO: is this how it should be???
+Dir[Rails.root.join('test/workers/*.rb')].each { |f| require f }
+Dir[Rails.root.join('test/objects/*.rb')].each { |f| require f }
+Dir[Rails.root.join('test/models/*.rb')].each { |f| require f }
+Dir[Rails.root.join('test/mailers/*.rb')].each { |f| require f }
 
 # For Sidekiq
 Sidekiq::Testing.inline!

@@ -264,8 +264,13 @@ ActiveRecord::Schema.define(version: 20151029134904) do
     t.string   "name",                 null: false
   end
 
+<<<<<<< HEAD
+  add_index "openings", ["day"], name: "index_openings_on_day"
+  add_index "openings", ["name"], name: "index_openings_on_name"
+=======
   add_index "openings", ["day"], name: "index_openings_on_day", using: :btree
   add_index "openings", ["name"], name: "index_openings_on_name", using: :btree
+>>>>>>> master
 
   create_table "organization_offers", force: true do |t|
     t.integer "offer_id",        null: false
