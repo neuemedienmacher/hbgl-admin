@@ -23,6 +23,7 @@ require 'minitest/hell'
 require 'pry-rescue/minitest' if ENV['RESCUE']
 require 'sidekiq/testing'
 require 'fakeredis'
+require 'webmock/minitest'
 
 # Inclusions: First matchers, then modules, then helpers.
 # Helpers need to be included after modules due to interdependencies.

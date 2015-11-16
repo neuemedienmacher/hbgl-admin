@@ -1,3 +1,5 @@
+require 'httparty'
+
 class CheckWebsitesWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
@@ -5,55 +7,40 @@ class CheckWebsitesWorker
   recurrence { weekly(1).day(:sunday).hour_of_day(23) }
 
   def perform
-    # Get websites to check
-    websites = Website.select{|site| !site.offers.approved.empty? and
-                                     site.host == 'own'}
-    # Check websites and store invalids
-    invalid_websites = check_websites(websites)
+    # Get websites to check (only those with approved offers)
+    websites = Website.select { |website| !website.offers.approved.empty? }
 
-    # Get offers affected by invalid websites
-    affected_offers = invalid_websites.map{|site| site.offers.approved}.compact
+    return if websites.empty?
 
-    puts affected_offers
+    # Check websites for invalids and get affected offers
+    affected_offers = check_websites_and_get_affected_offers websites
 
-    # Create Asana Tasks
-    #asana = AsanaCommunicator.new
-    #expiring.each do |expiring_offer|
-    #  asana.create_expire_task expiring_offer
-    #end
-
-    # Expire offers and trigger manual indexing for algolia search
-    #expire_and_reindex_offers affected_offers
+    # Create Asana Tasks, set state to expired and manually reindex for algolia
+    asana = AsanaCommunicator.new
+    affected_offers.each do |expiring_offer|
+      asana.create_expire_task expiring_offer, '[URL unreachable]'
+      expiring_offer.update_columns(aasm_state: 'expired')
+      expiring_offer.index!
+    end
   end
 
   private
 
-  def check_websites websites
-    invalid_websites = []
+  def check_websites_and_get_affected_offers websites
+    affected_offers = []
     websites.each do |website|
-      next unless website.url
       # get website and check for 404 errorcode
       begin
-        puts website.url
         response = HTTParty.get(website.url)
-        if response && response.code == 404
-          invalid_websites << website
+        if !response || response.code >= 400 # everything above 400 is an error
+          affected_offers.push(*website.offers.approved.to_a)
         end
       # catch errors that prevent a valid response
-      rescue HTTParty::RedirectionTooDeep, Errno::EHOSTUNREACH, SocketError
-        invalid_websites << website
+      rescue HTTParty::RedirectionTooDeep, Errno::EHOSTUNREACH, SocketError,
+             Timeout::Error
+        affected_offers.push(*website.offers.approved.to_a)
       end
     end
-    invalid_websites
+    affected_offers.compact
   end
-
-  def expire_and_reindex_offers expiring
-    # Save ids because the expiring relation does not work after update_all
-    expiring_ids = expiring.pluck(:id)
-    # Set to expired
-    expiring.update_all aasm_state: 'internal_review'
-    # Work on updated model with saved ids to sync algolia via manual index
-    Offer.find(expiring_ids).each(&:index!)
-  end
-
 end

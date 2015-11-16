@@ -6,12 +6,12 @@ class AsanaCommunicator
     @token = Rails.application.secrets.asana_token
   end
 
-  def create_expire_task offer
+  def create_expire_task offer, prefix = ''
     organization_names = offer.organizations.pluck(:name).join(',')
     post_to_api(
       '/tasks',
       workspace: '41140436022602', projects: %w(44856824806357),
-      name: "#{organization_names}-#{offer.expires_at}-#{offer.name}",
+      name: "#{prefix}#{organization_names}-#{offer.expires_at}-#{offer.name}",
       notes: "Expired: http://claradmin.herokuapp.com/admin/offer/#{offer.id}"\
              '/edit'
     )
