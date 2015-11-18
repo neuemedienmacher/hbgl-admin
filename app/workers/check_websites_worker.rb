@@ -29,7 +29,7 @@ class CheckWebsitesWorker
   def check_websites_and_get_affected_offers websites
     affected_offers = []
     websites.each do |website|
-      # get website and check for 404 errorcode
+      # get website and check for error codes
       begin
         response = HTTParty.get(website.url)
         if !response || response.code >= 400 # everything above 400 is an error
