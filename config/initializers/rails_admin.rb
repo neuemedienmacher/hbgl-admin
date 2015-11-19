@@ -34,27 +34,32 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest
     LanguageFilter User Contact
     Keyword Definition Note Area
-    SearchLocation ContactPerson Subscription
+    SearchLocation ContactPerson
+    Subscription SectionFilter
   )
 
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['User', 'FederalState']
+      except ['User', 'FederalState', 'SectionFilter']
     end
     export
     bulk_delete do
-      except ['User', 'FederalState']
+      except ['User', 'FederalState', 'SectionFilter']
     end
     show
-    edit
+    edit do
+      except ['SectionFilter']
+    end
     delete do
-      except ['User', 'FederalState']
+      except ['User', 'FederalState', 'SectionFilter']
     end
     show_in_app
 
-    clone
+    clone do
+      except ['SectionFilter']
+    end
     # nested_set do
     #   only ['Category']
     # end
@@ -525,6 +530,28 @@ RailsAdmin.config do |config|
   end
   config.model 'Target_AudienceFilter' do
     parent Filter
+  end
+  config.model 'SectionFilter' do
+    weight 3
+    parent Filter
+    list do
+      field :id
+      field :name
+      field :offers do
+        label 'Anzahl der Angebote (approved)'
+        pretty_value do
+          "#{value.count} (#{value.approved.count})"
+        end
+      end
+    end
+    show do
+      field :name
+      field :offers do
+        pretty_value do
+          "#{value.count} (#{value.approved.count})"
+        end
+      end
+    end
   end
 
   config.model 'User' do
