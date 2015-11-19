@@ -1,8 +1,9 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 0c6a469a5982225de5b5530bb0a135b6022ca1da
+  revision: d701939164c5ad04014b48c24f91905a6df41288
+  branch: fix/561-location-clone
   specs:
-    clarat_base (0.1.4)
+    clarat_base (0.1.5)
       aasm
       algoliasearch-rails
       bundler (>= 1.8.4)
@@ -31,7 +32,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.4.1)
+    aasm (4.5.0)
     actionmailer (4.1.13)
       actionpack (= 4.1.13)
       actionview (= 4.1.13)
@@ -156,7 +157,7 @@ GEM
     email_spec (1.6.0)
       launchy (~> 2.1)
       mail (~> 2.2)
-    enumerize (1.0.0)
+    enumerize (1.1.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.8)
@@ -208,7 +209,7 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    httpclient (2.7.0)
+    httpclient (2.7.0.1)
     i18n (0.7.0)
     ice_cube (0.11.1)
     interception (0.5)
@@ -246,7 +247,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.6.2)
     mini_portile (0.6.2)
-    minitest (5.8.2)
+    minitest (5.8.3)
     minitest-capybara (0.7.2)
       capybara (~> 2.2)
       minitest (~> 5.0)
@@ -272,7 +273,7 @@ GEM
     nested_form (0.3.2)
     netrc (0.10.3)
     newrelic_rpm (3.13.2.302)
-    nokogiri (1.6.6.2)
+    nokogiri (1.6.6.3)
       mini_portile (~> 0.6.0)
     nokogumbo (1.4.1)
       nokogiri
@@ -395,12 +396,12 @@ GEM
     rainbow (2.0.0)
     rake (10.4.2)
     redcarpet (3.3.3)
-    redis (3.2.1)
+    redis (3.2.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
     remotipart (1.2.1)
-    request_store (1.2.0)
+    request_store (1.2.1)
     require_all (1.3.2)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
