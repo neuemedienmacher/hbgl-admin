@@ -1,0 +1,6 @@
+- if object.try(:offers) && object.offers.any?
+  - offers = object.offers
+  h5 = 'Anzahl: ' + offers.count.to_s
+  - offers.each do |offer|
+    =<> link_to offer.name, show_path('offer', offer.id)
+    = ', ' unless offer == offers.last
