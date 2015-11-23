@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 3eb357850ed3ec1cedf120de7f6f468c787eb9f0
+  revision: f69e9b61b324469df174cb39eecbcd6640c7ede3
   branch: fix/561-location-clone
   specs:
     clarat_base (0.1.4)
@@ -245,7 +245,7 @@ GEM
       railties (>= 3.0.0, < 5.0.0)
     metaclass (0.0.4)
     method_source (0.8.2)
-    mime-types (2.6.2)
+    mime-types (2.99)
     mini_portile (0.6.2)
     minitest (5.8.3)
     minitest-capybara (0.7.2)
@@ -273,7 +273,7 @@ GEM
     nested_form (0.3.2)
     netrc (0.10.3)
     newrelic_rpm (3.13.2.302)
-    nokogiri (1.6.6.3)
+    nokogiri (1.6.6.4)
       mini_portile (~> 0.6.0)
     nokogumbo (1.4.1)
       nokogiri
