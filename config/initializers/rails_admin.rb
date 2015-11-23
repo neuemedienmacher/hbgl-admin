@@ -189,6 +189,9 @@ RailsAdmin.config do |config|
     export do
       field :id
     end
+    clone_config do
+      custom_method :partial_dup
+    end
     object_label_method :display_name
   end
 
