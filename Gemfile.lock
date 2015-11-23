@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: f69e9b61b324469df174cb39eecbcd6640c7ede3
-  branch: fix/561-location-clone
+  revision: d36134c18cb924018309f701e795b61503b27602
   specs:
     clarat_base (0.1.4)
       aasm
