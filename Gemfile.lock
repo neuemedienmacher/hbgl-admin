@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 66c0dcf7fda2b31eec70061668dbd035522ee405
+  revision: e5c58b95168ffab10858b7cb682317af518a609e
+  branch: fix/563-contact-and-subscribe
   specs:
     clarat_base (0.1.4)
       aasm
@@ -470,7 +471,7 @@ GEM
       slim (~> 3.0)
     slop (3.6.0)
     spring (1.4.0)
-    sprockets (3.4.0)
+    sprockets (3.4.1)
       rack (> 1, < 3)
     sprockets-rails (2.3.3)
       actionpack (>= 3.0)
