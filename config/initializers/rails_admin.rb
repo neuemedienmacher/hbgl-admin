@@ -178,7 +178,8 @@ RailsAdmin.config do |config|
     field :hq
     field :visible do
       help do
-        'Gibt an, ob die Adresse auf der Orga-Seite angezeigt werden soll.'
+        'Obacht: nur dann entfernen, wenn die Adresse auf der Orga-Seite
+        versteckt werden soll!'
       end
     end
     field :latitude do
