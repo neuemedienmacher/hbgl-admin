@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: d0365415189e6f2a8be617208a4d10422ea84e0c
-  branch: feature/572-hide-address
+  revision: 6b9fecf0a629f116346eea8fa7d0912af2d96815
   specs:
     clarat_base (0.1.4)
       aasm
@@ -126,6 +125,7 @@ GEM
     coffee-script-source (1.9.1.1)
     colored (1.2)
     columnize (0.9.0)
+    concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
     coveralls (0.8.3)
       json (~> 1.8)
@@ -471,7 +471,8 @@ GEM
       slim (~> 3.0)
     slop (3.6.0)
     spring (1.4.0)
-    sprockets (3.4.1)
+    sprockets (3.5.1)
+      concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (2.3.3)
       actionpack (>= 3.0)
