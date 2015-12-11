@@ -176,6 +176,12 @@ RailsAdmin.config do |config|
       inline_edit false
     end
     field :hq
+    field :visible do
+      help do
+        'Obacht: nur dann entfernen, wenn die Adresse auf der Orga-Seite
+        versteckt werden soll!'
+      end
+    end
     field :latitude do
       read_only true
     end
