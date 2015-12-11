@@ -1,5 +1,3 @@
-require 'httparty'
-
 class CheckWebsitesWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
@@ -13,33 +11,10 @@ class CheckWebsitesWorker
 
     return if websites.empty?
 
-    # Check websites for invalids and get affected offers
-    affected_offers = []
+    # worker = CheckSingleWebsiteWorker.new
     websites.each do |website|
-      affected_offers.push(*check_website_and_get_affected_offers(website))
+      worker = CheckSingleWebsiteWorker.new
+      worker.perform website
     end
-
-    # Create Asana Tasks, set state to expired and manually reindex for algolia
-    asana = AsanaCommunicator.new
-    affected_offers.compact.each do |expiring_offer|
-      asana.create_expire_task expiring_offer, '[URL unreachable]'
-      expiring_offer.update_columns(aasm_state: 'expired')
-      expiring_offer.index!
-    end
-  end
-
-  private
-
-  def check_website_and_get_affected_offers website
-    # get website and check for error codes
-    response = HTTParty.get(website.url)
-    if !response || response.code >= 400 # everything above 400 is an error
-      return website.offers.approved.to_a
-    end
-    []
-  # catch errors that prevent a valid response
-  rescue HTTParty::RedirectionTooDeep, Errno::EHOSTUNREACH, SocketError,
-         Timeout::Error
-    return website.offers.approved.to_a
   end
 end
