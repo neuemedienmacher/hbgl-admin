@@ -1,7 +1,7 @@
 # Monkeypatch clarat_base CotactPerson
 require ClaratBase::Engine.root.join('app', 'models', 'contact_person')
 
-class CotactPerson < ActiveRecord::Base
+class ContactPerson < ActiveRecord::Base
   # Admin specific methods
 
   # Customize duplication.
