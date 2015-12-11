@@ -5,7 +5,9 @@ class CheckSingleWebsiteWorker
 
   sidekiq_options queue: :heavy_load
 
-  def perform website
+  def perform website_id
+    website = Website.find(website_id)
+    return unless website && !website.offers.approved.empty?
     if website_unreachable? website
       # Create Asana Tasks, set state to expired and manually reindex for algolia
       asana = AsanaCommunicator.new
@@ -29,7 +31,7 @@ class CheckSingleWebsiteWorker
     return false
   # catch errors that prevent a valid response
   rescue HTTParty::RedirectionTooDeep, Errno::EHOSTUNREACH, SocketError,
-         Timeout::Error
+         Timeout::Error, URI::InvalidURIError
     return true
   end
 end

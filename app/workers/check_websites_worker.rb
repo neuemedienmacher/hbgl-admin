@@ -7,14 +7,14 @@ class CheckWebsitesWorker
 
   def perform
     # Get websites to check (only those with approved offers)
-    websites = Website.select { |website| !website.offers.approved.empty? }
-
-    return if websites.empty?
+    # websites = Website.select { |website| !website.offers.approved.empty? }
+    #
+    # return if websites.empty?
 
     # worker = CheckSingleWebsiteWorker.new
-    websites.each do |website|
+    Website.pluck(:id).each do |website_id|
       worker = CheckSingleWebsiteWorker.new
-      worker.perform website
+      worker.perform website_id
     end
   end
 end
