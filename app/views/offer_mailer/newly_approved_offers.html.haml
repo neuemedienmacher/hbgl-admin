@@ -1,5 +1,5 @@
 %p
-  - if @multiple_contact_people || (!@contact_person.last_name? && !@contact_person.first_name?)
+  - if @vague_title
     Sehr geehrte Damen und Herren,
   - elsif @contact_person.last_name?
     - if @contact_person.gender == 'male'
@@ -15,55 +15,44 @@
       Liebe
     = succeed ',' do
       = @contact_person.first_name
-
 %p
-  erinnern Sie sich noch an clarat - das Portal, auf dem Kinder, Jugendliche
-  und Familien einfach Hilfe finden?
+  erinnern Sie sich noch an
+  = link_to( t(".clarat_name.#{@section_suffix}"), t(".link_url.#{@section_suffix}") )
+  = t(".paragraph_entry.#{@section_suffix}",
+      root_link: '||',
+      new_offers: t(".offer_text.#{@offer ? 'singular' : 'multiple'}") ).split('||').last
 
+- if @offer
+  %p
+    = t(".list_entry", section_name: t(".clarat_name.#{@section_suffix}"))
+    %p
+      = '"' + @offer.name.strip + '"'
+      %br
+      = t(".list_link_intro")
+      %br
+      = link_to( @offer.name.strip, @offer_href)
+    %p
+      = t(".paragraph_found_error")
+      - @section_suffix.split('_').each do |section|
+        %p
+          = t(".paragraph_overview_link",
+              section_name: t(".clarat_name.#{section}"),
+              overview_link: '' )
+          = link_to( t(".clarat_name.#{section}") + " Übersicht" , t(".link_url.#{section}") + @overview_href_suffix )
+
+- else
+  - @section_suffix.split('_').each do |section|
+    %p
+      = t(".paragraph_overview_link",
+          section_name: t(".clarat_name.#{section}"),
+          overview_link: '' )
+      = link_to( t(".clarat_name.#{section}") + " Übersicht" , t(".link_url.#{section}") + @overview_href_suffix )
+  %p
+    = t(".paragraph_found_error")
 %p
-  Bei clarat hat sich einiges getan und darüber möchten wir Sie auf dem
-  Laufenden halten. Inzwischen gibt es auch
-  - if @offers_count == 1
-    ein neues Angebot
-  - else
-    neue Angebote
-  von Ihnen:
-
+  = t(".paragraph_offers_missing.#{@section_suffix}")
 %p
-  - if @offers_count == 1
-    = '"' + @offers.first.name.strip + '",'
-    zu finden unter folgendem Link:
-    %br
-    = link_to offer_url(@offers.first), offer_url(@offers.first)
-  - else
-    %ul
-      - @offers.each do |offer|
-        %li
-          = '"' + offer.name.strip + '",'
-          zu finden unter folgendem Link:
-          %br
-          = link_to offer_url(offer), offer_url(offer)
-
-
-
-%p
-  Werfen Sie doch einen kurzen Blick auf
-  = succeed '.' do
-    - if @offers_count == 1
-      Ihr Angebot
-    - else
-      Ihre Angebote
-  Haben Sie einen Fehler gefunden? Dann geben Sie uns gern Bescheid.
-
-%p
-  Wir arbeiten weiter daran, alle Unterstützungsangebote in Berlin zu erfassen.
-  Sobald weitere Angebote von Ihnen bei clarat zu finden sind, informieren wir
-  Sie per Mail.
-
-%p
-  In Zukunft finden dann hoffentlich immer mehr Menschen durch clarat einfach
-  und schnell Ihre Hilfe.
-
+  = t(".paragraph_vision", section_name: t(".clarat_name.#{@section_suffix}"))
 %p
   Mit freundlichen Grüßen
   %br

@@ -1,4 +1,4 @@
-<%- if @multiple_contact_people || (!@contact_person.last_name? && !@contact_person.first_name?) %>
+<%- if @vague_title %>
 Sehr geehrte Damen und Herren,
 <%- elsif @contact_person.last_name? %>
 <%- if @contact_person.gender == 'male' %>
@@ -10,45 +10,74 @@ Lieber<%- else %>
 Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- end %>
 
-kennen Sie http://www.clarat.org schon? Das ist ein neues Portal mit
-Unterstützungsangeboten für Kinder, Jugendliche und Familien. Man kann auch Ihre
-Angebote bei clarat finden.
-
-<%- if @offers.count == 1 %>
-Ihr Angebot heißt bei clarat:
-"<%= @offers.first.name %>", zu finden unter folgendem Link:
-<%= offer_url(@offers.first) %>
+<%= t(".paragraph_entry.#{@section_suffix}",
+    root_link: t('.text_link',
+               name: t(".clarat_name.#{@section_suffix}"),
+               url: t(".link_url.#{@section_suffix}")),
+    offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) ) %>
+<%- if @singular_section %>
+<%- if @offers_teaser %>
+<%= t(".list_entry_teaser.singular",
+    section_name: t(".clarat_name.#{@section_suffix}")) %>
 <%- else %>
-Ihre Angebote heißen bei clarat:
+<%= t(".list_entry",
+    section_name: t(".clarat_name.#{@section_suffix}"),
+    count: @offers.count) %>
+<%- end %>
+<%- # Start single offer list: one offer or multiple offers %>
 <%- @offers.each do |offer| %>
-- "<%= offer.name %>", zu finden unter folgendem Link:
-  <%= offer_url(offer) %>
+
+"<%= offer.name %>",
+<%= t(".list_link_intro") %>
+<%= t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) %>
 <%- end %>
+
+<%- @section_suffix.split('_').each do |section| %>
+<%= t(".paragraph_overview_link",
+    section_name: t(".clarat_name.#{section}"),
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
 <%- end %>
+<%- else %>
+<%- # Start multiple offer lists: one offer or multiple offers each %>
+<%- @section_suffix.split('_').each do |section| %>
+<%- if @offers_teaser %>
+<%= t(".list_entry_teaser.#{@offers_teaser ? 'multiple' : 'singular'}",
+    section_name: t(".clarat_name.#{section}")) %>
+<%- else %>
+<%= t(".list_entry",
+    section_name: t(".clarat_name.#{section}"),
+    count: @offers.count) %>
+<%- end %>
+<%- @offers.each do |offer| %>
+<%- if offer.in_section? section %>
 
-Hat sich irgendwo ein Fehler eingeschlichen? Dann melden Sie sich bei uns. Nur
-so kann clarat besser werden.
+"<%= offer.name %>",
+<%= t(".list_link_intro") %>
+<%= t(".link_url.#{section}") + '/angebote/' + (offer.slug || offer.id.to_s) %>
+<%- end # end if offer.in_section? %>
+<%- end # end offers.each %>
 
-clarat ist ein kostenloses Web-Verzeichnis und wird von der gemeinnützigen
-Benckiser Stiftung Zukunft ( http://www.benckiser-stiftung.org/ ) entwickelt.
-Hier finden Kinder, Jugendliche und Familien einfach Hilfe in ihrer Nähe. Aber
-auch Menschen, die anderen helfen wollen. Wir hoffen, dass auch Ihre Angebote
-mit clarat noch leichter gefunden werden.
-
-Für clarat haben wir neben einer einfachen Navigation in Zusammenarbeit mit
-Sprach-Experten eine leicht verständliche Sprache entwickelt. Dadurch kann jedes
-Angebot mit einem Klick auch in weitere Sprachen (u.a. Arabisch, Russisch,
-Türkisch) übersetzt werden. Mehr zu clarat erfahren Sie in unserem kurzen
-Einführungsfilm ( http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/ )
-oder auf unserem Blog ( http://blog.clarat.org ).
-
-Sie sehen oben alle Angebote, die man von Ihnen bisher bei clarat findet.
-Wundern Sie sich nicht, wenn noch Angebote fehlen. Wir arbeiten daran alle
-Unterstützungsangebote in Berlin zu erfassen.
-
-Haben Sie einen Vorschlag, was wir noch besser machen können? Lassen Sie uns
-wissen, was Sie über clarat denken. Wir freuen uns auf Ihr Feedback!
-
+<%= t(".paragraph_overview_link",
+    section_name: t(".clarat_name.#{section}"),
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
+<%- end # end section_suffix.each %>
+<%- end # end else %>
+<%= t(".paragraph_found_error",
+    section_name: t(".clarat_name.#{@section_suffix}")) %>
+<%- if @offers_teaser %>
+<%= t(".paragraph_split_explanation",
+    section_name: t(".clarat_name.#{@section_suffix}")) %>
+<%- else %>
+<%= t(".paragraph_offers_missing.#{@section_suffix}") %>
+<%- end %>
+<%= t(".paragraph_explain_clarat.#{@section_suffix}",
+    section_name: t(".clarat_name.#{@section_suffix}"),
+    foundation_link: "Benckiser Stiftung Zukunft ( http://www.benckiser-stiftung.org/ )",
+    family_movie_link: "Einführungsfilm ( http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/ )",
+    clarat_movie_link: "clarat family Film ( http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/ )",
+    blog_link: "Blog ( http://blog.clarat.org )") %>
+<%= t(".paragraph_improvements",
+    section_name: t(".clarat_name.#{@section_suffix}")) %>
 Mit freundlichen Grüßen
 das clarat Team
 
@@ -59,9 +88,9 @@ ein Projekt der Benckiser Stiftung Zukunft
 Französische Straße 47
 10117 Berlin
 Tel.: +49 (0)30 55 57 96 00
-www.clarat.org
+http://www.clarat.org
 
 PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind.
      Klicken Sie einfach diesen Link:
      <%= @subscribe_href %>
-     Ansonsten erhalten sie keine Mails mehr von uns.
+     Ansonsten erhalten sie keine E-Mails mehr von uns.

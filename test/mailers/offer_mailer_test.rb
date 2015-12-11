@@ -101,6 +101,12 @@ describe OfferMailer do
         subject.must have_body_text 'Liebe Fuz,'
       end
     end
+
+    describe 'CONTENT TEST' do
+      it 'must contain stuff' do
+        subject.must have_body_text 'Das ist ein neues kostenloses Portal mit Unterstützungsangeboten.'
+      end
+    end
   end
 
   describe '#newly_approved_offers' do
@@ -115,7 +121,7 @@ describe OfferMailer do
       it 'must deliver and create offer_mailings' do
         email.expects(:create_offer_mailings)
         subject.must deliver_to email.address
-        subject.must have_subject 'clarat Berlin - Ihr neues Angebot'
+        subject.must have_subject 'clarat family - Ihr neues Angebot'
         subject.must have_body_text 'ein neues Angebot'
         subject.must have_body_text '/unsubscribe/'
         subject.must have_body_text email.security_code
@@ -132,9 +138,9 @@ describe OfferMailer do
       end
 
       it 'must correctly mention them' do
-        subject.must have_subject 'clarat Berlin - Ihre neuen Angebote'
+        section_name_array = offerArray.map { |o| o.section_filters.map(&:identifier).flatten }.flatten.compact.uniq
+        subject.must have_subject "clarat #{section_name_array.join(' und clarat ')} - Ihre neuen Angebote"
         subject.must have_body_text 'neue Angebote'
-        subject.must have_body_text 'another named offer'
         subject.must have_body_text 'Ihre Angebote'
       end
     end
