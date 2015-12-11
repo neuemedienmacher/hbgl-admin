@@ -90,9 +90,6 @@ RailsAdmin.config do |config|
     field :description do
       css_class 'js-count-character'
     end
-    field :comment do
-      css_class 'js-count-character'
-    end
     field :locations
     field :legal_form
     field :charitable
@@ -176,6 +173,12 @@ RailsAdmin.config do |config|
       inline_edit false
     end
     field :hq
+    field :visible do
+      help do
+        'Obacht: nur dann entfernen, wenn die Adresse auf der Orga-Seite
+        versteckt werden soll!'
+      end
+    end
     field :latitude do
       read_only true
     end
@@ -227,9 +230,6 @@ RailsAdmin.config do |config|
       css_class 'js-category-suggestions__trigger'
     end
     field :description do
-      css_class 'js-count-character'
-    end
-    field :comment do
       css_class 'js-count-character'
     end
     field :notes

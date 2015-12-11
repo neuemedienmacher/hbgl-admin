@@ -7,3 +7,4 @@ basic:
   organization_id: 1
   federal_state_id: 1
   display_name: basicLocation
+  visible: t
