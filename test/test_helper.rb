@@ -3,7 +3,6 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter "/test/"
-  add_filter "/app/policies/application_policy.rb"
   # TEMPORARILY DISABLED!
   add_filter 'app/workers/subscribed_emails_mailings_worker.rb'
   add_filter 'app/workers/uninformed_emails_mailings_worker.rb'
@@ -66,6 +65,7 @@ Minitest.after_run do
     brakeman
     rails_best_practices
     rubocop
+    reenable_http # for coveralls
   end
 end
 
