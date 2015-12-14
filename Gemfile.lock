@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 280275510cba41a637d27043f62dd78d1dce9a7b
+  revision: d613d05cb985317934aab3122577ee8085119bd6
   specs:
     clarat_base (0.1.4)
       aasm
@@ -11,7 +11,7 @@ GIT
       friendly_id (>= 5.0)
       geocoder
       paper_trail
-      rails (~> 4.2)
+      rails (>= 4.1.12)
       rails-observers
       redcarpet
       sanitize
