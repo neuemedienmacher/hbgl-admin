@@ -3,6 +3,10 @@ require_relative '../test_helper'
 class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
   let(:object) { AsanaCommunicator.new }
 
+  before do
+    Net::HTTP.any_instance.stubs(:request)
+  end
+
   describe '#create_expire_task' do
     it 'should call #post_to_api with apropriate data' do
       object.expects(:post_to_api).with(

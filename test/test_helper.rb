@@ -65,7 +65,6 @@ Minitest.after_run do
     brakeman
     rails_best_practices
     rubocop
-    reenable_http # for coveralls
   end
 end
 
