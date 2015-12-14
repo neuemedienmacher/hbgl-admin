@@ -6,18 +6,35 @@ class AsanaCommunicator
     @token = Rails.application.secrets.asana_token
   end
 
-  def create_expire_task offer, prefix = ''
+  def create_expire_task offer
     organization_names = offer.organizations.pluck(:name).join(',')
-    post_to_api(
-      '/tasks',
-      workspace: '41140436022602', projects: %w(44856824806357),
-      name: "#{prefix}#{organization_names}-#{offer.expires_at}-#{offer.name}",
-      notes: "Expired: http://claradmin.herokuapp.com/admin/offer/#{offer.id}"\
-             '/edit'
-    )
+    create_task "#{organization_names}-#{offer.expires_at}-#{offer.name}",
+                'Expired: http://claradmin.herokuapp.com/admin/offer/'\
+                "#{offer.id}/edit"
+  end
+
+  def create_website_unreachable_task_offer website, offer
+    orgas = offer.organizations.pluck(:name).join(',')
+    create_task "[URL unreachable]#{orgas}-#{offer.expires_at}-#{offer.name}",
+                'Expired: http://claradmin.herokuapp.com/admin/offer/'\
+                "#{offer.id}/edit | Unreachable website: #{website.url}"
+  end
+
+  def create_website_unreachable_task_orgas website
+    organization_names = website.organizations.approved.pluck(:name).join(',')
+    create_task "[URL unreachable]#{organization_names}",
+                "Unreachable website: #{website.url}"
   end
 
   private
+
+  def create_task title, content
+    post_to_api(
+      '/tasks',
+      projects: %w(44856824806357), workspace: '41140436022602',
+      name: title, notes: content
+    )
+  end
 
   def post_to_api endpoint, form_hash
     request = Net::HTTP::Post.new("/api/1.0#{endpoint}")

@@ -6,15 +6,9 @@ class CheckWebsitesWorker
   recurrence { weekly(1).day(:wednesday).hour_of_day(20) }
 
   def perform
-    # Get websites to check (only those with approved offers)
-    # websites = Website.select { |website| !website.offers.approved.empty? }
-    #
-    # return if websites.empty?
-
-    # worker = CheckSingleWebsiteWorker.new
-    Website.pluck(:id).each do |website_id|
-      worker = CheckSingleWebsiteWorker.new
-      worker.perform website_id
+    # Get websites to check (only those with approved offers or orgas)
+    Website.select { |w| !w.offers.approved.empty? || !w.organizations.approved.empty? }.each do |website|
+      CheckSingleWebsiteWorker.perform_async website.id
     end
   end
 end
