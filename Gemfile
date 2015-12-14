@@ -148,6 +148,7 @@ group :development, :test do
   # Code Coverage
   gem 'simplecov', require: false
   gem 'coveralls', require: false
+  gem 'codeclimate-test-reporter', require: false
 
   # dev help
   gem 'thin' # Replace Webrick
