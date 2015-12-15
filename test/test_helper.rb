@@ -56,7 +56,7 @@ include ActionDispatch::TestProcess
 Rails.logger.level = 4
 
 # Eager load everything for more accurate test coverage metric
-Rails.application.eager_load!
+# Rails.application.eager_load!
 
 ### Test Setup ###
 File.open(Rails.root.join('log/test.log'), 'w') { |f| f.truncate(0) } # clearlog

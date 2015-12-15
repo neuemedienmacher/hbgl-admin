@@ -26,7 +26,6 @@ module Claradmin
       #{config.root}/app/workers
     )
     config.autoload_paths += additional_paths
-    config.eager_load_paths += additional_paths
     # config.eager_load_paths += additional_paths
   end
 end
