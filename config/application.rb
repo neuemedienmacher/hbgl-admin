@@ -22,9 +22,10 @@ module Claradmin
     config.time_zone = 'Berlin'
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(
+    additional_paths = %W(
       #{config.root}/app/workers
     )
-
+    config.autoload_paths += additional_paths
+    # config.eager_load_paths += additional_paths
   end
 end

@@ -9,6 +9,8 @@ SimpleCov.start 'rails' do
   # /TEMPORARILY DISABLED
   minimum_coverage 100
 end
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -53,6 +55,9 @@ include ActionDispatch::TestProcess
 # ~Disable logging for test performance!
 # Change this value if you really need the log and run your suite again~
 Rails.logger.level = 4
+
+# Eager load everything for more accurate test coverage metric
+# Rails.application.eager_load!
 
 ### Test Setup ###
 File.open(Rails.root.join('log/test.log'), 'w') { |f| f.truncate(0) } # clearlog

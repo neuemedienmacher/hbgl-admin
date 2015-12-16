@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :offers, only: [:show]
   resources :organizations, only: [:show]
 
+  # unscoped RESTful resources (only POST and non-HTML GET)
+  get 'categories/:offer_name', controller: :categories, action: :index
+
   # Devise
   devise_for :users, class_name: 'User'
   devise_scope :user do
