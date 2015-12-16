@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: d613d05cb985317934aab3122577ee8085119bd6
+  revision: d483bfe0a85f2787497d098240b1b90ebe0e2ffe
+  branch: feature/537-orga-website-validation
   specs:
     clarat_base (0.1.4)
       aasm
@@ -188,7 +189,7 @@ GEM
       railties (>= 3.2, < 5.0)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
-    geocoder (1.2.12)
+    geocoder (1.2.13)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
