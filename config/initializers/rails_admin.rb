@@ -90,9 +90,6 @@ RailsAdmin.config do |config|
     field :description do
       css_class 'js-count-character'
     end
-    field :comment do
-      css_class 'js-count-character'
-    end
     field :locations
     field :legal_form
     field :charitable
@@ -233,9 +230,6 @@ RailsAdmin.config do |config|
       css_class 'js-category-suggestions__trigger'
     end
     field :description do
-      css_class 'js-count-character'
-    end
-    field :comment do
       css_class 'js-count-character'
     end
     field :notes

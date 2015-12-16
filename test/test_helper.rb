@@ -3,7 +3,10 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter "/test/"
-  add_filter "/app/policies/application_policy.rb"
+  # TEMPORARILY DISABLED!
+  add_filter 'app/workers/subscribed_emails_mailings_worker.rb'
+  add_filter 'app/workers/uninformed_emails_mailings_worker.rb'
+  # /TEMPORARILY DISABLED
   minimum_coverage 100
 end
 
@@ -23,6 +26,7 @@ require 'minitest/hell'
 require 'pry-rescue/minitest' if ENV['RESCUE']
 require 'sidekiq/testing'
 require 'fakeredis'
+require 'webmock/minitest'
 
 # Inclusions: First matchers, then modules, then helpers.
 # Helpers need to be included after modules due to interdependencies.
