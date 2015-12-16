@@ -1,0 +1,7 @@
+h1 clarat Administration
+
+ul
+  - [Offer, Organization, Location].each do |klass|
+    li= "#{klass.name}: #{klass.count}"
+
+= link_to 'Angebote', offers_path

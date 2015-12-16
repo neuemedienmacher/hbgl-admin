@@ -8,7 +8,7 @@ ruby '2.2.2'
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base' # , path: '../clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -42,6 +42,15 @@ gem 'cancan' # role based auth for rails_admin
 
 gem 'devise'
 
+gem 'trailblazer'
+# gem 'trailblazer-loader'
+gem 'trailblazer-rails', '0.1.6' # not yet functional
+gem 'cells'
+gem 'reform'
+gem 'reform-rails'
+
+gem 'simple_form'
+
 ########################
 # For Heroku & Add-Ons #
 ########################
@@ -63,9 +72,9 @@ gem 'gibbon', '~> 1.2.0' # uses MailChimp API 2.0, remove version for 3.0+
 # Logging
 gem 'lograge' # opinionated slimmer logs for production
 
-##############
-# JavaScript #
-##############
+############################
+# Assets: CSS / JavaScript #
+############################
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -84,6 +93,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-qtip2'
   gem 'rails-assets-shariff'
   gem 'rails-assets-algoliasearch' # search client
+  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-flat-ui'
 end
 
 #####################

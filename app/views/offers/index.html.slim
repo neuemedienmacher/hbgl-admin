@@ -1,0 +1,15 @@
+= link_to 'Neuet Teil', new_offer_path
+
+table.table
+  thead
+    tr
+      th= link_to 'name', sort: 'name'
+      th= link_to 'description', sort: 'description'
+      th
+  tbody
+    - @offers.each do |offer|
+      tr
+        td= offer.name
+        td= offer.description
+        td
+          = link_to 'edit', edit_offer_path(offer)

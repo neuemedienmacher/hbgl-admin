@@ -13,4 +13,7 @@ class ApplicationController < ActionController::Base
     password: claradmin.secrets.protect['pwd'],
     if: -> { Rails.env.staging? || Rails.env.production? }
   )
+
+  # Trailblazer
+  include Trailblazer::Operation::Controller
 end

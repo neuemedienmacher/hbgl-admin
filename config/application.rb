@@ -24,8 +24,9 @@ module Claradmin
     # Custom directories with classes and modules you want to be autoloadable.
     additional_paths = %W(
       #{config.root}/app/workers
+      #{config.root}/app/concepts
     )
     config.autoload_paths += additional_paths
-    # config.eager_load_paths += additional_paths
+    config.eager_load_paths += additional_paths
   end
 end
