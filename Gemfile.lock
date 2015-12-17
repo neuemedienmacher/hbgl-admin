@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 23daa36f82c701cc291abf4eee26ab13d4092267
-  branch: feature/599-increase-offer-name-length
+  revision: aafc0b91a5f2e009ee2101bdcd7ff12115621254
   specs:
     clarat_base (0.1.4)
       aasm
