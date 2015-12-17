@@ -1,4 +1,14 @@
-= link_to 'Neuet Teil', new_offer_path
+nav.navbar.navbar-default
+  .container-fluid
+    ul.nav.navbar-nav
+      li.active= link_to 'Liste', offers_path
+      li= link_to 'Neuet Teil', new_offer_path
+    form.navbar-form.navbar-right
+      .input-group
+        input.form-control placeholder="Suche…"
+        span.input-group-btn
+          button.btn.btn-default type="submit"
+            span.glyphicon.glyphicon-search
 
 table.table
   thead

@@ -1,0 +1,45 @@
+included_models:
+  - Offer
+  - Organization
+  # - Website Location
+  # - FederalState
+  # - Opening
+  # - Category
+  # - Email
+  # - UpdateRequest
+  # - LanguageFilter
+  # - User
+  # - Contact
+  # - Keyword
+  # - Definition
+  # - Note
+  # - Area
+  # - SearchLocation
+  # - ContactPerson
+  # - Subscription
+  # - SectionFilter
+Organization:
+  list:
+    fields:
+      - offers_count
+      - name
+      - renewed
+      - aasm_state
+      - creator
+      - locations_count
+      - created_by
+    order: "offers_count ASC"
+Offer:
+  list:
+    fields:
+      - name
+      - section_filters
+      - location
+      - renewed
+      - aasm_state
+      - creator
+      - expires_at
+      - approved_at
+      - organizations_names
+      - created_by
+    order: "created_at ASC"

@@ -1,0 +1,11 @@
+header.page-header style="margin-top: 0;"
+  .row
+    .col-sm-7
+      h1
+        | clarat
+        small< Administration
+    .col-sm-5
+      ul.nav.nav-pills
+        li= link_to 'Dashboard', root_path
+        li= link_to 'Sidekiq', '/sidekiq'
+        li= link_to 'Altes Backend', '/admin'

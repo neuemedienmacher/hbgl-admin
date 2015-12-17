@@ -1,7 +1,5 @@
-h1 clarat Administration
+h2 Dashboard
 
 ul
-  - [Offer, Organization, Location].each do |klass|
-    li= "#{klass.name}: #{klass.count}"
-
-= link_to 'Angebote', offers_path
+  - AdminConfig.included_models.each do |klass|
+    li= "#{klass}: #{klass.constantize.count}"

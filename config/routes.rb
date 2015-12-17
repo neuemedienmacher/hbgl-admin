@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
   resources :offers
-  resources :organizations, only: [:show]
+  resources :organizations
 
   # unscoped RESTful resources (only POST and non-HTML GET)
   get 'categories/:offer_name', controller: :categories, action: :index
