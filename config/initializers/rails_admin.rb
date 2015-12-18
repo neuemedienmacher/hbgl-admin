@@ -90,6 +90,7 @@ RailsAdmin.config do |config|
     field :description do
       css_class 'js-count-character'
     end
+    field :notes
     field :locations
     field :legal_form
     field :charitable
