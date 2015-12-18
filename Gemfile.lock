@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: aafc0b91a5f2e009ee2101bdcd7ff12115621254
+  revision: 43a2960ea739e3151700419f9051e45889064f07
   specs:
     clarat_base (0.1.4)
       aasm
@@ -501,10 +501,10 @@ GEM
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (2.3.3)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      sprockets (>= 2.8, < 4.0)
+    sprockets-rails (3.0.0)
+      actionpack (>= 4.0)
+      activesupport (>= 4.0)
+      sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
     temple (0.7.6)
     term-ansicolor (1.3.2)
