@@ -6,12 +6,12 @@ html class='no-js' lang=I18n.locale
                         media: 'all', 'data-turbolinks-track' => true
   = javascript_include_tag 'application', 'data-turbolinks-track' => true
   = csrf_meta_tags
-body
+body.backend
+  = render '/layouts/partials/header'
   .container-fluid
-    = render '/layouts/partials/header'
-    
     .row
-      .col-md-2
+      .col-sm-3.col-md-2.sidebar-nav
         = render '/layouts/partials/side_navigation'
-      .col-md-10
-        = yield
+      .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
+        .content
+          = yield

@@ -1,4 +1,4 @@
-class OrganizationsController < ApplicationController
+class OrganizationsController < BackendController
   include RemoteShow
 
   def show

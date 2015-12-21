@@ -46,6 +46,7 @@ gem 'trailblazer'
 # gem 'trailblazer-loader'
 gem 'trailblazer-rails', '0.1.6' # not yet functional
 gem 'cells'
+gem 'cells-slim'
 gem 'reform'
 gem 'reform-rails'
 

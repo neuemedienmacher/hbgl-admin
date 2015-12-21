@@ -120,6 +120,9 @@ GEM
     cells (4.0.3)
       tilt (>= 1.4, < 3)
       uber (~> 0.0.9)
+    cells-slim (0.0.3)
+      cells (~> 4.0.0.beta6)
+      slim (~> 3.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     choice (0.2.0)
@@ -589,6 +592,7 @@ DEPENDENCIES
   bundler (>= 1.8.4)
   cancan
   cells
+  cells-slim
   clarat_base!
   codeclimate-test-reporter
   coffee-rails (~> 4.0.0)

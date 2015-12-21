@@ -1,5 +1,4 @@
-nav
-  ul.nav.nav-pills.nav-stacked
-    - AdminConfig.included_models.each do |model|
-      li
-        = link_to model, send("#{model.downcase.pluralize}_path")
+ul.nav.nav-pills.nav-stacked
+  - AdminConfig.included_models.each do |model|
+    li
+      = link_to model, send("#{model.downcase.pluralize}_path")

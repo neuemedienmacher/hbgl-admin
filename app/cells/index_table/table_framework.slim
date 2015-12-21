@@ -1,0 +1,19 @@
+table.table.table-condensed.table-striped
+  thead
+    tr
+      - list_settings['fields'].each do |field|
+        th= link_to field, sort: field
+      th
+  tbody
+    = rows
+
+- if pagination_needed?
+  .pagination
+    ul
+      li.previous class=previous_disabled_class
+        = page_link(current_page, '', 'fui-arrow-left')
+      - (1..last_page + 1).each do |humanized_page_number|
+        li class=page_active_class(humanized_page_number)
+          = page_link(humanized_page_number, humanized_page_number)
+      li.next class=next_disabled_class
+        = page_link((current_page + 2), '', 'fui-arrow-right')

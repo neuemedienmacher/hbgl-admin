@@ -1,11 +1,12 @@
-header.page-header style="margin-top: 0;"
-  .row
-    .col-sm-7
-      h1
+nav.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    .navbar-header
+      .navbar-brand
         | clarat
         small< Administration
-    .col-sm-5
-      ul.nav.nav-pills
-        li= link_to 'Dashboard', root_path
-        li= link_to 'Sidekiq', '/sidekiq'
-        li= link_to 'Altes Backend', '/admin'
+    ul.nav.navbar-nav.navbar-right
+      li= link_to 'Dashboard', root_path
+      li= link_to 'Sidekiq', '/sidekiq'
+      li= link_to 'Altes Backend', '/admin'
+      li= link_to destroy_user_session_path, method: :delete do
+        span.label.label-important Abmelden

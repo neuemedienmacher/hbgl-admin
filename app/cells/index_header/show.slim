@@ -1,0 +1,20 @@
+.page-header
+  h1= name
+
+nav.navbar.navbar-inverse.navbar-embossed
+  .container-fluid
+    ul.nav.navbar-nav
+      li.active= self_referential_link
+      li= new_object_link
+    form.navbar-form.navbar-right action=current_path method="GET"
+      .form-group
+        .input-group
+          input.form-control[
+            type="search"
+            name="search"
+            placeholder="Suche…"
+            value=current_search_input_value
+          ]
+          span.input-group-btn
+            button.btn type="submit"
+              span.fui-search
