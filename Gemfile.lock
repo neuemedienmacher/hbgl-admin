@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: ee0a85e513acdef7cecaff27b4e4b2ff6542a7cb
-  branch: feature/573-update-offer-mailings
+  revision: 6f84a02602d9cfa9384ebcf6a4a1dee77f35c839
   specs:
     clarat_base (0.1.4)
       aasm
