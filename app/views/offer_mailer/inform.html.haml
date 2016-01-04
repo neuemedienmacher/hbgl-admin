@@ -31,21 +31,15 @@
       = t(".list_entry",
           section_name: t(".clarat_name.#{@section_suffix}"),
           count: @offers.count)
-    %br
+    %p
     - @offers.each do |offer|
-      %p
-        = '"' + offer.name.strip + '"'
-        %br
-        = t(".list_link_intro")
-        %br
+      %li
         = link_to( offer.name.strip, t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) )
 
   %p
     - @section_suffix.split('_').each do |section|
-      = t(".paragraph_overview_link",
-          section_name: t(".clarat_name.#{section}"),
-          overview_link: '' )
-      = link_to( t(".clarat_name.#{section}") + " Übersicht" , t(".link_url.#{section}") + @overview_href_suffix )
+      = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
+      = t(".paragraph_overview_link_html", section_name: t(".clarat_name.#{section}"))
 - else
   - @section_suffix.split('_').each do |section|
     - if @offers_teaser
@@ -55,21 +49,14 @@
       = t(".list_entry",
           section_name: t(".clarat_name.#{section}"),
           count: @offers.count)
-
+    %p
     - @offers.each do |offer|
       - if offer.in_section? section
-        %p
-          = '"' + offer.name.strip + '"'
-          %br
-          = t(".list_link_intro")
-          %br
+        %li
           = link_to( offer.name.strip, t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) )
     %p
-      = t(".paragraph_overview_link",
-          section_name: t(".clarat_name.#{section}"),
-          overview_link: '' )
-      = link_to( t(".clarat_name.#{section}") + " Übersicht" , t(".link_url.#{section}") + @overview_href_suffix )
-
+      = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
+      = t(".paragraph_overview_link_html", section_name: t(".clarat_name.#{section}"))
 %p
   = t(".paragraph_found_error",
       section_name: t(".clarat_name.#{@section_suffix}"))
@@ -130,7 +117,7 @@
   = link_to 'www.clarat.org', 'http://www.clarat.org'
 
 %p
-  PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind. Kicken Sie einfach
+  PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind. Klicken Sie einfach
   = succeed '.' do
     = link_to 'hier', @subscribe_href
   Ansonsten erhalten sie keine Mails mehr von uns.

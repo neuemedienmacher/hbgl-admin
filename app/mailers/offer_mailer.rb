@@ -46,7 +46,7 @@ class OfferMailer < ActionMailer::Base
     @offer = offers.count == 1 ? offers.first : nil
     @section_suffix = get_section_suffix offers
     @unsubscribe_href = get_sub_or_unsub_href email, 'unsubscribe'
-    @offer_href = get_offer_href offers.first, @section_suffix
+    @offer_href = get_offer_href_for_single_offer offers.first, @section_suffix
     @vague_title = contact_vague_title? email.contact_people
     @overview_href_suffix = "/emails/#{email.id}/angebote"
 
@@ -88,13 +88,13 @@ class OfferMailer < ActionMailer::Base
     section_suffix.index('_').nil?
   end
 
-  # TODO!!!
   def get_sub_or_unsub_href email, sub_or_unsub
-    "#{Rails.application.secrets.frontend_host}/emails/#{email.id}/#{sub_or_unsub}"\
-      "/#{email.security_code}"
+    "http://www.clarat.org/emails/#{email.id}/#{sub_or_unsub}"\
+    "/#{email.security_code}"
   end
 
-  def get_offer_href offer, section_suffix
+  # creates a link for a single offer with bias to refugees section
+  def get_offer_href_for_single_offer offer, section_suffix
     "http://www.clarat.org/#{section_suffix.split('_').last}/angebote/"\
     "#{offer.slug || offer.id.to_s}"
   end
@@ -106,8 +106,12 @@ class OfferMailer < ActionMailer::Base
   def get_offer_teaser offers_hash
     teasing_offers = []
     sorted_sects = get_section_names_sorted_by_offer_count offers_hash
-    teasing_offers.push(*offers_hash[sorted_sects[0]][0..(MAX_OFFER_TEASER_COUNT / 2)])
-    teasing_offers.push(*offers_hash[sorted_sects[1]][0..(MAX_OFFER_TEASER_COUNT - teasing_offers.count - 1)])
+    teasing_offers.push(
+      *offers_hash[sorted_sects[0]][0..(MAX_OFFER_TEASER_COUNT / 2)]
+    )
+    teasing_offers.push(
+      *offers_hash[sorted_sects[1]][0..(MAX_OFFER_TEASER_COUNT - teasing_offers.count - 1)]
+    )
     teasing_offers.uniq
   end
 

@@ -24,15 +24,15 @@ de:
           Das ist ein neues kostenloses Portal mit Unterstützungsangeboten. Für
           Kinder, Jugendliche und Familien, die Hilfe suchen. Und für Menschen,
           die anderen helfen wollen. Bei clarat family können alle schnell und
-          einfach Hilfe in ihrer Nähe finden. Man kann auch %{offer_text} bei
-          clarat family finden.
+          einfach Hilfe in ihrer Nähe finden. Man kann auch %{offer_text}
+          bei clarat family finden.
         refugees: |
           kennen Sie %{root_link} schon?
           Das ist ein neues kostenloses Portal mit Unterstützungsangeboten für
           Flüchtlinge, die Hilfe suchen. Und für Menschen, die Flüchtlingen
           helfen wollen. Bei clarat refugees können alle schnell und einfach
-          Hilfe in ihrer Nähe finden. Man kann auch %{offer_text} bei clarat
-          refugees finden.
+          Hilfe in ihrer Nähe finden. Man kann auch %{offer_text}
+          bei clarat refugees finden.
         family_refugees: |
           kennen Sie %{root_link} schon?
           Das ist ein neues kostenloses Portal mit Unterstützungsangeboten. Bei
@@ -51,6 +51,10 @@ de:
         Auf dieser Seite haben Sie alle Ihre Angebote bei %{section_name} in
         Ihrer persönlichen Übersicht im Blick:
         %{overview_link}
+      paragraph_overview_link_html: |
+        haben Sie alle Ihre Angebote bei %{section_name} in Ihrer persönlichen
+        Übersicht im Blick.
+      paragraph_overview_link_text: "Auf dieser Seite"
       paragraph_split_explanation: |
         %{section_name} möchte den Hilfesuchenden da abholen, wo er steht. Dazu
         sprechen wir den Hilfesuchenden direkt an. Und wir greifen sein
@@ -168,6 +172,10 @@ de:
         Auf dieser Seite haben Sie alle Ihre Angebote bei %{section_name} in
         Ihrer persönlichen Übersicht im Blick:
         %{overview_link}
+      paragraph_overview_link_html: |
+        haben Sie alle Ihre Angebote bei %{section_name} in Ihrer persönlichen
+        Übersicht im Blick.
+      paragraph_overview_link_text: "Auf dieser Seite"
       paragraph_found_error: |
         Werfen Sie doch einen kurzen Blick darauf. Haben Sie einen Fehler
         gefunden? Dann geben Sie uns gern Bescheid.
