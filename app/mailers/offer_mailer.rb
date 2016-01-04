@@ -105,22 +105,22 @@ class OfferMailer < ActionMailer::Base
   # Not pretty but it gets the job done..
   def get_offer_teaser offers_hash
     teasing_offers = []
-    sorted_sects = get_sorted_sects offers_hash
+    sorted_sects = get_section_names_sorted_by_offer_count offers_hash
     teasing_offers.push(*offers_hash[sorted_sects[0]][0..(MAX_OFFER_TEASER_COUNT / 2)])
     teasing_offers.push(*offers_hash[sorted_sects[1]][0..(MAX_OFFER_TEASER_COUNT - teasing_offers.count - 1)])
     teasing_offers.uniq
   end
 
-  def get_sorted_sects offers_hash
+  def get_section_names_sorted_by_offer_count offers_hash
     offers_hash['family'].count < offers_hash['refugees'].count ? %w(family refugees) : %w(refugees family)
   end
 
   def get_offers_per_section offers
     return [] unless offers && !offers.empty?
     offers_per_section = {}
-    SectionFilter.all.each do |filter|
-      section_offers = offers.map { |o| o if o.section_filters.include? filter }.compact
-      offers_per_section[filter.identifier] = section_offers
+    SectionFilter.pluck(:identifier).each do |filter|
+      section_offers = offers.map { |o| o if o.in_section? filter }.compact
+      offers_per_section[filter] = section_offers
     end
     offers_per_section
   end
