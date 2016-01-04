@@ -22,7 +22,6 @@ class Offer < ActiveRecord::Base
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def partial_dup
     self.dup.tap do |offer|
-      offer.renewed = false
       offer.created_by = nil
       offer.location = self.location
       offer.organizations = self.organizations
