@@ -26,7 +26,6 @@ feature 'Admin Backend' do
         select 'foobar', from: 'offer_organization_ids'
         select 'English', from: 'offer_language_filter_ids'
         select 'Bekannte', from: 'offer_target_audience_filter_ids'
-        check 'offer_renewed'
 
         click_button 'Speichern'
         page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
@@ -45,13 +44,11 @@ feature 'Admin Backend' do
         fill_in 'organization_description', with: 'testdescription'
         select 'e.V.', from: 'organization_legal_form'
         select 'basicLocation', from: 'organization_location_ids'
-        check 'organization_renewed'
         check 'organization_accredited_institution'
 
         click_button 'Speichern'
         page.must_have_content 'testorganisation'
         page.must_have_content 'Organisation wurde erfolgreich hinzugefügt'
-        page.must_have_content '✘'
         page.must_have_content researcher.email
       end
     end

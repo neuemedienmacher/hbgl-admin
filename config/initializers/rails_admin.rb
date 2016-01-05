@@ -77,7 +77,6 @@ RailsAdmin.config do |config|
     list do
       field :offers_count
       field :name
-      field :renewed
       field :aasm_state
       field :creator
       field :locations_count
@@ -105,7 +104,6 @@ RailsAdmin.config do |config|
 
     field :websites
     field :mailings_enabled
-    field :renewed
     field :aasm_state do
       read_only true
       help false
@@ -215,7 +213,6 @@ RailsAdmin.config do |config|
       field :name
       field :section_filters
       field :location
-      field :renewed
       field :aasm_state
       field :creator
       field :expires_at
@@ -283,7 +280,6 @@ RailsAdmin.config do |config|
       inverse_of :offers
     end
     field :expires_at
-    field :renewed
     field :aasm_state do
       read_only true
       help false
