@@ -14,6 +14,9 @@ nav.navbar.navbar-inverse.navbar-embossed
             name="search"
             placeholder="Suche…"
             value=current_search_input_value
+            onfocus="$(this).parent().addClass('focus')"
+            onblur="$(this).parent().removeClass('focus')"
+            style="color: whitesmoke;"
           ]
           span.input-group-btn
             button.btn type="submit"
