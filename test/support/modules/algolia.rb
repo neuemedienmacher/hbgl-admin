@@ -29,9 +29,15 @@ module AlgoliaStubber
   RESPONSE
 
   def self.enable_empty_response
-    WebMock.stub_request(:post, /.*\.algolia\.(io|net)\/1\/indexes\/[^\/]+\/queries/).to_return(
-      body: BATCH_RESPONSE
-    )
+    WebMock.stub_request(
+      :post, /.*\.algolia\.(io|net)\/1\/indexes\/[^\/]+\/queries/
+    ).to_return(body: BATCH_RESPONSE)
+    WebMock.stub_request(
+      :put, /.*\.algolia\.(io|net)\/1\/indexes\/.*/
+    ).to_return(body: BATCH_RESPONSE)
+    WebMock.stub_request(
+      :get, /.*\.algolia\.(io|net)\/1\/indexes\/.*/
+    ).to_return(body: BATCH_RESPONSE)
   end
 
   def self.filled_response_stub query, names, categories = {}

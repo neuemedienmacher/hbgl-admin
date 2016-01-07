@@ -5,7 +5,7 @@ ruby '2.2.2'
 # General #
 ###########
 
-gem 'rails', '4.1.13'
+gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
 gem 'clarat_base', github: 'clarat-org/clarat_base', # , path: '../clarat_base'
@@ -149,6 +149,7 @@ group :development, :test do
   # Code Coverage
   gem 'simplecov', require: false
   gem 'coveralls', require: false
+  gem 'codeclimate-test-reporter', require: false
 
   # dev help
   gem 'thin' # Replace Webrick

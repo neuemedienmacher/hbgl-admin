@@ -28,15 +28,21 @@ $(document).on 'rails_admin.dom_ready', ->
       "<div style='margin:10px;display:inline-block;width:300px;'></div>")
     $(".js-category-suggestions .controls .help-block").before elem
 
+    # add character counter under input field
+    counter_elem = $("<span style='margin-left:10px'></span>")
+    $(category_input).after counter_elem
+    $(category_input).counter counter_elem
+
     category_input.on 'blur', (e) ->
       name = category_input.val()
 
-      $.get "/categories/#{name}.json", (category_array) ->
-        if category_array.length
-          display = "Ähnliche Angebote verwenden folgende Kategorien:<br>
-                    #{category_array.join(', ')}"
-        else
-          display = "Es gibt keine Kategorien für Angebote mit genau diesem
-                    Namen."
+      if name
+        $.get "/categories/#{name}.json", (category_array) ->
+          if category_array.length
+            display = "Ähnliche Angebote verwenden folgende Kategorien:<br>
+                      #{category_array.join(', ')}"
+          else
+            display = "Es gibt keine Kategorien für Angebote mit genau diesem
+                      Namen."
 
-        elem.html display
+          elem.html display

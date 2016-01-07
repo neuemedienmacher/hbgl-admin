@@ -26,7 +26,6 @@ feature 'Admin Backend' do
         select 'foobar', from: 'offer_organization_ids'
         select 'English', from: 'offer_language_filter_ids'
         select 'Bekannte', from: 'offer_target_audience_filter_ids'
-        check 'offer_renewed'
 
         click_button 'Speichern'
         page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
@@ -45,13 +44,11 @@ feature 'Admin Backend' do
         fill_in 'organization_description', with: 'testdescription'
         select 'e.V.', from: 'organization_legal_form'
         select 'basicLocation', from: 'organization_location_ids'
-        check 'organization_renewed'
         check 'organization_accredited_institution'
 
         click_button 'Speichern'
         page.must_have_content 'testorganisation'
         page.must_have_content 'Organisation wurde erfolgreich hinzugefügt'
-        page.must_have_content '✘'
         page.must_have_content researcher.email
       end
     end
@@ -386,13 +383,23 @@ feature 'Admin Backend' do
     end
 
     scenario 'Duplicate contact_person' do
-      FactoryGirl.create :offer, :approved, name: 'testoffer'
+      FactoryGirl.create :contact_person, spoc: true, offers: [offers(:basic)]
 
       visit rails_admin_path
       click_link 'Kontaktpersonen', match: :first
       click_link 'Duplizieren', match: :first
       click_button 'Speichern'
-      page.must_have_content 'testoffer'
+      page.wont_have_content 'Kontaktperson wurde nicht hinzugefügt'
+      page.must_have_content 'Kontaktperson wurde erfolgreich hinzugefügt'
+    end
+
+    scenario 'Duplicate location' do
+      visit rails_admin_path
+      click_link 'Standorte', match: :first
+      click_link 'Duplizieren', match: :first
+      click_button 'Speichern'
+      page.wont_have_content 'Standort wurde nicht hinzugefügt'
+      page.must_have_content 'Standort wurde erfolgreich hinzugefügt'
     end
 
     scenario 'New category missing section filter' do

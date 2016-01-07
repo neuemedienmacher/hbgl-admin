@@ -11,7 +11,7 @@ describe OrganizationsController do
       sign_in users(:researcher)
       get :show, id: 'doesntmatter'
       assert_redirected_to(
-        'http://test.host.com/preview/organizations/doesntmatter'
+        'http://test.host.com/preview/organisationen/doesntmatter'
       )
     end
   end
