@@ -33,7 +33,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.5.1)
+    aasm (4.7.0)
     actionmailer (4.2.5)
       actionpack (= 4.2.5)
       actionview (= 4.2.5)
