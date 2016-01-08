@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: b8a8debf2d3e4d63e10e2ea21f0ac8816fb23878
+  revision: 5a54a90872dab95057178788bc21a55b744f75b7
   specs:
     clarat_base (0.1.4)
       aasm
@@ -32,7 +32,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.5.1)
+    aasm (4.7.0)
     actionmailer (4.2.5)
       actionpack (= 4.2.5)
       actionview (= 4.2.5)
@@ -519,7 +519,7 @@ GEM
       rack (~> 1.0)
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.1)
+    tilt (2.0.2)
     timecop (0.8.0)
     timers (4.0.4)
       hitimes
