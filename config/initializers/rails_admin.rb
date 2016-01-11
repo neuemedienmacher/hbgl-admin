@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require_relative '../../lib/rails_admin_extensions/rails_admin_change_state.rb'
 
 RailsAdmin.config do |config|
@@ -18,7 +19,7 @@ RailsAdmin.config do |config|
   #   end
   # end
   config.authorize_with :cancan, Ability
-  config.current_user_method &:current_user
+  config.current_user_method(&:current_user)
 
   # config.excluded_models = ['AgeFilter', 'FederalState',
   #                           'OrganizationConnection', 'Filter']
@@ -29,13 +30,10 @@ RailsAdmin.config do |config|
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
   config.included_models = %w(
-    Organization Website Location
-    FederalState Offer Opening
-    Category Email UpdateRequest
-    LanguageFilter User Contact
-    Keyword Definition Note Area
-    SearchLocation ContactPerson
-    Subscription SectionFilter
+    Organization Website Location FederalState Offer Opening
+    Category Email UpdateRequest LanguageFilter User Contact
+    Keyword Definition Note Area SearchLocation ContactPerson
+    Subscription SectionFilter NextStep
   )
 
   config.actions do
@@ -231,8 +229,9 @@ RailsAdmin.config do |config|
       css_class 'js-count-character'
     end
     field :notes
-    field :next_steps do
-      css_class 'js-count-character'
+    field :next_steps
+    field :old_next_steps do
+      read_only true
     end
     field :legal_information
     field :contact_people
@@ -269,10 +268,7 @@ RailsAdmin.config do |config|
     field :openings
     field :opening_specification do
       help do
-        'Bitte einigt euch auf eine einheitliche Ausdrucksweise. Wie etwa
-        "jeden 1. Montag im Monat" oder "jeden 2. Freitag". Sagt mir
-        (Konstantin) auch gern bescheid, wenn ihr ein einheitliches Format
-        gefunden habt, mit dem alle Fälle abgedeckt werden können.'
+        'Bitte achtet auf eine einheitliche Ausdrucksweise.'
       end
     end
     field :websites
@@ -333,8 +329,8 @@ RailsAdmin.config do |config|
     field :last_name
     field :operational_name do
       help do
-        "Falls es sich nicht um einen persönlichen Ansprechpartner handelt hier
-        z.B. 'Zentrale' eintragen"
+        'Falls es sich nicht um einen persönlichen Ansprechpartner handelt,'\
+        " hier z.B. 'Zentrale' eintragen."
       end
     end
     field :responsibility do
@@ -420,6 +416,18 @@ RailsAdmin.config do |config|
 
     # nested_set(max_depth: 5)
     nestable_tree(max_depth: 5)
+  end
+
+  config.model 'NextStep' do
+    field :text_de
+    field :text_en
+    field :text_ar
+    field :text_fr
+    field :text_tr
+    field :text_pl
+    field :text_ru
+
+    object_label_method :text_de
   end
 
   config.model 'Definition' do

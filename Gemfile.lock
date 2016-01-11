@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: b948a63321e2c3fa692c11db53048edadec78b6f
-  branch: feature/554-translations
+  revision: e2e4223215f0e491e846a39ee526cced687bcd0a
+  branch: feature/614-next-steps-lego
   specs:
     clarat_base (0.1.4)
       aasm
@@ -35,7 +35,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.5.2)
+    aasm (4.7.0)
     actionmailer (4.2.5)
       actionpack (= 4.2.5)
       actionview (= 4.2.5)
@@ -72,7 +72,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    algoliasearch (1.6.1)
+    algoliasearch (1.7.0)
       httpclient (~> 2.4)
       json (>= 1.5.1)
     algoliasearch-rails (1.14.1)
@@ -434,7 +434,7 @@ GEM
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
     remotipart (1.2.1)
-    request_store (1.2.1)
+    request_store (1.3.0)
     require_all (1.3.3)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
