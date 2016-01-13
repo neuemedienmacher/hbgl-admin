@@ -24,7 +24,6 @@ settings:
       fields:
         - offers_count
         - name
-        - renewed
         - aasm_state
         - creator
         - locations_count
@@ -37,7 +36,6 @@ settings:
         - name
         - section_filters
         - location
-        - renewed
         - aasm_state
         - creator
       order: "created_at ASC"

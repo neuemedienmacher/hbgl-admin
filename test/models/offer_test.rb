@@ -22,7 +22,6 @@ describe Offer do
       it 'should correctly duplicate an offer' do
         offer = FactoryGirl.create :offer, :approved
         duplicate = offer.partial_dup
-        duplicate.renewed.must_equal false
         duplicate.created_by.must_equal nil
         duplicate.location.must_equal offer.location
         duplicate.organizations.must_equal offer.organizations
