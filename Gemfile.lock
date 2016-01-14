@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 4954c04e2f6decf6a6380a66d325e5ff30d2d03d
+  revision: 83fbe13c79d5e4f5d88be8118123d7c4ddb01252
   branch: feature/554-translations
   specs:
     clarat_base (0.1.4)
