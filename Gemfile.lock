@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: b37c30dbcc8f97d9533e33ea02ac5fc94644ae83
-  branch: feature/624-new-website-hosts
+  revision: e7cc9d8fa7f26d488fd23e0a939529c3ad8e5c9a
   specs:
     clarat_base (0.1.4)
       aasm
