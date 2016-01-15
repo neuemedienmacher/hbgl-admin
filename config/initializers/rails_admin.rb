@@ -357,6 +357,12 @@ RailsAdmin.config do |config|
         "Single Point of Contact / Zentrale Anlaufstelle."
       end
     end
+    field :visible do
+      help do
+        "Entfernen des Häkchens versteckt die Kontaktperson im Frontend. SPoC's
+        können nicht versteckt werden."
+      end
+    end
     export do
       field :id
     end
