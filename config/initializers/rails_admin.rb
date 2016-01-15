@@ -284,6 +284,11 @@ RailsAdmin.config do |config|
       read_only true
       help false
     end
+    field :hide_contact_people do
+      help do
+        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
+      end
+    end
 
     # Hidden fields
     edit do
