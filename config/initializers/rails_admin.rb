@@ -174,7 +174,7 @@ RailsAdmin.config do |config|
     field :hq
     field :visible do
       help do
-        'Obacht: nur dann entfernen, wenn die Adresse auf der Orga-Seite
+        'Obacht: nur dann entfernen, wenn die Adresse ÜBERALL im Frontend
         versteckt werden soll!'
       end
     end
