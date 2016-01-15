@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114155653) do
+ActiveRecord::Schema.define(version: 20160104142514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,18 +63,6 @@ ActiveRecord::Schema.define(version: 20160114155653) do
   add_index "category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true, using: :btree
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx", using: :btree
 
-  create_table "category_translations", force: :cascade do |t|
-    t.integer  "category_id",              null: false
-    t.string   "locale",                   null: false
-    t.string   "source",      default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",        default: "", null: false
-  end
-
-  add_index "category_translations", ["category_id"], name: "index_category_translations_on_category_id", using: :btree
-  add_index "category_translations", ["locale"], name: "index_category_translations_on_locale", using: :btree
-
   create_table "contact_people", force: :cascade do |t|
     t.integer  "organization_id",                             null: false
     t.datetime "created_at"
@@ -93,7 +81,6 @@ ActiveRecord::Schema.define(version: 20160114155653) do
     t.string   "responsibility"
     t.integer  "email_id"
     t.boolean  "spoc",                        default: false, null: false
-    t.boolean  "visible",                     default: true
   end
 
   add_index "contact_people", ["email_id"], name: "index_contact_people_on_email_id", using: :btree
@@ -226,21 +213,6 @@ ActiveRecord::Schema.define(version: 20160114155653) do
   add_index "offer_mailings", ["email_id"], name: "index_offer_mailings_on_email_id", using: :btree
   add_index "offer_mailings", ["offer_id"], name: "index_offer_mailings_on_offer_id", using: :btree
 
-  create_table "offer_translations", force: :cascade do |t|
-    t.integer  "offer_id",                                      null: false
-    t.string   "locale",                                        null: false
-    t.string   "source",                           default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",                  limit: 80, default: "", null: false
-    t.text     "description",                      default: "", null: false
-    t.text     "next_steps"
-    t.text     "opening_specification"
-  end
-
-  add_index "offer_translations", ["locale"], name: "index_offer_translations_on_locale", using: :btree
-  add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id", using: :btree
-
   create_table "offers", force: :cascade do |t|
     t.string   "name",                       limit: 120, null: false
     t.text     "description",                            null: false
@@ -301,18 +273,6 @@ ActiveRecord::Schema.define(version: 20160114155653) do
 
   add_index "organization_offers", ["offer_id"], name: "index_organization_offers_on_offer_id", using: :btree
   add_index "organization_offers", ["organization_id"], name: "index_organization_offers_on_organization_id", using: :btree
-
-  create_table "organization_translations", force: :cascade do |t|
-    t.integer  "organization_id",              null: false
-    t.string   "locale",                       null: false
-    t.string   "source",          default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "description",     default: "", null: false
-  end
-
-  add_index "organization_translations", ["locale"], name: "index_organization_translations_on_locale", using: :btree
-  add_index "organization_translations", ["organization_id"], name: "index_organization_translations_on_organization_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name",                                              null: false
