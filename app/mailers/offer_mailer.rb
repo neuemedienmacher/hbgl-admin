@@ -1,4 +1,5 @@
 class OfferMailer < ActionMailer::Base
+  add_template_helper(EmailHelper)
   MAX_OFFER_TEASER_COUNT = 5
 
   def expiring_mail offer_count, offer_ids
@@ -30,10 +31,6 @@ class OfferMailer < ActionMailer::Base
     @vague_title = contact_vague_title? email.contact_people
 
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
-    # email.create_offer_mailings @offers, :inform
-    # mail subject: t(".subject.#{@section_suffix}"),
-    #      to: email.address,
-    #      from: 'Anne Schulze | clarat <anne.schulze@clarat.org>'
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -51,13 +48,10 @@ class OfferMailer < ActionMailer::Base
     @overview_href_suffix = "/emails/#{email.id}/angebote"
 
     send_emails email, offers, :newly_approved,
-                t('.subject', count: offers.count,
-                              name: t(".clarat_name_subject.#{@section_suffix}"))
-    # email.create_offer_mailings offers, :newly_approved
-    # mail subject: t('.subject', count: @offers_count,
-    #                             name: t(".clarat_name_subject.#{@section_suffix}")),
-    #      to: email.address,
-    #      from: 'Anne Schulze | clarat <anne.schulze@clarat.org>'
+                t('.subject',
+                  count: offers.count,
+                  name: t(".clarat_name_subject.#{@section_suffix}")
+                 )
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -77,7 +71,8 @@ class OfferMailer < ActionMailer::Base
 
   def contact_vague_title? contact_people
     contact_person = contact_people.first
-    contact_people.count > 1 || !contact_person.gender || (!contact_person.last_name? && !contact_person.first_name?)
+    contact_people.count > 1 || !contact_person.gender ||
+      (!contact_person.last_name? && !contact_person.first_name?)
   end
 
   def are_offers_teaser? offers_per_section
