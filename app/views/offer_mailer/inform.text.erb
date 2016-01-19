@@ -17,12 +17,9 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
     offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) ) %>
 <%- if @singular_section %>
 <%- if @offers_teaser %>
-<%= t(".list_entry_teaser.singular",
-    section_name: t(".clarat_name.#{@section_suffix}")) %>
+<%= t(".list_entry_teaser_prefix.singular") + t(".clarat_name.#{@section_suffix}") + t(".list_entry_teaser_suffix.singular") %>
 <%- else %>
-<%= t(".list_entry",
-    section_name: t(".clarat_name.#{@section_suffix}"),
-    count: @offers.count) %>
+<%= t(".list_entry_prefix", count: @offers.count) + t(".clarat_name.#{@section_suffix}") + t(".list_entry_suffix", count: @offers.count) %>
 <%- end %>
 <%- # Start single offer list: one offer or multiple offers %>
 <%- @offers.each do |offer| %>
@@ -41,12 +38,9 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- # Start multiple offer lists: one offer or multiple offers each %>
 <%- @section_suffix.split('_').each do |section| %>
 <%- if @offers_teaser %>
-<%= t(".list_entry_teaser.#{@offers_teaser ? 'multiple' : 'singular'}",
-    section_name: t(".clarat_name.#{section}")) %>
+<%= t(".list_entry_teaser_prefix.#{@offers_teaser ? 'multiple' : 'singular'}") + t(".clarat_name.#{@section_suffix}") + t(".list_entry_teaser_suffix.#{@offers_teaser ? 'multiple' : 'singular'}") %>
 <%- else %>
-<%= t(".list_entry",
-    section_name: t(".clarat_name.#{section}"),
-    count: @offers.count) %>
+<%= t(".list_entry_prefix", count: @offers.count) + t(".clarat_name.#{section}") + t(".list_entry_suffix", count: @offers.count) %>
 <%- end %>
 <%- @offers.each do |offer| %>
 <%- if offer.in_section? section %>

@@ -31,14 +31,22 @@
       = t(".paragraph_found_error")
       - @section_suffix.split('_').each do |section|
         %p
+          = t(".paragraph_overview_link_prefix")
           = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
-          = t(".paragraph_overview_link_html", section_name: t(".clarat_name.#{section}"))
+          = t(".paragraph_overview_link_middle")
+          %b
+            = t(".clarat_name.#{section}")
+          = t(".paragraph_overview_link_suffix")
 
 - else
   - @section_suffix.split('_').each do |section|
     %p
+      = t(".paragraph_overview_link_prefix")
       = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
-      = t(".paragraph_overview_link_html", section_name: t(".clarat_name.#{section}"))
+      = t(".paragraph_overview_link_middle")
+      %b
+        = t(".clarat_name.#{section}")
+      = t(".paragraph_overview_link_suffix")
   %p
     = t(".paragraph_found_error")
 %p
@@ -66,9 +74,10 @@
   %br
   = link_to 'www.clarat.org', 'http://www.clarat.org'
 
-%small
-  Sie wollen keine weiteren Infos mehr von uns bekommen? Dann klicken Sie
-  = succeed '.' do
-    = link_to 'hier', @unsubscribe_href
-
 = email_image_tag("logo_#{@section_suffix}.png")
+
+%p
+  %small
+    Sie wollen keine weiteren Infos mehr von uns bekommen? Dann klicken Sie
+    = succeed '.' do
+      = link_to 'hier', @unsubscribe_href

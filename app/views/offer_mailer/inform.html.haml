@@ -25,12 +25,15 @@
 - if @singular_section
   %p
     - if @offers_teaser
-      = t(".list_entry_teaser.singular",
-          section_name: t(".clarat_name.#{@section_suffix}"))
+      = t(".list_entry_teaser_prefix.singular")
+      %b
+        = t(".clarat_name.#{@section_suffix}")
+      = t(".list_entry_teaser_suffix.singular")
     - else
-      = t(".list_entry",
-          section_name: t(".clarat_name.#{@section_suffix}"),
-          count: @offers.count)
+      = t(".list_entry_prefix", count: @offers.count)
+      %b
+        = t(".clarat_name.#{@section_suffix}")
+      = t(".list_entry_suffix", count: @offers.count)
     %p
     - @offers.each do |offer|
       %li
@@ -38,25 +41,30 @@
 
   %p
     - @section_suffix.split('_').each do |section|
+      = t(".paragraph_overview_link_html_prefix")
       = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
-      = t(".paragraph_overview_link_html", section_name: t(".clarat_name.#{section}"))
+      = t(".paragraph_overview_link_html_suffix", section_name: t(".clarat_name.#{section}"))
 - else
   - @section_suffix.split('_').each do |section|
     - if @offers_teaser
-      = t(".list_entry_teaser.#{@offers_teaser ? 'multiple' : 'singular'}",
-          section_name: t(".clarat_name.#{section}"))
+      = t(".list_entry_teaser_prefix.#{@offers_teaser ? 'multiple' : 'singular'}")
+      %b
+        = t(".clarat_name.#{@section_suffix}")
+      = t(".list_entry_teaser_suffix.#{@offers_teaser ? 'multiple' : 'singular'}")
     - else
-      = t(".list_entry",
-          section_name: t(".clarat_name.#{section}"),
-          count: @offers.count)
+      = t(".list_entry_prefix", count: @offers.count)
+      %b
+        = t(".clarat_name.#{section}")
+      = t(".list_entry_suffix", count: @offers.count)
     %p
     - @offers.each do |offer|
       - if offer.in_section? section
         %li
           = link_to( offer.name.strip, t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) )
     %p
+      = t(".paragraph_overview_link_html_prefix")
       = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
-      = t(".paragraph_overview_link_html", section_name: t(".clarat_name.#{section}"))
+      = t(".paragraph_overview_link_html_suffix", section_name: t(".clarat_name.#{section}"))
 %p
   = t(".paragraph_found_error",
       section_name: t(".clarat_name.#{@section_suffix}"))
@@ -116,10 +124,10 @@
   %br
   = link_to 'www.clarat.org', 'http://www.clarat.org'
 
+= email_image_tag("logo_#{@section_suffix}.png")
+
 %p
   PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind. Klicken Sie einfach
   = succeed '.' do
     = link_to 'hier', @subscribe_href
   Ansonsten erhalten sie keine Mails mehr von uns.
-
-= email_image_tag("logo_#{@section_suffix}.png")

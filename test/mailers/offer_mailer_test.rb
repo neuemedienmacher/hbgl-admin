@@ -121,7 +121,7 @@ describe OfferMailer do
       it 'must deliver and create offer_mailings' do
         email.expects(:create_offer_mailings)
         subject.must deliver_to email.address
-        subject.must have_subject 'clarat family - Ihr neues Angebot'
+        subject.must have_subject 'clarat family – Ihr neues Angebot'
         subject.must have_body_text 'ein neues Angebot'
         subject.must have_body_text '/unsubscribe/'
         subject.must have_body_text email.security_code
@@ -139,7 +139,7 @@ describe OfferMailer do
 
       it 'must correctly mention them' do
         section_name_array = offerArray.map { |o| o.section_filters.map(&:identifier).flatten }.flatten.compact.uniq
-        subject.must have_subject "clarat #{section_name_array.join(' und clarat ')} - Ihre neuen Angebote"
+        subject.must have_subject "clarat #{section_name_array.join(' und clarat ')} – Ihre neuen Angebote"
         subject.must have_body_text 'neue Angebote'
         subject.must have_body_text 'Ihre Angebote'
       end
