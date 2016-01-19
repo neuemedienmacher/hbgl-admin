@@ -1,4 +1,4 @@
-<%- if @multiple_contact_people || (!@contact_person.last_name? && !@contact_person.first_name?) %>
+<%- if @vague_title %>
 Sehr geehrte Damen und Herren,
 <%- elsif @contact_person.last_name? %>
 <%- if @contact_person.gender == 'male' %>
@@ -10,37 +10,36 @@ Lieber<%- else %>
 Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- end %>
 
-erinnern Sie sich noch an clarat - das Portal, auf dem Kinder, Jugendliche und
-Familien einfach Hilfe finden?
+<%= t(".paragraph_entry.#{@section_suffix}",
+    root_link: t('.text_link',
+               name: t(".clarat_name.#{@section_suffix}"),
+               url: t(".link_url.#{@section_suffix}")),
+    new_offers: t(".offer_text.#{@offer ? 'singular' : 'multiple'}") ) %>
+<%- if @offer %>
+<%= t(".list_entry",
+      section_name: t(".clarat_name.#{@section_suffix}")) %>
 
-Bei clarat hat sich einiges getan und darüber möchten wir Sie auf dem Laufenden
-halten.
-<%- if @offers_count == 1 %>
-Inzwischen gibt es auch ein neues Angebot von Ihnen:
+"<%= @offer.name %>",
+<%= t(".list_link_intro") %>
+<%= @offer_href %>
 
-"<%= @offers.first.name %>", zu finden unter folgendem Link:
-<%= offer_url(@offers.first) %>
-
-Werfen Sie doch einen kurzen Blick auf Ihr Angebot.
+<%= t(".paragraph_found_error") %>
+<%- @section_suffix.split('_').each do |section| %>
+<%= t(".paragraph_overview_link",
+    section_name: t(".clarat_name.#{section}"),
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
+<%- end %>
 <%- else %>
-Inzwischen gibt es auch neue Angebote von Ihnen:
-
-<%- @offers.each do |offer| %>
-- "<%= offer.name %>", zu finden unter folgendem Link:
-  <%= offer_url(offer) %>
+<%- @section_suffix.split('_').each do |section| %>
+<%= t(".paragraph_overview_link",
+    section_name: t(".clarat_name.#{section}"),
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
 <%- end %>
-
-Werfen Sie doch einen kurzen Blick auf Ihre Angebote.
+<%= t(".paragraph_found_error") %>
 <%- end %>
-Haben Sie einen Fehler gefunden? Dann geben Sie uns gern Bescheid.
-
-Wir arbeiten weiter daran, alle Unterstützungsangebote in Berlin zu erfassen.
-Sobald weitere Angebote von Ihnen bei clarat zu finden sind, informieren wir Sie
-per Mail.
-
-In Zukunft finden dann hoffentlich immer mehr Menschen durch clarat einfach und
-schnell Ihre Hilfe.
-
+<%= t(".paragraph_offers_missing.#{@section_suffix}") %>
+<%= t(".paragraph_vision",
+    section_name: t(".clarat_name.#{@section_suffix}")) %>
 Mit freundlichen Grüßen
 das clarat Team
 
@@ -51,7 +50,7 @@ ein Projekt der Benckiser Stiftung Zukunft
 Französische Straße 47
 10117 Berlin
 Tel.: +49 (0)30 55 57 96 00
-www.clarat.org
+http://www.clarat.org
 
 
 Sie wollen keine weiteren Infos mehr von uns bekommen? Dann klicken Sie hier:

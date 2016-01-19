@@ -1,5 +1,5 @@
 %p
-  - if @multiple_contact_people || (!@contact_person.last_name? && !@contact_person.first_name?)
+  - if @vague_title
     Sehr geehrte Damen und Herren,
   - elsif @contact_person.last_name?
     - if @contact_person.gender == 'male'
@@ -18,58 +18,90 @@
 
 %p
   kennen Sie
-  = link_to 'clarat', 'http://www.clarat.org'
-  schon? Das ist ein neues Portal mit Unterstützungsangeboten für Kinder,
-  Jugendliche und Familien. Man kann auch Ihre Angebote bei clarat finden.
+  = link_to( t(".clarat_name.#{@section_suffix}"), t(".link_url.#{@section_suffix}") )
+  = t(".paragraph_entry.#{@section_suffix}",
+    root_link: '||',
+    offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) ).split('||').last
+- if @singular_section
+  %p
+    - if @offers_teaser
+      = t(".list_entry_teaser_prefix.singular")
+      %b
+        = t(".clarat_name.#{@section_suffix}")
+      = t(".list_entry_teaser_suffix.singular")
+    - else
+      = t(".list_entry_prefix", count: @offers.count)
+      %b
+        = t(".clarat_name.#{@section_suffix}")
+      = t(".list_entry_suffix", count: @offers.count)
+    %p
+    - @offers.each do |offer|
+      %li
+        = link_to( offer.name.strip, t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) )
 
-%p
-  - if @offers.count == 1
-    Ihr Angebot heißt bei clarat:
-    %br
-    = '"' + @offers.first.name.strip + '",'
-    zu finden unter folgendem Link:
-    %br
-    = link_to offer_url(@offers.first), offer_url(@offers.first)
-  - else
-    Ihre Angebote heißen bei clarat:
-    %ul
-      - @offers.each do |offer|
+  %p
+    - @section_suffix.split('_').each do |section|
+      = t(".paragraph_overview_link_html_prefix")
+      = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
+      = t(".paragraph_overview_link_html_suffix", section_name: t(".clarat_name.#{section}"))
+- else
+  - @section_suffix.split('_').each do |section|
+    - if @offers_teaser
+      = t(".list_entry_teaser_prefix.#{@offers_teaser ? 'multiple' : 'singular'}")
+      %b
+        = t(".clarat_name.#{@section_suffix}")
+      = t(".list_entry_teaser_suffix.#{@offers_teaser ? 'multiple' : 'singular'}")
+    - else
+      = t(".list_entry_prefix", count: @offers.count)
+      %b
+        = t(".clarat_name.#{section}")
+      = t(".list_entry_suffix", count: @offers.count)
+    %p
+    - @offers.each do |offer|
+      - if offer.in_section? section
         %li
-          = '"' + offer.name.strip + '",'
-          zu finden unter folgendem Link:
-          %br
-          = link_to offer_url(offer), offer_url(offer)
-
+          = link_to( offer.name.strip, t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) )
+    %p
+      = t(".paragraph_overview_link_html_prefix")
+      = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
+      = t(".paragraph_overview_link_html_suffix", section_name: t(".clarat_name.#{section}"))
 %p
-  Hat sich irgendwo ein Fehler eingeschlichen? Dann melden Sie sich bei uns. Nur
-  so kann clarat besser werden.
-
+  = t(".paragraph_found_error",
+      section_name: t(".clarat_name.#{@section_suffix}"))
+  - if @offers_teaser
+    = t(".paragraph_split_explanation",
+        section_name: t(".clarat_name.#{@section_suffix}"))
+  - else
+    = t(".paragraph_offers_missing.#{@section_suffix}")
 %p
-  clarat ist ein kostenloses Web-Verzeichnis und wird von der gemeinnützigen
+  = t(".paragraph_explain_html.main",
+      section_name: t(".clarat_name.#{@section_suffix}"),
+      foundation_link: '||').split('||').first
   = link_to 'Benckiser Stiftung Zukunft', 'http://www.benckiser-stiftung.org/'
-  entwickelt. Hier finden Kinder, Jugendliche und Familien einfach Hilfe in
-  ihrer Nähe. Aber auch Menschen, die anderen helfen wollen. Wir hoffen, dass
-  auch Ihre Angebote mit clarat noch leichter gefunden werden.
-
-%p
-  Für clarat haben wir neben einer einfachen Navigation in Zusammenarbeit mit
-  Sprach-Experten eine leicht verständliche Sprache entwickelt. Dadurch kann
-  jedes Angebot mit einem Klick auch in weitere Sprachen (u.a. Arabisch,
-  Russisch, Türkisch) übersetzt werden. Mehr zu clarat erfahren Sie in unserem
-  kurzen
-  = link_to 'Einführungsfilm', 'http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/'
-  oder auf unserem
-  = succeed '.' do
+  = t(".paragraph_explain_html.main",
+      section_name: t(".clarat_name.#{@section_suffix}"),
+      foundation_link: '||').split('||').last
+  = t('.paragraph_explain_html.base',
+    section_name: t(".clarat_name.#{@section_suffix}"))
+  - if @section_suffix == 'family'
+    = t('.paragraph_explain_html.video')
+    = link_to 'Einführungsfilm', 'http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/'
+    = t('.paragraph_explain_html.connector')
+    = t('.paragraph_explain_html.blog')
+    = link_to 'Blog.', 'http://blog.clarat.org'
+  - elsif @section_suffix == 'refugees'
+    = t('.paragraph_explain_html.blog')
+    = link_to 'Blog.', 'http://blog.clarat.org'
+  - else
+    = t('.paragraph_explain_html.blog')
     = link_to 'Blog', 'http://blog.clarat.org'
+    = t('.paragraph_explain_html.connector')
+    = t('.paragraph_explain_html.video')
+    = link_to 'Einführungsfilm.', 'http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/'
 
 %p
-  Sie sehen oben alle Angebote, die man von Ihnen bisher bei clarat findet.
-  Wundern Sie sich nicht, wenn noch Angebote fehlen. Wir arbeiten daran alle
-  Unterstützungsangebote in Berlin zu erfassen.
-
-%p
-  Haben Sie einen Vorschlag, was wir noch besser machen können? Lassen Sie uns
-  wissen, was Sie über clarat denken. Wir freuen uns auf Ihr Feedback!
+  = t(".paragraph_improvements",
+      section_name: t(".clarat_name.#{@section_suffix}"))
 
 %p
   Mit freundlichen Grüßen
@@ -92,8 +124,10 @@
   %br
   = link_to 'www.clarat.org', 'http://www.clarat.org'
 
+= email_image_tag("logo_#{@section_suffix}.png")
+
 %p
-  PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind.
+  PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind. Klicken Sie einfach
   = succeed '.' do
-    = link_to 'Klicken Sie einfach hier', @subscribe_href
+    = link_to 'hier', @subscribe_href
   Ansonsten erhalten sie keine Mails mehr von uns.
