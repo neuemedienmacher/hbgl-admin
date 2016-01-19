@@ -2,9 +2,9 @@ de:
   offer_mailer:
     inform:
       subject:
-        family: "Willkommen bei clarat family - einfach Hilfe finden für Kinder, Jugendliche und Familien in Berlin"
+        family: "Willkommen bei clarat family – einfach Hilfe finden für Kinder, Jugendliche und Familien in Berlin"
         refugees: "Willkommen bei clarat refugees – einfach Hilfe finden für Flüchtlinge in Deutschland"
-        family_refugees: "Willkommen bei clarat family und clarat refugees - einfach Hilfe finden"
+        family_refugees: "Willkommen bei clarat family und clarat refugees – einfach Hilfe finden"
       text_link: "%{name} ( %{url} )"
       link_url:
         family: "http://www.clarat.org/family"
@@ -130,8 +130,8 @@ de:
         Ihr Feedback!
     newly_approved_offers:
       subject:
-        one: "%{name} - Ihr neues Angebot"
-        other: "%{name} - Ihre neuen Angebote"
+        one: "%{name} – Ihr neues Angebot"
+        other: "%{name} – Ihre neuen Angebote"
       clarat_name_subject:
         family: "clarat family"
         refugees: "clarat refugees"
