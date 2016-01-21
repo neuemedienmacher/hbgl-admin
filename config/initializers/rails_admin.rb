@@ -229,7 +229,9 @@ RailsAdmin.config do |config|
       css_class 'js-count-character'
     end
     field :notes
-    field :next_steps
+    field :next_steps do
+      css_class 'js-next-steps-offers'
+    end
     field :old_next_steps do
       read_only true
     end

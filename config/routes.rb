@@ -3,9 +3,12 @@ Rails.application.routes.draw do
   # General Routes
   resources :offers, only: [:show]
   resources :organizations, only: [:show]
+  resources :next_steps_offers, only: [:index]
 
-  # unscoped RESTful resources (only POST and non-HTML GET)
   get 'categories/:offer_name', controller: :categories, action: :index
+  get 'next_steps_offers/:offer_id', controller: :next_steps_offers,
+                                     action: :index
+  put 'next_steps_offers/:id', controller: :next_steps_offers, action: :update
 
   # Devise
   devise_for :users, class_name: 'User'

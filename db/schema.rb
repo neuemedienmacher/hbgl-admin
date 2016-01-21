@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160113135307) do
+ActiveRecord::Schema.define(version: 20160121111044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,8 +211,9 @@ ActiveRecord::Schema.define(version: 20160113135307) do
   add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de", using: :btree
 
   create_table "next_steps_offers", force: :cascade do |t|
-    t.integer "next_step_id", null: false
-    t.integer "offer_id",     null: false
+    t.integer "next_step_id",             null: false
+    t.integer "offer_id",                 null: false
+    t.integer "sort_value",   default: 0
   end
 
   add_index "next_steps_offers", ["next_step_id"], name: "index_next_steps_offers_on_next_step_id", using: :btree
