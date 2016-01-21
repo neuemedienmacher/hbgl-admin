@@ -172,7 +172,7 @@ RailsAdmin.config do |config|
     field :hq
     field :visible do
       help do
-        'Obacht: nur dann entfernen, wenn die Adresse auf der Orga-Seite
+        'Obacht: nur dann entfernen, wenn die Adresse ÜBERALL im Frontend
         versteckt werden soll!'
       end
     end
@@ -281,6 +281,11 @@ RailsAdmin.config do |config|
     field :aasm_state do
       read_only true
       help false
+    end
+    field :hide_contact_people do
+      help do
+        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
+      end
     end
 
     # Hidden fields
