@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 30ddeb364001ddef3a4817fb7f73c5c47483ee48
+  revision: 810f7a019cc5e62706750ec4516ff10bc794b6ce
+  branch: feature/640-more-categories-and-filters
   specs:
     clarat_base (0.1.4)
       aasm
@@ -169,7 +170,7 @@ GEM
     email_spec (1.6.0)
       launchy (~> 2.1)
       mail (~> 2.2)
-    enumerize (1.1.0)
+    enumerize (1.1.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.8)
@@ -264,7 +265,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99)
     mini_portile2 (2.0.0)
-    minitest (5.8.3)
+    minitest (5.8.4)
     minitest-capybara (0.7.2)
       capybara (~> 2.2)
       minitest (~> 5.0)
@@ -290,12 +291,12 @@ GEM
     nested_form (0.3.2)
     netrc (0.11.0)
     newrelic_rpm (3.14.1.311)
-    nokogiri (1.6.7.1)
+    nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogumbo (1.4.7)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (4.0.1)
+    paper_trail (4.0.2)
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
@@ -483,8 +484,8 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    sinatra (1.4.6)
-      rack (~> 1.4)
+    sinatra (1.4.7)
+      rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slim (3.0.6)
