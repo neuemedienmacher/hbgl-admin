@@ -433,6 +433,7 @@ RailsAdmin.config do |config|
 
   config.model 'SolutionCategory' do
     field :name
+    field :parent
 
     list do
       sort_by :name
