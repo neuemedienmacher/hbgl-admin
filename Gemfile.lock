@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 60d6c2956d70584ba293d267cbe8e578245acd5e
+  revision: 81e3fad80a48185c32610b02f3732fa5beee7023
   branch: feature/634-target-audience-stamp
   specs:
     clarat_base (0.1.4)

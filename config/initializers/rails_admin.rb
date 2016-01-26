@@ -273,6 +273,8 @@ RailsAdmin.config do |config|
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
+    field :first_part_of_stamp
+    field :second_part_of_stamp
     field :age_from
     field :age_to
     field :age_visible
