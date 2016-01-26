@@ -236,6 +236,11 @@ RailsAdmin.config do |config|
     end
     field :legal_information
     field :contact_people
+    field :hide_contact_people do
+      help do
+        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
+      end
+    end
     field :encounter
     field :slug do
       read_only do
@@ -266,6 +271,7 @@ RailsAdmin.config do |config|
     end
     field :age_from
     field :age_to
+    field :age_visible
     field :openings
     field :opening_specification do
       help do
@@ -284,11 +290,7 @@ RailsAdmin.config do |config|
       read_only true
       help false
     end
-    field :hide_contact_people do
-      help do
-        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
-      end
-    end
+
 
     # Hidden fields
     edit do

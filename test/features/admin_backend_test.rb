@@ -158,10 +158,6 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      # Age Filter needs to be set
-      page.must_have_content 'Age from muss ausgefüllt werden'
-      page.must_have_content 'Age to muss ausgefüllt werden'
-
       fill_in 'offer_age_from', with: -1
       fill_in 'offer_age_to', with: 19
       click_button 'Speichern und bearbeiten'
@@ -171,25 +167,17 @@ feature 'Admin Backend' do
 
       # Age filter needs correct lower bounds
       page.must_have_content 'Age from muss größer oder gleich 0 sein'
-      fill_in 'offer_age_from', with: 99
+      fill_in 'offer_age_from', with: 0
+      fill_in 'offer_age_to', with: 100
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Age from muss größer oder gleich 0 sein'
 
-      # Age Filter upper bounds: doesnt matter when not in family
-      page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.wont_have_content 'Age to muss kleiner oder gleich 17 sein'
-
-      #          "              does matter when in family section
-      select 'Family', from: 'offer_section_filter_ids'
-      click_button 'Speichern und bearbeiten'
-
-      page.must_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.must_have_content 'Age to muss kleiner oder gleich 17 sein'
+      # Age filter needs correct upper bounds
+      page.must_have_content 'Age to muss kleiner oder gleich 99 sein'
       fill_in 'offer_age_from', with: 9
       fill_in 'offer_age_to', with: 8
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.wont_have_content 'Age to muss kleiner oder gleich 17 sein'
+      page.wont_have_content 'Age to muss kleiner oder gleich 99 sein'
 
       # Age Filter in correct range, but from is higher than to
       page.must_have_content 'Age from darf nicht größer sein als Age to'
@@ -206,6 +194,7 @@ feature 'Admin Backend' do
 
       # contact_person becomes SPoC, still needs target_audience
       contact_person.update_column :spoc, true
+      select 'Family', from: 'offer_section_filter_ids'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Contact people müssen alle zu einer der'\
                              ' ausgewählten Organisationen gehören oder als'\
