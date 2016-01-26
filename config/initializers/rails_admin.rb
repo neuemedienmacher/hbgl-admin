@@ -30,7 +30,7 @@ RailsAdmin.config do |config|
 
   config.included_models = %w(
     Organization Website Location
-    FederalState Offer Opening
+    FederalState Offer Opening SolutionCategory
     Category Email UpdateRequest
     LanguageFilter User Contact
     Keyword Definition Note Area
@@ -64,7 +64,7 @@ RailsAdmin.config do |config|
     #   only ['Category']
     # end
     nestable do
-      only ['Category']
+      only ['Category', 'SolutionCategory']
     end
     change_state
 
@@ -252,6 +252,10 @@ RailsAdmin.config do |config|
     field :categories do
       css_class 'js-category-suggestions'
     end
+    field :solution_category
+    field :treatment_type
+    field :participant_structure
+    field :trait_filters
     field :language_filters
     field :exclusive_gender do
       help do
@@ -424,6 +428,17 @@ RailsAdmin.config do |config|
     end
 
     # nested_set(max_depth: 5)
+    nestable_tree(max_depth: 5)
+  end
+
+  config.model 'SolutionCategory' do
+    field :name
+    field :parent
+
+    list do
+      sort_by :name
+    end
+
     nestable_tree(max_depth: 5)
   end
 
