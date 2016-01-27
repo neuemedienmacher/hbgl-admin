@@ -84,7 +84,7 @@ RailsAdmin.config do |config|
 
       sort_by :offers_count
     end
-    weight(-3)
+    weight(-6)
     field :name
     field :description do
       css_class 'js-count-character'
@@ -157,7 +157,7 @@ RailsAdmin.config do |config|
       field :federal_state
       field :display_name
     end
-    weight(-2)
+    weight(-5)
     field :organization
     field :name
     field :street
@@ -208,7 +208,7 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Offer' do
-    weight(-1)
+    weight(-4)
     list do
       field :name
       field :section_filters
@@ -236,6 +236,11 @@ RailsAdmin.config do |config|
     end
     field :legal_information
     field :contact_people
+    field :hide_contact_people do
+      help do
+        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
+      end
+    end
     field :encounter
     field :slug do
       read_only do
@@ -250,17 +255,19 @@ RailsAdmin.config do |config|
       end
     end
     field :categories do
+      label 'Problem categories'
+      inline_add false
       css_class 'js-category-suggestions'
     end
-    field :solution_category
+    field :solution_category do
+      inline_add false
+      inline_edit false
+    end
     field :treatment_type
     field :participant_structure
     field :trait_filters
-    field :language_filters
-    field :exclusive_gender do
-      help do
-        'Optional. Leer bedeutet, dass das Angebot alle Geschlechter bedient.'
-      end
+    field :language_filters do
+      inline_add false
     end
     field :target_audience_filters do
       help do
@@ -268,8 +275,11 @@ RailsAdmin.config do |config|
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
+    field :gender_first_part_of_stamp
+    field :gender_second_part_of_stamp
     field :age_from
     field :age_to
+    field :age_visible
     field :openings
     field :opening_specification do
       help do
@@ -288,11 +298,7 @@ RailsAdmin.config do |config|
       read_only true
       help false
     end
-    field :hide_contact_people do
-      help do
-        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
-      end
-    end
+
 
     # Hidden fields
     edit do
@@ -410,6 +416,7 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Category' do
+    weight(-3)
     field :name
     field :section_filters
     field :parent
@@ -432,6 +439,7 @@ RailsAdmin.config do |config|
   end
 
   config.model 'SolutionCategory' do
+    weight(-2)
     field :name
     field :parent
 
@@ -443,6 +451,7 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Definition' do
+    weight(-4)
     field :key
     field :explanation
 
@@ -450,6 +459,7 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Email' do
+    weight(-3)
     field :address
     field :aasm_state do
       read_only true
