@@ -234,6 +234,7 @@ RailsAdmin.config do |config|
     field :next_steps do
       css_class 'js-count-character'
     end
+    field :code_word
     field :legal_information
     field :contact_people
     field :hide_contact_people do
