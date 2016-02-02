@@ -448,6 +448,10 @@ RailsAdmin.config do |config|
       sort_by :name
     end
 
+    show do
+      field :offers
+    end
+
     nestable_tree(max_depth: 5)
   end
 
