@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 2d99c6be8f570b8060a1753179f0ad8c9a6669dc
-  branch: fix/sidekiq-4
+  revision: 6769aa3e4a91d634b0626979e475b55c25f6566a
   specs:
     clarat_base (0.1.4)
       aasm
