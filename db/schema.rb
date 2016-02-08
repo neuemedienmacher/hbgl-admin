@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121111044) do
+ActiveRecord::Schema.define(version: 20160127110021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,12 +137,15 @@ ActiveRecord::Schema.define(version: 20160121111044) do
   end
 
   create_table "filters", force: :cascade do |t|
-    t.string   "name",                  null: false
-    t.string   "identifier", limit: 20, null: false
+    t.string   "name",                         null: false
+    t.string   "identifier",        limit: 35, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                  null: false
+    t.string   "type",                         null: false
+    t.integer  "section_filter_id"
   end
+
+  add_index "filters", ["section_filter_id"], name: "index_filters_on_section_filter_id", using: :btree
 
   create_table "filters_offers", id: false, force: :cascade do |t|
     t.integer "filter_id", null: false
@@ -197,6 +200,11 @@ ActiveRecord::Schema.define(version: 20160121111044) do
   add_index "locations", ["created_at"], name: "index_locations_on_created_at", using: :btree
   add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id", using: :btree
   add_index "locations", ["organization_id"], name: "index_locations_on_organization_id", using: :btree
+
+  create_table "logic_versions", force: :cascade do |t|
+    t.integer "version"
+    t.string  "name"
+  end
 
   create_table "next_steps", force: :cascade do |t|
     t.string "text_de", null: false
@@ -262,8 +270,8 @@ ActiveRecord::Schema.define(version: 20160121111044) do
   add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id", using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                       limit: 120,                 null: false
-    t.text     "description",                                            null: false
+    t.string   "name",                        limit: 120,                 null: false
+    t.text     "description",                                             null: false
     t.text     "old_next_steps"
     t.string   "encounter"
     t.string   "slug"
@@ -275,17 +283,25 @@ ActiveRecord::Schema.define(version: 20160121111044) do
     t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.date     "expires_at",                                             null: false
+    t.date     "expires_at",                                              null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
     t.string   "exclusive_gender"
-    t.integer  "age_from"
-    t.integer  "age_to"
+    t.integer  "age_from",                                default: 0
+    t.integer  "age_to",                                  default: 99
     t.string   "target_audience"
-    t.string   "aasm_state",                 limit: 32
-    t.boolean  "hide_contact_people",                    default: false
+    t.string   "aasm_state",                  limit: 32
+    t.boolean  "hide_contact_people",                     default: false
+    t.boolean  "age_visible",                             default: false
+    t.string   "code_word",                   limit: 140
+    t.integer  "solution_category_id"
+    t.string   "treatment_type"
+    t.string   "participant_structure"
+    t.string   "gender_first_part_of_stamp"
+    t.string   "gender_second_part_of_stamp"
+    t.integer  "logic_version_id"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state", using: :btree
@@ -293,6 +309,8 @@ ActiveRecord::Schema.define(version: 20160121111044) do
   add_index "offers", ["area_id"], name: "index_offers_on_area_id", using: :btree
   add_index "offers", ["created_at"], name: "index_offers_on_created_at", using: :btree
   add_index "offers", ["location_id"], name: "index_offers_on_location_id", using: :btree
+  add_index "offers", ["logic_version_id"], name: "index_offers_on_logic_version_id", using: :btree
+  add_index "offers", ["solution_category_id"], name: "index_offers_on_solution_category_id", using: :btree
 
   create_table "offers_openings", id: false, force: :cascade do |t|
     t.integer "offer_id",   null: false
@@ -378,6 +396,22 @@ ActiveRecord::Schema.define(version: 20160121111044) do
   end
 
   add_index "sitemaps", ["path"], name: "index_sitemaps_on_path", unique: true, using: :btree
+
+  create_table "solution_categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "parent_id"
+  end
+
+  create_table "solution_category_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "solution_category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "solution_category_anc_desc_idx", unique: true, using: :btree
+  add_index "solution_category_hierarchies", ["descendant_id"], name: "solution_category_desc_idx", using: :btree
 
   create_table "statistics", force: :cascade do |t|
     t.string  "topic",   limit: 40, null: false

@@ -3,7 +3,7 @@ class CheckWebsitesWorker
   include Sidetiq::Schedulable
 
   sidekiq_options queue: :heavy_load
-  recurrence { weekly(1).day(:wednesday).hour_of_day(20) }
+  recurrence { weekly.day(:wednesday).hour_of_day(20) }
 
   def perform
     # Get websites to check (only those with approved offers or orgas)
