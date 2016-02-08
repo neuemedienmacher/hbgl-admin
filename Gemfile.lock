@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 1d57cd18d6df39c10923926289ff168d50d9a07c
-  branch: feature/554-translations
+  revision: 7f099fc8c2ded73aa804bc99e7a6c63334171e1e
   specs:
     clarat_base (0.1.4)
       aasm
@@ -19,7 +18,7 @@ GIT
       redcarpet
       sanitize
       sidekiq (~> 3.4.2)
-      sidetiq
+      sidetiq (< 0.7)
       sinatra (>= 1.3.0)
       web-console (~> 2.0)
 
