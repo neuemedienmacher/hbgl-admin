@@ -233,7 +233,7 @@ RailsAdmin.config do |config|
       css_class 'js-next-steps-offers'
     end
     field :old_next_steps do
-      read_only true
+      read_only false # set to true once deprecated
     end
     field :code_word
     field :legal_information
