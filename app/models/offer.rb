@@ -36,7 +36,6 @@ class Offer < ActiveRecord::Base
       offer.keywords = self.keywords
       offer.area = self.area
       offer.aasm_state = 'initialized'
-      offer.code_word = ''
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
