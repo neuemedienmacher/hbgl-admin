@@ -34,6 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
     Subscription SectionFilter NextStep SolutionCategory
+    LogicVersion
   )
 
   config.actions do
@@ -210,10 +211,11 @@ RailsAdmin.config do |config|
     list do
       field :name
       field :section_filters
-      field :location
       field :aasm_state
       field :creator
       field :expires_at
+      field :logic_version
+      field :location
       field :approved_at
       field :organizations do
         searchable :name
@@ -293,6 +295,7 @@ RailsAdmin.config do |config|
       inverse_of :offers
     end
     field :expires_at
+    field :logic_version
     field :aasm_state do
       read_only true
       help false
@@ -662,6 +665,17 @@ RailsAdmin.config do |config|
       read_only true
     end
     field :longitude do
+      read_only true
+    end
+  end
+
+  config.model 'LogicVersion' do
+    weight 3
+    field :name do
+      read_only true
+    end
+
+    field :version do
       read_only true
     end
   end
