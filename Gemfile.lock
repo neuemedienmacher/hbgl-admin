@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: cee4371faaf8f9b4f734183bb5f078a96c37cb25
+  revision: 65c390be57a57a479c64c6f17bb9575ac3cf90d8
   specs:
     clarat_base (0.1.4)
       aasm
