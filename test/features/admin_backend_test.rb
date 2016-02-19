@@ -233,16 +233,22 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      # Fix Orga/Location mismatch, it saves again
+      # Fix Orga/Location mismatch, still needs categories
       location.update_column :organization_id, 1
       click_button 'Speichern und bearbeiten'
-      page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
       page.wont_have_content(
         'Location muss zu der unten angegebenen Organisation gehören.'
       )
       page.wont_have_content(
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
+      page.must_have_content "benötigt mindestens eine 'Family' Kategorie"
+
+      # Fill categories, it saves again
+      select 'main1', from: 'offer_category_ids'
+      click_button 'Speichern und bearbeiten'
+      page.wont_have_content "benötigt mindestens eine 'Family' Kategorie"
+      page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Complete works
       click_link 'Als komplett markieren'
@@ -268,6 +274,7 @@ feature 'Admin Backend' do
       select 'basicNextStep', from: 'offer_next_step_ids'
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
+      select 'main1', from: 'offer_category_ids'
 
       ## Test general validations
 
