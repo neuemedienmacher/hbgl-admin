@@ -18,7 +18,6 @@ de:
             external_feedback: "externally deactivated"
             paused: "paused"
             organization_deactivated: "organization_deactivated"
-            dozing: "Doze"
           icons:
             initialized: "fa-file-o"
             completed: "fa-check-circle-o"
@@ -28,7 +27,6 @@ de:
             external_feedback: "fa-users"
             paused: "fa-pause"
             organization_deactivated: "fa-building-o"
-            dozing: "fa-question-circle"
         events:
           complete: "Als komplett markieren"
           approve: "Freischalten"
@@ -37,7 +35,6 @@ de:
           deactivate_external: "Deaktivieren (External Feedback)"
           deactivate_through_organization: "> organization_deactivated"
           pause: "Pausieren"
-          doze: "Schlafen legen"
 
     main:
       change_state:
