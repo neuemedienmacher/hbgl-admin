@@ -102,6 +102,7 @@ RailsAdmin.config do |config|
     end
 
     field :websites
+    field :contact_people
     field :mailings_enabled
     field :aasm_state do
       read_only true
@@ -346,6 +347,7 @@ RailsAdmin.config do |config|
     end
     field :gender
     field :academic_title
+    field :position
     field :first_name
     field :last_name
     field :operational_name do
