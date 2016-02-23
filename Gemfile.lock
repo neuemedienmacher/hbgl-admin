@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: a36de8f16226eb1554359088788f452a45090c9c
-  branch: feature/699-add-doze-state
+  revision: 2f6c43d33c9bc388f659f0b1227decf5ef02d6b7
   specs:
     clarat_base (0.1.4)
       aasm
