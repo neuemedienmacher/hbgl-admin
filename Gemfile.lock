@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: ca62302bb12f53621474bc32f81900c05eb6eb82
-  branch: feature/658-contact-persons-update
+  revision: da6b3cd5d7d2dddfe6bc41a809ee84ac7a6d1238
   specs:
     clarat_base (0.1.4)
       aasm
