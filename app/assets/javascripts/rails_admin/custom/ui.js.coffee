@@ -59,26 +59,28 @@ $(document).on 'rails_admin.dom_ready', ->
 
   next_steps_offers_area = $(".js-next-steps-offers")
   if next_steps_offers_area.length
-    offer_id = /^.*\/offer\/(\d+)\/edit.*$/.exec(location.href)[1]
-    $.get "/next_steps_offers/#{offer_id}.json", (nso_array) ->
-      container = next_steps_offers_area.find('.controls')
-      container.append $("<h3>Reihenfolge</h3><ol id='nso_sortable'></ol>")
-      list = $('#nso_sortable')
-      for nso in nso_array
-        list.append("<li data-id='#{nso.id}'>#{nso.name}</li>")
-      Sortable.create list[0],
-        onSort: (event) ->
-          console.log event
-          event.item # dragged HTMLElement
-          items = list.find('li')
-          for index in range(event.oldIndex, event.newIndex)
-            item = $(items[index])
-            console.log item
-            $.post(
-              "/next_steps_offers/#{item.data('id')}.json",
-              _method: 'put'
-              next_steps_offer:
-                sort_value: index
-              , (response) ->
-                console.log response
-            )
+    match = /^.*\/offer\/(\d+)\/edit.*$/.exec(location.href)
+    if match
+      offer_id = match[1]
+      $.get "/next_steps_offers/#{offer_id}.json", (nso_array) ->
+        container = next_steps_offers_area.find('.controls')
+        container.append $("<h3>Reihenfolge</h3><ol id='nso_sortable'></ol>")
+        list = $('#nso_sortable')
+        for nso in nso_array
+          list.append("<li data-id='#{nso.id}'>#{nso.name}</li>")
+        Sortable.create list[0],
+          onSort: (event) ->
+            console.log event
+            event.item # dragged HTMLElement
+            items = list.find('li')
+            for index in range(event.oldIndex, event.newIndex)
+              item = $(items[index])
+              console.log item
+              $.post(
+                "/next_steps_offers/#{item.data('id')}.json",
+                _method: 'put'
+                next_steps_offer:
+                  sort_value: index
+                , (response) ->
+                  console.log response
+              )
