@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20160219130751) do
     t.string   "responsibility"
     t.integer  "email_id"
     t.boolean  "spoc",                        default: false, null: false
+    t.string   "position"
   end
 
   add_index "contact_people", ["email_id"], name: "index_contact_people_on_email_id", using: :btree
