@@ -34,6 +34,7 @@ class Offer < ActiveRecord::Base
       offer.websites = self.websites
       offer.contact_people = self.contact_people
       offer.keywords = self.keywords
+      offer.next_steps = self.next_steps
       offer.area = self.area
       offer.aasm_state = 'initialized'
     end
