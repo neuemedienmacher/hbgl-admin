@@ -347,7 +347,11 @@ RailsAdmin.config do |config|
     end
     field :gender
     field :academic_title
-    field :position
+    field :position do
+      help do
+        'Bitte nur für Orga-Kontakte auswählen! Dann aber verpflichtend.'
+      end
+    end
     field :first_name
     field :last_name
     field :operational_name do
