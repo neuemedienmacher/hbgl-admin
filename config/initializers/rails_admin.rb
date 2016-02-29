@@ -425,16 +425,23 @@ RailsAdmin.config do |config|
 
   config.model 'Category' do
     weight(-3)
-    field :name
+    field :name_de
     field :section_filters
     field :parent
     field :sort_order
     field :visible
+    field :name_en
+    field :name_ar
+    field :name_tr
+    field :name_fr
+    field :name_pl
+    field :name_ru
+    field(:id) { read_only true }
 
     object_label_method :name_with_world_suffix_and_optional_asterisk
 
     list do
-      sort_by :name
+      sort_by :name_de
     end
 
     show do
@@ -454,6 +461,7 @@ RailsAdmin.config do |config|
     field :text_tr
     field :text_pl
     field :text_ru
+    field(:id) { read_only true }
 
     object_label_method :text_de
   end
@@ -462,6 +470,7 @@ RailsAdmin.config do |config|
     weight(-2)
     field :name
     field :parent
+    field(:id) { read_only true }
 
     list do
       sort_by :name
