@@ -10,7 +10,7 @@ class CheckWebsitesWorkerTest < ActiveSupport::TestCase # to have fixtures
     website.offers << offer
     Offer.any_instance.expects(:index!)
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
-    stub_request(:get, 'www.example.com')
+    WebMock.stub_request(:get, 'www.example.com')
       .to_return(status: 404, body: '', headers: {}) # 404 stub
     single_worker.perform website.id
     offer.reload.must_be :expired?
@@ -23,7 +23,7 @@ class CheckWebsitesWorkerTest < ActiveSupport::TestCase # to have fixtures
     website.offers << offer
     Offer.any_instance.expects(:index!)
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
-    stub_request(:get, 'www.example.com').to_timeout
+    WebMock.stub_request(:get, 'www.example.com').to_timeout
     single_worker.perform website.id
     offer.reload.must_be :expired?
   end
@@ -34,7 +34,7 @@ class CheckWebsitesWorkerTest < ActiveSupport::TestCase # to have fixtures
     website.offers << offer
     Offer.any_instance.expects(:index!).never
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer).never
-    stub_request(:get, 'www.example.com') # stub request to return success
+    WebMock.stub_request(:get, 'www.example.com') # stub request to return success
     single_worker.perform website.id
     offer.reload.must_be :approved?
   end
@@ -45,7 +45,7 @@ class CheckWebsitesWorkerTest < ActiveSupport::TestCase # to have fixtures
     website.organizations << orga
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer).never
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_orgas)
-    stub_request(:get, 'www.example.com')
+    WebMock.stub_request(:get, 'www.example.com')
       .to_return(status: 404, body: '', headers: {}) # 404 stub
     single_worker.perform website.id
   end

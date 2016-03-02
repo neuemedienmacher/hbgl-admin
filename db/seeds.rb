@@ -5,8 +5,8 @@ user = User.create email: 'user@user.com', password: 'password',
 admin = User.create email: 'admin@admin.com', password: 'password',
                     role: 'super'
 
-SectionFilter.create name: 'Family', identifier: 'family'
-SectionFilter.create name: 'Refugees', identifier: 'refugees'
+family = SectionFilter.create name: 'Family', identifier: 'family'
+refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'
 LanguageFilter.create name: 'Deutsch', identifier: 'deu'
 LanguageFilter.create name: 'Englisch', identifier: 'eng'
 LanguageFilter.create name: 'Türkisch', identifier: 'tur'
@@ -14,6 +14,10 @@ TargetAudienceFilter.create name: 'Kinder', identifier: 'children'
 TargetAudienceFilter.create name: 'Eltern', identifier: 'parents'
 TargetAudienceFilter.create name: 'Familie', identifier: 'nuclear_family'
 TargetAudienceFilter.create name: 'Bekannte', identifier: 'acquaintances'
+
+LogicVersion.create(version: 1, name: 'Altlasten')
+LogicVersion.create(version: 2, name: 'Split Revolution')
+LogicVersion.create(version: 3, name: 'TKKG')
 
 schland = Area.create name: 'Deutschland', minlat: 47.270111, maxlat: 55.058347,
                       minlong: 5.866342, maxlong: 15.041896
@@ -44,40 +48,55 @@ SearchLocation.create query: 'Berlin', latitude: 52.520007,
                                        longitude: 13.404954,
                                        geoloc: '52.520007,13.404954'
 
-#mains << Category.create(name: 'Notfall', icon: 'e-crisis')
-#mains << Category.create(name: 'Lernen', icon: 'c-learn')
-#mains << Category.create(name: 'Familie', icon: 'a-family')
-#mains << Category.create(name: 'Gesundheit', icon: 'b-health')
-#mains << Category.create(name: 'Gewalt', icon: 'd-violence')
-FactoryGirl.create :category, name: 'Notfall', icon: 'e-crisis'
-FactoryGirl.create :category, name: 'Lernen', icon: 'c-learn'
-FactoryGirl.create :category, name: 'Familie', icon: 'a-family'
-FactoryGirl.create :category, name: 'Gesundheit', icon: 'b-health'
-FactoryGirl.create :category, name: 'Gewalt', icon: 'd-violence'
+fam = FactoryGirl.create :category, :with_dummy_translations,
+                         name: 'Familie', icon: 'b-family'
+fam.section_filters = [family, refugees]
+legal = FactoryGirl.create :category, :with_dummy_translations,
+                           name: 'Asyl und Recht', icon: 'a-legal'
+legal.section_filters = [refugees]
+health = FactoryGirl.create :category, :with_dummy_translations,
+                            name: 'Gesundheit', icon: 'c-health'
+health.section_filters = [family, refugees]
+learn = FactoryGirl.create :category, :with_dummy_translations,
+                           name: 'Lernen und Arbeiten', icon: 'd-learn'
+learn.section_filters = [family, refugees]
+misc = FactoryGirl.create :category, :with_dummy_translations,
+                          name: 'Sorgen im Alltag', icon: 'e-misc'
+misc.section_filters = [family]
+misc = FactoryGirl.create :category, :with_dummy_translations,
+                          name: 'Leben in Deutschland', icon: 'e-misc'
+misc.section_filters = [refugees]
+violence = FactoryGirl.create :category, :with_dummy_translations,
+                              name: 'Gewalt', icon: 'f-violence'
+violence.section_filters = [family, refugees]
+crisis = FactoryGirl.create :category, :with_dummy_translations,
+                            name: 'Notfall', icon: 'g-crisis'
+crisis.section_filters = [family, refugees]
 
-mains = []
-mains = Category.all
+refugee_mains = Category.mains.in_section(:refugees).all
+subcategories = []
 
 10.times do
-  FactoryGirl.create :category, parent: mains.sample
+  subcategories.push(
+    FactoryGirl.create :category, :with_dummy_translations,
+                       parent: refugee_mains.sample
+  )
 end
 
 20.times do
-  FactoryGirl.create :category, parent_id: Category.pluck(:id).sample
+  FactoryGirl.create :category, :with_dummy_translations,
+                     parent: subcategories.sample
 end
 
-FactoryGirl.create :offer, :approved, approved_by: user,
-                                      name: 'Lokales Angebot',
-                                      encounter: 'personal'
-FactoryGirl.create :offer, :approved, approved_by: user,
-                                      name: 'Lokale Hotline',
-                                      encounter: 'hotline',
-                                      area: berlin
-FactoryGirl.create :offer, :approved, approved_by: user,
-                                      name: 'Bundesweiter Chat',
-                                      encounter: 'chat',
-                                      area: schland
-FactoryGirl.create :offer, :approved, approved_by: user,
-                                      name: 'Bundesweite Hotline',
-                                      encounter: 'hotline',
-                                      area: schland
+FactoryGirl.create :offer, :approved, :with_dummy_translations,
+                   approved_by: user, name: 'Lokales Angebot',
+                   encounter: 'personal'
+FactoryGirl.create :offer, :approved, :with_dummy_translations,
+                   approved_by: user, name: 'Lokale Hotline',
+                   encounter: 'hotline', area: berlin
+FactoryGirl.create :offer, :approved, :with_dummy_translations,
+                   approved_by: user, name: 'Bundesweiter Chat',
+                   encounter: 'chat', area: schland
+FactoryGirl.create :offer, :approved, :with_dummy_translations,
+                   approved_by: user, name: 'Bundesweite Hotline',
+                   encounter: 'hotline', area: schland

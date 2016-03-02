@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require_relative '../../lib/rails_admin_extensions/rails_admin_change_state.rb'
 
 RailsAdmin.config do |config|
@@ -18,7 +19,7 @@ RailsAdmin.config do |config|
   #   end
   # end
   config.authorize_with :cancan, Ability
-  config.current_user_method &:current_user
+  config.current_user_method(&:current_user)
 
   # config.excluded_models = ['AgeFilter', 'FederalState',
   #                           'OrganizationConnection', 'Filter']
@@ -29,13 +30,11 @@ RailsAdmin.config do |config|
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
   config.included_models = %w(
-    Organization Website Location
-    FederalState Offer Opening
-    Category Email UpdateRequest
-    LanguageFilter User Contact
-    Keyword Definition Note Area
-    SearchLocation ContactPerson
-    Subscription SectionFilter
+    Organization Website Location FederalState Offer Opening
+    Category Email UpdateRequest LanguageFilter User Contact
+    Keyword Definition Note Area SearchLocation ContactPerson
+    Subscription SectionFilter NextStep SolutionCategory
+    LogicVersion
   )
 
   config.actions do
@@ -64,7 +63,7 @@ RailsAdmin.config do |config|
     #   only ['Category']
     # end
     nestable do
-      only ['Category']
+      only ['Category', 'SolutionCategory']
     end
     change_state
 
@@ -84,7 +83,7 @@ RailsAdmin.config do |config|
 
       sort_by :offers_count
     end
-    weight(-3)
+    weight(-6)
     field :name
     field :description do
       css_class 'js-count-character'
@@ -103,6 +102,7 @@ RailsAdmin.config do |config|
     end
 
     field :websites
+    field :contact_people
     field :mailings_enabled
     field :aasm_state do
       read_only true
@@ -157,7 +157,7 @@ RailsAdmin.config do |config|
       field :federal_state
       field :display_name
     end
-    weight(-2)
+    weight(-5)
     field :organization
     field :name
     field :street
@@ -174,7 +174,7 @@ RailsAdmin.config do |config|
     field :hq
     field :visible do
       help do
-        'Obacht: nur dann entfernen, wenn die Adresse auf der Orga-Seite
+        'Obacht: nur dann entfernen, wenn die Adresse ÜBERALL im Frontend
         versteckt werden soll!'
       end
     end
@@ -208,14 +208,15 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Offer' do
-    weight(-1)
+    weight(-4)
     list do
       field :name
       field :section_filters
-      field :location
       field :aasm_state
       field :creator
       field :expires_at
+      field :logic_version
+      field :location
       field :approved_at
       field :organizations do
         searchable :name
@@ -232,10 +233,19 @@ RailsAdmin.config do |config|
     end
     field :notes
     field :next_steps do
-      css_class 'js-count-character'
+      css_class 'js-next-steps-offers'
     end
+    field :old_next_steps do
+      read_only false # set to true once deprecated
+    end
+    field :code_word
     field :legal_information
     field :contact_people
+    field :hide_contact_people do
+      help do
+        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
+      end
+    end
     field :encounter
     field :slug do
       read_only do
@@ -250,13 +260,19 @@ RailsAdmin.config do |config|
       end
     end
     field :categories do
+      label 'Problem categories'
+      inline_add false
       css_class 'js-category-suggestions'
     end
-    field :language_filters
-    field :exclusive_gender do
-      help do
-        'Optional. Leer bedeutet, dass das Angebot alle Geschlechter bedient.'
-      end
+    field :solution_category do
+      inline_add false
+      inline_edit false
+    end
+    field :treatment_type
+    field :participant_structure
+    field :trait_filters
+    field :language_filters do
+      inline_add false
     end
     field :target_audience_filters do
       help do
@@ -264,15 +280,15 @@ RailsAdmin.config do |config|
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
+    field :gender_first_part_of_stamp
+    field :gender_second_part_of_stamp
     field :age_from
     field :age_to
+    field :age_visible
     field :openings
     field :opening_specification do
       help do
-        'Bitte einigt euch auf eine einheitliche Ausdrucksweise. Wie etwa
-        "jeden 1. Montag im Monat" oder "jeden 2. Freitag". Sagt mir
-        (Konstantin) auch gern bescheid, wenn ihr ein einheitliches Format
-        gefunden habt, mit dem alle Fälle abgedeckt werden können.'
+        'Bitte achtet auf eine einheitliche Ausdrucksweise.'
       end
     end
     field :websites
@@ -280,10 +296,12 @@ RailsAdmin.config do |config|
       inverse_of :offers
     end
     field :expires_at
+    field :logic_version
     field :aasm_state do
       read_only true
       help false
     end
+
 
     # Hidden fields
     edit do
@@ -329,12 +347,17 @@ RailsAdmin.config do |config|
     end
     field :gender
     field :academic_title
+    field :position do
+      help do
+        'Bitte nur für Orga-Kontakte auswählen! Dann aber verpflichtend.'
+      end
+    end
     field :first_name
     field :last_name
     field :operational_name do
       help do
-        "Falls es sich nicht um einen persönlichen Ansprechpartner handelt hier
-        z.B. 'Zentrale' eintragen"
+        'Falls es sich nicht um einen persönlichen Ansprechpartner handelt,'\
+        " hier z.B. 'Zentrale' eintragen."
       end
     end
     field :responsibility do
@@ -401,16 +424,24 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Category' do
-    field :name
+    weight(-3)
+    field :name_de
     field :section_filters
     field :parent
     field :sort_order
     field :visible
+    field :name_en
+    field :name_ar
+    field :name_tr
+    field :name_fr
+    field :name_pl
+    field :name_ru
+    field(:id) { read_only true }
 
     object_label_method :name_with_world_suffix_and_optional_asterisk
 
     list do
-      sort_by :name
+      sort_by :name_de
     end
 
     show do
@@ -422,7 +453,38 @@ RailsAdmin.config do |config|
     nestable_tree(max_depth: 5)
   end
 
+  config.model 'NextStep' do
+    field :text_de
+    field :text_en
+    field :text_ar
+    field :text_fr
+    field :text_tr
+    field :text_pl
+    field :text_ru
+    field(:id) { read_only true }
+
+    object_label_method :text_de
+  end
+
+  config.model 'SolutionCategory' do
+    weight(-2)
+    field :name
+    field :parent
+    field(:id) { read_only true }
+
+    list do
+      sort_by :name
+    end
+
+    show do
+      field :offers
+    end
+
+    nestable_tree(max_depth: 5)
+  end
+
   config.model 'Definition' do
+    weight(-4)
     field :key
     field :explanation
 
@@ -430,6 +492,7 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Email' do
+    weight(-3)
     field :address
     field :aasm_state do
       read_only true
@@ -617,6 +680,17 @@ RailsAdmin.config do |config|
       read_only true
     end
     field :longitude do
+      read_only true
+    end
+  end
+
+  config.model 'LogicVersion' do
+    weight 3
+    field :name do
+      read_only true
+    end
+
+    field :version do
       read_only true
     end
   end

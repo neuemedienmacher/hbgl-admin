@@ -1,5 +1,3 @@
-# rubocop:disable Lint/UnreachableCode
-
 # Worker to check bi-weekly, whether there are emails that
 # - have subscribed to updates about new approved offers
 # - have approved offers that do not yet have an OfferMailing
@@ -10,8 +8,9 @@ class SubscribedEmailsMailingsWorker
 
   recurrence { weekly(2).day(:monday).hour_of_day(20) }
 
+  # rubocop:disable UnreachableCode
   def perform
-    return # temporarily disabled. To reenable remove this line and reinstate tests.
+    return # TODO: remove to reenable mailings (also rubocop, tests, cov filter)
     Offer.transaction do
       Email.transaction do
         potentially_informable_emails.find_each do |email|
@@ -30,5 +29,5 @@ class SubscribedEmailsMailingsWorker
       .joins(:offers).where('offers.aasm_state = ?', 'approved')
       .joins(:organizations).where('organizations.mailings_enabled = ?', true)
   end
+  # rubocop:enable UnreachableCode
 end
-# rubocop:enable Lint/UnreachableCode

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require_relative '../test_helper'
 include Warden::Test::Helpers
 
@@ -18,9 +19,9 @@ feature 'Admin Backend' do
         select 'Family', from: 'offer_section_filter_ids'
         fill_in 'offer_name', with: 'testangebot'
         fill_in 'offer_description', with: 'testdescription'
-        fill_in 'offer_next_steps', with: 'testnextsteps'
         fill_in 'offer_age_from', with: 0
         fill_in 'offer_age_to', with: 17
+        select 'basicNextStep', from: 'offer_next_step_ids'
         select 'Personal', from: 'offer_encounter'
         select 'basicLocation', from: 'offer_location_id'
         select 'foobar', from: 'offer_organization_ids'
@@ -143,7 +144,7 @@ feature 'Admin Backend' do
 
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
-      fill_in 'offer_next_steps', with: 'testnextsteps'
+      select 'basicNextStep', from: 'offer_next_step_ids'
       select 'Personal', from: 'offer_encounter'
       select location.name, from: 'offer_location_id'
       select 'foobar', from: 'offer_organization_ids'
@@ -158,10 +159,6 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      # Age Filter needs to be set
-      page.must_have_content 'Age from muss ausgefüllt werden'
-      page.must_have_content 'Age to muss ausgefüllt werden'
-
       fill_in 'offer_age_from', with: -1
       fill_in 'offer_age_to', with: 19
       click_button 'Speichern und bearbeiten'
@@ -171,25 +168,17 @@ feature 'Admin Backend' do
 
       # Age filter needs correct lower bounds
       page.must_have_content 'Age from muss größer oder gleich 0 sein'
-      fill_in 'offer_age_from', with: 99
+      fill_in 'offer_age_from', with: 0
+      fill_in 'offer_age_to', with: 100
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Age from muss größer oder gleich 0 sein'
 
-      # Age Filter upper bounds: doesnt matter when not in family
-      page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.wont_have_content 'Age to muss kleiner oder gleich 17 sein'
-
-      #          "              does matter when in family section
-      select 'Family', from: 'offer_section_filter_ids'
-      click_button 'Speichern und bearbeiten'
-
-      page.must_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.must_have_content 'Age to muss kleiner oder gleich 17 sein'
+      # Age filter needs correct upper bounds
+      page.must_have_content 'Age to muss kleiner oder gleich 99 sein'
       fill_in 'offer_age_from', with: 9
       fill_in 'offer_age_to', with: 8
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'Age from muss kleiner oder gleich 17 sein'
-      page.wont_have_content 'Age to muss kleiner oder gleich 17 sein'
+      page.wont_have_content 'Age to muss kleiner oder gleich 99 sein'
 
       # Age Filter in correct range, but from is higher than to
       page.must_have_content 'Age from darf nicht größer sein als Age to'
@@ -206,6 +195,7 @@ feature 'Admin Backend' do
 
       # contact_person becomes SPoC, still needs target_audience
       contact_person.update_column :spoc, true
+      select 'Family', from: 'offer_section_filter_ids'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Contact people müssen alle zu einer der'\
                              ' ausgewählten Organisationen gehören oder als'\
@@ -243,16 +233,22 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      # Fix Orga/Location mismatch, it saves again
+      # Fix Orga/Location mismatch, still needs categories
       location.update_column :organization_id, 1
       click_button 'Speichern und bearbeiten'
-      page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
       page.wont_have_content(
         'Location muss zu der unten angegebenen Organisation gehören.'
       )
       page.wont_have_content(
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
+      page.must_have_content "benötigt mindestens eine 'Family' Kategorie"
+
+      # Fill categories, it saves again
+      select 'main1', from: 'offer_category_ids'
+      click_button 'Speichern und bearbeiten'
+      page.wont_have_content "benötigt mindestens eine 'Family' Kategorie"
+      page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Complete works
       click_link 'Als komplett markieren'
@@ -273,11 +269,12 @@ feature 'Admin Backend' do
       select 'Family', from: 'offer_section_filter_ids'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
-      fill_in 'offer_next_steps', with: 'testnextsteps'
       fill_in 'offer_age_from', with: 0
       fill_in 'offer_age_to', with: 6
+      select 'basicNextStep', from: 'offer_next_step_ids'
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
+      select 'main1', from: 'offer_category_ids'
 
       ## Test general validations
 
@@ -358,17 +355,18 @@ feature 'Admin Backend' do
       offer.reload.must_be :approved?
     end
 
+    # TODO: resurrect this test as soon as there is a uniqueness validation in offer
     # calls partial dup that doesn't end up in an immediately valid offer
-    scenario 'Duplicate offer' do
-      visit rails_admin_path
-
-      click_link 'Angebote', match: :first
-      click_link 'Duplizieren'
-
-      click_button 'Speichern'
-
-      page.must_have_content 'Angebot wurde nicht hinzugefügt'
-    end
+    # scenario 'Duplicate offer' do
+    #   visit rails_admin_path
+    #
+    #   click_link 'Angebote', match: :first
+    #   click_link 'Duplizieren'
+    #
+    #   click_button 'Speichern'
+    #
+    #   page.must_have_content 'Angebot wurde nicht hinzugefuegt' # TODO: ue => &uuml
+    # end
 
     scenario 'Duplicate organization' do
       visit rails_admin_path
@@ -404,16 +402,16 @@ feature 'Admin Backend' do
 
     scenario 'New category missing section filter' do
       visit rails_admin_path
-      click_link 'Kategorien', match: :first
+      click_link 'Problem-Kategorien', match: :first
       click_link 'Neu hinzufügen', match: :first
-      fill_in 'category_name', with: 'testkategorie'
+      fill_in 'category_name_de', with: 'testkategorie'
       click_button 'Speichern'
       page.must_have_content 'benötigt mindestens eine clarat-Welt'
     end
 
     scenario 'Try to edit existing category and remove section_filters' do
       visit rails_admin_path
-      click_link 'Kategorien', match: :first
+      click_link 'Problem-Kategorien', match: :first
       click_link 'Bearbeiten', match: :first
       unselect 'Family', from: 'category_section_filter_ids'
       unselect 'Refugees', from: 'category_section_filter_ids'

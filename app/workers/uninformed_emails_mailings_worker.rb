@@ -1,5 +1,3 @@
-# rubocop:disable Lint/UnreachableCode
-
 # Worker to check bi-weekly, whether there are emails that
 # - have not yet been informed
 # - have approved offers
@@ -11,8 +9,9 @@ class UninformedEmailsMailingsWorker
 
   recurrence { weekly(2).day(:monday).hour_of_day(20).minute_of_hour(30) }
 
+  # rubocop:disable UnreachableCode
   def perform
-    return # temporarily disabled. To reenable remove this line and reinstate tests.
+    return # TODO: remove to reenable mailings (also rubocop, tests, cov filter)
     Offer.transaction do
       Email.transaction do
         informable_emails.find_each(&:inform!)
@@ -27,5 +26,5 @@ class UninformedEmailsMailingsWorker
       .joins(:offers).where('offers.aasm_state = ?', 'approved')
       .joins(:organizations).where('organizations.mailings_enabled = ?', true)
   end
+  # rubocop:enable UnreachableCode
 end
-# rubocop:enable Lint/UnreachableCode

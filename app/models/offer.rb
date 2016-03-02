@@ -30,9 +30,11 @@ class Offer < ActiveRecord::Base
       offer.section_filters = self.section_filters
       offer.language_filters = self.language_filters
       offer.target_audience_filters = self.target_audience_filters
+      offer.trait_filters = self.trait_filters
       offer.websites = self.websites
       offer.contact_people = self.contact_people
       offer.keywords = self.keywords
+      offer.next_steps = self.next_steps
       offer.area = self.area
       offer.aasm_state = 'initialized'
     end
