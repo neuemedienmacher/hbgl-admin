@@ -1,0 +1,4 @@
+= form do |f|
+  = f.collection_check_boxes :fields, columns, :first, :last
+  = f.error :fields
+  = f.submit

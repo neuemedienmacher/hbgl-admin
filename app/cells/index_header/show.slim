@@ -1,11 +1,9 @@
-.page-header
-  h1= name
-
 nav.navbar.navbar-inverse.navbar-embossed
   .container-fluid
     ul.nav.navbar-nav
       li.active= self_referential_link
       li= new_object_link
+      li= export_link
     form.navbar-form.navbar-right action=current_path method="GET"
       .form-group
         .input-group

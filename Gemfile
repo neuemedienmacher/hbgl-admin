@@ -51,6 +51,7 @@ gem 'reform'
 gem 'reform-rails'
 
 gem 'simple_form'
+gem 'dry-validation'
 
 ########################
 # For Heroku & Add-Ons #

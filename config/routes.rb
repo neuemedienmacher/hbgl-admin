@@ -5,6 +5,12 @@ Rails.application.routes.draw do
   resources :organizations
   resources :next_steps_offers, only: [:index]
 
+  # Export
+  get 'exports/:object_name/new', controller: :exports, action: :new,
+                                  as: :new_export
+  post 'exports/:object_name/', controller: :exports, action: :create,
+                                as: :exports
+
   get 'categories/:offer_name', controller: :categories, action: :index
   get 'next_steps_offers/:offer_id', controller: :next_steps_offers,
                                      action: :index

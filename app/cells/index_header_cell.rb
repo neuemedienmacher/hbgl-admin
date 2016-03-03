@@ -26,4 +26,8 @@ class IndexHeaderCell < Cell::ViewModel
   def new_object_link
     link_to 'Neuet Teil', send("new_#{name.downcase}_path")
   end
+
+  def export_link
+    link_to 'Export', new_export_path(object_name: name.downcase)
+  end
 end
