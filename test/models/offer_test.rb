@@ -2,6 +2,7 @@ require_relative '../test_helper'
 
 describe Offer do
   let(:offer) { Offer.new }
+  let(:basicOffer) { offers(:basic) }
 
   subject { offer }
 
