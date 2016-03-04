@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
   # already belong to.
   def index
     offer_categories = Offer.where(name: params[:offer_name])
-                       .joins(:categories).pluck('DISTINCT(categories.name)')
+                       .joins(:categories).pluck('DISTINCT(categories.name_de)')
 
     respond_with offer_categories
   end

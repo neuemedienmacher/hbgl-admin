@@ -59,6 +59,7 @@
     &.internal_feedback { background-color: darkorange; }
     &.external_feedback { background-color: chocolate; }
     &.paused { background-color: grey; }
+    &.dozing { background-color: grey; }
   }
 
   ul.StateMachine--EventList {

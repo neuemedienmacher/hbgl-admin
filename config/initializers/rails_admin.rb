@@ -34,6 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
     Subscription SectionFilter NextStep SolutionCategory
+    LogicVersion
   )
 
   config.actions do
@@ -101,6 +102,7 @@ RailsAdmin.config do |config|
     end
 
     field :websites
+    field :contact_people
     field :mailings_enabled
     field :aasm_state do
       read_only true
@@ -210,10 +212,11 @@ RailsAdmin.config do |config|
     list do
       field :name
       field :section_filters
-      field :location
       field :aasm_state
       field :creator
       field :expires_at
+      field :logic_version
+      field :location
       field :approved_at
       field :organizations do
         searchable :name
@@ -293,6 +296,7 @@ RailsAdmin.config do |config|
       inverse_of :offers
     end
     field :expires_at
+    field :logic_version
     field :aasm_state do
       read_only true
       help false
@@ -343,6 +347,11 @@ RailsAdmin.config do |config|
     end
     field :gender
     field :academic_title
+    field :position do
+      help do
+        'Bitte nur für Orga-Kontakte auswählen! Dann aber verpflichtend.'
+      end
+    end
     field :first_name
     field :last_name
     field :operational_name do
@@ -416,16 +425,23 @@ RailsAdmin.config do |config|
 
   config.model 'Category' do
     weight(-3)
-    field :name
+    field :name_de
     field :section_filters
     field :parent
     field :sort_order
     field :visible
+    field :name_en
+    field :name_ar
+    field :name_tr
+    field :name_fr
+    field :name_pl
+    field :name_ru
+    field(:id) { read_only true }
 
     object_label_method :name_with_world_suffix_and_optional_asterisk
 
     list do
-      sort_by :name
+      sort_by :name_de
     end
 
     show do
@@ -445,6 +461,7 @@ RailsAdmin.config do |config|
     field :text_tr
     field :text_pl
     field :text_ru
+    field(:id) { read_only true }
 
     object_label_method :text_de
   end
@@ -453,6 +470,7 @@ RailsAdmin.config do |config|
     weight(-2)
     field :name
     field :parent
+    field(:id) { read_only true }
 
     list do
       sort_by :name
@@ -662,6 +680,17 @@ RailsAdmin.config do |config|
       read_only true
     end
     field :longitude do
+      read_only true
+    end
+  end
+
+  config.model 'LogicVersion' do
+    weight 3
+    field :name do
+      read_only true
+    end
+
+    field :version do
       read_only true
     end
   end
