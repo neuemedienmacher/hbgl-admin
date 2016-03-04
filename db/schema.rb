@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20160229141529) do
     t.string   "local_number",     limit: 32
     t.string   "email"
     t.boolean  "visible",                     default: true
+    t.boolean  "in_germany",                  default: true
   end
 
   add_index "locations", ["created_at"], name: "index_locations_on_created_at", using: :btree
