@@ -37,5 +37,34 @@ describe Offer do
         duplicate.aasm_state.must_equal 'initialized'
       end
     end
+
+    describe 'validations' do
+      it 'should validate that section filters of offer and categories fit '\
+         'and that the correct error messages are generated' do
+        category = FactoryGirl.create(:category)
+        category.section_filters = [filters(:family)]
+        basicOffer.categories = [category]
+        basicOffer.section_filters = [filters(:refugees)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        basicOffer.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+        basicOffer.section_filters = [filters(:family), filters(:refugees)]
+        category.section_filters = [filters(:refugees)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+        basicOffer.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        category.section_filters = [filters(:refugees), filters(:family)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_be :nil?
+      end
+    end
   end
 end
