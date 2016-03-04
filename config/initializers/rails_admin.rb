@@ -162,7 +162,16 @@ RailsAdmin.config do |config|
     field :name
     field :street
     field :addition
-    field :zip
+    field :in_germany do
+      help do
+        'Für Adressen außerhalb von Deutschland entfernen.'
+      end
+    end
+    field :zip do
+      help do
+        'Für Adressen außerhalb von Deutschland optional - ansonsten Länge von 5.'
+      end
+    end
     field :city
     field :area_code
     field :local_number
@@ -170,6 +179,9 @@ RailsAdmin.config do |config|
     field :federal_state do
       inline_add false
       inline_edit false
+      help do
+        'Für Adressen außerhalb von Deutschland optional - ansonsten Pflicht.'
+      end
     end
     field :hq
     field :visible do
