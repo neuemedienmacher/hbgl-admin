@@ -63,6 +63,9 @@ gem 'gibbon', '~> 1.2.0' # uses MailChimp API 2.0, remove version for 3.0+
 # Logging
 gem 'lograge' # opinionated slimmer logs for production
 
+# Puma server
+gem 'puma'
+
 ##############
 # JavaScript #
 ##############
