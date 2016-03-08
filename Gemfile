@@ -8,7 +8,7 @@ ruby '2.2.2'
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base' # , path: '../clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -62,6 +62,9 @@ gem 'gibbon', '~> 1.2.0' # uses MailChimp API 2.0, remove version for 3.0+
 
 # Logging
 gem 'lograge' # opinionated slimmer logs for production
+
+# Puma server
+gem 'puma'
 
 ##############
 # JavaScript #
