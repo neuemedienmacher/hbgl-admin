@@ -4,7 +4,7 @@ included_models:
   # - Website Location
   # - FederalState
   # - Opening
-  # - Category
+  - Category
   # - Email
   # - UpdateRequest
   # - LanguageFilter
@@ -42,3 +42,13 @@ settings:
     display_name: "name"
   Location:
     display_name: "name"
+  Category:
+    list:
+      fields:
+        - name_de
+        - section_filters
+        - parent
+        - sort_order
+        - visible
+      order: "created_at ASC"
+    display_name: "name_de"

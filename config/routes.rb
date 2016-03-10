@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # General Routes
   resources :offers
   resources :organizations
+  resources :categories
   resources :next_steps_offers, only: [:index]
 
   # Export

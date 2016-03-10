@@ -4,6 +4,11 @@ require ClaratBase::Engine.root.join('app', 'models', 'offer')
 class Offer < ActiveRecord::Base
   has_paper_trail
 
+  include PgSearch
+  pg_search_scope :search_by_tester, :against => [:name, :description,
+                                                  :aasm_state],
+                                     using: { tsearch: { prefix: true } }
+
   # Associations
   has_many :offer_mailings, inverse_of: :offer
   has_many :informed_emails, source: :email, through: :offer_mailings,

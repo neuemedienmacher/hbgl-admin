@@ -87,7 +87,8 @@ module IndexTable
     end
 
     def search_modify objects
-      objects.where('LOWER(name) LIKE LOWER(?)', "%#{params[:search]}%")
+      objects.search_by_tester(params[:search])
+      # objects.where('LOWER(name) LIKE LOWER(?)', "%#{params[:search]}%")
     end
   end
 end
