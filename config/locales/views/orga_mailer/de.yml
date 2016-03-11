@@ -6,19 +6,18 @@ de:
       link_url: "http://www.clarat.org"
       clarat_name: "clarat"
       paragraph_entry: |
-        kennen Sie %{root_link} schon?
-        Das ist ein neues kostenloses Portal mit Unterstützungsangeboten. Bei
-        clarat können Menschen schnell und einfach Hilfe in ihrer Nähe finden.
-        Bei clarat family findet man Hilfe für Kinder, Jugendliche und Familien.
-        Bei clarat refugees findet man Hilfe für Flüchtlinge. Man kann auch
-        Angebote von Ihnen bei clarat finden.
+        kennen Sie %{root_link} schon? Das ist ein neues
+        kostenloses Portal mit Unterstützungsangeboten. Bei clarat können
+        Menschen schnell und einfach Hilfe in ihrer Nähe finden. Bei clarat family
+        findet man Hilfe für Kinder, Jugendliche und Familien. Bei clarat refugees
+        findet man Hilfe für Flüchtlinge. Man kann auch Angebote von Ihnen bei
+        clarat finden.
       paragraph_entry_html: |
-        kennen Sie %{root_link} schon? Das ist ein neues kostenloses Portal mit
-        Unterstützungsangeboten. Bei clarat können Menschen schnell und einfach
-        Hilfe in ihrer Nähe finden. Bei <b>clarat family</b> findet man Hilfe
-        für Kinder, Jugendliche und Familien. Bei <b>clarat refugees</b> findet
-        man Hilfe für Flüchtlinge. Man kann auch Angebote von Ihnen bei clarat
-        finden.
+        schon? Das ist ein neues kostenloses Portal mit Unterstützungsangeboten.
+        Bei clarat können Menschen schnell und einfach Hilfe in ihrer Nähe
+        finden. Bei <b>clarat family</b> findet man Hilfe für Kinder,
+        Jugendliche und Familien. Bei <b>clarat refugees</b> findet man Hilfe
+        für Flüchtlinge. Man kann auch Angebote von Ihnen bei clarat finden.
       paragraph_overview_link: |
         Hier finden Sie eine Übersicht zu Ihren Angeboten bei clarat:
         %{overview_link}
@@ -42,13 +41,12 @@ de:
         in Berlin und bei clarat refugees bundesweit alle Unterstützungsangebote
         für Flüchtlinge zu erfassen.
       paragraph_explain_clarat: |
-        %{section_name} wird von der gemeinnützigen %{foundation_link}
-        aufgebaut. Wir haben zusammen mit Sprach-Experten eine leicht
-        verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit einem
-        Klick auch in weitere Sprachen (u.a. Arabisch, Russisch, Türkisch)
-        übersetzt werden. So können auch Menschen in Deutschland Hilfe finden,
-        die nicht so gut Deutsch verstehen. Mehr zu clarat erfahren Sie auf
-        unserem %{blog_link}.
+        clarat wird von der gemeinnützigen %{foundation_link}
+        aufgebaut. Wir haben zusammen mit Sprach-Experten eine leicht verständliche
+        Sprache entwickelt. Dadurch kann jedes Angebot mit einem Klick auch in
+        weitere Sprachen (u.a. Arabisch, Russisch, Türkisch) übersetzt werden.
+        So können auch Menschen in Deutschland Hilfe finden, die nicht so gut
+        Deutsch verstehen. Mehr zu clarat erfahren Sie auf unserem %{blog_link}.
       paragraph_explain_html:
         main: |
           clarat wird von der gemeinnützigen %{foundation_link} aufgebaut. Wir
@@ -57,7 +55,7 @@ de:
           Sprachen (u.a. Arabisch, Russisch, Türkisch) übersetzt werden. So
           können auch Menschen in Deutschland Hilfe finden, die nicht so gut
           Deutsch verstehen. Mehr zu clarat erfahren Sie auf unserem
-        blog: "Blog."
+        blog: "Blog"
       paragraph_improvements: |
         Haben Sie einen Vorschlag, was wir noch besser machen können? Lassen Sie
         uns wissen, was Sie über clarat denken. Wir freuen uns auf Ihr Feedback!

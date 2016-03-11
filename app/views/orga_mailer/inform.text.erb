@@ -12,39 +12,26 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 
 <%= t(".paragraph_entry",
     root_link: t('.text_link',
-               name: t(".clarat_name.#{@section_suffix}"),
-               url: t(".link_url.#{@section_suffix}"))) %>
-
+               name: t(".clarat_name"),
+               url: t(".link_url"))) %>
 <%= t(".paragraph_overview_link",
     overview_link: (t(".link_url") + @overview_href_suffix) ) %>
-
 <%= t(".paragraph_found_error") %>
-
 <%= t(".paragraph_multiple_mails") %>
-
 <%= t(".paragraph_split_explanation") %>
-
 <%= t(".paragraph_offers_missing") %>
-
 <%= t(".paragraph_explain_clarat",
     foundation_link: "Benckiser Stiftung Zukunft ( http://www.benckiser-stiftung.org/ )",
     blog_link: "Blog ( http://blog.clarat.org )") %>
-
 <%= t(".paragraph_improvements") %>
-
 Mit freundlichen Grüßen
 das clarat Team
 
 Anne Schulze
 
-clarat
+clarat gGmbH
 ein Projekt der Benckiser Stiftung Zukunft
 Französische Straße 47
 10117 Berlin
 Tel.: +49 (0)30 55 57 96 00
 http://www.clarat.org
-
-PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind.
-     Klicken Sie einfach diesen Link:
-     <%= @subscribe_href %>
-     Ansonsten erhalten sie keine E-Mails mehr von uns.
