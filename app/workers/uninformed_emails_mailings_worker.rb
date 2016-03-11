@@ -33,13 +33,14 @@ class UninformedEmailsMailingsWorker
   def informable_orga_emails
     Email.where(aasm_state: 'uninformed').select do |mail|
       mail.contact_people.select do |contact|
-        contact.position != nil &&
-        contact.organization.aasm_state == 'approved' &&
-        contact.organization.mailings_enabled &&
-        contact.organization.offers.approved.count > 0 &&
-        contact.organization.locations.count < 10 # small orga
+        !contact.position.nil? && informable_orga?(contact.organization)
       end.any?
     end
+  end
+
+  def informable_orga? orga
+    orga.aasm_state == 'approved' && orga.mailings_enabled &&
+      orga.offers.approved.count > 0 && orga.locations.count < 10
   end
   # rubocop:enable UnreachableCode
 end

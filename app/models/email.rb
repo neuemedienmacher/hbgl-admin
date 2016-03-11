@@ -47,7 +47,7 @@ class Email < ActiveRecord::Base
   # email belongs to at least one orga-contact and has a distinct orga
   def belongs_to_unique_orga_with_orga_contact?
     contact_people.where.not(position: nil).any? &&
-      contact_people.map{ |c| c.organization }.uniq.count == 1
+      contact_people.map(&:organization).uniq.count == 1
   end
 
   # required for both offer and orga mailer
