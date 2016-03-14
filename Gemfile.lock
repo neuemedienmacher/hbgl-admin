@@ -1,6 +1,7 @@
 GIT
-  remote: git://github.com/clarat-org/clarat_base.git
-  revision: a88e7d86ba0e3faa131ac83c55ef3d280947d20d
+  remote: git://github.com/efqdalton/dynamic_sitemaps.git
+  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
+  branch: adds-custom-storages
   specs:
     dynamic_sitemaps (2.0.0)
       aws-sdk
@@ -78,12 +79,12 @@ GEM
       json (>= 1.5.1)
     arel (6.0.3)
     ast (2.2.0)
-    aws-sdk (2.2.24)
-      aws-sdk-resources (= 2.2.24)
-    aws-sdk-core (2.2.24)
+    aws-sdk (2.2.26)
+      aws-sdk-resources (= 2.2.26)
+    aws-sdk-core (2.2.26)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.2.24)
-      aws-sdk-core (= 2.2.24)
+    aws-sdk-resources (2.2.26)
+      aws-sdk-core (= 2.2.26)
     bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -603,6 +604,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    unicode-display_width (0.3.1)
     uniform_notifier (1.9.0)
     warden (1.2.6)
       rack (>= 1.0)

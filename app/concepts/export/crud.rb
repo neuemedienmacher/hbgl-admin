@@ -7,24 +7,23 @@ class Export::Create < Trailblazer::Operation
   end
 
   contract do
-    property :fields
+    property :model_fields, virtual: true
 
-    def allowed_fields
-      model.column_names
-    end
-
-    validate do |form|
-      forbidden_fields = (form.fields - allowed_fields)
+    validate do |form| # TODO: doesn't validate association keys
+      forbidden_fields = (form.model_fields - model.allowed_fields)
       next if forbidden_fields.size == 0
-      errors.add(:fields, "Forbidden fields provided: #{forbidden_fields}")
+      errors.add(:base, "Forbidden fields provided: #{forbidden_fields}")
     end
   end
 
   def process(params)
-    params[:export][:fields].reject!(&:empty?)
+    # clean params of empty array entries
+    params[:export].keys.each do |key|
+      params[:export][key].reject!(&:empty?)
+    end
 
-    validate(params[:export]) do |object|
-      object.model.fields = params[:export][:fields]
+    validate(params[:export]) do |form_object|
+      form_object.model.requested_fields = params[:export]
     end
   end
 end
