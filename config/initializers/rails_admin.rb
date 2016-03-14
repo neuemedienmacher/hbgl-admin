@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
     Subscription SectionFilter NextStep SolutionCategory
-    LogicVersion
+    LogicVersion BaseOffer
   )
 
   config.actions do
@@ -219,6 +219,18 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model 'BaseOffer' do
+    weight(-4)
+    field(:id) { read_only true }
+    field :name
+
+    list do
+      field :offers
+    end
+
+    object_label_method :display_name
+  end
+
   config.model 'Offer' do
     weight(-4)
     list do
@@ -237,6 +249,7 @@ RailsAdmin.config do |config|
     end
 
     field :section_filters
+    field :base_offer
     field :name do
       css_class 'js-category-suggestions__trigger'
     end
