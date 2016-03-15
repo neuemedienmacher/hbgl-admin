@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 333582c89ec68d4be0840dd24012aa54b0fb3555
+  revision: a88e7d86ba0e3faa131ac83c55ef3d280947d20d
   specs:
     clarat_base (0.1.4)
       aasm
@@ -163,7 +163,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     docile (1.1.5)
-    domain_name (0.5.25)
+    domain_name (0.5.20160309)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.0.2)
     dotenv-rails (2.0.2)
@@ -436,7 +436,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
-    rake (11.0.1)
+    rake (11.1.1)
     redcarpet (3.3.4)
     redis (3.2.2)
     redis-namespace (1.5.2)
@@ -548,7 +548,7 @@ GEM
       json (>= 1.8.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.1)
+    unf_ext (0.0.7.2)
     uniform_notifier (1.9.0)
     warden (1.2.4)
       rack (>= 1.0)
