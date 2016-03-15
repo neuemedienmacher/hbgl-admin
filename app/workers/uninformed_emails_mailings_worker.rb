@@ -15,7 +15,7 @@ class UninformedEmailsMailingsWorker
     Offer.transaction do
       Email.transaction do
         # first send offer mailings...
-        informable_emails.find_each(&:inform!)
+        informable_offer_emails.find_each(&:inform_offers!)
         # ... then orga mailings (to avoid both for one email)
         informable_orga_emails.find_each(&:inform_orga!)
       end
@@ -24,7 +24,7 @@ class UninformedEmailsMailingsWorker
 
   private
 
-  def informable_emails
+  def informable_offer_emails
     Email.where(aasm_state: 'uninformed').uniq
       .joins(:offers).where('offers.aasm_state = ?', 'approved')
       .joins(:organizations).where('organizations.mailings_enabled = ?', true)

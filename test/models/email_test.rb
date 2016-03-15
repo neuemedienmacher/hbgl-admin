@@ -14,11 +14,37 @@ describe Email do
       email = FactoryGirl.create :email, :with_approved_and_unapproved_offer
       email.not_yet_but_soon_known_offers.count.must_equal 1
     end
+
+    describe '#informable_offers?' do
+      it 'should be true if it has approved offers & a mailings_enabled orga' do
+        email = FactoryGirl.create :email
+        offer = FactoryGirl.create :offer, :approved
+        offer.contact_people.first.update_column :email_id, email.id
+        email.organizations.first.update_column :mailings_enabled, true
+        email.send(:informable_offers?).must_equal true
+      end
+
+      it 'should be false if it has no approved offers' do
+        email = FactoryGirl.create :email
+        offer = FactoryGirl.create :offer
+        offer.contact_people.first.update_column :email_id, email.id
+        email.organizations.first.update_column :mailings_enabled, true
+        email.send(:informable_offers?).must_equal false
+      end
+
+      it 'should be false if it has no mailings_enabled orga' do
+        email = FactoryGirl.create :email
+        offer = FactoryGirl.create :offer, :approved
+        offer.contact_people.first.update_column :email_id, email.id
+        email.organizations.first.update_column :mailings_enabled, false
+        email.send(:informable_offers?).must_equal false
+      end
+    end
   end
 
   describe 'state machine' do
     describe '#inform' do
-      subject { email.inform }
+      subject { email.inform_offers }
 
       describe 'when assigned to contact people with approved offers' do
         let(:email) { FactoryGirl.create :email, :with_approved_offer }
@@ -27,6 +53,21 @@ describe Email do
           OfferMailer.stub_chain(:inform, :deliver)
           subject.must_equal true
           email.must_be :informed?
+        end
+
+        it 'wont be possible from informed' do
+          email.aasm_state = 'informed'
+          assert_raises(AASM::InvalidTransition) { subject }
+        end
+
+        it 'wont be possible from subscribed' do
+          email.aasm_state = 'subscribed'
+          assert_raises(AASM::InvalidTransition) { subject }
+        end
+
+        it 'wont be possible from unsubscribed' do
+          email.aasm_state = 'unsubscribed'
+          assert_raises(AASM::InvalidTransition) { subject }
         end
 
         it 'wont be possible if no organization is mailings_enabled' do
