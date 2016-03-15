@@ -1,9 +1,7 @@
 class OrgaMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
 
-  # Informing email addresses for the first time that they have offers listed on
-  # our platform.
-  # TODO!!
+  # Mails to organization conctacts to inform them about clarat
   # @attr email Email object this is sent to
   def inform email
     # okay, because all contact_persons belong to the same organization
