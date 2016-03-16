@@ -249,7 +249,7 @@ RailsAdmin.config do |config|
     end
 
     field :section_filters
-    field :base_offer
+    # field :base_offer
     field :name do
       css_class 'js-category-suggestions__trigger'
     end
