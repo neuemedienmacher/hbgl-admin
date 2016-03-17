@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 3d9f89110b5f97cd52c1159928af975fd7aea7c0
-  branch: feature/717-orga-mailings
+  revision: 63dae1135ca67d6ac3087e527cf90778f76e85b1
   specs:
     clarat_base (0.1.4)
       aasm
