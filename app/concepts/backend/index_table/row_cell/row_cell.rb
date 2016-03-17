@@ -1,5 +1,5 @@
-module IndexTable
-  class RowCell < Cell::ViewModel
+module Backend::IndexTable
+  class RowCell < Cell::Concept
     include ActionView::Helpers::UrlHelper
 
     def show
@@ -29,7 +29,7 @@ module IndexTable
     end
 
     def raw_data_content field
-      cell('index_table/column', model.send(field), @options).()
+      concept('backend/index_table/column_cell', model.send(field), @options).()
     end
 
     def edit_link(&block)

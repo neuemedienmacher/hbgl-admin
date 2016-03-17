@@ -1,5 +1,5 @@
 # TODO: Shorten page list if too many pages exist
-module IndexTable
+module Backend::IndexTable
   class PaginationCell < FrameworkCell
     def show
       render

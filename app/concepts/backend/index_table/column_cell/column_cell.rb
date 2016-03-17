@@ -1,5 +1,5 @@
-module IndexTable
-  class ColumnCell < Cell::ViewModel
+module Backend::IndexTable
+  class ColumnCell < Cell::Concept
     builds do |model, options|
       # Switch between different ways of displaying the cell content
       case model
@@ -32,7 +32,7 @@ module IndexTable
   class CollectionColumnCell < ColumnCell
     def show
       model.map do |element|
-        cell('index_table/association_column', element)
+        concept('backend/index_table/association_column_cell', element)
       end.join(', ')
     end
   end

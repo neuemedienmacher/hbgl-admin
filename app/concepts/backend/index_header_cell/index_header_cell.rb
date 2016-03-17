@@ -1,4 +1,4 @@
-class IndexHeaderCell < Cell::ViewModel
+class Backend::IndexHeaderCell < Cell::Concept
   property :name
 
   def show
@@ -21,7 +21,7 @@ class IndexHeaderCell < Cell::ViewModel
 
   def header_link_paths
     link_array = [self_referential_link, new_object_link, export_link]
-    options[:additional_links].each do |link|
+    options[:additional_links]&.each do |link|
       link_array.push(path: send("#{link}_path"), anchor: link.to_s.titleize)
     end
     link_array

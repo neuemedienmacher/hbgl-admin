@@ -1,6 +1,6 @@
 require 'simple_form'
 
-class ExportCell < Cell::ViewModel
+class Export::Cell < Cell::Concept
   def show
     render :new
   end

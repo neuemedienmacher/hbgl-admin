@@ -1,5 +1,5 @@
-module IndexTable
-  class FrameworkCell < Cell::ViewModel
+module Backend::IndexTable
+  class FrameworkCell < Cell::Concept
     def show
       render
     end
@@ -62,11 +62,12 @@ module IndexTable
     end
 
     def rows
-      cell 'index_table/row', {collection: index_objects}, @options
+      concept 'backend/index_table/row_cell', {collection: index_objects},
+              @options
     end
 
     def pagination
-      cell 'index_table/pagination', model, @options
+      concept 'backend/index_table/pagination_cell', model, @options
     end
 
     def pagination_needed?
