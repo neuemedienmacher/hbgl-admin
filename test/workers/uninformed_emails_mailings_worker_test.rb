@@ -40,7 +40,7 @@ class UninformedEmailsMailingsWorkerTest < ActiveSupport::TestCase
   end
 
   it 'call #inform_orga! for superior contact with informable orga if no'\
-     ' offer_mails are sent befor' do
+     ' offer_mails are sent before' do
     # Email does not have approved offers..
     email = FactoryGirl.create :email, :uninformed, :with_unapproved_offer
     email.organizations.update_all mailings_enabled: true, aasm_state: 'approved'

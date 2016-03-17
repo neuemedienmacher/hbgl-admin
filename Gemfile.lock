@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 2560d17931c76141a6a745f4897b07febceab67a
+  revision: 3d9f89110b5f97cd52c1159928af975fd7aea7c0
   branch: feature/717-orga-mailings
   specs:
     clarat_base (0.1.4)
@@ -164,7 +164,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     docile (1.1.5)
-    domain_name (0.5.20160309)
+    domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.0.2)
     dotenv-rails (2.0.2)
