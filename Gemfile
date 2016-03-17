@@ -49,6 +49,8 @@ gem 'cells'
 gem 'cells-slim'
 gem 'reform'
 gem 'reform-rails'
+gem 'roar'
+gem 'multi_json'
 
 gem 'simple_form'
 gem 'dry-validation'
@@ -103,6 +105,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-algoliasearch' # search client
   gem 'rails-assets-bootstrap'
   gem 'rails-assets-flat-ui'
+  gem 'rails-assets-d3'
 end
 
 #####################

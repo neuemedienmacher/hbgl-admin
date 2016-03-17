@@ -28,5 +28,8 @@ module Claradmin
     )
     config.autoload_paths += additional_paths
     config.eager_load_paths += additional_paths
+
+    # Trailblazer config
+    # config.cells.with_assets = [...]
   end
 end

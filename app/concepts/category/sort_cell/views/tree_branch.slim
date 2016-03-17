@@ -1,0 +1,5 @@
+li 
+  = name
+  - if child_categories?
+    ul
+      = concept('category/tree_branch', collection: child_categories)

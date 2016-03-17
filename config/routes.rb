@@ -3,7 +3,13 @@ Rails.application.routes.draw do
   # General Routes
   resources :offers
   resources :organizations
-  resources :categories
+  resources :categories do
+    collection do
+      get :sort
+      get :mindmap
+    end
+  end
+
   resources :next_steps_offers, only: [:index]
 
   # Export
@@ -19,6 +25,14 @@ Rails.application.routes.draw do
 
   # non-REST paths
   # ...
+
+  # API
+  namespace :api do
+    namespace :v1 do
+      resources :categories
+    end
+  end
+
 
   # Devise
   devise_for :users, class_name: 'User'

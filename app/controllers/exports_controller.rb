@@ -39,7 +39,6 @@ class ExportsController < ApplicationController
     Enumerator.new do |enum|
       enum << export.csv_header.to_s
 
-      #ideally you'd validate the params, skipping here for brevity
       export.csv_lines do |object_instance|
         enum << export.csv_row(object_instance).to_s
       end

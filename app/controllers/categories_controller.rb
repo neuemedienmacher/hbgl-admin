@@ -1,5 +1,15 @@
 class CategoriesController < BackendController
-  respond_to :json
+  def index
+  end
+
+  # Non-REST
+  # TODO: extract into separate controller?
+
+  def sort
+  end
+
+  def mindmap
+  end
 
   # # For admin backend: Provides a list of categories that offers with name X
   # # already belong to.
