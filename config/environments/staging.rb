@@ -113,6 +113,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'staging.clarat.org' }
   config.action_mailer.delivery_method = :smtp
   # Keep the following on FALSE unless you are explicitly testing mailings:
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 end
