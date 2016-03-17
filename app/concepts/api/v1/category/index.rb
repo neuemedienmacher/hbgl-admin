@@ -1,9 +1,7 @@
 module API::V1
   module Category
     class Index < Trailblazer::Operation
-      include Model
-      model Category, :mains
-      def mains_model(params)
+      def model
         ::Category.mains
       end
 

@@ -3,7 +3,7 @@ module API::V1
     respond_to :json
 
     def index
-      respond Category::Index
+      respond API::V1::Category::Index
     end
   end
 end
