@@ -9,15 +9,14 @@ class UninformedEmailsMailingsWorker
 
   recurrence { weekly(2).day(:monday).hour_of_day(20).minute_of_hour(30) }
 
-  # rubocop:disable UnreachableCode
   def perform
-    return # TODO: remove to reenable mailings (also rubocop, tests, cov filter)
+    # return # TODO: remove to reenable mailings (also rubocop, tests, cov filter)
     Offer.transaction do
       Email.transaction do
         # first send offer mailings...
         informable_offer_emails.find_each(&:inform_offers!)
         # ... then orga mailings (to avoid both for one email)
-        informable_orga_emails.find_each(&:inform_orga!)
+        informable_orga_emails.map(&:inform_orga!)
       end
     end
   end
@@ -42,5 +41,4 @@ class UninformedEmailsMailingsWorker
     orga.aasm_state == 'approved' && orga.mailings_enabled &&
       orga.offers.approved.count > 0 && orga.locations.count < 10
   end
-  # rubocop:enable UnreachableCode
 end

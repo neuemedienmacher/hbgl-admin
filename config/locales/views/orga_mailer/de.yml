@@ -19,15 +19,15 @@ de:
         Jugendliche und Familien. Bei <b>clarat refugees</b> findet man Hilfe
         für Flüchtlinge. Man kann auch Angebote von Ihnen bei clarat finden.
       paragraph_overview_link: |
-        Hier finden Sie eine Übersicht zu Ihren Angeboten bei clarat:
-        %{overview_link}
+        Auf dieser Seite haben Sie alle Angebote ihrer Organisation bei clarat
+        im Blick: %{overview_link}
       paragraph_overview_link_text: "Übersicht"
       paragraph_found_error: |
         Hat sich ein Fehler eingeschlichen? Dann melden Sie sich bei uns.
       paragraph_multiple_mails: |
         Wenn Sie auf Ihrer Homepage Ansprechpartner und E-Mail-Adressen zu
         einzelnen Unterstützungsangeboten angegeben haben, schreiben wir Ihre
-        Kollegen direkt an. Sie brauchen Ihnen diese E-Mail also nicht
+        Kollegen zusätzlich an. Sie brauchen Ihnen diese E-Mail also nicht
         weiterzuleiten.
       paragraph_split_explanation: |
         clarat möchte den Hilfesuchenden da abholen, wo er steht. Dazu sprechen

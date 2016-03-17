@@ -18,10 +18,11 @@
 
 %p
   kennen Sie
+  = link_to( t(".clarat_name.family_refugees"), t(".link_url.family_refugees") )
+  = t(".paragraph_entry.html",
+    offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) )
   = link_to( t(".clarat_name.#{@section_suffix}"), t(".link_url.#{@section_suffix}") )
-  = t(".paragraph_entry.#{@section_suffix}",
-    root_link: '||',
-    offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) ).split('||').last
+  finden.
 - if @singular_section
   %p
     - if @offers_teaser
@@ -49,7 +50,7 @@
     - if @offers_teaser
       = t(".list_entry_teaser_prefix.#{@offers_teaser ? 'multiple' : 'singular'}")
       %b
-        = t(".clarat_name.#{@section_suffix}")
+        = t(".clarat_name.#{section}")
       = t(".list_entry_teaser_suffix.#{@offers_teaser ? 'multiple' : 'singular'}")
     - else
       = t(".list_entry_prefix", count: @offers.count)
@@ -60,7 +61,7 @@
     - @offers.each do |offer|
       - if offer.in_section? section
         %li
-          = link_to( offer.name.strip, t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) )
+          = link_to( offer.name.strip, t(".link_url.#{section}") + '/angebote/' + (offer.slug || offer.id.to_s) )
     %p
       = t(".paragraph_overview_link_html_prefix")
       = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
@@ -68,40 +69,23 @@
 %p
   = t(".paragraph_found_error",
       section_name: t(".clarat_name.#{@section_suffix}"))
-  - if @offers_teaser
-    = t(".paragraph_split_explanation",
-        section_name: t(".clarat_name.#{@section_suffix}"))
-  - else
-    = t(".paragraph_offers_missing.#{@section_suffix}")
 %p
-  = t(".paragraph_explain_html.main",
-      section_name: t(".clarat_name.#{@section_suffix}"),
-      foundation_link: '||').split('||').first
+  - if !@singular_section
+    = t(".paragraph_split_explanation.additional")
+  - elsif @offers_teaser
+    = t(".paragraph_split_explanation.base")
+%p
+  = t(".paragraph_offers_missing")
+%p
+  = t(".paragraph_explain_html.main", foundation_link: '||').split('||').first
   = link_to 'Benckiser Stiftung Zukunft', 'http://www.benckiser-stiftung.org/'
-  = t(".paragraph_explain_html.main",
-      section_name: t(".clarat_name.#{@section_suffix}"),
-      foundation_link: '||').split('||').last
-  = t('.paragraph_explain_html.base',
-    section_name: t(".clarat_name.#{@section_suffix}"))
-  - if @section_suffix == 'family'
-    = t('.paragraph_explain_html.video')
-    = link_to 'Einführungsfilm', 'http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/'
-    = t('.paragraph_explain_html.connector')
-    = t('.paragraph_explain_html.blog')
-    = link_to 'Blog.', 'http://blog.clarat.org'
-  - elsif @section_suffix == 'refugees'
-    = t('.paragraph_explain_html.blog')
-    = link_to 'Blog.', 'http://blog.clarat.org'
-  - else
-    = t('.paragraph_explain_html.blog')
-    = link_to 'Blog', 'http://blog.clarat.org'
-    = t('.paragraph_explain_html.connector')
-    = t('.paragraph_explain_html.video')
-    = link_to 'Einführungsfilm.', 'http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/'
-
+  = t(".paragraph_explain_html.main", foundation_link: '||').split('||').last
+  = t('.paragraph_explain_html.base')
+  = link_to 'Blog', 'http://blog.clarat.org'
+  = t('.paragraph_explain_html.video')
+  = link_to 'clarat family Film.', 'http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/'
 %p
-  = t(".paragraph_improvements",
-      section_name: t(".clarat_name.#{@section_suffix}"))
+  = t(".paragraph_improvements")
 
 %p
   Mit freundlichen Grüßen
@@ -120,7 +104,7 @@
   %br
   Tel.: +49 (0)30 55 57 96 00
   %br
-  = link_to 'www.clarat.org', t(".link_url_#{@section_suffix}")
+  = link_to 'www.clarat.org', t(".link_url.family_refugees")
 
 = email_image_tag("logo_#{@section_suffix}.png")
 
@@ -128,4 +112,4 @@
   PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind. Klicken Sie einfach
   = succeed '.' do
     = link_to 'hier', @subscribe_href
-  Ansonsten erhalten sie keine Mails mehr von uns.
+  Ansonsten erhalten Sie keine Mails mehr von uns.
