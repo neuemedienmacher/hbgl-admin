@@ -2,9 +2,17 @@
 
 css:
   .node circle {
+    stroke-width: 1.5px;
+  }
+
+  .node circle.visible {
     fill: #fff;
     stroke: steelblue;
-    stroke-width: 1.5px;
+  }
+  
+  .node circle.not-visible {
+    fill: #eee;
+    stroke: darkgrey;
   }
 
   .node {
@@ -19,11 +27,10 @@ css:
 
 coffee:
   $(document).ready ->
-    mindmapContainer = $('#category-mindmap').set
     diameter = 960
 
     tree = d3.layout.tree()
-        .size([360, diameter / 2 - 120])
+        .size([358, diameter / 2 - 120])
         .separation((a, b) -> (a.parent == b.parent ? 1 : 2) / a.depth )
 
     diagonal = d3.svg.diagonal.radial()
@@ -61,7 +68,7 @@ coffee:
 
       node.append("circle")
           .attr("r", 4.5)
-          .attr("class", (d) -> if d.visible then 'visible' else 'invisible' )
+          .attr("class", (d) -> if d.visible then 'visible' else 'not-visible' )
 
       node.append("text")
           .attr("dy", ".31em")
