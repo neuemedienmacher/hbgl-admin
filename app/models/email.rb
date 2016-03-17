@@ -44,6 +44,7 @@ class Email < ActiveRecord::Base
   end
 
   def send_orga_information
+    regenerate_security_code
     OrgaMailer.inform(self).deliver
   end
 
