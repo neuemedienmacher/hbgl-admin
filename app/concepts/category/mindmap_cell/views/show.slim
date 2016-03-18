@@ -25,55 +25,115 @@ css:
     stroke-width: 1.5px;
   }
 
-coffee:
-  $(document).ready ->
-    diameter = 960
+javascript:
+  $.get('/api/v1/categories.json', function(resultArray, status) {
+    root = {
+      'name': '',
+      'visible': true,
+      'children': resultArray
+    };
 
-    tree = d3.layout.tree()
-        .size([358, diameter / 2 - 120])
-        .separation((a, b) -> (a.parent == b.parent ? 1 : 2) / a.depth )
+    var computeMaxTextSize = function(data, fontSize, fontName){
+      var maxH = 0, maxW = 0;
 
-    diagonal = d3.svg.diagonal.radial()
-        .projection((d) -> [d.y, d.x / 180 * Math.PI] )
+      var div = document.createElement('div');
+      document.body.appendChild(div);
+      $(div).css({
+        position: 'absolute',
+        left: -1000,
+        top: -1000,
+        display: 'none',
+        margin:0, 
+        padding:0
+      });
 
-    svg = d3.select("#category-mindmap").append("svg")
+      $(div).css("font", fontSize + 'px '+fontName);
+
+      data.forEach(function(d) {
+          $(div).html(d);
+          maxH = Math.max(maxH, $(div).outerHeight());
+          maxW = Math.max(maxW, $(div).outerWidth());
+      });
+
+      $(div).remove();
+      return {maxH: maxH, maxW: maxW};
+    };
+
+    var allStrings = [[]];
+    var childStrings = function(level, n) {
+        var a = allStrings[level];
+        a.push(n.name);
+        
+        if(n.children && n.children.length > 0) {
+            if(!allStrings[level+1]) {
+                allStrings[level+1] = [];
+            }
+            n.children.forEach(function(d) {
+                childStrings(level + 1, d);
+            });
+        }
+    };
+    childStrings(0, root);
+
+    var maxLevelSizes = [];
+    allStrings.forEach(function(d, i) {
+        maxLevelSizes.push(computeMaxTextSize(allStrings[i], '10', 'sans-serif'));
+    });
+    var padding = 25; // Width of the blue circle plus some spacing
+    var totalRadius = d3.sum(maxLevelSizes, function(d) { return d.maxW + padding});
+
+    var diameter = totalRadius * 2; //960;
+
+    var tree = d3.layout.tree()
+        .size([360, totalRadius])
+        .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+
+    var diagonal = d3.svg.diagonal.radial()
+        .projection(function(d,i) { return [d.y, d.x / 180 * Math.PI]; });
+
+    var svg = d3.select("#category-mindmap").append("svg")
         .attr("width", diameter)
         .attr("height", diameter - 150)
       .append("g")
-        .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+        .attr("transform", "translate(" + (diameter / 2 - 150) + "," + (diameter / 2 - 150) + ")");
+                                                          
+    var nodes = tree.nodes(root);
 
-    # d3.json("flare.json", function(error, data) {
-    #   if (error) throw error
+    // Compute cummulative sums - these will be the ring radii
+    var newDepths = maxLevelSizes.reduce(function(prev, curr, index) {
+        prev.push(prev[index] + curr.maxW + padding);                 
+        return prev;
+    },[0]);                                                      
 
-    $.get '/api/v1/categories.json', (resultArray, status) ->
-      data = 
-        name: 'clarat'
-        visible: true
-        children: resultArray
+    // Assign new radius based on depth
+    nodes.forEach(function(d) {
+        d.y = newDepths[d.depth];
+    });
 
-      nodes = tree.nodes(data)
-      links = tree.links(nodes)
+    var links = tree.links(nodes);
 
-      link = svg.selectAll(".link")
+    var link = svg.selectAll(".link")
           .data(links)
         .enter().append("path")
           .attr("class", "link")
-          .attr("d", diagonal)
+          .attr("d", diagonal);
 
-      node = svg.selectAll(".node")
+    var node = svg.selectAll(".node")
           .data(nodes)
         .enter().append("g")
           .attr("class", "node")
-          .attr("transform", (d) -> "rotate(" + (d.x - 90) + ")translate(" + d.y + ")" )
+          .attr("transform", function(d) { 
+              return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 
-      node.append("circle")
+    node.append("circle")
           .attr("r", 4.5)
-          .attr("class", (d) -> if d.visible then 'visible' else 'not-visible' )
+          .attr("class", function(d) { return d.visible ? 'visible' : 'not-visible' });
 
-      node.append("text")
+    node.append("text")
           .attr("dy", ".31em")
-          .attr("text-anchor", (d) -> if (d.x < 180) then "start" else "end" )
-          .attr("transform", (d) -> if (d.x < 180) then "translate(8)" else "rotate(180)translate(-8)" )
-          .text((d) -> d.name )
+          .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+          .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+          .text(function(d) { return d.name; });
 
-      d3.select(self.frameElement).style("height", diameter - 150 + "px")
+    d3.select(self.frameElement).style("height", diameter - 150 + "px");
+  });

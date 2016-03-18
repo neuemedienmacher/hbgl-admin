@@ -9,7 +9,9 @@ module API::V1
 
         property :name
         property :visible
-        collection :children, extend: Show
+        collection :children, extend: Show, if: (lambda do |opts|
+          opts[:represented].children.any?
+        end)
       end
 
       class Index < Roar::Decorator
