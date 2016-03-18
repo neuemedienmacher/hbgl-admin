@@ -4,6 +4,7 @@
 # = require bootstrap
 # = require flat-ui
 # = require d3
+# = require nestable2
 #
 # = require vendor/js-mindmap
 # = require vendor/raphael-min

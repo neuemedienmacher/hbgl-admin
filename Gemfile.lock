@@ -411,6 +411,8 @@ GEM
       rails-assets-ev-emitter (~> 1.0.0)
     rails-assets-jquery (2.1.4)
     rails-assets-lodash (4.6.1)
+    rails-assets-nestable2 (1.2.3)
+      rails-assets-jquery (>= 1.7.2)
     rails-assets-qtip2 (2.2.1)
       rails-assets-imagesloaded (>= 3.0.0)
       rails-assets-jquery (>= 1.6.0)
@@ -692,6 +694,7 @@ DEPENDENCIES
   rails-assets-flat-ui!
   rails-assets-jquery!
   rails-assets-lodash!
+  rails-assets-nestable2!
   rails-assets-qtip2!
   rails-assets-shariff!
   rails-erd

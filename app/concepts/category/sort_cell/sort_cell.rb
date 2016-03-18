@@ -26,4 +26,8 @@ class Category::TreeBranch < Category::SortCell
   def child_categories
     model.children
   end
+
+  def item_data
+    {id: model.id}
+  end
 end

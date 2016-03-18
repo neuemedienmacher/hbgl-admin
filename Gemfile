@@ -106,6 +106,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
   gem 'rails-assets-flat-ui'
   gem 'rails-assets-d3'
+  gem 'rails-assets-nestable2'
 end
 
 #####################
