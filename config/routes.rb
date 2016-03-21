@@ -29,7 +29,11 @@ Rails.application.routes.draw do
   # API
   namespace :api do
     namespace :v1 do
-      resources :categories
+      resources :categories do
+        collection do
+          put 'sort'
+        end
+      end
     end
   end
 
