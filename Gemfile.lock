@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 63dae1135ca67d6ac3087e527cf90778f76e85b1
+  revision: 02807c3d7f752e16588b9f1951ce9929f05835a9
+  branch: feature/708-remove-fields-from-location
   specs:
     clarat_base (0.1.4)
       aasm
