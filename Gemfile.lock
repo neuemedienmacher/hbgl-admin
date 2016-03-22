@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 63dae1135ca67d6ac3087e527cf90778f76e85b1
+  revision: b9b15c7691d2c5bb4b5a3464d08e6400d3d5193e
+  branch: feature/740-resurrect-worker
   specs:
     clarat_base (0.1.4)
       aasm
