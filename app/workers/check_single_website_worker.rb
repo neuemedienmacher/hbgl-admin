@@ -7,8 +7,14 @@ class CheckSingleWebsiteWorker
 
   def perform website_id
     website = Website.find(website_id)
-    if website_unreachable? website
-      expire_and_create_asana_tasks website
+    if check_website_unreachable? website
+      # expire if it was unreachable (a week) before
+      expire_and_create_asana_tasks website if website.unreachable?
+      # always flip unreachable boolean
+      website.update_columns unreachable: !website.unreachable
+    else
+      # reset yellow card when website was unreachable and is reachable now
+      website.update_columns unreachable: false if website.unreachable?
     end
   end
 
@@ -28,7 +34,7 @@ class CheckSingleWebsiteWorker
     end
   end
 
-  def website_unreachable? website
+  def check_website_unreachable? website
     # get website and check for error codes
     response = HTTParty.get(website.url)
     if !response || response.code >= 400 # everything above 400 is an error
