@@ -1,8 +1,5 @@
 class Export::Create < Trailblazer::Operation
-  include Model
-  model Export, :create
-
-  def create_model(params)
+  def model!(params)
     Export.new(params[:object_name].titleize.constantize)
   end
 

@@ -2,7 +2,7 @@ module API::V1
   module Category
     class Sort < Trailblazer::Operation
       attr_reader :update_count
-      def model
+      def model!
         ::Category
       end
 

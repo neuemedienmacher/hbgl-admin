@@ -1,12 +1,8 @@
 module API::V1
-  module Category
+  module Location
     module Representer
       class Show < API::V1::Default::Representer::Show
-        property :name
-        property :visible
-        collection :children, extend: Show, if: (lambda do |opts|
-          opts[:represented].children.any?
-        end)
+        property :display_name, as: :label
       end
 
       class Index < API::V1::Default::Representer::Index

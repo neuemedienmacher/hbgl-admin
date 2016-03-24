@@ -8,4 +8,8 @@ class OffersController < BackendController
   def new
     form Offer::Create
   end
+
+  def create
+    run Offer::Create
+  end
 end

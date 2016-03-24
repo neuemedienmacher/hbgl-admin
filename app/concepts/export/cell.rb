@@ -1,5 +1,3 @@
-require 'simple_form'
-
 class Export::Cell < Cell::Concept
   def show
     render :new
@@ -7,20 +5,7 @@ class Export::Cell < Cell::Concept
 
   private
 
-  ### Form Rendering helpers ###
-
-  include ActionView::Helpers::FormHelper
-  include SimpleForm::ActionViewExtensions::FormHelper
-
-  def dom_class(record, prefix = nil)
-    ActionView::RecordIdentifier.dom_class(record, prefix)
-  end
-
-  def dom_id(record, prefix = nil)
-    ActionView::RecordIdentifier.dom_id(record, prefix)
-  end
-
-  ### / Form Rendering helpers ###
+  include Cell::SimpleFormCell
 
   def form &block
     simple_form_for(model, url: exports_path(object_name: object_name), &block)

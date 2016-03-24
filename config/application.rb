@@ -25,11 +25,13 @@ module Claradmin
     additional_paths = %W(
       #{config.root}/app/workers
       #{config.root}/app/concepts
+      #{config.root}/app/lib/claradmin
     )
     config.autoload_paths += additional_paths
     config.eager_load_paths += additional_paths
 
     # Trailblazer config
-    # config.cells.with_assets = [...]
+    # config.cells.with_assets = ['backend/form_fields/filtering_select_cell']
+    config.assets.paths += ['app/concepts/abackend/form_fields/filtering_select_cell/views']
   end
 end

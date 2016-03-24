@@ -34,6 +34,7 @@ Rails.application.routes.draw do
           put 'sort'
         end
       end
+      resources :locations, only: [:index]
     end
   end
 
