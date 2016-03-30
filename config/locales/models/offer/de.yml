@@ -30,5 +30,7 @@ de:
         als SPoC markiert sein
       category_for_section_filter_needed: |
         benötigt mindestens eine '%{world}' Kategorie
+      section_filter_for_category_needed: |
+        die Kategorie '%{category}' hat nicht die passenden clarat-Welten
       no_more_than_10_next_steps: |
         dürfen nicht mehr als 10 sein

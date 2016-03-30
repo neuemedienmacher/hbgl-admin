@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310123539) do
+ActiveRecord::Schema.define(version: 20160321120917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,24 +177,21 @@ ActiveRecord::Schema.define(version: 20160310123539) do
   add_index "keywords_offers", ["offer_id"], name: "index_keywords_offers_on_offer_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "street",                                     null: false
+    t.string   "street",                          null: false
     t.text     "addition"
-    t.string   "zip",                                        null: false
-    t.string   "city",                                       null: false
+    t.string   "zip",                             null: false
+    t.string   "city",                            null: false
     t.boolean  "hq"
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "organization_id",                            null: false
-    t.integer  "federal_state_id",                           null: false
+    t.integer  "organization_id",                 null: false
+    t.integer  "federal_state_id",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "display_name",                               null: false
-    t.string   "area_code",        limit: 6
-    t.string   "local_number",     limit: 32
-    t.string   "email"
-    t.boolean  "visible",                     default: true
-    t.boolean  "in_germany",                  default: true
+    t.string   "display_name",                    null: false
+    t.boolean  "visible",          default: true
+    t.boolean  "in_germany",       default: true
   end
 
   add_index "locations", ["created_at"], name: "index_locations_on_created_at", using: :btree
