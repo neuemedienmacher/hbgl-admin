@@ -22,4 +22,9 @@ class Offer::NewCell < Cell::Concept
     concept 'backend/form_fields/field_cell', model,
             as: :filtering_select, f: f, field: field
   end
+
+  def filtering_multiselect_field f, field
+    concept 'backend/form_fields/field_cell', model,
+            as: :filtering_multiselect, f: f, field: field
+  end
 end

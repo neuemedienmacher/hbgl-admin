@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         end
       end
       resources :locations, only: [:index]
+      resources :organizations, only: [:index]
     end
   end
 
