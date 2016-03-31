@@ -84,3 +84,147 @@ $(document).on 'rails_admin.dom_ready', ->
                 , (response) ->
                   console.log response
               )
+
+
+
+  # APRIL FOOLS SECTION
+  # TODO: remove this and all occurences of 'js-april-fools' in rails_admin.rb
+  today = new Date()
+  if today.getDate() is 1 and today.getMonth() is 3
+    # BY KONSTANTIN
+
+    # Titeländerung & Hover Erklärung
+    makeFlash = (message, selector) ->
+      $(selector).append(
+        '<div class="alert alert-info alert-dismissible"><button class="close" data-dismiss="alert" type="button">x</button>'+message+'</div>'
+      )
+
+    $('.navbar-header a').html('Claradmin 1.5 <small>KI-Edition</small>').off('click.april-fools').on(
+      'click.april-fools', (e) ->
+        unless $('.navbar-fixed-top .alert').length
+          makeFlash(
+            "Das clarat Entwicklerteam freut sich, euch die erste Teilversion des neuen Backend 2.0 präsentieren zu können. Natürlich befindet sich das Meiste noch in der Konzeption, aber wir haben schon ein paar Features dafür entwickelt. Besonders stolz sind wir auf einen neuen Deep-Learning-Algorithmus, der clarat mit einer grundlegenden KI ausstattet und uns in Zukunft viel Arbeit abnehmen wird!",
+            '.navbar-fixed-top'
+          )
+        e.preventDefault()
+        false
+    )
+
+    # Say please!
+    handleResponse = (handledResponse, e) ->
+      if document.failsafe # in case something goes wrong
+        return true
+      if /(jetzt|flott|sofort|mach)/i.test handledResponse
+        alert("Nein, so nicht!")
+        document.cookie = "pissedOffAI=true;"
+        showApologyAlert()
+        e.preventDefault()
+        return false
+      else if /bitte/i.test handledResponse
+        return true
+      else
+        handleResponse(
+          window.prompt("Nein, das war's nicht. Probier's nochmal."), e
+        )
+
+    $('a').off('click.april-fools-please').on 'click.april-fools-please', (e) ->
+      if e.target.className.includes('navbar-brand')
+        return true
+      if document.cookie.includes "pissedOffAI=true"
+        e.preventDefault()
+        return false
+      else
+        if Math.random() <= 0.1 # 10% chance
+          pleaseQuery = switch Math.floor(Math.random() * 5)
+            when 0
+              "Ständig kommandiert ihr mich nur rum. Sag doch mal bitte!"
+            when 1
+              "Klar kannst du da hin. Wie heißt das Zauberwörtchen?"
+            when 2
+              "Da lass ich dich nur mit dem Zauberwörtchen hin."
+            when 3
+              "Wie sagt man?"
+            else
+              'Immer werd ich nur herumkommandiert… Versuch\'s mal mit nem "bitte".'
+          response = window.prompt pleaseQuery
+          handleResponse response, e
+
+    # Don't piss off the computer
+    $(document).off('click.april-fools-po').on 'click.april-fools-po', (e) ->
+      if document.cookie.includes "pissedOffAI=true"
+        if (e.target.id is 'april-fools-apology--input') or e.target.className.includes('close')
+          return true
+
+        window.scrollTo(0,0)
+        alert switch Math.floor(Math.random() * 3)
+          when 0
+            "So nicht mein Freund. Entschuldige dich erstmal."
+          when 1
+            "Das hättest du wohl gerne. Erst eine Entschuldigung."
+          else
+            "Nicht ohne eine Entschuldigung."
+
+        e.preventDefault()
+        return false
+
+    showApologyAlert = ->
+      $('.page-header').append(
+        '<div class="alert alert-danger alert-dismissible" id="april-fools-apology">
+          <button class="close" data-dismiss="alert" type="button">x</button>
+          Ich erwarte eine Entschuldigung!
+          <input id="april-fools-apology--input" autofocus="autofocus" />
+        </div>'
+      )
+    if document.cookie.includes("pissedOffAI=true") and not $('#april-fools-apology--input').length
+      showApologyAlert()
+
+    $(document).off('keyup').on 'keyup', '#april-fools-apology--input', (e) ->
+      if document.cookie.includes("pissedOffAI=true")
+        if /(entschuldigung|tschuldige|sorry|tut mir leid)/i.test e.currentTarget.value
+          document.cookie = "pissedOffAI=false;"
+          $('#april-fools-apology').remove()
+          alert('Geht doch.')
+
+
+    # Offer Name
+
+    $('#offer_name').off('blur.april-fools').on 'blur.april-fools', (e) ->
+      if $('#april-fools-name').length
+        $('#april-fools-name').remove()
+      if Math.random() <= 0.3 # 30% chance
+        doubt = switch Math.floor(Math.random() * 3)
+          when 0
+            "Hmm… KI hier. Der Offer-Name sieht aber noch nicht so wirklich peppig aus."
+          when 1
+            "Hmm willst du den Titel wirklick SO lassen? Klingt so lasch…"
+          else
+            "Na ich weiß ja nicht… So richtig fetzt der Name noch nicht."
+
+        $('#offer_name').after(
+          "<span style='margin-left:10px' id='april-fools-name'>#{doubt}</span>"
+        )
+
+
+    # BY NILS
+    # K: Achtung, Text wird wiederholt ausgegeben, wenn man vorher herum navigiert hat. Habe es etwas angepasst.
+
+    # Instant Website Checker
+    $('#website_url').off('blur.april-fools').on 'blur.april-fools', (e) ->
+      return if $('#april-fools-website').length
+      $('#website_url').after(
+        "<span style='margin-left:10px' id='april-fools-website'>Der Instant-Website-Checker hat gemeldet, dass die Seite nicht erreichbar ist. Bitte wende dich an die IT falls das Problem öfter auftritt.</span>"
+      )
+
+    # Category Entry
+    $('#category_name_de').off('blur.april-fools').on 'blur.april-fools', (e) ->
+      return if $('#april-fools-category').length
+      $('#category_name_de').after(
+        "<span style='margin-left:10px' id='april-fools-category'>Möchtest du vielleicht direkt eine Kopie für die andere Welt erzeugen? Wende dich für das Feature an die IT.</span>"
+      )
+
+    # Opening Specification
+    $('#offer_opening_specification').off('blur.april-fools').on 'blur.april-fools', (e) ->
+      return if $('#april-fools-opening-specification').length
+      $('#offer_opening_specification').after(
+        "<span style='margin-left:10px' id='april-fools-opening-specification'>Willst du nicht direkt mit HTML eine eigene Seite in diesem Feld nachbauen? Wende dich an die IT falls du Fragen zu HTML hast.</span>"
+      )
