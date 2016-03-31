@@ -84,3 +84,34 @@ $(document).on 'rails_admin.dom_ready', ->
                 , (response) ->
                   console.log response
               )
+
+  # TODO: remove this and all occurences of 'js-april-fools' in rails_admin.rb
+  april_fools_input = $(".js-april-fools input")
+  if april_fools_input.length
+    elem = $("<span style='margin-left:10px'></span>")
+
+    if document.URL.indexOf('website') > 0
+      display = "Der Instant-Website-Checker hat gemeldet, dass die Seite nicht erreichbar ist. Bitte wende dich an die IT falls das Problem öfter auftritt."
+    else if document.URL.indexOf('category') > 0
+      display = "Möchtest du vielleicht direkt eine Kopie für die andere Welt erzeugen? Wende dich für das Feature an die IT."
+    else
+      display = ""
+
+    april_fools_input.on 'blur', (e) ->
+      if display.length
+        $(april_fools_input).after elem
+        elem.html display
+
+  april_fools_area = $(".js-april-fools textarea")
+  if april_fools_area.length
+    elem = $("<span style='margin-left:10px'></span>")
+
+    if document.URL.indexOf('offer') > 0
+      display = "Willst du nicht direkt mit HTML eine eigene Seite in diesem Feld nachbauen? Wende dich an die IT falls du Fragen zu HTML hast."
+    else
+      display = ""
+
+    april_fools_area.on 'blur', (e) ->
+      if display.length
+        $(april_fools_area).after elem
+        elem.html display
