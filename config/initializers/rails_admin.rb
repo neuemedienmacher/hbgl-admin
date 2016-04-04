@@ -140,9 +140,7 @@ RailsAdmin.config do |config|
   config.label_methods << :url
   config.model 'Website' do
     field :host
-    field :url do
-      css_class 'js-april-fools'
-    end
+    field :url
 
     show do
       field :offers
@@ -221,14 +219,7 @@ RailsAdmin.config do |config|
   config.model 'BaseOffer' do
     weight(-4)
     field(:id) { read_only true }
-    field :name do
-      help do
-        'BaseOffers sind toll. Sie erfüllen alle deine Wünsche und lösen alle
-        Probleme. Wenn sie richtig genutzt werden. Aber was bedeutet das schon?
-        Vielleicht braucht man ja Regeln. Aber dafür müsste man wissen, welche
-        Angebote überhaupt zusammen gehören sollen. Verflixt aber auch.'
-      end
-    end
+    field :name
 
     list do
       field :offers
@@ -318,7 +309,6 @@ RailsAdmin.config do |config|
     field :age_visible
     field :openings
     field :opening_specification do
-      css_class 'js-april-fools'
       help do
         'Bitte achtet auf eine einheitliche Ausdrucksweise.'
       end
@@ -457,9 +447,7 @@ RailsAdmin.config do |config|
 
   config.model 'Category' do
     weight(-3)
-    field :name_de do
-      css_class 'js-april-fools'
-    end
+    field :name_de
     field :section_filters
     field :parent
     field :sort_order
