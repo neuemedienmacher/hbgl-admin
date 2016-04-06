@@ -50,23 +50,23 @@ coffee:
 
         @collection.addClass("form-control be-multiselect-collection")
 
-        @addAll = $('<a href="#" class="be-multiselect-item-add-all"><span class="ui-icon ui-icon-circle-triangle-e"></span>' + @options.regional.chooseAll + '</a>')
+        @addAll = $('<a href="#" class="be-multiselect-item-add-all"><span class="glyphicon glyphicon-circle-arrow-right"></span>' + @options.regional.chooseAll + '</a>')
 
         @columns.left.html(@collection).append(@addAll)
 
         @collection.wrap('<div class="wrapper"/>')
 
 
-        @add = $('<a href="#" class="ui-icon ui-icon-circle-triangle-e be-multiselect-item-add">' + @options.regional.add + '</a>')
+        @add = $('<a href="#" class="glyphicon glyphicon-circle-arrow-right be-multiselect-item-add" title="'+ @options.regional.add + '"></a>')
         @columns.center.append(@add)
 
         if (@options.removable)
-          @remove = $('<a href="#" class="ui-icon ui-icon-circle-triangle-w be-multiselect-item-remove">' + @options.regional.remove + '</a>')
+          @remove = $('<a href="#" class="glyphicon glyphicon-circle-arrow-left be-multiselect-item-remove" title="' + @options.regional.remove + '"></a>')
           @columns.center.append(@remove)
 
         if (@options.sortable)
-          @up = $('<a href="#" class="ui-icon ui-icon-circle-triangle-n be-multiselect-item-up">' + @options.regional.up + '</a>')
-          @down = $('<a href="#" class="ui-icon ui-icon-circle-triangle-s be-multiselect-item-down">' + @options.regional.down + '</a>')
+          @up = $('<a href="#" class="glyphicon glyphicon-circle-arrow-up be-multiselect-item-up">' + @options.regional.up + '</a>')
+          @down = $('<a href="#" class="glyphicon glyphicon-circle-arrow-down be-multiselect-item-down">' + @options.regional.down + '</a>')
           @columns.center.append(@up).append(@down)
 
         @selection = $('<select class="form-control be-multiselect-selection" multiple="multiple"></select>')
@@ -74,7 +74,7 @@ coffee:
 
 
         if (@options.removable)
-          @removeAll = $('<a href="#" class="be-multiselect-item-remove-all"><span class="ui-icon ui-icon-circle-triangle-w"></span>' + @options.regional.clearAll + '</a>')
+          @removeAll = $('<a href="#" class="be-multiselect-item-remove-all"><span class="glyphicon glyphicon-circle-arrow-left"></span>' + @options.regional.clearAll + '</a>')
           @columns.right.append(@removeAll)
 
         @selection.wrap('<div class="wrapper"/>')
