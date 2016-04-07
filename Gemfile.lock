@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 718597018503fc43d55aaa79a6497bb7b05061ee
+  revision: 20c6fec82677b60a0632ab96e506ab9134f23207
+  branch: feature/716-target-audience-overhaul
   specs:
     clarat_base (0.1.4)
       aasm
@@ -72,8 +73,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    algoliasearch (1.7.0)
-      httpclient (~> 2.4)
+    algoliasearch (1.8.0)
+      httpclient (~> 2.7.1)
       json (>= 1.5.1)
     algoliasearch-rails (1.14.1)
       algoliasearch (>= 1.2.14)
@@ -195,7 +196,7 @@ GEM
       railties (>= 3.2, < 5.0)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
-    geocoder (1.3.1)
+    geocoder (1.3.3)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
@@ -443,7 +444,7 @@ GEM
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
     remotipart (1.2.1)
-    request_store (1.3.0)
+    request_store (1.3.1)
     require_all (1.3.3)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
@@ -514,7 +515,7 @@ GEM
       slim (~> 3.0)
     slop (3.6.0)
     spring (1.5.0)
-    sprockets (3.5.2)
+    sprockets (3.6.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.0.4)
