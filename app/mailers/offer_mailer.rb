@@ -18,7 +18,7 @@ class OfferMailer < ActionMailer::Base
   # a slightly higher assignment branch condition size and disable rubocop
   # rubocop:disable Metrics/AbcSize
   def inform email, offers = nil
-    # Loads of variables in preparation for view models (TODO)
+    # Loads of variables in preparation for view models
     @contact_person = email.contact_people.first
     usable_offers = offers || email.offers.approved.by_mailings_enabled_organization
     offers_per_section = get_offers_per_section usable_offers
@@ -68,12 +68,6 @@ class OfferMailer < ActionMailer::Base
     offers_per_section = offers_hash || get_offers_per_section(offers)
     offers_per_section.map { |k, v| k unless v.empty? }.compact.sort.join('_')
   end
-
-  # def contact_vague_title? contact_people
-  #   contact_person = contact_people.first
-  #   contact_people.count > 1 || !contact_person.gender ||
-  #     (!contact_person.last_name? && !contact_person.first_name?)
-  # end
 
   def are_offers_teaser? offers_per_section
     offers_per_section.values.flatten.count > MAX_OFFER_TEASER_COUNT
