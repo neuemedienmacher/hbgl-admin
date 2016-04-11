@@ -19,13 +19,6 @@
     = link_to edit_path('note', note) do
       i.icon-pencil
 
-  - ref = note.referencable
-  - if ref && ref.class == ContactPerson
-    p
-      | Referenziert:
-      - name = ref.try(:display_name) || "#{ref.class} ##{ref.id}"
-      =<> link_to name, show_path(ref.class, ref)
-
 .Notes-List
   - note.referencing_notes.find_each do |referencing_note|
     = render '/rails_admin/custom/note', note: referencing_note
