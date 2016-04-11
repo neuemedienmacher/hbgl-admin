@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: ecd6db45dcb4de70727872c9f33e0fc5402a4b41
-  branch: feature/657-remove-note-type
+  revision: 3afd94e1ee6108be23eb955930caf6694456ca5f
   specs:
     clarat_base (0.1.4)
       aasm
