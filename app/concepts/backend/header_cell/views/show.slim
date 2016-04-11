@@ -5,8 +5,8 @@ nav.navbar.navbar-default.navbar-fixed-top
         | clarat
         small< Administration
     ul.nav.navbar-nav.navbar-right
-      li= link_to 'Dashboard', root_path
-      li= link_to 'Sidekiq', '/sidekiq'
-      li= link_to 'Altes Backend', '/admin'
-      li= link_to destroy_user_session_path, method: :delete do
+      li= dashboard_link
+      li= sidekiq_link
+      li= old_backend_link
+      li= logout_link do
         span.label.label-important Abmelden
