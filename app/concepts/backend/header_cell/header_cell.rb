@@ -9,6 +9,10 @@ class Backend::HeaderCell < Cell::Concept
     link_to 'Dashboard', root_path
   end
 
+  def statistics_link
+    link_to 'Statistics', statistics_path
+  end
+
   def sidekiq_link
     link_to 'Sidekiq', '/sidekiq'
   end
