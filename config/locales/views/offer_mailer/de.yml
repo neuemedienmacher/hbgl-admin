@@ -120,24 +120,13 @@ de:
       offer_text:
         singular: "ein neues Angebot"
         multiple: "neue Angebote"
-      paragraph_entry:
-        family: |
-          erinnern Sie sich noch an %{root_link} – das Portal, auf dem Kinder,
-          Jugendliche und Familien einfach Hilfe finden? Bei clarat family hat
-          sich einiges getan und darüber möchten wir Sie auf dem Laufenden
-          halten. Inzwischen gibt es auch %{new_offers} von Ihnen.
-        refugees: |
-          erinnern Sie sich noch an %{root_link} – das Portal, auf dem
-          Flüchtlinge einfach Hilfe finden? Bei clarat refugees hat sich einiges
-          getan und darüber möchten wir Sie auf dem Laufenden halten. Inzwischen
-          gibt es auch %{new_offers} von Ihnen.
-        family_refugees: |
-          erinnern Sie sich noch an %{root_link} – das Portal bei dem alle
-          schnell und einfach Hilfe in ihrer Nähe finden? Kinder, Jugendliche
-          und Familien bei clarat family. Flüchtlinge bei clarat refugees. Bei
-          clarat family und bei clarat refugees hat sich einiges getan und
-          darüber möchten wir Sie auf dem Laufenden halten. Inzwischen gibt es
-          auch %{new_offers} von Ihnen.
+      paragraph_entry: |
+        erinnern Sie sich noch an %{root_link} – das Portal bei dem alle
+        schnell und einfach Hilfe in ihrer Nähe finden? Kinder, Jugendliche
+        und Familien bei clarat family. Flüchtlinge bei clarat refugees. Bei
+        clarat family und bei clarat refugees hat sich einiges getan und
+        darüber möchten wir Sie auf dem Laufenden halten. Inzwischen gibt es
+        auch %{new_offers} von Ihnen.
       list_entry: "Ihr neues Angebot bei %{section_name} heißt:"
       list_link_intro: "zu finden unter folgendem Link:"
       paragraph_overview_link: |
@@ -151,20 +140,11 @@ de:
       paragraph_found_error: |
         Werfen Sie doch einen kurzen Blick darauf. Haben Sie einen Fehler
         gefunden? Dann geben Sie uns gern Bescheid.
-      paragraph_offers_missing:
-        family: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, alle Unterstützungsangebote für Kinder, Jugendliche
-          und Familien in Berlin zu erfassen.
-        refugees: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, alle Unterstützungsangebote für Flüchtlinge bundesweit
-          zu erfassen.
-        family_refugees: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, bei clarat family alle Unterstützungsangebote für
-          Kinder, Jugendliche und Familien in Berlin zu erfassen. Und bei clarat
-          refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
+      paragraph_offers_missing: |
+        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
+        arbeiten daran, bei clarat family alle Unterstützungsangebote für
+        Kinder, Jugendliche und Familien in Berlin zu erfassen. Und bei clarat
+        refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
       paragraph_vision: |
-        In Zukunft finden dann hoffentlich immer mehr Menschen durch %{section_name}
+        In Zukunft finden dann hoffentlich immer mehr Menschen durch clarat
         einfach und schnell Ihre Hilfe.
