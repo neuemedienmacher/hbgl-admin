@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 3afd94e1ee6108be23eb955930caf6694456ca5f
+  revision: f10b07db0e265c4be641b7f832aeb11e9ec6283b
   specs:
     clarat_base (0.1.4)
       aasm
@@ -72,7 +72,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    algoliasearch (1.8.0)
+    algoliasearch (1.8.1)
       httpclient (~> 2.7.1)
       json (>= 1.5.1)
     algoliasearch-rails (1.14.1)
