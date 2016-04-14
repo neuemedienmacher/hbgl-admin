@@ -8,7 +8,7 @@ class Export::Cell < Cell::Concept
   include Cell::SimpleFormCell
 
   def form &block
-    simple_form_for(model, url: exports_path(object_name: object_name), &block)
+    simple_form_for(model, as: :export, url: exports_path(object_name: object_name), &block)
   end
 
   def object_name

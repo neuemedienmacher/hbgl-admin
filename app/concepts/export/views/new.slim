@@ -1,8 +1,8 @@
 = form do |f|
-  
+
   = f.collection_check_boxes :model_fields, base_columns, :first, :last
   = f.error :fields
-  
+
   - associations.each do |association|
     fieldset
       legend= association.name.to_s.titleize
@@ -11,4 +11,4 @@
                                      columns_for_association(association),
                                      :first, :last
 
-  = f.submit
+  = f.submit value: 'Exportieren'
