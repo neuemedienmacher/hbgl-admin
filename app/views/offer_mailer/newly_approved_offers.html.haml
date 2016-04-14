@@ -17,14 +17,17 @@
       = @contact_person.first_name
 %p
   erinnern Sie sich noch an
-  = link_to( t(".clarat_name.#{@section_suffix}"), t(".link_url.#{@section_suffix}") )
-  = t(".paragraph_entry.#{@section_suffix}",
+  = link_to( t(".clarat_name.family_refugees"), t(".link_url.family_refugees") )
+  = t(".paragraph_entry",
       root_link: '||',
       new_offers: t(".offer_text.#{@offer ? 'singular' : 'multiple'}") ).split('||').last
 
 - if @offer
   %p
-    = t(".list_entry", section_name: t(".clarat_name.#{@section_suffix}"))
+    = t(".list_entry", section_name: '||').split('||').first
+    %b
+      = t(".clarat_name.#{@section_suffix}")
+    heißt:
     %p
       = link_to( @offer.name.strip, @offer_href)
     %p
@@ -50,9 +53,9 @@
   %p
     = t(".paragraph_found_error")
 %p
-  = t(".paragraph_offers_missing.#{@section_suffix}")
+  = t(".paragraph_offers_missing")
 %p
-  = t(".paragraph_vision", section_name: t(".clarat_name.#{@section_suffix}"))
+  = t(".paragraph_vision")
 %p
   Mit freundlichen Grüßen
   %br
