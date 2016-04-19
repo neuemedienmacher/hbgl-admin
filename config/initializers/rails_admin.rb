@@ -408,10 +408,6 @@ RailsAdmin.config do |config|
     clone_config do
       custom_method :partial_dup
     end
-
-    show do
-      field :referencing_notes
-    end
   end
 
   config.model 'Opening' do
