@@ -89,7 +89,9 @@ RailsAdmin.config do |config|
       css_class 'js-count-character'
     end
     field :notes
-    field :locations
+    field :locations do
+      removable true
+    end
     field :legal_form
     field :charitable
     field :accredited_institution
@@ -102,7 +104,9 @@ RailsAdmin.config do |config|
     end
 
     field :websites
-    field :contact_people
+    field :contact_people do
+      removable true
+    end
     field :mailings_enabled
     field :aasm_state do
       read_only true
