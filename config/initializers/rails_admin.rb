@@ -173,9 +173,6 @@ RailsAdmin.config do |config|
       end
     end
     field :city
-    field :area_code
-    field :local_number
-    field :email
     field :federal_state do
       inline_add false
       inline_edit false
@@ -410,10 +407,6 @@ RailsAdmin.config do |config|
     end
     clone_config do
       custom_method :partial_dup
-    end
-
-    show do
-      field :referencing_notes
     end
   end
 

@@ -3,8 +3,10 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter "/test/"
-  add_filter "/app/workers/subscribed_emails_mailings_worker.rb"
-  add_filter "/app/workers/uninformed_emails_mailings_worker.rb"
+  # add_filter "/app/workers/subscribed_emails_mailings_worker.rb"
+  # add_filter "/app/workers/uninformed_emails_mailings_worker.rb"
+  add_filter "/app/workers/check_websites_worker.rb"
+  add_filter "/app/workers/check_single_website_worker.rb"
   minimum_coverage 100
 end
 require 'codeclimate-test-reporter'
@@ -33,7 +35,6 @@ Dir[Rails.root.join('test/support/matchers/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/support/modules/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/support/spec_helpers/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/features/*.rb')].each { |f| require f }
-# TODO: is this how it should be???
 Dir[Rails.root.join('test/workers/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/objects/*.rb')].each { |f| require f }
 Dir[Rails.root.join('test/models/*.rb')].each { |f| require f }

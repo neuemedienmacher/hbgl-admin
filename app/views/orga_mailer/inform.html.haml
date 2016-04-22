@@ -1,0 +1,62 @@
+%p
+  - if @vague_title
+    Sehr geehrte Damen und Herren,
+  - elsif @contact_person.last_name?
+    - if @contact_person.gender == 'male'
+      Lieber Herr
+    - else
+      Liebe Frau
+    = succeed ',' do
+      = @contact_person.last_name
+  - elsif @contact_person.first_name?
+    - if @contact_person.gender == 'male'
+      Lieber
+    - else
+      Liebe
+    = succeed ',' do
+      = @contact_person.first_name
+
+%p
+  kennen Sie
+  = link_to( t(".clarat_name"), t(".link_url") )
+  = t(".paragraph_entry_html")
+%p
+  = t(".paragraph_overview_link", overview_link: '||').split('||').first
+  = link_to( t(".paragraph_overview_link_text"), t(".link_url") + @overview_href_suffix )
+%p
+  = t(".paragraph_found_error")
+%p
+  = t(".paragraph_multiple_mails")
+%p
+  = t(".paragraph_split_explanation")
+%p
+  = t(".paragraph_offers_missing")
+%p
+  = t(".paragraph_explain_html.main", foundation_link: '||').split('||').first
+  = link_to 'Benckiser Stiftung Zukunft', 'http://www.benckiser-stiftung.org/'
+  = t(".paragraph_explain_html.main", foundation_link: '||').split('||').last
+  = link_to( t('.paragraph_explain_html.blog'), 'http://blog.clarat.org')
+  = '.'
+%p
+  = t(".paragraph_improvements")
+
+%p
+  Mit freundlichen Grüßen
+  %br
+  das clarat Team
+
+%p
+  Anne Schulze
+
+%p
+  clarat gGmbH
+  %br
+  Französische Straße 47
+  %br
+  10117 Berlin
+  %br
+  Tel.: +49 (0)30 55 57 96 00
+  %br
+  = link_to 'www.clarat.org', t(".link_url")
+
+= email_image_tag("logo_family_refugees.png")

@@ -10,10 +10,10 @@ Lieber<%- else %>
 Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- end %>
 
-<%= t(".paragraph_entry.#{@section_suffix}",
+<%= t(".paragraph_entry",
     root_link: t('.text_link',
-               name: t(".clarat_name.#{@section_suffix}"),
-               url: t(".link_url.#{@section_suffix}")),
+               name: t(".clarat_name.family_refugees"),
+               url: t(".link_url.family_refugees")),
     new_offers: t(".offer_text.#{@offer ? 'singular' : 'multiple'}") ) %>
 <%- if @offer %>
 <%= t(".list_entry",
@@ -37,16 +37,14 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- end %>
 <%= t(".paragraph_found_error") %>
 <%- end %>
-<%= t(".paragraph_offers_missing.#{@section_suffix}") %>
-<%= t(".paragraph_vision",
-    section_name: t(".clarat_name.#{@section_suffix}")) %>
+<%= t(".paragraph_offers_missing") %>
+<%= t(".paragraph_vision") %>
 Mit freundlichen Grüßen
 das clarat Team
 
 Anne Schulze
 
-clarat
-ein Projekt der Benckiser Stiftung Zukunft
+clarat gGmbH
 Französische Straße 47
 10117 Berlin
 Tel.: +49 (0)30 55 57 96 00

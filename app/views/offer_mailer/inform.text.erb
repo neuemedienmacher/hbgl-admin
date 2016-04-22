@@ -10,7 +10,10 @@ Lieber<%- else %>
 Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- end %>
 
-<%= t(".paragraph_entry.#{@section_suffix}",
+<%= t(".paragraph_entry.text",
+    base_link: t('.text_link',
+               name: t(".clarat_name.family_refugees"),
+               url: t(".link_url.family_refugees")),
     root_link: t('.text_link',
                name: t(".clarat_name.#{@section_suffix}"),
                url: t(".link_url.#{@section_suffix}")),
@@ -38,7 +41,7 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- # Start multiple offer lists: one offer or multiple offers each %>
 <%- @section_suffix.split('_').each do |section| %>
 <%- if @offers_teaser %>
-<%= t(".list_entry_teaser_prefix.#{@offers_teaser ? 'multiple' : 'singular'}") + t(".clarat_name.#{@section_suffix}") + t(".list_entry_teaser_suffix.#{@offers_teaser ? 'multiple' : 'singular'}") %>
+<%= t(".list_entry_teaser_prefix.#{@offers_teaser ? 'multiple' : 'singular'}") + t(".clarat_name.#{section}") + t(".list_entry_teaser_suffix.#{@offers_teaser ? 'multiple' : 'singular'}") %>
 <%- else %>
 <%= t(".list_entry_prefix", count: @offers.count) + t(".clarat_name.#{section}") + t(".list_entry_suffix", count: @offers.count) %>
 <%- end %>
@@ -58,33 +61,29 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- end # end else %>
 <%= t(".paragraph_found_error",
     section_name: t(".clarat_name.#{@section_suffix}")) %>
-<%- if @offers_teaser %>
-<%= t(".paragraph_split_explanation",
-    section_name: t(".clarat_name.#{@section_suffix}")) %>
-<%- else %>
-<%= t(".paragraph_offers_missing.#{@section_suffix}") %>
+<%- if !@singular_section %>
+<%= t(".paragraph_split_explanation.additional") %>
+<%- elsif @offers_teaser %>
+<%= t(".paragraph_split_explanation.base") %>
 <%- end %>
-<%= t(".paragraph_explain_clarat.#{@section_suffix}",
-    section_name: t(".clarat_name.#{@section_suffix}"),
+<%= t(".paragraph_offers_missing") %>
+<%= t(".paragraph_explain_clarat",
     foundation_link: "Benckiser Stiftung Zukunft ( http://www.benckiser-stiftung.org/ )",
-    family_movie_link: "Einführungsfilm ( http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/ )",
-    clarat_movie_link: "clarat family Film ( http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/ )",
+    family_movie_link: "clarat family Film ( http://blog.clarat.org/einfach-hilfe-finden-unser-projekt-clarat-im-kurzfilm/ )",
     blog_link: "Blog ( http://blog.clarat.org )") %>
-<%= t(".paragraph_improvements",
-    section_name: t(".clarat_name.#{@section_suffix}")) %>
+<%= t(".paragraph_improvements") %>
 Mit freundlichen Grüßen
 das clarat Team
 
 Anne Schulze
 
-clarat
-ein Projekt der Benckiser Stiftung Zukunft
+clarat gGmbH
 Französische Straße 47
 10117 Berlin
 Tel.: +49 (0)30 55 57 96 00
 http://www.clarat.org
 
 PS Gerne informieren wir Sie, wenn mehr Ihrer Angebote online sind.
-     Klicken Sie einfach diesen Link:
+     Klicken Sie einfach auf diesen Link:
      <%= @subscribe_href %>
-     Ansonsten erhalten sie keine E-Mails mehr von uns.
+     Ansonsten erhalten Sie keine E-Mails mehr von uns.

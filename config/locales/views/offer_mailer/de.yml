@@ -19,27 +19,19 @@ de:
         other: "Ihre Angebote"
       offer_text_multiple: "sehr viele Angebote von Ihnen"
       paragraph_entry:
-        family: |
-          kennen Sie %{root_link} schon?
-          Das ist ein neues kostenloses Portal mit Unterstützungsangeboten. Für
-          Kinder, Jugendliche und Familien, die Hilfe suchen. Und für Menschen,
-          die anderen helfen wollen. Bei clarat family können alle schnell und
-          einfach Hilfe in ihrer Nähe finden. Man kann auch %{offer_text}
-          bei clarat family finden.
-        refugees: |
-          kennen Sie %{root_link} schon?
-          Das ist ein neues kostenloses Portal mit Unterstützungsangeboten für
-          Flüchtlinge, die Hilfe suchen. Und für Menschen, die Flüchtlingen
-          helfen wollen. Bei clarat refugees können alle schnell und einfach
-          Hilfe in ihrer Nähe finden. Man kann auch %{offer_text}
-          bei clarat refugees finden.
-        family_refugees: |
-          kennen Sie %{root_link} schon?
+        text: |
+          kennen Sie %{base_link} schon?
           Das ist ein neues kostenloses Portal mit Unterstützungsangeboten. Bei
           clarat family findet man Hilfe für Kinder, Jugendliche und Familien.
-          Bei clarat refugees findet man Hilfe für Flüchtlinge. Bei clarat
-          können alle schnell und einfach Hilfe in ihrer Nähe finden. Man kann
-          auch %{offer_text} bei clarat finden.
+          Bei clarat refugees findet man Hilfe für Flüchtlinge. Bei clarat können
+          alle schnell und einfach Hilfe in ihrer Nähe finden. Man kann auch
+          %{offer_text} bei %{root_link} finden.
+        html: |
+          schon? Das ist ein neues kostenloses Portal mit
+          Unterstützungsangeboten. Bei clarat family findet man Hilfe für
+          Kinder, Jugendliche und Familien. Bei clarat refugees findet man Hilfe
+          für Flüchtlinge. Bei clarat können alle schnell und einfach Hilfe in
+          ihrer Nähe finden. Man kann auch %{offer_text} bei
       list_entry_prefix:
         one: "Ihr Angebot bei "
         other: "Ihre Angebote bei "
@@ -60,79 +52,54 @@ de:
       paragraph_overview_link_html_prefix: "In Ihrer persönlichen"
       paragraph_overview_link_html_suffix: "haben Sie alle Ihre Angebote bei %{section_name} im Blick."
       paragraph_overview_link_text: "Übersicht"
-      paragraph_split_explanation: |
-        %{section_name} möchte den Hilfesuchenden da abholen, wo er steht. Dazu
-        sprechen wir den Hilfesuchenden direkt an. Und wir greifen sein
-        konkretes Problem auf. Das führt dazu, dass manchmal aus einem Ihrer
-        Angebote bei %{section_name} mehrere Angebote werden.
+      paragraph_split_explanation:
+        base: |
+          clarat möchte den Hilfesuchenden da abholen, wo er steht. Dazu
+          sprechen wir den Hilfesuchenden direkt an. Und wir greifen sein
+          konkretes Problem auf. Das führt dazu, dass manchmal aus einem Ihrer
+          Angebote bei clarat mehrere Angebote werden.
+        additional: |
+          clarat möchte den Hilfesuchenden da abholen, wo er steht. Dazu
+          sprechen wir den Hilfesuchenden direkt an. Und wir greifen sein
+          konkretes Problem auf. Das führt dazu, dass manchmal aus einem Ihrer
+          Angebote bei clarat mehrere Angebote werden. Das kann dann auch dazu
+          führen, dass eines Ihrer Angebote über clarat family und clarat
+          refugees zu finden ist.
       paragraph_found_error: |
         Hat sich ein Fehler eingeschlichen? Dann melden Sie sich bei uns. Nur so
         kann %{section_name} besser werden.
-      paragraph_offers_missing:
-        family: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, alle Unterstützungsangebote für Kinder, Jugendliche
-          und Familien in Berlin zu erfassen.
-        refugees: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, alle Unterstützungsangebote für Flüchtlinge bundesweit
-          zu erfassen.
-        family_refugees: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, in clarat family alle Unterstützungsangebote für
-          Kinder, Jugendliche und Familien in Berlin zu erfassen. Und in clarat
-          refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
-      paragraph_explain_clarat:
-        family: |
-          %{section_name} wird von der gemeinnützigen %{foundation_link}
-          aufgebaut. %{section_name} soll Menschen den Zugang zu Hilfe
-          erleichtern. Dazu haben wir eine Website mit einfacher Navigation
-          gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
-          verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit
-          einem Klick auch in weitere Sprachen (u.a. Arabisch, Russisch,
-          Türkisch) übersetzt werden. So können auch Menschen in Deutschland
-          Hilfe finden, die nicht so gut Deutsch verstehen. Mehr zu
-          %{section_name} erfahren Sie in unserem kurzen %{family_movie_link}
-          oder auf unserem %{blog_link}.
-        refugees: |
-          %{section_name} wird von der gemeinnützigen %{foundation_link}
-          aufgebaut. %{section_name} soll Menschen den Zugang zu Hilfe
-          erleichtern. Dazu haben wir eine Website mit einfacher Navigation
-          gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
-          verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit
-          einem Klick auch in weitere Sprachen (u.a. Arabisch, Russisch,
-          Türkisch) übersetzt werden. So können auch Menschen in Deutschland
-          Hilfe finden, die nicht so gut Deutsch verstehen. Mehr zu
-          %{section_name} erfahren Sie auf unserem %{blog_link}.
-        family_refugees: |
-          %{section_name} wird von der gemeinnützigen %{foundation_link}
-          aufgebaut. %{section_name} soll Menschen den Zugang zu Hilfe
-          erleichtern. Dazu haben wir eine Website mit einfacher Navigation
-          gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
-          verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit
-          einem Klick auch in weitere Sprachen (u.a. Arabisch, Russisch,
-          Türkisch) übersetzt werden. So können auch Menschen in Deutschland
-          Hilfe finden, die nicht so gut Deutsch verstehen. Mehr zu
-          %{section_name} erfahren Sie auf unserem %{blog_link} oder in
-          unserem kurzen %{clarat_movie_link}.
+      paragraph_offers_missing: |
+        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
+        arbeiten daran, bei clarat family alle Unterstützungsangebote für
+        Kinder, Jugendliche und Familien in Berlin zu erfassen. Und bei clarat
+        refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
+      paragraph_explain_clarat: |
+        clarat wird von der gemeinnützigen %{foundation_link}
+        aufgebaut. clarat soll Menschen den Zugang zu Hilfe
+        erleichtern. Dazu haben wir eine Website mit einfacher Navigation
+        gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
+        verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit
+        einem Klick auch in weitere Sprachen (u.a. Arabisch, Russisch,
+        Türkisch) übersetzt werden. So können auch Menschen in Deutschland
+        Hilfe finden, die nicht so gut Deutsch verstehen. Mehr zu clarat
+        erfahren Sie auf unserem %{blog_link} oder in unserem kurzen
+        %{family_movie_link}.
       paragraph_explain_html:
         main: |
-          %{section_name} wird von der gemeinnützigen %{foundation_link}
-          aufgebaut. %{section_name} soll Menschen den Zugang zu Hilfe
-          erleichtern. Dazu haben wir eine Website mit einfacher Navigation
-          gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
-          verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit
-          einem Klick auch in weitere Sprachen (u.a. Arabisch, Russisch,
-          Türkisch) übersetzt werden. So können auch Menschen in Deutschland
-          Hilfe finden, die nicht so gut Deutsch verstehen.
-        base: "Mehr zu %{section_name} erfahren Sie"
-        blog: "auf unserem"
-        video: "in unserem kurzen"
-        connector: "oder "
+          clarat wird von der gemeinnützigen %{foundation_link}
+          aufgebaut. clarat soll Menschen den Zugang zu Hilfe erleichtern. Dazu
+          haben wir eine Website mit einfacher Navigation gestaltet. Und wir
+          haben zusammen mit Sprach-Experten eine leicht verständliche Sprache
+          entwickelt. Dadurch kann jedes Angebot mit einem Klick auch in weitere
+          Sprachen (u.a. Arabisch, Russisch, Türkisch) übersetzt werden. So
+          können auch Menschen in Deutschland Hilfe finden, die nicht so gut
+          Deutsch verstehen.
+        base: "Mehr zu clarat erfahren Sie auf unserem"
+        video: "oder in unserem kurzen"
       paragraph_improvements: |
         Haben Sie einen Vorschlag, was wir noch besser machen können? Lassen
-        Sie uns wissen, was Sie über %{section_name} denken. Wir freuen uns auf
-        Ihr Feedback!
+        Sie uns wissen, was Sie über clarat denken. Wir freuen uns auf Ihr
+        Feedback!
     newly_approved_offers:
       subject:
         one: "%{name} – Ihr neues Angebot"
@@ -153,24 +120,13 @@ de:
       offer_text:
         singular: "ein neues Angebot"
         multiple: "neue Angebote"
-      paragraph_entry:
-        family: |
-          erinnern Sie sich noch an %{root_link} – das Portal, auf dem Kinder,
-          Jugendliche und Familien einfach Hilfe finden? Bei clarat family hat
-          sich einiges getan und darüber möchten wir Sie auf dem Laufenden
-          halten. Inzwischen gibt es auch %{new_offers} von Ihnen.
-        refugees: |
-          erinnern Sie sich noch an %{root_link} – das Portal, auf dem
-          Flüchtlinge einfach Hilfe finden? Bei clarat refugees hat sich einiges
-          getan und darüber möchten wir Sie auf dem Laufenden halten. Inzwischen
-          gibt es auch %{new_offers} von Ihnen.
-        family_refugees: |
-          erinnern Sie sich noch an %{root_link} – das Portal bei dem alle
-          schnell und einfach Hilfe in ihrer Nähe finden? Kinder, Jugendliche
-          und Familien bei clarat family. Flüchtlinge bei clarat refugees. Bei
-          clarat family und bei clarat refugees hat sich einiges getan und
-          darüber möchten wir Sie auf dem Laufenden halten. Inzwischen gibt es
-          auch %{new_offers} von Ihnen.
+      paragraph_entry: |
+        erinnern Sie sich noch an %{root_link} – das Portal bei dem alle
+        schnell und einfach Hilfe in ihrer Nähe finden? Kinder, Jugendliche
+        und Familien bei clarat family. Flüchtlinge bei clarat refugees. Bei
+        clarat family und bei clarat refugees hat sich einiges getan und
+        darüber möchten wir Sie auf dem Laufenden halten. Inzwischen gibt es
+        auch %{new_offers} von Ihnen.
       list_entry: "Ihr neues Angebot bei %{section_name} heißt:"
       list_link_intro: "zu finden unter folgendem Link:"
       paragraph_overview_link: |
@@ -184,20 +140,11 @@ de:
       paragraph_found_error: |
         Werfen Sie doch einen kurzen Blick darauf. Haben Sie einen Fehler
         gefunden? Dann geben Sie uns gern Bescheid.
-      paragraph_offers_missing:
-        family: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, alle Unterstützungsangebote für Kinder, Jugendliche
-          und Familien in Berlin zu erfassen.
-        refugees: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, alle Unterstützungsangebote für Flüchtlinge bundesweit
-          zu erfassen.
-        family_refugees: |
-          Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-          arbeiten daran, in clarat family alle Unterstützungsangebote für
-          Kinder, Jugendliche und Familien in Berlin zu erfassen. Und in clarat
-          refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
+      paragraph_offers_missing: |
+        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
+        arbeiten daran, bei clarat family alle Unterstützungsangebote für
+        Kinder, Jugendliche und Familien in Berlin zu erfassen. Und bei clarat
+        refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
       paragraph_vision: |
-        In Zukunft finden dann hoffentlich immer mehr Menschen durch %{section_name}
+        In Zukunft finden dann hoffentlich immer mehr Menschen durch clarat
         einfach und schnell Ihre Hilfe.
