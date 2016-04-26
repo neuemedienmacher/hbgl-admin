@@ -88,7 +88,7 @@ module Backend::IndexTable
     end
 
     def search_modify objects
-      objects.search_by_tester(params[:search])
+      objects.search_everything(params[:search])
       # objects.where('LOWER(name) LIKE LOWER(?)', "%#{params[:search]}%")
     end
   end
