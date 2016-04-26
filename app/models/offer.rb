@@ -11,8 +11,11 @@ class Offer < ActiveRecord::Base
 
   pg_search_scope :search_everything,
     # TODO we might have to limit this for performance
-    :against => attribute_names.map(&:to_sym),
-    #:against => [:name, :description, :aasm_state, :encounter],
+    #:against => attribute_names.map(&:to_sym),
+    :against => [
+      :name, :description, :aasm_state, :encounter, :old_next_steps,
+      :legal_information, :code_word
+    ],
     :associated_against => {
       :section_filters => :name,
       :organizations => :name,
@@ -20,7 +23,8 @@ class Offer < ActiveRecord::Base
       :categories => :name_de,
       :solution_category => :name,
       :target_audience_filters => :name,
-      :trait_filters => :name
+      :trait_filters => :name,
+      :logic_version => :name
     },
     using: { tsearch: { prefix: true } }
 
