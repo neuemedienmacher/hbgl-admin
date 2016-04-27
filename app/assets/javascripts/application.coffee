@@ -9,3 +9,6 @@
 # = require vendor/js-mindmap
 # = require vendor/raphael-min
 #
+# = require modules/namespace
+# = require modules/statistics/bar_graph
+#
