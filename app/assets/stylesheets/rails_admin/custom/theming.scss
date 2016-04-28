@@ -84,3 +84,14 @@
     display: none;
   }
 }
+
+// To make sure no existing contact people can be added
+#organization_contact_person_ids_field, #organization_location_ids_field {
+  .ra-multiselect-search,
+  .ra-multiselect-collection,
+  .ra-multiselect-left,
+  .ra-multiselect-center,
+  .ra-multiselect-item-add {
+    display: none;
+  }
+}

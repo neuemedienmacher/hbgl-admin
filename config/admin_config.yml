@@ -1,0 +1,54 @@
+included_models:
+  - Offer
+  - Organization
+  # - Website Location
+  # - FederalState
+  # - Opening
+  - Category
+  # - Email
+  # - UpdateRequest
+  # - LanguageFilter
+  # - User
+  # - Contact
+  # - Keyword
+  # - Definition
+  # - Note
+  # - Area
+  # - SearchLocation
+  # - ContactPerson
+  # - Subscription
+  # - SectionFilter
+settings:
+  Organization:
+    list:
+      fields:
+        - offers_count
+        - name
+        - aasm_state
+        - creator
+        - locations_count
+        - created_by
+      order: "offers_count ASC"
+    display_name: "name"
+  Offer:
+    list:
+      fields:
+        - name
+        - section_filters
+        - location
+        - aasm_state
+        - creator
+      order: "created_at ASC"
+    display_name: "name"
+  Location:
+    display_name: "name"
+  Category:
+    list:
+      fields:
+        - name_de
+        - section_filters
+        - parent
+        - sort_order
+        - visible
+      order: "created_at ASC"
+    display_name: "name_de"

@@ -1,20 +1,55 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
-  resources :offers, only: [:show]
-  resources :organizations, only: [:show]
+  resources :offers
+  resources :organizations
+  resources :categories do
+    collection do
+      get :sort
+      get :mindmap
+    end
+  end
+
   resources :next_steps_offers, only: [:index]
+
+  # Export
+  get 'exports/:object_name/new', controller: :exports, action: :new,
+                                  as: :new_export
+  post 'exports/:object_name/', controller: :exports, action: :create,
+                                as: :exports
 
   get 'categories/:offer_name', controller: :categories, action: :index
   get 'next_steps_offers/:offer_id', controller: :next_steps_offers,
                                      action: :index
   put 'next_steps_offers/:id', controller: :next_steps_offers, action: :update
 
+  # Stats
+  get '/statistics' => 'statistics#index', as: :statistics
+  get '/statistics/:topic(/:user_id)' => 'statistics#show', as: :statistic
+
+  # non-REST paths
+  # ...
+
+  # API
+  namespace :api do
+    namespace :v1 do
+      resources :categories do
+        collection do
+          put 'sort'
+        end
+      end
+      resources :locations, only: [:index]
+      resources :organizations, only: [:index]
+      get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
+    end
+  end
+
+
   # Devise
   devise_for :users, class_name: 'User'
   devise_scope :user do
     authenticated do
-      root to: 'rails_admin/main#dashboard'
+      root to: 'dashboards#main'
     end
 
     unauthenticated do

@@ -3,7 +3,7 @@
 de:
   admin:
     home:
-      name: "Home"
+      name: "Backend 2.0 (Beta)"
     pagination:
       previous: "&laquo; Zurück"
       next: "Vor &raquo;"

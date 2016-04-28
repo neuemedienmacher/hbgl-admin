@@ -4,6 +4,40 @@ require ClaratBase::Engine.root.join('app', 'models', 'offer')
 class Offer < ActiveRecord::Base
   has_paper_trail
 
+  include PgSearch
+  pg_search_scope :search_by_tester, :against => [:name, :description,
+                                                  :aasm_state],
+                                     using: { tsearch: { prefix: true } }
+
+  pg_search_scope :search_everything,
+    # TODO we might have to limit this for performance
+    #:against => attribute_names.map(&:to_sym),
+    :against => [
+      :name, :description, :aasm_state, :encounter, :old_next_steps,
+      :legal_information, :code_word
+    ],
+    :associated_against => {
+      :section_filters => :name,
+      :organizations => :name,
+      :location => :display_name,
+      :categories => :name_de,
+      :solution_category => :name,
+      :target_audience_filters => :name,
+      :trait_filters => :name,
+      :logic_version => :name
+    },
+    using: { tsearch: { prefix: true } }
+
+  # TODO? This works in console but raises ArgumentError otherwise...
+  # pg_search_scope :search_dynamic, (lambda do |name_part, query|
+  #   raise ArgumentError unless respond_to?(name_part)
+  #   {
+  #     :against => name_part,
+  #     :query => query,
+  #     using: { tsearch: { prefix: true } }
+  #   }
+  # end)
+
   # Associations
   has_many :offer_mailings, inverse_of: :offer
   has_many :informed_emails, source: :email, through: :offer_mailings,
