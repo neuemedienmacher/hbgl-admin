@@ -96,9 +96,7 @@ RailsAdmin.config do |config|
     field :founded
     field :umbrella
     field :slug do
-      read_only do
-        bindings[:object].new_record?
-      end
+      read_only true
     end
 
     field :websites
@@ -270,9 +268,7 @@ RailsAdmin.config do |config|
     end
     field :encounter
     field :slug do
-      read_only do
-        bindings[:object].new_record?
-      end
+      read_only true
     end
     field :location
     field :area
