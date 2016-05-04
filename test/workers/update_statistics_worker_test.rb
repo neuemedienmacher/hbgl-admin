@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 class UpdateStatisticsWorkerTest < ActiveSupport::TestCase
@@ -69,13 +70,13 @@ class UpdateStatisticsWorkerTest < ActiveSupport::TestCase
   describe '#perform' do
     it 'should call #create_statistics_for 4 times' do
       UpdateStatisticsWorker.any_instance.expects(:create_statistics_for)
-        .with('created', 'offer', current_date)
+                            .with('created', 'offer', current_date)
       UpdateStatisticsWorker.any_instance.expects(:create_statistics_for)
-        .with('approved', 'offer', current_date)
+                            .with('approved', 'offer', current_date)
       UpdateStatisticsWorker.any_instance.expects(:create_statistics_for)
-        .with('created', 'organization', current_date)
+                            .with('created', 'organization', current_date)
       UpdateStatisticsWorker.any_instance.expects(:create_statistics_for)
-        .with('approved', 'organization', current_date)
+                            .with('approved', 'organization', current_date)
       worker.perform
     end
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Backend::IndexHeaderCell < Cell::Concept
   property :name
 
@@ -32,15 +33,15 @@ class Backend::IndexHeaderCell < Cell::Concept
   end
 
   def self_referential_link
-    {path: send("#{pluralized_name}_path"), anchor: 'Liste'}
+    { path: send("#{pluralized_name}_path"), anchor: 'Liste' }
   end
 
   def new_object_link
-    {path: send("new_#{name.downcase}_path"), anchor: 'Neuet Teil'}
+    { path: send("new_#{name.downcase}_path"), anchor: 'Neuet Teil' }
   end
 
   def export_link
-    {path: new_export_path(object_name: name.downcase), anchor: 'Export'}
+    { path: new_export_path(object_name: name.downcase), anchor: 'Export' }
   end
 
   def active_class link

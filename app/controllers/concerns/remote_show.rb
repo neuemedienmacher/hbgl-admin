@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module RemoteShow
   def redirect_to_remote_show controller
     host = Rails.application.secrets.frontend_host

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Export::Cell < Cell::Concept
   def show
     render :new
@@ -26,7 +27,7 @@ class Export::Cell < Cell::Concept
   end
 
   def associations
-    model.model.object.reflect_on_all_associations()
+    model.model.object.reflect_on_all_associations
   end
 
   def columns_for_association association

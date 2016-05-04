@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class OfferMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
   MAX_OFFER_TEASER_COUNT = 5

@@ -1,0 +1,62 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "4a32d61cf8a5bfc2f7537ec31ee4124a858bf49ba89312f5f03012ec86bb3575",
+      "message": "User controlled method execution",
+      "file": "lib/rails_admin_extensions/rails_admin_change_state.rb",
+      "line": 27,
+      "link": "http://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "@object.send(\"#{params[:event]}!\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ChangeState",
+        "method": null
+      },
+      "user_input": "params[:event]",
+      "confidence": "High",
+      "note": "Correct, but we trust our admins..."
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "5b511ee95fc3f81a764a6ad925633eea278f23a4b5445ab939651e21de47adb1",
+      "message": "Unsafe reflection method constantize called with parameter value",
+      "file": "app/controllers/backend_controller.rb",
+      "line": 13,
+      "link": "http://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[\"controller\"].singularize.titleize.constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BackendController",
+        "method": "backend_setup"
+      },
+      "user_input": "params[\"controller\"].singularize.titleize",
+      "confidence": "High",
+      "note": "Also Correct. We have faith"
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "e2eba2dc2d6941495512ebfb755ce1eca9431ec33df4917667c31bf7e9a40745",
+      "message": "Unescaped parameter value",
+      "file": "app/views/categories/index.html.slim",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "concept(\"backend/index_table/framework_cell\", params[\"controller\"].singularize.titleize.constantize, :settings => AdminConfig.settings[params[\"controller\"].singularize.titleize]).call",
+      "render_path": [{"type":"controller","class":"CategoriesController","method":"index","line":5,"file":"app/controllers/categories_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "categories/index"
+      },
+      "user_input": "params[\"controller\"].singularize.titleize.constantize",
+      "confidence": "Weak",
+      "note": ""
+    }
+  ],
+  "updated": "2016-05-04 15:51:28 +0200",
+  "brakeman_version": "3.2.1"
+}

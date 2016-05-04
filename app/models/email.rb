@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Monkeypatch clarat_base Email
 require ClaratBase::Engine.root.join('app', 'models', 'email')
 
@@ -40,12 +41,12 @@ class Email < ActiveRecord::Base
 
   def send_offer_information
     regenerate_security_code
-    OfferMailer.inform(self).deliver
+    OfferMailer.inform(self).deliver_now
   end
 
   def send_orga_information
     regenerate_security_code
-    OrgaMailer.inform(self).deliver
+    OrgaMailer.inform(self).deliver_now
   end
 
   # required for both offer and orga mailer
@@ -65,7 +66,7 @@ class Email < ActiveRecord::Base
 
   def informable_offers?
     contact_people.joins(:offers)
-      .where('offers.aasm_state = ?', 'approved').any? &&
+                  .where('offers.aasm_state = ?', 'approved').any? &&
       organizations.where(mailings_enabled: true).any?
   end
 end

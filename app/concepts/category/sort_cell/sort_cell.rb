@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Category::SortCell < Cell::Concept
   def show
     render :sort_cell
@@ -28,6 +29,6 @@ class Category::TreeBranch < Category::SortCell
   end
 
   def item_data
-    {id: model.id}
+    { id: model.id }
   end
 end

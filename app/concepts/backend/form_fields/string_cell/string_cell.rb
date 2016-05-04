@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Backend::FormFields
   class StringCell < Cell::Concept
     def show

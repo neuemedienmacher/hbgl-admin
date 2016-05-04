@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Offer::NewCell < Cell::Concept
   property :name
 

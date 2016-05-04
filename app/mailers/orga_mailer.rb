@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class OrgaMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
 

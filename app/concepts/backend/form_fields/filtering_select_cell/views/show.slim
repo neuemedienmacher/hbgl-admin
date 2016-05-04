@@ -149,7 +149,7 @@ coffee:
       $select.filteringSelect($select.data('options'))
 
 
-= form.input_field field_name, collection: collection, 
+= form.input_field field_name, collection: collection,
                                data: { options: js_data },
                                class: 'filtering-select-field form-control'
 /, { selected: selected_id, include_blank: true }, field.html_attributes.reverse_merge({ data: { filteringselect: true, options: js_data.to_json }, placeholder: 'Suche' })
