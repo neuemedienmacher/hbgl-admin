@@ -390,6 +390,16 @@ RailsAdmin.config do |config|
     field :local_number_2
     field :fax_area_code
     field :fax_number
+    field :street do
+      help do
+        "Ausschließlich bei Angeboten mit dem Encounter 'Brief' verwenden."
+      end
+    end
+    field :zip_and_city do
+      help do
+        "Ausschließlich bei Angeboten mit dem Encounter 'Brief' verwenden."
+      end
+    end
     field :email
     field :organization
     field :offers

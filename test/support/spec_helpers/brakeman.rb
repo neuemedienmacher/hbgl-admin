@@ -2,7 +2,7 @@ require 'json'
 
 # Check security
 def brakeman
-  puts "\n\n[Brakeman] Security Audit:\n".underline
+  puts "\n\n[Brakeman] Security Audit:\n".underscore
   output = %x( bundle exec rake test:brakeman )
   result = JSON.parse output
 
@@ -22,7 +22,7 @@ def brakeman
   if warnings == 0 && errors == 0
     puts 'Basic security is ensured.'.green
   else
-    puts 'Security issues exist.'.red.underline
+    puts 'Security issues exist.'.red.underscore
     $suite_failing = true
   end
 end

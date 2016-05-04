@@ -43,4 +43,9 @@ Rails.application.configure do
 
   # Test case ordering
   config.active_support.test_order = :random
+
+  # DIsable papertrail for speed
+  config.after_initialize do
+    PaperTrail.enabled = false
+  end
 end
