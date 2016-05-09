@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
     Subscription SectionFilter NextStep SolutionCategory
-    LogicVersion
+    LogicVersion BaseOffer
   )
 
   config.actions do
@@ -96,9 +96,7 @@ RailsAdmin.config do |config|
     field :founded
     field :umbrella
     field :slug do
-      read_only do
-        bindings[:object].new_record?
-      end
+      read_only true
     end
 
     field :websites
@@ -162,14 +160,23 @@ RailsAdmin.config do |config|
     field :name
     field :street
     field :addition
-    field :zip
+    field :in_germany do
+      help do
+        'Für Adressen außerhalb von Deutschland entfernen.'
+      end
+    end
+    field :zip do
+      help do
+        'Für Adressen außerhalb von Deutschland optional - ansonsten Länge von 5.'
+      end
+    end
     field :city
-    field :area_code
-    field :local_number
-    field :email
     field :federal_state do
       inline_add false
       inline_edit false
+      help do
+        'Für Adressen außerhalb von Deutschland optional - ansonsten Pflicht.'
+      end
     end
     field :hq
     field :visible do
@@ -207,6 +214,18 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model 'BaseOffer' do
+    weight(-4)
+    field(:id) { read_only true }
+    field :name
+
+    list do
+      field :offers
+    end
+
+    object_label_method :display_name
+  end
+
   config.model 'Offer' do
     weight(-4)
     list do
@@ -225,6 +244,7 @@ RailsAdmin.config do |config|
     end
 
     field :section_filters
+    # field :base_offer
     field :name do
       css_class 'js-category-suggestions__trigger'
     end
@@ -248,9 +268,7 @@ RailsAdmin.config do |config|
     end
     field :encounter
     field :slug do
-      read_only do
-        bindings[:object].new_record?
-      end
+      read_only true
     end
     field :location
     field :area
@@ -372,6 +390,16 @@ RailsAdmin.config do |config|
     field :local_number_2
     field :fax_area_code
     field :fax_number
+    field :street do
+      help do
+        "Ausschließlich bei Angeboten mit dem Encounter 'Brief' verwenden."
+      end
+    end
+    field :zip_and_city do
+      help do
+        "Ausschließlich bei Angeboten mit dem Encounter 'Brief' verwenden."
+      end
+    end
     field :email
     field :organization
     field :offers
@@ -385,10 +413,6 @@ RailsAdmin.config do |config|
     end
     clone_config do
       custom_method :partial_dup
-    end
-
-    show do
-      field :referencing_notes
     end
   end
 
@@ -425,16 +449,23 @@ RailsAdmin.config do |config|
 
   config.model 'Category' do
     weight(-3)
-    field :name
+    field :name_de
     field :section_filters
     field :parent
     field :sort_order
     field :visible
+    field :name_en
+    field :name_ar
+    field :name_tr
+    field :name_fr
+    field :name_pl
+    field :name_ru
+    field(:id) { read_only true }
 
     object_label_method :name_with_world_suffix_and_optional_asterisk
 
     list do
-      sort_by :name
+      sort_by :name_de
     end
 
     show do
@@ -454,6 +485,7 @@ RailsAdmin.config do |config|
     field :text_tr
     field :text_pl
     field :text_ru
+    field(:id) { read_only true }
 
     object_label_method :text_de
   end
@@ -462,6 +494,7 @@ RailsAdmin.config do |config|
     weight(-2)
     field :name
     field :parent
+    field(:id) { read_only true }
 
     list do
       sort_by :name

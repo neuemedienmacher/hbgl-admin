@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'ffaker'
 
 FactoryGirl.define do
   factory :category do
-    name { FFaker::Lorem.words(rand(2..3)).join(' ').titleize }
+    name_de { FFaker::Lorem.words(rand(2..3)).join(' ').titleize }
 
     after :build do |category|
       # Filters
@@ -18,10 +19,8 @@ FactoryGirl.define do
     trait :with_dummy_translations do
       after :create do |category, _evaluator|
         (I18n.available_locales - [:de]).each do |locale|
-          CategoryTranslation.create(
-            category_id: category.id, locale: locale, source: 'GoogleTranslate',
-            name: "#{locale}(#{category.untranslated_name})"
-          )
+          category["name_#{locale}"] = "#{locale}(#{category.name_de})"
+          category.save
         end
       end
     end

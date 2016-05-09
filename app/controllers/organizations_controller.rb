@@ -1,4 +1,5 @@
-class OrganizationsController < ApplicationController
+# frozen_string_literal: true
+class OrganizationsController < BackendController
   include RemoteShow
 
   def show

@@ -1,0 +1,25 @@
+.login-screen
+  .login-icon
+    = image_tag 'http://designmodo.github.io/Flat-UI/img/icons/svg/clipboard.svg'
+    h4
+      | Login to
+      small clarAdmin
+
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'login-form'}) do |f|
+    .form-inputs
+      .form-group
+        = f.email_field :email, required: false, autofocus: true,
+                        class: 'form-control login-field',
+                        placeholder: 'Email'
+        = f.label :email, class: 'login-field-icon fui-mail'
+      .form-group
+        = f.password_field :password, required: false,
+                           class: 'form-control login-field',
+                           placeholder: 'Password'
+        = f.label :password, nil, class: 'login-field-icon fui-lock'
+      = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+
+    .form-actions
+      = f.button :submit, 'Log in', class: 'btn btn-primary btn-lg btn-block'
+
+  = render 'devise/shared/links'

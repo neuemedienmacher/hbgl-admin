@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class OfferMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
   MAX_OFFER_TEASER_COUNT = 5
@@ -18,7 +19,7 @@ class OfferMailer < ActionMailer::Base
   # a slightly higher assignment branch condition size and disable rubocop
   # rubocop:disable Metrics/AbcSize
   def inform email, offers = nil
-    # Loads of variables in preparation for view models (TODO)
+    # Loads of variables in preparation for view models
     @contact_person = email.contact_people.first
     usable_offers = offers || email.offers.approved.by_mailings_enabled_organization
     offers_per_section = get_offers_per_section usable_offers
@@ -28,7 +29,7 @@ class OfferMailer < ActionMailer::Base
     @singular_section = singular_section? @section_suffix
     @subscribe_href = get_sub_or_unsub_href email, 'subscribe'
     @overview_href_suffix = "/emails/#{email.id}/angebote"
-    @vague_title = contact_vague_title? email.contact_people
+    @vague_title = email.vague_contact_title?
 
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
   end
@@ -44,7 +45,7 @@ class OfferMailer < ActionMailer::Base
     @section_suffix = get_section_suffix offers
     @unsubscribe_href = get_sub_or_unsub_href email, 'unsubscribe'
     @offer_href = get_offer_href_for_single_offer offers.first, @section_suffix
-    @vague_title = contact_vague_title? email.contact_people
+    @vague_title = email.vague_contact_title?
     @overview_href_suffix = "/emails/#{email.id}/angebote"
 
     send_emails email, offers, :newly_approved,
@@ -67,12 +68,6 @@ class OfferMailer < ActionMailer::Base
   def get_section_suffix offers, offers_hash = nil
     offers_per_section = offers_hash || get_offers_per_section(offers)
     offers_per_section.map { |k, v| k unless v.empty? }.compact.sort.join('_')
-  end
-
-  def contact_vague_title? contact_people
-    contact_person = contact_people.first
-    contact_people.count > 1 || !contact_person.gender ||
-      (!contact_person.last_name? && !contact_person.first_name?)
   end
 
   def are_offers_teaser? offers_per_section

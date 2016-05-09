@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.3.0'
 
 ###########
 # General #
@@ -42,6 +43,22 @@ gem 'cancan' # role based auth for rails_admin
 
 gem 'devise'
 
+gem 'trailblazer'
+# gem 'trailblazer-loader'
+gem 'trailblazer-rails'
+gem 'cells'
+gem 'cells-slim'
+gem 'reform'
+gem 'reform-rails'
+gem 'roar'
+gem 'multi_json'
+
+gem 'simple_form'
+gem 'dry-validation'
+
+# Internal Search Implementation
+gem 'pg_search'
+
 ########################
 # For Heroku & Add-Ons #
 ########################
@@ -63,9 +80,12 @@ gem 'gibbon', '~> 1.2.0' # uses MailChimp API 2.0, remove version for 3.0+
 # Logging
 gem 'lograge' # opinionated slimmer logs for production
 
-##############
-# JavaScript #
-##############
+# Puma server
+gem 'puma'
+
+#############################
+# Assets: CSS /  JavaScript #
+#############################
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -84,6 +104,10 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-qtip2'
   gem 'rails-assets-shariff'
   gem 'rails-assets-algoliasearch' # search client
+  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-flat-ui'
+  gem 'rails-assets-d3'
+  gem 'rails-assets-nestable2'
 end
 
 #####################
@@ -113,7 +137,6 @@ group :test do
   gem 'memory_test_fix' # Sqlite inmemory fix
   gem 'rake'
   gem 'database_cleaner'
-  # gem 'colorize' # use this when RBP quits using `colored`
   gem 'fakeredis'
   gem 'fakeweb', '~> 1.3'
   gem 'webmock'
@@ -144,6 +167,7 @@ group :development, :test do
   gem 'rails_best_practices'
   gem 'brakeman' # security test: execute with 'brakeman'
   gem 'rubocop' # style enforcement
+  gem 'colorize' # output coloring
 
   # Code Coverage
   gem 'simplecov', require: false

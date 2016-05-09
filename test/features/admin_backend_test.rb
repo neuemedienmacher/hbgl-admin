@@ -1,4 +1,5 @@
 # encoding: UTF-8
+# frozen_string_literal: true
 require_relative '../test_helper'
 include Warden::Test::Helpers
 
@@ -404,7 +405,7 @@ feature 'Admin Backend' do
       visit rails_admin_path
       click_link 'Problem-Kategorien', match: :first
       click_link 'Neu hinzufügen', match: :first
-      fill_in 'category_name', with: 'testkategorie'
+      fill_in 'category_name_de', with: 'testkategorie'
       click_button 'Speichern'
       page.must_have_content 'benötigt mindestens eine clarat-Welt'
     end

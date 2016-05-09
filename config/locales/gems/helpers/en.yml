@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        email: "Mahl"
+        password: " "
+de:
+  activerecord:
+    attributes:
+      user:
+        email: ""
+        password: ""

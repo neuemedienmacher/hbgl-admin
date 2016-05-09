@@ -1,0 +1,6 @@
+.page-header
+  h1 Dashboard
+
+ul
+  - AdminConfig.included_models.each do |klass|
+    li= "#{klass}: #{klass.constantize.count}"
