@@ -153,6 +153,7 @@ RailsAdmin.config do |config|
       field :organization
       field :zip
       field :federal_state
+      field :street
       field :display_name
     end
     weight(-5)
