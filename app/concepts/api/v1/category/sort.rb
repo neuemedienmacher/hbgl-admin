@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 module API::V1
   module Category
     class Sort < Trailblazer::Operation
       attr_reader :update_count
-      def model!(params)
+      def model!(_params)
         ::Category
       end
 
@@ -15,7 +16,7 @@ module API::V1
       private
 
       def iterate_category_tree_and_update_order category_tree, parent_id
-        for sort_order, category_data in category_tree
+        category_tree.each do |sort_order, category_data|
           update_order_if_necessary(category_data, sort_order, parent_id)
         end
       end
@@ -38,7 +39,7 @@ module API::V1
         end
 
         if was_updated
-          @update_count = @update_count + 1
+          @update_count += 1
         end
 
         # recursion for all children

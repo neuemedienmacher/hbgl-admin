@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module API::V1
   class StatisticsController < ApplicationController
     respond_to :json

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Backend::HeaderCell < Cell::Concept
   def show
     render
@@ -22,6 +23,6 @@ class Backend::HeaderCell < Cell::Concept
   end
 
   def logout_link(&block)
-    link_to destroy_user_session_path, {method: :delete}, &block
+    link_to destroy_user_session_path, { method: :delete }, &block
   end
 end

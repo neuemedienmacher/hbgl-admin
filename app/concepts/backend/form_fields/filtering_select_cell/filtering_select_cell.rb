@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Backend::FormFields
   class FilteringSelectCell < Cell::Concept
     def show
@@ -22,7 +23,7 @@ module Backend::FormFields
     end
 
     def collection
-      [['display_name', 'id']]
+      [%w(display_name id)]
     end
   end
 end

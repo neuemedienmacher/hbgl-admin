@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
@@ -11,7 +12,7 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     later = FactoryGirl.create :offer, :approved, expires_at: today + 2.days
     Timecop.return
     Offer.any_instance.expects(:index!).once
-    OfferMailer.expect_chain(:expiring_mail, :deliver).once
+    OfferMailer.expect_chain(:expiring_mail, :deliver_now).once
     AsanaCommunicator.any_instance.expects(:create_expire_task).once
     worker.perform
     expiring.reload.must_be :expired?

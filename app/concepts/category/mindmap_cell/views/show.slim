@@ -9,7 +9,7 @@ css:
     fill: #fff;
     stroke: steelblue;
   }
-  
+
   .node circle.not-visible {
     fill: #eee;
     stroke: darkgrey;
@@ -43,8 +43,8 @@ javascript:
         left: -1000,
         top: -1000,
         display: 'none',
-        margin:0, 
-        padding:0
+        margin: 0,
+        padding: 0
       });
 
       $(div).css("font", fontSize + 'px '+fontName);
@@ -63,7 +63,7 @@ javascript:
     var childStrings = function(level, n) {
         var a = allStrings[level];
         a.push(n.name);
-        
+
         if(n.children && n.children.length > 0) {
             if(!allStrings[level+1]) {
                 allStrings[level+1] = [];
@@ -96,14 +96,14 @@ javascript:
         .attr("height", diameter - 150)
       .append("g")
         .attr("transform", "translate(" + (diameter / 2 - 150) + "," + (diameter / 2 - 150) + ")");
-                                                          
+
     var nodes = tree.nodes(root);
 
     // Compute cummulative sums - these will be the ring radii
     var newDepths = maxLevelSizes.reduce(function(prev, curr, index) {
-        prev.push(prev[index] + curr.maxW + padding);                 
+        prev.push(prev[index] + curr.maxW + padding);
         return prev;
-    },[0]);                                                      
+    },[0]);
 
     // Assign new radius based on depth
     nodes.forEach(function(d) {
@@ -122,7 +122,7 @@ javascript:
           .data(nodes)
         .enter().append("g")
           .attr("class", "node")
-          .attr("transform", function(d) { 
+          .attr("transform", function(d) {
               return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 
     node.append("circle")

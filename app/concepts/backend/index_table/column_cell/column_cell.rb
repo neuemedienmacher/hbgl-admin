@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 module Backend::IndexTable
   class ColumnCell < Cell::Concept
-    builds do |model, options|
+    builds do |model, _options|
       # Switch between different ways of displaying the cell content
       case model
       when String, Integer, NilClass

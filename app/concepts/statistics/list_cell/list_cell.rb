@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Statistics::ListCell < Cell::Concept
   def show
     render

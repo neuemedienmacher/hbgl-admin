@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
@@ -12,7 +13,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/tasks',
         projects: %w(44856824806357), workspace: '41140436022602',
-        name: 'foobar,bazfuz-9999-01-01-basicOfferName',
+        name: 'foobar,bazfuz - 9999-01-01 - fam - basicOfferName',
         notes: 'Expired: http://claradmin.herokuapp.com/admin/offer/1/edit'
       )
 

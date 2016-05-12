@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # module IndexTable
 #   class FrameworkCell < Cell::ViewModel
 #     def show

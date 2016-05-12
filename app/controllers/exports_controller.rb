@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ExportsController < ApplicationController
   include RemoteShow
 
@@ -20,7 +21,7 @@ class ExportsController < ApplicationController
   private
 
   def set_file_headers
-    file_name = "#{params[:object_name]}_export_#{Time.now}.csv"
+    file_name = "#{params[:object_name]}_export_#{Time.zone.now}.csv"
     headers['Content-Type'] = 'text/csv'
     headers['Content-disposition'] = "attachment; filename=\"#{file_name}\""
   end

@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class Backend::SidebarCell < Cell::Concept
-
   def show
     render
   end

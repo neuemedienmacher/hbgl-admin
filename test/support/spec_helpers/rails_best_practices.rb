@@ -1,6 +1,6 @@
 # Check for best practices
 def rails_best_practices
-  puts "\n\n[RailsBestPractices] Testing:\n".underline
+  puts "\n\n[RailsBestPractices] Testing:\n".underscore
   bp_analyzer = RailsBestPractices::Analyzer.new(Rails.root)
   bp_analyzer.analyze
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Backend::IndexTable
   class RowCell < Cell::Concept
     include ActionView::Helpers::UrlHelper
@@ -29,7 +30,8 @@ module Backend::IndexTable
     end
 
     def raw_data_content field
-      concept('backend/index_table/column_cell', model.send(field), @options).()
+      concept('backend/index_table/column_cell', model.send(field), @options)
+        .call
     end
 
     def edit_link(&block)

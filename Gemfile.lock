@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: e851d7e75519a3bfa7d4dcf49344240be026be53
+  revision: 0b4d48da0aec8d9022ac15f186fe025ed1c96676
   specs:
     clarat_base (0.1.4)
       aasm
@@ -141,7 +141,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    concurrent-ruby (1.0.1)
+    colorize (0.7.7)
+    concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
     coveralls (0.8.13)
       json (~> 1.8)
@@ -246,7 +247,7 @@ GEM
       rack (>= 1.4.5)
     highline (1.7.8)
     hirb (0.7.3)
-    hitimes (1.2.3)
+    hitimes (1.2.4)
     hogan_assets (1.6.0)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
@@ -343,7 +344,7 @@ GEM
     nokogumbo (1.4.7)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (4.1.0)
+    paper_trail (5.0.1)
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
@@ -590,7 +591,7 @@ GEM
     thor (0.19.1)
     thread (0.2.2)
     thread_safe (0.3.5)
-    tilt (2.0.2)
+    tilt (2.0.3)
     timecop (0.8.0)
     timers (4.0.4)
       hitimes
@@ -648,6 +649,7 @@ DEPENDENCIES
   clarat_base!
   codeclimate-test-reporter
   coffee-rails (~> 4.0.0)
+  colorize
   coveralls
   dalli
   database_cleaner
