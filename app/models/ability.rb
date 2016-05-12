@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Authentication (via cancan) for rails_admin
 class Ability
   include CanCan::Ability

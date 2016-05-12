@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Worker to check bi-weekly, whether there are emails that
 # - have not yet been informed
 # - have approved offers
@@ -25,8 +26,9 @@ class UninformedEmailsMailingsWorker
 
   def informable_offer_emails
     Email.where(aasm_state: 'uninformed').uniq
-      .joins(:offers).where('offers.aasm_state = ?', 'approved')
-      .joins(:organizations).where('organizations.mailings_enabled = ?', true)
+         .joins(:offers).where('offers.aasm_state = ?', 'approved')
+         .joins(:organizations).where(
+           'organizations.mailings_enabled = ?', true)
   end
 
   def informable_orga_emails

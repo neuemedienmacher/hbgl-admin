@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # TODO: Shorten page list if too many pages exist
 module Backend::IndexTable
   class PaginationCell < FrameworkCell

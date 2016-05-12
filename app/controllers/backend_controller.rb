@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class BackendController < ApplicationController
   before_action :backend_setup
 

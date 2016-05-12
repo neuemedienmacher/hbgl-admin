@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
@@ -43,7 +44,6 @@ Rails.application.routes.draw do
       get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
     end
   end
-
 
   # Devise
   devise_for :users, class_name: 'User'

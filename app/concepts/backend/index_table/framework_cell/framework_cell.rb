@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Backend::IndexTable
   class FrameworkCell < Cell::Concept
     def show
@@ -21,8 +22,11 @@ module Backend::IndexTable
     end
 
     def current_order
-      params[:sort] ? "#{params[:sort]} #{current_direction}"
-                    : list_settings['order']
+      if params[:sort]
+        "#{params[:sort]} #{current_direction}"
+      else
+        list_settings['order']
+      end
     end
 
     def current_direction
@@ -56,13 +60,16 @@ module Backend::IndexTable
     end
 
     def sorted_link_anchor field
-      symbol_class = (current_direction == 'DESC') ? 'fui-triangle-up-small'
-                                                   : 'fui-triangle-down-small'
+      symbol_class = if current_direction == 'DESC'
+                       'fui-triangle-up-small'
+                     else
+                       'fui-triangle-down-small'
+                     end
       "<u>#{field}</u> <i class='#{symbol_class}'></i>"
     end
 
     def rows
-      concept 'backend/index_table/row_cell', {collection: index_objects},
+      concept 'backend/index_table/row_cell', { collection: index_objects },
               @options
     end
 

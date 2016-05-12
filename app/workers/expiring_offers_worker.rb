@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ExpiringOffersWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
@@ -16,7 +17,7 @@ class ExpiringOffersWorker
     end
 
     # Info E-Mail
-    OfferMailer.expiring_mail(expiring.count, expiring.pluck(:id)).deliver
+    OfferMailer.expiring_mail(expiring.count, expiring.pluck(:id)).deliver_now
 
     # Expire offers and trigger manual indexing for algolia search
     expire_and_reindex_offers expiring

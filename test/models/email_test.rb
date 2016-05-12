@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 describe Email do
@@ -50,7 +51,7 @@ describe Email do
         let(:email) { FactoryGirl.create :email, :with_approved_offer }
 
         it 'should be possible from uninformed' do
-          OfferMailer.stub_chain(:inform, :deliver)
+          OfferMailer.stub_chain(:inform, :deliver_now)
           subject.must_equal true
           email.must_be :informed?
         end
@@ -85,7 +86,7 @@ describe Email do
         end
 
         it 'should send an info email when transitioned' do
-          OfferMailer.expect_chain(:inform, :deliver)
+          OfferMailer.expect_chain(:inform, :deliver_now)
           subject
         end
       end
@@ -108,7 +109,7 @@ describe Email do
 
         it 'should be possible from uninformed' do
           email.contact_people.first.update_column :position, 'superior'
-          OrgaMailer.stub_chain(:inform, :deliver)
+          OrgaMailer.stub_chain(:inform, :deliver_now)
           subject.must_equal true
           email.must_be :informed?
         end
@@ -144,7 +145,7 @@ describe Email do
 
         it 'should send an info email when transitioned' do
           email.contact_people.first.update_column :position, 'superior'
-          OrgaMailer.expect_chain(:inform, :deliver)
+          OrgaMailer.expect_chain(:inform, :deliver_now)
           subject
         end
       end

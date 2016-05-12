@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 class SubscribedEmailsMailingsWorkerTest < ActiveSupport::TestCase
@@ -6,7 +7,7 @@ class SubscribedEmailsMailingsWorkerTest < ActiveSupport::TestCase
 
   it 'sends mailing to subscribed emails that have approved offers' do
     FactoryGirl.create :email, :subscribed, :with_approved_offer
-    OfferMailer.expect_chain(:newly_approved_offers, :deliver).once
+    OfferMailer.expect_chain(:newly_approved_offers, :deliver_now).once
     worker.perform
   end
 

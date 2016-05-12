@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 describe Ability do
   describe 'User' do
     describe 'abilities' do
-      it 'should be able to access everything as researcher 'do
+      it 'should be able to access everything as researcher' do
         user = FactoryGirl.create :researcher
         ability = Ability.new(user)
 

@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 # Non-Active-Record object to provide helper methods for exports
 class Export
-  BATCH_SIZE = 10.freeze
+  BATCH_SIZE = 10
   attr_reader :object
   attr_writer :requested_fields
 
@@ -37,7 +38,7 @@ class Export
     name == :fields
   end
 
-  def column_for_attribute name
+  def column_for_attribute(*)
     nil
   end
 
@@ -64,7 +65,7 @@ class Export
       yield :base, field_name
     end
 
-    for association_name, associated_fields_array in fields_to_process
+    fields_to_process.each do |association_name, associated_fields_array|
       associated_fields_array.map do |associated_field_name|
         yield association_name, associated_field_name
       end
@@ -72,7 +73,7 @@ class Export
   end
 
   def field_keys
-    per_requested_field { |carrier_name, field_name| field_name }
+    per_requested_field { |_carrier_name, field_name| field_name }
   end
 
   def row_headers

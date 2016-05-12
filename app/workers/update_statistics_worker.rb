@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UpdateStatisticsWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable

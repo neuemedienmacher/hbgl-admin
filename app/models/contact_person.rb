@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Monkeypatch clarat_base CotactPerson
 require ClaratBase::Engine.root.join('app', 'models', 'contact_person')
 

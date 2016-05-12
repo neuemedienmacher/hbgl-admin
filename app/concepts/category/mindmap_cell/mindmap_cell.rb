@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Category::MindmapCell < Cell::Concept
   def show
     render

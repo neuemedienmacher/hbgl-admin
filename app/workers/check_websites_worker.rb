@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CheckWebsitesWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable

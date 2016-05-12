@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'net/http'
 require 'uri'
 
@@ -8,7 +9,10 @@ class AsanaCommunicator
 
   def create_expire_task offer
     organization_names = offer.organizations.pluck(:name).join(',')
-    create_task "#{organization_names}-#{offer.expires_at}-#{offer.name}",
+    section_names = offer.section_filters.pluck(:identifier).map { |f| f.first(3) }
+                         .join(',')
+    create_task "#{organization_names} - #{offer.expires_at} - #{section_names}"\
+                " - #{offer.name}",
                 'Expired: http://claradmin.herokuapp.com/admin/offer/'\
                 "#{offer.id}/edit"
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Export::Create < Trailblazer::Operation
   def model!(params)
     Export.new(params[:object_name].titleize.constantize)
@@ -8,7 +9,7 @@ class Export::Create < Trailblazer::Operation
 
     validate do |form| # TODO: doesn't validate association keys
       forbidden_fields = (form.model_fields - model.allowed_fields)
-      next if forbidden_fields.size == 0
+      next if forbidden_fields.empty?
       errors.add(:base, "Forbidden fields provided: #{forbidden_fields}")
     end
   end
