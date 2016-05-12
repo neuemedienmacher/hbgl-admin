@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 3f04050391b20ca18799f99ca58688161cd5f7ef
+  revision: 0b4d48da0aec8d9022ac15f186fe025ed1c96676
   specs:
     clarat_base (0.1.4)
       aasm
@@ -344,7 +344,7 @@ GEM
     nokogumbo (1.4.7)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (5.0.0)
+    paper_trail (5.0.1)
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
@@ -591,7 +591,7 @@ GEM
     thor (0.19.1)
     thread (0.2.2)
     thread_safe (0.3.5)
-    tilt (2.0.2)
+    tilt (2.0.3)
     timecop (0.8.0)
     timers (4.0.4)
       hitimes
