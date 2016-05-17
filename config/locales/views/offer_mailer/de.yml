@@ -69,10 +69,12 @@ de:
         Hat sich ein Fehler eingeschlichen? Dann melden Sie sich bei uns. Nur so
         kann %{section_name} besser werden.
       paragraph_offers_missing: |
-        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-        arbeiten daran, bei clarat family alle Unterstützungsangebote für
-        Kinder, Jugendliche und Familien in Berlin zu erfassen. Und bei clarat
-        refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
+        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Oder wenn
+        es in Ihrer Stadt noch wenige Angebote bei clarat gibt. Wir arbeiten
+        daran, bei clarat family alle Unterstützungsangebote für Kinder,
+        Jugendliche und Familien in Berlin zu erfassen. Und bei clarat refugees
+        alle Unterstützungsangebote für Flüchtlinge, zunächst in Berlin, Köln
+        und Düsseldorf und bald auch bundesweit.
       paragraph_explain_clarat: |
         clarat wird von der gemeinnützigen %{foundation_link}
         aufgebaut. clarat soll Menschen den Zugang zu Hilfe
@@ -141,10 +143,12 @@ de:
         Werfen Sie doch einen kurzen Blick darauf. Haben Sie einen Fehler
         gefunden? Dann geben Sie uns gern Bescheid.
       paragraph_offers_missing: |
-        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Wir
-        arbeiten daran, bei clarat family alle Unterstützungsangebote für
-        Kinder, Jugendliche und Familien in Berlin zu erfassen. Und bei clarat
-        refugees alle Unterstützungsangebote bundesweit für Flüchtlinge.
+        Wundern Sie sich nicht, wenn noch Angebote von Ihnen fehlen. Oder wenn
+        es in Ihrer Stadt noch wenige Angebote bei clarat gibt. Wir arbeiten
+        daran, bei clarat family alle Unterstützungsangebote für Kinder,
+        Jugendliche und Familien in Berlin zu erfassen. Und bei clarat refugees
+        alle Unterstützungsangebote für Flüchtlinge, zunächst in Berlin, Köln
+        und Düsseldorf und bald auch bundesweit.
       paragraph_vision: |
         In Zukunft finden dann hoffentlich immer mehr Menschen durch clarat
         einfach und schnell Ihre Hilfe.
