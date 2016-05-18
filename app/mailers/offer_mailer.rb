@@ -18,7 +18,7 @@ class OfferMailer < ActionMailer::Base
   # A lot of variables have to be prepared for the email, so we are OK with
   # a slightly higher assignment branch condition size and disable rubocop
   # rubocop:disable Metrics/AbcSize
-  def inform email, offers = nil
+  def inform_offer_context email, offers = nil
     # Loads of variables in preparation for view models
     @contact_person = email.contact_people.first
     usable_offers = offers || email.offers.approved.by_mailings_enabled_organization
@@ -34,6 +34,20 @@ class OfferMailer < ActionMailer::Base
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
   end
   # rubocop:enable Metrics/AbcSize
+
+  # Mails to organization conctacts to inform them about clarat
+  # @attr email Email object this is sent to
+  def inform_organization_context email
+    # okay, because all contact_persons belong to the same organization
+    orga = email.contact_people.first.organization
+    @contact_person = email.contact_people.first
+    @vague_title = email.vague_contact_title?
+    @overview_href_suffix = "/organisationen/#{orga.slug || orga.id.to_s}"
+
+    mail subject: t('.subject'),
+         to: email.address,
+         from: 'Anne Schulze | clarat <anne.schulze@clarat.org>'
+  end
 
   # Inform email addresses about new offers after they have subscribed.
   # A lot of variables have to be prepared for the email, so we are OK with
