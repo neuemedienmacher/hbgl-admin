@@ -480,6 +480,11 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (11.1.2)
+    react_on_rails (2.0.2)
+      connection_pool
+      execjs (~> 2.5)
+      rails (>= 3.2)
+      rainbow (~> 2.0)
     redcarpet (3.3.4)
     redis (3.3.0)
     redis-namespace (1.5.2)
@@ -710,6 +715,7 @@ DEPENDENCIES
   rails_admin_nestable
   rails_best_practices
   rake
+  react_on_rails
   reform
   reform-rails
   roar
