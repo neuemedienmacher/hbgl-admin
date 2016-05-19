@@ -246,6 +246,7 @@ RailsAdmin.config do |config|
 
     field :section_filters
     # field :base_offer
+    field :all_inclusive
     field :name do
       css_class 'js-category-suggestions__trigger'
     end
@@ -314,7 +315,6 @@ RailsAdmin.config do |config|
     field :keywords do
       inverse_of :offers
     end
-    field :all_inclusive
     field :expires_at
     field :logic_version
     field :aasm_state do
