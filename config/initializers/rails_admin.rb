@@ -314,6 +314,7 @@ RailsAdmin.config do |config|
     field :keywords do
       inverse_of :offers
     end
+    field :all_inclusive
     field :expires_at
     field :logic_version
     field :aasm_state do
