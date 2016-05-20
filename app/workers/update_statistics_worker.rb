@@ -3,10 +3,10 @@ class UpdateStatisticsWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { daily.hour_of_day(22) }
+  recurrence { daily.hour_of_day(21).minute_of_hour(30) }
 
   def perform
-    current_date = Time.zone.now.to_date
+    current_date = Date.current
 
     Offer.transaction do
       create_statistics_for 'created', 'offer', current_date

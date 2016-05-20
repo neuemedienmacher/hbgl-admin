@@ -76,5 +76,9 @@ FactoryGirl.define do
       fax_area_code '030'
       fax_number '345678'
     end
+
+    trait :with_position do
+      position 'other'
+    end
   end
 end

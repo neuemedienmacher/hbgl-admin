@@ -44,14 +44,14 @@ describe Email do
   end
 
   describe 'state machine' do
-    describe '#inform_offers' do
-      subject { email.inform_offers }
+    describe '#inform' do
+      subject { email.inform }
 
       describe 'when assigned to contact people with approved offers' do
         let(:email) { FactoryGirl.create :email, :with_approved_offer }
 
         it 'should be possible from uninformed' do
-          OfferMailer.stub_chain(:inform, :deliver_now)
+          OfferMailer.expect_chain(:inform_offer_context, :deliver_now)
           subject.must_equal true
           email.must_be :informed?
         end
@@ -73,20 +73,20 @@ describe Email do
 
         it 'wont be possible if no organization is mailings_enabled' do
           email.organizations.update_all mailings_enabled: false
-          OfferMailer.expects(:inform).never
+          OfferMailer.expects(:inform_offer_context).never
           assert_raises(AASM::InvalidTransition) { subject }
         end
 
         it 'should transition to blocked when a contact_person is an SPoC and'\
            ' should not send email' do
           email.contact_people.first.update_column :spoc, true
-          OfferMailer.expects(:inform).never
+          OfferMailer.expects(:inform_offer_context).never
           subject
           email.must_be :blocked?
         end
 
         it 'should send an info email when transitioned' do
-          OfferMailer.expect_chain(:inform, :deliver_now)
+          OfferMailer.expect_chain(:inform_offer_context, :deliver_now)
           subject
         end
       end
@@ -95,69 +95,157 @@ describe Email do
         let(:email) { FactoryGirl.create :email, :with_unapproved_offer }
 
         it 'should be impossible from uninformed and wont send an info mail' do
-          OfferMailer.expects(:inform).never
+          OfferMailer.expects(:inform_offer_context).never
           assert_raises(AASM::InvalidTransition) { subject }
         end
       end
     end
 
-    describe '#inform_orga' do
-      subject { email.inform_orga }
-
-      describe 'when assigned to contact people with approved offers' do
-        let(:email) { FactoryGirl.create :email, :with_approved_offer }
-
-        it 'should be possible from uninformed' do
-          email.contact_people.first.update_column :position, 'superior'
-          OrgaMailer.stub_chain(:inform, :deliver_now)
-          subject.must_equal true
-          email.must_be :informed?
-        end
-
-        it 'wont be possible from informed' do
-          email.aasm_state = 'informed'
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-
-        it 'wont be possible from subscribed' do
-          email.aasm_state = 'subscribed'
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-
-        it 'wont be possible from unsubscribed' do
-          email.aasm_state = 'unsubscribed'
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-
-        it 'wont be possible if no organization is mailings_enabled' do
-          email.organizations.update_all mailings_enabled: false
-          OrgaMailer.expects(:inform).never
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-
-        it 'should transition to blocked when a contact_person is an SPoC and'\
-           ' should not send email' do
-          email.contact_people.first.update_columns spoc: true, position: 'superior'
-          OrgaMailer.expects(:inform).never
-          subject
-          email.must_be :blocked?
-        end
-
-        it 'should send an info email when transitioned' do
-          email.contact_people.first.update_column :position, 'superior'
-          OrgaMailer.expect_chain(:inform, :deliver_now)
-          subject
-        end
+    describe '#send_mailings!' do
+      it 'should generate a security code' do
+        email.expects(:regenerate_security_code)
+        email.stubs(:raise)
+        email.send_mailing!
       end
 
-      describe 'when there are no approved offers' do
-        let(:email) { FactoryGirl.create :email, :with_unapproved_offer }
+      it 'should send an offer context mailing when it has approved offers'\
+         ' and is in a mailings_enabled organization' do
+        email = FactoryGirl.create :email, :with_approved_offer
+        email.organizations.first.update_column :mailings_enabled, true
+        OfferMailer.expect_chain(:inform_offer_context, :deliver_now)
+        email.send_mailing!
+      end
 
-        it 'should be impossible from uninformed and wont send an info mail' do
-          OrgaMailer.expects(:inform).never
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
+      it 'should send an orga context mailing when it is an orga contact'\
+         ', when orga is mailings_enabled and has approved offers' do
+        email = FactoryGirl.create :email, :with_approved_offer
+        email.organizations.first.update_column :mailings_enabled, true
+        email.organizations.first.update_column :aasm_state, 'approved'
+        email.organizations.first.offers = email.offers
+        superior_mail = FactoryGirl.create :email
+        superior_mail.contact_people <<
+          FactoryGirl.create(
+            :contact_person,
+            organization: email.organizations.first,
+            position: 'superior',
+            email: superior_mail
+          )
+
+        OfferMailer.expect_chain(:inform_organization_context, :deliver_now)
+        superior_mail.send_mailing!
+      end
+
+      it 'should send an offer context mailing even when the contact qualifies'\
+         ' for an orga-mailing (higher priority on offer-mailings)' do
+        mail = FactoryGirl.create :email, :with_approved_offer
+        mail.contact_people.first.update_column :position, 'superior'
+        mail.organizations.first.update_column :mailings_enabled, true
+        mail.organizations.first.update_column :aasm_state, 'approved'
+        mail.contact_people.first.organization = mail.organizations.first
+        mail.organizations.first.offers = mail.offers
+
+        mail.belongs_to_unique_orga_with_orga_contact?.must_equal true
+        OfferMailer.expect_chain(:inform_offer_context, :deliver_now)
+        OfferMailer.expects(:inform_organization_context).never
+        mail.send_mailing!
+      end
+
+      it 'should raise an error when neither of the above is true' do
+        assert_raises(RuntimeError) { email.send_mailing! }
+      end
+
+      it 'wont send an offer context mailing when it has approved offers'\
+         ' but the orga is not mailings_enabled' do
+        email = FactoryGirl.create :email, :with_approved_offer
+        email.organizations.first.update_column :mailings_enabled, false
+        OfferMailer.expects(:inform_offer_context).never
+        assert_raises { email.send_mailing! }
+      end
+
+      it 'wont send an offer context mailing when it has no approved offers'\
+         ' but the orga is mailings_enabled' do
+        email = FactoryGirl.create :email, :with_unapproved_offer
+        email.organizations.first.update_column :mailings_enabled, true
+        OfferMailer.expects(:inform_offer_context).never
+        assert_raises { email.send_mailing! }
+      end
+
+      it 'wont send an orga context mailing when it is in a position contact'\
+         ' but is in more than one organization' do
+        email = FactoryGirl.create :email, :with_unapproved_offer
+        email.contact_people.first.update_column :position, 'superior'
+        email.contact_people <<
+          FactoryGirl.create(:contact_person, position: 'superior')
+        OfferMailer.expects(:inform_organization_context).never
+        assert_raises { email.send_mailing! }
       end
     end
+
+    # it 'wont send mailing to subscribed emails that have approved offers but'\
+    #    ' that were already informed about those offers' do
+    #   email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    #   email.create_offer_mailings email.offers.all, :inform
+    #   SubscribedEmailMailingWorker.expects(:perform_async).never
+    #   worker.perform
+    # end
+
+    # describe '#inform_orga' do
+    #   subject { email.inform_orga }
+    #
+    #   describe 'when assigned to contact people with approved offers' do
+    #     let(:email) { FactoryGirl.create :email, :with_approved_offer }
+    #
+    #     it 'should be possible from uninformed' do
+    #       email.contact_people.first.update_column :position, 'superior'
+    #       OfferMailer.stub_chain(:inform_organization_context, :deliver_now)
+    #       subject.must_equal true
+    #       email.must_be :informed?
+    #     end
+    #
+    #     it 'wont be possible from informed' do
+    #       email.aasm_state = 'informed'
+    #       assert_raises(AASM::InvalidTransition) { subject }
+    #     end
+    #
+    #     it 'wont be possible from subscribed' do
+    #       email.aasm_state = 'subscribed'
+    #       assert_raises(AASM::InvalidTransition) { subject }
+    #     end
+    #
+    #     it 'wont be possible from unsubscribed' do
+    #       email.aasm_state = 'unsubscribed'
+    #       assert_raises(AASM::InvalidTransition) { subject }
+    #     end
+    #
+    #     it 'wont be possible if no organization is mailings_enabled' do
+    #       email.organizations.update_all mailings_enabled: false
+    #       OfferMailer.expects(:inform_organization_context).never
+    #       assert_raises(AASM::InvalidTransition) { subject }
+    #     end
+    #
+    #     it 'should transition to blocked when a contact_person is an SPoC and'\
+    #        ' should not send email' do
+    #       email.contact_people.first.update_columns spoc: true, position: 'superior'
+    #       OfferMailer.expects(:inform_organization_context).never
+    #       subject
+    #       email.must_be :blocked?
+    #     end
+    #
+    #     it 'should send an info email when transitioned' do
+    #       email.contact_people.first.update_column :position, 'superior'
+    #       OfferMailer.expect_chain(:info_organization_contextrm, :deliver_now)
+    #       subject
+    #     end
+    #   end
+    #
+    #   describe 'when there are no approved offers' do
+    #     let(:email) { FactoryGirl.create :email, :with_unapproved_offer }
+    #
+    #     it 'should be impossible from uninformed and wont send an info mail' do
+    #       OfferMailer.expects(:inform_organization_context).never
+    #       assert_raises(AASM::InvalidTransition) { subject }
+    #     end
+    #   end
+    # end
   end
 end
