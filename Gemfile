@@ -59,6 +59,9 @@ gem 'dry-validation'
 # Internal Search Implementation
 gem 'pg_search'
 
+# External API
+gem 'gengo'
+
 ########################
 # For Heroku & Add-Ons #
 ########################

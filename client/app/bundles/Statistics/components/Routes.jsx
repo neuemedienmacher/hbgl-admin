@@ -5,7 +5,14 @@ import Overview from './Overview'
 import Created from './Created'
 
 export default class Statistics extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    getStatistics: PropTypes.func.required
+  }
+
+  componentDidMount() {
+    console.log(this.props.getStatistics)
+    this.props.getStatistics()
+  }
 
   render() {
     return (

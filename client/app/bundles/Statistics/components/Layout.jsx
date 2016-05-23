@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import StatisticsNav from './StatisticsNav'
+import Navigation from './Navigation'
 
 export default class Layout extends React.Component {
   static propTypes = {}
@@ -11,7 +11,7 @@ export default class Layout extends React.Component {
           {this.props.children}
         </div>
         <div className='col-xs-3'>
-          <StatisticsNav />
+          <Navigation />
         </div>
       </div>
     )

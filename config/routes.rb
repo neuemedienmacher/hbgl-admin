@@ -25,8 +25,8 @@ Rails.application.routes.draw do
   put 'next_steps_offers/:id', controller: :next_steps_offers, action: :update
 
   # Stats
-  get '/statistics' => 'statistics#index', as: :statistics
-  get '/statistics/:topic(/:user_id)' => 'statistics#show', as: :statistic
+  get '/statistics(/:subpage)' => 'statistics#index', as: :statistics
+  # get '/statistics/:topic(/:user_id)' => 'statistics#show', as: :statistic
 
   # non-REST paths
   # ...
