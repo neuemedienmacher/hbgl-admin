@@ -59,7 +59,8 @@ Rails.application.routes.draw do
 
   # Sidekiq interface
   require 'sidekiq/web'
-  require 'sidetiq/web'
+  require 'sidekiq-cron'
+  require 'sidekiq/cron/web'
   constraint = lambda do |request|
     request.env['warden'].authenticate?
   end

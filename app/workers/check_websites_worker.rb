@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 class CheckWebsitesWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
 
   sidekiq_options queue: :heavy_load
-  recurrence { weekly.day(:wednesday).hour_of_day(20) }
 
   # rubocop:disable UnreachableCode
   def perform

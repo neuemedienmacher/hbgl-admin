@@ -2,7 +2,6 @@
 # Send an email address a compound email about new offers.
 class SubscribedEmailMailingWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
 
   sidekiq_options retry: 1
 

@@ -1,0 +1,32 @@
+update_statistics_job:
+  cron: "0 22 * * * Europe/Berlin" # every day at 22:00
+  class: "UpdateStatisticsWorker"
+  queue: default
+
+expire_offers_job:
+  cron: "0 3 * * * Europe/Berlin" # every day at 03:00
+  class: "ExpiringOffersWorker"
+  queue: default
+
+regenerate_html_job:
+  cron: "0 0 * * 4 Europe/Berlin" # every thursday at 00:00
+  class: "RegenerateHtmlWorker"
+  queue: default
+
+# recurrence { weekly(2).day(:monday).hour_of_day(20) }
+subscribed_mails_spawner_job:
+  cron: "0 20 * * 1 Europe/Berlin" # every (2nd) monday at 20:00
+  class: "SubscribedEmailsMailingsSpawnerWorker"
+  queue: default
+
+# recurrence { weekly(2).day(:monday).hour_of_day(20).minute_of_hour(30) }
+uninformed_mails_spawner_job:
+  cron: "30 20 * * 1 Europe/Berlin" # every (2nd) monday at 20:30
+  class: "UninformedEmailsMailingsSpawnerWorker"
+  queue: default
+
+# TODO: reactivate!!
+# check_websites_job:
+#   cron: "0 20 * * 3 Europe/Berlin"
+#   class: "CheckWebsitesWorker"
+#   queue: heavy_load

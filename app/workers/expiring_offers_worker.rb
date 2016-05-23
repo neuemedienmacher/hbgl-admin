@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 class ExpiringOffersWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { daily.hour_of_day(3) }
 
   def perform
     # Find expiring offers

@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 class RegenerateHtmlWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { weekly.day(:thursday).hour_of_day(0) }
 
   def perform
     Offer.approved.find_each do |offer|
