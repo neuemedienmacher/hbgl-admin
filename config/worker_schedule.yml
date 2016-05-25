@@ -9,12 +9,12 @@ expire_offers_job:
   queue: default
 
 regenerate_html_job:
-  cron: "0 0 * * 4 Europe/Berlin" # every thursday at 00:00
+  cron: "50 23 * * Thu Europe/Berlin" # every thursday at 00:00
   class: "RegenerateHtmlWorker"
   queue: default
 
 subscribed_mails_spawner_job:
-  cron: "0 20 * * 1 Europe/Berlin" # every (2nd) monday at 20:00
+  cron: "0 20 * * Mon Europe/Berlin" # every (2nd) monday at 20:00
   class: "SubscribedEmailsMailingsSpawnerWorker"
   queue: default
 
@@ -25,7 +25,7 @@ uninformed_mails_spawner_job:
 
 # TODO: reactivate!!
 # check_websites_job:
-#   cron: "0 20 * * 3 Europe/Berlin"
+#   cron: "0 20 * * Wed Europe/Berlin"
 #   class: "CheckWebsitesWorker"
 #   queue: heavy_load
 
