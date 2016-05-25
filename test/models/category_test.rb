@@ -6,6 +6,32 @@ describe Category do
 
   subject { category }
 
+  describe 'callbacks' do
+    describe 'after_save' do
+      it 'should request new translations when saved for the first time' do
+        category = FactoryGirl.build(:category)
+        GengoCommunicator.any_instance.expects(:create_translation_jobs)
+                         .with(category, 'name')
+        category.save!
+      end
+
+      it 'should request new translations when name_en has changed' do
+        category = FactoryGirl.create(:category)
+        category.name_en = 'hi'
+        GengoCommunicator.any_instance.expects(:create_translation_jobs)
+                         .with(category, 'name')
+        category.save!
+      end
+
+      it 'wont request new translations when name_en has not changed' do
+        category = FactoryGirl.create(:category)
+        GengoCommunicator.any_instance.expects(:create_translation_jobs).never
+        category.name_fr = 'salut'
+        category.save!
+      end
+    end
+  end
+
   describe 'methods' do
     describe '#name_with_world_suffix_and_optional_asterisk' do
       it 'should return name with asterisk for a main category' do

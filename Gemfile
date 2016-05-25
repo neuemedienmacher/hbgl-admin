@@ -65,6 +65,9 @@ gem 'sinatra', '>= 1.3.0'
 # Schedulable jobs for sidekiq
 gem 'sidekiq-cron', '~> 0.4.0'
 
+# External API
+gem 'gengo'
+
 ########################
 # For Heroku & Add-Ons #
 ########################

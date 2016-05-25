@@ -13,15 +13,13 @@ regenerate_html_job:
   class: "RegenerateHtmlWorker"
   queue: default
 
-# recurrence { weekly(2).day(:monday).hour_of_day(20) }
 subscribed_mails_spawner_job:
   cron: "0 20 * * 1 Europe/Berlin" # every (2nd) monday at 20:00
   class: "SubscribedEmailsMailingsSpawnerWorker"
   queue: default
 
-# recurrence { weekly(2).day(:monday).hour_of_day(20).minute_of_hour(30) }
 uninformed_mails_spawner_job:
-  cron: "30 20 * * 1 Europe/Berlin" # every (2nd) monday at 20:30
+  cron: "30 20 * * 1 Europe/Berlin" # every monday at 20:30
   class: "UninformedEmailsMailingsSpawnerWorker"
   queue: default
 
@@ -30,3 +28,8 @@ uninformed_mails_spawner_job:
 #   cron: "0 20 * * 3 Europe/Berlin"
 #   class: "CheckWebsitesWorker"
 #   queue: heavy_load
+
+check_for_new_translations_job:
+  cron: "0 0 * * * Europe/Berlin" # every day at 00:00
+  class: "CheckForNewTranslationsWorker"
+  queue: heavy_load
