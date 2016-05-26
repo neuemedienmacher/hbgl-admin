@@ -21,7 +21,7 @@ class GengoCommunicator
         body_src: model.send("#{field}_en"),
         slug: "#{model.class.name}:#{model.id}:#{field}_#{locale}",
         comment:  "It's for a web app to help refugees in Germany to find help.
-                  Please use a very simple / easy to understand language"
+                  Please use a very simple / easy to understand language",
         purpose:  "Web content. Describing help for refugees in Germany",
         tone:     "Friendly. Please use easy to understand language."
       }
