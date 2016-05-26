@@ -54,7 +54,9 @@ RailsAdmin.config do |config|
     delete do
       except ['User', 'FederalState', 'SectionFilter']
     end
-    show_in_app
+    show_in_app do
+      only ['Offer', 'Organization']
+    end
 
     clone do
       except ['SectionFilter']
