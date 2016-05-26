@@ -5,7 +5,7 @@ class CheckForNewTranslationsWorkerTest < ActiveSupport::TestCase
   let(:worker) { CheckForNewTranslationsWorker.new }
 
   it 'should fetch from the GengoCommunicator and spawn for every result' do
-    GengoCommunicator.any_instance.expects(:fetch_approved_jobs).returns(
+    GengoCommunicator.any_instance.expects(:fetch_newly_approved_jobs).returns(
       [{ 'job_id' => 23 }, { 'job_id' => 43 }]
     )
     GetAndApplyNewTranslationWorker.expects(:perform_async).with(23)
