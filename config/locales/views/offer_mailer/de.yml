@@ -76,8 +76,8 @@ de:
         alle Unterstützungsangebote für Flüchtlinge, zunächst in Berlin, Köln
         und Düsseldorf und bald auch bundesweit.
       paragraph_explain_clarat: |
-        clarat wird von der gemeinnützigen %{foundation_link}
-        aufgebaut. clarat soll Menschen den Zugang zu Hilfe
+        clarat wurde von der gemeinnützigen %{foundation_link}
+        ins Leben gerufen. clarat soll Menschen den Zugang zu Hilfe
         erleichtern. Dazu haben wir eine Website mit einfacher Navigation
         gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
         verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit
@@ -88,14 +88,14 @@ de:
         %{family_movie_link}.
       paragraph_explain_html:
         main: |
-          clarat wird von der gemeinnützigen %{foundation_link}
-          aufgebaut. clarat soll Menschen den Zugang zu Hilfe erleichtern. Dazu
-          haben wir eine Website mit einfacher Navigation gestaltet. Und wir
-          haben zusammen mit Sprach-Experten eine leicht verständliche Sprache
-          entwickelt. Dadurch kann jedes Angebot mit einem Klick auch in weitere
-          Sprachen (u.a. Arabisch, Russisch, Türkisch) übersetzt werden. So
-          können auch Menschen in Deutschland Hilfe finden, die nicht so gut
-          Deutsch verstehen.
+          clarat wurde von der gemeinnützigen %{foundation_link}
+          ins Leben gerufen. clarat soll Menschen den Zugang zu Hilfe
+          erleichtern. Dazu haben wir eine Website mit einfacher Navigation
+          gestaltet. Und wir haben zusammen mit Sprach-Experten eine leicht
+          verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit einem
+          Klick auch in weitere Sprachen (u.a. Arabisch, Russisch, Türkisch)
+          übersetzt werden. So können auch Menschen in Deutschland Hilfe finden,
+          die nicht so gut Deutsch verstehen.
         base: "Mehr zu clarat erfahren Sie auf unserem"
         video: "oder in unserem kurzen"
       paragraph_improvements: |
@@ -194,20 +194,22 @@ de:
         alle Unterstützungsangebote für Flüchtlinge, zunächst in Berlin, Köln
         und Düsseldorf und bald auch bundesweit.
       paragraph_explain_clarat: |
-        clarat wird von der gemeinnützigen %{foundation_link}
-        aufgebaut. Wir haben zusammen mit Sprach-Experten eine leicht verständliche
-        Sprache entwickelt. Dadurch kann jedes Angebot mit einem Klick auch in
-        weitere Sprachen (u.a. Arabisch, Russisch, Türkisch) übersetzt werden.
-        So können auch Menschen in Deutschland Hilfe finden, die nicht so gut
-        Deutsch verstehen. Mehr zu clarat erfahren Sie auf unserem %{blog_link}.
+        clarat wurde von der gemeinnützigen %{foundation_link}
+        ins Leben gerufen. Wir haben zusammen mit Sprach-Experten eine leicht
+        verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit einem
+        Klick auch in weitere Sprachen (u.a. Arabisch, Russisch, Türkisch)
+        übersetzt werden. So können auch Menschen in Deutschland Hilfe finden,
+        die nicht so gut Deutsch verstehen. Mehr zu clarat erfahren Sie auf
+        unserem %{blog_link}.
       paragraph_explain_html:
         main: |
-          clarat wird von der gemeinnützigen %{foundation_link} aufgebaut. Wir
-          haben zusammen mit Sprach-Experten eine leicht verständliche Sprache
-          entwickelt. Dadurch kann jedes Angebot mit einem Klick auch in weitere
-          Sprachen (u.a. Arabisch, Russisch, Türkisch) übersetzt werden. So
-          können auch Menschen in Deutschland Hilfe finden, die nicht so gut
-          Deutsch verstehen. Mehr zu clarat erfahren Sie auf unserem
+          clarat wurde von der gemeinnützigen %{foundation_link} ins Leben
+          gerufen. Wir haben zusammen mit Sprach-Experten eine leicht
+          verständliche Sprache entwickelt. Dadurch kann jedes Angebot mit einem
+          Klick auch in weitere Sprachen (u.a. Arabisch, Russisch, Türkisch)
+          übersetzt werden. So können auch Menschen in Deutschland Hilfe finden,
+          die nicht so gut Deutsch verstehen. Mehr zu clarat erfahren Sie auf
+          unserem
         blog: "Blog"
       paragraph_improvements: |
         Haben Sie einen Vorschlag, was wir noch besser machen können? Lassen Sie
