@@ -16,10 +16,12 @@ class GengoCommunicatorTest < ActiveSupport::TestCase # to have fixtures
 
         base_job = {
           tier: 'standard', type: 'text', max_chars: 255, auto_approve: 1,
-          lc_src: 'en', comment:  "It's for a web app to help refugees in
-          Germany to find help. Please use a very simple / easy to understand
-          language", purpose: "Web content. Describing help for refugees in
-          Germany", tone: "Friendly. Please use easy to understand language."
+          lc_src: 'en',
+          comment: 'It\'s for a web app to help refugees in Germany to find'\
+                   ' help. Please use very simple / easy to understand'\
+                   ' language.',
+          purpose: 'Web content. Describing help for refugees in Germany',
+          tone:    'Friendly, Informal'
         }
         Gengo::API.any_instance.expects(:postTranslationJobs).with(
           jobs: [
