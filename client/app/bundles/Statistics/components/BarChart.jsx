@@ -3,15 +3,24 @@ import ReactFauxDOM from 'react-faux-dom'
 import d3 from 'd3'
 
 export default class BarChart extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        x: PropTypes.string.isRequired,
+        y: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
+        topic: PropTypes.string.isRequired,
+      })
+    ).isRequired
+  }
 
   render() {
-    const data = [] //this.props.data
+    const data = this.props.data
     const margin = {top: 20, right: 20, bottom: 30, left: 50}
-    const width = 850 - margin.left - margin.right
+    const width = 700 - margin.left - margin.right
     const height = 400 - margin.top - margin.bottom
 
-    const parseDate = d3.time.format('%d-%b-%y').parse
+    const parseDate = d3.time.format('%Y-%m-%d').parse
 
     const x = d3.time.scale()
       .range([0, width])
@@ -28,8 +37,8 @@ export default class BarChart extends React.Component {
       .orient('left')
 
     const line = d3.svg.line()
-      .x(function (d) { return x(d.date) })
-      .y(function (d) { return y(d.amount) })
+      .x(function (d) { return x(d.x) })
+      .y(function (d) { return y(d.y) })
 
     const node = ReactFauxDOM.createElement('svg')
     const svg = d3.select(node)
@@ -39,12 +48,12 @@ export default class BarChart extends React.Component {
 				.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
     data.forEach(function (d) {
-      d.date = parseDate(d.date)
-      d.amount = +d.amount
+      d.x = parseDate(d.x)
+      d.y = +d.y
     })
 
-    x.domain(d3.extent(data, function (d) { return d.date }))
-    y.domain(d3.extent(data, function (d) { return d.amount }))
+    x.domain(d3.extent(data, function (d) { return d.x }))
+    y.domain(d3.extent(data, function (d) { return d.y }))
 
     svg.append('g')
       .attr('class', 'x axis')
@@ -65,6 +74,42 @@ export default class BarChart extends React.Component {
       .datum(data)
       .attr('class', 'line')
       .attr('d', line)
+
+		// Scale the range of the data
+    x.domain(d3.extent(data, (d) => d.x))
+    y.domain(d3.extent(data, (d) => d.y))
+    // @x.domain(data.map((d) => d.x))
+    // @y.domain([0, d3.max(data, (d) => d.y)])
+
+    // Select the section we want to apply our changes to
+    // svg2 = d3.select(@containerSelector).transition()
+
+    svg.select(".x.axis").transition().duration(350).call(xAxis)
+    svg.select(".y.axis").transition().duration(350).call(yAxis)
+
+    // Make the changes
+    // svg2.select(".line").duration(750).attr("d", @line(data))
+    const bars = svg.selectAll(".bar").data(data, (d) => d.x)
+    console.log('bars', bars)
+
+    if (data.length) {
+      bars.exit().transition().duration(350)
+          .attr("y", y(0))
+          // .attr("height", @height - @y(0))
+          .style("fill-opacity", 1e-6)
+          .remove()
+
+      bars.enter().append("rect")
+          .attr("class", "bar")
+          .attr("y", y(0))
+          // .attr("height", @height - @y(0))
+
+      bars.transition().duration(350)
+          .attr("x", (d) => x(d.x))
+          .attr("width", 2)
+          .attr("y", (d) => y(d.y))
+          .attr("height", (d) => height - y(d.y))
+		}
 
     return node.toReact()
 
@@ -87,8 +132,8 @@ export default class BarChart extends React.Component {
     // const yAxis = d3.svg.axis().scale(y).orient("left")
     //
     // const line = d3.svg.line()
-    //   .x( (d) => x(d.date) )
-    //   .y( (d) => y(d.amount) )
+    //   .x( (d) => x(d.x) )
+    //   .y( (d) => y(d.y) )
     //
     // const svgNode = ReactFauxDOM.createElement('div')
     // const svg = d3.select(svgNode).append("svg")
@@ -116,8 +161,8 @@ export default class BarChart extends React.Component {
     // // $.get "/api/v1/statistics/offer_created/all.json", (rawData) =>
     // const data = [] //- _addRawData(rawData)
     //   //- @_draw('all', data)
-    //   // @x.domain(d3.extent(data, (d) => d.date))
-    //   // @y.domain(d3.extent(data, (d) => d.amount))
+    //   // @x.domain(d3.extent(data, (d) => d.x))
+    //   // @y.domain(d3.extent(data, (d) => d.y))
     //   //
     //   // // @svg.append("path")
     //   // //     .datum(data)
@@ -128,18 +173,18 @@ export default class BarChart extends React.Component {
     //   //   .enter().append("rect")
     //   //     .style("fill", "steelblue")
     //   //     .attr("class", "bar")
-    //   //     .attr("x", (d) => @x(d.date))
+    //   //     .attr("x", (d) => @x(d.x))
     //   //     .attr("width", 2)
-    //   //     .attr("y", (d) => @y(d.amount))
-    //   //     .attr("height", (d) => 350 - @y(d.amount))
+    //   //     .attr("y", (d) => @y(d.y))
+    //   //     .attr("height", (d) => 350 - @y(d.y))
     //
     //
 		// // DRAW
 		// // Scale the range of the data
-    // x.domain(d3.extent(data, (d) => d.date))
-    // y.domain(d3.extent(data, (d) => d.amount))
-    // // @x.domain(data.map((d) => d.date))
-    // // @y.domain([0, d3.max(data, (d) => d.amount)])
+    // x.domain(d3.extent(data, (d) => d.x))
+    // y.domain(d3.extent(data, (d) => d.y))
+    // // @x.domain(data.map((d) => d.x))
+    // // @y.domain([0, d3.max(data, (d) => d.y)])
     //
     // // Select the section we want to apply our changes to
     // // svg2 = d3.select(@containerSelector).transition()
@@ -149,7 +194,7 @@ export default class BarChart extends React.Component {
     //
     // // Make the changes
     // // svg2.select(".line").duration(750).attr("d", @line(data))
-    // bars = svg.selectAll(".bar").data(data, (d) => d.date)
+    // bars = svg.selectAll(".bar").data(data, (d) => d.x)
     //
     // if (data.length) {
     //   bars.exit().transition().duration(350)
@@ -164,10 +209,10 @@ export default class BarChart extends React.Component {
     //       // .attr("height", @height - @y(0))
     //
     //   bars.transition().duration(350)
-    //       .attr("x", (d) => x(d.date))
+    //       .attr("x", (d) => x(d.x))
     //       .attr("width", 2)
-    //       .attr("y", (d) => y(d.amount))
-    //       .attr("height", (d) => height - y(d.amount))
+    //       .attr("y", (d) => y(d.y))
+    //       .attr("height", (d) => height - y(d.y))
 		// }
     //
     // return svgNode.toReact()

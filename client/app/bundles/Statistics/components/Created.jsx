@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import BarChart from './BarChart'
+import BarChart from '../containers/StatisticBarChart'
 
 export default class Created extends React.Component {
   static propTypes = {}

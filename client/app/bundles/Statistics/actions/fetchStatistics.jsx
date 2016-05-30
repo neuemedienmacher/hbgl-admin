@@ -24,13 +24,17 @@ export default function fetchStatistics() {
     return fetch('/api/v1/statistics.json')
       .then(
         function(response) {
-          if (response.status >= 400) {
-            dispatch(fetchStatisticsError(response))
-            throw new Error(response)
+          const { status, statusText } = response
+          if (status >= 400) {
+            dispatch(fetchStatisticsFailure(response))
+            throw new Error(`Fetch Statistics Error ${status}: ${statusText}`)
           }
           return response.json()
         }
-      ).then(json => dispatch(fetchStatisticsSuccess(json)))
+      ).then(json => {
+        console.log('json', json)
+        dispatch(fetchStatisticsSuccess(json))
+      })
   }
 }
 

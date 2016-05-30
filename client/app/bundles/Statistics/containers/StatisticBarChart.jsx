@@ -3,7 +3,7 @@ import BarChart from '../components/BarChart'
 
 const mapStateToProps = function(state, ownProps) {
   return {
-		statistics: state.statistics
+		data: state.statistics
 	}
 }
 
