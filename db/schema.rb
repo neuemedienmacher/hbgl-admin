@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513120619) do
+ActiveRecord::Schema.define(version: 20160527125113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,9 +111,10 @@ ActiveRecord::Schema.define(version: 20160513120619) do
     t.string   "name"
     t.string   "email"
     t.text     "message"
-    t.string   "url",        limit: 1000
+    t.string   "url",           limit: 1000
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "internal_mail",              default: false
   end
 
   create_table "definitions", force: :cascade do |t|
