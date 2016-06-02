@@ -5,9 +5,7 @@
 # and queue each of them to receive an email.
 class SubscribedEmailsMailingsSpawnerWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
 
-  recurrence { weekly(2).day(:monday).hour_of_day(20) }
   sidekiq_options retry: 1
 
   def perform

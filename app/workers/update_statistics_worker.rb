@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 class UpdateStatisticsWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { daily.hour_of_day(22) }
 
   def perform
     current_date = Time.zone.now.to_date

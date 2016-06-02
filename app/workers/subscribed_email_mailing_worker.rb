@@ -2,9 +2,7 @@
 # Send an email address a compound email about new offers.
 class SubscribedEmailMailingWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
 
-  recurrence { weekly(2).day(:monday).hour_of_day(20) }
   sidekiq_options retry: 1
 
   def perform email_id

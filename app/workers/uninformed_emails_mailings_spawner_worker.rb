@@ -6,9 +6,7 @@
 # and spawn an informer worker for them. trigger their inform event to send them a mailing each.
 class UninformedEmailsMailingsSpawnerWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
 
-  recurrence { weekly(2).day(:monday).hour_of_day(20).minute_of_hour(30) }
   sidekiq_options retry: 0
 
   def perform

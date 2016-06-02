@@ -3,6 +3,7 @@
 require ClaratBase::Engine.root.join('app', 'models', 'category')
 
 class Category < ActiveRecord::Base
+  after_save :translate_if_name_en_changed
   # Methods
 
   # alias for rails_admin_nestable
@@ -14,5 +15,12 @@ class Category < ActiveRecord::Base
     return unless name
     sections_suffix = "(#{section_filters.map { |f| f.name.first }.join(',')})"
     name_de + (icon ? "#{sections_suffix}*" : sections_suffix)
+  end
+
+  private
+
+  def translate_if_name_en_changed
+    return if !name_en_changed? && !@new_record_before_save
+    GengoCommunicator.new.create_translation_jobs(self, 'name')
   end
 end

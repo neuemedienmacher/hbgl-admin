@@ -59,6 +59,12 @@ gem 'dry-validation'
 # Internal Search Implementation
 gem 'pg_search'
 
+# for sidekiq web interface
+gem 'sinatra', '>= 1.3.0'
+
+# Schedulable jobs for sidekiq
+gem 'sidekiq-cron', '~> 0.4.0'
+
 # External API
 gem 'gengo'
 

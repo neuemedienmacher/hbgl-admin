@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 0d2a9247204aad78e40c2508aa8dea84d4f1c1b3
+  revision: d9e5fbeaf79a82a026fd5f7e26f6c8358de31ede
   specs:
     clarat_base (0.1.4)
       aasm
@@ -18,9 +18,7 @@ GIT
       rails-observers
       redcarpet
       sanitize
-      sidekiq (~> 3.4.2)
-      sidetiq (< 0.7)
-      sinatra (>= 1.3.0)
+      sidekiq (~> 4.1.2)
       web-console (~> 2.0)
 
 GIT
@@ -35,7 +33,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.10.0)
+    aasm (4.10.1)
     actionmailer (4.2.6)
       actionpack (= 4.2.6)
       actionview (= 4.2.6)
@@ -123,8 +121,6 @@ GEM
     cells-slim (0.0.4)
       cells (~> 4.0.0.beta6)
       slim (~> 3.0)
-    celluloid (0.16.0)
-      timers (~> 4.0.0)
     choice (0.2.0)
     closure_tree (6.0.0)
       activerecord (>= 4.1.0)
@@ -230,12 +226,12 @@ GEM
       json
       mime-types
       multipart-post
-    geocoder (1.3.4)
+    geocoder (1.3.6)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
-    gli (2.13.4)
+    gli (2.14.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -251,7 +247,6 @@ GEM
       rack (>= 1.4.5)
     highline (1.7.8)
     hirb (0.7.3)
-    hitimes (1.2.4)
     hogan_assets (1.6.0)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
@@ -269,7 +264,6 @@ GEM
       multi_xml (>= 0.5.2)
     httpclient (2.7.2)
     i18n (0.7.0)
-    ice_cube (0.11.1)
     inflecto (0.0.2)
     interception (0.5)
     jmespath (1.1.3)
@@ -315,9 +309,9 @@ GEM
       railties (>= 3.0.0, < 5.1.0)
     metaclass (0.0.4)
     method_source (0.8.2)
-    mime-types (2.99.1)
+    mime-types (2.99.2)
     mini_portile2 (2.0.0)
-    minitest (5.8.4)
+    minitest (5.9.0)
     minitest-capybara (0.7.2)
       capybara (~> 2.2)
       minitest (~> 5.0)
@@ -349,7 +343,7 @@ GEM
     nokogumbo (1.4.7)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (5.0.1)
+    paper_trail (5.1.1)
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
@@ -527,6 +521,7 @@ GEM
       sexp_processor (~> 4.0)
     ruby_parser (3.8.1)
       sexp_processor (~> 4.1)
+    rufus-scheduler (3.2.1)
     safe_yaml (1.0.4)
     sanitize (4.0.1)
       crass (~> 1.0.2)
@@ -546,16 +541,14 @@ GEM
     shoulda-context (1.2.1)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    sidekiq (3.4.2)
-      celluloid (~> 0.16.0)
+    sidekiq (4.1.2)
+      concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
-      json (~> 1.0)
       redis (~> 3.2, >= 3.2.1)
-      redis-namespace (~> 1.5, >= 1.5.2)
-    sidetiq (0.6.3)
-      celluloid (>= 0.14.1)
-      ice_cube (= 0.11.1)
-      sidekiq (>= 3.0.0)
+    sidekiq-cron (0.4.2)
+      redis-namespace (>= 1.5.2)
+      rufus-scheduler (>= 2.0.24)
+      sidekiq (>= 4.0.0)
     simple_form (3.2.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
@@ -601,10 +594,8 @@ GEM
     thor (0.19.1)
     thread (0.2.2)
     thread_safe (0.3.5)
-    tilt (2.0.3)
+    tilt (2.0.4)
     timecop (0.8.0)
-    timers (4.0.4)
-      hitimes
     tins (1.6.0)
     trailblazer (1.1.1)
       declarative
@@ -727,8 +718,10 @@ DEPENDENCIES
   roar
   rubocop
   shoulda
+  sidekiq-cron (~> 0.4.0)
   simple_form
   simplecov
+  sinatra (>= 1.3.0)
   slim-rails
   spring
   sqlite3
