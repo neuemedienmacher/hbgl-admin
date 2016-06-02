@@ -6,8 +6,8 @@ describe SplitBase do
     describe '#display_name' do
       it 'should return correct name' do
         split_bases(:basic).display_name.must_equal(
-          'foobar - basicSolutionCategoryName - '\
-          'basicSplitBaseTitle - basicSplitBaseClaratAddition'
+          'foobar || basicSolutionCategoryName || '\
+          'basicSplitBaseTitle || basicSplitBaseClaratAddition'
         )
       end
     end
