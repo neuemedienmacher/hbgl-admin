@@ -4,5 +4,5 @@ basic:
   name: basicLogicVersion
 current:
   id: 2
-  version: 8 # keep this in sync with the actual version number on production
+  version: 6 # keep this in sync with the actual version number on production
   name: currentLogicVersion
