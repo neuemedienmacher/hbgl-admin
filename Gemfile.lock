@@ -1,7 +1,11 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
+<<<<<<< HEAD
   revision: 6dc70137449a1bfa64d937cbf76de0489ce05ec5
   branch: feature/811-contact-mailer-worker
+=======
+  revision: 1eb44e3ee770568d76423891e5edaccef546a993
+>>>>>>> develop
   specs:
     clarat_base (0.1.4)
       aasm

@@ -15,6 +15,7 @@ FactoryGirl.define do
     end
     area { Area.first unless encounter == 'personal' }
     approved_at nil
+    split_base
 
     # associations
 
