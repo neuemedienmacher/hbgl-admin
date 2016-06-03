@@ -38,6 +38,7 @@ de:
           deactivate_through_organization: "> organization_deactivated"
           pause: "Pausieren"
           doze: "Schlafen legen"
+          reinitialize: "Re-Initialisieren"
 
     main:
       change_state:
