@@ -28,7 +28,7 @@ feature 'Admin Backend' do
         select 'foobar', from: 'offer_organization_ids'
         select 'English', from: 'offer_language_filter_ids'
         select 'Bekannte', from: 'offer_target_audience_filter_ids'
-        # select 'basicSplitBaseTitle', from: 'offer_split_base_id'
+        select 'basicSplitBaseTitle', from: 'offer_split_base_id'
 
         click_button 'Speichern'
         page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
@@ -175,7 +175,7 @@ feature 'Admin Backend' do
       select 'Personal', from: 'offer_encounter'
       select location.name, from: 'offer_location_id'
       select 'foobar', from: 'offer_organization_ids'
-      # select 'basicSplitBaseTitle', from: 'offer_split_base_id'
+      select 'basicSplitBaseTitle', from: 'offer_split_base_id'
 
       click_button 'Speichern und bearbeiten'
 
@@ -303,7 +303,7 @@ feature 'Admin Backend' do
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
       select 'main1', from: 'offer_category_ids'
-      # select 'basicSplitBaseTitle', from: 'offer_split_base_id'
+      select 'basicSplitBaseTitle', from: 'offer_split_base_id'
 
       ## Test general validations
 
