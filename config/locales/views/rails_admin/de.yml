@@ -19,6 +19,9 @@ de:
             paused: "paused"
             organization_deactivated: "organization_deactivated"
             dozing: "dozing"
+            # these two state are supposed to look the same to the user
+            under_construction_pre: "website under construction"
+            under_construction_post: "website under construction"
           icons:
             initialized: "fa-file-o"
             completed: "fa-check-circle-o"
@@ -29,6 +32,9 @@ de:
             paused: "fa-pause"
             organization_deactivated: "fa-building-o"
             dozing: "fa-question-circle"
+            # these two state are supposed to look the same to the user
+            under_construction_pre: "fa-wrench"
+            under_construction_post: "fa-wrench"
         events:
           complete: "Als komplett markieren"
           approve: "Freischalten"
@@ -39,6 +45,7 @@ de:
           pause: "Pausieren"
           doze: "Schlafen legen"
           reinitialize: "Re-Initialisieren"
+          website_under_construction: "Webseite im Aufbau"
 
     main:
       change_state:
