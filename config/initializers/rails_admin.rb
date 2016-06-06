@@ -236,6 +236,11 @@ RailsAdmin.config do |config|
       field :offers
     end
 
+    show do
+      field :offers
+      field :display_name
+    end
+
     object_label_method :display_name
   end
 
