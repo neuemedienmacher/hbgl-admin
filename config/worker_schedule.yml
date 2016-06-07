@@ -13,15 +13,16 @@ regenerate_html_job:
   class: "RegenerateHtmlWorker"
   queue: default
 
-subscribed_mails_spawner_job:
-  cron: "0 20 * * Mon Europe/Berlin" # every (2nd) monday at 20:00
-  class: "SubscribedEmailsMailingsSpawnerWorker"
-  queue: default
-
-uninformed_mails_spawner_job:
-  cron: "30 20 * * 1 Europe/Berlin" # every monday at 20:30
-  class: "UninformedEmailsMailingsSpawnerWorker"
-  queue: default
+# TODO: reactivate!!
+# subscribed_mails_spawner_job:
+#   cron: "0 20 * * Mon Europe/Berlin" # every (2nd) monday at 20:00
+#   class: "SubscribedEmailsMailingsSpawnerWorker"
+#   queue: default
+#
+# uninformed_mails_spawner_job:
+#   cron: "30 20 * * 1 Europe/Berlin" # every monday at 20:30
+#   class: "UninformedEmailsMailingsSpawnerWorker"
+#   queue: default
 
 # TODO: reactivate!!
 # check_websites_job:
