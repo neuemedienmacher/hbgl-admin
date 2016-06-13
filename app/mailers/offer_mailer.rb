@@ -3,13 +3,14 @@ class OfferMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
   MAX_OFFER_TEASER_COUNT = 5
 
-  def expiring_mail offer_count, offer_ids
-    @offer_count = offer_count
-    @offer_ids = offer_ids
-    mail subject: 'expiring offers',
-         to:      Rails.application.secrets.emails['expiring'],
-         from:    'post@clarat.org'
-  end
+  # not needed at the moment but maybe later..
+  # def expiring_mail offer_count, offer_ids
+  #   @offer_count = offer_count
+  #   @offer_ids = offer_ids
+  #   mail subject: 'expiring offers',
+  #        to:      Rails.application.secrets.emails['expiring'],
+  #        from:    'post@clarat.org'
+  # end
 
   # Informing email addresses for the first time that they have offers listed on
   # our platform.

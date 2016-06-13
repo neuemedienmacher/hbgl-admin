@@ -12,14 +12,14 @@ describe OfferMailer do
   end
   let(:options) { {} }
 
-  describe '#expiring_mail' do
-    it 'must deliver' do
-      mail = OfferMailer.expiring_mail 1, [offer.id]
-      mail.must deliver_from 'post@clarat.org'
-      mail.must have_body_text '1 offer expired today:'
-      mail.must have_body_text offer.id.to_s
-    end
-  end
+  # describe '#expiring_mail' do
+  #   it 'must deliver' do
+  #     mail = OfferMailer.expiring_mail 1, [offer.id]
+  #     mail.must deliver_from 'post@clarat.org'
+  #     mail.must have_body_text '1 offer expired today:'
+  #     mail.must have_body_text offer.id.to_s
+  #   end
+  # end
 
   describe '#inform_offer_context' do
     let(:email) do

@@ -13,8 +13,8 @@ class ExpiringOffersWorker
       asana.create_expire_task expiring_offer
     end
 
-    # Info E-Mail
-    OfferMailer.expiring_mail(expiring.count, expiring.pluck(:id)).deliver_now
+    # Info E-Mail - disabled because the new responsible team does not want them
+    # OfferMailer.expiring_mail(expiring.count, expiring.pluck(:id)).deliver_now
 
     # Expire offers and trigger manual indexing for algolia search
     expire_and_reindex_offers expiring
