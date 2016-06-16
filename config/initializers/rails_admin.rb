@@ -262,7 +262,9 @@ RailsAdmin.config do |config|
     end
 
     field :section_filters
-    field :split_base
+    field :split_base do
+      css_class 'js-solution-category__trigger'
+    end
     field :all_inclusive
     field :name do
       css_class 'js-category-suggestions__trigger'
@@ -304,6 +306,7 @@ RailsAdmin.config do |config|
     field :solution_category do
       inline_add false
       inline_edit false
+      css_class 'js-solution-category'
     end
     field :treatment_type
     field :participant_structure

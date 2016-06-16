@@ -55,6 +55,21 @@ $(document).on 'rails_admin.dom_ready', ->
 
           elem.html display
 
+  # automatic solution_category when split_base is selected
+
+  split_base_selection = $(".js-solution-category__trigger input")
+  console.log split_base_selection
+  if split_base_selection.length
+    solution_category_elem = $(".js-solution-category input")
+    console.log solution_category_elem
+
+    split_base_selection.on 'blur', (e) ->
+      #name = split_base_selection
+      name = split_base_selection.val().split(' || ')[1]
+      console.log split_base_selection.val().split(' || ')[1]
+      #solution_category_elem.html split_base_selection.val()
+      #solution_category_elem.value = name
+
   # NextStepsOffer Sorting
 
   next_steps_offers_area = $(".js-next-steps-offers")
