@@ -12,7 +12,7 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     later = FactoryGirl.create :offer, :approved, expires_at: today + 2.days
     Timecop.return
     Offer.any_instance.expects(:index!).once
-    OfferMailer.expect_chain(:expiring_mail, :deliver_now).once
+    # OfferMailer.expect_chain(:expiring_mail, :deliver_now).once
     AsanaCommunicator.any_instance.expects(:create_expire_task).once
     worker.perform
     expiring.reload.must_be :expired?
@@ -26,7 +26,7 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
       FactoryGirl.create :offer, expires_at: yesterday
     end
     Offer.any_instance.expects(:index!).never
-    OfferMailer.expects(:expiring_mail).never
+    # OfferMailer.expects(:expiring_mail).never
     AsanaCommunicator.any_instance.expects(:create_expire_task).never
     worker.perform
   end
@@ -35,7 +35,7 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
      'offers that will expire' do
     FactoryGirl.create :offer, expires_at: (Time.zone.now.end_of_day + 1)
     Offer.any_instance.expects(:index!).never
-    OfferMailer.expects(:expiring_mail).never
+    # OfferMailer.expects(:expiring_mail).never
     AsanaCommunicator.any_instance.expects(:create_expire_task).never
     worker.perform
   end
