@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 7582147a2bea7bc128ea0535924835be47c7f12f
-  branch: feature/842-improve-gengo-process
+  revision: ffe0fc090ef05d8bda7cd5bfbaae6ce8857cbd35
   specs:
     clarat_base (0.1.4)
       aasm
@@ -311,6 +310,7 @@ GEM
     metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (2.99.2)
+    mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
     minitest-capybara (0.7.2)
