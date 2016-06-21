@@ -17,6 +17,12 @@ class Category < ActiveRecord::Base
     name_de + (icon ? "#{sections_suffix}*" : sections_suffix)
   end
 
+  def self.date_of_oldest_missing_translation
+    sql_string = (I18n.available_locales - [:de, :en])
+                 .map { |locale| "name_#{locale} IS null" }.join(' OR ')
+    Category.where(sql_string).minimum(:created_at)
+  end
+
   private
 
   def translate_if_name_en_changed

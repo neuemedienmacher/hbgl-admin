@@ -31,10 +31,9 @@ class GengoCommunicator
     @connection.postTranslationJobs(jobs: jobs)
   end
 
-  def fetch_newly_approved_jobs
+  def fetch_approved_jobs_after_timestamp ts
     answer = @connection.getTranslationJobs(
-      status: 'approved',
-      timestamp_after: (Time.zone.now - 25.hours).to_i
+      status: 'approved', timestamp_after: ts
     )
     answer['response']
   end

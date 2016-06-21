@@ -5,6 +5,12 @@ require ClaratBase::Engine.root.join('app', 'models', 'next_step')
 class NextStep < ActiveRecord::Base
   after_save :translate_if_text_en_changed
 
+  def self.date_of_oldest_missing_translation
+    sql_string = (I18n.available_locales - [:de, :en])
+                 .map { |locale| "text_#{locale} IS null" }.join(' OR ')
+    NextStep.where(sql_string).minimum(:created_at)
+  end
+
   private
 
   def translate_if_text_en_changed

@@ -8,7 +8,12 @@ class GetAndApplyNewTranslationWorker
     translated_instance = model.constantize.find(id)
     translation = job['body_tgt']
 
-    translated_instance.send("#{field}=", translation)
-    translated_instance.save!
+    # only write & save new translations
+    if translated_instance.send(field) != translation
+      translated_instance.send("#{field}=", translation)
+      translated_instance.save!
+
+      # TODO: reindex connected offers if a category translation was updated
+    end
   end
 end
