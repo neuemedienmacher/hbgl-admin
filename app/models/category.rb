@@ -18,8 +18,10 @@ class Category < ActiveRecord::Base
   end
 
   def self.date_of_oldest_missing_translation
-    sql_string = (I18n.available_locales - [:de, :en])
-                 .map { |locale| "name_#{locale} IS null" }.join(' OR ')
+    sql_string = (I18n.available_locales - [:de, :en]).map do |locale|
+      # INFO: Unfortunately, most of our data is not nil but blank :/
+      "name_#{locale} IS null OR name_#{locale}='' "
+    end.join(' OR ')
     Category.where(sql_string).minimum(:created_at)
   end
 
