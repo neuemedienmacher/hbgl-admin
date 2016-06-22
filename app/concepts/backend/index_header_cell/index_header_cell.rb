@@ -8,8 +8,12 @@ class Backend::IndexHeaderCell < Cell::Concept
 
   private
 
+  def singular_name
+    name.tableize.singularize
+  end
+
   def pluralized_name
-    name.downcase.pluralize
+    name.tableize.pluralize
   end
 
   def current_path
@@ -37,7 +41,7 @@ class Backend::IndexHeaderCell < Cell::Concept
   end
 
   def new_object_link
-    { path: send("new_#{name.downcase}_path"), anchor: 'Neuet Teil' }
+    { path: send("new_#{singular_name}_path"), anchor: 'Neuet Teil' }
   end
 
   def export_link

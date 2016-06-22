@@ -2,6 +2,8 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
+gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
+
 ###########
 # General #
 ###########

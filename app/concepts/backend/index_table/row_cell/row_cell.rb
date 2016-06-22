@@ -35,7 +35,11 @@ module Backend::IndexTable
     end
 
     def edit_link(&block)
-      link_to edit_offer_path(model), &block
+      link_to send(:"edit_#{model_name}_path", model), &block
+    end
+
+    def model_name
+      model.class.name.tableize.singularize
     end
   end
 end

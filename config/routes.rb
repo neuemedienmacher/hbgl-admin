@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :mindmap
     end
   end
+  resources :offer_translations
 
   resources :next_steps_offers, only: [:index]
 
