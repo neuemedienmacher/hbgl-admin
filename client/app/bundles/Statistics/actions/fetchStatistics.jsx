@@ -32,7 +32,7 @@ export default function fetchStatistics() {
           return response.json()
         }
       ).then(json => {
-        console.log('json', json)
+        console.log('fetchStatistics json', json)
         dispatch(fetchStatisticsSuccess(json))
       })
   }

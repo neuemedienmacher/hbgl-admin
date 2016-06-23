@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 
 export default class Navigation extends React.Component {
   constructor(props, context) {
-    console.log(props, context)
+    console.log('Navigation before super', props, context)
     super(props, context)
-    console.log(props, context)
+    console.log('Navigation after super', props, context)
   }
   static propTypes = {}
 
@@ -18,13 +18,13 @@ export default class Navigation extends React.Component {
         <Link to='/statistics/offer_created' className='list-group-item'>
           Angebote Erstellt
         </Link>
-        <Link to='/statistics/offer_created' className='list-group-item'>
+        <Link to='/statistics/offer_approved' className='list-group-item'>
           Angebote Approved
         </Link>
-        <Link to='/statistics/offer_created' className='list-group-item'>
+        <Link to='/statistics/organization_created' className='list-group-item'>
           Organisationen Erstellt
         </Link>
-        <Link to='/statistics/offer_created' className='list-group-item'>
+        <Link to='/statistics/organization_approved' className='list-group-item'>
           Organisationen Approved
         </Link>
       </div>

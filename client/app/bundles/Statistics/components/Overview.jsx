@@ -4,7 +4,7 @@ export default class Overview extends React.Component {
   static propTypes = {}
 
   render() {
-    console.log(this.context)
+    console.log('Overview context', this.context)
     return (
       <div className='jumbotron'>
         <h1>Zahlen und Linien!</h1>
