@@ -33,7 +33,7 @@ class GengoCommunicator
 
   def fetch_approved_jobs_after_timestamp ts
     answer = @connection.getTranslationJobs(
-      status: 'approved', timestamp_after: ts
+      status: 'approved', timestamp_after: ts, count: 100
     )
     answer['response']
   end
