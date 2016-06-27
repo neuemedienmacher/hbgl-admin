@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 class OfferTranslationsController < BackendController
+  def index
+  end
+
   def edit
     form OfferTranslation::Update
   end
