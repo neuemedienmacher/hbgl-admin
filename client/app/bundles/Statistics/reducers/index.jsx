@@ -4,15 +4,15 @@
 // `https://github.com/shakacode/react_on_rails/tree/master/docs/additional_reading/generated_client_code.md`
 import merge from 'lodash/object/merge'
 import { combineReducers } from 'redux'
-import fetchStatisticsReducer from './fetchStatisticsReducer'
-import { initialState as fetchStatisticsState } from './fetchStatisticsReducer'
+import fetchReducer from './fetchReducer'
+import { initialState as fetchState } from './fetchReducer'
 import statisticSettingsReducer from './statisticSettingsReducer'
 import { initialState as settingsState } from './statisticSettingsReducer'
 
-export const initialStates = merge(fetchStatisticsState, settingsState)
+export const initialStates = merge(fetchState, settingsState)
 
 export default function combinedReducer(state = initialState, action) {
-  const reducers = [ fetchStatisticsReducer, statisticSettingsReducer ]
+  const reducers = [ fetchReducer, statisticSettingsReducer ]
 
   let newState = state
   for (let reducer of reducers) {

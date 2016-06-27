@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       resources :locations, only: [:index]
       resources :organizations, only: [:index]
       get '/statistics' => 'statistics#index'
+      get '/users' => 'users#index'
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
     end
   end

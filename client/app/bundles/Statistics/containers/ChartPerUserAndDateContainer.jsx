@@ -1,12 +1,16 @@
 import { connect } from 'react-redux'
 import moment from 'moment'
+import uniq from 'lodash/array/uniq'
+import compact from 'lodash/array/compact'
 import cloneDeep from 'lodash/lang/cloneDeep'
+
 import ChartPerUserAndDate from '../components/ChartPerUserAndDate'
 import updateDateRange from '../actions/updateDateRange'
 
 const mapStateToProps = function(state, ownProps) {
   const startDate = state.statisticSettings.startDate
   const endDate = state.statisticSettings.endDate
+  const selectedUsers = state.statisticSettings.selectedUsers
 
   const filteredData = cloneDeep(state.statistics.filter(function(statistic) {
     const x = moment(statistic.x, 'YYYY-MM-DD')
@@ -14,9 +18,17 @@ const mapStateToProps = function(state, ownProps) {
     return (
       statistic.topic === ownProps.topic &&
         x.isBefore(endDate) &&
-        x.isAfter(startDate)
+        x.isAfter(startDate) &&
+        selectedUsers.includes(statistic.user_id)
     )
   }))
+
+  const allUserIdsForWhichThereIsData = compact(uniq(state.statistics.map(
+    (statistic) => statistic.user_id
+  )))
+  const filteredUsers = state.users.filter((user) => {
+    return allUserIdsForWhichThereIsData.includes(user.id)
+  })
 
   return {
     // Chart Rendering
@@ -53,6 +65,8 @@ const mapStateToProps = function(state, ownProps) {
     },
 
     // User Selection
+    users: filteredUsers,
+    selectedUsers,
 	}
 }
 

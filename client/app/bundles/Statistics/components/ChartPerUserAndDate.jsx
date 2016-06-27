@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
 import { DateRange } from 'react-date-range'
 import BarChart from './BarChart'
+import UserSelectionContainer from '../containers/UserSelectionContainer'
 
-export default class Created extends React.Component {
+export default class ChartPerUserAndDate extends React.Component {
   static propTypes = {}
 
   render() {
@@ -27,6 +28,10 @@ export default class Created extends React.Component {
           onInit={this.props.dateRangeInit}
           onChange={this.props.dateRangeChange}
           ranges={this.props.dateRangeRanges}
+        />
+        <UserSelectionContainer
+          users={this.props.users}
+          selectedUsers={this.props.selectedUsers}
         />
       </div>
     )

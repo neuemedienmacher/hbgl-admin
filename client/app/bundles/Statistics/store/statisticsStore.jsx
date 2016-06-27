@@ -13,7 +13,7 @@ export default function getStore(props) {
 		initialStates,
 		applyMiddleware(
 			thunkMiddleware,
-			loggerMiddleware
+      // loggerMiddleware // for debugging
 		)
 	)
 }
