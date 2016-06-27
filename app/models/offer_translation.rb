@@ -3,8 +3,6 @@
 require ClaratBase::Engine.root.join('app', 'models', 'offer_translation')
 
 class OfferTranslation < ActiveRecord::Base
-  default_scope { where(locale: [:ar, :ru]) } # TODO: Dangerous! Apply for index
-
   include PgSearch
   pg_search_scope :search_everything,
                   against: [
