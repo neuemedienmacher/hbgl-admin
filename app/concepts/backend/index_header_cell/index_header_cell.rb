@@ -54,7 +54,7 @@ class Backend::IndexHeaderCell < Cell::Concept
   end
 
   def export_link
-    { path: new_export_path(object_name: name.downcase), anchor: 'Export' }
+    { path: new_export_path(object_name: name.underscore), anchor: 'Export' }
   end
 
   def active_class link
