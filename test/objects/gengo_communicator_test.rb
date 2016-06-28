@@ -47,7 +47,8 @@ class GengoCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       Gengo::API.any_instance.expects(:getTranslationJobs)
                 .with(
                   status: 'approved',
-                  timestamp_after: 1
+                  timestamp_after: 1,
+                  count: 100
                 ).returns('response' => 'bla')
       communicator.fetch_approved_jobs_after_timestamp(1).must_equal 'bla'
     end
