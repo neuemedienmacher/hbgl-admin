@@ -2,6 +2,8 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
+gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
+
 ###########
 # General #
 ###########
@@ -9,7 +11,7 @@ ruby '2.3.0'
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'feature/815-manual-translations'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -118,6 +120,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-d3'
   gem 'rails-assets-nestable2'
 end
+
+gem 'react_on_rails'
 
 #####################
 # Dev/Test Specific #

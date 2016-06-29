@@ -10,7 +10,7 @@ class NextStep < ActiveRecord::Base
       # INFO: Unfortunately, most of our data is not nil but blank :/
       "text_#{locale} IS null OR text_#{locale}='' "
     end.join(' OR ')
-    NextStep.where(sql_string).minimum(:created_at)
+    NextStep.where(sql_string).minimum(:created_at) || Time.zone.now
   end
 
   private

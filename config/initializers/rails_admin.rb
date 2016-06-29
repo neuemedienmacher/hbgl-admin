@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
     Subscription SectionFilter NextStep SolutionCategory
-    LogicVersion SplitBase
+    LogicVersion SplitBase OfferTranslation
   )
 
   config.actions do
@@ -366,6 +366,21 @@ RailsAdmin.config do |config|
 
     export do
       field :id
+    end
+  end
+
+  config.model 'OfferTranslation' do
+    weight(-3)
+    field :locale do
+      read_only true
+    end
+    field :name
+    field :description
+    field :opening_specification
+    field :source
+
+    field :offer do
+      read_only true
     end
   end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Export::Create < Trailblazer::Operation
   def model!(params)
-    Export.new(params[:object_name].titleize.constantize)
+    Export.new(params[:object_name].camelize.constantize)
   end
 
   contract do

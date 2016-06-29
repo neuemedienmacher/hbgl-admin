@@ -1,7 +1,7 @@
 table.table.table-condensed.table-striped
   thead
     tr
-      - list_settings['fields'].each do |field|
+      - column_fields.each do |field|
         th= header_sort_link field
       th
   tbody

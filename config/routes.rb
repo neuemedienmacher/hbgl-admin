@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :mindmap
     end
   end
+  resources :offer_translations
 
   resources :next_steps_offers, only: [:index]
 
@@ -25,8 +26,8 @@ Rails.application.routes.draw do
   put 'next_steps_offers/:id', controller: :next_steps_offers, action: :update
 
   # Stats
-  get '/statistics' => 'statistics#index', as: :statistics
-  get '/statistics/:topic(/:user_id)' => 'statistics#show', as: :statistic
+  get '/statistics(/:subpage)' => 'statistics#index', as: :statistics
+  # get '/statistics/:topic(/:user_id)' => 'statistics#show', as: :statistic
 
   # non-REST paths
   # ...
@@ -41,7 +42,9 @@ Rails.application.routes.draw do
       end
       resources :locations, only: [:index]
       resources :organizations, only: [:index]
-      get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
+      get '/statistics' => 'statistics#index'
+      get '/users' => 'users#index'
+      # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
     end
   end
 
@@ -56,6 +59,8 @@ Rails.application.routes.draw do
       root to: 'devise/sessions#new', as: 'unauthenticated_root'
     end
   end
+
+  get 'hello_world', to: 'hello_world#index'
 
   # Sidekiq interface
   require 'sidekiq/web'

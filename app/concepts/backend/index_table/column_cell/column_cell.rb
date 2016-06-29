@@ -4,8 +4,10 @@ module Backend::IndexTable
     builds do |model, _options|
       # Switch between different ways of displaying the cell content
       case model
-      when String, Integer, NilClass
+      when Integer, NilClass
         ColumnCell
+      when String
+        StringColumnCell
       when TrueClass, FalseClass
         BooleanColumnCell
       when ActiveRecord::Associations::CollectionProxy
@@ -17,6 +19,12 @@ module Backend::IndexTable
 
     def show # this handles the column content being simply renderable
       model
+    end
+  end
+
+  class StringColumnCell < ColumnCell
+    def show
+      model.truncate(40)
     end
   end
 

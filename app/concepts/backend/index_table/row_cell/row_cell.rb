@@ -19,23 +19,23 @@ module Backend::IndexTable
       end.join
     end
 
-    def data_content field
-      raw_data_content(field).truncate(40)
-    end
-
     def truncated_title field
-      content = raw_data_content(field)
+      content = data_content(field)
       return if content.length <= 40
       " title='#{content}'"
     end
 
-    def raw_data_content field
+    def data_content field
       concept('backend/index_table/column_cell', model.send(field), @options)
         .call
     end
 
     def edit_link(&block)
-      link_to edit_offer_path(model), &block
+      link_to send(:"edit_#{model_name}_path", model), &block
+    end
+
+    def model_name
+      model.class.name.tableize.singularize
     end
   end
 end
