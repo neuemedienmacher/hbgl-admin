@@ -39,8 +39,16 @@ module Backend::IndexTable
 
     private
 
+    def settings
+      @options[:settings] || {}
+    end
+
     def list_settings
-      @options[:settings]['list']
+      settings['list']
+    end
+
+    def column_fields
+      list_settings['fields']
     end
 
     def header_sort_link field

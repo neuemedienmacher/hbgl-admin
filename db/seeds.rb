@@ -85,12 +85,14 @@ subcategories = []
 10.times do
   subcategories.push(
     FactoryGirl.create :category, :with_dummy_translations,
+                       section_filters: [refugees],
                        parent: refugee_mains.sample
   )
 end
 
 20.times do
   FactoryGirl.create :category, :with_dummy_translations,
+                     section_filters: [refugees],
                      parent: subcategories.sample
 end
 

@@ -1,0 +1,19 @@
+.offer-translations--form-table {
+  &.table > tbody > tr > th {
+    border-top: none;
+    text-align: center;
+  }
+
+  th.translation {
+    width: 55%;
+  }
+
+  th.original {
+    width: 45%;
+  }
+
+  dfn {
+    cursor: help;
+    border-bottom: 1px dotted;
+  }
+}

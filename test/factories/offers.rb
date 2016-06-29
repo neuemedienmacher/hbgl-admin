@@ -89,10 +89,9 @@ FactoryGirl.define do
                                                name: evaluator.category)
       else
         evaluator.category_count.times do
-          offer.categories << (
-            Category.select(:id).all.try(:sample) ||
-              FactoryGirl.create(:category)
-          )
+          # Category.select(:id).all.try(:sample) ||
+          offer.categories <<
+            FactoryGirl.create(:category, section_filters: offer.section_filters)
         end
       end
       evaluator.opening_count.times do

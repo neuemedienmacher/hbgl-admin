@@ -10,7 +10,7 @@ class UninformedEmailsMailingsSpawnerWorker
   sidekiq_options retry: 0
 
   def perform
-    # return # TODO: remove to reenable mailings (also rubocop, tests, cov filter)
+    return # TODO: remove to reenable mailings (also rubocop, tests, cov filter and worker_schedule)
     Offer.transaction do
       Email.transaction do
         informable_emails =

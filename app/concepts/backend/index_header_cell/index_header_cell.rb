@@ -8,8 +8,12 @@ class Backend::IndexHeaderCell < Cell::Concept
 
   private
 
+  def singular_name
+    name.tableize.singularize
+  end
+
   def pluralized_name
-    name.downcase.pluralize
+    name.tableize.pluralize
   end
 
   def current_path
@@ -20,10 +24,19 @@ class Backend::IndexHeaderCell < Cell::Concept
     params[:search]
   end
 
+  def header_links
+    options[:header_links] || [:new, :export]
+  end
+
   def header_link_paths
-    link_array = [self_referential_link, new_object_link, export_link]
-    options[:additional_links]&.each do |link|
-      link_array.push(path: send("#{link}_path"), anchor: link.to_s.titleize)
+    link_array = [self_referential_link]
+    header_links.each do |link|
+      begin
+        path = send("#{link}_link")
+      rescue NoMethodError
+        path = { path: send("#{link}_path"), anchor: link.to_s.titleize }
+      end
+      link_array.push path
     end
     link_array
   end
@@ -36,12 +49,12 @@ class Backend::IndexHeaderCell < Cell::Concept
     { path: send("#{pluralized_name}_path"), anchor: 'Liste' }
   end
 
-  def new_object_link
-    { path: send("new_#{name.downcase}_path"), anchor: 'Neuet Teil' }
+  def new_link
+    { path: send("new_#{singular_name}_path"), anchor: 'Neuet Teil' }
   end
 
   def export_link
-    { path: new_export_path(object_name: name.downcase), anchor: 'Export' }
+    { path: new_export_path(object_name: name.underscore), anchor: 'Export' }
   end
 
   def active_class link
