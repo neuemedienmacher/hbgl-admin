@@ -16,4 +16,16 @@ class OfferTranslation::EditCell < Cell::Concept
   def source_offer
     model.model.offer
   end
+
+  def source_name
+    ERB::Util.html_escape source_offer.name_de
+  end
+
+  def source_description
+    ERB::Util.html_escape source_offer.description_de
+  end
+
+  def source_opening_specification
+    ERB::Util.html_escape source_offer.opening_specification_de
+  end
 end

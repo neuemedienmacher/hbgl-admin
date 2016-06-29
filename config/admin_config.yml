@@ -49,6 +49,7 @@ settings:
         - locale
         - source
         - name
+        - possibly_outdated
       order: "updated_at ASC"
   Location:
     display_name: "name"
