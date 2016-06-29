@@ -22,7 +22,7 @@ class Category < ActiveRecord::Base
       # INFO: Unfortunately, most of our data is not nil but blank :/
       "name_#{locale} IS null OR name_#{locale}='' "
     end.join(' OR ')
-    Category.where(sql_string).minimum(:created_at)
+    Category.where(sql_string).minimum(:created_at) || Time.zone.now
   end
 
   private
