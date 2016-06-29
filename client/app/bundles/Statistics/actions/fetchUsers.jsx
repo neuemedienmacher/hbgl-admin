@@ -1,41 +1,49 @@
 import fetch from 'isomorphic-fetch'
 
-const fetchStatisticsRequest = function() {
+const fetchUsersRequest = function() {
   return {
     type: 'FETCH_USERS_REQUEST'
   }
 }
-const fetchStatisticsFailure = function(error) {
+const fetchUsersFailure = function(error) {
   return {
     type: 'FETCH_USERS_FAILURE',
     error
   }
 }
-const fetchStatisticsSuccess = function(response) {
+const fetchUsersSuccess = function(response) {
   return {
     type: 'FETCH_USERS_SUCCESS',
     response
   }
 }
-export default function fetchStatistics() {
+export default function fetchUsers(authData) {
   return function(dispatch) {
-    dispatch(fetchStatisticsRequest())
+    dispatch(fetchUsersRequest())
 
-    return fetch('/api/v1/users.json')
-      .then(
+    return (
+      fetch(
+        '/api/v1/users.json', {
+          method: 'GET',
+          headers: {
+            Authorization: 'Basic ' + btoa(authData)
+          }
+        }
+      ).then(
         function(response) {
           const { status, statusText } = response
           if (status >= 400) {
-            dispatch(fetchStatisticsFailure(response))
+            dispatch(fetchUsersFailure(response))
             throw new Error(`Fetch Users Error ${status}: ${statusText}`)
           }
           return response.json()
         }
       ).then(json => {
         console.log('fetchUsers json', json)
-        dispatch(fetchStatisticsSuccess(json))
+        dispatch(fetchUsersSuccess(json))
       })
+    )
   }
 }
 
- fetchStatistics
+ fetchUsers

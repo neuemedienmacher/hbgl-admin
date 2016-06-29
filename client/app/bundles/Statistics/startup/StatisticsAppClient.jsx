@@ -9,10 +9,10 @@ import Routes from '../components/Routes'
 // This code here binds your smart component to the redux store.
 export default (props) => {
   const store = getStore(props)
-  const reactComponent = (
+
+  return (
     <Provider store={store}>
       <Routes />
     </Provider>
-  );
-  return reactComponent
+  )
 }

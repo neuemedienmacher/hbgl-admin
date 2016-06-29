@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 class StatisticsController < ApplicationController
   def index
-  end
-
-  def show
-    return raise 'unsafe' unless Statistic::TOPICS.include?(params['topic'])
-    @topic = params['topic']
+    secrets = Rails.application.secrets
+    @props = {
+      ajaxAuth: secrets.protect['user'] + ':' + secrets.protect['pwd']
+    }
   end
 end

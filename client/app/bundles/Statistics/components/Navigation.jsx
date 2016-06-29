@@ -3,9 +3,7 @@ import { Link } from 'react-router'
 
 export default class Navigation extends React.Component {
   constructor(props, context) {
-    console.log('Navigation before super', props, context)
     super(props, context)
-    console.log('Navigation after super', props, context)
   }
   static propTypes = {}
 

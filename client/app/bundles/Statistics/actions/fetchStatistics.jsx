@@ -17,12 +17,19 @@ const fetchStatisticsSuccess = function(response) {
     response
   }
 }
-export default function fetchStatistics() {
+export default function fetchStatistics(authData) {
   return function(dispatch) {
     dispatch(fetchStatisticsRequest())
 
-    return fetch('/api/v1/statistics.json')
-      .then(
+    return (
+      fetch(
+        '/api/v1/statistics.json', {
+          method: 'GET',
+          headers: {
+            Authorization: 'Basic ' + btoa(authData)
+          }
+        }
+      ).then(
         function(response) {
           const { status, statusText } = response
           if (status >= 400) {
@@ -35,6 +42,7 @@ export default function fetchStatistics() {
         console.log('fetchStatistics json', json)
         dispatch(fetchStatisticsSuccess(json))
       })
+    )
   }
 }
 

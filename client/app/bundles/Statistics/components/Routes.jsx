@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
-import LayoutContainer from '../containers/LayoutContainer'
+import Layout from './Layout'
 import Overview from './Overview'
 import OfferCreatedPage from './OfferCreatedPage'
 import OfferApprovedPage from './OfferApprovedPage'
@@ -8,11 +8,10 @@ import OrgaCreatedPage from './OrgaCreatedPage'
 import OrgaApprovedPage from './OrgaApprovedPage'
 
 export default class Statistics extends React.Component {
-
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path='statistics' component={LayoutContainer}>
+        <Route path='statistics' component={Layout}>
           <IndexRoute component={Overview}/>
           <Route path='offer_created' component={OfferCreatedPage} />
           <Route path='offer_approved' component={OfferApprovedPage} />

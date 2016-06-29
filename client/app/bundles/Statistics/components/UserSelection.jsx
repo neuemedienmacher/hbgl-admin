@@ -20,7 +20,7 @@ export default class UserSelection extends React.Component {
                 type='checkbox'
                 id={`user-${user.id}`}
                 name='selectedUsers'
-                selected={selectedUsers.includes(user.id)}
+                checked={selectedUsers.includes(user.id)}
                 onClick={toggleUser(user.id)}
               />
               <label htmlFor={`user-${user.id}`}>

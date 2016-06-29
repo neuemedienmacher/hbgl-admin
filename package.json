@@ -32,5 +32,9 @@
   "dependencies": {},
   "devDependencies": {
     "babel-runtime": "^6.9.0"
-  }
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ]
 }
