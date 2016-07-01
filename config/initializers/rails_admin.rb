@@ -760,5 +760,6 @@ RailsAdmin.config do |config|
     field :version do
       read_only true
     end
+    field :description
   end
 end
