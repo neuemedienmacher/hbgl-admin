@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 8ffa9267c25c6be6d2428f1dcf39d1c31269f812
-  branch: feature/815-manual-translations
+  revision: 485d412d0c971f6a92f7af22b193da351f4f9f87
   specs:
     clarat_base (0.1.4)
       aasm
@@ -503,10 +502,10 @@ GEM
     require_all (1.3.3)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
-    rest-client (1.8.0)
+    rest-client (2.0.0)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     roar (1.0.3)
       representable (>= 2.0.1, <= 3.0.0)
     rubocop (0.37.2)
