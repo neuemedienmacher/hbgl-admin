@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701163604) do
+ActiveRecord::Schema.define(version: 20160629120655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,13 @@ ActiveRecord::Schema.define(version: 20160701163604) do
 
   add_index "filters_offers", ["filter_id"], name: "index_filters_offers_on_filter_id", using: :btree
   add_index "filters_offers", ["offer_id"], name: "index_filters_offers_on_offer_id", using: :btree
+
+  create_table "gengo_orders", force: :cascade do |t|
+    t.integer  "order_id"
+    t.string   "expected_slug"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "hyperlinks", force: :cascade do |t|
     t.integer "linkable_id",              null: false

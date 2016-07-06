@@ -45,24 +45,5 @@ describe Category do
         category.name_with_world_suffix_and_optional_asterisk.must_equal 'a(F)'
       end
     end
-    describe '#date_of_oldest_missing_translation' do
-      it 'should return the minimum created_at date within the existing data' do
-        # create two categories without translations
-        old = FactoryGirl.create(:category, created_at: Date.new(1970, 1, 1))
-        FactoryGirl.create(:category, created_at: Date.new(1970, 1, 2))
-
-        Category.date_of_oldest_missing_translation.must_equal old.created_at
-      end
-      it 'should ignore an older category if it has all translations' do
-        old = FactoryGirl.create(:category, created_at: Date.new(1970, 1, 1))
-        # set all translations (except for de and en)
-        (I18n.available_locales - [:de, :en]).map do |locale|
-          old.send("name_#{locale}=", 'Foobar')
-        end
-        old.save!
-        newer = FactoryGirl.create(:category, created_at: Date.new(1970, 1, 2))
-        Category.date_of_oldest_missing_translation.must_equal newer.created_at
-      end
-    end
   end
 end
