@@ -4,8 +4,12 @@ rvm:
 notifications:
   email:
     - dev@clarat.org
+before_script:
+  - "RAILS_ENV=test bundle exec rake db:migrate"
+  - "npm install"
+  - "cd client && npm build:dev:client && npm build:dev:server"
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate && npm i && bundle exec rake test:all
+  - RAILS_ENV=test bundle exec rake test:all
 before_install:
   - "npm install -g npm@next"
 sudo: false
