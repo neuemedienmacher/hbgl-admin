@@ -21,7 +21,7 @@ class GengoCommunicatorTest < ActiveSupport::TestCase # to have fixtures
                    ' help. Please use very simple / easy to understand'\
                    ' language.',
           purpose: 'Web content. Describing help for refugees in Germany',
-          tone:    'Friendly, Informal'
+          tone:    'Friendly, Informal (first name basis)'
         }
         Gengo::API.any_instance.expects(:postTranslationJobs).with(
           jobs: [
@@ -35,22 +35,10 @@ class GengoCommunicatorTest < ActiveSupport::TestCase # to have fixtures
               lc_tgt: 'ar', body_src: 'foobar', slug: 'OpenStruct:99:field_ar'
             )
           ]
-        )
+        ).returns('response' => { 'order_id' => '1' })
 
         communicator.create_translation_jobs object, 'field'
       end
-    end
-  end
-
-  describe '#fetch_approved_jobs_after_timestamp' do
-    it 'calls getTranslationJobs and returns the response' do
-      Gengo::API.any_instance.expects(:getTranslationJobs)
-                .with(
-                  status: 'approved',
-                  timestamp_after: 1,
-                  count: 100
-                ).returns('response' => 'bla')
-      communicator.fetch_approved_jobs_after_timestamp(1).must_equal 'bla'
     end
   end
 
@@ -59,6 +47,14 @@ class GengoCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       Gengo::API.any_instance.expects(:getTranslationJob)
                 .with(id: 123).returns('response' => { 'job' => 'bla' })
       communicator.fetch_job(123).must_equal 'bla'
+    end
+  end
+
+  describe '#fetch_order' do
+    it 'calls getTranslationOrderJobs and returns the order response' do
+      Gengo::API.any_instance.expects(:getTranslationOrderJobs)
+                .with(order_id: 123).returns('response' => { 'order' => { 'total_jobs' => '1', 'jobs_approved' => ['1'] } })
+      communicator.fetch_order(123).must_equal('total_jobs' => '1', 'jobs_approved' => ['1'])
     end
   end
 end

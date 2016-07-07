@@ -69,6 +69,7 @@ Procfile.development
 .htpasswd
 # React on Rails
 npm-debug.log
+client/npm-debug.log*
 node_modules
 
 # Generated js bundles

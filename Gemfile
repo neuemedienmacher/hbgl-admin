@@ -11,7 +11,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'feature/815-manual-translations'
+gem 'clarat_base', github: 'clarat-org/clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -144,6 +144,8 @@ group :development do
   # requires graphviz to generate
   # entity relationship diagrams
   gem 'rails-erd', require: false
+
+  gem 'foreman'
 end
 
 group :test do
