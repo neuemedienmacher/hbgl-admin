@@ -5,5 +5,5 @@ notifications:
   email:
     - dev@clarat.org
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate && bundle exec rake test:all
+  - RAILS_ENV=test bundle exec rake db:migrate && npm i && bundle exec rake test:all
 sudo: false
