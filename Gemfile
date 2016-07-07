@@ -144,6 +144,8 @@ group :development do
   # requires graphviz to generate
   # entity relationship diagrams
   gem 'rails-erd', require: false
+
+  gem 'foreman'
 end
 
 group :test do

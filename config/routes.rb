@@ -60,8 +60,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'hello_world', to: 'hello_world#index'
-
   # Sidekiq interface
   require 'sidekiq/web'
   require 'sidekiq-cron'
