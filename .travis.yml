@@ -7,7 +7,7 @@ notifications:
 before_script:
   - "RAILS_ENV=test bundle exec rake db:migrate"
   - "npm install"
-  - "cd client && npm build:dev:client && npm build:dev:server"
+  - "cd client && npm run build:client"
 script:
   - RAILS_ENV=test bundle exec rake test:all
 before_install:
