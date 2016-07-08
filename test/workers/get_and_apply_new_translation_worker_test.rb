@@ -40,14 +40,19 @@ class GetAndApplyNewTranslationWorkerTest < ActiveSupport::TestCase
   it 'should process completed order but ignore its jobs with wrong slug' do
     order = GengoOrder.create order_id: 123, expected_slug: 'Category:1:name'
     GengoCommunicator.any_instance.expects(:fetch_order).with(123).returns(
-      'total_jobs' => '1', 'jobs_approved' => ['1']
+      'total_jobs' => '2', 'jobs_approved' => %w(1 2)
     )
     GengoCommunicator.any_instance.expects(:fetch_job).with(1).returns(
+      'body_tgt' => 'ar(GET READY FOR CANADA)', 'slug' => 'Category:1:name_ar',
+      'lc_tgt' => 'ar'
+    )
+    GengoCommunicator.any_instance.expects(:fetch_job).with(2).returns(
       'body_tgt' => 'fr(GET READY FOR CANADA)', 'slug' => 'Offer:1:description',
       'lc_tgt' => 'fr'
     )
     Category.find(1).name_fr.wont_equal 'fr(GET READY FOR CANADA)'
     GengoOrder.any_instance.expects(:delete).never
+    Offer.any_instance.expects(:index!).never
     assert_raises(RuntimeError) { worker.perform order.id }
     Category.find(1).name_fr.wont_equal 'fr(GET READY FOR CANADA)'
   end

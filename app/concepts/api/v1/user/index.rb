@@ -4,7 +4,7 @@ module API::V1
     class Index < API::V1::Default::Index
       def model!(params)
         query = ::User
-        return query.all
+        query.all
       end
 
       representer API::V1::User::Representer::Index

@@ -7,7 +7,7 @@ module API::V1
         # if params['user_id'] != 'all'
         #   return query.where(user_id: params['user_id'])
         # else
-          return query.all
+        query.all
         # end
       end
 
