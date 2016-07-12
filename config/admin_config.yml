@@ -18,6 +18,7 @@ included_models:
   # - ContactPerson
   # - Subscription
   # - SectionFilter
+  - OrganizationTranslation
   - OfferTranslation
 settings:
   Organization:
@@ -31,6 +32,15 @@ settings:
         - created_by
       order: "offers_count ASC"
     display_name: "name"
+  OrganizationTranslation:
+    list:
+      fields:
+        - id
+        - organization_id
+        - locale
+        - source
+        - possibly_outdated
+      order: "updated_at ASC"
   Offer:
     list:
       fields:
