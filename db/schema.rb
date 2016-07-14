@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629120655) do
+ActiveRecord::Schema.define(version: 20160708141922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,14 @@ ActiveRecord::Schema.define(version: 20160629120655) do
 
   add_index "filters_offers", ["filter_id"], name: "index_filters_offers_on_filter_id", using: :btree
   add_index "filters_offers", ["offer_id"], name: "index_filters_offers_on_offer_id", using: :btree
+
+  create_table "filters_organizations", id: false, force: :cascade do |t|
+    t.integer "filter_id",       null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "filters_organizations", ["filter_id"], name: "index_filters_organizations_on_filter_id", using: :btree
+  add_index "filters_organizations", ["organization_id"], name: "index_filters_organizations_on_organization_id", using: :btree
 
   create_table "gengo_orders", force: :cascade do |t|
     t.integer  "order_id"
@@ -370,7 +378,6 @@ ActiveRecord::Schema.define(version: 20160629120655) do
     t.string   "legal_form",                                        null: false
     t.boolean  "charitable",                        default: false
     t.integer  "founded"
-    t.string   "umbrella",               limit: 8
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"

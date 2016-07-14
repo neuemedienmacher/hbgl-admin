@@ -47,6 +47,7 @@ feature 'Admin Backend' do
         fill_in 'organization_description', with: 'testdescription'
         select 'e.V.', from: 'organization_legal_form'
         select 'basicLocation', from: 'organization_location_ids'
+        select 'Diakonie', from: 'organization_umbrella_filter_ids'
         check 'organization_accredited_institution'
 
         click_button 'Speichern'
