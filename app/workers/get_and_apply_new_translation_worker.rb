@@ -10,9 +10,20 @@ class GetAndApplyNewTranslationWorker
     # ignore unfinished orders (total_job_count != approved_jobs_count)
     return unless order['total_jobs'].to_i == order['jobs_approved'].count
 
+    #
+    get_and_apply_translations_of_order order, gengo_order.expected_slug
+
+    # delete gengo_order
+    gengo_order.delete
+  end
+
+  private
+
+  def get_and_apply_translations_of_order order, expected_slug
+    # store model_istance of single jobs
     updated_model = order['jobs_approved'].map do |job_id|
-      get_and_apply_translation_job job_id.to_i, gengo_order.expected_slug
-    end.uniq.first
+      get_and_apply_translation_job job_id.to_i, expected_slug
+    end.first
 
     # reindex affected offers if category translation was updated
     if updated_model.class == Category
@@ -20,12 +31,7 @@ class GetAndApplyNewTranslationWorker
         category.offers.approved.each(&:index!)
       end
     end
-
-    # delete gengo_order
-    gengo_order.delete
   end
-
-  private
 
   def get_and_apply_translation_job job_id, expected_slug
     job = GengoCommunicator.new.fetch_job job_id
