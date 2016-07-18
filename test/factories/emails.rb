@@ -8,6 +8,11 @@ FactoryGirl.define do
     trait :with_approved_offer do
       after :create do |email, _evaluator|
         offers = [FactoryGirl.create(:offer, :approved)]
+        # TODO: remove this later!
+        offers.each do |offer|
+          offer.section_filters =
+            [SectionFilter.find_by(identifier: 'refugees') || FactoryGirl.create(:section_filter, identifier: 'refugees')]
+        end
         email.contact_people << FactoryGirl.create(:contact_person,
                                                    offers: offers)
       end

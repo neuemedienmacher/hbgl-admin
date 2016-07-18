@@ -13,8 +13,6 @@ AllCops:
     - 'config/initializers/**/*'
     - 'test/test_helper.rb'
     - 'test/support/**/*'
-    - 'app/workers/subscribed_emails_mailings_spawner_worker.rb'
-    - 'app/workers/uninformed_emails_mailings_spawner_worker.rb'
     - 'client/node_modules/**/*'
     - 'lib/tasks/**/*'
 

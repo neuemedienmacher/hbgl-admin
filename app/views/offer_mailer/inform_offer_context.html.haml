@@ -19,10 +19,15 @@
 %p
   kennen Sie
   = link_to( t(".clarat_name.family_refugees"), t(".link_url.family_refugees") )
-  = t(".paragraph_entry.html",
-    offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) )
-  = link_to( t(".clarat_name.#{@section_suffix}"), t(".link_url.#{@section_suffix}") )
-  finden.
+  = t(".paragraph_entry.html")
+%p
+  - if @mainly_portal
+    = t(".paragraph_portal_forward")
+  - else
+    = t(".paragraph_your_offers.html",
+      offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) )
+    = link_to( t(".clarat_name.#{@section_suffix}"), t(".link_url.#{@section_suffix}") )
+    finden.
 - if @singular_section
   %p
     - if @offers_teaser

@@ -20,6 +20,9 @@
   kennen Sie
   = link_to( t(".clarat_name"), t(".link_url") )
   = t(".paragraph_entry_html")
+- if @mainly_portal
+  %p
+  = t(".paragraph_portal_forward")
 %p
   = t(".paragraph_overview_link", overview_link: '||').split('||').first
   = link_to( t(".paragraph_overview_link_text"), t(".link_url") + @overview_href_suffix )
