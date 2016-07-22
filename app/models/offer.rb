@@ -47,7 +47,7 @@ class Offer < ActiveRecord::Base
   # Scopes
   scope :approved, -> { where(aasm_state: 'approved') }
   scope :by_mailings_enabled_organization, lambda {
-    joins(:organizations).where('organizations.mailings_enabled = ?', true)
+    joins(:organizations).where('organizations.mailings = ?', 'enabled')
   }
 
   # Admin specific methods

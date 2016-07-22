@@ -60,8 +60,13 @@
     &.external_feedback { background-color: chocolate; }
     &.paused { background-color: grey; }
     &.dozing { background-color: grey; }
+    &.organization_deactivated { background-color: grey; }
     &.under_construction_pre { background-color: grey; }
     &.under_construction_post { background-color: grey; }
+    &.approval_process { background-color: darkcyan; }
+    &.checkup_process { background-color: darkcyan; }
+    &.website_unreachable { background-color: grey; }
+    &.seasonal_pending { background-color: grey; }
   }
 
   ul.StateMachine--EventList {

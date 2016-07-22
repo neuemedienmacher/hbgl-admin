@@ -89,6 +89,9 @@ feature 'Admin Backend' do
       click_link 'Als komplett markieren'
       page.must_have_content 'Zustandsänderung war erfolgreich.'
 
+      click_link 'Approval starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+
       # There is no approve link as same user
       # page.wont_have_link 'Freischalten'
       # TODO: change this!
@@ -129,6 +132,10 @@ feature 'Admin Backend' do
         %w(organization_deactivated completed internal_feedback)
       )
 
+      click_link 'Checkup starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      orga.reload.must_be :checkup_process?
+
       # Approve button click: reactivates orga and all its approved offers
 
       click_link 'Freischalten'
@@ -136,7 +143,7 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback)
+        %w(checkup_process completed internal_feedback)
       )
     end
 
@@ -173,7 +180,7 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Webseite im Aufbau'
+      click_link 'Webseite wird überarbeitet'
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :under_construction_pre?
 
@@ -194,9 +201,13 @@ feature 'Admin Backend' do
 
       offer.must_be :approved?
 
-      click_link 'Webseite im Aufbau'
+      click_link 'Webseite wird überarbeitet'
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :under_construction_post?
+
+      click_link 'Checkup starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :checkup_process?
 
       click_link 'Freischalten'
       page.must_have_content 'Zustandsänderung war erfolgreich'
@@ -229,7 +240,7 @@ feature 'Admin Backend' do
         %w(organization_deactivated completed internal_feedback)
       )
 
-      click_link 'Webseite im Aufbau'
+      click_link 'Webseite wird überarbeitet'
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :under_construction_post?
@@ -237,13 +248,17 @@ feature 'Admin Backend' do
         %w(under_construction_post under_construction_pre internal_feedback)
       )
 
+      click_link 'Checkup starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      orga.reload.must_be :checkup_process?
+
       # Approve button click: reactivates orga and all its approved offers
       click_link 'Freischalten'
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved initialized internal_feedback)
+        %w(checkup_process initialized internal_feedback)
       )
     end
 
@@ -438,6 +453,10 @@ feature 'Admin Backend' do
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :completed?
 
+      click_link 'Approval starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approval_process?
+
       # There is no approve link as same user
       # page.wont_have_link 'Freischalten'
       # TODO: change this!
@@ -454,7 +473,7 @@ feature 'Admin Backend' do
       click_link 'Freischalten'
       page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
       page.must_have_content 'nicht valide'
-      offer.reload.must_be :completed?
+      offer.reload.must_be :approval_process?
 
       # Organization needs to be approved
       page.must_have_content 'Organizations darf nur bestätigte Organisationen'\

@@ -64,11 +64,11 @@ class Email < ActiveRecord::Base
   def informable_offers?
     contact_people.joins(:offers)
                   .where('offers.aasm_state = ?', 'approved').any? &&
-      organizations.where(mailings_enabled: true).any?
+      organizations.where(mailings: 'enabled').any?
   end
 
   def informable_orga? orga
-    orga.aasm_state == 'approved' && orga.mailings_enabled &&
+    orga.aasm_state == 'approved' && orga.mailings_enabled? &&
       orga.offers.approved.any? && orga.locations.count < 10
   end
 end

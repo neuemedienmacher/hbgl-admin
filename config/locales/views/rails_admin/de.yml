@@ -19,6 +19,10 @@ de:
             paused: "paused"
             organization_deactivated: "organization_deactivated"
             dozing: "dozing"
+            approval_process: "approval process"
+            checkup_process: "checkup_process process"
+            website_unreachable: "website unreachable"
+            seasonal_pending: "seasonal pending"
             # these two state are supposed to look the same to the user
             under_construction_pre: "website under construction"
             under_construction_post: "website under construction"
@@ -32,6 +36,10 @@ de:
             paused: "fa-pause"
             organization_deactivated: "fa-building-o"
             dozing: "fa-question-circle"
+            approval_process: "fa-search"
+            checkup_process: "fa-search"
+            website_unreachable: "fa-wrench"
+            seasonal_pending: "fa-pause"
             # these two state are supposed to look the same to the user
             under_construction_pre: "fa-wrench"
             under_construction_post: "fa-wrench"
@@ -45,7 +53,10 @@ de:
           pause: "Pausieren"
           doze: "Schlafen legen"
           reinitialize: "Re-Initialisieren"
-          website_under_construction: "Webseite im Aufbau"
+          website_under_construction: "Webseite wird überarbeitet"
+          start_approval_process: "Approval starten"
+          start_checkup_process: "Checkup starten"
+          website_twice_unreachable: "Webseite nicht erreichbar"
 
     main:
       change_state:

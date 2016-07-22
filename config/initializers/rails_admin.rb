@@ -108,7 +108,7 @@ RailsAdmin.config do |config|
 
     field :websites
     field :contact_people
-    field :mailings_enabled
+    field :mailings
     field :aasm_state do
       read_only true
       help false
