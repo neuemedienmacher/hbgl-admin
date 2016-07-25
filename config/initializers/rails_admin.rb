@@ -138,7 +138,7 @@ RailsAdmin.config do |config|
           ru = bindings[:object].translations.where(locale: :ru).first
           output_string = ''
           output_string += if en
-            "<a href='/orgnaization_translations/#{en.id}/edit'>Englisch</a><br/>"
+            "<a href='/organization_translations/#{en.id}/edit'>Englisch</a><br/>"
           else
             'Englisch (wird noch erstellt)<br/>'
           end
