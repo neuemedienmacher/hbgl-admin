@@ -3,7 +3,7 @@ de:
     custom:
       notes:
         topics:
-          internal_info: "Aufgaben (TODO)"
+          internal_info: "Interne Infos (ehem. TODO)"
           external_info: "Externe Infos (external_info)"
 
       state_machine:
