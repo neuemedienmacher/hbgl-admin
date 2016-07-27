@@ -66,7 +66,7 @@ feature 'Admin Backend' do
       click_link 'Organisationen', match: :first
       click_link 'Bearbeiten', match: :first
 
-      click_link 'Als komplett markieren'
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
       page.must_have_content 'nicht valide'
 
@@ -86,10 +86,10 @@ feature 'Admin Backend' do
       page.must_have_content 'Organisation wurde erfolgreich aktualisiert'
 
       # complete works
-      click_link 'Als komplett markieren'
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich.'
 
-      click_link 'Approval starten'
+      click_link 'Approval starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       # There is no approve link as same user
@@ -101,7 +101,7 @@ feature 'Admin Backend' do
       login_as superuser
       visit current_path
       page.must_have_link 'Freischalten'
-      click_link 'Freischalten'
+      click_link 'Freischalten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
     end
 
@@ -124,7 +124,7 @@ feature 'Admin Backend' do
         %w(approved completed internal_feedback)
       )
 
-      click_link 'Deaktivieren (External Feedback)'
+      click_link 'Deaktivieren (External Feedback)', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :external_feedback?
@@ -132,13 +132,13 @@ feature 'Admin Backend' do
         %w(organization_deactivated completed internal_feedback)
       )
 
-      click_link 'Checkup starten'
+      click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       orga.reload.must_be :checkup_process?
 
       # Approve button click: reactivates orga and all its approved offers
 
-      click_link 'Freischalten (mit deaktivierten Angeboten)'
+      click_link 'Freischalten (mit deaktivierten Angeboten)', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
@@ -159,11 +159,11 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Schlafen legen'
+      click_link 'Schlafen legen', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :dozing?
 
-      click_link 'Re-Initialisieren'
+      click_link 'Re-Initialisieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :initialized?
     end
@@ -180,11 +180,11 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Webseite wird überarbeitet'
+      click_link 'Webseite wird überarbeitet', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :under_construction_pre?
 
-      click_link 'Re-Initialisieren'
+      click_link 'Re-Initialisieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :initialized?
     end
@@ -201,15 +201,15 @@ feature 'Admin Backend' do
 
       offer.must_be :approved?
 
-      click_link 'Webseite wird überarbeitet'
+      click_link 'Webseite wird überarbeitet', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :under_construction_post?
 
-      click_link 'Checkup starten'
+      click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :checkup_process?
 
-      click_link 'Freischalten'
+      click_link 'Freischalten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :approved?
     end
@@ -227,15 +227,15 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Als komplett markieren'
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :completed?
 
-      click_link 'Approval starten'
+      click_link 'Approval starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :approval_process?
 
-      click_link 'Freischalten'
+      click_link 'Freischalten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :seasonal_pending?
 
@@ -260,11 +260,11 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Bearbeiten', match: :first
 
-      click_link 'Checkup starten'
+      click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :checkup_process?
 
-      click_link 'Freischalten'
+      click_link 'Freischalten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :approved?
     end
@@ -287,7 +287,7 @@ feature 'Admin Backend' do
         %w(approved completed internal_feedback)
       )
 
-      click_link 'Deaktivieren (External Feedback)'
+      click_link 'Deaktivieren (External Feedback)', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :external_feedback?
@@ -295,7 +295,7 @@ feature 'Admin Backend' do
         %w(organization_deactivated completed internal_feedback)
       )
 
-      click_link 'Webseite wird überarbeitet'
+      click_link 'Webseite wird überarbeitet', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :under_construction_post?
@@ -303,12 +303,12 @@ feature 'Admin Backend' do
         %w(under_construction_post under_construction_pre internal_feedback)
       )
 
-      click_link 'Checkup starten'
+      click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       orga.reload.must_be :checkup_process?
 
       # Approve button click: reactivates orga and all its approved offers
-      click_link 'Freischalten (mit deaktivierten Angeboten)'
+      click_link 'Freischalten (mit deaktivierten Angeboten)', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
@@ -404,7 +404,7 @@ feature 'Admin Backend' do
       ## Test Update validations
 
       # Try to complete, doesnt work
-      click_link 'Als komplett markieren'
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
       page.must_have_content 'nicht valide'
 
@@ -436,7 +436,7 @@ feature 'Admin Backend' do
       page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Complete works
-      click_link 'Als komplett markieren'
+      click_link 'Als komplett markieren', match: :first
       page.wont_have_content 'Zustandsänderung konnte nicht erfolgen'
       page.must_have_content 'Zustandsänderung war erfolgreich'
     end
@@ -504,11 +504,11 @@ feature 'Admin Backend' do
       page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
       offer = Offer.last
 
-      click_link 'Als komplett markieren'
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :completed?
 
-      click_link 'Approval starten'
+      click_link 'Approval starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :approval_process?
 
@@ -525,7 +525,7 @@ feature 'Admin Backend' do
       ## Test (after-)approval update validations
 
       # Try to approve, doesnt work
-      click_link 'Freischalten'
+      click_link 'Freischalten', match: :first
       page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
       page.must_have_content 'nicht valide'
       offer.reload.must_be :approval_process?
@@ -540,7 +540,7 @@ feature 'Admin Backend' do
       page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Approval works
-      click_link 'Freischalten'
+      click_link 'Freischalten', match: :first
       page.wont_have_content 'Organizations darf nur bestätigte Organisationen'\
                              ' beinhalten.'
       page.must_have_content 'Zustandsänderung war erfolgreich'
