@@ -138,12 +138,12 @@ feature 'Admin Backend' do
 
       # Approve button click: reactivates orga and all its approved offers
 
-      click_link 'Freischalten'
+      click_link 'Freischalten (mit deaktivierten Angeboten)'
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(checkup_process completed internal_feedback)
+        %w(approved completed internal_feedback)
       )
     end
 
@@ -214,6 +214,61 @@ feature 'Admin Backend' do
       offer.reload.must_be :approved?
     end
 
+    scenario 'create a seasonal pending offer' do
+      orga = organizations(:basic)
+      split_base = FactoryGirl.create(:split_base, organization: orga)
+      offer = FactoryGirl.create :offer, organization: orga,
+                                         split_base: split_base,
+                                         starts_at: (Time.zone.now + 1.day)
+
+      visit rails_admin_path
+      click_link 'Angebote', match: :first
+      click_link 'Bearbeiten', match: :first
+
+      offer.must_be :initialized?
+
+      click_link 'Als komplett markieren'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :completed?
+
+      click_link 'Approval starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approval_process?
+
+      click_link 'Freischalten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :seasonal_pending?
+
+      offer.update_columns starts_at: (Time.zone.now - 1.day)
+      visit current_path
+      click_link 'Freischalten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approved?
+    end
+
+    scenario 'deactivate seasonal_pending offer and reactivate it afterwards' do
+      orga = organizations(:basic)
+      split_base = FactoryGirl.create(:split_base, organization: orga)
+      offer = FactoryGirl.create :offer, :approved, organization: orga,
+                                                    split_base: split_base,
+                                                    starts_at: (Time.zone.now - 1.day)
+
+      offer.pause!
+      offer.must_be :paused?
+
+      visit rails_admin_path
+      click_link 'Angebote', match: :first
+      click_link 'Bearbeiten', match: :first
+
+      click_link 'Checkup starten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :checkup_process?
+
+      click_link 'Freischalten'
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approved?
+    end
+
     scenario 'Deactivate Organization and then set to under_construction' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
@@ -253,12 +308,12 @@ feature 'Admin Backend' do
       orga.reload.must_be :checkup_process?
 
       # Approve button click: reactivates orga and all its approved offers
-      click_link 'Freischalten'
+      click_link 'Freischalten (mit deaktivierten Angeboten)'
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(checkup_process initialized internal_feedback)
+        %w(approved initialized internal_feedback)
       )
     end
 

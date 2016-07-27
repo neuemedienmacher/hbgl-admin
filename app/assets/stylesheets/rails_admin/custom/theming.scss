@@ -36,8 +36,7 @@
       color: white;
       font-size: 12px;
 
-      &.todo { background-color: #8CBD86; }
-      &.hidden_contact { background-color: #F78300; }
+      &.internal_info { background-color: #8CBD86; }
       &.external_info { background-color: #a586bb; }
     }
   }
@@ -67,6 +66,7 @@
     &.checkup_process { background-color: darkcyan; }
     &.website_unreachable { background-color: grey; }
     &.seasonal_pending { background-color: grey; }
+    &.all_done { background-color: gold; }
   }
 
   ul.StateMachine--EventList {

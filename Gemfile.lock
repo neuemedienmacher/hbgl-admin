@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: e65f5e6ba1fa8509f5f7259b56507088f022e99e
+  revision: 5ec417f9417ad1b82ba3cdcbf07f579ca44a47a2
   branch: feature/867-states-1.5
   specs:
     clarat_base (0.1.4)
@@ -235,7 +235,7 @@ GEM
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
     gli (2.14.0)
-    globalid (0.3.6)
+    globalid (0.3.7)
       activesupport (>= 4.1.0)
     haml (4.0.7)
       tilt

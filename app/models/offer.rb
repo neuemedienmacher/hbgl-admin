@@ -75,4 +75,9 @@ class Offer < ActiveRecord::Base
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+  def editable?
+    aasm_state == 'initialized' || aasm_state == 'approved' ||
+      aasm_state == 'approval_process' || aasm_state == 'checkup_process'
+  end
 end

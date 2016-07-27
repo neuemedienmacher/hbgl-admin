@@ -3,8 +3,7 @@ de:
     custom:
       notes:
         topics:
-          todo: "Aufgaben (TODO)"
-          hidden_contact: "Kontaktreferenz (hidden_contact)"
+          internal_info: "Aufgaben (TODO)"
           external_info: "Externe Infos (external_info)"
 
       state_machine:
@@ -20,12 +19,13 @@ de:
             organization_deactivated: "organization_deactivated"
             dozing: "dozing"
             approval_process: "approval process"
-            checkup_process: "checkup_process process"
+            checkup_process: "checkup process"
             website_unreachable: "website unreachable"
             seasonal_pending: "seasonal pending"
             # these two state are supposed to look the same to the user
             under_construction_pre: "website under construction"
             under_construction_post: "website under construction"
+            all_done: "Alles erledigt"
           icons:
             initialized: "fa-file-o"
             completed: "fa-check-circle-o"
@@ -40,6 +40,7 @@ de:
             checkup_process: "fa-search"
             website_unreachable: "fa-wrench"
             seasonal_pending: "fa-pause"
+            all_done: "fa-trophy"
             # these two state are supposed to look the same to the user
             under_construction_pre: "fa-wrench"
             under_construction_post: "fa-wrench"
@@ -57,6 +58,7 @@ de:
           start_approval_process: "Approval starten"
           start_checkup_process: "Checkup starten"
           website_twice_unreachable: "Webseite nicht erreichbar"
+          approve_with_deactivated_offers: "Freischalten (mit deaktivierten Angeboten)"
 
     main:
       change_state:
