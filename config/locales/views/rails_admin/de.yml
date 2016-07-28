@@ -58,6 +58,7 @@ de:
           start_approval_process: "Approval starten"
           start_checkup_process: "Checkup starten"
           website_twice_unreachable: "Webseite nicht erreichbar"
+          mark_as_done: "Aaaand it's done!"
           approve_with_deactivated_offers: "Freischalten (mit deaktivierten Angeboten)"
 
     main:

@@ -10,16 +10,6 @@ class Organization < ActiveRecord::Base
     event :mark_as_done, success: :apply_mailings_logic! do
       transitions from: :approved, to: :all_done
     end
-
-    # sets mailings='enabled' but only if it's not a big orga or a big player
-    # and only if mailings are 'disabled' (default) and not forced_disabled.
-    def apply_mailings_logic!
-      if big_orga_or_big_player?
-        AsanaCommunicator.new.create_big_orga_is_done_task
-      else
-        mailings = 'enabled' if mailings == 'disabled'
-      end
-    end
   end
 
   # Customize duplication.
@@ -37,7 +27,19 @@ class Organization < ActiveRecord::Base
   end
 
   def editable?
-    aasm_state == 'initialized' || aasm_state == 'approved' ||
-      aasm_state == 'approval_process' || aasm_state == 'checkup_process'
+    %(initialized approved all_done approval_process checkup_process).
+      include?(aasm_state)
+  end
+
+  private
+
+  # sets mailings='enabled' but only if it's not a big orga or a big player
+  # and only if mailings are 'disabled' (default) and not forced_disabled.
+  def apply_mailings_logic!
+    if big_orga_or_big_player?
+      AsanaCommunicator.new.create_big_orga_is_done_task
+    else
+      self.mailings = 'enabled' if self.mailings == 'disabled'
+    end
   end
 end
