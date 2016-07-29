@@ -3,8 +3,7 @@ de:
     custom:
       notes:
         topics:
-          todo: "Aufgaben (TODO)"
-          hidden_contact: "Kontaktreferenz (hidden_contact)"
+          internal_info: "Interne Infos (ehem. TODO)"
           external_info: "Externe Infos (external_info)"
 
       state_machine:
