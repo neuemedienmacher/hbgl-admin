@@ -77,7 +77,7 @@
 %p
   - if !@singular_section
     = t(".paragraph_split_explanation.additional")
-  - elsif @offers_teaser
+  - elsif @offers.count > 1
     = t(".paragraph_split_explanation.base")
 %p
   = t(".paragraph_offers_missing")
