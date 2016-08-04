@@ -46,6 +46,7 @@ class Offer < ActiveRecord::Base
 
   # Scopes
   scope :approved, -> { where(aasm_state: 'approved') }
+  scope :seasonal, -> { where('starts_at IS NOT null') }
   scope :by_mailings_enabled_organization, lambda {
     joins(:organizations).where('organizations.mailings = ?', 'enabled')
   }
@@ -77,7 +78,7 @@ class Offer < ActiveRecord::Base
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def editable?
-    aasm_state == 'initialized' || aasm_state == 'approved' ||
-      aasm_state == 'approval_process' || aasm_state == 'checkup_process'
+    aasm_state == 'initialized' || aasm_state == 'approval_process' ||
+      aasm_state == 'checkup_process'
   end
 end

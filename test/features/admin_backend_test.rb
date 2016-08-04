@@ -132,10 +132,6 @@ feature 'Admin Backend' do
         %w(organization_deactivated completed internal_feedback)
       )
 
-      click_link 'Checkup starten', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-      orga.reload.must_be :checkup_process?
-
       # Approve button click: reactivates orga and all its approved offers
 
       click_link 'Freischalten (mit deaktivierten Angeboten)', match: :first
@@ -180,7 +176,7 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Webseite wird überarbeitet', match: :first
+      click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :under_construction_pre?
 
@@ -201,7 +197,7 @@ feature 'Admin Backend' do
 
       offer.must_be :approved?
 
-      click_link 'Webseite wird überarbeitet', match: :first
+      click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :under_construction_post?
 
@@ -276,6 +272,8 @@ feature 'Admin Backend' do
                                  aasm_state: :completed
       FactoryGirl.create :offer, organization: orga, split_base: split_base,
                                  aasm_state: :internal_feedback
+      FactoryGirl.create :offer, organization: orga, split_base: split_base,
+                                 aasm_state: :approved
 
       visit rails_admin_path
       click_link 'Organisationen', match: :first
@@ -284,7 +282,7 @@ feature 'Admin Backend' do
       # Deactivation button click: deactivates orga and all its approved offers
       orga.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback)
+        %w(approved completed internal_feedback approved)
       )
 
       click_link 'Deaktivieren (External Feedback)', match: :first
@@ -292,20 +290,20 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :external_feedback?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback)
+        %w(organization_deactivated completed internal_feedback organization_deactivated)
       )
 
-      click_link 'Webseite wird überarbeitet', match: :first
+      click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :under_construction_post?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(under_construction_post under_construction_pre internal_feedback)
+        %w(under_construction_post under_construction_pre internal_feedback under_construction_post)
       )
 
-      click_link 'Checkup starten', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-      orga.reload.must_be :checkup_process?
+      # make last offer invalid => should not be approved or in checkup but
+      # remain in its last deactivation-state
+      orga.offers.last.update_columns expires_at: Time.zone.now - 1.day
 
       # Approve button click: reactivates orga and all its approved offers
       click_link 'Freischalten (mit deaktivierten Angeboten)', match: :first
@@ -313,7 +311,7 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved initialized internal_feedback)
+        %w(approved initialized internal_feedback under_construction_post)
       )
     end
 

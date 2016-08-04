@@ -22,10 +22,10 @@ de:
             checkup_process: "checkup process"
             website_unreachable: "website unreachable"
             seasonal_pending: "seasonal pending"
+            all_done: "all done"
             # these two state are supposed to look the same to the user
             under_construction_pre: "website under construction"
             under_construction_post: "website under construction"
-            all_done: "Alles erledigt"
           icons:
             initialized: "fa-file-o"
             completed: "fa-check-circle-o"
@@ -54,12 +54,13 @@ de:
           pause: "Pausieren"
           doze: "Schlafen legen"
           reinitialize: "Re-Initialisieren"
-          website_under_construction: "Webseite wird überarbeitet"
+          website_under_construction: "Webseite im Aufbau"
           start_approval_process: "Approval starten"
           start_checkup_process: "Checkup starten"
           website_twice_unreachable: "Webseite nicht erreichbar"
-          mark_as_done: "Aaaand it's done!"
+          mark_as_done: "Orga ist fertig"
           approve_with_deactivated_offers: "Freischalten (mit deaktivierten Angeboten)"
+          return_to_editing: "Erneut bearbeiten"
 
     main:
       change_state:

@@ -26,9 +26,9 @@ class Organization < ActiveRecord::Base
     false || mailings == 'big_player'
   end
 
+  # remove this later! Only needed as a hotfix for the old backend
   def editable?
-    %(initialized approved all_done approval_process checkup_process).
-      include?(aasm_state)
+    %(initialized approved all_done approval_process).include?(aasm_state)
   end
 
   private

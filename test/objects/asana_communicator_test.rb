@@ -67,4 +67,30 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.create_website_unreachable_task_orgas website
     end
   end
+
+  describe '#create_seasonal_offer_ready_for_checkup_task' do
+    it 'should call #post_to_api with apropriate data' do
+      object.expects(:post_to_api).with(
+        '/tasks',
+        projects: %w(147663824592112), workspace: '41140436022602',
+        name: 'WV | Saisonales Angebot | Start date: 9998-01-01 | '\
+              'foobar,bazfuz | basicOfferName',
+        notes: 'http://claradmin.herokuapp.com/admin/offer/1/edit'
+      )
+
+      offer = offers(:basic)
+      offer.starts_at = offer.expires_at - 1.year
+      orga = FactoryGirl.create :organization, :approved, name: 'bazfuz'
+      offer.organizations << orga
+
+      object.create_seasonal_offer_ready_for_checkup_task offer
+    end
+
+    it 'should end up in an HTTP request' do
+      Net::HTTP.any_instance.expects :request
+      offer = offers(:basic)
+      offer.starts_at = offer.expires_at - 1.year
+      object.create_seasonal_offer_ready_for_checkup_task offer
+    end
+  end
 end

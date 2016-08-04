@@ -35,7 +35,6 @@ class AsanaCommunicator
                 "Unreachable website: #{website.url}"
   end
 
-  # TODO Testing
   def create_seasonal_offer_ready_for_checkup_task offer
     organization_names = offer.organizations.pluck(:name).join(',')
     create_task "WV | Saisonales Angebot | Start date: #{offer.starts_at} | "\
