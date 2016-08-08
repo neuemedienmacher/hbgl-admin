@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: b473cc533732bda5a1669e9f6a13157837a164cc
+  revision: be1d12e9f6bc7fa5f772e7d6a552e113488eff60
   branch: feature/867-states-1.5
   specs:
     clarat_base (0.1.4)

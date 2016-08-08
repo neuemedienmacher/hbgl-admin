@@ -28,8 +28,9 @@ class SeasonalOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
                                               starts_at: today + 60.days,
                                               expires_at: today + 90.days
     Offer.any_instance.expects(:index!).never
-    AsanaCommunicator.any_instance.
-      expects(:create_seasonal_offer_ready_for_checkup_task).with(starts_soon)
+    AsanaCommunicator.any_instance.expects(
+      :create_seasonal_offer_ready_for_checkup_task
+    ).with(starts_soon)
     worker.perform
     starts_soon.reload.must_be :paused?
     starts_later.reload.must_be :paused?
@@ -49,7 +50,7 @@ class SeasonalOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     worker.perform
     normal_offer.reload.must_be :approved?
     seasonal_offer.reload.must_be :paused?
-    seasonal_offer.reload.starts_at.must_equal (today - 30.days + 1.year)
-    seasonal_offer.reload.expires_at.must_equal (today + 1.year)
+    seasonal_offer.reload.starts_at.must_equal(today - 30.days + 1.year)
+    seasonal_offer.reload.expires_at.must_equal(today + 1.year)
   end
 end

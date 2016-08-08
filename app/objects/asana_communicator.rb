@@ -4,9 +4,8 @@ require 'uri'
 
 class AsanaCommunicator
   WORKSPACE = '41140436022602'
-  # TODO: big_orga_without_mailing = TBD
   PROJECTS = { expired: %w(44856824806357), seasonal: %w(147663824592112),
-               big_orga_without_mailing: %w(44856824806357) }
+               big_orga_without_mailing: %w(85803884880432) }.freeze
 
   def initialize
     @token = Rails.application.secrets.asana_token
@@ -43,12 +42,17 @@ class AsanaCommunicator
                 :seasonal
   end
 
-  # TODO Testing
   def create_big_orga_is_done_task orga
-    # TODO: waiting for final content
-    create_task "Comms | Big Orga done | #{orga.name}",
-                "http://claradmin.herokuapp.com/admin/organization/#{orga.id}",
-                :big_orga_without_mailing
+    base_link = 'http://claradmin.herokuapp.com/admin'
+    content = "#{base_link}/organization/#{orga.id}/edit"
+    # first position contact (if any)
+    contacts = orga.contact_people.where.not(position: nil)
+    content += " | Position-Kontakt: #{base_link}/contact_person/"\
+               "#{contacts.first.id}/edit" if contacts.any?
+    # homepage
+    content += " | Website: #{base_link}/website/#{orga.homepage.id}/edit"
+    create_task "#{orga.section_filters.pluck(:identifier).join(', ')} | "\
+                "#{orga.name}", content, :big_orga_without_mailing
   end
 
   private

@@ -43,9 +43,8 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
   it 'should ignore seasonal offers - another worker does that' do
     today = Time.zone.today
     Timecop.freeze(today - 1.day)
-    expiring = FactoryGirl.create :offer, :approved,
-                                          starts_at: today - 30.days,
-                                          expires_at: today
+    expiring = FactoryGirl.create :offer, :approved, starts_at: today - 30.days,
+                                                     expires_at: today
     Timecop.return
     Offer.any_instance.expects(:index!).never
     AsanaCommunicator.any_instance.expects(:create_expire_task).never

@@ -235,11 +235,40 @@ feature 'Admin Backend' do
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :seasonal_pending?
 
-      offer.update_columns starts_at: (Time.zone.now - 1.day)
-      visit current_path
-      click_link 'Freischalten'
-      page.must_have_content 'Zustandsänderung war erfolgreich'
+      # simulate worker
+      offer.update_columns starts_at: (Time.zone.now - 1.day), aasm_state: 'approved'
       offer.reload.must_be :approved?
+      offer.reload.valid?.must_equal true
+    end
+
+    scenario 'checkup_process must be possible for invalid offers' do
+      orga = organizations(:basic)
+      split_base = FactoryGirl.create(:split_base, organization: orga)
+      offer = FactoryGirl.create :offer, :approved, organization: orga,
+                                                    split_base: split_base
+
+      offer.valid?.must_equal true
+      visit rails_admin_path
+      click_link 'Angebote', match: :first
+      click_link 'Bearbeiten', match: :first
+
+      # simulate expired offer in other deactivation state (offer invalid)
+      offer.update_columns aasm_state: 'internal_feedback', expires_at: Time.zone.now - 1.day
+      offer.valid?.must_equal false
+
+      page.must_have_link 'Deaktivieren (External Feedback)'
+      page.must_have_link 'Checkup starten'
+
+      # transition to other state than 'checkup_process' is not allowed
+      click_link 'Deaktivieren (External Feedback)', match: :first
+      page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
+      page.must_have_content 'nicht valide'
+      offer.reload.must_be :internal_feedback?
+
+      # transition to other 'checkup_process' works
+      click_link 'Checkup starten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :checkup_process?
     end
 
     scenario 'deactivate seasonal_pending offer and reactivate it afterwards' do
@@ -272,8 +301,6 @@ feature 'Admin Backend' do
                                  aasm_state: :completed
       FactoryGirl.create :offer, organization: orga, split_base: split_base,
                                  aasm_state: :internal_feedback
-      FactoryGirl.create :offer, organization: orga, split_base: split_base,
-                                 aasm_state: :approved
 
       visit rails_admin_path
       click_link 'Organisationen', match: :first
@@ -282,7 +309,7 @@ feature 'Admin Backend' do
       # Deactivation button click: deactivates orga and all its approved offers
       orga.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback approved)
+        %w(approved completed internal_feedback)
       )
 
       click_link 'Deaktivieren (External Feedback)', match: :first
@@ -290,7 +317,7 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :external_feedback?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback organization_deactivated)
+        %w(organization_deactivated completed internal_feedback)
       )
 
       click_link 'Webseite im Aufbau', match: :first
@@ -298,7 +325,7 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :under_construction_post?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(under_construction_post under_construction_pre internal_feedback under_construction_post)
+        %w(organization_deactivated completed internal_feedback )
       )
 
       # make last offer invalid => should not be approved or in checkup but
@@ -311,7 +338,7 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :approved?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved initialized internal_feedback under_construction_post)
+        %w(approved completed internal_feedback)
       )
     end
 
@@ -523,17 +550,18 @@ feature 'Admin Backend' do
       ## Test (after-)approval update validations
 
       # Try to approve, doesnt work
+      offer.reload.valid?.must_equal true
       click_link 'Freischalten', match: :first
       page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
       page.must_have_content 'nicht valide'
       offer.reload.must_be :approval_process?
 
-      # Organization needs to be approved
+      # Organization needs to be approved (only validated on approve)
       page.must_have_content 'Organizations darf nur bestätigte Organisationen'\
                              ' beinhalten.'
 
-      # Organization gets approved, saves
-      orga.update_column :aasm_state, 'approved'
+      # Organization gets approved (via all done), saves
+      orga.update_column :aasm_state, 'all_done'
       click_button 'Speichern und bearbeiten'
       page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 

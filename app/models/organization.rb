@@ -18,12 +18,12 @@ class Organization < ActiveRecord::Base
       orga.name = nil
       orga.founded = nil
       orga.aasm_state = 'initialized'
+      orga.mailings = 'disabled'
     end
   end
 
-  # TODO: 'Big Orga' definition
   def big_orga_or_big_player?
-    false || mailings == 'big_player'
+    mailings == 'big_player' || locations.count >= 10
   end
 
   # remove this later! Only needed as a hotfix for the old backend
@@ -37,9 +37,9 @@ class Organization < ActiveRecord::Base
   # and only if mailings are 'disabled' (default) and not forced_disabled.
   def apply_mailings_logic!
     if big_orga_or_big_player?
-      AsanaCommunicator.new.create_big_orga_is_done_task
-    else
-      self.mailings = 'enabled' if self.mailings == 'disabled'
+      AsanaCommunicator.new.create_big_orga_is_done_task self
+    elsif self.mailings == 'disabled'
+      self.update_columns mailings: 'enabled'
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719112804) do
+ActiveRecord::Schema.define(version: 20160805081635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,8 @@ ActiveRecord::Schema.define(version: 20160719112804) do
     t.integer  "split_base_id"
     t.boolean  "all_inclusive",                           default: false
     t.date     "starts_at"
+    t.datetime "completed_at"
+    t.integer  "completed_by"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state", using: :btree

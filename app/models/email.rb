@@ -67,8 +67,9 @@ class Email < ActiveRecord::Base
       organizations.where(mailings: 'enabled').any?
   end
 
+  # TODO: remove location conditional????
   def informable_orga? orga
-    orga.aasm_state == 'approved' && orga.mailings_enabled? &&
+    orga.approved? && orga.mailings_enabled? &&
       orga.offers.approved.any? && orga.locations.count < 10
   end
 end
