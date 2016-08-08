@@ -486,7 +486,9 @@ RailsAdmin.config do |config|
     end
     field :email
     field :organization
-    field :offers
+    field :offers do
+      visible false
+    end
     field :spoc do
       help do
         "Single Point of Contact / Zentrale Anlaufstelle."
