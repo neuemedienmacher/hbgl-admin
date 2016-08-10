@@ -37,20 +37,20 @@ describe OfferMailer do
       subject.must have_body_text email.security_code
     end
 
-    it 'only informs about offers by mailings_enabled organizations' do
+    it 'only informs about offers by mailings=enabled organizations' do
       offer2 = FactoryGirl.create :offer, :approved,
-                                  name: 'By mailings_enabled organization'
+                                  name: 'By mailings=enabled organization'
       offer2.contact_people.first.update_column :email_id, email.id
 
       offer3 = FactoryGirl.create :offer, :approved,
-                                  name: 'By mailings_disabled organization'
+                                  name: 'By mailings=disabled organization'
       offer3.contact_people.first.update_column :email_id, email.id
-      offer3.organizations.first.update_column :mailings_enabled, false
+      offer3.organizations.first.update_column :mailings, 'force_disabled'
 
       assert_difference 'OfferMailing.count', 2 do # lists offer and offer2
         subject.must have_body_text 'basicOfferName'
-        subject.must have_body_text 'By mailings_enabled organization'
-        subject.wont have_body_text 'By mailings_disabled organization'
+        subject.must have_body_text 'By mailings=enabled organization'
+        subject.wont have_body_text 'By mailings=disabled organization'
       end
     end
 

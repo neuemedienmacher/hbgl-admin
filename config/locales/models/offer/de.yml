@@ -34,3 +34,5 @@ de:
         die Kategorie '%{category}' hat nicht die passenden clarat-Welten
       no_more_than_10_next_steps: |
         dürfen nicht mehr als 10 sein
+      must_be_smaller_than_expiry_date: |
+        muss vor expires_at liegen

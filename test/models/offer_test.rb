@@ -20,6 +20,16 @@ describe Offer do
     #   end
     # end
 
+    describe 'seasonal scope' do
+      it 'should correctly retrieve only seasonal offers with seasonal scope' do
+        seasonal_offer = FactoryGirl.create :offer,
+                                            starts_at: Time.zone.now - 30.days,
+                                            expires_at: Time.zone.now + 30.days
+        FactoryGirl.create :offer # additional normal offer
+        Offer.seasonal.must_equal [seasonal_offer]
+      end
+    end
+
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
         offer = FactoryGirl.create :offer, :approved
