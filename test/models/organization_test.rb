@@ -32,16 +32,7 @@ describe Organization do
         new_location = FactoryGirl.create :location
         organization.locations << new_location
       end
-      organization.big_orga_or_big_player?.must_equal true
-      AsanaCommunicator.any_instance.expects(:create_big_orga_is_done_task)
-                       .with(organization).once
-      organization.send(:apply_mailings_logic!)
-      organization.reload.mailings.must_equal 'disabled'
-    end
-
-    it 'should call AsanaCommunicator for big_player-orga and dont change mailings' do
-      organization = FactoryGirl.create :organization, :approved,
-                                        mailings: 'big_player'
+      organization.big_player?.must_equal true
       AsanaCommunicator.any_instance.expects(:create_big_orga_is_done_task)
                        .with(organization).once
       organization.send(:apply_mailings_logic!)
@@ -56,6 +47,14 @@ describe Organization do
       organization.reload.mailings.must_equal 'enabled'
     end
 
+    it 'wont do anything for big_player organizations' do
+      organization = FactoryGirl.create :organization, :approved,
+                                        mailings: 'big_player'
+      AsanaCommunicator.any_instance.expects(:create_big_orga_is_done_task).never
+      organization.send(:apply_mailings_logic!)
+      organization.reload.mailings.must_equal 'big_player'
+    end
+
     it 'wont do anything for force_disabled organization' do
       organization = FactoryGirl.create :organization, :approved,
                                         mailings: 'force_disabled'
@@ -65,16 +64,21 @@ describe Organization do
     end
   end
 
-  describe '#big_orga_or_big_player?' do
-    it 'should be true for big_player' do
-      organization = FactoryGirl.create :organization, :approved,
-                                        mailings: 'big_player'
-      organization.big_orga_or_big_player?.must_equal true
-    end
-
+  describe '#big_player?' do
     it 'should be false for small organizations' do
       organization = FactoryGirl.create :organization, :approved
-      organization.big_orga_or_big_player?.must_equal false
+      organization.big_player?.must_equal false
+    end
+
+    it 'should be true for specific name and above location threshold' do
+      organization = FactoryGirl.create :organization, :approved,
+                                        name: 'AWO Nordrhein-Westfalen'
+      # false, because location threshold is not reached with one location
+      # organization.locations << (FactoryGirl.create :location)
+      organization.big_player?.must_equal false
+      # one more location => threshold reached
+      organization.locations << (FactoryGirl.create :location)
+      organization.big_player?.must_equal true
     end
 
     it 'should be true for big organizations' do
@@ -83,7 +87,7 @@ describe Organization do
         new_location = FactoryGirl.create :location
         organization.locations << new_location
       end
-      organization.big_orga_or_big_player?.must_equal true
+      organization.big_player?.must_equal true
     end
   end
 end

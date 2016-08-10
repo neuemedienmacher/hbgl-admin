@@ -3,6 +3,10 @@
 require ClaratBase::Engine.root.join('app', 'models', 'organization')
 
 class Organization < ActiveRecord::Base
+  # Search Terms for significant/big_player organizations. Only one must match
+  BIG_PLAYER_SEARCH_TERMS = %w(
+    berlin münchen köln düsseldorf nrw nordrhein-westfalen bayern
+  ).freeze
   # Admin specific methods
 
   # State Machine
@@ -22,8 +26,9 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def big_orga_or_big_player?
-    mailings == 'big_player' || locations.count >= 10
+  def big_player?
+    locations.count >= 10 || (locations.count >= 2 &&
+      BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?)
   end
 
   # remove this later! Only needed as a hotfix for the old backend
@@ -33,13 +38,17 @@ class Organization < ActiveRecord::Base
 
   private
 
-  # sets mailings='enabled' but only if it's not a big orga or a big player
-  # and only if mailings are 'disabled' (default) and not forced_disabled.
+  # sets mailings but only if it's mailings='disabled' (other options are
+  # chosen explicitly and stay the same). big_player Orgas get the apropriate
+  # option and an AsanaTask is created while other orgas get mailings=enabled
   def apply_mailings_logic!
-    if big_orga_or_big_player?
-      AsanaCommunicator.new.create_big_orga_is_done_task self
-    elsif self.mailings == 'disabled'
-      self.update_columns mailings: 'enabled'
+    if self.mailings == 'disabled'
+      if big_player?
+        AsanaCommunicator.new.create_big_orga_is_done_task self
+        self.update_columns mailings: 'big_player'
+      else
+        self.update_columns mailings: 'enabled'
+      end
     end
   end
 end
