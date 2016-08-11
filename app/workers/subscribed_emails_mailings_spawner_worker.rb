@@ -26,6 +26,6 @@ class SubscribedEmailsMailingsSpawnerWorker
     Email.where(aasm_state: 'subscribed').uniq
          .joins(:offers).where('offers.aasm_state = ?', 'approved')
          .joins(:organizations).where(
-           'organizations.mailings_enabled = ?', true).select { |mail| !mail.offers.approved.in_section('family').any? }
+           'organizations.mailings = ?', 'enabled').select { |mail| !mail.offers.approved.in_section('family').any? }
   end
 end

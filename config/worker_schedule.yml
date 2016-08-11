@@ -38,3 +38,8 @@ check_for_new_contacts_job:
   cron: "0 8,12,15,18 * * * Europe/Berlin" # every day at 8:00, 12:00, 15:00 and 18:00
   class: "CheckForNewContactsWorker"
   queue: default
+
+seasonal_offers_job:
+  cron: "0 5 * * * Europe/Berlin" # every day at 05:00
+  class: "SeasonalOffersWorker"
+  queue: default

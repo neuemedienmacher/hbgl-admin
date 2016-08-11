@@ -10,7 +10,6 @@ module RailsAdmin
     module Actions
       class ChangeState < RailsAdmin::Config::Actions::Base
         RailsAdmin::Config::Actions.register(self)
-
         # There are several options that you can set here.
         # Check https://github.com/sferik/rails_admin/blob/master/lib/rails_admin/config/actions/base.rb for more info.
 
@@ -24,7 +23,11 @@ module RailsAdmin
 
         register_instance_option :controller do
           proc do
-            if @object.valid? && @object.send("#{params[:event]}!")
+            # INFO Hacky hack hack: allow forced state-change to checkup for invalid objects (e.g. expired offers are invalid)
+            if !@object.valid? && params[:event] == 'start_checkup_process'
+              @object.update_columns aasm_state: 'checkup_process'
+              flash[:success] = t('.success')
+            elsif @object.valid? && @object.send("#{params[:event]}!")
               flash[:success] = t('.success')
             else
               error_message = t('.invalid', obj: @object.class.to_s)

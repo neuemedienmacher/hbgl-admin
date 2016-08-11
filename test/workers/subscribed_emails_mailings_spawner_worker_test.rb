@@ -36,9 +36,9 @@ class SubscribedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
   end
 
   it 'wont send mailing to subscribed emails with approved offers but no'\
-     ' mailings_enabled organization' do
+     ' mailings=enabled organization' do
     email = FactoryGirl.create :email, :subscribed, :with_approved_offer
-    email.organizations.update_all mailings_enabled: false
+    email.organizations.update_all mailings: 'force_disabled'
     SubscribedEmailMailingWorker.expects(:perform_async).never
     worker.perform
   end

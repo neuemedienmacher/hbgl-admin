@@ -25,7 +25,7 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
 
   it 'doesnt spawn without informable organization' do
     email = FactoryGirl.create :email, :uninformed, :with_approved_offer
-    email.organizations.update_all mailings_enabled: false
+    email.organizations.update_all mailings: 'force_disabled'
     email.contact_people.update_all position: 'superior'
     UninformedEmailMailingWorker.expects(:perform_async).never
     worker.perform
@@ -34,7 +34,7 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
   # it 'doesnt spawn for superior contact with informable orga'\
   #    ' because offer_mails have a higher priority' do
   #   email = FactoryGirl.create :email, :uninformed, :with_approved_offer
-  #   email.organizations.update_all mailings_enabled: true, aasm_state: 'approved'
+  #   email.organizations.update_all mailings: 'enabled', aasm_state: 'approved'
   #   email.contact_people.update_all position: 'superior'
   #   UninformedEmailMailingWorker.expects(:perform_async).
   #   worker.perform
@@ -44,7 +44,7 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
      ' offer_mails are sent before' do
     # Email does not have approved offers..
     email = FactoryGirl.create :email, :uninformed, :with_unapproved_offer
-    email.organizations.update_all mailings_enabled: true, aasm_state: 'approved'
+    email.organizations.update_all mailings: 'enabled', aasm_state: 'approved'
     email.contact_people.update_all position: 'superior'
     # .. but one orga has an approved offer
     email.organizations.first.offers << FactoryGirl.create(:offer, :approved)
@@ -58,9 +58,9 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
   end
 
   it 'doesnt spawn on uninformed emails with approved offers but no'\
-     ' mailings_enabled organization' do
+     ' mailings=enabled organization' do
     email = FactoryGirl.create :email, :uninformed, :with_approved_offer
-    email.organizations.update_all mailings_enabled: false
+    email.organizations.update_all mailings: 'force_disabled'
     UninformedEmailMailingWorker.expects(:perform_async).never
     worker.perform
   end

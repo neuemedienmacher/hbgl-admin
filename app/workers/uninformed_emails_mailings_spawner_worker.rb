@@ -2,7 +2,7 @@
 # Worker to check bi-weekly, whether there are emails that
 # - have not yet been informed
 # - have approved offers
-# - belongs to at least one organization that has `mailings_enabled: true`
+# - belongs to at least one organization that has `mailings = enabled`
 # and spawn an informer worker for them. trigger their inform event to send them a mailing each.
 class UninformedEmailsMailingsSpawnerWorker
   include Sidekiq::Worker
@@ -30,7 +30,7 @@ class UninformedEmailsMailingsSpawnerWorker
     Email.where(aasm_state: 'uninformed').uniq
          .joins(:offers).where('offers.aasm_state = ?', 'approved')
          .joins(:organizations)
-         .where('organizations.mailings_enabled = ?', true)
+         .where('organizations.mailings = ?', 'enabled')
          .select do |mail|
            !mail.organizations.select do |o|
              o.section_filters.where(identifier: 'family').any?

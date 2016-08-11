@@ -108,7 +108,7 @@ RailsAdmin.config do |config|
 
     field :websites
     field :contact_people
-    field :mailings_enabled
+    field :mailings
     field :aasm_state do
       read_only true
       help false
@@ -361,6 +361,11 @@ RailsAdmin.config do |config|
     field :keywords do
       inverse_of :offers
     end
+    field :starts_at do
+      help do
+        'Optional. Nur für saisonale Angebote ausfüllen!'
+      end
+    end
     field :expires_at
     field :logic_version
     field :aasm_state do
@@ -386,6 +391,13 @@ RailsAdmin.config do |config|
         strftime_format "%d. %B %Y"
       end
       field :created_by
+      field :completed_at do
+        strftime_format "%d. %B %Y"
+      end
+      field :completed_by
+      field :approved_at do
+        strftime_format "%d. %B %Y"
+      end
       field :approved_by
       field :translation_links do
         formatted_value do

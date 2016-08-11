@@ -46,8 +46,9 @@ class Offer < ActiveRecord::Base
 
   # Scopes
   scope :approved, -> { where(aasm_state: 'approved') }
+  scope :seasonal, -> { where.not(starts_at: nil) }
   scope :by_mailings_enabled_organization, lambda {
-    joins(:organizations).where('organizations.mailings_enabled = ?', true)
+    joins(:organizations).where('organizations.mailings = ?', 'enabled')
   }
 
   # Admin specific methods
@@ -75,4 +76,8 @@ class Offer < ActiveRecord::Base
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+  def editable?
+    %(initialized approved checkup_process approval_process).include?(aasm_state)
+  end
 end

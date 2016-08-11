@@ -3,8 +3,9 @@ class ExpiringOffersWorker
   include Sidekiq::Worker
 
   def perform
-    # Find expiring offers
-    expiring = Offer.approved.where('expires_at <= ?', Time.zone.today)
+    # Find expiring offers (ignore seasonal offers - another worker handles these)
+    expiring = Offer.approved.where('expires_at <= ? AND starts_at IS null',
+                                    Time.zone.today)
     return if expiring.count < 1
 
     # Create Asana Tasks
@@ -24,7 +25,9 @@ class ExpiringOffersWorker
     # Save ids because the expiring relation does not work after update_all
     expiring_ids = expiring.pluck(:id)
     # Set to expired
-    expiring.update_all aasm_state: 'expired' # TODO: should this be event?
+    # INFO: theses changes can't be events because the offers may be invalid
+    # (exceeded expires_at date)
+    expiring.update_all aasm_state: 'expired'
     # Work on updated model with saved ids to sync algolia via manual index
     Offer.find(expiring_ids).each(&:index!)
   end

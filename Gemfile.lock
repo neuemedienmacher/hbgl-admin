@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: f3b9dd7e90a0f32557ec5854c824bec048a68645
+  revision: 7d856375ebdd1ec05ae27049b5bd714e28884a48
   specs:
     clarat_base (0.1.4)
       aasm
@@ -204,7 +204,7 @@ GEM
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
       mail (~> 2.6.3)
-    enumerize (1.1.1)
+    enumerize (2.0.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.9.1)

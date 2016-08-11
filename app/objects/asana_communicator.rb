@@ -3,6 +3,10 @@ require 'net/http'
 require 'uri'
 
 class AsanaCommunicator
+  WORKSPACE = '41140436022602'
+  PROJECTS = { expired: %w(44856824806357), seasonal: %w(147663824592112),
+               big_orga_without_mailing: %w(85803884880432) }.freeze
+
   def initialize
     @token = Rails.application.secrets.asana_token
   end
@@ -30,12 +34,33 @@ class AsanaCommunicator
                 "Unreachable website: #{website.url}"
   end
 
+  def create_seasonal_offer_ready_for_checkup_task offer
+    organization_names = offer.organizations.pluck(:name).join(',')
+    create_task "WV | Saisonales Angebot | Start date: #{offer.starts_at} | "\
+                "#{organization_names} | #{offer.name}",
+                "http://claradmin.herokuapp.com/admin/offer/#{offer.id}/edit",
+                :seasonal
+  end
+
+  def create_big_orga_is_done_task orga
+    base_link = 'http://claradmin.herokuapp.com/admin'
+    content = "#{base_link}/organization/#{orga.id}/edit"
+    # first position contact (if any)
+    contacts = orga.contact_people.where.not(position: nil)
+    content += " | Position-Kontakt: #{base_link}/contact_person/"\
+               "#{contacts.first.id}/edit" if contacts.any?
+    # homepage
+    content += " | Website: #{base_link}/website/#{orga.homepage.id}/edit"
+    create_task "#{orga.section_filters.pluck(:identifier).join(', ')} | "\
+                "#{orga.name}", content, :big_orga_without_mailing
+  end
+
   private
 
-  def create_task title, content
+  def create_task title, content, project_identifier = :expired
     post_to_api(
       '/tasks',
-      projects: %w(44856824806357), workspace: '41140436022602',
+      projects: PROJECTS[project_identifier], workspace: WORKSPACE,
       name: title, notes: content
     )
   end
