@@ -37,8 +37,9 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/tasks',
         projects: %w(44856824806357), workspace: '41140436022602',
-        name: '[URL unreachable]foobar,bazfuz-9999-01-01-basicOfferName',
-        notes: 'Expired: http://claradmin.herokuapp.com/admin/offer/1/edit'\
+        name: '[Offer-website unreachable] family | Version: 1 | foobar,bazfuz'\
+              ' | basicOfferName',
+        notes: 'Deactivated: http://claradmin.herokuapp.com/admin/offer/1/edit'\
                " | Unreachable website: #{website.url}"
       )
 
@@ -58,7 +59,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/tasks',
         projects: %w(44856824806357), workspace: '41140436022602',
-        name: '[URL unreachable]bazfuz',
+        name: '[Orga-website unreachable] bazfuz',
         notes: "Unreachable website: #{website.url}"
       )
 

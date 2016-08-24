@@ -23,11 +23,16 @@ uninformed_mails_spawner_job:
   class: "UninformedEmailsMailingsSpawnerWorker"
   queue: default
 
-# TODO: reactivate!!
-# check_websites_job:
-#   cron: "0 20 * * Wed Europe/Berlin"
-#   class: "CheckWebsitesWorker"
-#   queue: heavy_load
+check_websites_job:
+  cron: "0 20 * * Wed Europe/Berlin" # every wednesday at 20:00
+  class: "CheckWebsitesWorker"
+  queue: heavy_load
+
+# should be closely after 'check_websites_job'
+check_unreachable_offers_job:
+  cron: "0 4 * * Thu Europe/Berlin" # every thursday at 20:00
+  class: "CheckUnreachableOffersWorker"
+  queue: default
 
 check_for_new_translations_job:
   cron: "0 0 * * * Europe/Berlin" # every day at 00:00
