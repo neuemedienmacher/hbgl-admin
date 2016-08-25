@@ -77,6 +77,13 @@ class Offer < ActiveRecord::Base
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+  # we only want to inform the outside world about offers that are either remote
+  # offers or belong to a city with a certain number of approved offers and
+  # organizations
+  def remote_or_belongs_to_informable_city?
+    (encounter != 'personal' || location.city.thresholds_reached?)
+  end
+
   def editable?
     %(initialized approved checkup_process approval_process).include?(aasm_state)
   end

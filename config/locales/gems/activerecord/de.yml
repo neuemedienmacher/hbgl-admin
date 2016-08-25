@@ -22,6 +22,9 @@ de:
       federal_state:
         one: "Bundesland"
         other: "Bundesländer"
+      city:
+        one: "Stadt"
+        other: "Städte"
       opening:
         one: "Öffnungszeit"
         other: "Öffnungszeiten"

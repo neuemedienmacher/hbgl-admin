@@ -19,7 +19,7 @@ describe Email do
     describe '#informable_offers?' do
       it 'should be true if it has approved offers & a mailings=enabled orga' do
         email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer, :approved
+        offer = FactoryGirl.create :offer, :approved, :remote
         offer.contact_people.first.update_column :email_id, email.id
         email.organizations.first.update_column :mailings, 'enabled'
         email.send(:informable_offers?).must_equal true
@@ -35,7 +35,7 @@ describe Email do
 
       it 'should be false if it has no mailings=enabled orga' do
         email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer, :approved
+        offer = FactoryGirl.create :offer, :approved, :remote
         offer.contact_people.first.update_column :email_id, email.id
         email.organizations.first.update_column :mailings, 'force_disabled'
         email.send(:informable_offers?).must_equal false
@@ -120,7 +120,7 @@ describe Email do
          ', when orga is mailings=enabled and has approved offers' do
         email = FactoryGirl.create :email, :with_approved_offer
         email.organizations.first.update_column :mailings, 'enabled'
-        email.organizations.first.update_column :aasm_state, 'approved'
+        email.organizations.first.update_column :aasm_state, 'all_done'
         email.organizations.first.offers = email.offers
         superior_mail = FactoryGirl.create :email
         superior_mail.contact_people <<
@@ -140,7 +140,7 @@ describe Email do
         mail = FactoryGirl.create :email, :with_approved_offer
         mail.contact_people.first.update_column :position, 'superior'
         mail.organizations.first.update_column :mailings, 'enabled'
-        mail.organizations.first.update_column :aasm_state, 'approved'
+        mail.organizations.first.update_column :aasm_state, 'all_done'
         mail.contact_people.first.organization = mail.organizations.first
         mail.organizations.first.offers = mail.offers
 

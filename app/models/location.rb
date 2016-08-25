@@ -12,6 +12,7 @@ class Location < ActiveRecord::Base
       location.offers = []
       location.organization = self.organization
       location.federal_state = self.federal_state
+      location.city = self.city
     end
   end
 end
