@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# Worker to check bi-weekly, whether there are emails that
+# Worker to check weekly, whether there are emails that
 # - have not yet been informed
 # - have approved offers
 # - belongs to at least one organization that has `mailings = enabled`
@@ -25,28 +25,17 @@ class UninformedEmailsMailingsSpawnerWorker
 
   private
 
-  # TODO: remove later: currently only send mailings to offers of refugees-only-orgas
   def informable_offer_emails
     Email.where(aasm_state: 'uninformed').uniq
          .joins(:offers).where('offers.aasm_state = ?', 'approved')
          .joins(:organizations)
          .where('organizations.mailings = ?', 'enabled')
-         .select do |mail|
-           !mail.organizations.select do |o|
-             o.section_filters.where(identifier: 'family').any?
-           end.compact.any?
-         end
+         .where('organizations.aasm_state = ?', 'all_done')
+         .select(&:belongs_to_at_least_one_informable_offer?)
   end
 
-  # TODO: remove later: currently only send refugees-only-mailings
   def informable_orga_emails
     Email.where(aasm_state: 'uninformed')
-         .select do |mail|
-           mail.belongs_to_unique_orga_with_orga_contact? &&
-             !mail.organizations.select do |o|
-               o.section_filters.where(identifier: 'family').any?
-             end.compact.any?
-         end
-    # .select(&:belongs_to_unique_orga_with_orga_contact?)
+         .select(&:belongs_to_unique_orga_with_orga_contact?)
   end
 end

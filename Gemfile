@@ -70,6 +70,9 @@ gem 'sidekiq-cron', '~> 0.4.0'
 # External API
 gem 'gengo'
 
+# converting between unicode and ascii urls
+gem 'simpleidn'
+
 ########################
 # For Heroku & Add-Ons #
 ########################

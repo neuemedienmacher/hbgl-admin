@@ -3,7 +3,7 @@
 = render '/rails_admin/custom/notes', object: @object, title: true
 
 / render editing forms only in specific states (enforce approval & checkup processes)
-- if (@object.class != Offer && @object.class != Organization) || @object.editable?
+- if @object.class != Offer || @object.editable?
   = rails_admin_form_for @object, url: edit_path(@abstract_model, @object.id), as: @abstract_model.param_key, html: { method: "put", multipart: true, class: "form-horizontal denser", data: { title: @page_name } } do |form|
     = form.generate action: :update
 

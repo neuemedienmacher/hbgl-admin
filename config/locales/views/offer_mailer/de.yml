@@ -21,12 +21,12 @@ de:
       paragraph_entry:
         text: |
           kennen Sie %{base_link} schon?
-          Das ist ein neues kostenloses Portal mit Unterstützungsangeboten. Bei
+          Das ist ein neues kostenloses Onlineverzeichnis mit Unterstützungsangeboten. Bei
           clarat family findet man Hilfe für Kinder, Jugendliche und Familien.
           Bei clarat refugees findet man Hilfe für Flüchtlinge. Bei clarat können
           alle schnell und einfach Hilfe in ihrer Nähe finden.
         html: |
-          schon? Das ist ein neues kostenloses Portal mit
+          schon? Das ist ein neues kostenloses Onlineverzeichnis mit
           Unterstützungsangeboten. Bei clarat family findet man Hilfe für
           Kinder, Jugendliche und Familien. Bei clarat refugees findet man Hilfe
           für Flüchtlinge. Bei clarat können alle schnell und einfach Hilfe in
@@ -130,7 +130,7 @@ de:
         singular: "ein neues Angebot"
         multiple: "neue Angebote"
       paragraph_entry: |
-        erinnern Sie sich noch an %{root_link} – das Portal, bei dem alle
+        erinnern Sie sich noch an %{root_link} – das Onlineverzeichnis, bei dem alle
         schnell und einfach Hilfe in ihrer Nähe finden? Kinder, Jugendliche
         und Familien bei clarat family. Flüchtlinge bei clarat refugees. Bei
         clarat family und bei clarat refugees hat sich einiges getan und
@@ -166,14 +166,14 @@ de:
       clarat_name: "clarat"
       paragraph_entry: |
         kennen Sie %{root_link} schon? Das ist ein neues
-        kostenloses Portal mit Unterstützungsangeboten. Bei clarat können
+        kostenloses Onlineverzeichnis mit Unterstützungsangeboten. Bei clarat können
         Menschen schnell und einfach Hilfe in ihrer Nähe finden. Bei clarat family
         findet man Hilfe für Kinder, Jugendliche und Familien. Bei clarat refugees
         findet man Hilfe für Flüchtlinge. Bei clarat können alle schnell und
         einfach Hilfe in ihrer Nähe finden. Man kann auch Angebote von Ihnen bei
         clarat finden.
       paragraph_entry_html: |
-        schon? Das ist ein neues kostenloses Portal mit Unterstützungsangeboten.
+        schon? Das ist ein neues kostenloses Onlineverzeichnis mit Unterstützungsangeboten.
         Bei clarat können Menschen schnell und einfach Hilfe in ihrer Nähe
         finden. Bei <b>clarat family</b> findet man Hilfe für Kinder,
         Jugendliche und Familien. Bei <b>clarat refugees</b> findet man Hilfe

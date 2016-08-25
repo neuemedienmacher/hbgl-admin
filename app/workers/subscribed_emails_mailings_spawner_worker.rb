@@ -12,7 +12,7 @@ class SubscribedEmailsMailingsSpawnerWorker
     # return # TODO: remove to reenable mailings (also rubocop, tests, cov filter and worker_schedule)
     Offer.transaction do
       Email.transaction do
-        potentially_informable_emails.each do |email| # TODO: find_each later
+        potentially_informable_emails.find_each do |email|
           SubscribedEmailMailingWorker.perform_async email.id
         end
       end
@@ -21,11 +21,9 @@ class SubscribedEmailsMailingsSpawnerWorker
 
   private
 
-  # TODO: remove later: currently only send refugees-only-mailings
   def potentially_informable_emails
     Email.where(aasm_state: 'subscribed').uniq
          .joins(:offers).where('offers.aasm_state = ?', 'approved')
-         .joins(:organizations).where(
-           'organizations.mailings = ?', 'enabled').select { |mail| !mail.offers.approved.in_section('family').any? }
+         .joins(:organizations).where('organizations.mailings = ?', 'enabled')
   end
 end

@@ -44,15 +44,10 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
      ' offer_mails are sent before' do
     # Email does not have approved offers..
     email = FactoryGirl.create :email, :uninformed, :with_unapproved_offer
-    email.organizations.update_all mailings: 'enabled', aasm_state: 'approved'
+    email.organizations.update_all mailings: 'enabled', aasm_state: 'all_done'
     email.contact_people.update_all position: 'superior'
     # .. but one orga has an approved offer
     email.organizations.first.offers << FactoryGirl.create(:offer, :approved)
-    # TODO: remove this later!
-    email.organizations.first.offers.each do |offer|
-      offer.section_filters =
-        [SectionFilter.find_by(identifier: 'refugees') || FactoryGirl.create(:section_filter, identifier: 'refugees')]
-    end
     UninformedEmailMailingWorker.expects(:perform_async).with(email.id)
     worker.perform
   end

@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
     Subscription SectionFilter NextStep SolutionCategory
-    LogicVersion SplitBase
+    LogicVersion SplitBase City
   )
 
   config.actions do
@@ -59,7 +59,7 @@ RailsAdmin.config do |config|
     end
 
     clone do
-      except ['SectionFilter']
+      except ['SectionFilter', 'City']
     end
     # nested_set do
     #   only ['Category']
@@ -170,6 +170,9 @@ RailsAdmin.config do |config|
   config.model 'Website' do
     field :host
     field :url
+    field :unreachable_count do
+      read_only true
+    end
 
     show do
       field :offers
@@ -185,6 +188,7 @@ RailsAdmin.config do |config|
       field :zip
       field :federal_state
       field :street
+      field :city
       field :display_name
     end
     weight(-5)
@@ -234,6 +238,32 @@ RailsAdmin.config do |config|
       custom_method :partial_dup
     end
     object_label_method :display_name
+  end
+
+  config.model 'City' do
+    weight 1
+    list do
+      field :id do
+        sort_reverse false
+      end
+      field :name
+    end
+    show do
+      field :name
+      field :locations
+      field :offers
+      field :organizations
+    end
+    field :name
+    field :locations do
+      visible false
+    end
+    field :offers do
+      visible false
+    end
+    field :organizations do
+      visible false
+    end
   end
 
   config.model 'FederalState' do
@@ -446,6 +476,26 @@ RailsAdmin.config do |config|
       field :operational_name
       field :local_number_1
       field :local_number_2
+    end
+    show do
+      field :gender
+      field :academic_title
+      field :position
+      field :first_name
+      field :last_name
+      field :operational_name
+      field :responsibility
+      field :area_code_1
+      field :local_number_1
+      field :area_code_2
+      field :local_number_2
+      field :fax_area_code
+      field :fax_number
+      field :street
+      field :zip_and_city
+      field :email
+      field :organization
+      field :offers
     end
     field :gender
     field :academic_title

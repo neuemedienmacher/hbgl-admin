@@ -18,11 +18,13 @@ class OfferMailer < ActionMailer::Base
   # @attr offers variable only for test mails
   # A lot of variables have to be prepared for the email, so we are OK with
   # a slightly higher assignment branch condition size and disable rubocop
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def inform_offer_context email, offers = nil
     # Loads of variables in preparation for view models
     @contact_person = email.contact_people.first
-    usable_offers = offers || email.offers.approved.by_mailings_enabled_organization
+    usable_offers = offers ||
+                    email.offers.approved.by_mailings_enabled_organization
+                         .select(&:remote_or_belongs_to_informable_city?)
     offers_per_section = get_offers_per_section usable_offers
     @offers = get_offer_teaser offers_per_section
     @offers_teaser = are_offers_teaser? offers_per_section
@@ -35,7 +37,7 @@ class OfferMailer < ActionMailer::Base
 
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # Mails to organization conctacts to inform them about clarat
   # @attr email Email object this is sent to
@@ -144,6 +146,7 @@ class OfferMailer < ActionMailer::Base
   # over a certain treshold (currently 60%) the mailing is seen as a
   # mainly-portal-mailing with some content changes
   def mainly_portal_offers? offers
-    (offers.where(encounter: 'portal').count.to_f / offers.count.to_f) >= 0.6
+    (offers.map { |o| o if o.encounter == 'portal' }.compact.count.to_f /
+      offers.count.to_f) >= 0.6
   end
 end

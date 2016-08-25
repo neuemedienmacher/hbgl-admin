@@ -4,13 +4,12 @@ class CheckWebsitesWorker
 
   sidekiq_options queue: :heavy_load
 
-  # rubocop:disable UnreachableCode
   def perform
-    return # TODO: remove this to re-enable, also coverage and tests
-    # Get websites to check (only those with approved offers or orgas)
-    Website.select { |w| !w.offers.approved.empty? || !w.organizations.approved.empty? }.each do |website|
+    # ignore facebook because it seems to block the crawler leading to false positives
+    Website.where.not(host: 'facebook').find_each do |website|
+      next unless website.unreachable? || website.offers.approved.any? ||
+                  website.organizations.approved.any?
       CheckSingleWebsiteWorker.perform_async website.id
     end
   end
-  # rubocop:enable UnreachableCode
 end

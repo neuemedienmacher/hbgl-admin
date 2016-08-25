@@ -5,8 +5,6 @@ SimpleCov.start 'rails' do
   add_filter "/test/"
   # add_filter "/app/workers/subscribed_emails_mailings_spawner_worker.rb"
   # add_filter "/app/workers/uninformed_emails_mailings_spawner_worker.rb"
-  add_filter "/app/workers/check_websites_worker.rb"
-  add_filter "/app/workers/check_single_website_worker.rb"
   minimum_coverage 100
 end
 require 'codeclimate-test-reporter'

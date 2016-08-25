@@ -20,7 +20,8 @@ class Email < ActiveRecord::Base
 
   # Methods
   def not_yet_but_soon_known_offers
-    offers.approved.by_mailings_enabled_organization.all - known_offers.all
+    offers.approved.by_mailings_enabled_organization
+          .select(&:remote_or_belongs_to_informable_city?) - known_offers.all
   end
 
   def create_offer_mailings offers, mailing_type
@@ -55,6 +56,10 @@ class Email < ActiveRecord::Base
       organizations.uniq.count == 1 && informable_orga?(organizations.first)
   end
 
+  def belongs_to_at_least_one_informable_offer?
+    offers.approved.select(&:remote_or_belongs_to_informable_city?).any?
+  end
+
   private
 
   def informable_offers_or_orga_contact?
@@ -62,14 +67,12 @@ class Email < ActiveRecord::Base
   end
 
   def informable_offers?
-    contact_people.joins(:offers)
-                  .where('offers.aasm_state = ?', 'approved').any? &&
+    belongs_to_at_least_one_informable_offer? &&
       organizations.where(mailings: 'enabled').any?
   end
 
-  # TODO: remove location conditional????
   def informable_orga? orga
-    orga.approved? && orga.mailings_enabled? &&
-      orga.offers.approved.any? && orga.locations.count < 10
+    orga.aasm_state == 'all_done' && orga.mailings_enabled? &&
+      orga.offers.approved.any? && !orga.big_player?
   end
 end

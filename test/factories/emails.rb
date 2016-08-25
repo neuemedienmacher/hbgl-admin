@@ -7,31 +7,29 @@ FactoryGirl.define do
 
     trait :with_approved_offer do
       after :create do |email, _evaluator|
-        offers = [FactoryGirl.create(:offer, :approved)]
-        # TODO: remove this later!
-        offers.each do |offer|
-          offer.section_filters =
-            [SectionFilter.find_by(identifier: 'refugees') || FactoryGirl.create(:section_filter, identifier: 'refugees')]
-        end
+        offers = [FactoryGirl.create(:offer, :approved, :remote)]
         email.contact_people << FactoryGirl.create(:contact_person,
                                                    offers: offers)
+        email.contact_people.first.organization.update_columns aasm_state: 'all_done'
       end
     end
 
     trait :with_unapproved_offer do
       after :create do |email, _evaluator|
-        offers = [FactoryGirl.create(:offer)]
+        offers = [FactoryGirl.create(:offer, :remote)]
         email.contact_people << FactoryGirl.create(:contact_person,
                                                    offers: offers)
+        email.contact_people.first.organization.update_columns aasm_state: 'all_done'
       end
     end
 
     trait :with_approved_and_unapproved_offer do
       after :create do |email, _evaluator|
-        offers = [FactoryGirl.create(:offer),
-                  FactoryGirl.create(:offer, :approved)]
+        offers = [FactoryGirl.create(:offer, :remote),
+                  FactoryGirl.create(:offer, :approved, :remote)]
         email.contact_people << FactoryGirl.create(:contact_person,
                                                    offers: offers)
+        email.contact_people.first.organization.update_columns aasm_state: 'all_done'
       end
     end
 
