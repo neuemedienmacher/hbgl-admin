@@ -108,7 +108,11 @@ RailsAdmin.config do |config|
 
     field :websites
     field :contact_people
-    field :mailings
+    field :mailings do
+      help do
+        'Dieses Feld nutzt ausschließlich Comms!'
+      end
+    end
     field :aasm_state do
       read_only true
       help false
