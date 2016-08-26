@@ -126,9 +126,9 @@ FactoryGirl.define do
       encounter 'personal'
     end
 
-    trait :remote do
-      encounter %w(hotline chat forum email online-course portal letter).sample
-    end
+    # trait :remote do
+    #   encounter %w(hotline chat forum email online-course portal letter).sample
+    # end
 
     trait :with_creator do
       created_by { FactoryGirl.create(:researcher).id }

@@ -6,7 +6,7 @@ describe OfferMailer do
   include EmailSpec::Matchers
 
   let(:offer) do
-    FactoryGirl.create(:offer, :approved, :remote)
+    FactoryGirl.create(:offer, :approved)
   end
   let(:contact_person) do
     FactoryGirl.create(:contact_person,
@@ -40,11 +40,11 @@ describe OfferMailer do
     end
 
     it 'only informs about offers by mailings=enabled organizations' do
-      offer2 = FactoryGirl.create :offer, :approved, :remote,
+      offer2 = FactoryGirl.create :offer, :approved,
                                   name: 'By mailings=enabled organization'
       offer2.contact_people.first.update_column :email_id, email.id
 
-      offer3 = FactoryGirl.create :offer, :approved, :remote,
+      offer3 = FactoryGirl.create :offer, :approved,
                                   name: 'By mailings=disabled organization'
       offer3.contact_people.first.update_column :email_id, email.id
       offer3.organizations.first.update_column :mailings, 'force_disabled'
@@ -207,7 +207,7 @@ describe OfferMailer do
       let(:offerArray) do
         [
           offer,
-          FactoryGirl.create(:offer, :approved, :remote, name: 'another named offer')
+          FactoryGirl.create(:offer, :approved, name: 'another named offer')
         ]
       end
 
