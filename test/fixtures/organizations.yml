@@ -4,7 +4,7 @@ basic:
   description: basicOrganizationDescription
   legal_form: ev
   offers_count: 1
-  aasm_state: approved
+  aasm_state: all_done
   created_by: 1
   approved_by: 2
   mailings: enabled

@@ -9,7 +9,7 @@ class SubscribedEmailMailingWorker
     OfferMailing.transaction do
       Email.transaction do
         email = Email.find(email_id)
-        informable_offers = email.not_yet_but_soon_known_offers
+        informable_offers = email.newly_approved_offers_from_offer_context
         next if informable_offers.empty?
         OfferMailer.newly_approved_offers(email, informable_offers).deliver_now
       end

@@ -16,7 +16,7 @@ describe Organization do
 
   describe 'State Machine' do
     it 'should transition from approved to all_done and call mailings method' do
-      organization = FactoryGirl.create :organization, :approved
+      organization = FactoryGirl.create :organization, aasm_state: 'approved'
       organization.expects(:apply_mailings_logic!).once
       organization.mark_as_done!
       organization.reload.must_be :all_done?

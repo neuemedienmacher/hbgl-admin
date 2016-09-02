@@ -13,7 +13,7 @@ describe Email do
   describe 'methods' do
     it 'should find all newly approved offers for an email' do
       email = FactoryGirl.create :email, :with_approved_and_unapproved_offer
-      email.not_yet_but_soon_known_offers.count.must_equal 1
+      email.newly_approved_offers_from_offer_context.count.must_equal 1
     end
 
     describe '#informable_offers?' do
