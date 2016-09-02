@@ -63,3 +63,9 @@
   = link_to 'www.clarat.org', t(".link_url")
 
 = email_image_tag("logo_family_refugees.png")
+
+%p
+  PS Gerne informieren wir Sie, wenn mehr Angebote Ihrer Organisation online sind. Klicken Sie einfach
+  = succeed '.' do
+    = link_to 'hier', @subscribe_href
+  Ansonsten erhalten Sie keine Mails mehr von uns.

@@ -5,7 +5,7 @@
 class OfferMailing < ActiveRecord::Base
   # Enumerization
   extend Enumerize
-  enumerize :mailing_type, in: %w(inform newly_approved)
+  enumerize :mailing_type, in: %w(inform newly_approved orga_inform)
 
   # Associtations
   belongs_to :offer, inverse_of: :offer_mailings

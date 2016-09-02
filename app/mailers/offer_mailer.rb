@@ -47,15 +47,14 @@ class OfferMailer < ActionMailer::Base
   def inform_organization_context email
     # okay, because all contact_persons belong to the same organization
     orga = email.contact_people.first.organization
+    offers = orga.offers.approved.select(&:remote_or_belongs_to_informable_city?)
     @contact_person = email.contact_people.first
     @vague_title = email.vague_contact_title?
-    @mainly_portal =
-      mainly_portal_offers?(orga.offers.approved) && email.offers.empty?
+    @mainly_portal = mainly_portal_offers?(offers)
     @overview_href_suffix = "/organisationen/#{orga.slug || orga.id.to_s}"
+    @subscribe_href = get_sub_or_unsub_href email, 'subscribe'
 
-    mail subject: t('.subject'),
-         to: email.address,
-         from: 'Anne Schulze | clarat <anne.schulze@clarat.org>'
+    send_emails email, offers, :orga_inform, t('.subject')
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -73,10 +72,8 @@ class OfferMailer < ActionMailer::Base
     @overview_href_suffix = "/emails/#{email.id}/angebote"
 
     send_emails email, offers, :newly_approved,
-                t('.subject',
-                  count: offers.count,
-                  name: t(".clarat_name_subject.#{@section_suffix}")
-                 )
+                t('.subject', count: offers.count,
+                              name: t(".clarat_name_subject.#{@section_suffix}"))
   end
   # rubocop:enable Metrics/AbcSize
 
