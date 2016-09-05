@@ -13,7 +13,7 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%= t(".paragraph_entry",
     root_link: t('.text_link',
                name: t(".clarat_name.family_refugees"),
-               url: t(".link_url.family_refugees")),
+               url: t(".link_url.family_refugees") + @utm_tagging_suffix),
     new_offers: t(".offer_text.#{@offer ? 'singular' : 'multiple'}") ) %>
 <%- if @offer %>
 <%= t(".list_entry",
@@ -27,13 +27,13 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%- @section_suffix.split('_').each do |section| %>
 <%= t(".paragraph_overview_link",
     section_name: t(".clarat_name.#{section}"),
-    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix + @utm_tagging_suffix) ) %>
 <%- end %>
 <%- else %>
 <%- @section_suffix.split('_').each do |section| %>
 <%= t(".paragraph_overview_link",
     section_name: t(".clarat_name.#{section}"),
-    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix + @utm_tagging_suffix) ) %>
 <%- end %>
 <%= t(".paragraph_found_error") %>
 <%- end %>
