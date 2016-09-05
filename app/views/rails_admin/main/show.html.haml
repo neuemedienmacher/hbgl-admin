@@ -16,7 +16,7 @@
               %dd.well
                 - if field.label == 'Notes'
                   = render '/rails_admin/custom/notes', object: @object, title: false
-                - elsif field.label == 'Offers' && @object.class == Category
+                - elsif field.label == 'Offers' && (@object.class == Category || @object.class == City)
                   = render '/rails_admin/custom/category_offers', object: @object
                 - elsif field.label == 'Offers' && (@object.class == SectionFilter || @object.class == SplitBase)
                   = render '/rails_admin/custom/section_filter_offers', object: @object

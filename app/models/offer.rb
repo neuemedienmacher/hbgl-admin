@@ -81,7 +81,10 @@ class Offer < ActiveRecord::Base
   # offers or belong to a city with a certain number of approved offers and
   # organizations
   def remote_or_belongs_to_informable_city?
-    (encounter != 'personal' || location.city.thresholds_reached?)
+    # search a city by area (remote offers that are limited to a certain area)
+    city_by_area_name = area ? City.find_by(name: area.name) : nil
+    direct_or_indirect_city = location ? location.city : city_by_area_name
+    direct_or_indirect_city.nil? || direct_or_indirect_city.thresholds_reached?
   end
 
   def editable?

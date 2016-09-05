@@ -78,5 +78,34 @@ describe Offer do
         basicOffer.errors.messages[:categories].must_be :nil?
       end
     end
+
+    describe '#remote_or_belongs_to_informable_city?' do
+      it 'must be true for a personal offer with all_done organization' do
+        location_offer = FactoryGirl.create :offer, :approved, :with_location
+        location_offer.organizations.first.update_columns aasm_state: 'all_done'
+        location_offer.remote_or_belongs_to_informable_city?.must_equal true
+      end
+
+      it 'must be false for a personal offer with approved organization' do
+        location_offer = FactoryGirl.create :offer, :approved, :with_location
+        location_offer.location.city = City.new(name: 'Bielefeld')
+        location_offer.organizations.first.update_columns aasm_state: 'approved'
+        location_offer.remote_or_belongs_to_informable_city?.must_equal false
+      end
+
+      it 'must be true for a remote offer with a city-area' do
+        remote_offer = FactoryGirl.create :offer, :approved, encounter: 'chat'
+        remote_offer.area = FactoryGirl.create :area, name: 'Berlin'
+        remote_offer.organizations.first.update_columns aasm_state: 'all_done'
+        remote_offer.remote_or_belongs_to_informable_city?.must_equal true
+      end
+
+      it 'must be true for a remote offer with area that does not match a city' do
+        remote_offer = FactoryGirl.create :offer, :approved, encounter: 'chat'
+        remote_offer.area = FactoryGirl.create :area, name: 'NotACity'
+        remote_offer.organizations.first.update_columns aasm_state: 'approved'
+        remote_offer.remote_or_belongs_to_informable_city?.must_equal true
+      end
+    end
   end
 end
