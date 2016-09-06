@@ -254,7 +254,6 @@ RailsAdmin.config do |config|
     end
     show do
       field :name
-      field :locations
       field :offers
       field :organizations
     end
