@@ -4,7 +4,7 @@ require 'uri'
 
 class AsanaCommunicator
   WORKSPACE = '41140436022602'
-  PROJECTS = { expired: %w(44856824806357), seasonal: %w(147663824592112),
+  PROJECTS = { expired: %w(44856824806357), ricochet: %w(147663824592112),
                big_orga_without_mailing: %w(85803884880432) }.freeze
 
   def initialize
@@ -27,13 +27,14 @@ class AsanaCommunicator
     create_task "[Offer-website unreachable] #{worlds} | Version: "\
                 "#{offer.logic_version.version} | #{orgas} | #{offer.name}",
                 'Deactivated: http://claradmin.herokuapp.com/admin/offer/'\
-                "#{offer.id}/edit | Unreachable website: #{website.url}"
+                "#{offer.id}/edit | Unreachable website: #{website.url}",
+                :ricochet
   end
 
   def create_website_unreachable_task_orgas website
     organization_names = website.organizations.approved.pluck(:name).join(',')
     create_task "[Orga-website unreachable] #{organization_names}",
-                "Unreachable website: #{website.url}"
+                "Unreachable website: #{website.url}", :ricochet
   end
 
   def create_seasonal_offer_ready_for_checkup_task offer
@@ -41,9 +42,10 @@ class AsanaCommunicator
     create_task "WV | Saisonales Angebot | Start date: #{offer.starts_at} | "\
                 "#{organization_names} | #{offer.name}",
                 "http://claradmin.herokuapp.com/admin/offer/#{offer.id}/edit",
-                :seasonal
+                :ricochet
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create_big_orga_is_done_task orga
     base_link = 'http://claradmin.herokuapp.com/admin'
     content = "#{base_link}/organization/#{orga.id}/edit"
@@ -53,9 +55,10 @@ class AsanaCommunicator
                "#{contacts.first.id}/edit" if contacts.any?
     # homepage
     content += " | Website: #{base_link}/website/#{orga.homepage.id}/edit"
-    create_task "#{orga.section_filters.pluck(:identifier).join(', ')} | "\
+    create_task "#{orga.section_filters.pluck(:identifier).uniq.join(', ')} | "\
                 "#{orga.name}", content, :big_orga_without_mailing
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 
