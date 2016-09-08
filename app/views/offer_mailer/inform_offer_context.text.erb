@@ -13,14 +13,14 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%= t(".paragraph_entry.text",
     base_link: t('.text_link',
                name: t(".clarat_name.family_refugees"),
-               url: t(".link_url.family_refugees")) ) %>
+               url: t(".link_url.family_refugees") + @utm_tagging_suffix) ) %>
 <%- if @mainly_portal %>
 <%= t(".paragraph_portal_forward") %>
 <%- else %>
 <%= t(".paragraph_your_offers.text",
     root_link: t('.text_link',
                name: t(".clarat_name.#{@section_suffix}"),
-               url: t(".link_url.#{@section_suffix}")),
+               url: t(".link_url.#{@section_suffix}") + @utm_tagging_suffix),
     offer_text: @offers_teaser ? t('.offer_text_multiple') : t('.offer_text', count: @offers.count) ) %>
 <%- end %>
 <%- if @singular_section %>
@@ -34,13 +34,13 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 
 "<%= offer.name %>",
 <%= t(".list_link_intro") %>
-<%= t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) %>
+<%= t(".link_url.#{@section_suffix}") + '/angebote/' + (offer.slug || offer.id.to_s) + @utm_tagging_suffix %>
 <%- end %>
 
 <%- @section_suffix.split('_').each do |section| %>
 <%= t(".paragraph_overview_link",
     section_name: t(".clarat_name.#{section}"),
-    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix + @utm_tagging_suffix) ) %>
 <%- end %>
 <%- else %>
 <%- # Start multiple offer lists: one offer or multiple offers each %>
@@ -55,13 +55,13 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 
 "<%= offer.name %>",
 <%= t(".list_link_intro") %>
-<%= t(".link_url.#{section}") + '/angebote/' + (offer.slug || offer.id.to_s) %>
+<%= t(".link_url.#{section}") + '/angebote/' + (offer.slug || offer.id.to_s) + @utm_tagging_suffix %>
 <%- end # end if offer.in_section? %>
 <%- end # end offers.each %>
 
 <%= t(".paragraph_overview_link",
     section_name: t(".clarat_name.#{section}"),
-    overview_link: (t(".link_url.#{section}") + @overview_href_suffix) ) %>
+    overview_link: (t(".link_url.#{section}") + @overview_href_suffix + @utm_tagging_suffix) ) %>
 <%- end # end section_suffix.each %>
 <%- end # end else %>
 <%= t(".paragraph_found_error",

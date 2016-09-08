@@ -18,14 +18,14 @@
 
 %p
   kennen Sie
-  = link_to( t(".clarat_name"), t(".link_url") )
+  = link_to( t(".clarat_name"), t(".link_url") + @utm_tagging_suffix)
   = t(".paragraph_entry_html")
 - if @mainly_portal
   %p
   = t(".paragraph_portal_forward")
 %p
   = t(".paragraph_overview_link", overview_link: '||').split('||').first
-  = link_to( t(".paragraph_overview_link_text"), t(".link_url") + @overview_href_suffix )
+  = link_to( t(".paragraph_overview_link_text"), t(".link_url") + @overview_href_suffix  + @utm_tagging_suffix)
 %p
   = t(".paragraph_found_error")
 %p
@@ -60,6 +60,12 @@
   %br
   Tel.: +49 (0)30 55 57 96 00
   %br
-  = link_to 'www.clarat.org', t(".link_url")
+  = link_to 'www.clarat.org', t(".link_url") + @utm_tagging_suffix
 
 = email_image_tag("logo_family_refugees.png")
+
+%p
+  PS Gerne informieren wir Sie, wenn mehr Angebote Ihrer Organisation online sind. Klicken Sie einfach
+  = succeed '.' do
+    = link_to 'hier', @subscribe_href
+  Ansonsten erhalten Sie keine Mails mehr von uns.

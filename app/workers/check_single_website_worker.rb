@@ -45,10 +45,7 @@ class CheckSingleWebsiteWorker
     return false
   # catch errors that prevent a valid response
   rescue HTTParty::RedirectionTooDeep, Errno::EHOSTUNREACH, SocketError,
-         Timeout::Error, URI::InvalidURIError
+         Timeout::Error, URI::InvalidURIError, OpenSSL::SSL::SSLError
     return true
-  # rescue SSL Errors to prevent crashing but handle the website as reachable
-  rescue OpenSSL::SSL::SSLError
-    return false
   end
 end

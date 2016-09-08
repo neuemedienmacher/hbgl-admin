@@ -3,6 +3,8 @@
     - filtered_offers = object.offers.select{ |o| o.section_filters.include? filter }
     - approved_offers = filtered_offers.map{ |o| o if o.approved? }.compact
     h5 = filter.name + ': ' + filtered_offers.count.to_s + ' (' + approved_offers.count.to_s + ')'
-    - filtered_offers.each do |offer|
+    - filtered_offers.first(300).each do |offer|
       =<> link_to offer.name, show_path('offer', offer.id)
       = ', ' unless offer == filtered_offers.last
+    - if filtered_offers.count > 300
+      = '(... and many more)'

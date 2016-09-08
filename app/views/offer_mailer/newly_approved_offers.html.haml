@@ -17,7 +17,7 @@
       = @contact_person.first_name
 %p
   erinnern Sie sich noch an
-  = link_to( t(".clarat_name.family_refugees"), t(".link_url.family_refugees") )
+  = link_to( t(".clarat_name.family_refugees"), t(".link_url.family_refugees") + @utm_tagging_suffix )
   = t(".paragraph_entry",
       root_link: '||',
       new_offers: t(".offer_text.#{@offer ? 'singular' : 'multiple'}") ).split('||').last
@@ -29,13 +29,13 @@
       = t(".clarat_name.#{@section_suffix}")
     heißt:
     %p
-      = link_to( @offer.name.strip, @offer_href)
+      = link_to( @offer.name.strip, @offer_href + @utm_tagging_suffix )
     %p
       = t(".paragraph_found_error")
       - @section_suffix.split('_').each do |section|
         %p
           = t(".paragraph_overview_link_prefix")
-          = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
+          = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix + @utm_tagging_suffix )
           = t(".paragraph_overview_link_middle")
           %b
             = t(".clarat_name.#{section}")
@@ -45,7 +45,7 @@
   - @section_suffix.split('_').each do |section|
     %p
       = t(".paragraph_overview_link_prefix")
-      = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix )
+      = link_to( t(".paragraph_overview_link_text"), t(".link_url.#{section}") + @overview_href_suffix + @utm_tagging_suffix )
       = t(".paragraph_overview_link_middle")
       %b
         = t(".clarat_name.#{section}")
@@ -73,7 +73,7 @@
   %br
   Tel.: +49 (0)30 55 57 96 00
   %br
-  = link_to 'www.clarat.org', t(".link_url.family_refugees")
+  = link_to 'www.clarat.org', t(".link_url.family_refugees") + @utm_tagging_suffix
 
 = email_image_tag("logo_#{@section_suffix}.png")
 

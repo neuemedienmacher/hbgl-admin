@@ -13,12 +13,12 @@ Liebe<%- end %> <%= @contact_person.first_name %>,
 <%= t(".paragraph_entry",
     root_link: t('.text_link',
                name: t(".clarat_name"),
-               url: t(".link_url"))) %>
+               url: t(".link_url") + @utm_tagging_suffix)) %>
 <%- if @mainly_portal%>
 <%= t(".paragraph_portal_forward") %>
 <%- end %>
 <%= t(".paragraph_overview_link",
-    overview_link: (t(".link_url") + @overview_href_suffix) ) %>
+    overview_link: (t(".link_url") + @overview_href_suffix + @utm_tagging_suffix) ) %>
 <%= t(".paragraph_found_error") %>
 <%= t(".paragraph_multiple_mails") %>
 <%= t(".paragraph_split_explanation") %>
@@ -37,3 +37,8 @@ Französische Straße 47
 10117 Berlin
 Tel.: +49 (0)30 55 57 96 00
 http://www.clarat.org
+
+PS Gerne informieren wir Sie, wenn mehr Angebote Ihrer Organisation online sind.
+     Klicken Sie einfach auf diesen Link:
+     <%= @subscribe_href %>
+     Ansonsten erhalten Sie keine E-Mails mehr von uns.
