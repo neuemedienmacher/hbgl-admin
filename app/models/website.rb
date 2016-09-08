@@ -15,7 +15,12 @@ class Website < ActiveRecord::Base
     # it. This is required, because SimpleIDN only works on host-urls and breaks
     # path-URLs
     splitted_url[2] = SimpleIDN.to_ascii(splitted_url[2])
-    # after replacement, just re-join the array again
-    splitted_url.join('/')
+    # encode the rest (path) of the URL to be ascii conform
+    splitted_url[3..splitted_url.length].each_with_index do |item, index|
+      splitted_url[index + 3] = URI.encode(item)
+    end
+    # after replacement, just re-join the array again and append last / if
+    # it was there before (removed by .split)
+    splitted_url.join('/') + (url.last == '/' ? '/' : '')
   end
 end
