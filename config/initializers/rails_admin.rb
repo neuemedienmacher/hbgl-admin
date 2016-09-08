@@ -146,12 +146,12 @@ RailsAdmin.config do |config|
           else
             'Englisch (wird noch erstellt)<br/>'
           end
-          output_string += if en
+          output_string += if ar
             "<a href='/organization_translations/#{ar.id}/edit'>Arabisch</a><br/>"
           else
             'Arabisch (wird noch erstellt)<br/>'
           end
-          output_string += if en
+          output_string += if ru
             "<a href='/organization_translations/#{ru.id}/edit'>Russisch</a><br/>"
           else
             'Russisch (wird noch erstellt)'
@@ -444,12 +444,12 @@ RailsAdmin.config do |config|
           else
             'Englisch (wird noch erstellt)<br/>'
           end
-          output_string += if en
+          output_string += if ar
             "<a href='/offer_translations/#{ar.id}/edit'>Arabisch</a><br/>"
           else
             'Arabisch (wird noch erstellt)<br/>'
           end
-          output_string += if en
+          output_string += if ru
             "<a href='/offer_translations/#{ru.id}/edit'>Russisch</a><br/>"
           else
             'Russisch (wird noch erstellt)'
