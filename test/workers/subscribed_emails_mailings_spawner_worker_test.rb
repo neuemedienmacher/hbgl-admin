@@ -11,6 +11,14 @@ class SubscribedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     worker.perform
   end
 
+  it 'wont mailing to subscribed emails that have approved offers but the '\
+     'organization is not longer all_done' do
+    email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.offers.first.organizations.first.update_columns aasm_state: 'approved'
+    SubscribedEmailMailingWorker.expects(:perform_async).with(email.id)
+    worker.perform
+  end
+
   it 'wont send mailing to subscribed emails without approved offers' do
     FactoryGirl.create :email, :subscribed, :with_unapproved_offer
     SubscribedEmailMailingWorker.expects(:perform_async).never
