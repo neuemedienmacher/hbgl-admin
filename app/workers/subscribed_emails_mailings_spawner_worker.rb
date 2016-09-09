@@ -25,5 +25,6 @@ class SubscribedEmailsMailingsSpawnerWorker
     Email.where(aasm_state: 'subscribed').uniq
          .joins(:offers).where('offers.aasm_state = ?', 'approved')
          .joins(:organizations).where('organizations.mailings = ?', 'enabled')
+         .joins(:organizations).where('organizations.aasm_state = ?', 'all_done')
   end
 end
