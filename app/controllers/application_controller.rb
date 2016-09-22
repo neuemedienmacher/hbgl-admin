@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   # Security by default
   before_action :authenticate_user!
+  include Pundit
 
   # Enable PaperTrail tracking
   before_action :set_paper_trail_whodunnit

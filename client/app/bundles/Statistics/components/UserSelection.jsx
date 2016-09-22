@@ -24,7 +24,7 @@ export default class UserSelection extends React.Component {
                 onClick={toggleUser(user.id)}
               />
               <label htmlFor={`user-${user.id}`}>
-                {user.name}
+                {user.label}
               </label>
             </span>
           )

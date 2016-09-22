@@ -50,7 +50,7 @@ class Backend::IndexHeaderCell < Cell::Concept
   end
 
   def new_link
-    { path: send("new_#{singular_name}_path"), anchor: 'Neuet Teil' }
+    { path: send("new_#{singular_name}_path"), anchor: 'Neu Anlegen' }
   end
 
   def export_link

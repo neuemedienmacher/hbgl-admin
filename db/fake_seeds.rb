@@ -1,6 +1,12 @@
 # Repeatedly usable with rake db:fake
 u = User.first or raise "run `rake db:seed` first"
 
+## Stubs
+class GengoCommunicator
+  def create_translation_jobs *attrs; true; end
+end
+## /Stubs
+
 unless ENV['ALGOLIA_ID'] && ENV['ALGOLIA_KEY']
   raise "needs environment variables for algolia"
 end

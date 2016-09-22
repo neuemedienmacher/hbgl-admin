@@ -4,7 +4,12 @@ module API::V1
     class Index < API::V1::Default::Index
       def model!(params)
         query = ::User
-        query.all
+
+        if params[:query]
+          query.where('LOWER(display_name) LIKE LOWER(?)', "%#{params[:query]}%")
+        else
+          query.all
+        end
       end
 
       representer API::V1::User::Representer::Index

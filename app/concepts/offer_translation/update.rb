@@ -12,10 +12,14 @@ class OfferTranslation::Update < Trailblazer::Operation
   end
 
   def process(params)
-    validate(params[:offer_translation]) do |form_object|
+    validate(validatable_params) do |form_object|
       form_object.source = 'researcher'
       form_object.possibly_outdated = false
       form_object.save
     end
+  end
+
+  def validatable_params
+    @params[:offer_translation]
   end
 end

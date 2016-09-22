@@ -23,12 +23,21 @@ module RailsAdmin
 
         register_instance_option :controller do
           proc do
+            old_state = @object.aasm_state
             # INFO Hacky hack hack: allow forced state-change to checkup for invalid objects (e.g. expired offers are invalid)
             if !@object.valid? && params[:event] == 'start_checkup_process'
               @object.update_columns aasm_state: 'checkup_process'
               flash[:success] = t('.success')
+              Statistic::CountHandler.record(
+                current_user, @object.class.name, 'aasm_state',
+                old_state, @object.aasm_state
+              )
             elsif @object.valid? && @object.send("#{params[:event]}!")
               flash[:success] = t('.success')
+              Statistic::CountHandler.record(
+                current_user, @object.class.name, 'aasm_state',
+                old_state, @object.aasm_state
+              )
             else
               error_message = t('.invalid', obj: @object.class.to_s)
               @object.errors.full_messages.each do |message|

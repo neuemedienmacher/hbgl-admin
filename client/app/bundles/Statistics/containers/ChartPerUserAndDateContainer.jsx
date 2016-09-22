@@ -1,34 +1,37 @@
 import { connect } from 'react-redux'
 import moment from 'moment'
-import uniq from 'lodash/array/uniq'
-import compact from 'lodash/array/compact'
-import cloneDeep from 'lodash/lang/cloneDeep'
+import uniq from 'lodash/uniq'
+import compact from 'lodash/compact'
+import cloneDeep from 'lodash/cloneDeep'
+import valuesIn from 'lodash/valuesIn'
 
 import ChartPerUserAndDate from '../components/ChartPerUserAndDate'
 import updateDateRange from '../actions/updateDateRange'
 
-const mapStateToProps = function(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   const startDate = state.statisticSettings.startDate
   const endDate = state.statisticSettings.endDate
   const selectedUsers = state.statisticSettings.selectedUsers
+  const allStatistics = valuesIn(state.statistics)
 
-  const filteredData = cloneDeep(state.statistics.filter(function(statistic) {
-    const x = moment(statistic.x, 'YYYY-MM-DD')
+  const filteredData = cloneDeep(allStatistics.filter(statistic => {
+    const date = moment(statistic.date, 'YYYY-MM-DD')
 
     return (
-      statistic.topic === ownProps.topic &&
-        x.isBefore(endDate) &&
-        x.isAfter(startDate) &&
+      statistic.model === ownProps.model &&
+        statistic.field_end_value === ownProps.field_end_value &&
+        date.isBefore(endDate) &&
+        date.isAfter(startDate) &&
         selectedUsers.includes(statistic.user_id)
     )
   }))
 
-  const allUserIdsForWhichThereIsData = compact(uniq(state.statistics.map(
+  const allUserIdsForWhichThereIsData = compact(uniq(allStatistics.map(
     (statistic) => statistic.user_id
   )))
-  const filteredUsers = state.users.filter((user) => {
-    return allUserIdsForWhichThereIsData.includes(user.id)
-  })
+  const filteredUsers = valuesIn(state.users).filter(user =>
+    allUserIdsForWhichThereIsData.includes(user.id)
+  )
 
   return {
     // Chart Rendering
@@ -43,24 +46,24 @@ const mapStateToProps = function(state, ownProps) {
     dateRangeMaxDate: now => now,
     dateRangeRanges: {
       'Seit Anbeginn': {
-        startDate: function(now) { return moment('01/01/2015') },
-        endDate: function(now) { return now },
+        startDate: now => moment('01/01/2015'),
+        endDate: now => now,
       },
       'Heute': {
-        startDate: function(now) { return now },
-        endDate: function(now) { return now },
+        startDate: now => now,
+        endDate: now => now,
       },
       'Diese Woche': {
-        startDate: function(now) { return now.weekday(0) },
-        endDate: function(now) { return now },
+        startDate: now => now.weekday(0),
+        endDate: now => now,
       },
       'Dieser Monat': {
-        startDate: function(now) { return now.date(1) },
-        endDate: function(now) { return now },
+        startDate: now => now.date(1),
+        endDate: now => now,
       },
       'Dieses Jahr': {
-        startDate: function(now) { return now.dayOfYear(1) },
-        endDate: function(now) { return now },
+        startDate: now => now.dayOfYear(1),
+        endDate: now => now,
       },
     },
 
@@ -70,7 +73,7 @@ const mapStateToProps = function(state, ownProps) {
 	}
 }
 
-const mapDispatchToProps = function(dispatch, ownProps) {
+const mapDispatchToProps = (dispatch, ownProps) => {
   const handleChange = range => (
     dispatch(updateDateRange(range))
   )

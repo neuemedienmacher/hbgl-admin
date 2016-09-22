@@ -1,4 +1,4 @@
-.barchart {
+.chart {
   font: 10px sans-serif;
 
   .axis path,
@@ -16,6 +16,25 @@
     fill: none;
     stroke: steelblue;
     stroke-width: 1.5px;
+
+    &.ideal {
+      stroke: lightgrey;
+      stroke-dasharray: 3,3;
+    }
+
+    &.projection {
+      stroke: lightcoral;
+      stroke-dasharray: 3,3;
+    }
+
+    &.scope {
+      stroke: grey;
+    }
+
+    &.deadline {
+      stroke: black;
+      stroke-width: 1px;
+    }
   }
 
   .bar {

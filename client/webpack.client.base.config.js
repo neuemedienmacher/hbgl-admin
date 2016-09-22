@@ -16,11 +16,13 @@ module.exports = {
     vendor: [
       'babel-polyfill',
       'jquery',
+      'i18n-js',
     ],
 
     // This will contain the app entry points defined by webpack.hot.config and webpack.rails.config
     app: [
-      './app/bundles/Statistics/startup/clientRegistration'
+      'imports?I18n=i18n-js!./vendor/translations',
+      './app/lib/startup/clientRegistration'
     ],
   },
   resolve: {
@@ -58,6 +60,7 @@ module.exports = {
       // Not all apps require jQuery. Many Rails apps do, such as those using TurboLinks or bootstrap js
       { test: require.resolve('jquery'), loader: 'expose?jQuery' },
       { test: require.resolve('jquery'), loader: 'expose?$' },
+      { test: require.resolve('i18n-js'), loader: 'expose?I18n' }
     ],
   },
 };

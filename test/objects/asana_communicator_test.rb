@@ -12,7 +12,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
   describe '#create_expire_task' do
     it 'should call #post_to_api with apropriate data' do
       object.expects(:post_to_api).with(
-        '/tasks',
+        '/api/1.0/tasks',
         projects: %w(44856824806357), workspace: '41140436022602',
         name: 'foobar,bazfuz - 9999-01-01 - fam - basicOfferName',
         notes: 'Expired: http://claradmin.herokuapp.com/admin/offer/1/edit'
@@ -35,10 +35,9 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
     it 'should call #post_to_api with apropriate data and perform HTTP req' do
       website = FactoryGirl.create :website, :own
       object.expects(:post_to_api).with(
-        '/tasks',
+        '/api/1.0/tasks',
         projects: %w(147663824592112), workspace: '41140436022602',
-        name: '[Offer-website unreachable] family | Version: 1 | foobar,bazfuz'\
-              ' | basicOfferName',
+        name: '[Offer website unreachable] family | Version: 1 | foobar,bazfuz | basicOfferName',
         notes: 'Deactivated: http://claradmin.herokuapp.com/admin/offer/1/edit'\
                " | Unreachable website: #{website.url}"
       )
@@ -57,7 +56,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       website = FactoryGirl.create :website, :own
       website.offers = []
       object.expects(:post_to_api).with(
-        '/tasks',
+        '/api/1.0/tasks',
         projects: %w(147663824592112), workspace: '41140436022602',
         name: '[Orga-website unreachable] bazfuz',
         notes: "Unreachable website: #{website.url}"
@@ -73,7 +72,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
   describe '#create_seasonal_offer_ready_for_checkup_task' do
     it 'should call #post_to_api with apropriate data' do
       object.expects(:post_to_api).with(
-        '/tasks',
+        '/api/1.0/tasks',
         projects: %w(147663824592112), workspace: '41140436022602',
         name: 'WV | Saisonales Angebot | Start date: 9998-01-01 | '\
               'foobar,bazfuz | basicOfferName',
@@ -107,7 +106,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       offer.organizations << orga
 
       object.expects(:post_to_api).with(
-        '/tasks',
+        '/api/1.0/tasks',
         projects: %w(85803884880432), workspace: '41140436022602',
         name: 'family | bazfuz',
         notes: "http://claradmin.herokuapp.com/admin/organization/#{orga.id}/"\

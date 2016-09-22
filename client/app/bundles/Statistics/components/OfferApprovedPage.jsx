@@ -5,7 +5,9 @@ export default class OfferApprovedPage extends React.Component {
   render() {
     return (
       <ChartPerUserAndDate
-        title='Freigeschaltete Angebote' topic='offer_approved' />
+        title='Freigeschaltete Angebote'
+        model='Offer' field_end_value='approved'
+      />
     )
   }
 }

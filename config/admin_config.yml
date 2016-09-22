@@ -20,6 +20,10 @@ included_models:
   # - SectionFilter
   - OrganizationTranslation
   - OfferTranslation
+  # - ProductivityGoal
+  - UserTeam
+  - User
+  # - TimeAllocation
 settings:
   Organization:
     list:
@@ -73,3 +77,25 @@ settings:
         - visible
       order: "created_at ASC"
     display_name: "name_de"
+  ProductivityGoal:
+    list:
+      fields:
+        - title
+        - ends_at
+  TimeAllocation:
+    list:
+      fields:
+        - user_id
+        - year
+        - week_number
+        - wa_number
+  User:
+    list:
+      fields:
+        - name
+        - email
+  UserTeam:
+    list:
+      fields:
+        - name
+        - users

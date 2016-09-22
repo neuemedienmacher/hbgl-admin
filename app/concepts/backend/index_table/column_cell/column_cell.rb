@@ -12,6 +12,8 @@ module Backend::IndexTable
         BooleanColumnCell
       when ActiveRecord::Associations::CollectionProxy
         CollectionColumnCell
+      when Date
+        DateColumnCell
       else
         AssociationColumnCell
       end
@@ -43,6 +45,12 @@ module Backend::IndexTable
       model.map do |element|
         concept('backend/index_table/association_column_cell', element)
       end.join(', ')
+    end
+  end
+
+  class DateColumnCell < ColumnCell
+    def show
+      model.to_s
     end
   end
 

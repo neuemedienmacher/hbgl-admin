@@ -6,10 +6,14 @@ class GengoCommunicator
 end
 ## /Stubs
 
-user = User.create email: 'user@user.com', password: 'password',
-                   role: 'researcher'
-admin = User.create email: 'admin@admin.com', password: 'password',
-                    role: 'super'
+user = User.create! email: 'user@user.com', password: 'password',
+                    role: 'researcher', name: 'Regina Research'
+admin = User.create! email: 'admin@admin.com', password: 'password',
+                     role: 'super', name: 'Agathe Admin'
+
+team = UserTeam.create! name: 'The Experts'
+team.users << user
+team.users << admin
 
 family = SectionFilter.create name: 'Family', identifier: 'family'
 refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'
@@ -108,3 +112,84 @@ FactoryGirl.create :offer, :approved, :with_dummy_translations,
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweite Hotline',
                    encounter: 'hotline', area: schland
+
+# A few test statistics
+
+# A running goal
+now = Date.current
+date = now - 4.weeks
+goal = FactoryGirl.create(
+  :productivity_goal, :running,
+  title: 'Approve 1000 Offers', target_field_name: 'aasm_state',
+  target_field_value: 'approved', target_count: 1000, target_model: 'Offer'
+)
+goal.user_team.users << user
+FactoryGirl.create(
+  :statistic, goal: goal, count: 10, date: goal.starts_at + 1.day
+)
+FactoryGirl.create(
+  :statistic, goal: goal, count: 7, date: goal.starts_at + 2.day
+)
+FactoryGirl.create(
+  :statistic, goal: goal, count: 8, date: goal.starts_at + 3.days
+)
+FactoryGirl.create(
+  :statistic, goal: goal, count: 20, date: goal.starts_at + 3.days
+)
+FactoryGirl.create(
+  :statistic, goal: goal, count: 25, date: now - 1.days
+)
+
+# Time Allocations & Historical Productivity Data
+TimeAllocation.create! user: user, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 20
+date = now - 3.weeks
+TimeAllocation.create! user: user, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 20,
+                       actual_wa_hours: 15
+Statistic.create! user: user, user_team: goal.user_team, time_frame: 'weekly',
+                  model: 'Offer', field_name: 'aasm_state',
+                  field_start_value: 'approval_process',
+                  field_end_value: 'approved', date: date, count: 1.7
+team_mate = goal.user_team.users.create FactoryGirl.attributes_for(:researcher)
+TimeAllocation.create! user: team_mate, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 50,
+                       actual_wa_hours: 51
+Statistic.create! user: team_mate, user_team: goal.user_team,
+                  model: 'Offer', field_name: 'aasm_state',
+                  field_start_value: 'approval_process', time_frame: 'weekly',
+                  field_end_value: 'approved', date: date, count: 4.7
+date = now - 1.weeks
+TimeAllocation.create! user: user, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 10,
+                       actual_wa_hours: 3
+Statistic.create! user: user, user_team: goal.user_team, time_frame: 'weekly',
+                  model: 'Offer', field_name: 'aasm_state',
+                  field_start_value: 'approval_process',
+                  field_end_value: 'approved', date: date, count: 3.1
+date = now + 1.weeks
+TimeAllocation.create! user: user, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 15
+TimeAllocation.create! user: team_mate, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 10
+date = now + 2.weeks
+TimeAllocation.create! user: user, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 0
+TimeAllocation.create! user: team_mate, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 0
+date = now + 3.weeks
+TimeAllocation.create! user: user, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 5
+date = now + 4.weeks
+TimeAllocation.create! user: team_mate, year: date.year,
+                       week_number: date.cweek,
+                       desired_wa_hours: 20

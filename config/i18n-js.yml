@@ -1,0 +1,3 @@
+translations:
+  - file: "client/vendor/translations.js"
+    only: ["*.errors.*", "*.rform."]

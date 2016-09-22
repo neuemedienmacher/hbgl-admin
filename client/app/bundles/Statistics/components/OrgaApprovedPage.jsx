@@ -5,7 +5,9 @@ export default class OrgaApprovedPage extends React.Component {
   render() {
     return (
       <ChartPerUserAndDate
-        title='Freigeschaltete Orgas' topic='organization_approved' />
+        title='Freigeschaltete Orgas'
+        model='Organization' field_end_value='approved'
+      />
     )
   }
 }
