@@ -6,6 +6,7 @@ import OfferCreatedPage from './OfferCreatedPage'
 import OfferApprovedPage from './OfferApprovedPage'
 import OrgaCreatedPage from './OrgaCreatedPage'
 import OrgaApprovedPage from './OrgaApprovedPage'
+import ProductivityGoalPage from './ProductivityGoalPage'
 
 export default class Statistics extends React.Component {
   render() {
@@ -17,6 +18,7 @@ export default class Statistics extends React.Component {
           <Route path='offer_approved' component={OfferApprovedPage} />
           <Route path='organization_created' component={OrgaCreatedPage} />
           <Route path='organization_approved' component={OrgaApprovedPage} />
+          <Route path='productivity_goals' component={ProductivityGoalPage} />
         </Route>
       </Router>
     )

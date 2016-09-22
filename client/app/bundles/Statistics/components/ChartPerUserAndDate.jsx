@@ -10,6 +10,7 @@ export default class ChartPerUserAndDate extends React.Component {
     const {
       title, topic, data, startDate, endDate,
     } = this.props
+
     return (
       <div className='jumbotron barchart'>
         <h2>{title}</h2>

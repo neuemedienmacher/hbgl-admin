@@ -1,6 +1,6 @@
-import merge from 'lodash/object/merge'
-import assign from 'lodash/object/assign'
-import without from 'lodash/array/without'
+import merge from 'lodash/merge'
+import assign from 'lodash/assign'
+import without from 'lodash/without'
 
 export const initialState = {
   statisticSettings: {

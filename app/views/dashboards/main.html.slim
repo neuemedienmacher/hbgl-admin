@@ -1,6 +1,4 @@
-.page-header
-  h1 Dashboard
-
-ul
-  - AdminConfig.included_models.each do |klass|
-    li= "#{klass}: #{klass.constantize.count}"
+- provide :react_view, true
+/- provide :title, 'Dashboard'
+/= cell('react', {}, current_user: current_user,
+/                    form_authenticity_token: form_authenticity_token)

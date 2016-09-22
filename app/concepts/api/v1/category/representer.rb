@@ -11,7 +11,7 @@ module API::V1
       end
 
       class Index < API::V1::Default::Representer::Index
-        items extend: Show
+        # items extend: Show
       end
     end
   end

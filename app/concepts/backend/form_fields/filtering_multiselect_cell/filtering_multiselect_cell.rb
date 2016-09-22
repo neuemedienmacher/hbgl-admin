@@ -12,13 +12,18 @@ module Backend::FormFields
     end
 
     def field_name
-      options[:field]
+      options[:field].to_s.downcase
+    end
+
+    # field_name offer_ids ~> offers
+    def association_name
+      field_name.sub('_id', '')
     end
 
     def js_data
       {
         xhr: true,
-        remote_source: send("api_v1_#{field_name.to_s.pluralize.downcase}_path")
+        remote_source: send("api_v1_#{association_name}_path")
       }
     end
 

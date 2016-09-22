@@ -45,6 +45,7 @@ module.exports = config;
 if (devBuild) {
   console.log('Webpack dev build for Rails'); // eslint-disable-line no-console
   module.exports.devtool = 'eval-source-map';
+  module.exports.preLoaders = [{test: /\.jsx?$/, loader: 'source-map-loader'}];
 } else {
   config.plugins.push(
     new webpack.optimize.DedupePlugin()

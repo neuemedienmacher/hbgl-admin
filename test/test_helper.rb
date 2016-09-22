@@ -45,6 +45,9 @@ Sidekiq::Testing.inline!
 Redis.current = Redis.new
 Capybara.asset_host = 'http://localhost:3000'
 
+# JS Tests
+Capybara.javascript_driver = :selenium
+
 # For fixtures:
 include ActionDispatch::TestProcess
 

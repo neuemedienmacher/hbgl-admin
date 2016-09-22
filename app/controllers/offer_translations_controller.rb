@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class OfferTranslationsController < BackendController
   def index
-    @klass = OfferTranslation.where(locale: [:ar, :ru, :en])
+    # @klass = OfferTranslation.where(locale: [:ar, :ru, :en])
   end
 
   def edit

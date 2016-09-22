@@ -139,7 +139,6 @@ RailsAdmin.config do |config|
         formatted_value do
           en = bindings[:object].translations.where(locale: :en).first
           ar = bindings[:object].translations.where(locale: :ar).first
-          ru = bindings[:object].translations.where(locale: :ru).first
           output_string = ''
           output_string += if en
             "<a href='/organization_translations/#{en.id}/edit'>Englisch</a><br/>"
@@ -150,11 +149,6 @@ RailsAdmin.config do |config|
             "<a href='/organization_translations/#{ar.id}/edit'>Arabisch</a><br/>"
           else
             'Arabisch (wird noch erstellt)<br/>'
-          end
-          output_string += if ru
-            "<a href='/organization_translations/#{ru.id}/edit'>Russisch</a><br/>"
-          else
-            'Russisch (wird noch erstellt)'
           end
           output_string.html_safe
         end
@@ -436,7 +430,6 @@ RailsAdmin.config do |config|
         formatted_value do
           en = bindings[:object].translations.where(locale: :en).first
           ar = bindings[:object].translations.where(locale: :ar).first
-          ru = bindings[:object].translations.where(locale: :ru).first
           output_string = ''
           output_string += if en
             "<a href='/offer_translations/#{en.id}/edit'>Englisch</a><br/>"
@@ -447,11 +440,6 @@ RailsAdmin.config do |config|
             "<a href='/offer_translations/#{ar.id}/edit'>Arabisch</a><br/>"
           else
             'Arabisch (wird noch erstellt)<br/>'
-          end
-          output_string += if ru
-            "<a href='/offer_translations/#{ru.id}/edit'>Russisch</a><br/>"
-          else
-            'Russisch (wird noch erstellt)'
           end
           output_string.html_safe
         end

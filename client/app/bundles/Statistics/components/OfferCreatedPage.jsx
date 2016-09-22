@@ -5,7 +5,9 @@ export default class OfferCreatedPage extends React.Component {
   render() {
     return (
       <ChartPerUserAndDate
-        title='Erstellte Angebote' topic='offer_created' />
+        title='Erstellte Angebote'
+        model='Offer' field_end_value='created'
+      />
     )
   }
 }

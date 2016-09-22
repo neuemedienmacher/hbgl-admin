@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.3.1'
 
 gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 
@@ -19,6 +19,7 @@ gem 'rails-observers' # observers got extracted since rails 4
 
 # Translations
 gem 'rails-i18n'
+gem 'i18n-js'
 
 gem 'dynamic_sitemaps', github: 'efqdalton/dynamic_sitemaps',
                         branch: 'adds-custom-storages'
@@ -44,19 +45,24 @@ gem 'rails_admin_nestable'
 gem 'cancan' # role based auth for rails_admin
 
 gem 'devise'
+gem 'pundit'
 
 gem 'trailblazer'
 # gem 'trailblazer-loader'
 gem 'trailblazer-rails'
 gem 'cells'
 gem 'cells-slim'
-gem 'reform'
+gem 'reform', '~> 2.1.0'
 gem 'reform-rails'
-gem 'roar'
+gem 'roar', github: 'apotonick/roar', branch: 'master'
 gem 'multi_json'
+gem 'will_paginate'
 
 gem 'simple_form'
 gem 'dry-validation'
+
+# API auth
+gem 'hawk-auth'
 
 # Internal Search Implementation
 gem 'pg_search'
@@ -67,7 +73,7 @@ gem 'sinatra', '>= 1.3.0'
 # Schedulable jobs for sidekiq
 gem 'sidekiq-cron', '~> 0.4.0'
 
-# External API
+# 3rd Party APIs
 gem 'gengo'
 
 # converting between unicode and ascii urls
@@ -162,6 +168,9 @@ group :test do
 
   # testing emails
   gem 'email_spec'
+
+  # js tests
+  gem 'capybara-selenium'
 end
 
 group :development, :test do

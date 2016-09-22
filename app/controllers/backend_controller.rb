@@ -6,6 +6,12 @@ class BackendController < ApplicationController
     render '/backend/index'
   end
 
+  protected
+
+  def process_params!(params)
+    params.merge!(current_user: current_user)
+  end
+
   private
 
   def backend_setup

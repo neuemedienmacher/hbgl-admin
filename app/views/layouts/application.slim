@@ -1,0 +1,30 @@
+doctype html
+html class='no-js' lang=I18n.locale
+  head
+    title Admin
+    = stylesheet_link_tag 'application',
+                          media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+    javascript:
+      I18n.missingTranslation = function () { return '' }
+
+body.backend
+  - if yield(:react_view) == 'true'
+    == cell('react', {}, current_user: current_user,
+                         form_authenticity_token: form_authenticity_token)
+  - else
+    == concept('backend/header_cell')
+    .container-fluid
+      .row
+        .col-sm-3.col-md-2.sidebar-nav
+          == concept('backend/sidebar_cell')
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
+          .content
+            .page-header
+              h1=yield(:title)
+
+            == cell(:flash, collection: flash)
+
+            = yield

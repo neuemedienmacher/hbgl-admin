@@ -57,7 +57,7 @@ export default class BarChart extends React.Component {
 
 		// Scale the range of the data
     const xDomain = x.domain(d3.extent(data, function (d) { return d.x }))
-    const yDomain = y.domain(d3.extent(data, function (d) { return d.y }))
+    const yDomain = y.domain([0, d3.max(data, function (d) { return d.y })])
 
 		// Add the axes
     svg.append('g')

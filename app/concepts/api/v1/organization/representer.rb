@@ -4,10 +4,16 @@ module API::V1
     module Representer
       class Show < API::V1::Default::Representer::Show
         property :name, as: :label
+        type :organizations
+
+        property :label, getter: ->(organization) do
+          organization[:represented].name
+        end
+        property :description
       end
 
       class Index < API::V1::Default::Representer::Index
-        items extend: Show
+        # items extend: Show
       end
     end
   end

@@ -5,7 +5,9 @@ export default class OrgaCreatedPage extends React.Component {
   render() {
     return (
       <ChartPerUserAndDate
-        title='Erstellte Orgas' topic='organization_created' />
+        title='Erstellte Orgas'
+        model='Organization' field_end_value='created'
+      />
     )
   }
 }
