@@ -5,7 +5,8 @@ require ClaratBase::Engine.root.join('app', 'models', 'organization')
 class Organization < ActiveRecord::Base
   # Search Terms for significant/big_player organizations. Only one must match
   BIG_PLAYER_SEARCH_TERMS = %w(
-    berlin münchen köln düsseldorf nrw nordrhein-westfalen bayern
+    berlin münchen köln düsseldorf nrw nordrhein-westfalen bayern deutschland
+    bund deutscher international arbeitsgemeinschaft verband verbund
   ).freeze
   # Admin specific methods
 
