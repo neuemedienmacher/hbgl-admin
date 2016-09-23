@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 import IndexHeaderFilter from '../containers/IndexHeaderFilter'
 
 export default class IndexHeader extends Component {
@@ -13,13 +13,7 @@ export default class IndexHeader extends Component {
     return (
       <Navbar inverse fluid>
         <Nav>
-          {routes.map(route => {
-            return(
-              <LinkContainer key={route.id} to={route}>
-                <NavItem>{route.anchor}</NavItem>
-              </LinkContainer>
-            )
-          })}
+          {routes.map(route => this.renderLinkContainer(route))}
         </Nav>
         <Navbar.Form pullRight inline>
           <div className='input-group'>
@@ -48,5 +42,22 @@ export default class IndexHeader extends Component {
         </Navbar.Form>
       </Navbar>
     )
+  }
+
+  renderLinkContainer(route) {
+    if (route.action == 'index') {
+      return(
+        <IndexLinkContainer key={route.id} to={route}>
+          <NavItem>{route.anchor}</NavItem>
+        </IndexLinkContainer>
+      )
+    }
+    else {
+      return(
+        <LinkContainer key={route.id} to={route}>
+          <NavItem>{route.anchor}</NavItem>
+        </LinkContainer>
+      )
+    }
   }
 }

@@ -31,7 +31,7 @@ export default {
         'id', 'title', 'ends_at', 'target_model', 'target_field_name'
       ],
       general_actions: [
-        'index', 'new', 'export'
+        'index', 'new'
       ],
       member_actions: [
         'show', 'edit'

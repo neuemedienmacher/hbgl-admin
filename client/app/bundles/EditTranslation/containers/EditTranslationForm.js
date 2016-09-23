@@ -13,7 +13,9 @@ const mapStateToProps = (state, ownProps) => {
   const seedData = {
     fields: translation
   }
-  const formObjectClass = (model == 'offer') ? OfferTranslationFormObject : OrganizationTranslationFormObject
+  const formObjectClass =
+    (model == 'offer') ? OfferTranslationFormObject
+                       : OrganizationTranslationFormObject
   const properties = formObjectClass.properties
   return {
     action,

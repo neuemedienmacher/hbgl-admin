@@ -1,4 +1,5 @@
 import { encode } from 'querystring'
+import transformJsonApi from '../transformers/json_api'
 
 const loadAjaxDataRequest = function(key) {
   return {
@@ -13,13 +14,16 @@ const loadAjaxDataFailure = function(error, key) {
     key
   }
 }
-const loadAjaxDataSuccess = (response, key) => ({
+const loadAjaxDataSuccess = (response, key, callback) => ({
   type: 'LOAD_AJAX_DATA_SUCCESS',
   response,
-  key
+  key,
+  callback
 })
-export default function loadAjaxData(model, query, key) {
-  const path = `/api/v1/${model}?${encode(query)}`
+export default function loadAjaxData(
+  basePath, query, key, callback = transformJsonApi
+) {
+  const path = `/api/v1/${basePath}?${encode(query)}`
 
   return function(dispatch) {
     dispatch(loadAjaxDataRequest(key))
@@ -37,7 +41,7 @@ export default function loadAjaxData(model, query, key) {
         return response.json()
       }
     ).then(json => {
-      dispatch(loadAjaxDataSuccess(json, key))
+      dispatch(loadAjaxDataSuccess(json, key, callback))
     })
   }
 }

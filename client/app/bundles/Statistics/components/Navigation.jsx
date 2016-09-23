@@ -9,7 +9,7 @@ export default class Navigation extends React.Component {
 
   render() {
     return (
-			<div className='list-group'>
+      <div className='list-group'>
         <Link to='/statistics' className='list-group-item'>
 					Übersicht
         </Link>

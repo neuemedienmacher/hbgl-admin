@@ -55,7 +55,7 @@ const generalRoutes = model => [
   }, {
     id: 3,
     action: 'export',
-    pathname: `/exports/${model}/new`,
+    pathname: `/${model}/export`,
     anchor: 'Export',
   }
 ]
