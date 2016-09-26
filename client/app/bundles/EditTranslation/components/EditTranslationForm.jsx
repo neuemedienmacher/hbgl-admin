@@ -5,16 +5,15 @@ import EditTranslationRow from '../containers/EditTranslationRow'
 export default class EditTranslationForm extends Component {
   render() {
     const {
-      seedData, action, formObjectClass, source, properties, formId
+      seedData, action, formObjectClass, source, properties, formId,
+      handleResponse, afterResponse
     } = this.props
 
     return (
       <Form ajax requireValid
-        id={formId}
-        method='PATCH'
-        action={action}
-        seedData={seedData}
-        formObjectClass={formObjectClass}
+        method='PATCH' action={action}
+        id={formId} seedData={seedData} formObjectClass={formObjectClass}
+        handleResponse={handleResponse} afterResponse={afterResponse}
       >
         <fieldset>
           <table className="table table-condensed offer-translations--form-table">

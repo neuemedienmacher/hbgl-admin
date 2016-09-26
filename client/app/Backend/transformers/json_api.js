@@ -1,14 +1,15 @@
 import isArray from 'lodash/isArray'
 import merge from 'lodash/merge'
 
-export default function transformJsonApi(object, apiResponse) {
-  if (isArray(apiResponse.data)) {
-    object = extractArrayIntoObject(apiResponse.data, object)
+export default function transformJsonApi(json) {
+  let object = {}
+  if (isArray(json.data)) {
+    object = extractArrayIntoObject(json.data, object)
   } else {
-    object = extractDataPointIntoObject(apiResponse.data, object)
+    object = extractDataPointIntoObject(json.data, object)
   }
-  if (apiResponse.included) {
-    object = extractArrayIntoObject(apiResponse.included, object)
+  if (json.included) {
+    object = extractArrayIntoObject(json.included, object)
   }
   return object
 }

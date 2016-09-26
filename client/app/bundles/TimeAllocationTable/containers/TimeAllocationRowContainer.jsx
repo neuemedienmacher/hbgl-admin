@@ -3,6 +3,7 @@ import moment from 'moment'
 import valuesIn from 'lodash/valuesIn'
 
 import { getAllocationForWeekAndUser } from '../../../lib/timeAllocations'
+import addEntities from '../../../Backend/actions/addEntities'
 import TimeAllocationRow from '../components/TimeAllocationRow'
 
 const mapStateToProps = (state, ownProps) => {
@@ -10,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
   const week_number = ownProps.week_number
   const year = ownProps.year
   const [existing_wa, isHistorical, allocation] = getAllocationForWeekAndUser(
-    valuesIn(state.time_allocations), week_number, year, user_id
+    valuesIn(state.entities.time_allocations), week_number, year, user_id
   )
   const [action, method] = getFormTarget(existing_wa, allocation)
   const [shortOrigin, originTitle] =
@@ -37,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
     originTitle,
     isPast,
     seedData,
-	}
+  }
 }
 
 function getFormTarget(isEdit, allocation) {
@@ -62,6 +63,7 @@ function getOriginText(existing_wa, isHistorical, allocation) {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleResponse: (_formId, data) => dispatch(addEntities(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeAllocationRow)

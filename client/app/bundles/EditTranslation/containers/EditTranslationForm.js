@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import addEntities from '../../../Backend/actions/addEntities'
 import OfferTranslationFormObject from '../forms/OfferTranslationFormObject'
 import OrganizationTranslationFormObject from
   '../forms/OrganizationTranslationFormObject'
@@ -28,18 +29,20 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
+
+  handleResponse: (_formId, data) => dispatch(addEntities(data)),
+
+  afterResponse(response) {
+    if (response.data && response.data.id) {
+      browserHistory.push(`/${ownProps.model}_translations`)
+    }
+  }
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   ...ownProps,
-
-  afterResponse(response) {
-    if (response.data && response.data.id) {
-      browserHistory.push(`/${ownProps.model}s`)
-    }
-  }
 })
 
 export default connect(

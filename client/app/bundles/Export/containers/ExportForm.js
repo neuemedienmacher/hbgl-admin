@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
   console.log(state)
-  const field_set = state.field_sets && state.field_sets[ownProps.model]
+  const field_set = state.ajax.field_sets && state.ajax.field_sets[ownProps.model]
   const column_names = field_set && field_set.column_names || []
   const associations = field_set && Object.keys(field_set.associations) || []
 

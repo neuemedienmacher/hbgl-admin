@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
   const fields = settings.index[ownProps.model].fields
   const resultData = state.ajax.indexResults
   const resultIds = resultData.data.map(datum => datum.id)
-  const allOfModel = state[ownProps.model]
+  const allOfModel = state.entities[ownProps.model]
   const rows = allOfModel ? compact(resultIds.map(id => allOfModel[id])) : []
 
   let tbodyClass

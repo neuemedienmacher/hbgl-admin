@@ -5,7 +5,10 @@ const mapStateToProps = (state, ownProps) => {
   const { property, formId } = ownProps
 
   const type = (property == 'name') ? 'string' : 'textarea'
-  const length = (state[formId] && state[formId][property].length) || 0
+  const length = (
+    state.rform[formId] && state.rform[formId][property] &&
+    state.rform[formId][property].length
+  ) || 0
 
   return {
     type,

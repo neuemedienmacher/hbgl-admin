@@ -3,9 +3,9 @@ import valuesIn from 'lodash/valuesIn'
 import OverviewPanel from '../components/OverviewPanel'
 
 const mapStateToProps = (state, ownProps) => {
-  const user = state.current_user
+  const user = state.entities.current_user
 
-  let selectableTeams = valuesIn(state.user_teams).filter(
+  let selectableTeams = valuesIn(state.entities.user_teams).filter(
     team => user.user_team_ids.includes(team.id)
   ).map(team => ({value: String(team.id), name: team.name}))
   if (!user.current_team_id) selectableTeams.unshift({value: '', name: '-'})
@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
     user,
     selectableTeams,
     seedData,
-	}
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})

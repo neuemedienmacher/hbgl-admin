@@ -15,7 +15,7 @@ export default {
 
     organization_translations: {
       fields: [
-        'id', 'offer_id', 'locale', 'source', 'description',
+        'id', 'organization_id', 'locale', 'source', 'description',
         'possibly_outdated'//, 'updated_at', 'offer_section'
       ],
       general_actions: [
@@ -34,7 +34,7 @@ export default {
         'index', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show'
       ]
     },
   }
