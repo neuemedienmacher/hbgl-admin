@@ -18,8 +18,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
   // manually
-  const transformResponse = function(object, apiResponse) {
-    object.field_sets = {}
+  const transformResponse = function(apiResponse) {
+    let object = { field_sets: {} }
     object.field_sets[stateProps.model] = apiResponse
     return object
   }

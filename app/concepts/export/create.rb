@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 class Export::Create < Trailblazer::Operation
   def model!(params)
-    Export.new(params[:object_name].camelize.constantize)
+    object = params[:object_name].singularize.camelize.constantize
+    Export.new(object, GenericSortFilter.transform(object, params))
   end
 
   contract do

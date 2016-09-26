@@ -1,30 +1,23 @@
 import { connect } from 'react-redux'
+import { encode } from 'querystring'
 import compact from 'lodash/compact'
+import toPairs from 'lodash/toPairs'
 import settings from '../../../lib/settings'
 import ExportForm from '../components/ExportForm'
 
 const mapStateToProps = (state, ownProps) => {
-  // if (!settings.index[ownProps.model])
-  //   throw new Error(`Add settings for ${ownProps.model}`)
-  //
-  // const fields = settings.index[ownProps.model].fields
-  // const resultData = state.ajax.indexResults
-  // const resultIds = resultData.data.map(datum => datum.id)
-  // const allOfModel = state[ownProps.model]
-  // const rows = allOfModel ? compact(resultIds.map(id => allOfModel[id])) : []
-  //
-  // let tbodyClass
-  // if (state.ajax.isLoading.indexResults) tbodyClass = 'loading'
-
-
-  console.log(state)
-  const field_set = state.ajax.field_sets && state.ajax.field_sets[ownProps.model]
+  const field_set =
+    state.entities.field_sets && state.entities.field_sets[ownProps.model]
   const column_names = field_set && field_set.column_names || []
-  const associations = field_set && Object.keys(field_set.associations) || []
+  const associations = toPairs(field_set && field_set.associations || {})
+
+  const action = `/exports/${ownProps.model}?${encode(ownProps.params)}`
 
   return {
+    associations,
     column_names,
-    associations
+    action,
+    authToken: state.settings.authToken
   }
 }
 
