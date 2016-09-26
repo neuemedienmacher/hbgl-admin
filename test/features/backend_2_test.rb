@@ -10,7 +10,7 @@ feature 'Backend 2.0' do
     scenario 'I need to login first' do
       visit root_path
 
-      page.must_have_content 'Login'
+      page.must_have_content 'Login to'
       fill_in 'user_email', with: researcher.email
       fill_in 'user_password', with: 'password'
       click_button 'Log in'
