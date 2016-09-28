@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: dd7e80fedcce726db5881e882a3cd5a01452741a
+  revision: 6159f1071bb8c8fc6e2c17c2bcd0ae1800ba1b28
   specs:
     clarat_base (0.1.4)
       aasm
@@ -330,7 +330,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.3)
     mini_portile2 (2.0.0)
-    minitest (5.9.0)
+    minitest (5.9.1)
     minitest-capybara (0.7.2)
       capybara (~> 2.2)
       minitest (~> 5.0)
@@ -772,4 +772,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.13.1
