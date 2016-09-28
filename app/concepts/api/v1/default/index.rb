@@ -21,7 +21,7 @@ module API::V1
       end
 
       def base_query
-        raise 'Implement me!'
+        raise 'Implement Operation #base_query'
       end
 
       protected

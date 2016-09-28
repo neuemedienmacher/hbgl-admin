@@ -29,6 +29,11 @@ export default class Routes extends React.Component {
         <Route path='/' component={Layout}>
           <IndexRoute component={DashboardContainer}/>
 
+          <Route path='offers'>
+            <IndexRoute component={Index}/>
+            <Route path='export' component={Export} />
+          </Route>
+
           <Route path='productivity_goals'>
             <IndexRoute component={Index}/>
             <Route path='new' component={NewProductivityGoal} />

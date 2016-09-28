@@ -54,7 +54,7 @@ Rails.application.routes.draw do
           put 'sort'
         end
       end
-      resources :offers, only: [:show]
+      resources :offers, only: [:index, :show]
       resources :locations, only: [:index]
       resources :organizations, only: [:show, :index]
       get '/statistics' => 'statistics#index'
