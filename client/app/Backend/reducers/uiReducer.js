@@ -3,8 +3,9 @@ import merge from 'lodash/merge'
 export const initialState = {
   index: {
     params: {
-      direction: null,
-      sort: null,
+      sort_direction: null,
+      sort_model: null,
+      sort_field: null,
       query: null,
     },
   },

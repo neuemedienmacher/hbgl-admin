@@ -6,19 +6,28 @@ import { encode } from 'querystring'
 import TableHeadCell from '../components/TableHeadCell'
 
 const mapStateToProps = (state, ownProps) => {
-  const currentDirection = ownProps.params.direction
-  const isCurrentSortField = ownProps.params.sort == ownProps.field
+  const { params, field } = ownProps
 
-  let params = merge(clone(ownProps.params), {sort: ownProps.field})
+  const currentDirection = params.sort_direction
+  const isCurrentSortField = (
+    params.sort_field == field.field && params.sort_model == field.model
+  )
+
+  let linkParams = merge(clone(params), {
+    sort_field: field.field, sort_model: field.model
+  })
   if (isCurrentSortField) {
-    params.direction = currentDirection == 'ASC' ? 'DESC' : 'ASC'
+    linkParams.sort_direction = currentDirection == 'ASC' ? 'DESC' : 'ASC'
   }
-  let href = `/${ownProps.model}?${encode(pickBy(params))}`
+  let href = `/${ownProps.model}?${encode(pickBy(linkParams))}`
+
+  const displayName = field.name.split('_').join(' ')
 
   return {
     href,
     isCurrentSortField,
     currentDirection,
+    displayName,
   }
 }
 

@@ -3,6 +3,7 @@
 require ClaratBase::Engine.root.join('app', 'models', 'offer_translation')
 
 class OfferTranslation < ActiveRecord::Base
+  # Search
   include PgSearch
   pg_search_scope :search_everything,
                   against: [

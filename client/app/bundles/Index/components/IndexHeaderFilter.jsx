@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import IndexHeaderFilterOption from '../containers/IndexHeaderFilterOption'
 
 export default class IndexHeaderFilter extends Component {
   render() {
@@ -15,7 +16,7 @@ export default class IndexHeaderFilter extends Component {
             onChange={onFilterNameChange}
           >
             {fields.map(field =>
-              <option value={field} key={field}>{field}</option>
+              <IndexHeaderFilterOption key={field.field} field={field} />
             )}
           </select>
           <div className='input-group'>
