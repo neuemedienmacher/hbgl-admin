@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 6159f1071bb8c8fc6e2c17c2bcd0ae1800ba1b28
+  revision: 92fd2355fdba58c5ad51932ffe5ed92b05c0ad1e
   specs:
     clarat_base (0.1.4)
       aasm
@@ -542,7 +542,7 @@ GEM
     rubyzip (1.2.0)
     rufus-scheduler (3.2.1)
     safe_yaml (1.0.4)
-    sanitize (4.3.0)
+    sanitize (4.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
       nokogumbo (~> 1.4.1)
