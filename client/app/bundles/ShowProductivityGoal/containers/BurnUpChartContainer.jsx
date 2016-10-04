@@ -8,9 +8,9 @@ import BurnUpChart from '../../Statistics/components/BurnUpChart'
 
 const mapStateToProps = (state, ownProps) => {
   const goal = ownProps.productivity_goal
-  const allStatistics = valuesIn(state.statistics)
-  const allUsers = valuesIn(state.users)
-  const allTimeAllocations = valuesIn(state.time_allocations)
+  const allStatistics = valuesIn(state.entities.statistics)
+  const allUsers = valuesIn(state.entities.users)
+  const allTimeAllocations = valuesIn(state.entities.time_allocations)
   const relevantStatistics = allStatistics.filter(stat => {
     return (
       stat.model == goal.target_model &&

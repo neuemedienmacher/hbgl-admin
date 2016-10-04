@@ -16,24 +16,12 @@ module API::V1
       end
 
       def model!(params)
-        query = base_query
-        if params[:query] && !params[:query].empty?
-          query = query.search_everything(params[:query])
-        end
-        if params[:sort]
-          query = query.order(params[:sort] => params[:direction] || 'DESC')
-        end
-        if params[:filter]
-          params[:filter].each do |filter, value|
-            next if value.empty?
-            query = query.where(filter => value)
-          end
-        end
+        query = GenericSortFilter.transform(base_query, params)
         query.paginate(page: params[:page])
       end
 
       def base_query
-        raise 'Implement me!'
+        raise 'Implement Operation #base_query'
       end
 
       protected

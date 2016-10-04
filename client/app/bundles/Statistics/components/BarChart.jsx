@@ -50,10 +50,10 @@ export default class BarChart extends React.Component {
 
 		// Add the SVG canvas
     const svg = d3.select(node)
-				.attr('width', width + margin.left + margin.right)
-				.attr('height', height + margin.top + margin.bottom)
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
       .append('g')
-				.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
 		// Scale the range of the data
     const xDomain = x.domain(d3.extent(data, function (d) { return d.x }))
@@ -66,14 +66,14 @@ export default class BarChart extends React.Component {
       .call(xAxis)
 
     svg.append('g')
-				.attr('class', 'y axis')
-				.call(yAxis)
+        .attr('class', 'y axis')
+        .call(yAxis)
       .append('text')
-				.attr('transform', 'rotate(-90)')
-				.attr('y', 6)
-				.attr('dy', '.71em')
-				.style('text-anchor', 'end')
-				.text('Anzahl')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 6)
+        .attr('dy', '.71em')
+        .style('text-anchor', 'end')
+        .text('Anzahl')
 
 		// Add all data bars
     svg.selectAll('bar')

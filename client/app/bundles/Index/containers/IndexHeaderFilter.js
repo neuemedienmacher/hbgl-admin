@@ -5,13 +5,15 @@ import merge from 'lodash/merge'
 import { encode } from 'querystring'
 import { browserHistory } from 'react-router'
 import settings from '../../../lib/settings'
+import { analyzeFields } from '../../../lib/settingUtils'
 import IndexHeaderFilter from '../components/IndexHeaderFilter'
 
 const mapStateToProps = (state, ownProps) => {
+  const model = ownProps.model
   const filterName =
     ownProps.filter[0].substring(7, ownProps.filter[0].length - 1)
   const filterValue = ownProps.filter[1]
-  const fields = settings.index[ownProps.model].fields
+  const fields = analyzeFields(settings.index[model].fields, model)
 
   return {
     filterName,

@@ -29,6 +29,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
 function headingFor(model) {
   switch(model) {
+  case 'offers':
+    return 'Angebote'
   case 'offer_translations':
     return 'Angebotsübersetzungen'
   case 'organization_translations':

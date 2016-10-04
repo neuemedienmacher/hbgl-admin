@@ -6,7 +6,6 @@ class ProductivityGoalsController < BackendController
   end
 
   def show
-    present ProductivityGoal::Update
   end
 
   # def new

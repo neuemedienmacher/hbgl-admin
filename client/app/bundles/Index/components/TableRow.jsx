@@ -1,19 +1,19 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
-import TableCell from './TableCell'
+import TableCell from '../containers/TableCell'
 
 export default class TableRow extends Component {
   render() {
     const {
-      fields, row, actions
+      fields, row, actions, content
     } = this.props
 
     return (
       <tr>
-        {fields.map(field =>
-          <TableCell key={field} content={row[field]} />
+        {fields.map((field, index) =>
+          <TableCell key={index} row={row} field={field} />
         )}
-          <td>
+        <td>
           {actions.map(action => {
             return(
               <Link key={action.href} to={action.href}>

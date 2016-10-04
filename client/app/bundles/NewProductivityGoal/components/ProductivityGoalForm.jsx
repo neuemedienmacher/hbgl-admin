@@ -6,15 +6,16 @@ export default class ProductivityGoalForm extends React.Component {
   render() {
     const {
       seedData, userTeams, targetModels, targetFieldNames, targetFieldValues,
-      formId, afterInputChange, afterResponse
+      formId, afterInputChange, afterResponse, handleResponse
     } = this.props
 
     return (
       <Form ajax requireValid
         action='/api/v1/productivity_goals/' method='POST'
         className='form-inline'
-        id={formId} seedData={seedData} afterResponse={afterResponse}
+        id={formId} seedData={seedData}
         formObjectClass={ProductivityGoalFormObject}
+        afterResponse={afterResponse} handleResponse={handleResponse}
       >
         <InputSet
           wrapperClassName='form-group' className='form-control'

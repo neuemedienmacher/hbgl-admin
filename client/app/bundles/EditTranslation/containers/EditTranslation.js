@@ -5,8 +5,8 @@ import EditTranslation from '../components/EditTranslation'
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.params.id
   const model = ownProps.route.model
-  const translation = state[model + '_translations'] && state[model + '_translations'][id]
-  const source = state[model + 's'] && state[model + 's'][translation[`${model}_id`]]
+  const translation = state.entities[model + '_translations'] && state.entities[model + '_translations'][id]
+  const source = state.entities[model + 's'] && state.entities[model + 's'][translation[`${model}_id`]]
   const loaded = !!translation
 
   const heading = `${model} translation #${id}`

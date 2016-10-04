@@ -4,8 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 
 import loggerMiddleware from 'lib/middlewares/loggerMiddleware'
 import normalize from './normalize'
-import rootReducer, { initialStates } from '../reducers'
+import combinedReducers, { initialStates } from '../reducers'
 import addEntities from '../actions/addEntities'
+import addSettings from '../actions/addSettings'
 
 function initialDispatches(dispatch, props) {
   dispatch(addEntities(merge(
@@ -14,23 +15,23 @@ function initialDispatches(dispatch, props) {
     normalize('productivity_goals', props.productivity_goals).entities,
     normalize('statistics', props.statistics).entities,
     normalize('time_allocations', props.time_allocations).entities,
-    {
-      current_user: props.current_user,
-      settings: props.settings,
-      authToken: props.authToken,
-    }
+    { current_user: props.current_user }
+  )))
+  dispatch(addSettings(merge(
+    { authToken: props.authToken },
+    props.settings
   )))
 }
 
 export default function getStore(props) {
-	const store = createStore(
-		rootReducer,
-		initialStates,
-		applyMiddleware(
-			thunkMiddleware,
+  const store = createStore(
+    combinedReducers,
+    // initialStates,
+    applyMiddleware(
+      thunkMiddleware,
       // loggerMiddleware // for debugging
-		)
-	)
+    )
+  )
 
   initialDispatches(store.dispatch, props)
 

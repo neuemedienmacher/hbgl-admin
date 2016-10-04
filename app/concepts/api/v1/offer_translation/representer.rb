@@ -23,6 +23,8 @@ module API::V1
 
           property :id
           property :name
+          property :approved_at
+          property :created_by
           property :description
           property :opening_specification
         end

@@ -6,6 +6,7 @@ export default class TimeAllocationRow extends React.Component {
   render() {
     const {
       user, formId, action, method, shortOrigin, originTitle, isPast, seedData,
+      handleResponse
     } = this.props
 
     const actualInput = isPast ? (
@@ -26,6 +27,7 @@ export default class TimeAllocationRow extends React.Component {
             id={formId} action={action} model='time_allocation' method={method}
             seedData={seedData}
             formObjectClass={TimeAllocationForm}
+            handleResponse={handleResponse}
           >
             <Input attribute='user_id' type='hidden' />
             <Input attribute='year' type='hidden' />

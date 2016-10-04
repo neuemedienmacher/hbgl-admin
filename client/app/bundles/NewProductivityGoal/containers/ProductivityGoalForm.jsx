@@ -4,14 +4,15 @@ import { browserHistory } from 'react-router'
 import valuesIn from 'lodash/valuesIn'
 import cloneDeep from 'lodash/cloneDeep'
 import { changeFormData } from '../../../Backend/actions/changeFormData'
+import addEntities from '../../../Backend/actions/addEntities'
 import ProductivityGoalForm from '../components/ProductivityGoalForm'
 
 const mapStateToProps = (state, ownProps) => {
   const formId = 'ProductivityGoalForm'
   const formSettings = state.settings.productivity_goals
-  const formData = state[formId] || {}
+  const formData = state.rform[formId] || {}
 
-  const userTeams = valuesIn(state.user_teams).map((team) => ({
+  const userTeams = valuesIn(state.entities.user_teams).map((team) => ({
     name: team.name, value: team.id
   }))
   const targetModels = formSettings.target_models.map(transformOptions)
@@ -51,11 +52,19 @@ const mapStateToProps = (state, ownProps) => {
     targetModels,
     targetFieldNames,
     targetFieldValues,
-	}
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
+
+  handleResponse: (_formId, data) => dispatch(addEntities(data)),
+
+  afterResponse(response) {
+    if (response.data && response.data.id) {
+      browserHistory.push(`/productivity_goals/${response.data.id}`)
+    }
+  }
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -87,12 +96,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       availableFieldValues[0]
     ))
   },
-
-  afterResponse(response) {
-    if (response.data && response.data.id) {
-      browserHistory.push(`/productivity_goals/${response.data.id}`)
-    }
-  }
 })
 
 

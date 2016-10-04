@@ -9,10 +9,10 @@ import ChartPerUserAndDate from '../components/ChartPerUserAndDate'
 import updateDateRange from '../actions/updateDateRange'
 
 const mapStateToProps = (state, ownProps) => {
-  const startDate = state.statisticSettings.startDate
-  const endDate = state.statisticSettings.endDate
-  const selectedUsers = state.statisticSettings.selectedUsers
-  const allStatistics = valuesIn(state.statistics)
+  const startDate = state.statistics.statisticSettings.startDate
+  const endDate = state.statistics.statisticSettings.endDate
+  const selectedUsers = state.statistics.statisticSettings.selectedUsers
+  const allStatistics = valuesIn(state.entities.statistics)
 
   const filteredData = cloneDeep(allStatistics.filter(statistic => {
     const date = moment(statistic.date, 'YYYY-MM-DD')
@@ -29,7 +29,7 @@ const mapStateToProps = (state, ownProps) => {
   const allUserIdsForWhichThereIsData = compact(uniq(allStatistics.map(
     (statistic) => statistic.user_id
   )))
-  const filteredUsers = valuesIn(state.users).filter(user =>
+  const filteredUsers = valuesIn(state.entities.users).filter(user =>
     allUserIdsForWhichThereIsData.includes(user.id)
   )
 

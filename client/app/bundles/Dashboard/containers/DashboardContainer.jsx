@@ -9,13 +9,13 @@ import Dashboard from '../components/Dashboard'
 
 const mapStateToProps = (state, ownProps) => {
   const outstandingTimeAllocations = getOutstandingTimeAllocations(
-    valuesIn(state.time_allocations), state.current_user
+    valuesIn(state.entities.time_allocations), state.entities.current_user
   )
 
   return {
     hasOutstandingTimeAllocations: !!outstandingTimeAllocations.length,
     outstandingTimeAllocations,
-	}
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})

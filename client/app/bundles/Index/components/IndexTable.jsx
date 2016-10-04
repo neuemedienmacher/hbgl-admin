@@ -13,10 +13,10 @@ export default class IndexTable extends Component {
       <Table condensed striped>
         <thead>
           <tr>
-            {fields.map(field => {
+            {fields.map((field, index) => {
               return(
                 <TableHeadCell
-                  params={params} model={model} key={field} field={field}
+                  params={params} model={model} key={index} field={field}
                 />
               )
             })}

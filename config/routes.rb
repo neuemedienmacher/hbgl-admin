@@ -2,7 +2,11 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
-  resources :offers
+  resources :offers do
+    collection do
+      get 'export', controller: :pages, action: :react
+    end
+  end
   resources :organizations
   resources :categories do
     collection do
@@ -10,8 +14,16 @@ Rails.application.routes.draw do
       get :mindmap
     end
   end
-  resources :offer_translations, only: [:index, :edit, :update]
-  resources :organization_translations, only: [:index, :edit, :update]
+  resources :offer_translations, only: [:index, :edit, :update] do
+    collection do
+      get 'export', controller: :pages, action: :react
+    end
+  end
+  resources :organization_translations, only: [:index, :edit, :update] do
+    collection do
+      get 'export', controller: :pages, action: :react
+    end
+  end
   resources :productivity_goals
   resources :users, only: [:index, :edit, :update]
   resources :user_teams
@@ -46,7 +58,7 @@ Rails.application.routes.draw do
           put 'sort'
         end
       end
-      resources :offers, only: [:show]
+      resources :offers, only: [:index, :show]
       resources :locations, only: [:index]
       resources :organizations, only: [:show, :index]
       get '/statistics' => 'statistics#index'
@@ -58,6 +70,7 @@ Rails.application.routes.draw do
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
+      get 'field_set/:model', controller: :field_set, action: :show
     end
   end
 

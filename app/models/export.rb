@@ -5,8 +5,9 @@ class Export
   attr_reader :object
   attr_writer :requested_fields
 
-  def initialize object
+  def initialize object, object_query
     @object = object
+    @object_query = object_query
   end
 
   def allowed_fields
@@ -49,8 +50,7 @@ class Export
   private
 
   def object_query # TODO: joins for faster query & possibly search filter
-    @object
-    # @requested_fields.keys.each { |key| .joins(key) }
+    @object_query
   end
 
   # If a field is not filled for a csv cell, give it a dash

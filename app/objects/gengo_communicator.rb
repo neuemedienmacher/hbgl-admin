@@ -9,7 +9,8 @@ class GengoCommunicator
       private_key: Rails.application.secrets.gengo['private_key'],
       sandbox: !Rails.env.production?
     )
-    @translatable_locales = I18n.available_locales - [:de, :en]
+    # do not send :de, :en (inhouse) and :fa (not supported) to gengo
+    @translatable_locales = I18n.available_locales - [:de, :en, :fa]
   end
 
   def create_translation_jobs model, field

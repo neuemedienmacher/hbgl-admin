@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   const plusButtonDisabled = ownProps.params.hasOwnProperty('filter[id]')
 
   const generalActions = settings.index[ownProps.model].general_actions
-  const routes = generalRoutes(ownProps.model).filter(route =>
+  const routes = generalRoutes(ownProps.model, ownProps.params).filter(route =>
     generalActions.includes(route.action)
   )
 
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 })
 
-const generalRoutes = model => [
+const generalRoutes = (model, params) => [
   {
     id: 1,
     action: 'index',
@@ -55,7 +55,8 @@ const generalRoutes = model => [
   }, {
     id: 3,
     action: 'export',
-    pathname: `/exports/${model}/new`,
+    pathname: `/${model}/export`,
+    query: params,
     anchor: 'Export',
   }
 ]

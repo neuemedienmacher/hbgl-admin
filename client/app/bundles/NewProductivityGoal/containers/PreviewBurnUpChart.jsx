@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import BurnUpChart from '../../Statistics/components/BurnUpChart'
 
 const mapStateToProps = (state, ownProps) => {
-  const formData = state['ProductivityGoalForm'] || {}
+  const formData = state.rform['ProductivityGoalForm'] || {}
   const startsAt = formData.starts_at || '2020-02-02'
   const endsAt = formData.ends_at || '2020-02-02'
   const targetCount = formData.target_count || 0

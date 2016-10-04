@@ -29,9 +29,9 @@ export default class TableHeadCell extends Component {
 
   renderFieldName() {
     if (this.props.isCurrentSortField) {
-      return <u>{this.props.field}</u>
+      return <u>{this.props.displayName}</u>
     } else {
-      return this.props.field
+      return this.props.displayName
     }
   }
 }

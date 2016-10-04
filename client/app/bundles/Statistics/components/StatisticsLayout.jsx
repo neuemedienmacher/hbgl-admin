@@ -4,7 +4,7 @@ import Navigation from './Navigation'
 export default class Layout extends React.Component {
   render() {
     return (
-			<div className='container-fluid'>
+      <div className='container-fluid'>
         <div className='col-xs-9'>
           {this.props.children}
         </div>

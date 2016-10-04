@@ -3,7 +3,7 @@ export default {
     offer_translations: {
       fields: [
         'id', 'offer_id', 'locale', 'source', 'name',
-        'possibly_outdated'//, 'updated_at', 'offer_section'
+        'possibly_outdated', {offer: ['approved_at', 'created_by']}
       ],
       general_actions: [
         'index', 'export'
@@ -15,8 +15,8 @@ export default {
 
     organization_translations: {
       fields: [
-        'id', 'offer_id', 'locale', 'source', 'description',
-        'possibly_outdated'//, 'updated_at', 'offer_section'
+        'id', 'organization_id', 'locale', 'source', 'description',
+        'possibly_outdated', {organization: ['approved_at']}
       ],
       general_actions: [
         'index', 'export'
@@ -31,11 +31,22 @@ export default {
         'id', 'title', 'ends_at', 'target_model', 'target_field_name'
       ],
       general_actions: [
-        'index', 'new', 'export'
+        'index', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show'
       ]
+    },
+
+    offers: {
+      fields: [
+        'id', 'name', 'aasm_state', 'created_by', 'expires_at',
+        'logic_version_id'
+      ],
+      general_actions: [
+        'index', 'export'
+      ],
+      member_actions: []
     },
   }
 }
