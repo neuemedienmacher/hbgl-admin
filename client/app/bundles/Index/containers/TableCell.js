@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   const { row, field } = ownProps
 
   const content = (field.relation == 'association')
-    ? row[field.model][field.field] : row[field.field]
+    ? row[field.model] && row[field.model][field.field] : row[field.field]
 
   let contentType = typeof content
   if (contentType == 'string') {
