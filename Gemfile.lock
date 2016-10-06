@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 92fd2355fdba58c5ad51932ffe5ed92b05c0ad1e
+  revision: f90286ff0e06994203b668452f9b45140ac7a258
   specs:
     clarat_base (0.1.4)
       aasm
@@ -81,7 +81,7 @@ GEM
     algoliasearch (1.11.0)
       httpclient (~> 2.8.2)
       json (>= 1.5.1)
-    algoliasearch-rails (1.15.0)
+    algoliasearch-rails (1.15.1)
       algoliasearch (~> 1.11.0)
       json (>= 1.5.1)
     arel (6.0.3)
@@ -274,7 +274,7 @@ GEM
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
     htmlentities (4.3.4)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.13.7)
       json (~> 1.8)
