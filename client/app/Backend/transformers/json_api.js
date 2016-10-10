@@ -1,7 +1,9 @@
 import isArray from 'lodash/isArray'
 import merge from 'lodash/merge'
 
-export default function transformJsonApi(json) {
+// INFO: nextModel was required for different transformer (field_sets) and it is
+// simply ignored by this default transformer
+export default function transformJsonApi(json, nextModel) {
   let object = {}
   if (isArray(json.data)) {
     object = extractArrayIntoObject(json.data, object)
@@ -23,6 +25,6 @@ function extractArrayIntoObject(array, object) {
 
 function extractDataPointIntoObject(datum, object) {
   if (!object[datum.type]) object[datum.type] = {}
-  object[datum.type][datum.id] = merge(datum.attributes, {id: datum.id})
+  object[datum.type][datum.id] = merge(datum.attributes, {id: parseInt(datum.id)})
   return object
 }

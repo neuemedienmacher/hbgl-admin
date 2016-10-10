@@ -23,8 +23,9 @@ const loadAjaxDataSuccess = (response, key) => ({
   key,
 })
 
+// INFO: optional nextModel is required for different transformer (field_sets)
 export default function loadAjaxData(
-  basePath, query, key, transformer = transformJsonApi
+  basePath, query, key, transformer = transformJsonApi, nextModel = undefined
 ) {
   const path = `/api/v1/${basePath}?${encode(query)}`
 
@@ -45,7 +46,7 @@ export default function loadAjaxData(
       }
     ).then(json => {
       dispatch(loadAjaxDataSuccess(json, key))
-      dispatch(addEntities(transformer(json)))
+      dispatch(addEntities(transformer(json, nextModel)))
     })
   }
 }

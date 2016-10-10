@@ -3,6 +3,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'
+import Show from '../../bundles/Show/containers/Show'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
   from '../../bundles/Dashboard/containers/DashboardContainer'
@@ -32,6 +33,7 @@ export default class Routes extends React.Component {
           <Route path='offers'>
             <IndexRoute component={Index}/>
             <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
           </Route>
 
           <Route path='productivity_goals'>
@@ -65,8 +67,18 @@ export default class Routes extends React.Component {
 
           <Route path='organization_translations'>
             <IndexRoute component={Index} />
-            <Route path='/export' component={Export} />
+            <Route path='export' component={Export} />
             <Route path=':id/edit' component={EditTranslation} model='organization' />
+          </Route>
+
+          <Route path='user_teams'>
+            <IndexRoute component={Index} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='users'>
+            <IndexRoute component={Index} />
+            <Route path=':id' component={Show} />
           </Route>
         </Route>
       </Router>

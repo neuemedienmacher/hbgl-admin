@@ -48,6 +48,16 @@ const routes = [
     pathname: '/time_allocations',
     anchor: 'Ressourcenplanung',
     access: superuser,
+  }, {
+    id: 7,
+    pathname: '/user_teams',
+    anchor: 'UserTeams',
+    access: superuser,
+  }, {
+    id: 8,
+    pathname: '/users',
+    anchor: 'Users',
+    access: superuser,
   }
 ]
 
