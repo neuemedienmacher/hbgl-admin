@@ -7,8 +7,15 @@ GIT
       representable (>= 2.4.0, < 3.1.0)
 
 GIT
-  remote: git://github.com/clarat-org/clarat_base.git
-  revision: f90286ff0e06994203b668452f9b45140ac7a258
+  remote: git://github.com/efqdalton/dynamic_sitemaps.git
+  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
+  branch: adds-custom-storages
+  specs:
+    dynamic_sitemaps (2.0.0)
+      aws-sdk
+
+PATH
+  remote: ../clarat_base
   specs:
     clarat_base (0.1.4)
       aasm
@@ -28,14 +35,6 @@ GIT
       sanitize
       sidekiq (~> 4.1.2)
       web-console (~> 2.0)
-
-GIT
-  remote: git://github.com/efqdalton/dynamic_sitemaps.git
-  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
-  branch: adds-custom-storages
-  specs:
-    dynamic_sitemaps (2.0.0)
-      aws-sdk
 
 GEM
   remote: https://rubygems.org/
@@ -135,7 +134,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.1.0)
+    closure_tree (6.2.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.5)

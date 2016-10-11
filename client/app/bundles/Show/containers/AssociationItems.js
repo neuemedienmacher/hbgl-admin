@@ -16,12 +16,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
 function addValuesToAssociations(associations) {
   let new_associations = []
-  associations.map(([assoc_name, assoc_columns]) => {
-    if(settings.index[assoc_name] && settings.index[assoc_name].member_actions){
-      new_associations.push([assoc_name, assoc_columns, `/${assoc_name}/`])
+  associations.map(([assoc_name, assoc]) => {
+    let class_name = assoc.class_name
+    if(settings.index[class_name] && settings.index[class_name].member_actions){
+      new_associations.push([assoc_name, assoc, `/${class_name}/`])
     }
     else{
-      new_associations.push([assoc_name, assoc_columns, false])
+      new_associations.push([assoc_name, assoc, false])
     }
   })
   return new_associations

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826130459) do
+ActiveRecord::Schema.define(version: 20161007082606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,29 @@ ActiveRecord::Schema.define(version: 20160826130459) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "assignments", force: :cascade do |t|
+    t.integer  "assignable_id",                                       null: false
+    t.string   "assignable_type",       limit: 32,                    null: false
+    t.string   "assignable_field_type", limit: 64,   default: "",     null: false
+    t.integer  "creator_id"
+    t.integer  "creator_team_id"
+    t.integer  "reciever_id"
+    t.integer  "reciever_team_id"
+    t.string   "message",               limit: 1000
+    t.integer  "parent_id"
+    t.string   "aasm_state",            limit: 32,   default: "open", null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+  end
+
+  add_index "assignments", ["aasm_state"], name: "index_assignments_on_aasm_state", using: :btree
+  add_index "assignments", ["assignable_id", "assignable_type"], name: "index_assignments_on_assignable_id_and_assignable_type", using: :btree
+  add_index "assignments", ["creator_id"], name: "index_assignments_on_creator_id", using: :btree
+  add_index "assignments", ["creator_team_id"], name: "index_assignments_on_creator_team_id", using: :btree
+  add_index "assignments", ["parent_id"], name: "index_assignments_on_parent_id", using: :btree
+  add_index "assignments", ["reciever_id"], name: "index_assignments_on_reciever_id", using: :btree
+  add_index "assignments", ["reciever_team_id"], name: "index_assignments_on_reciever_team_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name_de",                              null: false
@@ -80,7 +103,7 @@ ActiveRecord::Schema.define(version: 20160826130459) do
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx", using: :btree
 
   create_table "cities", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

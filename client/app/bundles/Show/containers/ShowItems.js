@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
     toPairs(field_set && field_set.associations || {}),
     model_instance || {}
   )
-  
+
   return {
     model_instance,
     associations,
