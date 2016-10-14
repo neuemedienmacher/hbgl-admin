@@ -21,6 +21,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 function getOutstandingTimeAllocations(time_allocations, current_user) {
+  // TODO: REMOVE THIS LATER: instant return to prevent WA-TimeAllocations from
+  // being rendered (and avoid calculation processing time)
+  return []
   let outstandingTimeAllocations = []
 
   // Displaying outstanding allocations for the last 5 weeks
