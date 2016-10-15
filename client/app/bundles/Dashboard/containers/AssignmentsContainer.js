@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import getSize from 'lodash/size'
+import size from 'lodash/size'
 import AssignmentsContainer from '../components/AssignmentsContainer'
 
 const mapStateToProps = (state, ownProps) => {
@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   const model = 'assignments'
   const filter_query = buildQuery(scope, ownProps.item_id)
   let identifier = 'indexResults_' + model + '_' + scope
-  let count = state.ajax[identifier] ? getSize(state.ajax[identifier].data) : 0
+  let count = state.ajax[identifier] ? size(state.ajax[identifier].data) : 0
   const heading = headingFor(scope, count)
 
   return {

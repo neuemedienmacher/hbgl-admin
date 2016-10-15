@@ -46,15 +46,16 @@ module API::V1
         property :completed_at
         property :completed_by
 
-        collection :organizations do
-          property :name, as: :label
-        end
-        collection :section_filters do
-          property :name, as: :label
-        end
-        collection :target_audience_filters do
-          property :name, as: :label
-        end
+        # INFO: current Show with InlineIndex does not yet work with more complex associations
+        # collection :organizations do
+        #   property :name, as: :label
+        # end
+        # collection :section_filters do
+        #   property :name, as: :label
+        # end
+        # collection :target_audience_filters do
+        #   property :name, as: :label
+        # end
       end
     end
   end

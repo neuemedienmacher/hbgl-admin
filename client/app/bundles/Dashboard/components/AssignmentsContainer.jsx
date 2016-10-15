@@ -11,7 +11,9 @@ export default class AssignmentsContainer extends Component {
     return (
       <div className="panel-group">
         {heading}
-        <InlineIndex model={model} baseQuery={filter_query} ident_append={scope} />
+        <InlineIndex
+          model={model} baseQuery={filter_query} identifier_addition={scope}
+        />
       </div>
     )
   }

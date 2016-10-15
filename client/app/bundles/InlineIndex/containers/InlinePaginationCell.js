@@ -5,13 +5,14 @@ import setUiAction from '../../../Backend/actions/setUi'
 import InlinePaginationCell from '../components/InlinePaginationCell'
 
 const mapStateToProps = (state, ownProps) => {
-  const resultData = state.ajax[ownProps.identifier]
+  let resultData = state.ajax[ownProps.identifier]
   const activeClass =
     resultData && resultData.meta.current_page == ownProps.page ? 'active' : null
+  const href = '#' + ownProps.identifier
 
   return {
     activeClass,
-    href: '#' + ownProps.identifier
+    href
   }
 }
 

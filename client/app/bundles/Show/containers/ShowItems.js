@@ -29,12 +29,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-// filter Fields to only those loaded
 function filterFields(fields, model_instance) {
   return fields.filter(field => model_instance[field] != undefined)
 }
 
-// filter Associations to only those loaded
 function filterAssociations(assocs, model_instance) {
   return assocs.filter(assoc => model_instance[assoc[0]] != undefined)
 }

@@ -6,19 +6,17 @@ import setUiAction from '../../../Backend/actions/setUi'
 import InlinePagination from '../components/InlinePagination'
 
 const mapStateToProps = (state, ownProps) => {
-  const resultData = state.ajax[ownProps.identifier]
+  let resultData = state.ajax[ownProps.identifier]
   const pages = resultData ? range(1, resultData.meta.total_pages + 1) : [1]
-
-  let previousPageHref =
+  const previousPageHref =
     resultData && resultData.links.previous ? '#' + ownProps.identifier: ''
-  let nextPageHref =
+  const nextPageHref =
     resultData && resultData.links.next ? '#' + ownProps.identifier: ''
 
   return {
     pages,
     previousPageHref,
-    nextPageHref,
-    ui_key: ownProps.ui_key
+    nextPageHref
   }
 }
 

@@ -14,16 +14,14 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-function addValuesToAssociations(associations) {
+function addValuesToAssociations(associations, model_instance) {
   let new_associations = []
   associations.map(([assoc_name, assoc]) => {
     let class_name = assoc.class_name
-    if(settings.index[class_name] && settings.index[class_name].member_actions){
-      new_associations.push([assoc_name, assoc, `/${class_name}/`])
-    }
-    else{
-      new_associations.push([assoc_name, assoc, false])
-    }
+    let filter = {'per_page': 15}
+    filter[`filter[${assoc.key}]`] = model_instance.id
+    let identifier = '_' + assoc_name
+    new_associations.push([assoc_name, class_name, filter, identifier])
   })
   return new_associations
 }

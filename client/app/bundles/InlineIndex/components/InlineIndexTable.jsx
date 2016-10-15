@@ -16,8 +16,8 @@ export default class InlineIndexTable extends Component {
             {fields.map((field, index) => {
               return(
                 <InlineTableHeadCell
-                  params={params} model={model} key={index} field={field}
-                  ui_key={ui_key} identifier={identifier}
+                  params={params} key={index} field={field} ui_key={ui_key}
+                  identifier={identifier}
                 />
               )
             })}

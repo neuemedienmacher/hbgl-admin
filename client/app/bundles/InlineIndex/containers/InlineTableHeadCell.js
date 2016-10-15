@@ -10,12 +10,13 @@ const mapStateToProps = (state, ownProps) => {
   const currentDirection = params.sort_direction
   const isCurrentSortField = _isCurrentSortField(params, field)
   const displayName = field.name.split('_').join(' ')
+  const href = '#' + identifier
 
   return {
     isCurrentSortField,
     currentDirection,
     displayName,
-    href: '#' + identifier
+    href
   }
 }
 
@@ -36,7 +37,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 })
 
 function _isCurrentSortField(params, field) {
-  return params.sort_field == field.field && (field.relation == 'own' || params.sort_model == field.model)
+  return params.sort_field == field.field &&
+    (field.relation == 'own' || params.sort_model == field.model)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InlineTableHeadCell)

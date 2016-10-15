@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react'
-import { Link } from 'react-router'
 
 export default class InlineTableHeadCell extends Component {
   render() {
@@ -9,7 +8,7 @@ export default class InlineTableHeadCell extends Component {
 
     return (
       <th>
-        <a href={href} onClick={onClick} >
+        <a href={href} onClick={onClick}>
           {this.renderFieldName()}
           {this.renderSortSymbol()}
         </a>

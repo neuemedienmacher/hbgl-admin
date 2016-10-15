@@ -33,7 +33,9 @@ export default class OverviewPanel extends Component {
               className='form-group' inputClassName='form-control input-sm'
             />
           </Form>
-          <AssignmentsContainer scope={'reciever_team'} item_id={user.current_team_id} />
+          <AssignmentsContainer
+            scope={'reciever_team'} item_id={user.current_team_id}
+          />
         </div>
       </div>
     )

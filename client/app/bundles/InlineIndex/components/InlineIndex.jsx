@@ -4,7 +4,7 @@ import InlinePagination from '../containers/InlinePagination'
 
 export default class InlineIndex extends Component {
   componentWillReceiveProps(nextProps) {
-    if (!this.props.compareParams(nextProps.params, this.props.params)) {
+    if (this.props.equalParams(nextProps.params, this.props.params) == false) {
       // console.log('InlineIndex: NEW DATA LOAD')
       this.props.loadData(nextProps.params, nextProps.model)
     }
@@ -21,8 +21,12 @@ export default class InlineIndex extends Component {
 
     return (
       <div className='content InlineIndex'>
-        <InlineIndexTable model={model} params={params} identifier={identifier} ui_key={ui_key} />
-        <InlinePagination model={model} params={params} identifier={identifier} ui_key={ui_key}/>
+        <InlineIndexTable
+          model={model} params={params} identifier={identifier} ui_key={ui_key}
+        />
+        <InlinePagination
+          params={params} identifier={identifier} ui_key={ui_key}
+        />
       </div>
     )
   }

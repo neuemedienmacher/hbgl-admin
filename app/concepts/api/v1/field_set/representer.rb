@@ -13,9 +13,14 @@ module API::V1
         r[:represented].reflect_on_all_associations.each do |assoc|
             # INFO: Hotfixed to avoid polymorphic modules as association
           unless assoc.options[:polymorphic]
-            # add class_name to hash (custom named validations)
+            # build association object
             class_name = assoc.options[:class_name] ? assoc.options[:class_name].underscore.pluralize : assoc.name
-            assocs[assoc.name] = {'columns' => assoc.klass.column_names, 'class_name' => class_name}
+            key = assoc.options[:foreign_key] ? assoc.options[:foreign_key] : assoc.active_record.to_s.underscore + '_id'
+            assocs[assoc.name] = {
+              'columns' => assoc.klass.column_names,
+              'class_name' => class_name,
+              'key' => key
+            }
           end
         end
         assocs
