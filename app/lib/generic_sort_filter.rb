@@ -36,7 +36,8 @@ module GenericSortFilter
     return query unless filters
     filters.each do |filter, value|
       next if value.empty?
-      query = query.where(filter => value)
+      # allow for nil as string from JavaScript and convert it to ruby nil
+      query = query.where(filter => value == 'nil' ? nil : value)
     end
     query
   end

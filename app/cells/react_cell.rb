@@ -27,6 +27,9 @@ class ReactCell < Cell::ViewModel
           target_models: ProductivityGoal::TARGET_MODELS,
           target_field_names: ProductivityGoal::TARGET_FIELD_NAMES,
           target_field_values: ProductivityGoal::TARGET_FIELD_VALUES
+        },
+        assignments: {
+          assignable_models: Assignment::ASSIGNABLE_MODELS
         }
       }
     }

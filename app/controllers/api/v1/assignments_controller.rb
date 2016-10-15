@@ -11,5 +11,10 @@ module API::V1
     def show
       respond API::V1::Assignment::Show
     end
+
+    def create
+      run API::V1::Assignment::Create
+      super
+    end
   end
 end

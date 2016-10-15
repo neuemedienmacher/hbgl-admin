@@ -69,7 +69,7 @@ Rails.application.routes.draw do
       resources :productivity_goals, except: [:destroy]
       resources :time_allocations, only: [:create, :update]
       resources :user_teams, only: [:index, :show]
-      resources :assignments, only: [:index, :show]
+      resources :assignments, only: [:index, :show, :create]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
