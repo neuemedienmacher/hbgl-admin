@@ -18,10 +18,16 @@ function addValuesToAssociations(associations, model_instance) {
   let new_associations = []
   associations.map(([assoc_name, assoc]) => {
     let class_name = assoc.class_name
-    let filter = {'per_page': 15}
-    filter[`filter[${assoc.key}]`] = model_instance.id
-    let identifier = '_' + assoc_name
-    new_associations.push([assoc_name, class_name, filter, identifier])
+    let filter = ''
+    if(assoc.key) {
+      filter = {'per_page': 15}
+      filter[`filter[${assoc.key}]`] = model_instance.id
+    }
+    let href = ''
+    if(settings.index[class_name] && settings.index[class_name].member_actions){
+      href = `/${class_name}/`
+    }
+    new_associations.push([assoc_name, class_name, filter, href])
   })
   return new_associations
 }

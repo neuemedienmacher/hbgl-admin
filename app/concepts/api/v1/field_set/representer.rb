@@ -15,7 +15,10 @@ module API::V1
           unless assoc.options[:polymorphic]
             # build association object
             class_name = assoc.options[:class_name] ? assoc.options[:class_name].underscore.pluralize : assoc.name
-            key = assoc.options[:foreign_key] ? assoc.options[:foreign_key] : assoc.active_record.to_s.underscore + '_id'
+            key = ''
+            if assoc.options[:foreign_key] && !assoc.options[:through]
+              key = assoc.options[:foreign_key] ? assoc.options[:foreign_key] : assoc.active_record.to_s.underscore + '_id'
+            end
             assocs[assoc.name] = {
               'columns' => assoc.klass.column_names,
               'class_name' => class_name,

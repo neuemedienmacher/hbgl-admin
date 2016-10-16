@@ -7,6 +7,11 @@ module API::V1
 
         property :name
 
+        collection :users do
+          property :id
+          property :name, as: :label
+        end
+        
         collection :created_assignments do
           property :id
           property :message, as: :label
