@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: f90286ff0e06994203b668452f9b45140ac7a258
+  revision: 83ad8c194f6f97cf7633314c7425b5895fe07b26
   specs:
     clarat_base (0.1.4)
       aasm
@@ -135,7 +135,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.1.0)
+    closure_tree (6.2.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.5)
@@ -217,7 +217,7 @@ GEM
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
       mail (~> 2.6.3)
-    enumerize (2.0.0)
+    enumerize (2.0.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.9.1)
