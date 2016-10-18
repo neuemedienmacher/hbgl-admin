@@ -9,6 +9,6 @@ class NextStep < ActiveRecord::Base
 
   def translate_if_text_en_changed
     return if !text_en_changed? && !@new_record_before_save
-    # GengoCommunicator.new.create_translation_jobs(self, 'text')
+    GengoCommunicator.new.create_translation_jobs(self, 'text')
   end
 end
