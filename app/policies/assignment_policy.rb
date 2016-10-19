@@ -7,4 +7,8 @@ class AssignmentPolicy < ApplicationPolicy
   def update?
     create?
   end
+
+  def assign_and_edit_assignable?
+    true
+  end
 end

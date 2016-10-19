@@ -84,7 +84,7 @@ export default {
         'index', 'new'
       ],
       member_actions: [
-        'show'
+        'show', 'edit_assignable', 'assign_and_edit_assignable'
       ]
     },
   }

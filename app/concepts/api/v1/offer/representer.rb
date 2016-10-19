@@ -46,7 +46,6 @@ module API::V1
         property :completed_at
         property :completed_by
 
-        # INFO: current Show with InlineIndex does not yet work with more complex associations
         collection :organizations do
           property :name, as: :label
         end

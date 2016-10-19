@@ -15,11 +15,16 @@ export default class TableRow extends Component {
         )}
         <td>
           {actions.map(action => {
-            return(
-              <Link key={action.href} to={action.href}>
-                <span className={action.icon} />
-              </Link>
-            )
+            if (action.visible){
+              return(
+                <Link key={action.href} to={action.href} target={action.target}>
+                  <span className={action.icon} />
+                </Link>
+              )
+            }
+            else {
+              return null
+            }
           })}
         </td>
       </tr>

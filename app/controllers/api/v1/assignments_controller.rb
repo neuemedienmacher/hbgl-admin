@@ -16,5 +16,14 @@ module API::V1
       run API::V1::Assignment::Create
       super
     end
+
+    def assign_and_edit_assignable
+      puts 'AssignmentsController: assign_and_edit_assignable'
+      run API::V1::Assignment::AssignAndEditAssignable do |op|
+        assignable_controller = op.model.assignable_type.underscore.pluralize
+        redirect_to "/#{assignable_controller}/#{op.model.assignable_id}/edit"
+      end
+      # TODO: what happens if operation fails?
+    end
   end
 end

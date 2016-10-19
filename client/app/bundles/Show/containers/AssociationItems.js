@@ -4,7 +4,7 @@ import AssociationItems from '../components/AssociationItems'
 
 const mapStateToProps = (state, ownProps) => {
   const model_instance = ownProps.model_instance
-  const associations = addValuesToAssociations(ownProps.associations || [], model_instance)
+  const associations = processAssociations(ownProps.associations || [], model_instance)
 
   return {
     model_instance,
@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-function addValuesToAssociations(associations, model_instance) {
+function processAssociations(associations, model_instance) {
   let new_associations = []
   associations.map(([assoc_name, assoc]) => {
     let class_name = assoc.class_name

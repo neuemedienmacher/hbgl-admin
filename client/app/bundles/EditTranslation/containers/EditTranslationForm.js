@@ -7,7 +7,7 @@ import OrganizationTranslationFormObject from
 import EditTranslationForm from '../components/EditTranslationForm'
 
 const mapStateToProps = (state, ownProps) => {
-  const { id, model, translation } = ownProps
+  const { id, model, translation, may_edit } = ownProps
   const formId = `${model}Translation${id}`
 
   const action = `/api/v1/${model}_translations/${id}`
@@ -18,12 +18,13 @@ const mapStateToProps = (state, ownProps) => {
     (model == 'offer') ? OfferTranslationFormObject
                        : OrganizationTranslationFormObject
   const properties = formObjectClass.properties
+
   return {
     action,
     seedData,
     formObjectClass,
     properties,
-    formId,
+    formId
   }
 }
 
