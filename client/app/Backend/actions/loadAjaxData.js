@@ -28,6 +28,10 @@ export default function loadAjaxData(
   basePath, query, key, transformer = transformJsonApi, nextModel = undefined
 ) {
   const path = `/api/v1/${basePath}?${encode(query)}`
+  // console.log('===========loadAjaxData============')
+  // console.log(basePath)
+  // console.log(query)
+  // console.log(path)
 
   return function(dispatch) {
     dispatch(loadAjaxDataRequest(key))

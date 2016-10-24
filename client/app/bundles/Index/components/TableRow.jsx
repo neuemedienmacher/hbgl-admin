@@ -15,14 +15,26 @@ export default class TableRow extends Component {
         )}
         <td>
           {actions.map(action => {
-            return(
-              <Link key={action.href} to={action.href}>
-                <span className={action.icon} />
-              </Link>
-            )
+            return action.visible ? this.reactOrNormalLink(action) : null
           })}
         </td>
       </tr>
     )
+  }
+
+  reactOrNormalLink(action) {
+    if(action.reactLink) {
+      return(
+        <Link key={action.href} to={action.href}>
+          <span className={action.icon} />
+        </Link>
+      )
+    }else {
+      return(
+        <a key={action.href} href={action.href}>
+          <span className={action.icon} />
+        </a>
+      )
+    }
   }
 }

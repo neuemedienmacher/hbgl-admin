@@ -6,7 +6,7 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      handleResponse, afterResponse
+      handleResponse, afterResponse, may_edit
     } = this.props
 
     return (
@@ -30,18 +30,28 @@ export default class EditTranslationForm extends Component {
                 return(
                   <EditTranslationRow
                     key={property} property={property} formId={formId}
-                    source={source}
+                    source={source} may_edit={may_edit}
                   />
                 )
               })}
             </tbody>
           </table>
         </fieldset>
-        <button type='submit' className='btn btn--default'>
-          Aktualisieren
-        </button>
+        {this.renderButtonOrText()}
       </Form>
     )
+  }
+
+  renderButtonOrText() {
+    if (this.props.may_edit) {
+      return(
+        <button type='submit' className={'btn btn-primary'}>
+          Speichern
+        </button>
+      )
+    } else {
+      return <span className='text-danger'>Du bist nicht zugewiesen!</span>
+    }
   }
 
   renderTranslationSource() {

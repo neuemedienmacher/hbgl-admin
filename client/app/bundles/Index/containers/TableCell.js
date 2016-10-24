@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import settings from '../../../lib/settings'
-import routeForAction from '../../../lib/routeForAction'
 import TableCell from '../components/TableCell'
 
 const mapStateToProps = (state, ownProps) => {

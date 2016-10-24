@@ -41,6 +41,8 @@ function headingFor(model) {
     return 'Nutzer-Teams'
   case 'users':
     return 'Nutzer'
+  case 'assignments':
+    return 'Zuweisungen'
   default:
     throw new Error(`Please provide a heading for ${model}`)
   }

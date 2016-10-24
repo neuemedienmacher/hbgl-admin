@@ -11,6 +11,8 @@ import ShowProductivityGoalContainer
   from '../../bundles/ShowProductivityGoal/containers/ShowProductivityGoalContainer'
 import NewProductivityGoal
   from '../../bundles/NewProductivityGoal/components/NewProductivityGoal'
+import NewAssignment
+  from '../../bundles/NewAssignment/containers/NewAssignmentForm'
 import TimeAllocationTableContainer
   from '../../bundles/TimeAllocationTable/containers/TimeAllocationTableContainer'
 import StatisticsLayout from '../../bundles/Statistics/components/StatisticsLayout'
@@ -78,6 +80,12 @@ export default class Routes extends React.Component {
 
           <Route path='users'>
             <IndexRoute component={Index} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='assignments'>
+            <IndexRoute component={Index} />
+            <Route path='new' component={NewAssignment} />
             <Route path=':id' component={Show} />
           </Route>
         </Route>

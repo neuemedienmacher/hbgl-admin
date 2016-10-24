@@ -51,12 +51,17 @@ const routes = [
   }, {
     id: 7,
     pathname: '/user_teams',
-    anchor: 'UserTeams',
+    anchor: 'Teams',
     access: superuser,
   }, {
     id: 8,
     pathname: '/users',
-    anchor: 'Users',
+    anchor: 'Nutzer',
+    access: superuser,
+  }, {
+    id: 9,
+    pathname: '/assignments',
+    anchor: 'Zuweisungen',
     access: superuser,
   }
 ]
