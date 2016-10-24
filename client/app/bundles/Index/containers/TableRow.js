@@ -15,11 +15,12 @@ const mapStateToProps = (state, ownProps) => {
     snakeCase(state.entities[model][id].assignable_type) + 's' : '' // TODO: 'pluralization' may be wrong
   let assignable_id = model == 'assignments' && state.entities[model] &&
     state.entities[model][id] && state.entities[model][id].assignable_id
-  const actions = settings.index[model].member_actions.map(action => ({
+
+  const actions = settings.index[model].member_actions.filter(
+    action => visibleFor(action, state.entities, model, id)
+  ).map(action => ({
     icon: iconFor(action),
-    href: routeForAction(action, model, id, assignable_model, assignable_id),
-    reactLink: action != 'assign_and_edit_assignable',
-    visible: visibleFor(action, state.entities, model, id)
+    href: routeForAction(action, model, id, assignable_model, assignable_id)
   }))
 
   return {
@@ -37,18 +38,14 @@ function iconFor(action) {
     return 'fui-eye'
   case 'edit_assignable':
     return 'fui-new'
-  case 'assign_and_edit_assignable':
-    return 'fui-lock'
   }
 }
 
 function visibleFor(action, entities, model, id) {
   switch(action) {
     case 'edit_assignable':
-      return isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_and_edit_assignable':
-      return isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
-        !isCurrentUserAssignedToModel(entities, model, id)
+      return isCurrentUserAssignedToModel(entities, model, id) ||
+        isTeamOfCurrentUserAssignedToModel(entities, model, id)
     default:
       return true
   }

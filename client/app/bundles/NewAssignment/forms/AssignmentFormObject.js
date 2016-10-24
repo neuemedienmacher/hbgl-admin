@@ -19,6 +19,7 @@ export default class AssignmentFormObject extends FormObject {
   validation() {
     this.required('assignable_id').filled('int?')
     this.required('assignable_type').filled()
+    this.required('message').filled()
     // TODO: moar?
   }
 }

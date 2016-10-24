@@ -54,7 +54,8 @@ module API::V1
       def close_open_assignments! attributes
         type = attributes[:assignable_type]
         id = attributes[:assignable_id]
-        ::Assignment.where(assignable_id: id).where(assignable_type: type).where(aasm_state: 'open').update_all aasm_state: 'closed'
+        ::Assignment.where(assignable_id: id).where(assignable_type: type)
+          .where(aasm_state: 'open').update_all aasm_state: 'closed'
       end
     end
   end

@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react'
-import { Form } from 'rform'
+import { Form, InputSet} from 'rform'
+import ActionUpdateFormObject from '../forms/ActionUpdateFormObject'
+import AssignmentFormObject from '../../NewAssignment/forms/AssignmentFormObject'
 
 export default class AssignmentActions extends Component {
 
@@ -10,33 +12,54 @@ export default class AssignmentActions extends Component {
 
     return (
       <div className='content AssignmentActions'>
-        <table>
-          <tbody>
-            <tr>
-              {actions.map(action => this.renderMinimalFormFor(action))}
-            </tr>
-          </tbody>
-        </table>
+        {actions.map(action => {
+          if(action.method == 'PATCH'){
+            return this.renderUpdateForm(action)
+          } else {
+            return this.renderCreateForm(action)
+          }
+        })}
       </div>
     )
   }
 
-  renderMinimalFormFor(action) {
+  renderUpdateForm(action) {
     const { handleResponse, afterResponse } = this.props
 
     return(
-      <td key={action.formId}>
-        <Form ajax requireValid seedData={action.seedData}
-          method={action.method} action={action.href} id={action.formId}
-          key={action.formId} formObjectClass={action.formObjectClass}
-          handleResponse={handleResponse} afterResponse={afterResponse}
-          style='display: inline-block;'
-        >
-          <button type='submit' className='btn btn-warning btn-assignment'>
-            <span className={action.icon} />
-          </button>
-        </Form>
-      </td>
+      <Form ajax requireValid seedData={action.seedData} id={action.formId}
+        method={action.method} action={action.href} className='form-inline'
+        key={action.formId} formObjectClass={ActionUpdateFormObject}
+        handleResponse={handleResponse} afterResponse={afterResponse}
+      >
+        <hr />
+        <button type='submit' className='btn btn-warning'>
+          {action.buttonText}
+        </button>
+      </Form>
+    )
+  }
+
+  renderCreateForm(action) {
+    const { handleResponse, afterResponse } = this.props
+
+    return(
+      <Form ajax requireValid seedData={action.seedData} id={action.formId}
+        method={action.method} action={action.href} className='form-inline'
+        key={action.formId} formObjectClass={AssignmentFormObject}
+        handleResponse={handleResponse} afterResponse={afterResponse}
+      >
+        <hr />
+        <InputSet
+          wrapperClassName='form-group' className='form-control'
+          wrapperErrorClassName='has-error' errorClassName='help-block'
+          label='Neue Nachricht ' type='textfield' attribute='message'
+          placeholder='Gib eine Nachricht ein'
+        />
+        <button type='submit' className='btn btn-warning'>
+          {action.buttonText}
+        </button>
+      </Form>
     )
   }
 }

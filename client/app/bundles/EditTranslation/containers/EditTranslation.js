@@ -9,7 +9,8 @@ const mapStateToProps = (state, ownProps) => {
   const model = ownProps.route.model
   let t_model = model + '_translations'
   const translation = state.entities[t_model] && state.entities[t_model][id]
-  const source = state.entities[model + 's'] && state.entities[model + 's'][translation[`${model}_id`]]
+  const source = state.entities[model + 's'] && translation &&
+    state.entities[model + 's'][translation[`${model}_id`]]
   const loaded = !!translation
   const heading = `${model} translation #${id}`
   const current_assignment_id = currentAssignmentIdFor(model, translation)

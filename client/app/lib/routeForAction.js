@@ -13,11 +13,11 @@ export function routeForAction(
 
 export function assignableRouteForAction(action, model, id) {
   switch(action) {
-  case 'assign_and_edit_assignable':
+  case 'assign_to_current_user':
     return `/api/v1/${model}/${id}`
-  case 'close_assignment':
-    return `/api/v1/${model}/${id}`
-  case 'assign_to_user':
+  case 'assign_from_system':
+    return `/api/v1/${model}/`
+  case 'reply_to_assignment':
     return `/api/v1/${model}/`
   }
 }

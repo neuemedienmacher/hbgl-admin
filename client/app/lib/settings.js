@@ -2,7 +2,7 @@ export default {
   index: {
     assignable: {
       assignment_actions: [
-        'assign_and_edit_assignable', 'close_assignment', 'assign_to_user'
+        'reply_to_assignment', 'assign_from_system', 'assign_to_current_user'
       ]
     },
 
@@ -88,13 +88,13 @@ export default {
       ],
       inline_fields: [
         'id', 'assignable_type', 'assignable_id', 'message', 'reciever_id',
-        'reciever_team_id', 'created_at', 'updated_at'
+        'reciever_team_id', 'aasm_state', 'created_at'
       ],
       general_actions: [
         'index', 'new'
       ],
       member_actions: [
-        'show', 'edit_assignable', 'assign_and_edit_assignable'
+        'show', 'edit_assignable'
       ]
     },
   }

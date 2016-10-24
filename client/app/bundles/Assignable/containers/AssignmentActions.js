@@ -8,8 +8,6 @@ import snakeCase from 'lodash/snakeCase'
 import clone from 'lodash/clone'
 import merge from 'lodash/merge'
 import { assignableRouteForAction } from '../../../lib/routeForAction'
-import AssignmentActionFormObject from '../forms/AssignmentActionFormObject'
-import AssignmentFormObject from '../../NewAssignment/forms/AssignmentFormObject'
 
 const mapStateToProps = (state, ownProps) => {
   const assignment = ownProps.assignment
@@ -22,12 +20,11 @@ const mapStateToProps = (state, ownProps) => {
   const actions = settings_actions.filter(
     action => visibleFor(action, state.entities, model, assignment.assignable_id)
   ).map(action => ({
-    icon: iconFor(action),
+    buttonText: buttonTextFor(action),
     href: assignableRouteForAction(action, 'assignments', assignment.id),
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment),
-    method: action == 'assign_to_user' ? 'POST' : 'PATCH',
-    formObjectClass: action == 'assign_to_user' ? AssignmentFormObject : AssignmentActionFormObject
+    method: action == 'assign_to_current_user' ? 'PATCH' : 'POST',
   }))
   // console.log(assignableDataLoad)
   // console.log(assignment)
@@ -58,54 +55,55 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 })
 
+function visibleFor(action, entities, model, id) {
+  switch(action) {
+    case 'assign_to_current_user':
+      return isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
+        !isCurrentUserAssignedToModel(entities, model, id)
+    case 'reply_to_assignment':
+      return isCurrentUserAssignedToModel(entities, model, id)
+    case 'assign_from_system':
+      return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
+        !isCurrentUserAssignedToModel(entities, model, id)
+    default:
+      return false
+  }
+}
+
+function buttonTextFor(action) {
+  switch(action) {
+  case 'reply_to_assignment':
+    return 'Zurückgeben/Antworten/?'
+  case 'assign_to_current_user':
+    return 'Mir zuweisen'
+  case 'assign_from_system':
+    return 'Neue Zuweisung öffnen'
+  }
+}
+
 function seedDataFor(action, entities, assignment) {
   let assignment_copy = clone(assignment)
   switch(action) {
-  case 'assign_and_edit_assignable':
+  case 'assign_to_current_user':
     assignment_copy.reciever_id = entities.current_user.id
     break
-  case 'close_assignment':
-    assignment_copy.aasm_state = 'closed'
-    break
-  case 'assign_to_user':
+  case 'reply_to_assignment':
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = entities.current_user.current_team_id
+    assignment_copy.reciever_id = assignment.creator_id
+    assignment_copy.reciever_team_id = assignment.creator_team_id
+    assignment_copy.message = 'Erledigt!'
+    break
+  case 'assign_from_system':
+    // TODO: system_user id from defaults
+    assignment_copy.creator_id = assignment.reciever_id
+    assignment_copy.creator_team_id = undefined
     assignment_copy.reciever_id = entities.current_user.id
     assignment_copy.reciever_team_id = entities.current_user.current_team_id
-    assignment_copy.message = entities.current_user.name + ' self-assigned this!'
+    assignment_copy.message = ''
     break
   }
-  return {fields:assignment_copy}
-}
-
-function iconFor(action) {
-  switch(action) {
-  case 'edit_assignable':
-    return 'fui-new'
-  case 'close_assignment':
-    return 'fui-check'
-  case 'assign_to_user':
-    return 'fui-lock'
-  case 'assign_and_edit_assignable':
-    return 'fui-user'
-  }
-}
-
-function visibleFor(action, entities, model, id) {
-  switch(action) {
-    case 'edit_assignable':
-      return isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_and_edit_assignable':
-      return isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
-        !isCurrentUserAssignedToModel(entities, model, id)
-    case 'close_assignment':
-      return isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_to_user':
-      return !isCurrentUserAssignedToModel(entities, model, id) &&
-        !isCurrentUserAssignedToModel(entities, model, id)
-    default:
-      return true
-  }
+  return {fields: assignment_copy}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssignmentActions)
