@@ -1,39 +1,32 @@
 import React, { PropTypes, Component } from 'react'
-import isArray from 'lodash/isArray'
+import { Link } from 'react-router'
 
-export default class TableCell extends Component {
+export default class ShowFieldItem extends React.Component {
   render() {
     const {
-      content, contentType
+      name, content, contentType
     } = this.props
 
     return (
-      <td>
-        {this.renderContent(content, contentType)}
-      </td>
+      <div key={name} className="panel panel-default">
+        <div key={`${name}-heading`} className="panel-heading show--panel">
+          <h3 className="panel-title">{name}</h3>
+        </div>
+        <div key={name} className="panel-body show--panel">
+          {this.renderContent(content, contentType)}
+        </div>
+      </div>
     )
   }
 
   renderContent(content, contentType) {
     switch(contentType) {
-      case 'object':
-        if(isArray(content)){
-          return(
-            <p>
-              {content.map(obj => obj['label']).join(', ')}
-            </p>
-          )
-        } else {
-          return content
-        }
       case 'boolean':
         if (content) {
           return <span className='fui-check' title='Ja' />
         } else {
           return <span className='fui-cross' title='Nein' />
         }
-      case 'string':
-        return content.substr(0, 100)
       case 'time':
         return new Date(content).toLocaleString('de-de')
       default:

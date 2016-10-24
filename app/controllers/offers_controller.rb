@@ -6,11 +6,11 @@ class OffersController < BackendController
     redirect_to_remote_show :angebote
   end
 
-  def new
-    form Offer::Create
-  end
-
-  def create
-    run Offer::Create
-  end
+  # def new
+  #   form Offer::Create
+  # end
+  #
+  # def create
+  #   run Offer::Create
+  # end
 end

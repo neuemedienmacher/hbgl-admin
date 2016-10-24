@@ -3,12 +3,24 @@ module API::V1
   module User
     module Representer
       class Show < API::V1::Default::Representer::Show
-        property :name, as: :label
+        type :users
+
+        property :id
+        property :label, getter: ->(user) do
+          user[:represented].name
+        end
+        property :name
+        property :email
+
+        collection :user_teams do
+          property :id
+          property :name, as: :label
+        end
       end
 
-      class Index < API::V1::Default::Representer::Index
-        # items extend: Show
-      end
+      # class Index < API::V1::Default::Representer::Index
+      #   # items extend: Show
+      # end
 
       class Update < Roar::Decorator
         include Roar::JSON::JSONAPI

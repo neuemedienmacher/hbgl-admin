@@ -8,6 +8,10 @@ module API::V1
       respond User::Index
     end
 
+    def show
+      respond API::V1::User::Show
+    end
+
     def update
       run User::Update, params: params.merge(
         current_user: current_user, user: request.raw_post

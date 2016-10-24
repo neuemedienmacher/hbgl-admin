@@ -4,11 +4,11 @@ module API::V1
     respond_to :json
 
     def index
-      respond Offer::Index
+      respond API::V1::Offer::Index
     end
 
     def show
-      respond Offer::Show
+      respond API::V1::Offer::Show
     end
   end
 end

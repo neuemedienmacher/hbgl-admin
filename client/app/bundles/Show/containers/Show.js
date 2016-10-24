@@ -1,13 +1,17 @@
 import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
-import Export from '../components/Export'
+import Show from '../components/Show'
 
 const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.params.id
   const pathname = ownProps.location.pathname
   const model = pathname.split('/')[1]
+  const heading = model.substr(0, model.length - 1) + '#' + id
 
   return {
+    id,
     model,
+    heading
   }
 }
 
@@ -29,18 +33,21 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    loadData() {
-      const singularModel =
-        stateProps.model.substr(0, stateProps.model.length - 1)
+    loadData(nextModel = stateProps.model, nextID = stateProps.id) {
+      const singularModel = nextModel.substr(0, nextModel.length - 1)
 
+      // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field_set',
-          transformResponse, stateProps.model
+          'field_set/' + singularModel, {}, 'field_set', transformResponse, nextModel
         )
+      )
+      // load data of current model_instance
+      dispatchProps.dispatch(
+        loadAjaxData(`${nextModel}/${nextID}`, '', nextModel)
       )
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Export)
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Show)

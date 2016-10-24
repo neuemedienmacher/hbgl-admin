@@ -1,0 +1,12 @@
+.show--panel {
+  &.panel-heading {
+    padding: 5px;
+    padding-left: 10px;
+  }
+
+  &.panel-body{
+    padding: 0px;
+    padding-left: 10px;
+    font-size: 16px;
+  }
+}
