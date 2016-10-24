@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react'
+import { Link } from 'react-router'
+import AssignmentActions from '../containers/AssignmentActions'
 
 export default class AssignableContainer extends Component {
   componentWillReceiveProps(nextProps) {
@@ -23,6 +25,7 @@ export default class AssignableContainer extends Component {
           </div>
           <div key={name} className="panel-body show--panel">
             {this.renderLoadingOrAssignment()}
+            {this.renderActionsIfAssigned()}
           </div>
         </div>
       </div>
@@ -35,15 +38,28 @@ export default class AssignableContainer extends Component {
     if (loaded) {
       return(
         <div>
-          von: <b>{involved_entities.creator}, Team: {involved_entities.creator_team}</b>
+          <b>von:</b> {involved_entities.creator}, Team: {involved_entities.creator_team}
           <br />
-          für: <b>{involved_entities.reciever}, Team: {involved_entities.reciever_team}</b>
+          <b>für:</b> {involved_entities.reciever}, Team: {involved_entities.reciever_team}
           <br />
-          Nachricht: <b>{assignment.message}</b>
+          <b>Nachricht:</b> {assignment.message}
         </div>
       )
     } else {
       return <div className='text-center'>Lade...</div>
     }
+  }
+
+  renderActionsIfAssigned() {
+    const { assignment, loaded, may_edit, assignableDataLoad } = this.props
+    const href = '/'
+
+    if (loaded) {
+      return (
+        <AssignmentActions
+          assignment={assignment} assignableDataLoad={assignableDataLoad}
+        />
+      )
+    }else {return null}
   }
 }

@@ -17,13 +17,24 @@ module API::V1
       super
     end
 
-    def assign_and_edit_assignable
-      puts 'AssignmentsController: assign_and_edit_assignable'
-      run API::V1::Assignment::AssignAndEditAssignable do |op|
-        assignable_controller = op.model.assignable_type.underscore.pluralize
-        redirect_to "/#{assignable_controller}/#{op.model.assignable_id}/edit"
+    def update
+      begin
+        run API::V1::Assignment::Update
+        super
+        # do |op|
+        #   assignable_controller = op.model.assignable_type.underscore.pluralize
+        #   assignable_id = op.model.assignable_id
+        #   redirection_link = "/#{assignable_controller}/#{assignable_id}/edit"
+        #   redirect_to redirection_link, :flash => {
+        #     :notice => 'Erfolgreich zugwiesen.'
+        #   }
+        # end
+      rescue Trailblazer::NotAuthorizedError
+        # redirect_to '/', :flash => {
+        #   :alert => 'Du darfst diese Änderung nicht vornehmen!'
+        # }
+        puts 'Trailblazer::NotAuthorizedError'
       end
-      # TODO: what happens if operation fails?
     end
   end
 end

@@ -34,9 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleResponse: (_formId, data) => dispatch(addEntities(data)),
 
   afterResponse(response) {
-    if (response.data && response.data.id) {
-      browserHistory.push(`/${ownProps.model}_translations`)
-    }
+    // if (response.data && response.data.id) {
+    //   browserHistory.push(`/${ownProps.model}_translations`)
+    // }
   }
 })
 

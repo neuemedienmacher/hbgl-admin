@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import size from 'lodash/size'
 import AssignmentsContainer from '../components/AssignmentsContainer'
 
 const mapStateToProps = (state, ownProps) => {
@@ -7,7 +6,7 @@ const mapStateToProps = (state, ownProps) => {
   const model = 'assignments'
   const filter_query = buildQuery(scope, ownProps.item_id)
   let identifier = 'indexResults_' + model + '_' + scope
-  let count = state.ajax[identifier] ? size(state.ajax[identifier].data) : 0
+  let count = state.ajax[identifier] ? state.ajax[identifier].meta.total_entries : 0
   const heading = headingFor(scope, count)
 
   return {
@@ -21,17 +20,23 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
 function headingFor(scope, count) {
-  let t = scope == 'reciever' ? 'Nutzer' : 'Team'
-  return 'Du hast aktuell ' + count + ' zugewiesene ' + t + '-Aufgaben:'
+  if(scope == 'reciever') {
+    return 'Du hast aktuell ' + count + ' zugewiesene Nutzer-Aufgaben:'
+  } else {
+    return 'Deinem aktuellen Team sind ' + count + ' Aufgaben zugewiesen:'
+  }
 }
 
 function buildQuery(scope, id) {
   switch(scope) {
   case 'reciever':
-    return {'filter[reciever_id]': id, 'per_page': 10}
+    return {
+      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open'
+    }
   case 'reciever_team':
     return {
-      'filter[reciever_team]': id, 'filter[reciever_id]': 'nil', 'per_page': 10
+      'filter[reciever_team]': id, 'filter[reciever_id]': 'nil', 'per_page': 10,
+      'filter[aasm_state]': 'open'
     }
   default:
     return {}

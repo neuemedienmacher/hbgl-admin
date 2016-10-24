@@ -43,11 +43,18 @@ module API::V1
       end
 
       def process(params)
+        close_open_assignments! params[:data][:attributes]
         if validate(params[:json])
           contract.save
         else
           raise "Assignment form has errors: #{contract.errors.full_messages}"
         end
+      end
+
+      def close_open_assignments! attributes
+        type = attributes[:assignable_type]
+        id = attributes[:assignable_id]
+        ::Assignment.where(assignable_id: id).where(assignable_type: type).where(aasm_state: 'open').update_all aasm_state: 'closed'
       end
     end
   end

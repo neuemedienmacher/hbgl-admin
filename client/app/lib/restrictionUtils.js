@@ -18,7 +18,7 @@ export function currentAssignmentIdFor(model, model_instance) {
   if (model == 'assignments') {
     return model_instance && model_instance.id
   } else {
-    return model_instance && model_instance.current_assignment ?
+    return model_instance && model_instance.current_assignment.id ?
       model_instance.current_assignment.id : undefined
   }
 }

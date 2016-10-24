@@ -7,15 +7,9 @@ GIT
       representable (>= 2.4.0, < 3.1.0)
 
 GIT
-  remote: git://github.com/efqdalton/dynamic_sitemaps.git
-  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
-  branch: adds-custom-storages
-  specs:
-    dynamic_sitemaps (2.0.0)
-      aws-sdk
-
-PATH
-  remote: ../clarat_base
+  remote: git://github.com/clarat-org/clarat_base.git
+  revision: a0ecf4d5607946e39346bc7a13f49757ae8ea388
+  branch: feature/878-assignments
   specs:
     clarat_base (0.1.4)
       aasm
@@ -35,6 +29,14 @@ PATH
       sanitize
       sidekiq (~> 4.1.2)
       web-console (~> 2.0)
+
+GIT
+  remote: git://github.com/efqdalton/dynamic_sitemaps.git
+  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
+  branch: adds-custom-storages
+  specs:
+    dynamic_sitemaps (2.0.0)
+      aws-sdk
 
 GEM
   remote: https://rubygems.org/
@@ -216,7 +218,7 @@ GEM
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
       mail (~> 2.6.3)
-    enumerize (2.0.0)
+    enumerize (2.0.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.9.1)

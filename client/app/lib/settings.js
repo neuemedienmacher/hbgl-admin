@@ -1,5 +1,11 @@
 export default {
   index: {
+    assignable: {
+      assignment_actions: [
+        'assign_and_edit_assignable', 'close_assignment', 'assign_to_user'
+      ]
+    },
+
     offer_translations: {
       fields: [
         'id', 'offer_id', 'locale', 'source', 'name',
@@ -79,6 +85,10 @@ export default {
       fields: [
         'id', 'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
         'reciever_id', 'reciever_team_id', 'aasm_state', 'created_at'
+      ],
+      inline_fields: [
+        'id', 'assignable_type', 'assignable_id', 'message', 'reciever_id',
+        'reciever_team_id', 'created_at', 'updated_at'
       ],
       general_actions: [
         'index', 'new'

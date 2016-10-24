@@ -3,20 +3,21 @@ import EditTranslationForm from '../containers/EditTranslationForm'
 import AssignableContainer from '../../Assignable/containers/AssignableContainer'
 
 export default class EditTranslation extends Component {
+
   componentDidMount() {
-    // Load
     this.props.loadData()
   }
 
   render() {
     const {
-      heading, current_assignment_id, may_edit
+      heading, current_assignment_id, may_edit, loadData
     } = this.props
 
     return (
       <div className='content EditTranslation'>
         <AssignableContainer
           assignment_id={current_assignment_id} may_edit={may_edit}
+          assignableDataLoad={loadData}
         />
         <h2>{heading}</h2>
 

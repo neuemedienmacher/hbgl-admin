@@ -4,6 +4,7 @@ import AssignableContainer from '../components/AssignableContainer'
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.assignment_id
+  const assignableDataLoad = ownProps.assignableDataLoad
   const model = 'assignments'
   const assignment = id ? state.entities[model] && state.entities[model][id] : false
   const loaded = !!assignment
@@ -22,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     assignment,
     heading,
     involved_entities,
+    assignableDataLoad,
     may_edit: ownProps.may_edit
   }
 }
