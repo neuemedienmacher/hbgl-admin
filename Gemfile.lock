@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: a0ecf4d5607946e39346bc7a13f49757ae8ea388
+  revision: 07284c1be27da023260304739a200eaefdb692c2
   branch: feature/878-assignments
   specs:
     clarat_base (0.1.4)

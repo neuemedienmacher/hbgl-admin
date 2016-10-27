@@ -278,7 +278,7 @@ feature 'Admin Backend' do
                                                     split_base: split_base,
                                                     starts_at: (Time.zone.now - 1.day)
 
-      offer.pause!
+      offer.aasm_state = 'paused'
       offer.must_be :paused?
 
       visit rails_admin_path

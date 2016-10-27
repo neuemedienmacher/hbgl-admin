@@ -51,7 +51,6 @@ de:
           deactivate_internal: "Deaktivieren (Internal Feedback)"
           deactivate_external: "Deaktivieren (External Feedback)"
           deactivate_through_organization: "> organization_deactivated"
-          pause: "Pausieren"
           doze: "Schlafen legen"
           reinitialize: "Re-Initialisieren"
           website_under_construction: "Webseite im Aufbau"
