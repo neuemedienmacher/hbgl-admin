@@ -7,7 +7,13 @@ Rails.application.routes.draw do
       get 'export', controller: :pages, action: :react
     end
   end
-  resources :organizations
+
+  resources :organizations do
+    collection do
+      get 'export', controller: :pages, action: :react
+    end
+  end
+
   resources :categories do
     collection do
       get :sort

@@ -2,9 +2,8 @@
 module API::V1
   module Organization
     class Index < API::V1::Default::Index
-      def model!(params)
+      def base_query
         ::Organization
-          .where('LOWER(name) LIKE LOWER(?)', "%#{params[:query]}%")
       end
 
       representer API::V1::Organization::Representer::Index

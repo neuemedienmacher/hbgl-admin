@@ -59,20 +59,20 @@ ActiveRecord::Schema.define(version: 20161007082606) do
   add_index "assignments", ["reciever_team_id"], name: "index_assignments_on_reciever_team_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name_de",                              null: false
+    t.string   "name_de",                               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "icon",       limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
-    t.boolean  "visible",               default: true
+    t.boolean  "visible",                default: true
     t.string   "name_en"
     t.string   "name_ar"
     t.string   "name_fr"
     t.string   "name_pl"
     t.string   "name_tr"
     t.string   "name_ru"
-    t.string   "name_fa"
+    t.string   "name_fa",    limit: 255
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de", using: :btree
@@ -259,7 +259,7 @@ ActiveRecord::Schema.define(version: 20161007082606) do
   end
 
   create_table "next_steps", force: :cascade do |t|
-    t.string   "text_de",    null: false
+    t.string   "text_de",                null: false
     t.string   "text_en"
     t.string   "text_ar"
     t.string   "text_fr"
@@ -268,7 +268,7 @@ ActiveRecord::Schema.define(version: 20161007082606) do
     t.string   "text_ru"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "text_fa"
+    t.string   "text_fa",    limit: 255
   end
 
   add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de", using: :btree
