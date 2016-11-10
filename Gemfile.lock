@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 07284c1be27da023260304739a200eaefdb692c2
-  branch: feature/878-assignments
+  revision: aaaa0fe1a6d15fa1db2e366f7887ba20f0ceb3a2
+  branch: feature/878-assignment-refactoring
   specs:
     clarat_base (0.1.4)
       aasm
@@ -181,7 +181,7 @@ GEM
       representable (>= 2.4.0, <= 3.1.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20160826)
+    domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.0)
     dotenv-rails (2.1.0)
@@ -687,6 +687,7 @@ DEPENDENCIES
   dotenv-rails
   dry-validation
   dynamic_sitemaps!
+  easy_translate
   email_spec
   factory_girl_rails
   fakeredis
