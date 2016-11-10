@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007082606) do
+ActiveRecord::Schema.define(version: 20161031110918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,11 +524,12 @@ ActiveRecord::Schema.define(version: 20161007082606) do
   end
 
   create_table "time_allocations", force: :cascade do |t|
-    t.integer "user_id",                    null: false
-    t.integer "year",                       null: false
-    t.integer "week_number",      limit: 2, null: false
-    t.integer "desired_wa_hours",           null: false
+    t.integer "user_id",                     null: false
+    t.integer "year",                        null: false
+    t.integer "week_number",       limit: 2, null: false
+    t.integer "desired_wa_hours",            null: false
     t.integer "actual_wa_hours"
+    t.string  "actual_wa_comment"
   end
 
   add_index "time_allocations", ["user_id"], name: "index_time_allocations_on_user_id", using: :btree
