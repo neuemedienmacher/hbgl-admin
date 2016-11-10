@@ -9,6 +9,7 @@ module API::V1
         property :week_number
         property :desired_wa_hours
         property :actual_wa_hours
+        property :actual_wa_comment
       end
     end
   end

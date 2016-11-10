@@ -10,7 +10,8 @@ export default class TimeSpanSelection extends React.Component {
   render() {
     const {
       years, week_numbers, selected_year, selected_week_number, selectedWeek,
-      onWeekNumberChange, onYearChange, onTodayClick, onNextMonthClick
+      onWeekNumberChange, onYearChange, onTodayClick, onNextMonthClick,
+      onPlusClick, onMinusClick,
     } = this.props
 
     return (
@@ -53,6 +54,14 @@ export default class TimeSpanSelection extends React.Component {
           {' '}
           <button onClick={onNextMonthClick} className='btn btn-default btn-xs'>
             Anfang nächster Monat
+          </button>
+          {' '}
+          <button onClick={onPlusClick} className='btn btn-default btn-xs'>
+            KW+
+          </button>
+          {' '}
+          <button onClick={onMinusClick} className='btn btn-default btn-xs'>
+            KW-
           </button>
         </div>
         <div className='col-sm-4 text-center'>

@@ -44,18 +44,6 @@ export default {
       ]
     },
 
-    user_teams: {
-      fields: [
-        'id', 'name', 'users'
-      ],
-      general_actions: [
-        'index'
-      ],
-      member_actions: [
-        'show'
-      ]
-    },
-
     offers: {
       fields: [
         'id', 'name', 'aasm_state', 'created_by', 'expires_at',
@@ -78,6 +66,18 @@ export default {
       ],
       member_actions: [
         'show'
+      ]
+    },
+
+    user_teams: {
+      fields: [
+        'id', 'name', 'users'
+      ],
+      general_actions: [
+        'index', 'new',
+      ],
+      member_actions: [
+        'show', 'edit'
       ]
     },
 

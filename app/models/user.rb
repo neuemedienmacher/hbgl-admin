@@ -14,4 +14,10 @@ class User < ActiveRecord::Base
     find_by_name('System') || create!(
       name: 'System', password: SecureRandom.base64, email: 'dev@clarat.org')
   end
+
+  # Search
+  include PgSearch
+  pg_search_scope :search_everything,
+                  against: [ :id, :name ],
+                  using: { tsearch: { prefix: true } }
 end

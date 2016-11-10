@@ -26,7 +26,8 @@ Rails.application.routes.draw do
   end
   resources :productivity_goals
   resources :users, only: [:index, :show], controller: :pages, action: :react
-  resources :user_teams, only: [:index, :show], controller: :pages, action: :react
+  resources :user_teams, only: [:index, :show, :new, :edit],
+                         controller: :pages, action: :react
   resources :assignments, only: [:index, :show], controller: :pages, action: :react
   get 'time_allocations(/:year/:week_number)', controller: :time_allocations,
                                                action: :index
@@ -68,7 +69,7 @@ Rails.application.routes.draw do
       resources :organization_translations, only: [:index, :show, :update]
       resources :productivity_goals, except: [:destroy]
       resources :time_allocations, only: [:create, :update]
-      resources :user_teams, only: [:index, :show]
+      resources :user_teams
       resources :assignments, only: [:index, :show, :create, :update]
       # post 'assignments/:id/assign_and_edit_assignable', controller: :assignments,
       #                                                    action: :assign_and_edit_assignable
