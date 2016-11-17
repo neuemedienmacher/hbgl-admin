@@ -134,7 +134,7 @@ feature 'Admin Backend' do
 
       # Approve button click: reactivates orga and all its approved offers
 
-      click_link 'Freischalten (mit deaktivierten Angeboten)', match: :first
+      click_link 'Freischalten (Comms-Only)', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
@@ -333,7 +333,7 @@ feature 'Admin Backend' do
       orga.offers.last.update_columns expires_at: Time.zone.now - 1.day
 
       # Approve button click: reactivates orga and all its approved offers
-      click_link 'Freischalten (mit deaktivierten Angeboten)', match: :first
+      click_link 'Freischalten (Comms-Only)', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
       orga.reload.must_be :approved?
