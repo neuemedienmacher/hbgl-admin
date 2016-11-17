@@ -4,22 +4,22 @@ class OfferTranslation::Update < Trailblazer::Operation
   model OfferTranslation, :update
 
   contract do
-    property :name
-    property :description
-    property :opening_specification
-    property :source
-    property :possibly_outdated
+    # property :name
+    # property :description
+    # property :opening_specification
+    # property :source
+    # property :possibly_outdated
   end
 
   def process(params)
-    validate(validatable_params) do |form_object|
-      form_object.source = 'researcher'
-      form_object.possibly_outdated = false
-      form_object.save
-    end
+    # validate(validatable_params) do |form_object|
+    #   form_object.source = 'researcher'
+    #   form_object.possibly_outdated = false
+    #   form_object.save
+    # end
   end
 
   def validatable_params
-    @params[:offer_translation]
+    # @params[:offer_translation]
   end
 end

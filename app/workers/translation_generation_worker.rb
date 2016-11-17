@@ -14,6 +14,7 @@ class TranslationGenerationWorker
         generate_field_translations(object, locale, fields)
       )
     end
+    # TODO: via update operation!
     translation.save!
     reindex object
   end
@@ -30,6 +31,7 @@ class TranslationGenerationWorker
     return translation if translation
 
     # otherwise create a new one
+    # TODO: via create operation!
     translation_class.new(
       locale: locale,
       object_id_field => object_id
