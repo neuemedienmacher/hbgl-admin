@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
 import isArray from 'lodash/isArray'
+import InlineIndex from '../../InlineIndex/containers/InlineIndex'
 
 export default class AssociationItems extends React.Component {
   render() {
@@ -11,24 +12,43 @@ export default class AssociationItems extends React.Component {
     return (
       <div className="panel-group">
         <h5>Verknüpfte Modelle</h5>
-        {associations.map(([assoc_name, assoc_columns, href]) =>
-          this.renderAssociation(assoc_name, model_instance[assoc_name], href)
+        {associations.map(([name, class_name, filter, href]) =>
+          this.renderAssociation(
+            name, class_name, model_instance[name], href, filter
+          )
         )}
       </div>
     )
   }
 
-  renderAssociation(name, content, href){
+  renderAssociation(name, class_name, items, href, filter){
     return(
       <div key={name} className="panel panel-default">
         <div key={`${name}-heading`} className="panel-heading show--panel">
           <h3 className="panel-title">{name}</h3>
         </div>
-        <div key={name} className="panel-body show--panel">
-          {content.map(item => this.renderAssociationItem(name, item, href))}
-        </div>
+        {this.renderSwitch(name, class_name, items, href, filter)}
       </div>
     )
+  }
+
+  renderSwitch(name, class_name, items, href, filter){
+    if(filter) {
+      return(
+        <div key={name} className="panel-body show--panel">
+          <InlineIndex
+            model={class_name} baseQuery={filter} identifier_addition={name}
+          />
+        </div>
+      )
+    }
+    else {
+      return(
+        <div key={name} className="panel-body show--panel">
+          {items.map(item => this.renderAssociationItem(name, item, href))}
+        </div>
+      )
+    }
   }
 
   renderAssociationItem(name, item, href){
@@ -43,7 +63,7 @@ export default class AssociationItems extends React.Component {
       )
     }
     // otherwise just render the label as text
-    else{
+    else {
       return(
         <span key={`${name}.${item['label']}`}>
           {item['label']}{', '}

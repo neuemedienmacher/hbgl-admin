@@ -21,9 +21,8 @@ export default class Dashboard extends React.Component {
       <div className='Dashboard'>
         <h1>Dashboard</h1>
         <hr />
-        <OverviewPanel />
-
         {actualWa}
+        <OverviewPanel />
       </div>
     )
   }

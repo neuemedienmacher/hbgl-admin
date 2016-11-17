@@ -51,7 +51,6 @@ de:
           deactivate_internal: "Deaktivieren (Internal Feedback)"
           deactivate_external: "Deaktivieren (External Feedback)"
           deactivate_through_organization: "> organization_deactivated"
-          pause: "Pausieren"
           doze: "Schlafen legen"
           reinitialize: "Re-Initialisieren"
           website_under_construction: "Webseite im Aufbau"
@@ -59,7 +58,7 @@ de:
           start_checkup_process: "Checkup starten"
           website_twice_unreachable: "Webseite nicht erreichbar"
           mark_as_done: "Orga ist fertig (all done)"
-          approve_with_deactivated_offers: "Freischalten (mit deaktivierten Angeboten)"
+          approve_with_deactivated_offers: "Freischalten (Comms-Only)"
           return_to_editing: "Erneut bearbeiten"
 
     main:

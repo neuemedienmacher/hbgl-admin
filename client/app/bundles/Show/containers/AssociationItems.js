@@ -4,7 +4,7 @@ import AssociationItems from '../components/AssociationItems'
 
 const mapStateToProps = (state, ownProps) => {
   const model_instance = ownProps.model_instance
-  const associations = addValuesToAssociations(ownProps.associations || [], model_instance)
+  const associations = processAssociations(ownProps.associations || [], model_instance)
 
   return {
     model_instance,
@@ -14,15 +14,20 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-function addValuesToAssociations(associations) {
+function processAssociations(associations, model_instance) {
   let new_associations = []
-  associations.map(([assoc_name, assoc_columns]) => {
-    if(settings.index[assoc_name] && settings.index[assoc_name].member_actions){
-      new_associations.push([assoc_name, assoc_columns, `/${assoc_name}/`])
+  associations.map(([assoc_name, assoc]) => {
+    let class_name = assoc.class_name
+    let filter = ''
+    if(assoc.key) {
+      filter = {'per_page': 15}
+      filter[`filter[${assoc.key}]`] = model_instance.id
     }
-    else{
-      new_associations.push([assoc_name, assoc_columns, false])
+    let href = ''
+    if(settings.index[class_name] && settings.index[class_name].member_actions){
+      href = `/${class_name}/`
     }
+    new_associations.push([assoc_name, class_name, filter, href])
   })
   return new_associations
 }

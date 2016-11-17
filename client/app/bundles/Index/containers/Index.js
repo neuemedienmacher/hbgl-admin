@@ -5,6 +5,7 @@ import Index from '../components/Index'
 const mapStateToProps = (state, ownProps) => {
   const pathname = ownProps.location.pathname
   const model = pathname.substr(1, pathname.length)
+
   return {
     model,
     heading: headingFor(model),
@@ -41,6 +42,8 @@ function headingFor(model) {
     return 'Nutzer-Teams'
   case 'users':
     return 'Nutzer'
+  case 'assignments':
+    return 'Zuweisungen'
   default:
     throw new Error(`Please provide a heading for ${model}`)
   }

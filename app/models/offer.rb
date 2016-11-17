@@ -5,6 +5,9 @@ require ClaratBase::Engine.root.join('app', 'models', 'offer')
 class Offer < ActiveRecord::Base
   has_paper_trail
 
+  # Concerns
+  include SearchAlgolia, Translation
+
   include PgSearch
   pg_search_scope :search_by_tester, against: [:name, :description,
                                                :aasm_state],

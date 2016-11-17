@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826130459) do
+ActiveRecord::Schema.define(version: 20161031110918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,21 +35,44 @@ ActiveRecord::Schema.define(version: 20160826130459) do
     t.datetime "updated_at"
   end
 
+  create_table "assignments", force: :cascade do |t|
+    t.integer  "assignable_id",                                       null: false
+    t.string   "assignable_type",       limit: 32,                    null: false
+    t.string   "assignable_field_type", limit: 64,   default: "",     null: false
+    t.integer  "creator_id"
+    t.integer  "creator_team_id"
+    t.integer  "reciever_id"
+    t.integer  "reciever_team_id"
+    t.string   "message",               limit: 1000
+    t.integer  "parent_id"
+    t.string   "aasm_state",            limit: 32,   default: "open", null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+  end
+
+  add_index "assignments", ["aasm_state"], name: "index_assignments_on_aasm_state", using: :btree
+  add_index "assignments", ["assignable_id", "assignable_type"], name: "index_assignments_on_assignable_id_and_assignable_type", using: :btree
+  add_index "assignments", ["creator_id"], name: "index_assignments_on_creator_id", using: :btree
+  add_index "assignments", ["creator_team_id"], name: "index_assignments_on_creator_team_id", using: :btree
+  add_index "assignments", ["parent_id"], name: "index_assignments_on_parent_id", using: :btree
+  add_index "assignments", ["reciever_id"], name: "index_assignments_on_reciever_id", using: :btree
+  add_index "assignments", ["reciever_team_id"], name: "index_assignments_on_reciever_team_id", using: :btree
+
   create_table "categories", force: :cascade do |t|
-    t.string   "name_de",                              null: false
+    t.string   "name_de",                               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "icon",       limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
-    t.boolean  "visible",               default: true
+    t.boolean  "visible",                default: true
     t.string   "name_en"
     t.string   "name_ar"
     t.string   "name_fr"
     t.string   "name_pl"
     t.string   "name_tr"
     t.string   "name_ru"
-    t.string   "name_fa"
+    t.string   "name_fa",    limit: 255
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de", using: :btree
@@ -80,7 +103,7 @@ ActiveRecord::Schema.define(version: 20160826130459) do
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx", using: :btree
 
   create_table "cities", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -236,7 +259,7 @@ ActiveRecord::Schema.define(version: 20160826130459) do
   end
 
   create_table "next_steps", force: :cascade do |t|
-    t.string   "text_de",    null: false
+    t.string   "text_de",                null: false
     t.string   "text_en"
     t.string   "text_ar"
     t.string   "text_fr"
@@ -245,7 +268,7 @@ ActiveRecord::Schema.define(version: 20160826130459) do
     t.string   "text_ru"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "text_fa"
+    t.string   "text_fa",    limit: 255
   end
 
   add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de", using: :btree
@@ -501,11 +524,12 @@ ActiveRecord::Schema.define(version: 20160826130459) do
   end
 
   create_table "time_allocations", force: :cascade do |t|
-    t.integer "user_id",                    null: false
-    t.integer "year",                       null: false
-    t.integer "week_number",      limit: 2, null: false
-    t.integer "desired_wa_hours",           null: false
+    t.integer "user_id",                     null: false
+    t.integer "year",                        null: false
+    t.integer "week_number",       limit: 2, null: false
+    t.integer "desired_wa_hours",            null: false
     t.integer "actual_wa_hours"
+    t.string  "actual_wa_comment"
   end
 
   add_index "time_allocations", ["user_id"], name: "index_time_allocations_on_user_id", using: :btree

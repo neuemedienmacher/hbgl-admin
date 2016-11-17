@@ -10,6 +10,7 @@ module API::V1
 
       contract do
         property :actual_wa_hours
+        property :actual_wa_comment
         validates :actual_wa_hours, presence: true, numericality: true
       end
 

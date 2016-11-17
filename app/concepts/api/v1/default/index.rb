@@ -17,7 +17,7 @@ module API::V1
 
       def model!(params)
         query = GenericSortFilter.transform(base_query, params)
-        query.paginate(page: params[:page])
+        query.paginate(page: params[:page], per_page: params[:per_page])
       end
 
       def base_query

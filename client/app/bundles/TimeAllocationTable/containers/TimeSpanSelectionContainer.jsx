@@ -38,7 +38,21 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     const year = moment().year()
     const wn = moment().add(1, 'months').date(1).week()
     browserHistory.push(`/time_allocations/${year}/${wn}`)
-  }
+  },
+
+  onPlusClick: (_e) => {
+    const nextMoment =
+      moment().year(ownProps.year).week(ownProps.week_number).add(1, 'weeks')
+    const [year, wn] = [nextMoment.year(), nextMoment.week()]
+    browserHistory.push(`/time_allocations/${year}/${wn}`)
+  },
+
+  onMinusClick: (_e) => {
+    const nextMoment =
+      moment().year(ownProps.year).week(ownProps.week_number).subtract(1, 'weeks')
+    const [year, wn] = [nextMoment.year(), nextMoment.week()]
+    browserHistory.push(`/time_allocations/${year}/${wn}`)
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeSpanSelection)

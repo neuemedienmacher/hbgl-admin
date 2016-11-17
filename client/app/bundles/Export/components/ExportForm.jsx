@@ -16,11 +16,11 @@ export default class ExportForm extends Component {
             <legend>Eigene Felder</legend>
             {this.renderCheckboxes('model_fields', column_names)}
           </fieldset>
-          {associations.map(([association_name, association_columns]) => {
+          {associations.map(([association_name, associations]) => {
             return(
               <fieldset key={association_name}>
                 <legend>{association_name}</legend>
-                {this.renderCheckboxes(association_name, association_columns)}
+                {this.renderCheckboxes(association_name, associations.columns)}
               </fieldset>
             )
           })}

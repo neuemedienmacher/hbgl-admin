@@ -90,4 +90,51 @@ describe Organization do
       organization.big_player?.must_equal true
     end
   end
+
+  describe 'translation' do
+    it 'should always get de translation, others only on completion and change' do
+      new_orga = FactoryGirl.create(:organization)
+      new_orga.translations.count.must_equal 1 # only :de
+      new_orga.translations.first.locale.must_equal 'de'
+      new_orga.aasm_state.must_equal 'initialized'
+
+      # Changing things on an initialized offer doesn't change translations
+      new_orga.reload.description_ar.must_equal nil
+      new_orga.description = 'changing description, wont update translation'
+      new_orga.save!
+      new_orga.translations.count.must_equal 1
+      new_orga.reload.description_ar.must_equal nil
+
+      # Completion generates all translations initially
+      new_orga.complete!
+      new_orga.translations.count.must_equal I18n.available_locales.count
+
+      # Now changes to the model change the corresponding translated fields
+      EasyTranslate.translated_with 'CHANGED' do
+        new_orga.description_ar.must_equal 'GET READY FOR CANADA'
+        new_orga.description = 'changing description, should update translation'
+        new_orga.save!
+        new_orga.reload.description_ar.must_equal 'CHANGED'
+      end
+    end
+
+    it 'should update an existing translation only when the field changed' do
+      # Setup
+      new_orga = FactoryGirl.create(:organization)
+      new_orga.complete!
+      new_orga.translations.count.must_equal I18n.available_locales.count
+
+      # Now changes to the model change the corresponding translated fields
+      EasyTranslate.translated_with 'CHANGED' do
+        new_orga.description_ar.must_equal 'GET READY FOR CANADA'
+        # changing untranslated field => translations must stay the same
+        new_orga.mailings = 'enabled'
+        new_orga.save!
+        new_orga.reload.description_ar.must_equal 'GET READY FOR CANADA'
+        new_orga.description = 'changing descr, should update translation'
+        new_orga.save!
+        new_orga.reload.description_ar.must_equal 'CHANGED'
+      end
+    end
+  end
 end

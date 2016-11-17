@@ -39,7 +39,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field_set', transformResponse, nextModel
+          'field_set/' + singularModel, {}, 'field_set', transformResponse,
+          nextModel
         )
       )
       // load data of current model_instance

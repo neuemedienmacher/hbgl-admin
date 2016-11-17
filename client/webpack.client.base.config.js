@@ -22,6 +22,7 @@ module.exports = {
     // This will contain the app entry points defined by webpack.hot.config and webpack.rails.config
     app: [
       'imports?I18n=i18n-js!./vendor/translations',
+      './vendor/imports',
       './app/lib/startup/clientRegistration'
     ],
   },
@@ -56,11 +57,12 @@ module.exports = {
   ],
   module: {
     loaders: [
+      { test: /\.css$/, loader: 'style-loader!css-loader'},
 
       // Not all apps require jQuery. Many Rails apps do, such as those using TurboLinks or bootstrap js
       { test: require.resolve('jquery'), loader: 'expose?jQuery' },
       { test: require.resolve('jquery'), loader: 'expose?$' },
-      { test: require.resolve('i18n-js'), loader: 'expose?I18n' }
+      { test: require.resolve('i18n-js'), loader: 'expose?I18n' },
     ],
   },
 };

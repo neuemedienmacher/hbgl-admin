@@ -4,6 +4,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'
 import Show from '../../bundles/Show/containers/Show'
+import NewEdit from '../../bundles/GenericForm/containers/NewEdit'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
   from '../../bundles/Dashboard/containers/DashboardContainer'
@@ -11,6 +12,8 @@ import ShowProductivityGoalContainer
   from '../../bundles/ShowProductivityGoal/containers/ShowProductivityGoalContainer'
 import NewProductivityGoal
   from '../../bundles/NewProductivityGoal/components/NewProductivityGoal'
+import NewAssignment
+  from '../../bundles/NewAssignment/containers/NewAssignmentForm'
 import TimeAllocationTableContainer
   from '../../bundles/TimeAllocationTable/containers/TimeAllocationTableContainer'
 import StatisticsLayout from '../../bundles/Statistics/components/StatisticsLayout'
@@ -73,11 +76,19 @@ export default class Routes extends React.Component {
 
           <Route path='user_teams'>
             <IndexRoute component={Index} />
+            <Route path='new' component={NewEdit} />
             <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={NewEdit} />
           </Route>
 
           <Route path='users'>
             <IndexRoute component={Index} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='assignments'>
+            <IndexRoute component={Index} />
+            <Route path='new' component={NewAssignment} />
             <Route path=':id' component={Show} />
           </Route>
         </Route>

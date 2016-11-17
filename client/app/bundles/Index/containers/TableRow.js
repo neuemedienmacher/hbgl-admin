@@ -1,12 +1,26 @@
 import { connect } from 'react-redux'
 import settings from '../../../lib/settings'
-import routeForAction from '../../../lib/routeForAction'
+import snakeCase from 'lodash/snakeCase'
+import { routeForAction } from '../../../lib/routeForAction'
+import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
+  from '../../../lib/restrictionUtils'
 import TableRow from '../components/TableRow'
 
 const mapStateToProps = (state, ownProps) => {
-  const actions = settings.index[ownProps.model].member_actions.map(action => ({
+  let model = ownProps.model
+  let id = ownProps.row.id
+  // build assignable_model for Assignments (routing to connected model)
+  let assignable_model = model == 'assignments' && state.entities[model] &&
+    state.entities[model][id] && state.entities[model][id].assignable_type ?
+    snakeCase(state.entities[model][id].assignable_type) + 's' : '' // TODO: 'pluralization' may be wrong
+  let assignable_id = model == 'assignments' && state.entities[model] &&
+    state.entities[model][id] && state.entities[model][id].assignable_id
+
+  const actions = settings.index[model].member_actions.filter(
+    action => visibleFor(action, state.entities, model, id)
+  ).map(action => ({
     icon: iconFor(action),
-    href: routeForAction(action, ownProps.model, ownProps.row.id)
+    href: routeForAction(action, model, id, assignable_model, assignable_id)
   }))
 
   return {
@@ -14,8 +28,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
 function iconFor(action) {
   switch(action) {
@@ -23,6 +36,18 @@ function iconFor(action) {
     return 'fui-new'
   case 'show':
     return 'fui-eye'
+  case 'edit_assignable':
+    return 'fui-new'
+  }
+}
+
+function visibleFor(action, entities, model, id) {
+  switch(action) {
+    case 'edit_assignable':
+      return isCurrentUserAssignedToModel(entities, model, id) ||
+        isTeamOfCurrentUserAssignedToModel(entities, model, id)
+    default:
+      return true
   }
 }
 
