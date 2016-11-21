@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import { Form, InputSet } from 'rform'
+import { Form, InputSet, Button } from 'rform'
 import EditTranslationRow from '../containers/EditTranslationRow'
 
 export default class EditTranslationForm extends Component {
@@ -45,9 +45,12 @@ export default class EditTranslationForm extends Component {
   renderButtonOrText() {
     if (this.props.may_edit) {
       return(
-        <button type='submit' className={'btn btn-primary'}>
-          Speichern
-        </button>
+        <Button
+          className='btn btn-primary'
+          disableOnInvalid disableOnUnchanged
+          label='Speichern' unchangedDisabledLabel='Gespeichert!'
+          invalidDisabledLabel='Es existieren Formular-Fehler!'
+        />
       )
     } else {
       return <span className='text-danger'>Du bist nicht zugewiesen!</span>
