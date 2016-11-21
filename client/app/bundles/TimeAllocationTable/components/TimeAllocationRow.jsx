@@ -6,7 +6,7 @@ export default class TimeAllocationRow extends React.Component {
   render() {
     const {
       user, formId, action, method, shortOrigin, originTitle, isPast, seedData,
-      handleResponse
+      handleResponse, actual_wa_comment
     } = this.props
 
     const actualInput = isPast ? (
@@ -18,6 +18,8 @@ export default class TimeAllocationRow extends React.Component {
         />
       </td>
     ) : null
+
+    const comment = isPast ? (<td>{actual_wa_comment}</td>) : null
 
     return (
       <tr>
@@ -47,6 +49,7 @@ export default class TimeAllocationRow extends React.Component {
           />
         </td>
         {actualInput}
+        {comment}
         <td>
           <button form={formId} type='submit' className='btn btn-default btn-sm'>
             Speichern

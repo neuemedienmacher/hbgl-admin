@@ -16,7 +16,7 @@ export default class OfferTranslationFormObject extends FormObject {
   }
 
   validation() {
-    this.required('name').filled()
+    this.required('name').filled({'max_size?': 255})
     this.required('description').filled()
   }
 }

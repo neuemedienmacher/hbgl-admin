@@ -25,13 +25,10 @@ const loadAjaxDataSuccess = (response, key) => ({
 
 // INFO: optional nextModel is required for different transformer (field_sets)
 export default function loadAjaxData(
-  basePath, query, key, transformer = transformJsonApi, nextModel = undefined
+  basePath, query, key, transformer = transformJsonApi, nextModel = undefined,
+  callback = ()=>{}
 ) {
   const path = `/api/v1/${basePath}?${encode(query)}`
-  // console.log('===========loadAjaxData============')
-  // console.log(basePath)
-  // console.log(query)
-  // console.log(path)
 
   return function(dispatch) {
     dispatch(loadAjaxDataRequest(key))
@@ -51,6 +48,7 @@ export default function loadAjaxData(
     ).then(json => {
       dispatch(loadAjaxDataSuccess(json, key))
       dispatch(addEntities(transformer(json, nextModel)))
+      callback()
     })
   }
 }

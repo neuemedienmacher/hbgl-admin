@@ -4,7 +4,9 @@ import valuesIn from 'lodash/valuesIn'
 import TimeAllocationTable from '../components/TimeAllocationTable'
 
 const mapStateToProps = (state, ownProps) => ({
-  users: valuesIn(state.entities.users),
+  users: valuesIn(state.entities.users).sort(
+    (a, b) => a.name.localeCompare(b.name)
+  ),
   year: Number(ownProps.params.year) || moment().year(),
   week_number: Number(ownProps.params.week_number) || moment().week(),
 })

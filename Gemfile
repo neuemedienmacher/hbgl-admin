@@ -11,7 +11,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'feature/878-assignments'
+gem 'clarat_base', github: 'clarat-org/clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -20,6 +20,7 @@ gem 'rails-observers' # observers got extracted since rails 4
 # Translations
 gem 'rails-i18n'
 gem 'i18n-js'
+gem 'easy_translate'
 
 gem 'dynamic_sitemaps', github: 'efqdalton/dynamic_sitemaps',
                         branch: 'adds-custom-storages'

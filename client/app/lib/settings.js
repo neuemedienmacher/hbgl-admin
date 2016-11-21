@@ -44,18 +44,6 @@ export default {
       ]
     },
 
-    user_teams: {
-      fields: [
-        'id', 'name', 'users'
-      ],
-      general_actions: [
-        'index'
-      ],
-      member_actions: [
-        'show'
-      ]
-    },
-
     offers: {
       fields: [
         'id', 'name', 'aasm_state', 'created_by', 'expires_at',
@@ -63,18 +51,6 @@ export default {
       ],
       general_actions: [
         'index', 'export'
-      ],
-      member_actions: [
-        'show'
-      ]
-    },
-
-    organizations: {
-      fields: [
-        'id', 'offers_count', 'name', 'aasm_state', 'locations_count'
-      ],
-      general_actions: [
-        'index', 'export', 'new'
       ],
       member_actions: [
         'show'
@@ -93,6 +69,30 @@ export default {
       ]
     },
 
+    organizations: {
+      fields: [
+        'id', 'offers_count', 'name', 'aasm_state', 'locations_count'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    user_teams: {
+      fields: [
+        'id', 'name', 'users'
+      ],
+      general_actions: [
+        'index', 'new',
+      ],
+      member_actions: [
+        'show', 'edit'
+      ]
+    },
+
     assignments: {
       fields: [
         'id', 'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
@@ -103,7 +103,7 @@ export default {
         'reciever_team_id', 'aasm_state', 'created_at'
       ],
       general_actions: [
-        'index', 'new'
+        'index'
       ],
       member_actions: [
         'show', 'edit_assignable'

@@ -5,6 +5,7 @@ import Index from '../components/Index'
 const mapStateToProps = (state, ownProps) => {
   const pathname = ownProps.location.pathname
   const model = pathname.substr(1, pathname.length)
+
   return {
     model,
     heading: headingFor(model),

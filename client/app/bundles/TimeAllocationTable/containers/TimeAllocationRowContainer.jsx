@@ -27,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     actual_wa_hours: allocation.actual_wa_hours,
     id: allocation.id,
   }}
+  const actual_wa_comment = allocation.actual_wa_comment
 
   return {
     formId: ['TimeAllocation', user_id, year, week_number].join('-'),
@@ -38,6 +39,7 @@ const mapStateToProps = (state, ownProps) => {
     originTitle,
     isPast,
     seedData,
+    actual_wa_comment,
   }
 }
 

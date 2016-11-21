@@ -8,8 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: a0ecf4d5607946e39346bc7a13f49757ae8ea388
-  branch: feature/878-assignments
+  revision: 603f86918bdf5a32c2c8021220166b9fdc066d6d
   specs:
     clarat_base (0.1.4)
       aasm
@@ -82,7 +81,7 @@ GEM
     algoliasearch (1.11.0)
       httpclient (~> 2.8.2)
       json (>= 1.5.1)
-    algoliasearch-rails (1.15.1)
+    algoliasearch-rails (1.16.1)
       algoliasearch (~> 1.11.0)
       json (>= 1.5.1)
     arel (6.0.3)
@@ -181,7 +180,7 @@ GEM
       representable (>= 2.4.0, <= 3.1.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20160826)
+    domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.0)
     dotenv-rails (2.1.0)
@@ -360,7 +359,7 @@ GEM
     newrelic_rpm (3.15.0.314)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    nokogumbo (1.4.9)
+    nokogumbo (1.4.10)
       nokogiri
     orm_adapter (0.5.0)
     paper_trail (5.2.2)
@@ -687,6 +686,7 @@ DEPENDENCIES
   dotenv-rails
   dry-validation
   dynamic_sitemaps!
+  easy_translate
   email_spec
   factory_girl_rails
   fakeredis

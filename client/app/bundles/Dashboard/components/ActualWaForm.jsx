@@ -1,21 +1,19 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet, Button } from 'rform'
-import ActualWaForm from './ActualWaForm'
 import ActualWaFormObject from '../forms/ActualWaForm'
 
-export default class ActualWaList extends React.Component {
+export default class ActualWaForm extends React.Component {
   static propTypes = {
     time_allocation: PropTypes.object.isRequired,
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
     action: PropTypes.string.isRequired,
-    authToken: PropTypes.string.isRequired,
   }
 
   render() {
     const {
-      time_allocation, startDate, endDate, action, authToken, formId,
-      buttonDisabled,
+      time_allocation, startDate, endDate, action, formId,
+      buttonDisabled, handleResponse,
     } = this.props
 
     return (
@@ -29,33 +27,46 @@ export default class ActualWaList extends React.Component {
           </div>
         </div>
         <div className='row'>
-          <div className='col-xs-5 text-center'>
-            SOLL: {time_allocation.desired_wa_hours} Stunden
+          <div className='col-xs-4 text-center'>
+            SOLL-Stunden: {time_allocation.desired_wa_hours}
           </div>
-          <div className='col-xs-7 text-center'>
+          <div className='col-xs-8 text-center'>
             <Form ajax requireValid
               action={action}
               method='POST'
               className='form-inline'
               formObjectClass={ActualWaFormObject}
               id={formId}
+              handleResponse={handleResponse}
             >
               <div className='form-group'>
                 <InputSet
                   attribute='actual_wa_hours'
                   type='number'
                   min='0'
-                  wrapperClassName='input-group'
+                  wrapperClassName='input-group spaced'
+                  wrapperErrorClassName='has-error'
+                  labelClassName='input-group-addon'
+                  errorClassName='input-group-addon'
+                  className='form-control short'
+                  label='IST'
+                />
+              </div>
+              <div className='form-group'>
+                <InputSet
+                  attribute='actual_wa_comment'
+                  wrapperClassName='input-group spaced'
                   wrapperErrorClassName='has-error'
                   labelClassName='input-group-addon'
                   errorClassName='input-group-addon'
                   className='form-control'
-                  label='IST'
+                  label='Kommentar'
+                  placeholder='(optional)'
                 />
               </div>
               <Button
                 disabled={buttonDisabled}
-                type='submit' className='btn btn-default'
+                type='submit' className='btn btn-default spaced'
               >
                 Abschicken
               </Button>

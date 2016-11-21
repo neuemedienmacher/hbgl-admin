@@ -27,8 +27,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch,
-  handleResponse: (_formId, data) =>  dispatch(addEntities(data))
+  handleResponse: (_formId, data) => dispatch(addEntities(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverviewPanel)

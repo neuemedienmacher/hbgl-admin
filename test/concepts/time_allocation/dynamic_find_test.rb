@@ -32,7 +32,8 @@ class TimeAllocationDynamicFindTest < ActiveSupport::TestCase # to have fixtures
       found.new_record?.must_equal true
       found.attributes.must_equal(
         'year' => 1234, 'week_number' => 5, 'user_id' => 1,
-        'desired_wa_hours' => 1, 'actual_wa_hours' => nil, 'id' => nil
+        'desired_wa_hours' => 1, 'actual_wa_hours' => nil, 'id' => nil,
+        'actual_wa_comment' => nil
       )
     end
 
