@@ -3,40 +3,29 @@ class TranslationGenerationWorker
 
   def perform locale, object_type, object_id, fields = :all
     object = object_type.constantize.find(object_id)
-    translation = find_or_initialize_translation(locale, object_type, object_id)
+    # translation = find_or_initialize_translation(locale, object_type, object_id)
+    translation =
+      API::V1::BaseTranslation::DynamicFind.new(locale, object_type, object_id)
+        .find_or_create()
 
-    if translation.manually_edited?
-      # Translation was already edited by a human, so it is not updated with
-      # a new translation but flagged as possibly outdated
-      translation.possibly_outdated = true
-    else
-      translation.assign_attributes(
+    # REFACTORING: move this logic and all private methods to the operation
+    # build hash of fields to change
+    changes_hash =
+      if translation.manually_edited?
+        # Translation was already edited by a human, so it is not updated with
+        # a new translation but flagged as possibly outdated
+        {possibly_outdated: true}
+      else
         generate_field_translations(object, locale, fields)
-      )
-    end
-    # TODO: via update operation!
-    translation.save!
+      end
+    # call operation to save the changes and create new assignment if required
+    API::V1::BaseTranslation::Update.new(translation, object, changes_hash)
+      .update_and_assign()
+    # reindex the object (only offers)
     reindex object
   end
 
   private
-
-  def find_or_initialize_translation locale, object_type, object_id
-    translation_class = "#{object_type}Translation".constantize
-    object_id_field = "#{object_type.downcase}_id"
-
-    # return existing translation if one is found
-    translation =
-      translation_class.find_by locale: locale, object_id_field => object_id
-    return translation if translation
-
-    # otherwise create a new one
-    # TODO: via create operation!
-    translation_class.new(
-      locale: locale,
-      object_id_field => object_id
-    )
-  end
 
   def generate_field_translations object, locale, fields
     translations_hash = direct_translate_to_html object, locale, fields

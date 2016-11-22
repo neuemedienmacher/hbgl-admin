@@ -1,36 +1,41 @@
 # frozen_string_literal: true
 module API::V1
   module Assignable
-    class Create < Trailblazer::Operation
+    class Update < Trailblazer::Operation
       include Trailblazer::Operation::Representer
 
       def process(params)
-        create_initial_assignment
+        if reassign?
+          update_assignment
+        end
       end
 
       protected
 
-      # can be overwritten by inheriting operation (e.g. translations)
+      # can be overwritten by the inheriting operation (e.g. translations)
       def assignment_creator_id
-        ::User.system_user.id
+        @params[:current_user].id
       end
 
       def assignment_reciever_id
-        @params[:current_user].id
+        ::User.system_user.id
       end
 
       def assignment_reciever_team_id
         nil
       end
 
+      def reassign?
+        false
+      end
+
       def message_for_new_assignment
-        'Initial Assignment'
+        'Updated Assignment'
       end
 
       private
 
-      def create_initial_assignment
-        # create initial Assignment from system for the creating user
+      def update_assignment
         @model.create_new_assignment!(
           assignment_creator_id, nil,
           assignment_reciever_id, assignment_reciever_team_id,

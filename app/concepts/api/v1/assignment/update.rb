@@ -24,11 +24,6 @@ module API::V1
       end
 
       def process(params)
-        puts '==========params=========='
-        puts params
-        puts params[:json]
-        puts '==========model=========='
-        puts model
         validate(params[:json]) do |item|
           item.save
           # create a new Assignment to system when the current one is closed

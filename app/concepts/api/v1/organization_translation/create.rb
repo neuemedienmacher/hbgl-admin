@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 module API::V1
-  module OfferTranslation
+  module OrganizationTranslation
     class Create < API::V1::BaseTranslation::Create
       include Model
-      model ::OfferTranslation, :create
+      model ::OrganizationTranslation, :create
 
       include Trailblazer::Operation::Representer
-      representer API::V1::OfferTranslation::Representer::Show
+      representer API::V1::OrganizationTranslation::Representer::Show
 
       contract do
-        property :name
         property :description
-        property :opening_specification
         property :source
-        property :locale
         property :possibly_outdated
-        property :offer_id
+        property :locale
+        property :organization_id
       end
 
       def process(params)
@@ -24,7 +22,7 @@ module API::V1
           # super-call for assignable side_effects
           super(params)
         else
-          raise "OfferTranslation form has errors: #{contract.errors.full_messages}"
+          raise "OrganizationTranslation form has errors: #{contract.errors.full_messages}"
         end
       end
     end
