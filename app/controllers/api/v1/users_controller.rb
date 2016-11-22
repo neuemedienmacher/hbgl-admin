@@ -5,7 +5,7 @@ module API::V1
     respond_to :json
 
     def index
-      respond User::Index
+      respond API::V1::User::Index
     end
 
     def show

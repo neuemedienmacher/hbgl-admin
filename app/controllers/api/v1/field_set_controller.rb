@@ -7,7 +7,7 @@ module API::V1
 
     def show
       model = params[:model].camelize.constantize
-      respond_with FieldSet::Show.new(model)
+      respond_with API::V1::FieldSet::Show.new(model)
     end
   end
 end

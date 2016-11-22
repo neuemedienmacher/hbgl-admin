@@ -22,7 +22,7 @@ export default class EditTranslationForm extends Component {
       return(
         <td>
           <InputSet
-            attribute={property} type={type} label={property} disabled='disabled'
+            attribute={property} type={type} label={property}
             wrapperClassName='form-group' className='form-control'
             wrapperErrorClassName='has-error' errorClassName='help-block'
           />

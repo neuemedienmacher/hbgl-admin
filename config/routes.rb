@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  # Devise
+  devise_for :users, class_name: 'User'
+  devise_scope :user do
+    authenticated do
+      root to: 'dashboards#main'
+    end
+
+    unauthenticated do
+      root to: 'devise/sessions#new', as: 'unauthenticated_root'
+    end
+  end
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
   resources :offers do
@@ -77,18 +89,6 @@ Rails.application.routes.draw do
                                                    action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
       get 'field_set/:model', controller: :field_set, action: :show
-    end
-  end
-
-  # Devise
-  devise_for :users, class_name: 'User'
-  devise_scope :user do
-    authenticated do
-      root to: 'dashboards#main'
-    end
-
-    unauthenticated do
-      root to: 'devise/sessions#new', as: 'unauthenticated_root'
     end
   end
 

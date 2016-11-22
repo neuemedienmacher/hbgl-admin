@@ -91,7 +91,7 @@ export default {
         'reciever_team_id', 'aasm_state', 'created_at'
       ],
       general_actions: [
-        'index', 'new'
+        'index'
       ],
       member_actions: [
         'show', 'edit_assignable'
