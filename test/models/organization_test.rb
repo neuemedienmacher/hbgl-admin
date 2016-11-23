@@ -78,6 +78,16 @@ describe Organization do
       organization.big_player?.must_equal false
       # one more location => threshold reached
       organization.locations << (FactoryGirl.create :location)
+      # but only one offer, that should not be enough
+      organization.offers << (FactoryGirl.create :offer, :approved,
+                                                 :with_location)
+
+      organization.big_player?.must_equal false
+      # adding 9 more and it should work
+      9.times do
+        organization.offers << (FactoryGirl.create :offer, :approved,
+                                                   :with_location)
+      end
       organization.big_player?.must_equal true
     end
 
