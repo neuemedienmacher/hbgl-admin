@@ -1,5 +1,3 @@
-# Monkeypatch clarat_base Search
-require ClaratBase::Engine.root.join('app', 'models', 'offer', 'search')
 class Offer
   module SearchAlgolia
     extend ActiveSupport::Concern
