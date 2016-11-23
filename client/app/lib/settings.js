@@ -2,7 +2,8 @@ export default {
   index: {
     assignable: {
       assignment_actions: [
-        'reply_to_assignment', 'assign_from_system', 'assign_to_current_user'
+        'assign_creator', 'retrieve_assignment', 'assign_to_system',
+        'assign_to_current_user'
       ]
     },
 

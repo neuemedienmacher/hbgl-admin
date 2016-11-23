@@ -3,7 +3,7 @@ class TranslationGenerationWorker
 
   def perform locale, object_type, object_id, fields = :all
     object = object_type.constantize.find(object_id)
-    # translation = find_or_initialize_translation(locale, object_type, object_id)
+    # get existing or newly created translation
     translation =
       API::V1::BaseTranslation::DynamicFind.new(locale, object_type, object_id)
         .find_or_create()

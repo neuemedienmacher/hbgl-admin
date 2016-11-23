@@ -6,7 +6,7 @@ import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
 import settings from '../../../lib/settings'
 import snakeCase from 'lodash/snakeCase'
 import clone from 'lodash/clone'
-import merge from 'lodash/merge'
+import filter_collection from 'lodash/filter'
 import { assignableRouteForAction } from '../../../lib/routeForAction'
 
 const mapStateToProps = (state, ownProps) => {
@@ -15,15 +15,17 @@ const mapStateToProps = (state, ownProps) => {
   let model = snakeCase(assignment.assignable_type) + 's'
   let settings_actions = settings.index[model].assignment_actions ||
     settings.index.assignable.assignment_actions
-  // console.log(settings_actions)
+  let system_user =
+    filter_collection(state.entities.users, {'name': 'System'} )[0]
 
   const actions = settings_actions.filter(
-    action => visibleFor(action, state.entities, model, assignment.assignable_id)
+    action => visibleFor(action, state.entities, model,
+                         assignment.assignable_id, system_user)
   ).map(action => ({
     buttonText: buttonTextFor(action),
     href: assignableRouteForAction(action, 'assignments', assignment.id),
     formId: `Assignment${assignment.id}:${action}`,
-    seedData: seedDataFor(action, state.entities, assignment),
+    seedData: seedDataFor(action, state.entities, assignment, system_user),
     method: action == 'assign_to_current_user' ? 'PATCH' : 'POST',
   }))
   // console.log(assignableDataLoad)
@@ -55,16 +57,19 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 })
 
-function visibleFor(action, entities, model, id) {
+function visibleFor(action, entities, model, id, system_user) {
   switch(action) {
     case 'assign_to_current_user':
       return isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
-    case 'reply_to_assignment':
+    case 'assign_creator':
       return isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_from_system':
+    case 'retrieve_assignment':
       return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
+    case 'assign_to_system':
+      return isCurrentUserAssignedToModel(entities, model, id) && system_user &&
+        (model == 'offer_translations' || model == 'organization_translations')
     default:
       return false
   }
@@ -72,35 +77,43 @@ function visibleFor(action, entities, model, id) {
 
 function buttonTextFor(action) {
   switch(action) {
-  case 'reply_to_assignment':
-    return 'Zurückgeben/Antworten/?'
+  case 'assign_creator':
+    return 'Zurückgeben/Antworten?'
   case 'assign_to_current_user':
     return 'Mir zuweisen'
-  case 'assign_from_system':
+  case 'retrieve_assignment':
     return 'Neue Zuweisung öffnen'
+  case 'assign_to_system':
+    return 'Zuweisung schließen'
   }
 }
 
-function seedDataFor(action, entities, assignment) {
+function seedDataFor(action, entities, assignment, system_user) {
   let assignment_copy = clone(assignment)
   switch(action) {
   case 'assign_to_current_user':
     assignment_copy.reciever_id = entities.current_user.id
     break
-  case 'reply_to_assignment':
+  case 'assign_creator':
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = entities.current_user.current_team_id
     assignment_copy.reciever_id = assignment.creator_id
     assignment_copy.reciever_team_id = assignment.creator_team_id
-    assignment_copy.message = 'Erledigt!'
+    assignment_copy.message = ''
     break
-  case 'assign_from_system':
-    // TODO: system_user id from defaults
+  case 'retrieve_assignment':
     assignment_copy.creator_id = assignment.reciever_id
     assignment_copy.creator_team_id = undefined
     assignment_copy.reciever_id = entities.current_user.id
     assignment_copy.reciever_team_id = entities.current_user.current_team_id
     assignment_copy.message = ''
+    break
+  case 'assign_to_system':
+    assignment_copy.creator_id = entities.current_user.id
+    assignment_copy.creator_team_id = entities.current_user.current_team_id
+    assignment_copy.reciever_id = system_user.id
+    assignment_copy.reciever_team_id = undefined
+    assignment_copy.message = 'Erledigt!'
     break
   }
   return {fields: assignment_copy}

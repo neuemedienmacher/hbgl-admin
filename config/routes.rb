@@ -83,8 +83,6 @@ Rails.application.routes.draw do
       resources :time_allocations, only: [:create, :update]
       resources :user_teams
       resources :assignments, only: [:index, :show, :create, :update]
-      # post 'assignments/:id/assign_and_edit_assignable', controller: :assignments,
-      #                                                    action: :assign_and_edit_assignable
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'

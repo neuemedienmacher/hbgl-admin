@@ -15,19 +15,15 @@ function _isTeamAssigned(entities, id) {
 }
 
 export function currentAssignmentIdFor(model, model_instance) {
-  // TODO: remove early return for assignments
-  return undefined
   if (model == 'assignments') {
     return model_instance && model_instance.id
   } else {
-    return model_instance && model_instance.current_assignment.id ?
-      model_instance.current_assignment.id : undefined
+    return model_instance && model_instance.current_assignment &&
+      model_instance.current_assignment.id ? model_instance.current_assignment.id : undefined
   }
 }
 
 export function isCurrentUserAssignedToModel(entities, model, id) {
-  // TODO: remove early return for assignments
-  return true
   let model_instance = entities[model] && entities[model][id]
   let assignment_id = currentAssignmentIdFor(model, model_instance)
 
@@ -35,8 +31,6 @@ export function isCurrentUserAssignedToModel(entities, model, id) {
 }
 
 export function isTeamOfCurrentUserAssignedToModel(entities, model, id) {
-  // TODO: remove early return for assignments
-  return true
   let model_instance = entities[model] && entities[model][id]
   let assignment_id = currentAssignmentIdFor(model, model_instance)
 
