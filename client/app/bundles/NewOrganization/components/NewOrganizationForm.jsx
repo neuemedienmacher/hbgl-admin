@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
+import MultiSelect from '../../MultiSelect/wrappers/MultiSelect'
 import OrganizationFormObject from '../forms/OrganizationFormObject'
 
 export default class NewOrganizationForm extends React.Component {
@@ -22,7 +23,7 @@ export default class NewOrganizationForm extends React.Component {
             wrapperClassName='form-group' className='form-control'
             label='Name' attribute='name'
           />
-          <InputSet
+          <MultiSelect
             wrapperClassName='form-group' className='form-control'
             label='Webseiten' attribute='website_ids'
           />

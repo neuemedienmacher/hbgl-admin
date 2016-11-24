@@ -6,7 +6,7 @@ import form from './formReducer'
 import { reducer as rform, initialState as initialRformState } from 'rform'
 import ajax from './loadAjaxDataReducer'
 import entities from './entityReducer'
-import multiSelect from '../../bundles/GenericForm/reducers/multiSelectReducer'
+import multiSelect from '../../bundles/MultiSelect/reducers/multiSelectReducer'
 import statistics
   from '../../bundles/Statistics/reducers/statisticSettingsReducer'
 
