@@ -14,6 +14,8 @@ import NewProductivityGoal
   from '../../bundles/NewProductivityGoal/components/NewProductivityGoal'
 import NewAssignment
   from '../../bundles/NewAssignment/containers/NewAssignmentForm'
+import NewOrganization
+  from '../../bundles/NewOrganization/containers/NewOrganizationForm'
 import TimeAllocationTableContainer
   from '../../bundles/TimeAllocationTable/containers/TimeAllocationTableContainer'
 import StatisticsLayout from '../../bundles/Statistics/components/StatisticsLayout'
@@ -32,6 +34,13 @@ export default class Routes extends React.Component {
       <Router history={browserHistory}>
         <Route path='/' component={Layout}>
           <IndexRoute component={DashboardContainer}/>
+
+          <Route path='organizations'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={NewOrganization} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
 
           <Route path='offers'>
             <IndexRoute component={Index}/>

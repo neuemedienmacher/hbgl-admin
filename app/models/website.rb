@@ -6,6 +6,12 @@ class Website < ActiveRecord::Base
   # Scopes
   scope :unreachable, -> { where('unreachable_count > ?', 0) }
 
+  # Search
+  include PgSearch
+  pg_search_scope :search_everything,
+                  against: [ :id, :host ],
+                  using: { tsearch: { prefix: true } }
+
   # Methods
 
   def ascii_url

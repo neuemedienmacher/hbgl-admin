@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
-import MultiSelect from '../containers/MultiSelect'
+import MultiSelect from '../../MultiSelect/containers/MultiSelect'
 
 export default class NewForm extends React.Component {
   render() {

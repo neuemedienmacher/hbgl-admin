@@ -6,6 +6,10 @@ class BackendController < ApplicationController
     render '/backend/index'
   end
 
+  def new
+    render '/pages/react'
+  end
+
   protected
 
   def process_params!(params)
