@@ -19,7 +19,13 @@ Rails.application.routes.draw do
       get 'export', controller: :pages, action: :react
     end
   end
-  resources :organizations
+
+  resources :organizations do
+    collection do
+      get 'export', controller: :pages, action: :react
+    end
+  end
+
   resources :categories do
     collection do
       get :sort
@@ -77,6 +83,7 @@ Rails.application.routes.draw do
       resources :organizations, only: [:show, :index]
       get '/statistics' => 'statistics#index'
       resources :users, only: [:index, :show, :update]
+      resources :websites, only: [:index]
       resources :offer_translations, only: [:index, :show, :update]
       resources :organization_translations, only: [:index, :show, :update]
       resources :productivity_goals, except: [:destroy]

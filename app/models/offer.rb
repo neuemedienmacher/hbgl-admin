@@ -8,6 +8,7 @@ class Offer < ActiveRecord::Base
   # Concerns
   include SearchAlgolia, Translations
 
+  # Search
   include PgSearch
   pg_search_scope :search_by_tester, against: [:name, :description,
                                                :aasm_state],

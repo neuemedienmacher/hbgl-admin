@@ -70,6 +70,18 @@ export default {
       ]
     },
 
+    organizations: {
+      fields: [
+        'id', 'offers_count', 'name', 'aasm_state', 'locations_count'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
     user_teams: {
       fields: [
         'id', 'name', 'users'
