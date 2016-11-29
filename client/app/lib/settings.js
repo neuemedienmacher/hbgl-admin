@@ -88,8 +88,9 @@ export default {
         'reciever_id', 'reciever_team_id', 'aasm_state', 'created_at'
       ],
       inline_fields: [
-        'id', 'assignable_type', 'assignable_id', 'message', 'reciever_id',
-        'reciever_team_id', 'aasm_state', 'created_at'
+        'assignable_type', 'assignable_id',
+        {assignable: ['label', 'created_at'], type: 'polymorphic'},
+        {creator: ['name'], klass: 'user'}, 'message', 'created_at'
       ],
       general_actions: [
         'index'

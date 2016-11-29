@@ -10,6 +10,9 @@ class Organization < ActiveRecord::Base
   ).freeze
   # Admin specific methods
 
+  # Concerns
+  include Translations
+
   # State Machine
   aasm do
     event :mark_as_done, success: :apply_mailings_logic! do

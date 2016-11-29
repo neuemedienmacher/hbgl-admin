@@ -9,13 +9,16 @@ export function analyzeFields(rawFields, model) {
     } else {
       let associations = []
       forIn(rawField, (associatedFields, association) => {
-        for (let associatedField of associatedFields) {
-          associations.push({
-            name: `${association} ${associatedField}`,
-            relation: 'association',
-            model: association,
-            field: associatedField
-          })
+        if(typeof associatedFields != 'string'){
+          for (let associatedField of associatedFields) {
+            associations.push({
+              name: `${association} ${associatedField}`,
+              relation: 'association',
+              model: association,
+              field: associatedField,
+              klass: rawField.klass
+            })
+          }
         }
       })
       return associations

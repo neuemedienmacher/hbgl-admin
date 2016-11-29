@@ -105,8 +105,13 @@ describe Organization do
       new_orga.translations.count.must_equal 1
       new_orga.reload.description_ar.must_equal nil
 
-      # Completion generates all translations initially
+      # Completion does not generate translations
       new_orga.complete!
+      new_orga.translations.count.must_equal 1
+
+      # Approval generates all translations initially
+      new_orga.start_approval_process!
+      new_orga.approve!
       new_orga.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields
@@ -122,6 +127,9 @@ describe Organization do
       # Setup
       new_orga = FactoryGirl.create(:organization)
       new_orga.complete!
+      new_orga.translations.count.must_equal 1
+      new_orga.start_approval_process!
+      new_orga.approve!
       new_orga.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields

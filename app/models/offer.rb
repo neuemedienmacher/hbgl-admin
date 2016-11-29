@@ -6,7 +6,7 @@ class Offer < ActiveRecord::Base
   has_paper_trail
 
   # Concerns
-  include SearchAlgolia, Translation
+  include SearchAlgolia, Translations
 
   include PgSearch
   pg_search_scope :search_by_tester, against: [:name, :description,

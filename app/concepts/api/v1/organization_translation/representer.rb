@@ -2,7 +2,7 @@
 module API::V1
   module OrganizationTranslation
     module Representer
-      class Show < API::V1::Default::Representer::Show
+      class Show < API::V1::Assignable::Representer::Show
         type :organization_translations
 
         property :label, getter: ->(ot) do

@@ -1,0 +1,23 @@
+test:
+  translator_teams:
+    ar: 1
+    en: 1
+    fa: 1
+
+development:
+  translator_teams:
+    ar: 1
+    en: 1
+    fa: 1
+
+production:
+  translator_teams:
+    ar: <%= ENV['TRANSLATOR_TEAM_AR'] %>
+    en: <%= ENV['TRANSLATOR_TEAM_EN'] %>
+    fa: <%= ENV['TRANSLATOR_TEAM_FA'] %>
+
+staging:
+  translator_teams:
+    ar: <%= ENV['TRANSLATOR_TEAM_AR'] %>
+    en: <%= ENV['TRANSLATOR_TEAM_EN'] %>
+    fa: <%= ENV['TRANSLATOR_TEAM_FA'] %>

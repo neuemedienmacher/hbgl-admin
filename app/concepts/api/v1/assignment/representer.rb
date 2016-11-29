@@ -17,6 +17,28 @@ module API::V1
         property :aasm_state
         property :created_at
         property :updated_at
+
+        has_one :creator do
+          type :users
+
+          property :name
+          # property :label, getter: ->(user) do
+          #   user[:represented].name
+          # end
+        end
+
+        has_one :assignable do
+          type do |as|
+            as[:represented].assignable_type.underscore.pluralize.to_sym
+          end
+
+          property :id
+          property :created_at
+          # INFO: this won't work for any assignable model
+          property :label, getter: ->(ot) do
+            ot[:represented].respond_to?(:name) ? ot[:represented].name : ot[:represented].description
+          end
+        end
       end
     end
   end

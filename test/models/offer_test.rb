@@ -150,8 +150,13 @@ describe Offer do
         new_offer.translations.count.must_equal 1
         new_offer.reload.name_ar.must_equal nil
 
-        # Completion generates all translations initially
+        # completion does not generate translations
         new_offer.complete!
+        new_offer.translations.count.must_equal 1
+
+        # approval generates all translations initially
+        new_offer.start_approval_process!
+        new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Now changes to the model change the corresponding translated fields
@@ -170,6 +175,9 @@ describe Offer do
         # Setup
         new_offer = FactoryGirl.create(:offer)
         new_offer.complete!
+        new_offer.translations.count.must_equal 1
+        new_offer.start_approval_process!
+        new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Now changes to the model change the corresponding translated fields
@@ -193,6 +201,9 @@ describe Offer do
         # Setup: Offer is first created
         new_offer = FactoryGirl.create(:offer)
         new_offer.complete!
+        new_offer.translations.count.must_equal 1
+        new_offer.start_approval_process!
+        new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Setup: A human edits the arabic translation and en

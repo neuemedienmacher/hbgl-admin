@@ -8,7 +8,20 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: b1facccc91cc9e341fd4594c8fa5c70e79cff0f4
+  revision: 07923c02ef1dff24689c17f0c5ffdb019eaf7219
+  branch: feature/878-translations-only-on-approved
+  specs:
+
+GIT
+  remote: git://github.com/efqdalton/dynamic_sitemaps.git
+  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
+  branch: adds-custom-storages
+  specs:
+    dynamic_sitemaps (2.0.0)
+      aws-sdk
+
+PATH
+  remote: ../clarat_base
   specs:
     clarat_base (0.1.4)
       aasm
@@ -28,14 +41,6 @@ GIT
       sanitize
       sidekiq (~> 4.1.2)
       web-console (~> 2.0)
-
-GIT
-  remote: git://github.com/efqdalton/dynamic_sitemaps.git
-  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
-  branch: adds-custom-storages
-  specs:
-    dynamic_sitemaps (2.0.0)
-      aws-sdk
 
 GEM
   remote: https://rubygems.org/
@@ -78,11 +83,11 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    algoliasearch (1.11.0)
-      httpclient (~> 2.8.2)
+    algoliasearch (1.12.1)
+      httpclient (~> 2.8.2.4)
       json (>= 1.5.1)
-    algoliasearch-rails (1.16.2)
-      algoliasearch (~> 1.11.0)
+    algoliasearch-rails (1.16.3)
+      algoliasearch (~> 1.12.1)
       json (>= 1.5.1)
     arel (6.0.3)
     ast (2.2.0)
@@ -180,7 +185,7 @@ GEM
       representable (>= 2.4.0, <= 3.1.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20161021)
+    domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.0)
     dotenv-rails (2.1.0)
@@ -616,7 +621,7 @@ GEM
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
       rack (~> 1.0)
-    thor (0.19.1)
+    thor (0.19.4)
     thread (0.2.2)
     thread_safe (0.3.5)
     tilt (2.0.5)
