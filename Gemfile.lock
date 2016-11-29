@@ -8,24 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-<<<<<<< HEAD
   revision: 07923c02ef1dff24689c17f0c5ffdb019eaf7219
   branch: feature/878-translations-only-on-approved
-  specs:
-
-GIT
-  remote: git://github.com/efqdalton/dynamic_sitemaps.git
-  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
-  branch: adds-custom-storages
-  specs:
-    dynamic_sitemaps (2.0.0)
-      aws-sdk
-
-PATH
-  remote: ../clarat_base
-=======
-  revision: b1facccc91cc9e341fd4594c8fa5c70e79cff0f4
->>>>>>> develop
   specs:
     clarat_base (0.1.4)
       aasm
