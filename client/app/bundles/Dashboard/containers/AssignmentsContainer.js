@@ -20,10 +20,15 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
 function headingFor(scope, count) {
-  if(scope == 'reciever') {
-    return 'Du hast aktuell ' + count + ' zugewiesene Nutzer-Aufgaben:'
-  } else {
-    return 'Deinem aktuellen Team sind ' + count + ' Aufgaben zugewiesen:'
+  switch(scope) {
+  case 'reciever':
+    return 'Dir zugewiesene, offene Aufgaben: ' + count
+  case 'creator':
+    return 'Von dir erstellte, offene Anfragen: ' + count
+  case 'reciever_team':
+    return 'Deinem aktuellen Team zugewiesene, offene Aufgaben: ' + count
+  default:
+    return ''
   }
 }
 
@@ -32,6 +37,10 @@ function buildQuery(scope, id) {
   case 'reciever':
     return {
       'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open'
+    }
+  case 'creator':
+    return {
+      'filter[creator_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open'
     }
   case 'reciever_team':
     return {

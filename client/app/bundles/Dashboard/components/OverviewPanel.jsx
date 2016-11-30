@@ -36,6 +36,9 @@ export default class OverviewPanel extends Component {
           <AssignmentsContainer
             scope={'reciever_team'} item_id={user.current_team_id}
           />
+          <AssignmentsContainer
+            scope={'creator'} item_id={user.id}
+          />
         </div>
       </div>
     )
