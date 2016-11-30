@@ -109,5 +109,7 @@ export default {
         'show', 'edit_assignable'
       ]
     },
-  }
+  },
+
+  SECTIONS: ['family', 'refugees'],
 }
