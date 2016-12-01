@@ -47,7 +47,7 @@ export default {
     offers: {
       fields: [
         'id', 'name', 'aasm_state', 'created_by', 'expires_at',
-        'logic_version_id'
+        'logic_version_id', { section_filters: ['name'] }
       ],
       general_actions: [
         'index', 'export'

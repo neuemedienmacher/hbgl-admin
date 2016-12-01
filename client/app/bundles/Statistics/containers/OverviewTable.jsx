@@ -7,11 +7,11 @@ import addEntities from '../../../Backend/actions/addEntities'
 import OverviewTable from '../components/OverviewTable'
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state)
   const stateKey = `statisticsOverview_${ownProps.model}`
   const states = (state.ajax[stateKey] && state.ajax[stateKey].states) || []
   const data = (state.entities.count && state.entities.count[ownProps.model]) || {}
-  const sections = settings.SECTIONS
+  const sections =
+    values(state.entities.filters).filter(obj => obj.type == 'SectionFilter')
   const allDataLoaded = (
     values(data).length == states.length &&
       !toPairs(data).filter(pair => values(pair[1]).length != sections.length).length
@@ -21,7 +21,8 @@ const mapStateToProps = (state, ownProps) => {
     data,
     allDataLoaded,
     states,
-    stateKey
+    stateKey,
+    sections,
   }
 }
 
@@ -30,23 +31,29 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { model } = ownProps
+  const { dispatch } = dispatchProps
+
   return({
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
 
     loadData(states) {
-      for (let state of states) {
-        for (let section of settings.SECTIONS) {
-          let params = { 'filter[aasm_state]': state, per_page: 1 }
-          // let params = { 'filter[aasm_state]': state, per_page: 1, 'filter[section_filter_id]': 76 }
-          dispatchProps.dispatch(
+      for (let aasm_state of states) {
+        for (let section of stateProps.sections) {
+          const params = {
+            'filter[aasm_state]': aasm_state,
+            'filter[section_filters.id]': section.id,
+            per_page: 1
+          }
+          dispatch(
             loadAjaxData(
-              ownProps.model + 's', params, 'lastData', (json) => {
+              model + 's', params, 'lastData', (json) => {
                 let obj = {}
-                obj[ownProps.model] = {}
-                obj[ownProps.model][state] = {}
-                obj[ownProps.model][state][section] = json.meta.total_entries
+                obj[model] = {}
+                obj[model][aasm_state] = {}
+                obj[model][aasm_state][section.identifier] = json.meta.total_entries
                 return { count: obj }
               }
             )
@@ -56,24 +63,24 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     loadStates() {
-      dispatchProps.dispatch(
+      dispatch(
         loadAjaxData(
-          `states/${ownProps.model}`, {}, stateProps.stateKey, () => ({})
+          `states/${model}`, {}, stateProps.stateKey, () => ({})
         )
       )
     },
 
     calculateTotals(data) {
       let totalsObject = { count: {} }
-      totalsObject.count[ownProps.model] = {}
-      for (let state of stateProps.states) {
-        totalsObject.count[ownProps.model][state] = {}
-        totalsObject.count[ownProps.model][state].total =
-          toPairs(data[state]).filter(pair => pair[0] != 'total')
+      totalsObject.count[model] = {}
+      for (let aasm_state of stateProps.states) {
+        totalsObject.count[model][aasm_state] = {}
+        totalsObject.count[model][aasm_state].total =
+          toPairs(data[aasm_state]).filter(pair => pair[0] != 'total')
             .reduce((total, pair) => (total + pair[1]), 0)
       }
 
-      dispatchProps.dispatch(
+      dispatch(
         addEntities(totalsObject)
       )
     }

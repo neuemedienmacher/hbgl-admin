@@ -20,9 +20,11 @@ export default class TableCell extends Component {
         if(isArray(content)){
           return(
             <p>
-              {content.map(obj => obj['label']).join(', ')}
+              {content.map(obj => this.renderContent(obj)).join(', ')}
             </p>
           )
+        } else if(content.label) {
+          return content.label
         } else {
           return content
         }

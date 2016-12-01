@@ -14,6 +14,7 @@ class ReactCell < Cell::ViewModel
       users: User.all.map { |user| UserRepresenter.new(user) },
       current_user: UserRepresenter.new(options[:current_user]),
 
+      filters: Filter.all.map { |filter| filter.attributes },
       productivity_goals: ProductivityGoal.all,
       statistics: Statistic.all,
       time_allocations: TimeAllocation.all,
