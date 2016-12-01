@@ -12,10 +12,6 @@ export default class OverviewTable extends React.Component {
     // Load Data when states are loaded
     if (!this.props.states.length && nextProps.states.length)
       this.props.loadData(nextProps.states)
-
-    // Calculate totals when all data has been loaded
-    if (!this.props.allDataLoaded && nextProps.allDataLoaded)
-      this.props.calculateTotals(nextProps.data)
   }
 
   render() {
@@ -28,7 +24,7 @@ export default class OverviewTable extends React.Component {
             <th>state</th>
             <th># in family</th>
             <th># in refugees</th>
-            <th>zusammen</th>
+            <th># insgesamt</th>
           </tr>
           {toPairs(data).map(([state, numbers]) => {
             return(

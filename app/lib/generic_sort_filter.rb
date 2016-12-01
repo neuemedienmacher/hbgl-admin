@@ -23,16 +23,14 @@ module GenericSortFilter
 
   def self.transform_by_joining(query, params)
     if (params[:sort_model])
-      association_name =
-        table_name_for(query, params[:sort_model].split('.').first)
-      query = query.joins(association_name.to_sym)
+      query = query.eager_load(params[:sort_model].split('.').first)
     end
 
     if (params[:filter])
       params[:filter].each do |filter, value|
         next unless filter['.']
         association_name = filter.split('.').first
-        query = query.joins(association_name.to_sym)
+        query = query.eager_load(association_name.to_sym)
       end
     end
 

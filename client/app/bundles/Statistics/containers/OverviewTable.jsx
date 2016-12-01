@@ -34,6 +34,37 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { model } = ownProps
   const { dispatch } = dispatchProps
 
+  const entryCountGrabberTransformer = function(aasm_state, section) {
+    return function(json) {
+      let obj = {}
+      obj[model] = {}
+      obj[model][aasm_state] = {}
+      obj[model][aasm_state][section.identifier || section] =
+        json.meta.total_entries
+      return { count: obj }
+    }
+  }
+
+  const entryCountGrabberParams = function(aasm_state, section) {
+    let params = {
+      'filter[aasm_state]': aasm_state,
+      per_page: 1
+    }
+    if (typeof section == 'object') {
+      params['filter[section_filters.id]'] = section.id
+    }
+    return params
+  }
+
+  const dispatchDataLoad = function(aasm_state, section) {
+    dispatch(
+      loadAjaxData(
+        model + 's', entryCountGrabberParams(aasm_state, section), 'lastData',
+        entryCountGrabberTransformer(aasm_state, section)
+      )
+    )
+  }
+
   return({
     ...stateProps,
     ...dispatchProps,
@@ -42,23 +73,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     loadData(states) {
       for (let aasm_state of states) {
         for (let section of stateProps.sections) {
-          const params = {
-            'filter[aasm_state]': aasm_state,
-            'filter[section_filters.id]': section.id,
-            per_page: 1
-          }
-          dispatch(
-            loadAjaxData(
-              model + 's', params, 'lastData', (json) => {
-                let obj = {}
-                obj[model] = {}
-                obj[model][aasm_state] = {}
-                obj[model][aasm_state][section.identifier] = json.meta.total_entries
-                return { count: obj }
-              }
-            )
-          )
+          dispatchDataLoad(aasm_state, section)
         }
+        dispatchDataLoad(aasm_state, 'total')
       }
     },
 
@@ -69,21 +86,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         )
       )
     },
-
-    calculateTotals(data) {
-      let totalsObject = { count: {} }
-      totalsObject.count[model] = {}
-      for (let aasm_state of stateProps.states) {
-        totalsObject.count[model][aasm_state] = {}
-        totalsObject.count[model][aasm_state].total =
-          toPairs(data[aasm_state]).filter(pair => pair[0] != 'total')
-            .reduce((total, pair) => (total + pair[1]), 0)
-      }
-
-      dispatch(
-        addEntities(totalsObject)
-      )
-    }
   })
 }
 
