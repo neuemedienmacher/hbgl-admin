@@ -39,6 +39,7 @@ class Organization < ActiveRecord::Base
       orga.founded = nil
       orga.aasm_state = 'initialized'
       orga.mailings = 'disabled'
+      orga.umbrella_filters = umbrella_filters
     end
   end
 
