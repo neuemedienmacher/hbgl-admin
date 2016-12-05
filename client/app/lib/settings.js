@@ -47,7 +47,7 @@ export default {
     offers: {
       fields: [
         'id', 'name', 'aasm_state', 'created_by', 'expires_at',
-        'logic_version_id'
+        'logic_version_id', { section_filters: ['name'] }
       ],
       general_actions: [
         'index', 'export'
@@ -63,6 +63,18 @@ export default {
       ],
       general_actions: [
         'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    organizations: {
+      fields: [
+        'id', 'offers_count', 'name', 'aasm_state', 'locations_count'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
       ],
       member_actions: [
         'show'
@@ -97,5 +109,7 @@ export default {
         'show', 'edit_assignable'
       ]
     },
-  }
+  },
+
+  SECTIONS: ['family', 'refugees'],
 }

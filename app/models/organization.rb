@@ -23,6 +23,15 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  # Search
+  include PgSearch
+  # Search
+  pg_search_scope :search_everything,
+                  against: [
+                    :id, :offers_count, :name, :aasm_state, :locations_count
+                  ],
+                  using: { tsearch: { prefix: true } }
+
   # Customize duplication.
   def partial_dup
     self.dup.tap do |orga|
@@ -30,6 +39,7 @@ class Organization < ActiveRecord::Base
       orga.founded = nil
       orga.aasm_state = 'initialized'
       orga.mailings = 'disabled'
+      orga.umbrella_filters = umbrella_filters
     end
   end
 

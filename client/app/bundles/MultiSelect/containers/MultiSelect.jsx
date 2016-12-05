@@ -5,7 +5,8 @@ import loadForMultiSelect from '../actions/loadForMultiSelect'
 import MultiSelect from '../components/MultiSelect'
 
 const mapStateToProps = (state, ownProps) => {
-  const associatedModel = 'users' // TODO: make variable
+  const associatedModel = ownProps.associatedModel ||
+    ownProps.attribute.substr(0, ownProps.attribute.length - 4) + 's'
 
   let value = state.rform[ownProps.formId] &&
     state.rform[ownProps.formId][ownProps.attribute]
@@ -56,9 +57,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onInputChange(input) {
-      console.log('input changed', input)
       if (stateProps.alreadyLoadedInputs.includes(input)) return
-      console.log('new input!')
       dispatch(loadForMultiSelect(input, stateProps.associatedModel))
     },
   }

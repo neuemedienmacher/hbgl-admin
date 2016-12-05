@@ -5,3 +5,7 @@
   margin-right: 5px;
   margin-bottom: 5px;
 }
+
+.form-group.changed input, .form-group.changed textarea {
+  background-color: #FFFDF1;
+}

@@ -14,10 +14,14 @@ import NewProductivityGoal
   from '../../bundles/NewProductivityGoal/components/NewProductivityGoal'
 import NewAssignment
   from '../../bundles/NewAssignment/containers/NewAssignmentForm'
+import NewOrganization
+  from '../../bundles/NewOrganization/containers/NewOrganizationForm'
 import TimeAllocationTableContainer
   from '../../bundles/TimeAllocationTable/containers/TimeAllocationTableContainer'
 import StatisticsLayout from '../../bundles/Statistics/components/StatisticsLayout'
 import Overview from '../../bundles/Statistics/components/Overview'
+import OfferOverviewPage from '../../bundles/Statistics/components/OfferOverviewPage'
+import OrgaOverviewPage from '../../bundles/Statistics/components/OrgaOverviewPage'
 import OfferCreatedPage from '../../bundles/Statistics/components/OfferCreatedPage'
 import OfferApprovedPage from '../../bundles/Statistics/components/OfferApprovedPage'
 import OrgaCreatedPage from '../../bundles/Statistics/components/OrgaCreatedPage'
@@ -32,6 +36,13 @@ export default class Routes extends React.Component {
       <Router history={browserHistory}>
         <Route path='/' component={Layout}>
           <IndexRoute component={DashboardContainer}/>
+
+          <Route path='organizations'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={NewOrganization} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
 
           <Route path='offers'>
             <IndexRoute component={Index}/>
@@ -55,11 +66,14 @@ export default class Routes extends React.Component {
 
           <Route path='statistics' component={StatisticsLayout}>
             <IndexRoute component={Overview}/>
+            <Route path='offer_overview' component={OfferOverviewPage} />
+            <Route path='organization_overview' component={OrgaOverviewPage} />
+            {/*
             <Route path='offer_created' component={OfferCreatedPage} />
             <Route path='offer_approved' component={OfferApprovedPage} />
             <Route path='organization_created' component={OrgaCreatedPage} />
             <Route path='organization_approved' component={OrgaApprovedPage} />
-            <Route path='productivity_goals' component={ProductivityGoalPage} />
+            */}
           </Route>
 
           <Route path='offer_translations'>
