@@ -42,8 +42,6 @@ export default class OrgaOverviewPage extends React.Component {
         <p>
           <small>
             Kooperationsangebote werden somit nur einfach gezählt.
-            Da Organisationen nur durch ihre Angebote einer Welt zugeordnet
-            sind, ist die Filterung von Orgas nach Welt <i>x</i> nicht nötig.
           </small>
         </p>
       </div>
