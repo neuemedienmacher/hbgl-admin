@@ -27,6 +27,12 @@ module API::V1
           raise "OfferTranslation form has errors: #{contract.errors.full_messages}"
         end
       end
+
+      protected
+
+      def created_by_system?
+        !model.offer.section_filters.pluck(:identifier).include?('refugees')
+      end
     end
   end
 end

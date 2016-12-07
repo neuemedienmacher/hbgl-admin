@@ -5,7 +5,7 @@ module API::V1
       model ::Assignment, :update
 
       include Trailblazer::Operation::Policy
-      policy ::AssignmentPolicy, :assign_and_edit_assignable?
+      policy ::AssignmentPolicy, :update?
 
       include Trailblazer::Operation::Representer
       representer API::V1::Assignment::Representer::Show

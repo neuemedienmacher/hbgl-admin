@@ -17,15 +17,19 @@ module API::V1
           translation_class.find_by locale: @locale, object_id_field => @object_id
         return translation if translation
 
+        # retriever user-ID for initial assignment - logic might change later
+        object = @object_type.constantize.find(@object_id)
+        user_id =  object.approved_by ? object.approved_by : object.created_by
         # otherwise create a new one (via operation that also creates the
         # initial assignment) and return it
         "API::V1::#{@object_type}Translation::Create"
-          .constantize.(json: params_hash(object_id_field)).model
+          .constantize.(json: params_hash(object_id_field),
+                        current_user: {id: user_id}).model
       end
 
       private
 
-      # TODO do this differently ?!
+      # REFACTORING: do this differently ?!
       def params_hash object_id_field
         {
           data: {

@@ -25,6 +25,13 @@ module API::V1
           raise "OrganizationTranslation form has errors: #{contract.errors.full_messages}"
         end
       end
+
+      protected
+
+      def created_by_system?
+        !model.organization.section_filters.pluck(:identifier)
+          .include?('refugees')
+      end
     end
   end
 end

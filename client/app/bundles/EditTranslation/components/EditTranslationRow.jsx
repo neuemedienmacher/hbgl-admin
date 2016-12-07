@@ -3,16 +3,12 @@ import { Form, InputSet } from 'rform'
 
 export default class EditTranslationForm extends Component {
   render() {
-    const { property, source, length, type, content, may_edit } = this.props
+    const { property, length, source, may_edit } = this.props
 
     return (
       <tr>
         <td>
-          <InputSet
-            attribute={property} type={type} label={property} disabled={!may_edit}
-            wrapperClassName='form-group' className='form-control'
-            wrapperErrorClassName='has-error' errorClassName='help-block'
-          />
+          {this.renderTextOrForm()}
           Länge: {length}
         </td>
         <td>
@@ -20,5 +16,22 @@ export default class EditTranslationForm extends Component {
         </td>
       </tr>
     )
+  }
+
+  renderTextOrForm(){
+    const { property, content, type, may_edit } = this.props
+
+    if (may_edit) {
+      return (
+        <InputSet
+          attribute={property} type={type} label={property}
+          wrapperClassName='form-group' className='form-control'
+          wrapperErrorClassName='has-error' errorClassName='help-block'
+        />
+      )
+    }
+    else {
+      return <div>{content}</div>
+    }
   }
 }

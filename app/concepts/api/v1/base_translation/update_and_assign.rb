@@ -21,25 +21,36 @@ module API::V1
 
       # override default Assignable::Update logic
       def assignment_creator_id
-        @object.created_by
+        ::User.system_user.id
       end
 
       def assignment_reciever_id
-        nil
+        assign_to_translator_team? ? nil : ::User.system_user.id
       end
 
       def assignment_reciever_team_id
-        AssignmentDefaults.translator_teams[@model.locale.to_s]
+        assign_to_translator_team? ?
+          AssignmentDefaults.translator_teams[@model.locale.to_s] : nil
       end
 
       def reassign?
         @object.section_filters.pluck(:identifier).include?('refugees') &&
-          @model.manually_editable? && (@model.possibly_outdated ||
+          (@model.locale == 'de' || @model.possibly_outdated ||
           @model.source == 'GoogleTranslate')
       end
 
       def message_for_new_assignment
-        @model.possibly_outdated ? 'possibly_outdated' : 'GoogleTranslate'
+        if assign_to_translator_team?
+          @model.possibly_outdated ? 'possibly_outdated' : 'GoogleTranslate'
+        else
+          'Managed by system'
+        end
+      end
+
+      private
+
+      def assign_to_translator_team?
+        @model.manually_editable?
       end
     end
   end

@@ -41,7 +41,13 @@ export default class AssignmentActions extends Component {
   }
 
   renderCreateForm(action) {
-    const { handleResponse, afterResponse } = this.props
+    const { handleResponse, afterResponse, users } = this.props
+
+    const optionalUserSelection = action.userChoice ?
+      <InputSet
+        wrapperClassName='form-group' className='form-control'
+        label='an' type='select' attribute='reciever_id' options={users}
+      /> : null
 
     return(
       <Form ajax requireValid seedData={action.seedData} id={action.formId}
@@ -53,9 +59,10 @@ export default class AssignmentActions extends Component {
         <InputSet
           wrapperClassName='form-group' className='form-control'
           wrapperErrorClassName='has-error' errorClassName='help-block'
-          label='Neue Nachricht ' type='textfield' attribute='message'
+          label='Nachricht' type='textfield' attribute='message'
           placeholder='Gib eine Nachricht ein'
         />
+        {optionalUserSelection}
         <button type='submit' className='btn btn-warning'>
           {action.buttonText}
         </button>

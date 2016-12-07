@@ -52,20 +52,18 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
 
     # automated Assignments
 
-    it 'should create a system-assignment for German' do
+    it 'should create initial and system-assignment for German translation that belongs to a refugees-offer' do
       Assignment.count.must_equal 0
-      worker.perform :de, 'Organization', 1
-      Assignment.count.must_equal 1
-      assignment = Assignment.last
-      assignment.reciever_id.must_equal User.system_user.id
-    end
-
-    it 'should create only a system-assignment for Russian' do
-      Assignment.count.must_equal 0
-      worker.perform :ru, 'Offer', 1
+      Offer.first.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      worker.perform :de, 'Offer', 1
       assignments = OfferTranslation.last.assignments
-      assignments.count.must_equal 1
+      assignments.count.must_equal 2
+      assignments.first.creator_id.must_equal Offer.find(1).approved_by
       assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'closed'
+      assignments.last.creator_id.must_equal User.system_user.id
+      assignments.last.reciever_id.must_equal User.system_user.id
+      assignments.last.aasm_state.must_equal 'open'
     end
 
     it 'should create an initial and an updated Assignment for English' do
@@ -74,17 +72,31 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       worker.perform :en, 'Offer', 1
       assignments = OfferTranslation.last.assignments
       assignments.count.must_equal 2
+      assignments.first.creator_id.must_equal Offer.find(1).approved_by
       assignments.first.reciever_id.must_equal User.system_user.id
       assignments.first.aasm_state.must_equal 'closed'
+      assignments.last.creator_id.must_equal User.system_user.id
       assignments.last.reciever_team_id.must_equal 1 # test default for transltor teams
       assignments.last.aasm_state.must_equal 'open'
     end
 
-    it 'should should only create the initial Assignment for family-only' do
+    it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
+      Assignment.count.must_equal 0
+      worker.perform :de, 'Offer', 1
+      assignments = OfferTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should only create the initial system-assignment for English translation that belongs to a family-only offer' do
       Assignment.count.must_equal 0
       worker.perform :en, 'Offer', 1
       assignments = OfferTranslation.last.assignments
       assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
     end
   end
 

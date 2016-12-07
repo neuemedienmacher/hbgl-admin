@@ -16,12 +16,20 @@ module API::V1
 
       protected
 
+      def assignment_creator_id
+        created_by_system? ? ::User.system_user.id : @params[:current_user][:id]
+      end
+
       def assignment_reciever_id
         ::User.system_user.id
       end
 
       def message_for_new_assignment
         'Initiale Zuweisung für Übersetzungen'
+      end
+
+      def created_by_system?
+        true
       end
     end
   end
