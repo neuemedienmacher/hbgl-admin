@@ -16,7 +16,7 @@ export default class IndexHeaderFilter extends Component {
             onChange={onFilterNameChange}
           >
             {fields.map(field =>
-              <IndexHeaderFilterOption key={field.field} field={field} />
+              <IndexHeaderFilterOption key={field.name} field={field} />
             )}
           </select>
           <div className='input-group'>

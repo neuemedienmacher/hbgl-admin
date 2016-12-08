@@ -10,9 +10,17 @@ export default class Navigation extends React.Component {
   render() {
     return (
       <div className='list-group'>
-        <Link to='/statistics' className='list-group-item'>
-					Übersicht
+        <Link to='/statistics' className='list-group-item'> Übersicht </Link>
+        <Link to='/statistics/offer_overview' className='list-group-item'>
+          Angebotsübersicht
         </Link>
+        <Link to='/statistics/organization_overview' className='list-group-item'>
+          Orga-Übersicht
+        </Link>
+        <Link to='/statistics/ratio_overview' className='list-group-item'>
+          Angebote pro Orgas
+        </Link>
+        {/*
         <Link to='/statistics/offer_created' className='list-group-item'>
           Angebote Erstellt
         </Link>
@@ -28,6 +36,7 @@ export default class Navigation extends React.Component {
         <Link to='/statistics/productivity_goals' className='list-group-item'>
           Produktivitätsziele
         </Link>
+        */}
       </div>
     )
   }

@@ -12,6 +12,7 @@ function initialDispatches(dispatch, props) {
   dispatch(addEntities(merge(
     normalize('user_teams', props.user_teams).entities,
     normalize('users', props.users).entities,
+    normalize('filters', props.filters).entities,
     normalize('productivity_goals', props.productivity_goals).entities,
     normalize('statistics', props.statistics).entities,
     normalize('time_allocations', props.time_allocations).entities,

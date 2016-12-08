@@ -50,7 +50,8 @@ module API::V1
           property :name, as: :label
         end
         collection :section_filters do
-          property :name, as: :label
+          property :label, getter: ->(r) { r[:represented].name }
+          property :name
         end
         collection :target_audience_filters do
           property :name, as: :label

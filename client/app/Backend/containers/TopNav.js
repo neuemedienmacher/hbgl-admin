@@ -42,7 +42,7 @@ const routes = [
     id: 5,
     pathname: '/statistics',
     anchor: 'Statistiken',
-    access: superuser,
+    access: all,
   }, {
     id: 6,
     pathname: '/productivity_goals',

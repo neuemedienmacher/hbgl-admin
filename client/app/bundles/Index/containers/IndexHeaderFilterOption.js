@@ -4,7 +4,7 @@ import IndexHeaderFilterOption from '../components/IndexHeaderFilterOption'
 const mapStateToProps = (state, ownProps) => {
   const { field } = ownProps
   const value =
-    (field.relation == 'own') ? field.field : `${field.model}s.${field.field}` // TODO: Less dumb pluralization
+    (field.relation == 'own') ? field.field : `${field.model}.${field.field}`
   const displayName =
     (field.relation == 'own') ? field.field : `${field.model} ${field.field}`
 

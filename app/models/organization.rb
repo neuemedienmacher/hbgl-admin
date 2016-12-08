@@ -36,11 +36,13 @@ class Organization < ActiveRecord::Base
       orga.founded = nil
       orga.aasm_state = 'initialized'
       orga.mailings = 'disabled'
+      orga.umbrella_filters = umbrella_filters
     end
   end
 
   def big_player?
     locations.count >= 10 || (locations.count >= 2 &&
+      offers.approved.where(encounter: 'personal').count >= 10 &&
       BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?)
   end
 

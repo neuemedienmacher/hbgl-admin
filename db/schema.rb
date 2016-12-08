@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20161031110918) do
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx", using: :btree
 
   create_table "cities", force: :cascade do |t|
-    t.string   "name",       null: false
+    t.string   "name",       limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -10,6 +10,9 @@ const Schemas = new function() {
   this.user_team = new Schema('user_teams', defaultOptions)
   this.user_teams = arrayOf(this.user_team)
 
+  this.filter = new Schema('filters', defaultOptions)
+  this.filters = arrayOf(this.filter)
+
   this.productivity_goal = new Schema('productivity_goals', defaultOptions)
   this.productivity_goals = arrayOf(this.productivity_goal)
 
