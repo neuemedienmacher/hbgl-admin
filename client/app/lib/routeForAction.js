@@ -17,7 +17,7 @@ export function assignableRouteForAction(action, model, id) {
     return `/api/v1/${model}/${id}`
   case 'retrieve_assignment':
     return `/api/v1/${model}/`
-  case 'assign_creator':
+  case 'assign_someone_else':
     return `/api/v1/${model}/`
   case 'assign_to_system':
     return `/api/v1/${model}/`

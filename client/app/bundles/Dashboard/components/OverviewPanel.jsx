@@ -33,8 +33,8 @@ export default class OverviewPanel extends Component {
             />
           </Form>
           <ul className="nav nav-tabs">
-            <li className="active"><a data-toggle="tab" href="#menu1">Meine Aufgaben</a></li>
-            <li><a data-toggle="tab" href="#menu2">Team Aufgaben</a></li>
+            <li><a data-toggle="tab" href="#menu1">Meine Aufgaben</a></li>
+            <li className="active"><a data-toggle="tab" href="#menu2">Team Aufgaben</a></li>
             <li><a data-toggle="tab" href="#menu3">Von mir abgeschickte Aufgaben</a></li>
             <li><a data-toggle="tab" href="#menu4">Abgeschlossene Aufgaben</a></li>
           </ul>

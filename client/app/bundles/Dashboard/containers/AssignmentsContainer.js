@@ -25,8 +25,8 @@ function headingFor(scope, count) {
     return 'Dir zugewiesene, offene Aufgaben: ' + count
   case 'creator_open':
     return 'Von dir erstellte, offene Aufgaben: ' + count
-  case 'creator_closed':
-    return 'Von dir erstellte, abgeschlossene Aufgaben: ' + count
+  case 'reciever_closed':
+    return 'Von dir empfangene, abgeschlossene Aufgaben: ' + count
   case 'reciever_team':
     return 'Deinem aktuellen Team zugewiesene, offene Aufgaben: ' + count
   default:

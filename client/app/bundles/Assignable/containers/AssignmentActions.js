@@ -35,7 +35,7 @@ const mapStateToProps = (state, ownProps) => {
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, system_user, users),
     method: action == 'assign_to_current_user' ? 'PATCH' : 'POST',
-    userChoice: action == 'assign_creator'
+    userChoice: action == 'assign_someone_else'
   }))
   // console.log(assignableDataLoad)
   // console.log(assignment)
@@ -72,7 +72,7 @@ function visibleFor(action, entities, model, id, system_user) {
     case 'assign_to_current_user':
       return isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_creator':
+    case 'assign_someone_else':
       return isCurrentUserAssignedToModel(entities, model, id)
     case 'retrieve_assignment':
       return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
@@ -87,7 +87,7 @@ function visibleFor(action, entities, model, id, system_user) {
 
 function buttonTextFor(action) {
   switch(action) {
-  case 'assign_creator':
+  case 'assign_someone_else':
     return 'Neu zuweisen'
   case 'assign_to_current_user':
     return 'Mir zuweisen'
@@ -104,7 +104,7 @@ function seedDataFor(action, entities, assignment, system_user, users) {
   case 'assign_to_current_user':
     assignment_copy.reciever_id = entities.current_user.id
     break
-  case 'assign_creator':
+  case 'assign_someone_else':
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = entities.current_user.current_team_id
     assignment_copy.reciever_id = users[0].value
@@ -112,7 +112,7 @@ function seedDataFor(action, entities, assignment, system_user, users) {
     assignment_copy.message = ''
     break
   case 'retrieve_assignment':
-    assignment_copy.creator_id = assignment.reciever_id
+    assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = undefined
     assignment_copy.reciever_id = entities.current_user.id
     assignment_copy.reciever_team_id = entities.current_user.current_team_id

@@ -2,7 +2,7 @@ export default {
   index: {
     assignable: {
       assignment_actions: [
-        'assign_creator', 'retrieve_assignment', 'assign_to_system',
+        'assign_someone_else', 'retrieve_assignment', 'assign_to_system',
         'assign_to_current_user'
       ]
     },
@@ -16,7 +16,7 @@ export default {
         'index', 'export'
       ],
       member_actions: [
-        'edit'
+        'show', 'edit'
       ]
     },
 
@@ -29,7 +29,7 @@ export default {
         'index', 'export'
       ],
       member_actions: [
-        'edit'
+        'show', 'edit'
       ]
     },
 

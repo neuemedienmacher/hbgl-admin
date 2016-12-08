@@ -9,7 +9,6 @@ export default class EditTranslationForm extends Component {
       <tr>
         <td>
           {this.renderTextOrForm()}
-          Länge: {length}
         </td>
         <td>
           {source && source[property]}
@@ -23,15 +22,18 @@ export default class EditTranslationForm extends Component {
 
     if (may_edit) {
       return (
-        <InputSet
-          attribute={property} type={type} label={property}
-          wrapperClassName='form-group' className='form-control'
-          wrapperErrorClassName='has-error' errorClassName='help-block'
-        />
+        <div>
+          <InputSet
+            attribute={property} type={type} label={property}
+            wrapperClassName='form-group' className='form-control'
+            wrapperErrorClassName='has-error' errorClassName='help-block'
+          />
+          Länge: {length}
+        </div>
       )
     }
     else {
-      return <div>{content}</div>
+      return <div>{content}<br /></div>
     }
   }
 }

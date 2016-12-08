@@ -37,11 +37,13 @@ Rails.application.routes.draw do
       get 'export', controller: :pages, action: :react
     end
   end
+  resources :offer_translations, only: [:show], controller: :pages, action: :react
   resources :organization_translations, only: [:index, :edit, :update] do
     collection do
       get 'export', controller: :pages, action: :react
     end
   end
+  resources :organization_translations, only: [:show], controller: :pages, action: :react
   resources :productivity_goals
   resources :users, only: [:index, :show], controller: :pages, action: :react
   resources :user_teams, only: [:index, :show, :new, :edit],
