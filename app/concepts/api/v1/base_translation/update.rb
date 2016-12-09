@@ -2,7 +2,7 @@
 module API::V1
   module BaseTranslation
     class Update < API::V1::Assignable::Update
-      def initialize(translation, object , fields)
+      def initialize(translation, object, fields)
         @object = object
         @fields = fields
         @model = translation
@@ -33,10 +33,12 @@ module API::V1
           AssignmentDefaults.translator_teams[@model.locale.to_s] : nil
       end
 
+      # only re-assign refugees translations, that are outdated or from GT and
+      # if they are not already assigned to the translator team
       def reassign?
         @object.section_filters.pluck(:identifier).include?('refugees') &&
-          (@model.locale == 'de' || @model.possibly_outdated ||
-          @model.source == 'GoogleTranslate')
+          (@model.possibly_outdated || @model.source == 'GoogleTranslate') &&
+          already_assigned_to_translator_team? == false
       end
 
       def message_for_new_assignment
@@ -51,6 +53,11 @@ module API::V1
 
       def assign_to_translator_team?
         @model.manually_editable?
+      end
+
+      def already_assigned_to_translator_team?
+        @model.current_assignment.reciever_team_id ==
+          AssignmentDefaults.translator_teams[@model.locale.to_s]
       end
     end
   end

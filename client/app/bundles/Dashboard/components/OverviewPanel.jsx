@@ -39,10 +39,10 @@ export default class OverviewPanel extends Component {
             <li><a data-toggle="tab" href="#menu4">Abgeschlossene Aufgaben</a></li>
           </ul>
           <div className="tab-content">
-            <div id="menu1" className="tab-pane fade in active">
+            <div id="menu1" className="tab-pane fade">
               <AssignmentsContainer scope={'reciever'} item_id={user.id} />
             </div>
-            <div id="menu2" className="tab-pane fade">
+            <div id="menu2" className="tab-pane fade in active">
               <AssignmentsContainer
                 scope={'reciever_team'} item_id={user.current_team_id}
               />

@@ -26,12 +26,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let params = ownProps.params
     let field = ownProps.field
     // reset params and re-fill them, if required
-    let tempParams = merge(clone(params), {sort_field: field.field, sort_model: null, sort_klass: null})
+    let tempParams = merge(clone(params), {sort_field: field.field, sort_model: null})
     if(field.relation != 'own'){
       tempParams = merge(tempParams, {sort_model: field.model})
-      if(field.klass){
-        tempParams = merge(tempParams, {sort_klass: field.klass})
-      }
     }
     if (_isCurrentSortField(params, field)) {
       tempParams.sort_direction = params.sort_direction == 'ASC' ? 'DESC' : 'ASC'

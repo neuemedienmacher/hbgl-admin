@@ -14,8 +14,7 @@ const mapStateToProps = (state, ownProps) => {
   )
   let linkParams = merge(clone(params), {
     sort_field: field.field,
-    sort_model: (field.relation == 'own' ? null : field.model),
-    sort_klass: (field.sort_klass  ? field.sort_klass : null)
+    sort_model: (field.relation == 'own' ? null : field.model)
   })
   if (isCurrentSortField) {
     linkParams.sort_direction = currentDirection == 'ASC' ? 'DESC' : 'ASC'

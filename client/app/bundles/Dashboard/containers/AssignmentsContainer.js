@@ -38,20 +38,24 @@ function buildQuery(scope, id) {
   switch(scope) {
   case 'reciever':
     return {
-      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open'
+      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open',
+      'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
   case 'creator_open':
     return {
-      'filter[creator_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open'
+      'filter[creator_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open',
+      'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
   case 'reciever_closed':
     return {
-      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'closed'
+      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'closed',
+      'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
   case 'reciever_team':
     return {
       'filter[reciever_team]': id, 'filter[reciever_id]': 'nil', 'per_page': 10,
-      'filter[aasm_state]': 'open'
+      'filter[aasm_state]': 'open', 'sort_field': 'created_at',
+      'sort_direction': 'DESC'
     }
   default:
     return {}

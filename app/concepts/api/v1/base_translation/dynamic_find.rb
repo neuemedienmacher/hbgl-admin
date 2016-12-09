@@ -17,7 +17,7 @@ module API::V1
           translation_class.find_by locale: @locale, object_id_field => @object_id
         return translation if translation
 
-        # retriever user-ID for initial assignment - logic might change later
+        # get user-ID for initial assignment - logic might change later
         object = @object_type.constantize.find(@object_id)
         user_id =  object.approved_by ? object.approved_by : object.created_by
         # otherwise create a new one (via operation that also creates the

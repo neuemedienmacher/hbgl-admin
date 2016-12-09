@@ -28,9 +28,6 @@ module API::V1
           property :description
           property :opening_specification
         end
-        # property :offer_section, getter: ->(ot) do
-        #   ot[:represented].offer.section_filters.pluck(:identifier)
-        # end
       end
 
       class Index < Show

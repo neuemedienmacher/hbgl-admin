@@ -5,7 +5,6 @@ export const initialState = {
     params: {
       sort_direction: null,
       sort_model: null,
-      sort_klass: null,
       sort_field: null,
       query: null,
     },

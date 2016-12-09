@@ -15,8 +15,7 @@ export function analyzeFields(rawFields, model) {
               name: `${association} ${associatedField}`,
               relation: 'association',
               model: association,
-              field: associatedField,
-              klass: rawField.klass
+              field: associatedField
             })
           }
         }

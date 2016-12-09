@@ -31,7 +31,8 @@ module API::V1
       protected
 
       def created_by_system?
-        !model.offer.section_filters.pluck(:identifier).include?('refugees')
+        model.locale == 'de' ||
+          !model.offer.section_filters.pluck(:identifier).include?('refugees')
       end
     end
   end

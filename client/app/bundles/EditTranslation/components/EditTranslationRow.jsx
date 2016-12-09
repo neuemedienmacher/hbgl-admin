@@ -3,7 +3,7 @@ import { Form, InputSet } from 'rform'
 
 export default class EditTranslationForm extends Component {
   render() {
-    const { property, length, source, may_edit } = this.props
+    const { property, source } = this.props
 
     return (
       <tr>
@@ -18,9 +18,9 @@ export default class EditTranslationForm extends Component {
   }
 
   renderTextOrForm(){
-    const { property, content, type, may_edit } = this.props
+    const { property, length, source, content, type, may_edit } = this.props
 
-    if (may_edit) {
+    if (may_edit && source && source[property]) {
       return (
         <div>
           <InputSet
@@ -33,7 +33,11 @@ export default class EditTranslationForm extends Component {
       )
     }
     else {
-      return <div>{content}<br /></div>
+      return (
+        <div>
+          {content}
+        </div>
+      )
     }
   }
 }

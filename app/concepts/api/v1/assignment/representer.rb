@@ -21,10 +21,8 @@ module API::V1
         has_one :creator do
           type :users
 
+          property :id
           property :name
-          # property :label, getter: ->(user) do
-          #   user[:represented].name
-          # end
         end
 
         has_one :assignable do
@@ -36,7 +34,9 @@ module API::V1
           property :created_at
           # INFO: this won't work for any assignable model
           property :label, getter: ->(ot) do
-            ot[:represented].respond_to?(:name) ? ot[:represented].name : ot[:represented].description
+            ot[:represented].respond_to?(:untranslated_name) ?
+              ot[:represented].untranslated_name :
+              ot[:represented].untranslated_description
           end
         end
       end

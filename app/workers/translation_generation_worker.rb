@@ -72,5 +72,13 @@ class TranslationGenerationWorker
   def reindex object
     return unless object.is_a? Offer
     object.reload.algolia_index!
+    # Site-Effect: iterate orgas and create assignments for orga-translations
+    object.organizations.each do |orga|
+      orga.translations.each do |translation|
+        # directly call process method (assignable) for orga_translation to
+        # invoke re-assign logic
+        API::V1::BaseTranslation::Update.new(translation, orga, nil).process(nil)
+      end
+    end
   end
 end

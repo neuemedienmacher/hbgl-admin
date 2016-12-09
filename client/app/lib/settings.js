@@ -101,8 +101,8 @@ export default {
       ],
       inline_fields: [
         'assignable_type', 'assignable_id',
-        {assignable: ['label', 'created_at'], type: 'polymorphic'},
-        {creator: ['name'], klass: 'user'}, 'message', 'created_at'
+        {assignable: ['label', 'created_at']},
+        {creator: ['name']}, 'message', 'created_at'
       ],
       general_actions: [
         'index'

@@ -30,7 +30,7 @@ module API::V1
 
       def created_by_system?
         !model.organization.section_filters.pluck(:identifier)
-          .include?('refugees')
+          .include?('refugees') || model.locale == 'de'
       end
     end
   end
