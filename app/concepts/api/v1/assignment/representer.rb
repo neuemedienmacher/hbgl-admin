@@ -32,11 +32,17 @@ module API::V1
 
           property :id
           property :created_at
-          # INFO: this won't work for any assignable model
-          property :label, getter: ->(ot) do
-            ot[:represented].respond_to?(:untranslated_name) ?
-              ot[:represented].untranslated_name :
-              ot[:represented].untranslated_description
+          property :label, getter: ->(object) do
+            if object[:represented].class.to_s.include?('Translation')
+              object[:represented].respond_to?(:organization) ?
+                object[:represented].organization.untranslated_description :
+                object[:represented].offer.untranslated_name
+            else
+              # INFO: this won't work for any assignable model
+              object[:represented].respond_to?(:name) ?
+                object[:represented].name :
+                object[:represented].description
+            end
           end
         end
       end
