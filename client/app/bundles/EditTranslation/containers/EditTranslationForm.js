@@ -18,6 +18,7 @@ const mapStateToProps = (state, ownProps) => {
     (model == 'offer') ? OfferTranslationFormObject
                        : OrganizationTranslationFormObject
   const properties = formObjectClass.properties
+  const editLink = `/admin/${model}/${ownProps.source.id}/edit`
   const previewLink = `/admin/${model}/${ownProps.source.id}/show_in_app`
 
   return {
@@ -26,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     formObjectClass,
     properties,
     formId,
+    editLink,
     previewLink
   }
 }

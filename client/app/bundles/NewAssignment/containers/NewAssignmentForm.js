@@ -8,7 +8,6 @@ import addEntities from '../../../Backend/actions/addEntities'
 import NewAssignmentForm from '../components/NewAssignmentForm'
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state)
   const formId = 'AssignmentForm'
   const formSettings = state.settings.assignments
   const formData = state.rform[formId] || {}

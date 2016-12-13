@@ -8,7 +8,7 @@ import snakeCase from 'lodash/snakeCase'
 import clone from 'lodash/clone'
 import filter_collection from 'lodash/filter'
 import valuesIn from 'lodash/valuesIn'
-import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/orderBy'
 import { assignableRouteForAction } from '../../../lib/routeForAction'
 
 const mapStateToProps = (state, ownProps) => {
@@ -20,11 +20,12 @@ const mapStateToProps = (state, ownProps) => {
     settings.index.assignable.assignment_actions
   let system_user =
     filter_collection(state.entities.users, {'name': 'System'} )[0]
-  const users = sortBy(valuesIn(state.entities.users).filter(user => (
+  const users = orderBy(valuesIn(state.entities.users).filter(user => (
     user.name != 'System' && user.id != state.entities.current_user.id
   )).map(user => ({
-    name: involvementCount(assignments, user.id) + user.name, value: user.id
-  })), ['name'])
+    name: user.name + ` (${involvementCount(assignments, user.id)})`,
+    value: user.id, sortValue: involvementCount(assignments, user.id)
+  })), ['sortValue', 'name'],  ['desc', 'asc'])
 
   const actions = settings_actions.filter(
     action => visibleFor(action, state.entities, model,
@@ -35,11 +36,9 @@ const mapStateToProps = (state, ownProps) => {
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, system_user, users),
     method: action == 'assign_to_current_user' ? 'PATCH' : 'POST',
-    userChoice: action == 'assign_someone_else'
+    userChoice: action == 'assign_someone_else',
+    messageField: action != 'assign_to_system'
   }))
-  // console.log(assignableDataLoad)
-  // console.log(assignment)
-  // console.log(state)
 
   return {
     assignment,
@@ -52,8 +51,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
   handleResponse(_formId, data){
-    console.log('=========handleResponse==========')
-    console.log(data)
     dispatch(addEntities(data))
     // call dataLoad-Function of the assignable to update current_assignment
     if(ownProps.assignableDataLoad){
@@ -62,8 +59,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 
   afterResponse(response) {
-    console.log('=========afterResponse==========')
-    console.log(response)
+    // console.log('=========afterResponse==========')
+    // console.log(response)
   }
 })
 
@@ -94,7 +91,7 @@ function buttonTextFor(action) {
   case 'retrieve_assignment':
     return 'Neue Zuweisung öffnen'
   case 'assign_to_system':
-    return 'Zuweisung schließen'
+    return 'Zuweisung schließen!'
   }
 }
 
@@ -134,7 +131,7 @@ function involvementCount(assignments, userID) {
   let assignment_count = valuesIn(assignments).filter(assignment => (
     assignment.creator_id == userID || assignment.reciever_id == userID
   )).length
-  return assignment_count > 0 ? '(' + assignment_count + ') ' : ''
+  return assignment_count
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssignmentActions)

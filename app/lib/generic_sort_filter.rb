@@ -5,7 +5,7 @@ module GenericSortFilter
     query = transform_by_searching(query, params[:query])
     query = transform_by_joining(query, params)
     query = transform_by_ordering(query, params)
-    transform_by_filtering(query, params[:filter])
+    transform_by_filtering(query, params[:filter], params[:operator])
   end
 
   private
@@ -48,15 +48,20 @@ module GenericSortFilter
     query.order(sort_string)
   end
 
-  def self.transform_by_filtering(query, filters)
+  def self.transform_by_filtering(query, filters, operators)
     return query unless filters
     filters.each do |filter, value|
       next if value.empty?
-      # allow for nil as string from JavaScript and convert it to ruby nil
-      processed_value = value == 'nil' ? nil : value
       # transform table names (before a .) in case of association name mismatch
       filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
-      query = query.where(filter_key => processed_value)
+      operator = process_operator(operators, filter, value)
+      # append OR NULL for non-null, NOT-queries (include optionals)
+      opt_appendix = operator == '!=' && nullable_value?(value) ?
+        "OR #{filter_key} IS NULL" : ''
+      # NULL-filters are not allowed to stand within ''
+      _value = nullable_value?(value) ? 'NULL' : "'#{value}'"
+      # build variable query (filtering with variable operators)
+      query = query.where("#{filter_key} #{operator} #{_value} #{opt_appendix}")
     end
     query
   end
@@ -73,5 +78,18 @@ module GenericSortFilter
 
   def self.association_for(query, filter)
     query.model.reflections[filter]
+  end
+
+  # retrives the given operator or falls back to '='. Special case for 'nil'
+  def self.process_operator(operators, filter, value)
+    operator = operators && operators[filter] ? operators[filter] : '='
+    if nullable_value?(value)
+      operator = operator == '=' ? 'IS' : 'IS NOT'
+    end
+    operator
+  end
+
+  def self.nullable_value?(value)
+    value == 'nil' || value == 'null' || value == 'NULL'
   end
 end

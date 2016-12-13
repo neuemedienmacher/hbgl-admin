@@ -7,7 +7,7 @@ export default class IndexHeader extends Component {
   render() {
     const {
       onQueryChange, query, onPlusClick, filters, model, params,
-      plusButtonDisabled, routes
+      plusButtonDisabled, routes, uiKey
     } = this.props
 
     return (
@@ -36,6 +36,7 @@ export default class IndexHeader extends Component {
             return(
               <IndexHeaderFilter
                 model={model} params={params} key={filter[0]} filter={filter}
+                uiKey={uiKey}
               />
             )
           })}

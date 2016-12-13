@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import InlineIndexTable from '../containers/InlineIndexTable'
 import InlinePagination from '../containers/InlinePagination'
+import InlineIndexHeader from '../containers/InlineIndexHeader'
 
 export default class InlineIndex extends Component {
   componentWillReceiveProps(nextProps) {
@@ -16,16 +17,20 @@ export default class InlineIndex extends Component {
 
   render() {
     const {
-      params, model, identifier, ui_key
+      params, model, identifier, uiKey, count
     } = this.props
 
     return (
       <div className='content InlineIndex'>
+        <InlineIndexHeader
+          model={model} params={params} identifier={identifier} uiKey={uiKey}
+        />
+        Gefundene Daten: {count}
         <InlineIndexTable
-          model={model} params={params} identifier={identifier} ui_key={ui_key}
+          model={model} params={params} identifier={identifier} uiKey={uiKey}
         />
         <InlinePagination
-          params={params} identifier={identifier} ui_key={ui_key}
+          params={params} identifier={identifier} uiKey={uiKey}
         />
       </div>
     )

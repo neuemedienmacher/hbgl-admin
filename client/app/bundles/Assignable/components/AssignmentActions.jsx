@@ -49,6 +49,14 @@ export default class AssignmentActions extends Component {
         label='an' type='select' attribute='reciever_id' options={users}
       /> : null
 
+    const optionalMessage = action.messageField ?
+      <InputSet
+        wrapperClassName='form-group' className='form-control'
+        wrapperErrorClassName='has-error' errorClassName='help-block'
+        label='Nachricht' type='textfield' attribute='message'
+        placeholder='Gib eine Nachricht ein'
+      /> : null
+
     return(
       <Form ajax requireValid seedData={action.seedData} id={action.formId}
         method={action.method} action={action.href} className='form-inline'
@@ -56,12 +64,7 @@ export default class AssignmentActions extends Component {
         handleResponse={handleResponse} afterResponse={afterResponse}
       >
         <hr />
-        <InputSet
-          wrapperClassName='form-group' className='form-control'
-          wrapperErrorClassName='has-error' errorClassName='help-block'
-          label='Nachricht' type='textfield' attribute='message'
-          placeholder='Gib eine Nachricht ein'
-        />
+        {optionalMessage}
         {optionalUserSelection}
         <button type='submit' className='btn btn-warning'>
           {action.buttonText}

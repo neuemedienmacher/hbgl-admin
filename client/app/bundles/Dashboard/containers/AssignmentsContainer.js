@@ -1,13 +1,15 @@
 import { connect } from 'react-redux'
+import filter_collection from 'lodash/filter'
 import AssignmentsContainer from '../components/AssignmentsContainer'
 
 const mapStateToProps = (state, ownProps) => {
   const scope = ownProps.scope
   const model = 'assignments'
-  const filter_query = buildQuery(scope, ownProps.item_id)
+  let system_user =
+    filter_collection(state.entities.users, {'name': 'System'} )[0]
+  const filter_query = buildQuery(scope, ownProps.item_id,system_user.id)
   let identifier = 'indexResults_' + model + '_' + scope
-  let count = state.ajax[identifier] ? state.ajax[identifier].meta.total_entries : 0
-  const heading = headingFor(scope, count)
+  const heading = headingFor(scope)
 
   return {
     heading,
@@ -19,22 +21,22 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-function headingFor(scope, count) {
+function headingFor(scope) {
   switch(scope) {
   case 'reciever':
-    return 'Dir zugewiesene, offene Aufgaben: ' + count
+    return 'Dir zugewiesene, offene Aufgaben:'
   case 'creator_open':
-    return 'Von dir erstellte, offene Aufgaben: ' + count
+    return 'Von dir erstellte, offene Aufgaben:'
   case 'reciever_closed':
-    return 'Von dir empfangene, abgeschlossene Aufgaben: ' + count
+    return 'Von dir empfangene, abgeschlossene Aufgaben:'
   case 'reciever_team':
-    return 'Deinem aktuellen Team zugewiesene, offene Aufgaben: ' + count
+    return 'Deinem aktuellen Team zugewiesene, offene Aufgaben:'
   default:
     return ''
   }
 }
 
-function buildQuery(scope, id) {
+function buildQuery(scope, id, sys_id) {
   switch(scope) {
   case 'reciever':
     return {
@@ -43,8 +45,9 @@ function buildQuery(scope, id) {
     }
   case 'creator_open':
     return {
-      'filter[creator_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open',
-      'sort_field': 'created_at', 'sort_direction': 'DESC'
+      'filter[creator_id]': id, 'filter[aasm_state]': 'open', 'per_page': 10,
+      'filter[reciever_id]': sys_id, 'operator[reciever_id]': '!=',
+      'sort_field': 'created_at', 'sort_direction': 'DESC',
     }
   case 'reciever_closed':
     return {
@@ -53,7 +56,8 @@ function buildQuery(scope, id) {
     }
   case 'reciever_team':
     return {
-      'filter[reciever_team]': id, 'filter[reciever_id]': 'nil', 'per_page': 10,
+      'filter[reciever_team_id]': id, 'filter[reciever_id]': 'nil',
+      'operator[reciever_id]': '=', 'per_page': 10,
       'filter[aasm_state]': 'open', 'sort_field': 'created_at',
       'sort_direction': 'DESC'
     }

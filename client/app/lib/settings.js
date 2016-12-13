@@ -108,10 +108,12 @@ export default {
         'index'
       ],
       member_actions: [
-        'show', 'edit_assignable'
+        'edit_assignable'
       ]
     },
   },
+
+  OPERATORS: ['=', '!=', '<', '>'],
 
   SECTIONS: ['family', 'refugees'],
 }

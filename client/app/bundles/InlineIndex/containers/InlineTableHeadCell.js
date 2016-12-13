@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     forEach(tempParams, function(value, key) {
       if(value != null) { finalParams[key] = value }
     });
-    dispatch(setUiAction(ownProps.ui_key, finalParams))
+    dispatch(setUiAction(ownProps.uiKey, finalParams))
   }
 })
 

@@ -6,7 +6,7 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      handleResponse, afterResponse, may_edit, previewLink
+      handleResponse, afterResponse, may_edit, editLink, previewLink
     } = this.props
 
     return (
@@ -23,8 +23,8 @@ export default class EditTranslationForm extends Component {
                   Übersetzung von {this.renderTranslationSource()}
                 </th>
                 <th className='original'>
-                  {/*TODO: Link to edit*/}
-                  Original <a href={previewLink} target='_blank'>(Preview)</a>
+                  <a href={editLink} target='_blank'>Original</a>&ensp;
+                  <a href={previewLink} target='_blank'>(Preview)</a>
                 </th>
               </tr>
               {properties.map(property => {

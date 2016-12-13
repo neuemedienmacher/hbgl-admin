@@ -6,7 +6,7 @@ import TableRow from '../../Index/containers/TableRow'
 export default class InlineIndexTable extends Component {
   render() {
     const {
-      fields, rows, model, params, tbodyClass, ui_key, identifier
+      fields, rows, model, params, tbodyClass, uiKey, identifier
     } = this.props
 
     return (
@@ -16,7 +16,7 @@ export default class InlineIndexTable extends Component {
             {fields.map((field, index) => {
               return(
                 <InlineTableHeadCell
-                  params={params} key={index} field={field} ui_key={ui_key}
+                  params={params} key={index} field={field} uiKey={uiKey}
                   identifier={identifier}
                 />
               )
