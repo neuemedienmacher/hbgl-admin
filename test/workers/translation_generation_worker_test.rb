@@ -112,8 +112,16 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
 
       # add a refugees offer to the organization and start worker again
       offer = orga.offers.first
+      # first try with non-approved offer => should not generate translation
+      offer.update_columns aasm_state: 'initialized'
       offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
       orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
+      worker.perform :en, 'Offer', offer.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 1
+
+      # set state to approved => orga translation is generated
+      offer.update_columns aasm_state: 'approved'
       worker.perform :en, 'Offer', offer.id
       assignments = OrganizationTranslation.last.assignments
       assignments.count.must_equal 2

@@ -23,6 +23,8 @@ class TranslationGenerationWorker
       .update_and_assign()
     # reindex the object (only offers)
     reindex object
+    # side-effect: invoke translation logic on associated organizations
+    notify_associated_organizations object
   end
 
   private
@@ -72,11 +74,16 @@ class TranslationGenerationWorker
   def reindex object
     return unless object.is_a? Offer
     object.reload.algolia_index!
-    # Site-Effect: iterate orgas and create assignments for orga-translations
-    object.organizations.each do |orga|
+  end
+
+  # Site-Effect: iterate organizations and create assignments for translations.
+  # Applies the entire logic (assigns only when needed) via operation.
+  def notify_associated_organizations object
+    return unless object.is_a?(Offer) && object.approved?
+    object.organizations.approved.each do |orga|
       orga.translations.each do |translation|
         # directly call process method (assignable) for orga_translation to
-        # invoke re-assign logic
+        # invoke assignment logic (does not trigger new translaton)
         API::V1::BaseTranslation::Update.new(translation, orga, nil).process(nil)
       end
     end

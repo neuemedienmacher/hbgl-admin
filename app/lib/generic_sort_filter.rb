@@ -54,14 +54,17 @@ module GenericSortFilter
       next if value.empty?
       # transform table names (before a .) in case of association name mismatch
       filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
+      filter_string = filter_key.to_s
+      # append operator
       operator = process_operator(operators, filter, value)
-      # append OR NULL for non-null, NOT-queries (include optionals)
-      opt_appendix = operator == '!=' && nullable_value?(value) ?
-        "OR #{filter_key} IS NULL" : ''
-      # NULL-filters are not allowed to stand within ''
-      _value = nullable_value?(value) ? 'NULL' : "'#{value}'"
-      # build variable query (filtering with variable operators)
-      query = query.where("#{filter_key} #{operator} #{_value} #{opt_appendix}")
+      filter_string += ' ' + operator
+      # append value
+      _value = transform_value(value, filter, query)
+      filter_string += ' ' + _value
+      # append optional addition
+      filter_string += optional_query_addition(operator, _value, filter_key)
+
+      query = query.where(filter_string)
     end
     query
   end
@@ -87,6 +90,26 @@ module GenericSortFilter
       operator = operator == '=' ? 'IS' : 'IS NOT'
     end
     operator
+  end
+
+  def self.transform_value(value, filter, query)
+    model_name = filter.include?('.') ?
+      filter.split('.').first.constantize : query.model
+    # convert datetime strings to specific format for query
+    if model_name.columns_hash[filter].type == :datetime && !value.empty?
+      value = DateTime.parse(value + ' CET').utc.to_s
+    end
+    # NULL-filters are not allowed to stand within ''
+    nullable_value?(value) ? 'NULL' : "'#{value}'"
+  end
+
+  def self.optional_query_addition(operator, value, filter_key)
+    # append OR NULL for non-null, NOT-queries (include optionals)
+    if operator == '!=' && nullable_value?(value)
+      " OR #{filter_key} IS NULL"
+    else
+      ''
+    end
   end
 
   def self.nullable_value?(value)
