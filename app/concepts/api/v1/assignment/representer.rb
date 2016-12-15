@@ -17,6 +17,34 @@ module API::V1
         property :aasm_state
         property :created_at
         property :updated_at
+
+        has_one :creator do
+          type :users
+
+          property :id
+          property :name
+        end
+
+        has_one :assignable do
+          type do |as|
+            as[:represented].assignable_type.underscore.pluralize.to_sym
+          end
+
+          property :id
+          property :created_at
+          property :label, getter: ->(object) do
+            if object[:represented].class.to_s.include?('Translation')
+              object[:represented].respond_to?(:organization) ?
+                object[:represented].organization.untranslated_description :
+                object[:represented].offer.untranslated_name
+            else
+              # INFO: this won't work for any assignable model
+              object[:represented].respond_to?(:name) ?
+                object[:represented].name :
+                object[:represented].description
+            end
+          end
+        end
       end
     end
   end

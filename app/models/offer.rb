@@ -6,7 +6,7 @@ class Offer < ActiveRecord::Base
   has_paper_trail
 
   # Concerns
-  include SearchAlgolia, Translation
+  include SearchAlgolia, Translations
 
   # Search
   include PgSearch

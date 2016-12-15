@@ -2,7 +2,8 @@ export default {
   index: {
     assignable: {
       assignment_actions: [
-        'reply_to_assignment', 'assign_from_system', 'assign_to_current_user'
+        'assign_someone_else', 'retrieve_assignment', 'assign_to_system',
+        'assign_to_current_user'
       ]
     },
 
@@ -15,7 +16,7 @@ export default {
         'index', 'export'
       ],
       member_actions: [
-        'edit'
+        'show', 'edit'
       ]
     },
 
@@ -28,7 +29,7 @@ export default {
         'index', 'export'
       ],
       member_actions: [
-        'edit'
+        'show', 'edit'
       ]
     },
 
@@ -81,6 +82,18 @@ export default {
       ]
     },
 
+    divisions: {
+      fields: [
+        'id', 'name', { organization: ['name'] }
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
     user_teams: {
       fields: [
         'id', 'name', 'users'
@@ -99,17 +112,20 @@ export default {
         'reciever_id', 'reciever_team_id', 'aasm_state', 'created_at'
       ],
       inline_fields: [
-        'id', 'assignable_type', 'assignable_id', 'message', 'reciever_id',
-        'reciever_team_id', 'aasm_state', 'created_at'
+        'assignable_type', 'assignable_id',
+        {assignable: ['label', 'created_at']},
+        {creator: ['name']}, 'message', 'created_at'
       ],
       general_actions: [
         'index'
       ],
       member_actions: [
-        'show', 'edit_assignable'
+        'edit_assignable'
       ]
     },
   },
+
+  OPERATORS: ['=', '!=', '<', '>'],
 
   SECTIONS: ['family', 'refugees'],
 }

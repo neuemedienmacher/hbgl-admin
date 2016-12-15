@@ -9,14 +9,16 @@ const mapStateToProps = (state, ownProps) => {
     ownProps.identifier_addition ? '_' + ownProps.identifier_addition : ''
   const model = ownProps.model
   const identifier = 'indexResults_' + model + optional
-  const ui_key = 'index_' + model + optional
-  const params = state.ui[ui_key] || ownProps.baseQuery
+  const uiKey = 'index_' + model + optional
+  const params = state.ui[uiKey] || ownProps.baseQuery
+  const count = state.ajax[identifier] ? state.ajax[identifier].meta.total_entries : 0
 
   return {
     params,
     model,
     identifier,
-    ui_key
+    uiKey,
+    count
   }
 }
 

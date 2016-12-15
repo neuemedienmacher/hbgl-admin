@@ -1,5 +1,6 @@
 import React from 'react'
-import toPairs from 'lodash/toPairs'
+import { Form } from 'rform'
+import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 
 export default class OverviewTable extends React.Component {
   componentDidMount() {
@@ -15,29 +16,50 @@ export default class OverviewTable extends React.Component {
   }
 
   render() {
-    const { data } = this.props
+    const { data, states, stateKey, onCityChange } = this.props
 
     return (
-      <table className='table'>
-        <tbody>
-          <tr>
-            <th>state</th>
-            <th># in family</th>
-            <th># in refugees</th>
-            <th># insgesamt</th>
-          </tr>
-          {toPairs(data).map(([state, numbers]) => {
-            return(
-              <tr key={state}>
-                <td>{state}</td>
-                <td>{numbers.family}</td>
-                <td>{numbers.refugees}</td>
-                <td>{numbers.total}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <div>
+        <Form id={stateKey}>
+          <FilteringSelect
+            attribute='city' associatedModel='city' placeholder='Stadt…'
+            onChange={onCityChange}
+          />
+        </Form>
+        <table className='table'>
+          <tbody>
+            <tr>
+              <th>state</th>
+              <th>family</th>
+              <th>refugees</th>
+              <th>insgesamt</th>
+            </tr>
+            {states.map(this._renderStateRow.bind(this))}
+            {this._renderStateRow('total')}
+          </tbody>
+        </table>
+      </div>
     )
+  }
+
+  _renderStateRow(state) {
+    const numbers = this.props.data[state] || {}
+
+    if (numbers) {
+      return(
+        <tr key={state}>
+          <td>{state}</td>
+          <td>
+            {typeof numbers.family == 'number' ? numbers.family : 'Lade…'}
+          </td>
+          <td>
+            {typeof numbers.refugees == 'number' ? numbers.refugees : 'Lade…'}
+          </td>
+          <td>
+            {typeof numbers.total == 'number' ? numbers.total : 'Lade…'}
+          </td>
+        </tr>
+      )
+    }
   }
 }

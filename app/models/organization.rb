@@ -11,10 +11,7 @@ class Organization < ActiveRecord::Base
   # Admin specific methods
 
   # Concerns
-  include Translation
-
-  # Translation
-  # translate :description
+  include Translations
 
   # State Machine
   aasm do

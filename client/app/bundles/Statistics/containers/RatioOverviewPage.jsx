@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
     values(state.entities.filters).filter(obj => obj.type == 'SectionFilter')
 
   const allDataLoaded = (
-    data && data.offer && data.offer.ratio.family &&
+    data && data.offer && data.offer.ratio && data.offer.ratio.family &&
       data.offer.ratio.refugees && data.organization &&
       data.organization.ratio.family && data.organization.ratio.refugees
   )

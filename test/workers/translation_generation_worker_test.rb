@@ -34,8 +34,8 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       translation = OfferTranslation.last
       translation.name.must_equal 'GET READY FOR CANADA'
       translation.description.must_equal ''
-      translation.old_next_steps.must_equal nil
-      translation.opening_specification.must_equal nil
+      assert_nil translation.old_next_steps
+      assert_nil translation.opening_specification
     end
 
     it 'should work for an organization in German' do
@@ -48,6 +48,135 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       worker.perform :en, 'Organization', 1
       translation = OrganizationTranslation.last
       translation.description.must_equal 'GET READY FOR CANADA'
+    end
+
+    # automated Assignments
+
+    it 'should only create initial system-assignment for German translation that belongs to a refugees-offer' do
+      Assignment.count.must_equal 0
+      Offer.first.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      worker.perform :de, 'Offer', 1
+      assignments = OfferTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should create two assignments for refugees-en-organization' do
+      Assignment.count.must_equal 0
+      orga = Organization.first
+      orga.offers.first.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
+      worker.perform :en, 'Organization', 1
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 2
+      assignments.first.creator_id.must_equal orga.approved_by
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'closed'
+      assignments.last.creator_id.must_equal User.system_user.id
+      assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
+      assignments.last.aasm_state.must_equal 'open'
+    end
+
+    it 'should correctly create a second assignment with a refugees-offer' do
+      Assignment.count.must_equal 0
+      orga = Organization.find(1)
+      worker.perform :en, 'Organization', orga.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+
+      # add a refugees offer to the organization and start worker again
+      orga.offers.first.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
+      worker.perform :en, 'Organization', orga.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 2
+      assignments.last.creator_id.must_equal User.system_user.id
+      assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
+      assignments.last.aasm_state.must_equal 'open'
+    end
+
+    it 'should correctly create the second assignment as an offer side-effect' do
+      Assignment.count.must_equal 0
+      orga = Organization.find(1)
+      worker.perform :en, 'Organization', orga.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+
+      # add a refugees offer to the organization and start worker again
+      offer = orga.offers.first
+      # first try with non-approved offer => should not generate translation
+      offer.update_columns aasm_state: 'initialized'
+      offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
+      worker.perform :en, 'Offer', offer.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 1
+
+      # set state to approved => orga translation is generated
+      offer.update_columns aasm_state: 'approved'
+      worker.perform :en, 'Offer', offer.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 2
+      assignments.first.aasm_state.must_equal 'closed'
+      assignments.last.creator_id.must_equal User.system_user.id
+      assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
+      assignments.last.aasm_state.must_equal 'open'
+
+      # running again does not generate a new orga-assignment (already existing)
+      worker.perform :en, 'Offer', offer.id
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 2
+    end
+
+    it 'should only create system-assignment for family-en-OrganizationTranslation' do
+      Assignment.count.must_equal 0
+      worker.perform :en, 'Organization', 1
+      assignments = OrganizationTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should create an initial and an updated Assignment for English' do
+      Assignment.count.must_equal 0
+      Offer.first.section_filters = [SectionFilter.find_by(identifier: 'refugees')]
+      worker.perform :en, 'Offer', 1
+      assignments = OfferTranslation.last.assignments
+      assignments.count.must_equal 2
+      assignments.first.creator_id.must_equal Offer.find(1).approved_by
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'closed'
+      assignments.last.creator_id.must_equal User.system_user.id
+      assignments.last.reciever_team_id.must_equal 1 # test default for transltor teams
+      assignments.last.aasm_state.must_equal 'open'
+    end
+
+    it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
+      Assignment.count.must_equal 0
+      worker.perform :de, 'Offer', 1
+      assignments = OfferTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should only create the initial system-assignment for English translation that belongs to a family-only offer' do
+      Assignment.count.must_equal 0
+      worker.perform :en, 'Offer', 1
+      assignments = OfferTranslation.last.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.reciever_id.must_equal User.system_user.id
     end
   end
 

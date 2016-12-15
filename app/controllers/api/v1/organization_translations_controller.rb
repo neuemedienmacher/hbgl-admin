@@ -8,11 +8,15 @@ module API::V1
     end
 
     def show
-      respond OrganizationTranslation::Show
+      respond API::V1::OrganizationTranslation::Show
+    end
+
+    def edit
+      form API::V1::OrganizationTranslation::Update
     end
 
     def update
-      run OrganizationTranslation::Update
+      run API::V1::OrganizationTranslation::Update
       super
     end
   end

@@ -19,7 +19,6 @@ const mapStateToProps = (state, ownProps) => {
   let tbodyClass
   if (state.ajax.isLoading[identifier]) tbodyClass = 'loading'
 
-
   return {
     rows,
     fields,

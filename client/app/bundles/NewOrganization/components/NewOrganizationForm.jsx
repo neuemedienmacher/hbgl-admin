@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
-import MultiSelect from '../../MultiSelect/wrappers/MultiSelect'
+import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
+import InlineCreate from '../../InlineCreate/wrappers/InlineCreate'
 import OrganizationFormObject from '../forms/OrganizationFormObject'
 
 export default class NewOrganizationForm extends React.Component {
@@ -23,7 +24,7 @@ export default class NewOrganizationForm extends React.Component {
             wrapperClassName='form-group' className='form-control'
             label='Name' attribute='name'
           />
-          <MultiSelect
+          <FilteringSelect multi
             wrapperClassName='form-group' className='form-control'
             label='Webseiten' attribute='website_ids'
           />
@@ -59,9 +60,10 @@ export default class NewOrganizationForm extends React.Component {
             wrapperClassName='form-group' className='form-control'
             label='Reichweite' attribute='isntthatencounter'
           />
-          <InputSet
+          <InlineCreate
+            model='divisions' idOrNew='new' edit={null}
             wrapperClassName='form-group' className='form-control'
-            label='Abteilungen' attribute='gettingTricky'
+            label='Abteilungen' attribute='divisions'
           />
           <button className='btn btn-default' type='submit' disabled='disabled'>
             Erstellen

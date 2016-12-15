@@ -5,7 +5,7 @@ module API::V1
       model ::Assignment, :update
 
       include Trailblazer::Operation::Policy
-      policy ::AssignmentPolicy, :assign_and_edit_assignable?
+      policy ::AssignmentPolicy, :update?
 
       include Trailblazer::Operation::Representer
       representer API::V1::Assignment::Representer::Show
@@ -24,11 +24,6 @@ module API::V1
       end
 
       def process(params)
-        puts '==========params=========='
-        puts params
-        puts params[:json]
-        puts '==========model=========='
-        puts model
         validate(params[:json]) do |item|
           item.save
           # create a new Assignment to system when the current one is closed

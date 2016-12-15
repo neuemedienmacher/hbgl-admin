@@ -18,9 +18,9 @@ export default class OrgaOverviewPage extends React.Component {
           <tbody>
             <tr>
               <th>state</th>
-              <th># in family</th>
-              <th># in refugees</th>
-              <th># insgesamt</th>
+              <th>family</th>
+              <th>refugees</th>
+              <th>insgesamt</th>
             </tr>
             <tr>
               <td>all_done</td>
@@ -36,14 +36,13 @@ export default class OrgaOverviewPage extends React.Component {
             <br />
             (Anzahl von Angeboten die mindestens einer Orga im state all_done
               zugeordnet sind [und in clarat Welt <i>x</i> sind]) geteilt durch
-            (Anzahl der Organisationen im state all_done)
+            (Anzahl der Organisationen im state all_done [mit Angeboten in
+              clarat Welt <i>x</i>])
           </small>
         </p>
         <p>
           <small>
             Kooperationsangebote werden somit nur einfach gezählt.
-            Da Organisationen nur durch ihre Angebote einer Welt zugeordnet
-            sind, ist die Filterung von Orgas nach Welt <i>x</i> nicht nötig.
           </small>
         </p>
       </div>

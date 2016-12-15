@@ -3,7 +3,7 @@ module API::V1
   module Assignable
     module Representer
       class Show < API::V1::Default::Representer::Show
-        # use method (uses scopes) to get current_assignment
+        # method (uses scopes) to get current_assignment
         property :current_assignment, getter: ->(item) do
           item[:represented].current_assignment
         end

@@ -52,7 +52,6 @@ export default class AssignableContainer extends Component {
 
   renderActionsIfAssigned() {
     const { assignment, loaded, may_edit, assignableDataLoad } = this.props
-    const href = '/'
 
     if (loaded) {
       return (
@@ -60,6 +59,6 @@ export default class AssignableContainer extends Component {
           assignment={assignment} assignableDataLoad={assignableDataLoad}
         />
       )
-    }else {return null}
+    } else {return null}
   }
 }

@@ -5,7 +5,7 @@ export default class InlinePagination extends Component {
   render() {
     const {
       pages, previousPageHref, nextPageHref, params, previousPage, nextPage,
-      ui_key, identifier
+      uiKey, identifier
     } = this.props
 
     return (
@@ -15,7 +15,7 @@ export default class InlinePagination extends Component {
           {pages.map(page => {
             return(
               <InlinePaginationCell
-                key={page} page={page} params={params} ui_key={ui_key}
+                key={page} page={page} params={params} uiKey={uiKey}
                 identifier={identifier}
               />
             )

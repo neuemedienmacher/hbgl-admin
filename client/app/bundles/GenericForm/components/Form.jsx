@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
-import MultiSelect from '../../MultiSelect/containers/MultiSelect'
+import FilteringSelect from '../../FilteringSelect/containers/FilteringSelect'
 
 export default class NewForm extends React.Component {
   render() {
@@ -27,7 +27,15 @@ export default class NewForm extends React.Component {
   renderInput(input, index) {
     if (input.type == 'multiselect') {
       return(
-        <MultiSelect key={index}
+        <FilteringSelect multi key={index}
+          wrapperClassName='form-group' className='form-control'
+          label={input.attribute} attribute={input.attribute}
+          formId={this.props.formId} type={input.type}
+        />
+      )
+    } else if (input.type == 'filtering-select') {
+      return(
+        <FilteringSelect key={index}
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
           formId={this.props.formId} type={input.type}

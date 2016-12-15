@@ -4,6 +4,9 @@ de:
   admin:
     home:
       name: "Backend 2.0 (Beta)"
+      highlighted_name:
+        one: "%{count} neue Anfrage im Backend 2.0 (Beta)"
+        other: "%{count} neue Anfragen im Backend 2.0 (Beta)"
     pagination:
       previous: "&laquo; Zurück"
       next: "Vor &raquo;"
