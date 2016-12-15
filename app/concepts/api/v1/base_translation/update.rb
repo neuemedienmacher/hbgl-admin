@@ -21,7 +21,7 @@ module API::V1
 
       # override default Assignable::Update logic
       def assignment_creator_id
-        ::User.system_user.id
+        @object.approved_by ? @object.approved_by : @object.created_by
       end
 
       def assignment_reciever_id
