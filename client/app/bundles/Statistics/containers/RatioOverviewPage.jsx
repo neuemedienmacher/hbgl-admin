@@ -56,12 +56,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const entryCountGrabberParams = function(model, section) {
     let params = { per_page: 1 }
-
-    if (model == 'offer') {
-      params['filter[organizations.aasm_state]'] = 'all_done'
-    } else {
-      params['filter[aasm_state]'] = 'all_done'
-    }
+    params['filter[organizations.aasm_state]'] = 'all_done'
 
     if (typeof section == 'object') {
       params['filter[section_filters.id]'] = section.id
