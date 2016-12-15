@@ -7,7 +7,9 @@ export default class EditTranslationForm extends Component {
 
     return (
       <tr>
-        {this.renderInputOrPlainText()}
+        <td>
+          {this.renderTextOrForm()}
+        </td>
         <td>
           {source && source[property]}
         </td>
@@ -15,27 +17,26 @@ export default class EditTranslationForm extends Component {
     )
   }
 
-  renderInputOrPlainText() {
-    const { property, length, type, content, may_edit } = this.props
+  renderTextOrForm(){
+    const { property, length, source, content, type, may_edit } = this.props
 
-    if (may_edit) {
-      return(
-        <td>
+    if (may_edit && source && source[property]) {
+      return (
+        <div>
           <InputSet
             attribute={property} type={type} label={property}
             wrapperClassName='form-group' className='form-control'
             wrapperErrorClassName='has-error' errorClassName='help-block'
           />
           Länge: {length}
-        </td>
+        </div>
       )
-    } else {
-      return(
-        <td>
-          {property}:
-          <br />
+    }
+    else {
+      return (
+        <div>
           {content}
-        </td>
+        </div>
       )
     }
   }

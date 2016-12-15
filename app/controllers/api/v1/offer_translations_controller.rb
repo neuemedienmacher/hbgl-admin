@@ -9,11 +9,15 @@ module API::V1
     end
 
     def show
-      respond OfferTranslation::Show
+      respond API::V1::OfferTranslation::Show
+    end
+
+    def edit
+      form API::V1::OfferTranslation::Update
     end
 
     def update
-      run OfferTranslation::Update
+      run API::V1::OfferTranslation::Update
       super
     end
   end

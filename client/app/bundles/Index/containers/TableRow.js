@@ -44,8 +44,7 @@ function iconFor(action) {
 function visibleFor(action, entities, model, id) {
   switch(action) {
     case 'edit_assignable':
-      return isCurrentUserAssignedToModel(entities, model, id) ||
-        isTeamOfCurrentUserAssignedToModel(entities, model, id)
+      return true
     default:
       return true
   }

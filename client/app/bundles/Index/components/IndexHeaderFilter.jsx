@@ -1,11 +1,13 @@
 import React, { PropTypes, Component } from 'react'
 import IndexHeaderFilterOption from '../containers/IndexHeaderFilterOption'
+import IndexHeaderOperatorOption from '../containers/IndexHeaderOperatorOption'
 
 export default class IndexHeaderFilter extends Component {
   render() {
     const {
-      options, onTrashClick, fields, filterName, filterValue,
-      onFilterNameChange, onFilterValueChange,
+      options, onTrashClick, fields, operators, filterName, operatorName,
+      filterValue, onFilterNameChange, onFilterValueChange,
+      onFilterOperatorChange
     } = this.props
 
     return (
@@ -19,10 +21,20 @@ export default class IndexHeaderFilter extends Component {
               <IndexHeaderFilterOption key={field.name} field={field} />
             )}
           </select>
+          <select
+            className='form-control' value={operatorName}
+            onChange={onFilterOperatorChange}
+          >
+            {operators.map(operator =>
+              <IndexHeaderOperatorOption
+                key={operator.value} operator={operator}
+              />
+            )}
+          </select>
           <div className='input-group'>
             <input
-              className='form-control' placeholder='ist gleich…'
-              onChange={onFilterValueChange} value={filterValue}
+              className='form-control' onChange={onFilterValueChange}
+              value={filterValue}
             />
             <span className='input-group-btn'>
               <button className='btn' onClick={onTrashClick}>

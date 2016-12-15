@@ -6,7 +6,7 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      handleResponse, afterResponse, may_edit
+      handleResponse, afterResponse, may_edit, editLink, previewLink
     } = this.props
 
     return (
@@ -23,7 +23,8 @@ export default class EditTranslationForm extends Component {
                   Übersetzung von {this.renderTranslationSource()}
                 </th>
                 <th className='original'>
-                  Original {/*TODO: Link to edit*/}
+                  <a href={editLink} target='_blank'>Original</a>&ensp;
+                  <a href={previewLink} target='_blank'>(Preview)</a>
                 </th>
               </tr>
               {properties.map(property => {
@@ -37,24 +38,14 @@ export default class EditTranslationForm extends Component {
             </tbody>
           </table>
         </fieldset>
-        {this.renderButtonOrText()}
-      </Form>
-    )
-  }
-
-  renderButtonOrText() {
-    if (this.props.may_edit) {
-      return(
         <Button
           className='btn btn-primary'
           disableOnInvalid disableOnUnchanged
           label='Speichern' unchangedDisabledLabel='Gespeichert!'
           invalidDisabledLabel='Es existieren Formular-Fehler!'
         />
-      )
-    } else {
-      return <span className='text-danger'>Du bist nicht zugewiesen!</span>
-    }
+      </Form>
+    )
   }
 
   renderTranslationSource() {

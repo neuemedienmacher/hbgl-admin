@@ -37,11 +37,13 @@ Rails.application.routes.draw do
       get 'export', controller: :pages, action: :react
     end
   end
+  resources :offer_translations, only: [:show], controller: :pages, action: :react
   resources :organization_translations, only: [:index, :edit, :update] do
     collection do
       get 'export', controller: :pages, action: :react
     end
   end
+  resources :organization_translations, only: [:show], controller: :pages, action: :react
   resources :productivity_goals
   resources :users, only: [:index, :show], controller: :pages, action: :react
   resources :user_teams, only: [:index, :show, :new, :edit],
@@ -90,8 +92,6 @@ Rails.application.routes.draw do
       resources :time_allocations, only: [:create, :update]
       resources :user_teams
       resources :assignments, only: [:index, :show, :create, :update]
-      # post 'assignments/:id/assign_and_edit_assignable', controller: :assignments,
-      #                                                    action: :assign_and_edit_assignable
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'

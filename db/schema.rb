@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031110918) do
+ActiveRecord::Schema.define(version: 20161208132350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20161031110918) do
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx", using: :btree
 
   create_table "cities", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -158,6 +158,17 @@ ActiveRecord::Schema.define(version: 20161031110918) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "divisions", force: :cascade do |t|
+    t.string   "name",              null: false
+    t.text     "description"
+    t.integer  "organization_id",   null: false
+    t.integer  "section_filter_id", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
   create_table "emails", force: :cascade do |t|
     t.string   "address",       limit: 64,                        null: false

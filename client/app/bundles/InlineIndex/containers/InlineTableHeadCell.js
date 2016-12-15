@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import merge from 'lodash/merge'
 import clone from 'lodash/clone'
+import forEach from 'lodash/forEach'
 import setUiAction from '../../../Backend/actions/setUi'
 import InlineTableHeadCell from '../components/InlineTableHeadCell'
 
@@ -24,15 +25,20 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onClick(e) {
     let params = ownProps.params
     let field = ownProps.field
-    let linkParams = merge(clone(params), {sort_field: field.field})
-    // TODO: sort_model might cause problems..
+    // reset params and re-fill them, if required
+    let tempParams = merge(clone(params), {sort_field: field.field, sort_model: null})
     if(field.relation != 'own'){
-      linkParams = merge(linkParams,{sort_model: field.model})
+      tempParams = merge(tempParams, {sort_model: field.model})
     }
     if (_isCurrentSortField(params, field)) {
-      linkParams.sort_direction = params.sort_direction == 'ASC' ? 'DESC' : 'ASC'
+      tempParams.sort_direction = params.sort_direction == 'ASC' ? 'DESC' : 'ASC'
     }
-    dispatch(setUiAction(ownProps.ui_key, linkParams))
+    // finalParams by rejecting null values to keep the params clean
+    let finalParams = {}
+    forEach(tempParams, function(value, key) {
+      if(value != null) { finalParams[key] = value }
+    });
+    dispatch(setUiAction(ownProps.uiKey, finalParams))
   }
 })
 

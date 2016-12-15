@@ -34,7 +34,7 @@ describe Offer do
       it 'should correctly duplicate an offer' do
         offer = FactoryGirl.create :offer, :approved
         duplicate = offer.partial_dup
-        duplicate.created_by.must_equal nil
+        assert_nil duplicate.created_by
         duplicate.location.must_equal offer.location
         duplicate.organizations.must_equal offer.organizations
         duplicate.openings.must_equal offer.openings
@@ -144,14 +144,19 @@ describe Offer do
         new_offer.aasm_state.must_equal 'initialized'
 
         # Changing things on an initialized offer doesn't change translations
-        new_offer.reload.name_ar.must_equal nil
+        assert_nil new_offer.reload.name_ar
         new_offer.name = 'changing name, wont update translation'
         new_offer.save!
         new_offer.translations.count.must_equal 1
-        new_offer.reload.name_ar.must_equal nil
+        assert_nil new_offer.reload.name_ar
 
-        # Completion generates all translations initially
+        # completion does not generate translations
         new_offer.complete!
+        new_offer.translations.count.must_equal 1
+
+        # approval generates all translations initially
+        new_offer.start_approval_process!
+        new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Now changes to the model change the corresponding translated fields
@@ -170,6 +175,9 @@ describe Offer do
         # Setup
         new_offer = FactoryGirl.create(:offer)
         new_offer.complete!
+        new_offer.translations.count.must_equal 1
+        new_offer.start_approval_process!
+        new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Now changes to the model change the corresponding translated fields
@@ -193,6 +201,9 @@ describe Offer do
         # Setup: Offer is first created
         new_offer = FactoryGirl.create(:offer)
         new_offer.complete!
+        new_offer.translations.count.must_equal 1
+        new_offer.start_approval_process!
+        new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Setup: A human edits the arabic translation and en

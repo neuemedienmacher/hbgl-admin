@@ -8,8 +8,8 @@ describe Organization do
     it 'should correctly duplicate an organization' do
       organization = FactoryGirl.create :organization, :approved
       duplicate = organization.partial_dup
-      duplicate.name.must_equal nil
-      duplicate.founded.must_equal nil
+      assert_nil duplicate.name
+      assert_nil duplicate.founded
       duplicate.aasm_state.must_equal 'initialized'
     end
   end
@@ -109,14 +109,19 @@ describe Organization do
       new_orga.aasm_state.must_equal 'initialized'
 
       # Changing things on an initialized offer doesn't change translations
-      new_orga.reload.description_ar.must_equal nil
+      assert_nil new_orga.reload.description_ar
       new_orga.description = 'changing description, wont update translation'
       new_orga.save!
       new_orga.translations.count.must_equal 1
-      new_orga.reload.description_ar.must_equal nil
+      assert_nil new_orga.reload.description_ar
 
-      # Completion generates all translations initially
+      # Completion does not generate translations
       new_orga.complete!
+      new_orga.translations.count.must_equal 1
+
+      # Approval generates all translations initially
+      new_orga.start_approval_process!
+      new_orga.approve!
       new_orga.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields
@@ -132,6 +137,9 @@ describe Organization do
       # Setup
       new_orga = FactoryGirl.create(:organization)
       new_orga.complete!
+      new_orga.translations.count.must_equal 1
+      new_orga.start_approval_process!
+      new_orga.approve!
       new_orga.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields

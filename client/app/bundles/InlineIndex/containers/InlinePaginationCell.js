@@ -19,7 +19,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onClick(e) {
     let linkParams = merge(clone(ownProps.params), {page: ownProps.page})
-    dispatch(setUiAction(ownProps.ui_key, linkParams))
+    dispatch(setUiAction(ownProps.uiKey, linkParams))
   }
 })
 

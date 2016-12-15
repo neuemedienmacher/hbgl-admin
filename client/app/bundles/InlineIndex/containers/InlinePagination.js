@@ -25,13 +25,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let params = ownProps.params
     let current_page = params.page || 1
     let linkParams = merge(clone(params), {page: current_page - 1})
-    dispatch(setUiAction(ownProps.ui_key, linkParams))
+    dispatch(setUiAction(ownProps.uiKey, linkParams))
   },
   nextPage(e) {
     let params = ownProps.params
     let current_page = params.page || 1
     let linkParams = merge(clone(params), {page: current_page + 1})
-    dispatch(setUiAction(ownProps.ui_key, linkParams))
+    dispatch(setUiAction(ownProps.uiKey, linkParams))
   }
 })
 

@@ -5,7 +5,7 @@ module GenericSortFilter
     query = transform_by_searching(query, params[:query])
     query = transform_by_joining(query, params)
     query = transform_by_ordering(query, params)
-    transform_by_filtering(query, params[:filter])
+    transform_by_filtering(query, params[:filter], params[:operator])
   end
 
   private
@@ -48,15 +48,23 @@ module GenericSortFilter
     query.order(sort_string)
   end
 
-  def self.transform_by_filtering(query, filters)
+  def self.transform_by_filtering(query, filters, operators)
     return query unless filters
     filters.each do |filter, value|
       next if value.empty?
-      # allow for nil as string from JavaScript and convert it to ruby nil
-      processed_value = value == 'nil' ? nil : value
       # transform table names (before a .) in case of association name mismatch
       filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
-      query = query.where(filter_key => processed_value)
+      filter_string = filter_key.to_s
+      # append operator
+      operator = process_operator(operators, filter, value)
+      filter_string += ' ' + operator
+      # append value
+      _value = transform_value(value, filter, query)
+      filter_string += ' ' + _value
+      # append optional addition
+      filter_string += optional_query_addition(operator, _value, filter_key)
+
+      query = query.where(filter_string)
     end
     query
   end
@@ -73,5 +81,38 @@ module GenericSortFilter
 
   def self.association_for(query, filter)
     query.model.reflections[filter]
+  end
+
+  # retrives the given operator or falls back to '='. Special case for 'nil'
+  def self.process_operator(operators, filter, value)
+    operator = operators && operators[filter] ? operators[filter] : '='
+    if nullable_value?(value)
+      operator = operator == '=' ? 'IS' : 'IS NOT'
+    end
+    operator
+  end
+
+  def self.transform_value(value, filter, query)
+    model_name = filter.include?('.') ?
+      filter.split('.').first.constantize : query.model
+    # convert datetime strings to specific format for query
+    if model_name.columns_hash[filter].type == :datetime && !value.empty?
+      value = DateTime.parse(value + ' CET').utc.to_s
+    end
+    # NULL-filters are not allowed to stand within ''
+    nullable_value?(value) ? 'NULL' : "'#{value}'"
+  end
+
+  def self.optional_query_addition(operator, value, filter_key)
+    # append OR NULL for non-null, NOT-queries (include optionals)
+    if operator == '!=' && nullable_value?(value)
+      " OR #{filter_key} IS NULL"
+    else
+      ''
+    end
+  end
+
+  def self.nullable_value?(value)
+    value == 'nil' || value == 'null' || value == 'NULL'
   end
 end
