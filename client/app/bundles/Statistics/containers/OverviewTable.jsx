@@ -3,6 +3,7 @@ import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
 import keys from 'lodash/keys'
 import settings from '../../../lib/settings'
+import { pluralize } from '../../../lib/inflection'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import addEntities from '../../../Backend/actions/addEntities'
 import OverviewTable from '../components/OverviewTable'
@@ -57,7 +58,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const entryCountGrabberParams = function(aasm_state, section, cityId) {
     let params = { per_page: 1 }
     if (cityId) params[`filter[${cityAssociationName}.id]`] = cityId
-    if (aasm_state) params['filter[aasm_state]'] = aasm_state
+    if (aasm_state)
+      params[`filter[${pluralize(model)}.aasm_state]`] = aasm_state
     if (typeof section == 'object')
       params['filter[section_filters.id]'] = section.id
     return params

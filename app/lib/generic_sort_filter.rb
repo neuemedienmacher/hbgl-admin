@@ -30,6 +30,7 @@ module GenericSortFilter
       params[:filter].each do |filter, value|
         next unless filter['.']
         association_name = filter.split('.').first
+        next if referring_to_own_table?(query, association_name) # dont join self
         query = query.eager_load(association_name.to_sym)
       end
     end
@@ -76,6 +77,7 @@ module GenericSortFilter
   end
 
   def self.table_name_for(query, filter)
+    return filter if referring_to_own_table?(query, filter)
     association_for(query, filter).table_name
   end
 
@@ -116,5 +118,9 @@ module GenericSortFilter
 
   def self.nullable_value?(value)
     value == 'nil' || value == 'null' || value == 'NULL'
+  end
+
+  def self.referring_to_own_table?(query, string)
+    string.classify == query.model.name
   end
 end
