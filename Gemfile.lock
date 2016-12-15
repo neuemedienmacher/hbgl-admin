@@ -8,8 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 68ce9bdbe5497e8b04864b64668a6140db06c7bc
-  branch: feature/878-translations-only-on-approved
+  revision: d39e557ab73ee60a711ce21289a6aa4a24457fdb
   specs:
     clarat_base (0.1.4)
       aasm
@@ -365,7 +364,7 @@ GEM
     nokogumbo (1.4.10)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (6.0.1)
+    paper_trail (6.0.2)
       activerecord (>= 4.0, < 5.2)
       request_store (~> 1.1)
     parser (2.3.0.6)
