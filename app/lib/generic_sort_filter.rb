@@ -94,9 +94,11 @@ module GenericSortFilter
 
   def self.transform_value(value, filter, query)
     model_name = filter.include?('.') ?
-      filter.split('.').first.constantize : query.model
+      filter.split('.').first.classify.constantize : query.model
+
     # convert datetime strings to specific format for query
-    if model_name.columns_hash[filter].type == :datetime && !value.empty?
+    if model_name.columns_hash[filter] &&
+        model_name.columns_hash[filter].type == :datetime && !value.empty?
       value = DateTime.parse(value + ' CET').utc.to_s
     end
     # NULL-filters are not allowed to stand within ''
