@@ -26,6 +26,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :divisions, controller: :pages, action: :react do
+    collection do
+      get 'export', controller: :pages, action: :react
+    end
+  end
+
   resources :categories do
     collection do
       get :sort
@@ -83,6 +89,7 @@ Rails.application.routes.draw do
       resources :offers, only: [:index, :show]
       resources :locations, only: [:index]
       resources :organizations, only: [:show, :index]
+      resources :divisions, only: [:show, :index, :create, :update]
       get '/statistics' => 'statistics#index'
       resources :users, only: [:index, :show, :update]
       resources :websites, only: [:index]
@@ -91,6 +98,8 @@ Rails.application.routes.draw do
       resources :productivity_goals, except: [:destroy]
       resources :time_allocations, only: [:create, :update]
       resources :user_teams
+      resources :section_filters, only: [:index]
+      resources :cities, only: [:index]
       resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual

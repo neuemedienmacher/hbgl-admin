@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Label, Input, Errors } from 'rform'
 import VirtualizedSelect from 'react-virtualized-select'
 
-export default class MultiSelect extends React.Component {
+export default class FilteringSelect extends React.Component {
   componentDidMount() {
     this.props.onMount()
   }
@@ -16,7 +16,7 @@ export default class MultiSelect extends React.Component {
   render() {
     const {
       wrapperClassName, attribute, errorClassName, errors, label, loadOptions,
-      onChange, value,
+      onChange, value, multi, placeholder,
       options, isLoading, onInputChange,
     } = this.props
 
@@ -24,9 +24,10 @@ export default class MultiSelect extends React.Component {
       <div className={wrapperClassName}>
         <Label attribute={attribute} content={label} />
 
-        <VirtualizedSelect multi
+        <VirtualizedSelect multi={multi}
           options={options} isLoading={isLoading} onChange={onChange}
           onInputChange={onInputChange} value={value}
+          placeholder={placeholder}
         />
 
         <Errors className={errorClassName} attribute={attribute} errors={errors} />

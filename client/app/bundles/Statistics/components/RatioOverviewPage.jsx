@@ -18,9 +18,9 @@ export default class OrgaOverviewPage extends React.Component {
           <tbody>
             <tr>
               <th>state</th>
-              <th># in family</th>
-              <th># in refugees</th>
-              <th># insgesamt</th>
+              <th>family</th>
+              <th>refugees</th>
+              <th>insgesamt</th>
             </tr>
             <tr>
               <td>all_done</td>

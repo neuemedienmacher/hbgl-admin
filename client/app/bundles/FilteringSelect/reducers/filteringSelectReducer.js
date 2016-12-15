@@ -7,12 +7,12 @@ export const initialState = {
   options: {}
 }
 
-export default function multiSelectReducer(state = initialState, action) {
+export default function filteringSelectReducer(state = initialState, action) {
   const { type, response, key } = action
   let newState = assign({}, state)
 
   switch (type) {
-  case 'LOAD_FOR_MULTI_SELECT_REQUEST':
+  case 'LOAD_FOR_FILTERING_SELECT_REQUEST':
     newState.isLoading[key] = true
     if (!newState.options[key]) newState.options[key] = []
     if (!newState.alreadyLoadedInputs[key])
@@ -20,11 +20,11 @@ export default function multiSelectReducer(state = initialState, action) {
     newState.alreadyLoadedInputs[key].push(action.input)
     return newState
 
-  case 'LOAD_FOR_MULTI_SELECT_FAILURE':
+  case 'LOAD_FOR_FILTERING_SELECT_FAILURE':
     newState.isLoading[key] = false
     return newState
 
-  case 'LOAD_FOR_MULTI_SELECT_SUCCESS':
+  case 'LOAD_FOR_FILTERING_SELECT_SUCCESS':
     newState.isLoading[key] = false
     // merge past and current options
     newState.options[key] =

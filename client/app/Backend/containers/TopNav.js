@@ -35,36 +35,41 @@ const routes = [
     access: all,
   }, {
     id: 4,
+    pathname: '/divisions',
+    anchor: 'Abteilungen',
+    access: all,
+  }, {
+    id: 5,
     pathname: '/offers',
     anchor: 'Angebote',
     access: all,
   }, {
-    id: 5,
+    id: 6,
     pathname: '/statistics',
     anchor: 'Statistiken',
     access: all,
   }, {
-    id: 6,
+    id: 7,
     pathname: '/productivity_goals',
     anchor: 'Produktivitätsziele',
     access: superuser,
   }, {
-    id: 7,
+    id: 8,
     pathname: '/time_allocations',
     anchor: 'Ressourcenplanung',
     access: superuser,
   }, {
-    id: 8,
+    id: 9,
     pathname: '/user_teams',
     anchor: 'Teams',
     access: superuser,
   }, {
-    id: 9,
+    id: 10,
     pathname: '/users',
     anchor: 'Nutzer',
     access: superuser,
   }, {
-    id: 10,
+    id: 11,
     pathname: '/assignments',
     anchor: 'Zuweisungen',
     access: superuser,

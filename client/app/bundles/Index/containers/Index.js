@@ -32,6 +32,8 @@ function headingFor(model) {
   switch(model) {
   case 'organizations':
     return 'Organisationen'
+  case 'divisions':
+    return 'Abteilungen'
   case 'offers':
     return 'Angebote'
   case 'offer_translations':

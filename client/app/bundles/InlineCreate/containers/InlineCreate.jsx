@@ -1,12 +1,15 @@
 import { connect } from 'react-redux'
 import isArray from 'lodash/isArray'
 import { updateAction } from 'rform'
-import loadForMultiSelect from '../actions/loadForMultiSelect'
-import MultiSelect from '../components/MultiSelect'
+import loadForFilteringSelect from '../actions/loadForFilteringSelect'
+import InlineCreate from '../components/InlineCreate'
 
 const mapStateToProps = (state, ownProps) => {
-  const associatedModel = ownProps.associatedModel ||
-    ownProps.attribute.substr(0, ownProps.attribute.length - 4) + 's'
+  // remove last "_id" from attribute
+  let associatedModel = ownProps.associatedModel ||
+    ownProps.attribute.replace(/_id([^_id]*)$/, '$1')
+  // pluralize
+  if (associatedModel[associatedModel.length - 1] != 's') associatedModel += 's'
 
   let value = state.rform[ownProps.formId] &&
     state.rform[ownProps.formId][ownProps.attribute]
@@ -14,10 +17,10 @@ const mapStateToProps = (state, ownProps) => {
   // Server gives array elements as list of ids. Transform it to simpleValue
   if (isArray(value)) value = value.join(',')
 
-  const options = state.multiSelect.options[associatedModel] || []
-  const isLoading = state.multiSelect.isLoading[associatedModel] || false
+  const options = state.filteringSelect.options[associatedModel] || []
+  const isLoading = state.filteringSelect.isLoading[associatedModel] || false
   const alreadyLoadedInputs =
-    state.multiSelect.alreadyLoadedInputs[associatedModel] || []
+    state.filteringSelect.alreadyLoadedInputs[associatedModel] || []
 
   return {
     value,
@@ -37,28 +40,28 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...ownProps,
 
-    onChange(selectValue) {
+    onChange(selected) {
+      const newValue =
+        isArray(selected) ? selected.map(e => e.value) : selected.value
+
       dispatch(
-        updateAction(
-          ownProps.formId, ownProps.attribute, null,
-          selectValue.map(e => e.value)
-        )
+        updateAction(ownProps.formId, ownProps.attribute, null, newValue)
       )
     },
 
     onMount() {
-      dispatch(loadForMultiSelect('', stateProps.associatedModel))
+      dispatch(loadForFilteringSelect('', stateProps.associatedModel))
     },
 
     onFirstValue(value) {
       for (let id of value.split(',')) {
-        dispatch(loadForMultiSelect(id, stateProps.associatedModel))
+        dispatch(loadForFilteringSelect(id, stateProps.associatedModel))
       }
     },
 
     onInputChange(input) {
       if (stateProps.alreadyLoadedInputs.includes(input)) return
-      dispatch(loadForMultiSelect(input, stateProps.associatedModel))
+      dispatch(loadForFilteringSelect(input, stateProps.associatedModel))
     },
   }
 }
@@ -67,4 +70,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps,
-)(MultiSelect)
+)(InlineCreate)

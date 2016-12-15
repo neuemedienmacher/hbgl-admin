@@ -15,4 +15,10 @@ class City < ActiveRecord::Base
     organizations.where(aasm_state: 'all_done').count >= ORGANIZATION_THRESHOLD &&
       offers.approved.count >= OFFER_THRESHOLD
   end
+
+  # Search
+  include PgSearch
+  pg_search_scope :search_everything,
+                  against: [ :id, :name ],
+                  using: { tsearch: { prefix: true } }
 end

@@ -1,31 +1,31 @@
 import { encode } from 'querystring'
 
-const loadForMultiSelectRequest = (key, input) => ({
-  type: 'LOAD_FOR_MULTI_SELECT_REQUEST',
+const loadForFilteringSelectRequest = (key, input) => ({
+  type: 'LOAD_FOR_FILTERING_SELECT_REQUEST',
   key,
   input
 })
 
-const loadForMultiSelectFailure = (error, key) => ({
-  type: 'LOAD_FOR_MULTI_SELECT_FAILURE',
+const loadForFilteringSelectFailure = (error, key) => ({
+  type: 'LOAD_FOR_FILTERING_SELECT_FAILURE',
   error,
   key
 })
 
-const loadForMultiSelectSuccess = (key, options) => ({
-  type: 'LOAD_FOR_MULTI_SELECT_SUCCESS',
+const loadForFilteringSelectSuccess = (key, options) => ({
+  type: 'LOAD_FOR_FILTERING_SELECT_SUCCESS',
   key,
   options,
 })
 
 // INFO: optional nextModel is required for different transformer (field_sets)
-export default function loadForMultiSelect(
+export default function loadForFilteringSelect(
   input, associatedModel
 ) {
   const path = `/api/v1/${associatedModel}?query=${input}`
 
   return function(dispatch) {
-    dispatch(loadForMultiSelectRequest(associatedModel, input))
+    dispatch(loadForFilteringSelectRequest(associatedModel, input))
 
     return fetch(path, {
       method: 'GET',
@@ -34,14 +34,14 @@ export default function loadForMultiSelect(
       function(response) {
         const { status, statusText } = response
         if (status >= 400) {
-          dispatch(loadForMultiSelectFailure(response, associatedModel))
-          throw new Error(`Load for MultiSelect Error ${status}: ${statusText}`)
+          dispatch(loadForFilteringSelectFailure(response, associatedModel))
+          throw new Error(`Load for FilteringSelect Error ${status}: ${statusText}`)
         }
         return response.json()
       }
     ).then(json => {
       dispatch(
-        loadForMultiSelectSuccess(associatedModel, json.data.map(datum => (
+        loadForFilteringSelectSuccess(associatedModel, json.data.map(datum => (
           { value: datum.id, label: datum.attributes.label }
         )))
       )

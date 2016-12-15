@@ -6,7 +6,8 @@ import form from './formReducer'
 import { reducer as rform, initialState as initialRformState } from 'rform'
 import ajax from './loadAjaxDataReducer'
 import entities from './entityReducer'
-import multiSelect from '../../bundles/MultiSelect/reducers/multiSelectReducer'
+import filteringSelect
+  from '../../bundles/FilteringSelect/reducers/filteringSelectReducer'
 import statistics
   from '../../bundles/Statistics/reducers/statisticSettingsReducer'
 
@@ -18,5 +19,5 @@ export default combineReducers({
   ajax,
   statistics,
   settings,
-  multiSelect,
+  filteringSelect,
 })
