@@ -1,17 +1,18 @@
 import { connect } from 'react-redux'
 import isArray from 'lodash/isArray'
+import merge from 'lodash/merge'
 import settings from '../../../lib/settings'
 import TableCell from '../components/TableCell'
 
 const mapStateToProps = (state, ownProps) => {
   const { row, field } = ownProps
 
-  const content = (field.relation == 'association')
+  let content = (field.relation == 'association')
     ? getContentFromAssociation(row, field) : row[field.field]
-
-  let contentType = typeof content
-  if (contentType == 'string') {
-    if (timeStringRegex.test(content)) contentType = 'time'
+  const contentType = getTypeOfContent(content)
+  // add contentType to every item in content-Array
+  if (contentType == 'object' && isArray(content)) {
+    content = content.map(item => merge(item, {type: getTypeOfContent(item)}))
   }
 
   return {
@@ -31,6 +32,14 @@ function getContentFromAssociation(row, field) {
   } else {
     return associationData[field.field]
   }
+}
+
+function getTypeOfContent(content) {
+  let contentType = typeof content
+  if (contentType == 'string') {
+    if (timeStringRegex.test(content)) contentType = 'time'
+  }
+  return contentType
 }
 
 const timeStringRegex =
