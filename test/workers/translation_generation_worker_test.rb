@@ -74,7 +74,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       assignments.first.creator_id.must_equal orga.approved_by
       assignments.first.reciever_id.must_equal User.system_user.id
       assignments.first.aasm_state.must_equal 'closed'
-      assignments.last.creator_id.must_equal orga.approved_by
+      assignments.last.creator_id.must_equal User.system_user.id
       assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
       assignments.last.aasm_state.must_equal 'open'
     end
@@ -95,7 +95,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       worker.perform :en, 'Organization', orga.id
       assignments = OrganizationTranslation.last.assignments
       assignments.count.must_equal 2
-      assignments.last.creator_id.must_equal orga.approved_by
+      assignments.last.creator_id.must_equal User.system_user.id
       assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
       assignments.last.aasm_state.must_equal 'open'
     end
@@ -126,9 +126,11 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       assignments = OrganizationTranslation.last.assignments
       assignments.count.must_equal 2
       assignments.first.aasm_state.must_equal 'closed'
-      assignments.last.creator_id.must_equal offer.approved_by
+      assignments.last.creator_id.must_equal User.system_user.id
       assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
       assignments.last.aasm_state.must_equal 'open'
+      assignments.last.message.must_equal 'GoogleTranslate' +
+        " (#{User.find(offer.approved_by).name})"
 
       # running again does not generate a new orga-assignment (already existing)
       worker.perform :en, 'Offer', offer.id
@@ -155,7 +157,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       assignments.first.creator_id.must_equal Offer.find(1).approved_by
       assignments.first.reciever_id.must_equal User.system_user.id
       assignments.first.aasm_state.must_equal 'closed'
-      assignments.last.creator_id.must_equal Offer.find(1).approved_by
+      assignments.last.creator_id.must_equal User.system_user.id
       assignments.last.reciever_team_id.must_equal 1 # test default for transltor teams
       assignments.last.aasm_state.must_equal 'open'
     end
