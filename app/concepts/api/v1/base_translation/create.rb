@@ -25,7 +25,7 @@ module API::V1
       end
 
       def message_for_new_assignment
-        'Initiale Zuweisung für Übersetzungen'
+        'Initial Assignment for translations.'
       end
 
       def created_by_system?

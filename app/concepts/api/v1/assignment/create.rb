@@ -7,7 +7,7 @@ module API::V1
       include Trailblazer::Operation::Representer, Responder
       representer API::V1::Assignment::Representer::Show
 
-      # TODO: more complex policy!
+      # more complex policy?!
       include Trailblazer::Operation::Policy
       policy ::AssignmentPolicy, :create?
 
@@ -28,7 +28,7 @@ module API::V1
         # TODO: check if model instance exists!! here or somewhere else?!
         validates :assignable_id, presence: true, numericality: true
         validates :assignable_type, presence: true
-        # validates :assignable_field_type, presence: true # TODO: force empty string?!
+        # validates :assignable_field_type, presence: true
         # uniqueness validation: make sure there is only one open assignment
         # w/o a parent (base assignment) per assignable model & field
         validates_uniqueness_of :assignable_id, scope: [:assignable_type, :assignable_field_type], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
@@ -46,6 +46,7 @@ module API::V1
         close_open_assignments! params[:data][:attributes]
         if validate(params[:json])
           contract.save
+          assignable_side_effect!
         else
           raise "Assignment form has errors: #{contract.errors.full_messages}"
         end
@@ -56,6 +57,20 @@ module API::V1
         id = attributes[:assignable_id]
         ::Assignment.where(assignable_id: id).where(assignable_type: type)
           .where(aasm_state: 'open').update_all aasm_state: 'closed'
+      end
+
+      def assignable_side_effect!
+        # When a Translation gets assigned to the SystemUser, it is always
+        # handled as edited by a human translator
+        if model.reciever_id == ::User.system_user.id &&
+           %(OfferTranslation OrganizationTranslation)
+            .include?(model.assignable_type) &&
+           model.assignable.possibly_outdated
+          # Always set this values on possibly_outdated translation when a new
+          # system-assignment was created for it
+          model.assignable
+            .update_columns(source: 'researcher', possibly_outdated: false)
+        end
       end
     end
   end

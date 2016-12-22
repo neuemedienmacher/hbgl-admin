@@ -9,7 +9,6 @@ import clone from 'lodash/clone'
 import filter_collection from 'lodash/filter'
 import valuesIn from 'lodash/valuesIn'
 import orderBy from 'lodash/orderBy'
-import { assignableRouteForAction } from '../../../lib/routeForAction'
 
 const mapStateToProps = (state, ownProps) => {
   const assignment = ownProps.assignment
@@ -32,12 +31,11 @@ const mapStateToProps = (state, ownProps) => {
                          assignment.assignable_id, system_user)
   ).map(action => ({
     buttonText: buttonTextFor(action),
-    href: assignableRouteForAction(action, 'assignments', assignment.id),
+    href: '/api/v1/assignments/',
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, system_user, users),
-    method: action == 'assign_to_current_user' ? 'PATCH' : 'POST',
     userChoice: action == 'assign_someone_else',
-    messageField: action != 'assign_to_system'
+    messageField: action != 'assign_to_system' && action != 'assign_to_current_user'
   }))
 
   return {
