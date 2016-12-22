@@ -129,6 +129,8 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       assignments.last.creator_id.must_equal User.system_user.id
       assignments.last.reciever_team_id.must_equal 1 # test default for translator teams
       assignments.last.aasm_state.must_equal 'open'
+      assignments.last.message.must_equal 'GoogleTranslate' +
+        " (#{User.find(offer.approved_by).name})"
 
       # running again does not generate a new orga-assignment (already existing)
       worker.perform :en, 'Offer', offer.id

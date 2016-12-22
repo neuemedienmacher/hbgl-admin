@@ -10,16 +10,3 @@ export function routeForAction(
     return `/${assignable_model}/${assignable_id}/edit`
   }
 }
-
-export function assignableRouteForAction(action, model, id) {
-  switch(action) {
-  case 'assign_to_current_user':
-    return `/api/v1/${model}/${id}`
-  case 'retrieve_assignment':
-    return `/api/v1/${model}/`
-  case 'assign_someone_else':
-    return `/api/v1/${model}/`
-  case 'assign_to_system':
-    return `/api/v1/${model}/`
-  }
-}

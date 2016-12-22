@@ -43,7 +43,12 @@ module API::V1
 
       def message_for_new_assignment
         if assign_to_translator_team?
-          @model.possibly_outdated ? 'possibly_outdated' : 'GoogleTranslate'
+          associated_object_user =
+            ::User.find(
+              @object.approved_by ? @object.approved_by : @object.created_by
+            )
+          (@model.possibly_outdated ? 'possibly_outdated' : 'GoogleTranslate') +
+            " (#{associated_object_user.name})"
         else
           'Managed by system'
         end
