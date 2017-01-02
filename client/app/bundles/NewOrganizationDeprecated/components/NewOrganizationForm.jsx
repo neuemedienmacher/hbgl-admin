@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
-import InlineCreate from '../../InlineCreate/wrappers/InlineCreate'
+import InlineForm from '../../GenericForm/wrappers/Inline'
 import OrganizationFormObject from '../forms/OrganizationFormObject'
 
 export default class NewOrganizationForm extends React.Component {
@@ -60,7 +60,7 @@ export default class NewOrganizationForm extends React.Component {
             wrapperClassName='form-group' className='form-control'
             label='Reichweite' attribute='isntthatencounter'
           />
-          <InlineCreate
+          <InlineForm
             model='divisions' idOrNew='new' edit={null}
             wrapperClassName='form-group' className='form-control'
             label='Abteilungen' attribute='divisions'

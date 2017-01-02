@@ -16,7 +16,7 @@ export default class FilteringSelect extends React.Component {
   render() {
     const {
       wrapperClassName, attribute, errorClassName, errors, label, loadOptions,
-      onChange, value, multi, placeholder,
+      onChange, value, multi, placeholder, children,
       options, isLoading, onInputChange,
     } = this.props
 
@@ -31,6 +31,8 @@ export default class FilteringSelect extends React.Component {
         />
 
         <Errors className={errorClassName} attribute={attribute} errors={errors} />
+
+        {children}
       </div>
     )
   }

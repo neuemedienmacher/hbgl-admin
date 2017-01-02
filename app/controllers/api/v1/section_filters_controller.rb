@@ -4,7 +4,7 @@ module API::V1
     respond_to :json
 
     def index
-      respond Filter::SectionFilter::Index
+      respond Filter::Index::SectionFilter
     end
   end
 end

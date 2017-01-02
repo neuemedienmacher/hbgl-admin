@@ -8,13 +8,13 @@ module API::V1
     end
 
     def create
-      # run Division::Create
-      # super
+      run Division::Create
+      super
     end
 
     def update
-      # run Division::Create
-      # super
+      run Division::Create
+      super
     end
   end
 end

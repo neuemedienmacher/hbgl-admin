@@ -77,6 +77,7 @@ Rails.application.routes.draw do
 
   # non-REST paths
   # ...
+  get 'test' => 'pages#test'
 
   # API
   namespace :api, defaults: {format: :json}  do
@@ -88,7 +89,7 @@ Rails.application.routes.draw do
       end
       resources :offers, only: [:index, :show]
       resources :locations, only: [:index]
-      resources :organizations, only: [:show, :index]
+      resources :organizations, only: [:show, :index, :create, :update]
       resources :divisions, only: [:show, :index, :create, :update]
       get '/statistics' => 'statistics#index'
       resources :users, only: [:index, :show, :update]

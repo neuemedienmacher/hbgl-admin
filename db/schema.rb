@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208132350) do
+ActiveRecord::Schema.define(version: 20170102151803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,7 +162,7 @@ ActiveRecord::Schema.define(version: 20161208132350) do
   create_table "divisions", force: :cascade do |t|
     t.string   "name",              null: false
     t.text     "description"
-    t.integer  "organization_id",   null: false
+    t.integer  "organization_id"
     t.integer  "section_filter_id", null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -443,6 +443,7 @@ ActiveRecord::Schema.define(version: 20161208132350) do
     t.text     "description_html"
     t.string   "aasm_state",             limit: 32
     t.string   "mailings",               limit: 255, default: "disabled", null: false
+    t.boolean  "priority",                           default: false,      null: false
   end
 
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state", using: :btree

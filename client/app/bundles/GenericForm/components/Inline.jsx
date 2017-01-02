@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import { Label, Input, Errors } from 'rform'
-import NewEdit from '../../GenericForm/containers/NewEdit'
+import Form from '../containers/Form'
 
-export default class FilteringSelect extends React.Component {
+export default class Inline extends React.Component {
   componentDidMount() {
     this.props.onMount()
   }
@@ -23,7 +23,7 @@ export default class FilteringSelect extends React.Component {
       <div className={wrapperClassName}>
         <Label attribute={attribute} content={label} />
 
-        <NewEdit
+        <Form
           attribute={attribute} model={model} idOrNew={idOrNew} edit={edit}
         />
 

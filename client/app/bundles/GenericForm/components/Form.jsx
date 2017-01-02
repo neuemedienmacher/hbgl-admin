@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
-import FilteringSelect from '../../FilteringSelect/containers/FilteringSelect'
+import FormInputs from '../containers/FormInputs'
+import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
+import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 
-export default class NewForm extends React.Component {
+export default class GenericFormForm extends React.Component {
   render() {
     const {
-      inputs, seedData, action, method, formId, formObjectClass,
+      seedData, action, method, formId, formObjectClass,
       afterResponse, handleResponse,
     } = this.props
 
@@ -16,39 +18,11 @@ export default class NewForm extends React.Component {
         action={action} id={formId} seedData={seedData}
         handleResponse={handleResponse} afterResponse={afterResponse}
       >
-        {inputs.map(this.renderInput.bind(this))}
+        <FormInputs formObjectClass={formObjectClass} formId={formId} />
         <button className='btn btn-default' type='submit'>
           Abschicken
         </button>
       </Form>
     )
-  }
-
-  renderInput(input, index) {
-    if (input.type == 'multiselect') {
-      return(
-        <FilteringSelect multi key={index}
-          wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          formId={this.props.formId} type={input.type}
-        />
-      )
-    } else if (input.type == 'filtering-select') {
-      return(
-        <FilteringSelect key={index}
-          wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          formId={this.props.formId} type={input.type}
-        />
-      )
-    } else {
-      return(
-        <InputSet key={index}
-          wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          type={input.type}
-        />
-      )
-    }
   }
 }

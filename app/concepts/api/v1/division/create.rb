@@ -1,37 +1,40 @@
 # frozen_string_literal: true
 module API::V1
-  module UserTeam
+  module Division
     class Create < Trailblazer::Operation
       include Trailblazer::Operation::Representer, Responder
       representer Representer::Show
 
       include Model
-      model ::UserTeam, :create
+      model ::Division, :create
 
-      include Trailblazer::Operation::Policy
-      policy ::UserTeamPolicy, :create?
+      # include Trailblazer::Operation::Policy
+      # policy ::DivisionPolicy, :create?
 
       contract do
         property :name
-        property :user_ids
+        property :description
+        property :organization_id
+        property :section_filter_id
 
         validates :name, presence: true
-        validates :user_ids, presence: true
+        validates :organization_id, presence: true
+        validates :section_filter_id, presence: true
       end
 
       def process(params)
         if validate(params[:json])
           contract.save
         else
-          raise 'UserTeam form has errors, which should not happen with'\
+          raise 'Division form has errors, which should not happen with'\
                 " our user base: #{contract.errors.full_messages}"
         end
       end
     end
 
     class Update < Create
-      model ::UserTeam, :update
-      policy ::UserTeamPolicy, :update?
+      # model ::Division, :update
+      # policy ::DivisionPolicy, :update?
     end
   end
 end

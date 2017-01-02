@@ -4,7 +4,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'
 import Show from '../../bundles/Show/containers/Show'
-import NewEdit from '../../bundles/GenericForm/containers/NewEdit'
+import GenericForm from '../../bundles/GenericForm/containers/Standalone'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
   from '../../bundles/Dashboard/containers/DashboardContainer'
@@ -14,8 +14,8 @@ import NewProductivityGoal
   from '../../bundles/NewProductivityGoal/components/NewProductivityGoal'
 import NewAssignment
   from '../../bundles/NewAssignment/containers/NewAssignmentForm'
-import NewOrganization
-  from '../../bundles/NewOrganization/containers/NewOrganizationForm'
+// import NewOrganization
+//   from '../../bundles/NewOrganization/containers/NewOrganizationForm'
 import TimeAllocationTableContainer
   from '../../bundles/TimeAllocationTable/containers/TimeAllocationTableContainer'
 import StatisticsLayout from '../../bundles/Statistics/components/StatisticsLayout'
@@ -40,14 +40,14 @@ export default class Routes extends React.Component {
 
           <Route path='organizations'>
             <IndexRoute component={Index}/>
-            <Route path='new' component={NewOrganization} />
+            <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
           </Route>
 
           <Route path='divisions'>
             <IndexRoute component={Index}/>
-            <Route path='new' component={NewEdit} />
+            <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
           </Route>
@@ -101,9 +101,9 @@ export default class Routes extends React.Component {
 
           <Route path='user_teams'>
             <IndexRoute component={Index} />
-            <Route path='new' component={NewEdit} />
+            <Route path='new' component={GenericForm} />
             <Route path=':id' component={Show} />
-            <Route path=':id/edit' component={NewEdit} />
+            <Route path=':id/edit' component={GenericForm} />
           </Route>
 
           <Route path='users'>

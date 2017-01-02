@@ -14,6 +14,9 @@ module API::V1
         property :offers_count
         property :aasm_state
         property :locations_count
+
+        collection :division_ids
+        collection :divisions, decorator: Division::Representer, class: Division
       end
 
       class Index < Show
