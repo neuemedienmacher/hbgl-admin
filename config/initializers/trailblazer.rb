@@ -33,3 +33,10 @@ require 'trailblazer/autoloading'
 #   end
 #   extend Included # override CRUD::included.
 # end
+
+
+# ----- reform -----
+require "reform/form/dry"
+Reform::Form.class_eval do
+  feature Reform::Form::Dry
+end

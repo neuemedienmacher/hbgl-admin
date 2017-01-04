@@ -3,7 +3,7 @@ module API::V1
   module ProductivityGoal
     class Create < Trailblazer::Operation
       include Trailblazer::Operation::Representer, Responder
-      representer Representer::Show
+      representer API::V1::ProductivityGoal::Representer::Show
 
       include Model
       model ::ProductivityGoal, :create

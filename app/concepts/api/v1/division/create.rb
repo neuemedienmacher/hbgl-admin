@@ -3,7 +3,7 @@ module API::V1
   module Division
     class Create < Trailblazer::Operation
       include Trailblazer::Operation::Representer, Responder
-      representer Representer::Show
+      representer API::V1::Division::Representer::Show
 
       include Model
       model ::Division, :create

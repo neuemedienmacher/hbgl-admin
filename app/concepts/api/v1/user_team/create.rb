@@ -3,7 +3,7 @@ module API::V1
   module UserTeam
     class Create < Trailblazer::Operation
       include Trailblazer::Operation::Representer, Responder
-      representer Representer::Show
+      representer API::V1::UserTeam::Representer::Show
 
       include Model
       model ::UserTeam, :create

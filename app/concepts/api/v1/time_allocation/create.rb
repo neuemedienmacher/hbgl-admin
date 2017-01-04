@@ -3,7 +3,7 @@ module API::V1
   module TimeAllocation
     class Create < Trailblazer::Operation
       include Trailblazer::Operation::Representer, Responder
-      representer Representer::Show
+      representer API::V1::TimeAllocation::Representer::Show
 
       def contract!(model=nil, _contract_class=nil)
         @_contract ||=

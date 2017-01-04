@@ -3,7 +3,7 @@ module API::V1
   module Organization
     class Create < Trailblazer::Operation
       include Trailblazer::Operation::Representer, Responder
-      representer Representer::Show
+      representer API::V1::Organization::Representer::Show
 
       include Model
       model ::Organization, :create
@@ -29,7 +29,6 @@ module API::V1
       end
 
       def process(params)
-        binding.pry
         if validate(params[:json])
           contract.save
         else

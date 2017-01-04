@@ -7,8 +7,8 @@ SimpleCov.start 'rails' do
   # add_filter "/app/workers/uninformed_emails_mailings_spawner_worker.rb"
   minimum_coverage 100
 end
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+# require 'codeclimate-test-reporter'
+# CodeClimate::TestReporter.start
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
