@@ -1,8 +1,3 @@
-update_statistics_job:
-  cron: "0 22 * * * Europe/Berlin" # every day at 22:00
-  class: "UpdateStatisticsWorker"
-  queue: default
-
 expire_offers_job:
   cron: "0 3 * * * Europe/Berlin" # every day at 03:00
   class: "ExpiringOffersWorker"
