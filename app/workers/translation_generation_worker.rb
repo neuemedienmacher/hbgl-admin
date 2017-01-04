@@ -2,11 +2,15 @@ class TranslationGenerationWorker
   include Sidekiq::Worker
 
   def perform locale, object_type, object_id, fields = :all
+    # NOTE: additional Logging to find error - remove later!!
+    logger.info "Started Worker for #{object_type} #{object_id}, locale #{locale} and fields: #{fields}"
     object = object_type.constantize.find(object_id)
     # get existing or newly created translation
     translation =
       API::V1::BaseTranslation::DynamicFind.new(locale, object_type, object_id)
         .find_or_create()
+    # NOTE: additional Logging to find error - remove later!!
+    logger.info "Retrieved #{translation.class.name} #{translation.id}! TimeStamps: #{translation.created_at} || #{translation.updated_at}"
 
     # REFACTORING: move this logic and all private methods to the operation
     # build hash of fields to change
@@ -18,9 +22,13 @@ class TranslationGenerationWorker
       else
         generate_field_translations(object, locale, fields)
       end
+    # NOTE: additional Logging to find error - remove later!!
+    logger.info "Now trying to update model with changes_hash: #{changes_hash}"
     # call operation to save the changes and create new assignment if required
     API::V1::BaseTranslation::Update.new(translation, object, changes_hash)
       .update_and_assign()
+    # NOTE: additional Logging to find error - remove later!!
+    logger.info "Done processing #{translation.class.name} #{translation.id}! TimeStamps: #{translation.reload.created_at} || #{translation.reload.updated_at}"
     # reindex the object (only offers)
     reindex object
     # side-effect: invoke translation logic on associated organizations
@@ -31,6 +39,9 @@ class TranslationGenerationWorker
 
   def generate_field_translations object, locale, fields
     translations_hash = direct_translate_to_html object, locale, fields
+
+    # NOTE: additional Logging to find error - remove later!!
+    logger.info "About to trigger GT with translations_hash: #{translations_hash}"
 
     if locale.to_sym == :de
       translations_hash['source'] = 'researcher'
