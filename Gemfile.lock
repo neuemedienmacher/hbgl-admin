@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 54d2536d345cd77c06a5edb743d1fe420316edaa
+  revision: 0789402a18d4b5a437626346cc53c1fa35cd74dc
   specs:
     clarat_base (0.1.4)
       aasm
@@ -81,10 +81,10 @@ GEM
     algoliasearch (1.12.4)
       httpclient (~> 2.8.2.4)
       json (>= 1.5.1)
-    algoliasearch-rails (1.16.3)
-      algoliasearch (~> 1.12.1)
+    algoliasearch-rails (1.17.0)
+      algoliasearch (~> 1.12.4)
       json (>= 1.5.1)
-    arel (6.0.3)
+    arel (6.0.4)
     ast (2.2.0)
     aws-sdk (2.6.28)
       aws-sdk-resources (= 2.6.28)
@@ -153,7 +153,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     colorize (0.7.7)
-    concurrent-ruby (1.0.3)
+    concurrent-ruby (1.0.4)
     connection_pool (2.2.1)
     coveralls (0.8.13)
       json (~> 1.8)
@@ -443,9 +443,9 @@ GEM
     rails-assets-videojs (4.7.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
-    rails-dom-testing (1.0.7)
+    rails-dom-testing (1.0.8)
       activesupport (>= 4.2.0.beta, < 5.0)
-      nokogiri (~> 1.6.0)
+      nokogiri (~> 1.6)
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-erd (1.4.6)
       activerecord (>= 3.2)
@@ -506,7 +506,7 @@ GEM
       execjs (~> 2.5)
       rails (>= 3.2)
       rainbow (~> 2.0)
-    redcarpet (3.3.4)
+    redcarpet (3.4.0)
     redis (3.3.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)

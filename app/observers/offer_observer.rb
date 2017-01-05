@@ -10,7 +10,7 @@ class OfferObserver < ActiveRecord::Observer
     offer.generate_translations!
   end
 
-  def after_update offer
+  def after_commit offer
     fields = offer.changed_translatable_fields
     return true if fields.empty?
     offer.generate_translations! fields

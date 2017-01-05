@@ -112,16 +112,19 @@ describe Organization do
       assert_nil new_orga.reload.description_ar
       new_orga.description = 'changing description, wont update translation'
       new_orga.save!
+      new_orga.run_callbacks(:commit) # Hotfix: force commit callback
       new_orga.translations.count.must_equal 1
       assert_nil new_orga.reload.description_ar
 
       # Completion does not generate translations
       new_orga.complete!
+      new_orga.run_callbacks(:commit) # Hotfix: force commit callback
       new_orga.translations.count.must_equal 1
 
       # Approval generates all translations initially
       new_orga.start_approval_process!
       new_orga.approve!
+      new_orga.run_callbacks(:commit) # Hotfix: force commit callback
       new_orga.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields
@@ -129,6 +132,7 @@ describe Organization do
         new_orga.description_ar.must_equal 'GET READY FOR CANADA'
         new_orga.description = 'changing description, should update translation'
         new_orga.save!
+        new_orga.run_callbacks(:commit) # Hotfix: force commit callback
         new_orga.reload.description_ar.must_equal 'CHANGED'
       end
     end
@@ -137,9 +141,11 @@ describe Organization do
       # Setup
       new_orga = FactoryGirl.create(:organization)
       new_orga.complete!
+      new_orga.run_callbacks(:commit) # Hotfix: force commit callback
       new_orga.translations.count.must_equal 1
       new_orga.start_approval_process!
       new_orga.approve!
+      new_orga.run_callbacks(:commit) # Hotfix: force commit callback
       new_orga.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields
@@ -151,6 +157,7 @@ describe Organization do
         new_orga.reload.description_ar.must_equal 'GET READY FOR CANADA'
         new_orga.description = 'changing descr, should update translation'
         new_orga.save!
+        new_orga.run_callbacks(:commit) # Hotfix: force commit callback
         new_orga.reload.description_ar.must_equal 'CHANGED'
       end
     end

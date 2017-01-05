@@ -61,7 +61,8 @@ module API::V1
       end
 
       def already_assigned_to_translator_team?
-        @model.current_assignment.reciever_team_id ==
+        @model.current_assignment &&
+          @model.current_assignment.reciever_team_id ==
           AssignmentDefaults.translator_teams[@model.locale.to_s]
       end
     end
