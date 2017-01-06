@@ -3,7 +3,7 @@ class OrganizationObserver < ActiveRecord::Observer
     orga.generate_translations!
   end
 
-  def after_update orga
+  def after_commit orga
     fields = orga.changed_translatable_fields
     return true if fields.empty?
     orga.generate_translations! fields

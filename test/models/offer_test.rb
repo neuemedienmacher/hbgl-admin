@@ -147,16 +147,19 @@ describe Offer do
         assert_nil new_offer.reload.name_ar
         new_offer.name = 'changing name, wont update translation'
         new_offer.save!
+        new_offer.run_callbacks(:commit) # Hotfix: force commit callback
         new_offer.translations.count.must_equal 1
         assert_nil new_offer.reload.name_ar
 
         # completion does not generate translations
         new_offer.complete!
+        new_offer.run_callbacks(:commit) # Hotfix: force commit callback
         new_offer.translations.count.must_equal 1
 
         # approval generates all translations initially
         new_offer.start_approval_process!
         new_offer.approve!
+        new_offer.run_callbacks(:commit) # Hotfix: force commit callback
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Now changes to the model change the corresponding translated fields
@@ -166,6 +169,7 @@ describe Offer do
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
           new_offer.name = 'changing name, should update translation'
           new_offer.save!
+          new_offer.run_callbacks(:commit) # Hotfix: force commit callback
           new_offer.reload.name_ar.must_equal 'CHANGED'
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
         end
@@ -187,10 +191,12 @@ describe Offer do
           # changing untranslated field => translations must stay the same
           new_offer.age_from = 0
           new_offer.save!
+          new_offer.run_callbacks(:commit) # Hotfix: force commit callback
           new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
           new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
           new_offer.name = 'changing name, should update translation'
           new_offer.save!
+          new_offer.run_callbacks(:commit) # Hotfix: force commit callback
           new_offer.reload.name_ar.must_equal 'CHANGED'
           new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
         end
@@ -217,6 +223,7 @@ describe Offer do
           new_offer.name_ru.must_equal 'GET READY FOR CANADA'
           new_offer.name = 'changing name, should update some translations'
           new_offer.save!
+          new_offer.run_callbacks(:commit) # Hotfix: force commit callback
           new_offer.reload.name_ar.must_equal 'MANUAL EDIT'
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
           new_offer.name_ru.must_equal 'CHANGED'
