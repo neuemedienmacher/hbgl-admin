@@ -14,15 +14,15 @@ module API::V1
           property :name, as: :label
         end
 
-        collection :created_assignments do
-          property :id
-          property :message, as: :label
-        end
-
-        collection :recieved_assignments do
-          property :id
-          property :message, as: :label
-        end
+        # collection :created_assignments do
+        #   property :id
+        #   property :message, as: :label
+        # end
+        #
+        # collection :recieved_assignments do
+        #   property :id
+        #   property :message, as: :label
+        # end
       end
 
       # class Show < API::V1::Default::Representer::Show
