@@ -17,15 +17,15 @@ module API::V1
           property :name, as: :label
         end
 
-        collection :created_assignments do
-          property :id
-          property :message, as: :label
-        end
-
-        collection :recieved_assignments do
-          property :id
-          property :message, as: :label
-        end
+        # collection :created_assignments do
+        #   property :id
+        #   property :message, as: :label
+        # end
+        #
+        # collection :recieved_assignments do
+        #   property :id
+        #   property :message, as: :label
+        # end
       end
 
       # class Index < API::V1::Default::Representer::Index
