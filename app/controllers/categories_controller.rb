@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class CategoriesController < BackendController
+  respond_to :json
+
   def index
   end
 
@@ -14,10 +16,10 @@ class CategoriesController < BackendController
 
   # # For admin backend: Provides a list of categories that offers with name X
   # # already belong to.
-  # def index
-  #   offer_categories = Offer.where(name: params[:offer_name])
-  #                      .joins(:categories).pluck('DISTINCT(categories.name_de)')
-  #
-  #   respond_with offer_categories
-  # end
+  def suggest_categories
+    offer_categories = Offer.where(name: params[:offer_name])
+                       .joins(:categories).pluck('DISTINCT(categories.name_de)')
+
+    respond_with offer_categories
+  end
 end
