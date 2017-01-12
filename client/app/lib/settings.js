@@ -96,7 +96,7 @@ export default {
 
     user_teams: {
       fields: [
-        'id', 'name', 'users'
+        'id', 'name', 'classification', 'users'
       ],
       general_actions: [
         'index', 'new',
