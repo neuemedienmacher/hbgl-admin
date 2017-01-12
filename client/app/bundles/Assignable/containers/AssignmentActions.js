@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import AssignmentActions from '../components/AssignmentActions'
 import addEntities from '../../../Backend/actions/addEntities'
-import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
+import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel,
+         isCurrentUserActiveInTranslatorTeam }
   from '../../../lib/restrictionUtils'
 import settings from '../../../lib/settings'
 import snakeCase from 'lodash/snakeCase'
@@ -73,7 +74,12 @@ function visibleFor(action, entities, model, id, system_user) {
       return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
     case 'assign_to_system':
-      return isCurrentUserAssignedToModel(entities, model, id) && system_user &&
+      // NOTE: only assigned users in translator-teams may directly assign the
+      // system_user (only to Translations)
+      let current_team = entities.current_user.current_team_id &&
+        entities.user_teams[entities.current_user.current_team_id]
+      return current_team && current_team.classification == 'translator' &&
+        isCurrentUserAssignedToModel(entities, model, id) && system_user &&
         (model == 'offer_translations' || model == 'organization_translations')
     default:
       return false

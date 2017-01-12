@@ -6,6 +6,7 @@ module API::V1
         type :user_teams
 
         property :name
+        property :classification
 
         property :user_ids # KK: Not sure if this is the best way…
         collection :users do
