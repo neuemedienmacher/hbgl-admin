@@ -11,7 +11,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'feature/929-integration-tests'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -184,12 +184,17 @@ group :development, :test do
 
   # test suite
   gem 'minitest' # Testing using Minitest
+  gem 'minitest-metadata', require: false
+  gem 'minitest-around'
+  gem 'minitest-spec-rails'
   gem 'minitest-matchers'
   gem 'minitest-line'
+  gem 'minitest-rails-capybara'
+  gem 'minitest-capybara', '>= 0.8.0'
   gem 'launchy' # save_and_open_page
   gem 'shoulda'
-  gem 'minitest-rails-capybara'
   gem 'mocha'
+  gem 'selenium-webdriver'
 
   # test suite additions
   gem 'rails_best_practices'

@@ -1,0 +1,7 @@
+researcher:
+  id: 1
+  name: 'ResearchTeam'
+
+super:
+  id: 2
+  name: 'SuperTeam'

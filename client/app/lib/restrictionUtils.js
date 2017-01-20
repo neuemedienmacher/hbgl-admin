@@ -9,7 +9,8 @@ function _isUserAssigned(entities, id) {
 
 function _isTeamAssigned(entities, id) {
   let assignment = entities.assignments && entities.assignments[id]
-  let team_id = entities.users[entities.current_user.id].current_team_id
+  let team_id = entities.users && entities.users[entities.current_user.id] &&
+    entities.users[entities.current_user.id].current_team_id
 
   return assignment && team_id && assignment.reciever_team_id == team_id
 }

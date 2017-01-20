@@ -1,0 +1,8 @@
+basic:
+  id: 1
+  locale: de
+  name: basicOfferName
+  description: DE=>basicOfferDescription
+  old_next_steps: DE=>basicOfferOldNextSteps
+  possibly_outdated: false
+  offer_id: 1

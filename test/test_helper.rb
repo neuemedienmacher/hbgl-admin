@@ -23,6 +23,7 @@ require 'minitest/spec'
 require 'minitest/mock'
 require 'minitest-matchers'
 require 'minitest/hell'
+require 'minitest/metadata'
 require 'pry-rescue/minitest' if ENV['RESCUE']
 require 'sidekiq/testing'
 require 'fakeredis'
@@ -47,6 +48,12 @@ Capybara.asset_host = 'http://localhost:3000'
 
 # JS Tests
 Capybara.javascript_driver = :selenium
+# Capybara.javascript_driver.manage.timeouts.implicit_wait = 30
+# Capybara.javascript_driver.manage.timeouts.script_timeout = 30
+# Capybara.javascript_driver.manage.timeouts.page_load = 30
+
+# Setup Webmock to allow localhost connections and block everything else
+WebMock.disable_net_connect!(:allow_localhost => true)
 
 # For fixtures:
 include ActionDispatch::TestProcess
@@ -72,6 +79,19 @@ Minitest.after_run do
     rubocop
   end
 end
+
+# Share the active-record connection between rake_test and webkit
+class ActiveRecord::Base
+  mattr_accessor :shared_connection
+  @@shared_connection = nil
+
+  def self.connection
+    @@shared_connection || retrieve_connection
+  end
+end
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+
+DatabaseCleaner.strategy = :transaction
 
 class ActionController::TestCase
   include Devise::TestHelpers
@@ -111,6 +131,26 @@ class MiniTest::Spec
   # Add more helper methods to be used by all tests here...
 end
 
-$suite_passing = true
+class AcceptanceTest < MiniTest::Capybara::Spec
+  include MiniTest::Metadata
 
-DatabaseCleaner.strategy = :transaction
+  before :each do
+    if metadata[:js] == true
+      Capybara.current_driver = Capybara.javascript_driver
+    end
+  end
+
+  after :each do
+    Capybara.current_driver = Capybara.default_driver
+
+    $suite_passing = false if failure
+  end
+
+  around do |tests|
+    DatabaseCleaner.cleaning(&tests)
+  end
+
+  # Add more helper methods to be used by all tests here...
+end
+
+$suite_passing = true

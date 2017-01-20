@@ -55,6 +55,8 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
     it 'should only create initial system-assignment for German translation that belongs to a refugees-offer' do
       Assignment.count.must_equal 0
       Offer.first.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      # delete fixture OfferTranslation in order to test worker
+      Offer.first.translations.delete_all
       worker.perform :de, 'Offer', 1
       assignments = OfferTranslation.last.assignments
       assignments.count.must_equal 1
@@ -164,6 +166,8 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
 
     it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
       Assignment.count.must_equal 0
+      # delete fixture OfferTranslation in order to test worker
+      Offer.first.translations.delete_all
       worker.perform :de, 'Offer', 1
       assignments = OfferTranslation.last.assignments
       assignments.count.must_equal 1

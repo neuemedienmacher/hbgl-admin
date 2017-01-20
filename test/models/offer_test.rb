@@ -30,22 +30,23 @@ describe Offer do
       end
     end
 
+    # TODO: something here is nil, cause a deprecation warning during tests (must_equal nil should be assert_nil)
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
-        offer = FactoryGirl.create :offer, :approved
+        offer = FactoryGirl.create :offer, :approved, :with_location
         duplicate = offer.partial_dup
         assert_nil duplicate.created_by
         duplicate.location.must_equal offer.location
         duplicate.organizations.must_equal offer.organizations
         duplicate.openings.must_equal offer.openings
-        duplicate.categories.must_equal offer.categories
+        duplicate.categories.must_equal offer.categories if offer.categories
         duplicate.section_filters.must_equal offer.section_filters
         duplicate.language_filters.must_equal offer.language_filters
         duplicate.target_audience_filters.must_equal offer.target_audience_filters
-        duplicate.websites.must_equal offer.websites
+        duplicate.websites.must_equal offer.websites if offer.categories
         duplicate.contact_people.must_equal offer.contact_people
-        duplicate.keywords.must_equal offer.keywords
-        duplicate.area.must_equal offer.area
+        duplicate.keywords.must_equal offer.keywords if offer.keywords
+        duplicate.area.must_equal offer.area if offer.area
         duplicate.aasm_state.must_equal 'initialized'
       end
     end

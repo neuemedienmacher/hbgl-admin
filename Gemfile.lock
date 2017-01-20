@@ -8,7 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 4f64b4b9292d239a8261b1dda42ffaf0184c21f2
+  revision: 50893a946ba105d2c575c02be582bd68dc35610d
+  branch: feature/929-integration-tests
   specs:
     clarat_base (0.1.4)
       aasm
@@ -77,7 +78,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.4.0)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     algoliasearch (1.12.5)
       httpclient (~> 2.8.2.4)
       json (>= 1.5.1)
@@ -118,7 +120,7 @@ GEM
     byebug (8.2.2)
     callsite (0.0.11)
     cancan (1.6.10)
-    capybara (2.6.2)
+    capybara (2.11.0)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -233,7 +235,7 @@ GEM
       redis (~> 3.0)
     fakeweb (1.3.0)
     ffaker (2.2.0)
-    ffi (1.9.14)
+    ffi (1.9.17)
     font-awesome-rails (4.5.0.1)
       railties (>= 3.2, < 5.1)
     foreman (0.82.0)
@@ -294,7 +296,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.5)
+    json (1.8.6)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -333,7 +335,9 @@ GEM
     mime-types (2.99.3)
     mini_portile2 (2.0.0)
     minitest (5.10.1)
-    minitest-capybara (0.7.2)
+    minitest-around (0.4.0)
+      minitest (~> 5.0)
+    minitest-capybara (0.8.2)
       capybara (~> 2.2)
       minitest (~> 5.0)
       rake
@@ -341,16 +345,19 @@ GEM
       minitest (~> 5.0)
     minitest-matchers (1.4.1)
       minitest (~> 5.0)
-    minitest-metadata (0.5.3)
+    minitest-metadata (0.6.0)
       minitest (>= 4.7, < 6.0)
-    minitest-rails (2.2.0)
+    minitest-rails (2.2.1)
       minitest (~> 5.7)
       railties (~> 4.1)
-    minitest-rails-capybara (2.1.1)
-      capybara (~> 2.0)
-      minitest-capybara (~> 0.7.0)
-      minitest-metadata (~> 0.5.0)
+    minitest-rails-capybara (2.1.2)
+      capybara (~> 2.7)
+      minitest-capybara (~> 0.8)
+      minitest-metadata (~> 0.6)
       minitest-rails (~> 2.1)
+    minitest-spec-rails (5.4.0)
+      minitest (~> 5.0)
+      rails (>= 4.1)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.2)
@@ -393,6 +400,7 @@ GEM
     pry-stack_explorer (0.4.9.2)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
+    public_suffix (2.0.5)
     puma (3.1.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
@@ -555,7 +563,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (2.53.4)
+    selenium-webdriver (3.0.5)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
@@ -711,9 +719,13 @@ DEPENDENCIES
   memory_test_fix
   meta_request
   minitest
+  minitest-around
+  minitest-capybara (>= 0.8.0)
   minitest-line
   minitest-matchers
+  minitest-metadata
   minitest-rails-capybara
+  minitest-spec-rails
   mocha
   multi_json
   newrelic_rpm
@@ -753,6 +765,7 @@ DEPENDENCIES
   reform-rails
   roar!
   rubocop
+  selenium-webdriver
   shoulda
   sidekiq-cron (~> 0.4.0)
   simple_form
