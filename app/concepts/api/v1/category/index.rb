@@ -5,8 +5,6 @@ module API::V1
       def model!(_params)
         ::Category.mains
       end
-
-      representer API::V1::Category::Representer::Index
     end
   end
 end

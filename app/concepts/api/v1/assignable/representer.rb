@@ -13,8 +13,8 @@ module API::V1
           property :message, as: :label
           property :creator_id
           property :creator_team_id
-          property :reciever_id
-          property :reciever_team_id
+          property :receiver_id
+          property :receiver_team_id
         end
       end
 

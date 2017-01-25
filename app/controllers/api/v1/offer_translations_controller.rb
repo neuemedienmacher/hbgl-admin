@@ -17,7 +17,7 @@ module API::V1
     end
 
     def update
-      run API::V1::OfferTranslation::Update
+      run API::V1::OfferTranslation::Update, 'changes_by_human' => true
       super
     end
   end

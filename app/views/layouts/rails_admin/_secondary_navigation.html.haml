@@ -3,8 +3,8 @@
     %li{class: "#{action.action_name}_root_link"}= link_to wording_for(:menu, action), { action: action.action_name, controller: 'rails_admin/main' }, class: "pjax"
   %li= link_to 'Sidekiq', '/sidekiq'
   - if main_app_root_path = (main_app.root_path rescue false)
-    - if _current_user && _current_user.recieved_assignments.open.count > 0
-      %li= link_to t('admin.home.highlighted_name', count: _current_user.recieved_assignments.open.count ), main_app_root_path, style: "color:#d9534f;font-weight: bold;"
+    - if _current_user && _current_user.received_assignments.open.count > 0
+      %li= link_to t('admin.home.highlighted_name', count: _current_user.received_assignments.open.count ), main_app_root_path, style: "color:#d9534f;font-weight: bold;"
     - else
       %li= link_to t('admin.home.name'), main_app_root_path
   - if _current_user

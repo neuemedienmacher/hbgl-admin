@@ -137,7 +137,7 @@ FactoryGirl.define do
     trait :with_dummy_translations do
       after :create do |offer, _evaluator|
         (I18n.available_locales - [:de]).each do |locale|
-          OfferTranslation.create(
+          FactoryGirl.create(:offer_translation,
             offer_id: offer.id, locale: locale, source: 'GoogleTranslate',
             name: "#{locale}(#{offer.name})",
             description: "#{locale}(#{offer.description})",
@@ -146,7 +146,7 @@ FactoryGirl.define do
           )
 
           offer.organizations.each do |organization|
-            OrganizationTranslation.create(
+            FactoryGirl.create(:organization_translation,
               organization_id: organization.id, locale: locale,
               source: 'GoogleTranslate',
               description: "#{locale}(#{organization.untranslated_description})"

@@ -24,6 +24,7 @@ require 'minitest/mock'
 require 'minitest-matchers'
 require 'minitest/hell'
 require 'pry-rescue/minitest' if ENV['RESCUE']
+require 'webmock/minitest'
 require 'sidekiq/testing'
 require 'fakeredis'
 
@@ -74,7 +75,7 @@ Minitest.after_run do
 end
 
 class ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 end
 
 class ActiveSupport::TestCase
@@ -86,6 +87,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   before :each do
+    WebStubs.enable
     DatabaseCleaner.start
   end
 

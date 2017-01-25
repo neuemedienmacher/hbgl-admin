@@ -2,9 +2,9 @@
 class ExportsController < ApplicationController
   include RemoteShow
 
-  def new
-    form Export::Create
-  end
+  # def new
+  #   form Export::Create
+  # end
 
   def create
     run Export::Create do |operation|

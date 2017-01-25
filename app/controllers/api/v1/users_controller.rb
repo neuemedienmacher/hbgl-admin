@@ -8,9 +8,10 @@ module API::V1
       respond API::V1::User::Index
     end
 
-    def show
-      respond API::V1::User::Show
-    end
+    # def show
+    #   @model = ::User.find(params[:id])
+    #   render API::V1::User::Representer::Show.new(@model).to_json
+    # end
 
     def update
       run User::Update, params: params.merge(

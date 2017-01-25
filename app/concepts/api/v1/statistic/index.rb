@@ -10,8 +10,6 @@ module API::V1
         query.all
         # end
       end
-
-      representer API::V1::Statistic::Representer::Index
     end
   end
 end

@@ -5,8 +5,8 @@ FactoryGirl.define do
     message { FFaker::Lorem.sentence }
     creator { User.first }
     creator_team { UserTeam.first }
-    reciever { User.last }
-    reciever_team { UserTeam.first }
+    receiver { User.last }
+    receiver_team { UserTeam.first }
     # translations are the first model for the assignments, so we use them for tests
     assignable { FactoryGirl.create :offer_translation }
     assignable_type 'OfferTranslation'

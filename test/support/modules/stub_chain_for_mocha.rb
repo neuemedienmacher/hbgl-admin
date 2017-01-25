@@ -1,5 +1,7 @@
-
 module StubChainMocha
+  class TestStub
+    def select *; end # make method public
+  end
   module Object
     # Source: http://blog.leshill.org/blog/2009/08/05/update-for-stub-chain-for-mocha.html
     def stub_chain(*methods)
@@ -14,7 +16,7 @@ module StubChainMocha
 
     def expect_chain(*methods)
       if methods.length > 1
-        next_in_chain = ::Object.new
+        next_in_chain = StubChainMocha::TestStub.new
         expects(methods.shift).returns(next_in_chain)
         next_in_chain.expect_chain(*methods)
       else

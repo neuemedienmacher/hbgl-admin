@@ -1,6 +1,6 @@
 require 'representable/json'
 
-class UserRepresenter < Representable::Decorator
+class User::Representer < Representable::Decorator
   include Representable::JSON
 
   property :id

@@ -6,8 +6,6 @@ module API::V1
         ::OrganizationTranslation.where(locale: [:en, :ar, :fa]).uniq
           .joins(:section_filters).where('filters.identifier = ?', 'refugees')
       end
-
-      representer API::V1::OrganizationTranslation::Representer::Index
     end
   end
 end

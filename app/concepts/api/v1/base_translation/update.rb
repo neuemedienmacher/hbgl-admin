@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+#### DEPRECATED ####
 module API::V1
   module BaseTranslation
-    class Update < API::V1::Assignable::Update
+    class Update < Trailblazer::Operation # API::V1::Assignable::Update
       def initialize(translation, object, fields)
         @object = object
         @fields = fields
@@ -9,6 +10,7 @@ module API::V1
       end
 
       def update_and_assign
+        raise 'Stop calling me!'
         # update fields and save model
         @model.assign_attributes(@fields)
         @model.save!
@@ -24,11 +26,11 @@ module API::V1
         ::User.system_user.id
       end
 
-      def assignment_reciever_id
+      def assignment_receiver_id
         assign_to_translator_team? ? nil : ::User.system_user.id
       end
 
-      def assignment_reciever_team_id
+      def assignment_receiver_team_id
         assign_to_translator_team? ?
           AssignmentDefaults.translator_teams[@model.locale.to_s] : nil
       end
@@ -56,8 +58,13 @@ module API::V1
       end
 
       def already_assigned_to_translator_team?
-        @model.current_assignment.reciever_team_id ==
+        assignable.current_assignment.receiver_team_id ==
           AssignmentDefaults.translator_teams[@model.locale.to_s]
+      end
+
+      # returns decorated model
+      def assignable
+        @assignable ||= ::Assignable::Twin.new(@model)
       end
     end
   end

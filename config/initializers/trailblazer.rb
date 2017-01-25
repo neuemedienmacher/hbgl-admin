@@ -4,7 +4,7 @@
 # require 'roar/json'
 # require 'roar/json/hal'
 
-require 'trailblazer/autoloading'
+# require 'trailblazer/autoloading'
 
 # TODO: this was handled in roar-rails. we don't need roar-rails in Trailblazer (yay!), so provide this via Trb.
 # initializer 'roar.set_configs' do |app|
@@ -36,7 +36,10 @@ require 'trailblazer/autoloading'
 
 
 # ----- reform -----
-require "reform/form/dry"
+require 'reform/form/dry'
 Reform::Form.class_eval do
   feature Reform::Form::Dry
 end
+
+# ----- trb 2.0 -----
+require 'trailblazer/endpoint/rails'

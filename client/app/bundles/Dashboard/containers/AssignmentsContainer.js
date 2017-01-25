@@ -23,13 +23,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
 function headingFor(scope) {
   switch(scope) {
-  case 'reciever':
+  case 'receiver':
     return 'Dir zugewiesene, offene Aufgaben:'
   case 'creator_open':
     return 'Von dir erstellte, offene Aufgaben:'
-  case 'reciever_closed':
+  case 'receiver_closed':
     return 'Von dir empfangene, abgeschlossene Aufgaben:'
-  case 'reciever_team':
+  case 'receiver_team':
     return 'Deinem aktuellen Team zugewiesene, offene Aufgaben:'
   default:
     return ''
@@ -38,26 +38,26 @@ function headingFor(scope) {
 
 function buildQuery(scope, id, sys_id) {
   switch(scope) {
-  case 'reciever':
+  case 'receiver':
     return {
-      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open',
+      'filter[receiver_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open',
       'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
   case 'creator_open':
     return {
       'filter[creator_id]': id, 'filter[aasm_state]': 'open', 'per_page': 10,
-      'filter[reciever_id]': sys_id, 'operator[reciever_id]': '!=',
+      'filter[receiver_id]': sys_id, 'operator[receiver_id]': '!=',
       'sort_field': 'created_at', 'sort_direction': 'DESC',
     }
-  case 'reciever_closed':
+  case 'receiver_closed':
     return {
-      'filter[reciever_id]': id, 'per_page': 10, 'filter[aasm_state]': 'closed',
+      'filter[receiver_id]': id, 'per_page': 10, 'filter[aasm_state]': 'closed',
       'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
-  case 'reciever_team':
+  case 'receiver_team':
     return {
-      'filter[reciever_team_id]': id, 'filter[reciever_id]': 'nil',
-      'operator[reciever_id]': '=', 'per_page': 10,
+      'filter[receiver_team_id]': id, 'filter[receiver_id]': 'nil',
+      'operator[receiver_id]': '=', 'per_page': 10,
       'filter[aasm_state]': 'open', 'sort_field': 'created_at',
       'sort_direction': 'DESC'
     }

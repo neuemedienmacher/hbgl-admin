@@ -13,5 +13,13 @@ FactoryGirl.define do
       name 'default organization_translation name'
       description 'default organization_translation description'
     end
+
+    after :build do |translation, evaluator|
+      translation.assignments << ::Assignment::CreateInitial.(
+        {},
+        assignable: translation,
+        last_acting_user: User.first || FactoryGirl.create(:researcher)
+      )['model']
+    end
   end
 end

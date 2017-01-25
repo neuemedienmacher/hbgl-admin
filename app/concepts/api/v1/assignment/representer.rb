@@ -10,8 +10,8 @@ module API::V1
         property :assignable_field_type
         property :creator_id
         property :creator_team_id
-        property :reciever_id
-        property :reciever_team_id
+        property :receiver_id
+        property :receiver_team_id
         property :message
         property :parent_id
         property :aasm_state

@@ -6,7 +6,6 @@ module API::V1
         def base_query
           ::Filter
         end
-        representer API::V1::Filter::Representer::Index
       end
 
       class SectionFilter < API::V1::Filter::Index::General

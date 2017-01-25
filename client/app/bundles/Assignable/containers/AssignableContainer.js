@@ -12,9 +12,9 @@ const mapStateToProps = (state, ownProps) => {
   const involved_entities = loaded ? {
     creator: assignment.creator_id ? state.entities.users[assignment.creator_id].name : '',
     creator_team: assignment.creator_team_id ? state.entities.user_teams[assignment.creator_team_id].name : '',
-    reciever: assignment.reciever_id ? state.entities.users[assignment.reciever_id].name : '',
-    reciever_team: assignment.reciever_team_id ? state.entities.user_teams[assignment.reciever_team_id].name : ''
-  } : {creator: '', creator_team: '', reciever: '' , reciever_team: ''}
+    receiver: assignment.receiver_id ? state.entities.users[assignment.receiver_id].name : '',
+    receiver_team: assignment.receiver_team_id ? state.entities.user_teams[assignment.receiver_team_id].name : ''
+  } : {creator: '', creator_team: '', receiver: '' , receiver_team: ''}
 
   return {
     id,

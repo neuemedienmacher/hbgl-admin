@@ -11,8 +11,8 @@ class ReactCell < Cell::ViewModel
   def props
     {
       user_teams: UserTeam.all,
-      users: User.all.map { |user| UserRepresenter.new(user) },
-      current_user: UserRepresenter.new(options[:current_user]),
+      users: User.all.map { |user| User::Representer.new(user) },
+      current_user: User::Representer.new(options[:current_user]),
 
       filters: Filter.all.map { |filter| filter.attributes },
       productivity_goals: ProductivityGoal.all,

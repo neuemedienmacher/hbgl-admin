@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 class TestClass
   # rubocop:disable Style/PredicateName
-  def self.has_many *_args; end
+  def self.has_many *; end
   # rubocop:enable Style/PredicateName
 
   include Translation

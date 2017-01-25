@@ -6,8 +6,6 @@ module API::V1
         ::Location
           .where('LOWER(display_name) LIKE LOWER(?)', "%#{params[:query]}%")
       end
-
-      representer API::V1::Location::Representer::Index
     end
   end
 end

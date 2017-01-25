@@ -8,9 +8,10 @@ module API::V1
       respond API::V1::UserTeam::Index
     end
 
-    def show
-      respond API::V1::UserTeam::Show
-    end
+    # def show
+    #   @model = ::UserTeam.find(params[:id])
+    #   render API::V1::UserTeam::Representer::Show.new(@model).to_json
+    # end
 
     def create
       run API::V1::UserTeam::Create

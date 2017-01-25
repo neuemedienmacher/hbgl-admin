@@ -4,14 +4,14 @@ function _isUserAssigned(entities, id) {
   let assignment = entities.assignments && entities.assignments[id]
   let current_user = entities.current_user
 
-  return assignment && current_user && assignment.reciever_id == current_user.id
+  return assignment && current_user && assignment.receiver_id == current_user.id
 }
 
 function _isTeamAssigned(entities, id) {
   let assignment = entities.assignments && entities.assignments[id]
   let team_id = entities.users[entities.current_user.id].current_team_id
 
-  return assignment && team_id && assignment.reciever_team_id == team_id
+  return assignment && team_id && assignment.receiver_team_id == team_id
 }
 
 export function currentAssignmentIdFor(model, model_instance) {

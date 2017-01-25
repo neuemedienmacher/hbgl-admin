@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 module API::V1
   module FieldSet
-    class Show < Roar::Decorator
-      include Roar::JSON
+    class Show < Representable::Decorator
+      include Representable::JSON
 
       property :column_names, getter: ->(r) do
         r[:represented].column_names

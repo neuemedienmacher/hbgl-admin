@@ -6,8 +6,6 @@ module API::V1
         ::OfferTranslation.where(locale: [:en, :ar, :fa])
           .joins(:section_filters).where('filters.identifier = ?', 'refugees')
       end
-
-      representer API::V1::OfferTranslation::Representer::Index
     end
   end
 end
