@@ -48,9 +48,6 @@ Capybara.asset_host = 'http://localhost:3000'
 
 # JS Tests
 Capybara.javascript_driver = :selenium
-# Capybara.javascript_driver.manage.timeouts.implicit_wait = 30
-# Capybara.javascript_driver.manage.timeouts.script_timeout = 30
-# Capybara.javascript_driver.manage.timeouts.page_load = 30
 
 # Setup Webmock to allow localhost connections and block everything else
 WebMock.disable_net_connect!(:allow_localhost => true)
