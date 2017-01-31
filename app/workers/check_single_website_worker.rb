@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require 'httparty'
-
 class CheckSingleWebsiteWorker
   include Sidekiq::Worker
 
@@ -40,9 +38,9 @@ class CheckSingleWebsiteWorker
     url = website.ascii_url
     # first check header then try complete get when header returns an error.
     # If both checks fail, the website is treated as unreachable
-    header = HTTParty.head(url)
+    header = HttpWithCipher.head(url)
     if !header || header.code >= 400 # everything above 400 is an error
-      response = HTTParty.get(url)
+      response = HttpWithCipher.get(url)
       if !response || response.code >= 400 # everything above 400 is an error
         return true
       end
