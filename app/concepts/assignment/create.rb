@@ -4,7 +4,9 @@ class Assignment::Create < Trailblazer::Operation
   # step :decorate_assignable
   step Policy::Pundit(AssignmentPolicy, :create?)
   step Contract::Build()
-  step Contract::Validate(representer: self['representer.default.class'])
+  step Contract::Validate()
+  step :set_current_user_to_creator_if_empty
+  step :set_creator_team_to_creators_current_team_if_empty
   step :close_open_assignments!
   step Contract::Persist()
 
@@ -33,8 +35,8 @@ class Assignment::Create < Trailblazer::Operation
     # validates_uniqueness_of :assignable_type, scope: [:assignable_id, :assignable_field_type], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
     # validates_uniqueness_of :assignable_field_type, scope: [:assignable_type, :assignable_id], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
     # creator or creator_team must be present
-    validates :creator_id, presence: true, unless: :creator_team_id
-    validates :creator_team_id, presence: true, unless: :creator_id
+    # validates :creator_id, presence: true
+    # validates :creator_team_id, presence: true, unless: :creator_id
     # receiver or receiver_team must be present
     validates :receiver_id, presence: true, unless: :receiver_team_id
     validates :receiver_team_id, presence: true, unless: :receiver_id
@@ -43,6 +45,22 @@ class Assignment::Create < Trailblazer::Operation
   # def decorate_assignable(options, model:, **)
   #   options['model'] = ::Assignable::Twin.new(model)
   # end
+
+  def set_current_user_to_creator_if_empty(options, current_user:, **)
+    if options['contract.default'].creator_id
+      return true
+    else
+      options['contract.default'].creator_id = current_user.id
+    end
+  end
+
+  def set_creator_team_to_creators_current_team_if_empty(options)
+    if options['contract.default'].creator_team_id
+      options['contract.default'].creator_team_id =
+        User.find(options['contract.default'].creator_id).current_team_id
+    end
+    true # If there is no current team, that's okay too.
+  end
 
   def close_open_assignments! options
     type = options['contract.default'].assignable_type

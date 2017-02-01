@@ -1,56 +1,95 @@
 # frozen_string_literal: true
 module API::V1
   class BackendController < ApplicationController
+    include Trailblazer::Endpoint::Controller
     respond_to :json
 
+    # --- Default Action Handlers --- #
+
     def index
-      index_endpoint "API::V1::#{model_class_name}"
-    end
-
-    def show
-      @model = model_class_name.constantize.find(params[:id])
-      render "API::V1::#{model_class_name}::Representer::Show".new(@model).to_json
-    end
-
-    def create
-      render json: @operation.to_json
-    end
-
-    def update
-      render json: @operation.to_json
-    end
-
-    def render(*attrs)
-      attrs[-1][:content_type] = 'application/vnd.api+json'
-      super(*attrs)
-    end
-
-
-    def process_params!(params)
-      params.merge!(
-        current_user: current_user,
-        json: request.raw_post
-      )
-    end
-
-    def index_endpoint base_module
-      endpoint "#{base_module}::Index".constantize do |m|
-        m.not_found       { |_| head 404 }
-        m.unauthenticated { |_| head 401 }
-        m.present         { |_| raise 'Irrelevant endpoint called' }
-        m.created         { |_| raise 'Irrelevant endpoint called' }
-        m.invalid         { |_| render json: 'TODO' }
+      endpoint index_operation do |m|
         m.success do |result|
           json = API::V1::Lib::JsonifyCollection.(
-            base_module, result['collection'], params
+            show_representer, result['collection'], params
           )
-          render(json: json, status: 200)
+          return render(json: json, status: 200)
         end
       end
     end
 
+    def show
+      @model = model_class_name.constantize.find(params[:id])
+      render json: show_representer.new(@model).to_json
+    end
+
+    def create
+      endpoint create_operation, { args: api_args }, &default_endpoints
+    end
+
+    def update
+      endpoint update_operation, { args: api_args }, &default_endpoints
+    end
+
+    # --- Non-Action Helper methods --- #
+
+    def render(*attrs)
+      attrs.push({}) unless attrs[-1]
+      attrs[-1][:content_type] = 'application/vnd.api+json'
+      super(*attrs)
+    end
+
+    def api_args
+      [params, {
+        'current_user' => current_user,
+        'document' => request.raw_post
+      }]
+    end
+
+    def default_endpoints
+      Proc.new do |m|
+        m.created do |result|
+          render json: result['representer.default.class'].new(result['model']),
+                 status: 201
+        end
+        m.present { |res| raise 'Endpoint: presented' }
+        m.not_found { |res| raise 'Endpoint: not_found' }
+        m.unauthenticated { |res| raise 'Endpoint: unauthenticated' }
+        m.success { |res| render json: res['representer.default'], status: 200 }
+        m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
+      end
+    end
+
     def model_class_name
-      controller_name.classify.constantize
+      controller_name.classify
+    end
+
+    def base_module
+      "API::V1::#{model_class_name}"
+    end
+
+    def show_representer
+      "#{base_module}::Representer::Show".constantize
+    end
+
+    def index_operation
+      "#{base_module}::Index".constantize
+    end
+
+    def create_operation
+      "#{base_module}::Create".constantize
+    end
+
+    def update_operation
+      "#{base_module}::Update".constantize
+    end
+
+    # TODO: If this becomes more complex, extract into a service module
+    def jsonapi_errors(result)
+      error_hash = { errors: [] }
+      result['contract.default'].errors.full_messages.each do |message|
+        error_hash[:errors].push(title: message)
+      end
+      error_hash
     end
   end
 end

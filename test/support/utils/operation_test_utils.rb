@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module OperationTestUtil
+module OperationTestUtils
   def with_params(params, user = nil)
     [params, {'current_user' => user || users(:researcher)}]
   end
@@ -49,14 +49,5 @@ module OperationTestUtil
     refute_result(
       run_api_operation(operation, params)
     )
-  end
-
-  def to_jsonapi(param_hash, type)
-    {
-      data: {
-        type: type,
-        attributes: basic_params
-      }
-    }.to_json
   end
 end

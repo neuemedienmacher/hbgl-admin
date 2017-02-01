@@ -27,7 +27,7 @@ module API::V1
 
         has_one :assignable do
           type do |as|
-            as[:represented].assignable_type.underscore.pluralize.to_sym
+            as[:represented].assignable_type.tableize.to_sym
           end
 
           property :id
