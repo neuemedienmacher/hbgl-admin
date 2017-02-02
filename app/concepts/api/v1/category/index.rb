@@ -2,7 +2,7 @@
 module API::V1
   module Category
     class Index < API::V1::Default::Index
-      def model!(_params)
+      def base_query
         ::Category.mains
       end
     end

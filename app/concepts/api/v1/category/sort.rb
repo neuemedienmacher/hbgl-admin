@@ -2,28 +2,31 @@
 module API::V1
   module Category
     class Sort < Trailblazer::Operation
-      attr_reader :update_count
-      def model!(_params)
-        ::Category
+      step :set_initial_update_count_to_zero
+      step :start_recursive_category_update
+
+      def set_initial_update_count_to_zero(options)
+        options['update_count'] = 0
       end
 
-      def process(params)
-        category_tree = params[:categories]
-        @update_count = 0
-        iterate_category_tree_and_update_order(category_tree, nil)
+      def start_recursive_category_update(options, params:, **)
+        iterate_tree_and_update_order!(
+          options, params[:categories], nil
+        )
+        true
       end
 
-      private
+      ### --- The Magic: --- ##
 
-      def iterate_category_tree_and_update_order category_tree, parent_id
+      def iterate_tree_and_update_order! opts, category_tree, parent_id
         category_tree.each do |sort_order, category_data|
-          update_order_if_necessary(category_data, sort_order, parent_id)
+          update_order_if_necessary(opts, category_data, sort_order, parent_id)
         end
       end
 
-      def update_order_if_necessary category_data, sort_order, parent_id
-        found_category =
-          model.select(:id, :sort_order, :parent_id).find(category_data[:id])
+      def update_order_if_necessary opts, category_data, sort_order, parent_id
+        found_category = ::Category.select(:id, :sort_order, :parent_id)
+          .find(category_data[:id])
         # sort_order should be human readable - starting with 1 instead of 0
         desired_sort_order = sort_order.to_i + 1
         was_updated = false
@@ -39,13 +42,13 @@ module API::V1
         end
 
         if was_updated
-          @update_count += 1
+          opts['update_count'] += 1
         end
 
         # recursion for all children
         if category_data[:children]
-          iterate_category_tree_and_update_order(
-            category_data[:children], category_data[:id]
+          iterate_tree_and_update_order!(
+            opts, category_data[:children], category_data[:id]
           )
         end
       end

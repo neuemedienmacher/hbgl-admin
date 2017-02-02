@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 module API::V1
-  class CategoriesController < ApplicationController
+  class CategoriesController < BackendController
     respond_to :json
-
-    def index
-      respond API::V1::Category::Index
-    end
 
     # bulk update
     def sort
-      run API::V1::Category::Sort do |operation|
-        return render json: '{"status":"success", "update_count":'\
-                            "#{operation.update_count}}"
+      endpoint API::V1::Category::Sort, args: [params] do |m|
+        m.success do |result|
+          render json: {
+            status: 'success', update_count: result['update_count']
+          }.to_json
+        end
+        m.invalid { render json: { status: 'error' }.to_json }
+        m.present {}
+        m.created {}
+        m.not_found {}
+        m.unauthenticated {}
       end
-
-      render json: '{"status": "error"}'
     end
   end
 end
