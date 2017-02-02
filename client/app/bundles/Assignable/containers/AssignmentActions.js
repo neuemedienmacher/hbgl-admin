@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import AssignmentActions from '../components/AssignmentActions'
 import addEntities from '../../../Backend/actions/addEntities'
-import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
+import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel,
+         isCurrentUserActiveInTranslatorTeam }
   from '../../../lib/restrictionUtils'
 import settings from '../../../lib/settings'
 import snakeCase from 'lodash/snakeCase'
@@ -9,7 +10,6 @@ import clone from 'lodash/clone'
 import filter_collection from 'lodash/filter'
 import valuesIn from 'lodash/valuesIn'
 import orderBy from 'lodash/orderBy'
-import { assignableRouteForAction } from '../../../lib/routeForAction'
 
 const mapStateToProps = (state, ownProps) => {
   const assignment = ownProps.assignment
@@ -32,12 +32,11 @@ const mapStateToProps = (state, ownProps) => {
                          assignment.assignable_id, system_user)
   ).map(action => ({
     buttonText: buttonTextFor(action),
-    href: assignableRouteForAction(action, 'assignments', assignment.id),
+    href: '/api/v1/assignments/',
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, system_user, users),
-    method: action == 'assign_to_current_user' ? 'PATCH' : 'POST',
     userChoice: action == 'assign_someone_else',
-    messageField: action != 'assign_to_system'
+    messageField: action != 'assign_to_system' && action != 'assign_to_current_user'
   }))
 
   return {
@@ -75,7 +74,12 @@ function visibleFor(action, entities, model, id, system_user) {
       return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
     case 'assign_to_system':
-      return isCurrentUserAssignedToModel(entities, model, id) && system_user &&
+      // NOTE: only assigned users in translator-teams may directly assign the
+      // system_user (only to Translations)
+      let current_team = entities.current_user.current_team_id &&
+        entities.user_teams[entities.current_user.current_team_id]
+      return current_team && current_team.classification == 'translator' &&
+        isCurrentUserAssignedToModel(entities, model, id) && system_user &&
         (model == 'offer_translations' || model == 'organization_translations')
     default:
       return false

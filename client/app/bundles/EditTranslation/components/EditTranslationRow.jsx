@@ -20,7 +20,7 @@ export default class EditTranslationForm extends Component {
   renderTextOrForm(){
     const { property, length, source, content, type, may_edit } = this.props
 
-    if (may_edit && source && source[property]) {
+    if (may_edit && (source && source[property] || content)) {
       return (
         <div>
           <InputSet

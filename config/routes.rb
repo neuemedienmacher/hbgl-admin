@@ -66,7 +66,8 @@ Rails.application.routes.draw do
   post 'exports/:object_name/', controller: :exports, action: :create,
                                 as: :exports
 
-  get 'categories/:offer_name', controller: :categories, action: :index
+  get 'categories/:offer_name/suggest_categories', controller: :categories,
+                                                   action: :suggest_categories
   get 'next_steps_offers/:offer_id', controller: :next_steps_offers,
                                      action: :index
   put 'next_steps_offers/:id', controller: :next_steps_offers, action: :update

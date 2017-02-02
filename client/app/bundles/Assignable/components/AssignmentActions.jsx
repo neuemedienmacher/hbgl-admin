@@ -13,34 +13,13 @@ export default class AssignmentActions extends Component {
     return (
       <div className='content AssignmentActions'>
         {actions.map(action => {
-          if(action.method == 'PATCH'){
-            return this.renderUpdateForm(action)
-          } else {
-            return this.renderCreateForm(action)
-          }
+          return this.renderForm(action)
         })}
       </div>
     )
   }
 
-  renderUpdateForm(action) {
-    const { handleResponse, afterResponse } = this.props
-
-    return(
-      <Form ajax requireValid seedData={action.seedData} id={action.formId}
-        method={action.method} action={action.href} className='form-inline'
-        key={action.formId} formObjectClass={ActionUpdateFormObject}
-        handleResponse={handleResponse} afterResponse={afterResponse}
-      >
-        <hr />
-        <button type='submit' className='btn btn-warning'>
-          {action.buttonText}
-        </button>
-      </Form>
-    )
-  }
-
-  renderCreateForm(action) {
+  renderForm(action) {
     const { handleResponse, afterResponse, users } = this.props
 
     const optionalUserSelection = action.userChoice ?
@@ -59,7 +38,7 @@ export default class AssignmentActions extends Component {
 
     return(
       <Form ajax requireValid seedData={action.seedData} id={action.formId}
-        method={action.method} action={action.href} className='form-inline'
+        method='POST' action={action.href} className='form-inline'
         key={action.formId} formObjectClass={AssignmentFormObject}
         handleResponse={handleResponse} afterResponse={afterResponse}
       >

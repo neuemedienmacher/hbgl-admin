@@ -45,7 +45,7 @@ $(document).on 'rails_admin.dom_ready', ->
       name = category_input.val()
 
       if name
-        $.get "/categories/#{name}.json", (category_array) ->
+        $.get "/categories/#{name}/suggest_categories", (category_array) ->
           if category_array.length
             display = "Ähnliche Angebote verwenden folgende Kategorien:<br>
                       #{category_array.join(', ')}"
