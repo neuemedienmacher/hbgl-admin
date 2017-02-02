@@ -5,7 +5,7 @@ module API::V1
       class Show < API::V1::Default::Representer::Show
         # method (uses scopes) to get current_assignment
         property :current_assignment, getter: ->(item) do
-          item[:represented].current_assignment
+          ::Assignable::Twin.new(item[:represented]).current_assignment
         end
 
         collection :assignments do

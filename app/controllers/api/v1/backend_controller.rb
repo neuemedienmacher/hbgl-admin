@@ -54,7 +54,10 @@ module API::V1
         m.present { |res| raise 'Endpoint: presented' }
         m.not_found { |res| raise 'Endpoint: not_found' }
         m.unauthenticated { |res| raise 'Endpoint: unauthenticated' }
-        m.success { |res| render json: res['representer.default'], status: 200 }
+        m.success do |result|
+          render json: result['representer.default.class'].new(result['model']),
+                 status: 200
+        end
         m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
       end
     end

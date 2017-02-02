@@ -33,12 +33,32 @@ module API
       response.body.must_include '{"errors":[{"title":'
     end
 
-    def update_works_with klass, params
+    def update_works_with klass, id, params
       set_jsonapi_raw_post(params, klass)
-      assert_difference "#{klass.name}.count", 0 do
-        patch :update, jsonapi_params
-      end
+      model = klass.find(id)
+      original_attributes = collect_attributes(model, params)
+      patch :update, jsonapi_params(id: id)
+      original_attributes.wont_equal collect_attributes(model.reload, params)
+
+      # Validate JSONAPI spec implementation: returns 200 + resource document
       assert_response :success
+      response.body.must_include '{"data":{"type":'
+    end
+
+    def update_fails_with klass, id, params
+      set_jsonapi_raw_post(params, klass)
+      model = klass.find(id)
+      original_attributes = collect_attributes(model, params)
+      patch :update, jsonapi_params(id: id)
+      original_attributes.must_equal collect_attributes(model.reload, params)
+
+      # Validate JSONAPI spec implementation: returns Forbidden, error hash
+      assert_response 403
+      response.body.must_include '{"errors":[{"title":'
+    end
+
+    def collect_attributes(model, params)
+      model.attributes.select { |key, _| params.keys.include?(key.to_sym) }
     end
 
     def set_jsonapi_raw_post(params, klass)

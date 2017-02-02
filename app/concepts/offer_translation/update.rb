@@ -3,6 +3,8 @@ class OfferTranslation::Update < Trailblazer::Operation
   include Translation::CommonSideEffects::HumanChangeFields
 
   step Model(::OfferTranslation, :find_by)
+  # TODO: Either make policy more useful or remove
+  step Policy::Pundit(OfferTranslationPolicy, :update?)
 
   step Contract::Build()
   step Contract::Validate()
@@ -21,5 +23,6 @@ class OfferTranslation::Update < Trailblazer::Operation
 
   def reindex_offer(*, model:, **)
     model.offer.reload.algolia_index!
+    true
   end
 end
