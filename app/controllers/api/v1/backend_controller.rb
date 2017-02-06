@@ -51,9 +51,9 @@ module API::V1
           render json: result['representer.default.class'].new(result['model']),
                  status: 201
         end
-        m.present { |res| raise 'Endpoint: presented' }
-        m.not_found { |res| raise 'Endpoint: not_found' }
-        m.unauthenticated { |res| raise 'Endpoint: unauthenticated' }
+        m.present { |_| raise 'Endpoint: presented' }
+        m.not_found { |_| raise 'Endpoint: not_found' }
+        m.unauthenticated { |r| render json: jsonapi_errors(r), status: 403 }
         m.success do |result|
           render json: result['representer.default.class'].new(result['model']),
                  status: 200
@@ -86,13 +86,8 @@ module API::V1
       "#{base_module}::Update".constantize
     end
 
-    # TODO: If this becomes more complex, extract into a service module
     def jsonapi_errors(result)
-      error_hash = { errors: [] }
-      result['contract.default'].errors.full_messages.each do |message|
-        error_hash[:errors].push(title: message)
-      end
-      error_hash
+      JsonapiErrors.generate(result)
     end
   end
 end
