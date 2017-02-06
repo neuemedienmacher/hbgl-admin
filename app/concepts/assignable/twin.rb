@@ -28,6 +28,17 @@ module Assignable
       save
     end
 
+    def created_by_system?
+      case model.class.to_s
+      when 'OfferTranslation'
+        model.locale == 'de' || !model.offer.in_section?('refugees')
+      when 'OrganizationTranslation'
+        model.locale == 'de' || !model.organization.in_section?('refugees')
+      else
+        true
+      end
+    end
+
     # def create_new_assignment(
     #   creator_id, creator_team_id, receiver_id, receiver_team_id, message = ''
     # )

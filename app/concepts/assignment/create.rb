@@ -55,7 +55,7 @@ class Assignment::Create < Trailblazer::Operation
   end
 
   def set_creator_team_to_creators_current_team_if_empty(options)
-    if options['contract.default'].creator_team_id
+    if options['contract.default'].creator_team_id.nil?
       options['contract.default'].creator_team_id =
         User.find(options['contract.default'].creator_id).current_team_id
     end

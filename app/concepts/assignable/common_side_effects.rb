@@ -12,7 +12,8 @@ module Assignable
       private
 
       def creating_user_struct(model)
-        OpenStruct.new(id: model.translated_model.created_by)
+        user = ::User.find(model.translated_model.created_by)
+        OpenStruct.new(id: user.id, role: user.role)
       end
     end
   end

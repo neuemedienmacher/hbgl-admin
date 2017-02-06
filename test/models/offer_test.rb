@@ -159,11 +159,10 @@ describe Offer do
         # approval generates all translations initially
         new_offer.start_approval_process!
         new_offer.approve!
-        new_offer.run_callbacks(:commit) # Hotfix: force commit callback
         new_offer.translations.count.must_equal I18n.available_locales.count
+        new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
 
         # Now changes to the model change the corresponding translated fields
-
         EasyTranslate.translated_with 'CHANGED' do
           new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
@@ -178,11 +177,15 @@ describe Offer do
       it 'should update an existing translation only when the field changed' do
         # Setup
         new_offer = FactoryGirl.create(:offer)
+        new_offer.translations.count.must_equal 1
+        new_offer.translations.first.locale.must_equal 'de'
+        new_offer.aasm_state.must_equal 'initialized'
         new_offer.complete!
         new_offer.translations.count.must_equal 1
         new_offer.start_approval_process!
         new_offer.approve!
         new_offer.translations.count.must_equal I18n.available_locales.count
+        new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
 
         # Now changes to the model change the corresponding translated fields
         EasyTranslate.translated_with 'CHANGED' do
@@ -197,6 +200,7 @@ describe Offer do
           new_offer.name = 'changing name, should update translation'
           new_offer.save!
           new_offer.run_callbacks(:commit) # Hotfix: force commit callback
+          new_offer.translations.where(locale: 'ar').first.name.must_equal 'CHANGED'
           new_offer.reload.name_ar.must_equal 'CHANGED'
           new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
         end

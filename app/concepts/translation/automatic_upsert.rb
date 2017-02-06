@@ -24,7 +24,8 @@ module Translation
       found_model = query_for_existing_model(options).first
       if found_model
         options['nested.operation'] = model_class(options)::Update
-        options['params']['id'] = found_model.id
+        # options['params']['id'] = found_model.id
+        options['params'][:id] = found_model.id
       else
         options['nested.operation'] = model_class(options)::Create
         options['params']['locale'] = options['locale']

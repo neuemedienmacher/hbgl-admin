@@ -28,23 +28,24 @@ class Assignment::CreateInitial < Trailblazer::Operation
   # --- Utils describing default logic --- #
 
   def creator(assignable, last_acting_user)
-    case assignable.class
-    when OfferTranslation, OrganizationTranslation
-      created_by_system? ? User.system_user : last_acting_user
+    case assignable.class.to_s
+    when 'OfferTranslation', 'OrganizationTranslation'
+      assignable_twin = ::Assignable::Twin.new(assignable)
+      assignable_twin.created_by_system? ? ::User.system_user : last_acting_user
     else
       last_acting_user
     end
   end
 
-  # Note: We are not yet sure whether this will be useful, but we're collecting
+  # NOTE: We are not yet sure whether this will be useful, but we're collecting
   # the data for now.
   def creator_team_id(assignable, last_acting_user)
     creator(assignable, last_acting_user).current_team.try(:id)
   end
 
   def receiver_id(assignable, last_acting_user)
-    case assignable.class
-    when OfferTranslation, OrganizationTranslation
+    case assignable.class.to_s
+    when 'OfferTranslation', 'OrganizationTranslation'
       ::User.system_user.id
     else
       last_acting_user.id
@@ -56,17 +57,11 @@ class Assignment::CreateInitial < Trailblazer::Operation
   end
 
   def message_for_new_assignment(assignable)
-    case assignable.class
-    when OfferTranslation, OrganizationTranslation
+    case assignable.class.to_s
+    when 'OfferTranslation', 'OrganizationTranslation'
       'Initiale Zuweisung für Übersetzungen'
     else
       'Initial Assignment'
     end
-  end
-
-  # TODO: Does this not belong in decorator for assignable?
-  def created_by_system?
-    binding.pry
-    assignable.locale == 'de' || !assignable['offer/orga'].in_section?('refugees')
   end
 end
