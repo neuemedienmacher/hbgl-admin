@@ -2,12 +2,10 @@
 module API::V1
   module Statistic
     class Index < API::V1::Default::Index
-      def model!(params)
-        query = ::Statistic
+      def base_query
+        ::Statistic
         # if params['user_id'] != 'all'
-        #   return query.where(user_id: params['user_id'])
-        # else
-        query.all
+        #   query.where(user_id: params['user_id'])
         # end
       end
     end

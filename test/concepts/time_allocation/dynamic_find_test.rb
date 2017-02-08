@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative '../../test_helper'
 class TimeAllocationDynamicFindTest < ActiveSupport::TestCase # to have fixtures
-  subject { API::V1::TimeAllocation::DynamicFind }
+  subject { TimeAllocation::DynamicFind }
 
   describe '#find_or_initialize' do
     let(:finder) { subject.new(users(:researcher).id, 1234, 5) }

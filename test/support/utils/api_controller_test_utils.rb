@@ -57,6 +57,12 @@ module API
       response.body.must_include '{"errors":[{"title":'
     end
 
+    def has_no_route_for method, action
+      assert_raises(ActionController::UrlGenerationError) do # No route matches
+        send(method, action)
+      end
+    end
+
     def collect_attributes(model, params)
       model.attributes.select { |key, _| params.keys.include?(key.to_sym) }
     end
