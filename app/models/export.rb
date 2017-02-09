@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # Non-Active-Record object to provide helper methods for exports
+# TODO: This isn't actually a model. Put this somewhere else.
 class Export
   BATCH_SIZE = 10
   attr_reader :object
@@ -27,24 +28,6 @@ class Export
     object_query.find_each(batch_size: BATCH_SIZE) do |object_instance|
       yield object_instance
     end
-  end
-
-  ### --- Methods required for form generation: --- ###
-
-  def persisted?
-    false # not a database model
-  end
-
-  def has_attribute? name
-    name == :fields
-  end
-
-  def column_for_attribute(*)
-    nil
-  end
-
-  def to_key
-    nil
   end
 
   private

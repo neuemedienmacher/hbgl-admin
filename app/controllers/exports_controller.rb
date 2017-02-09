@@ -2,23 +2,27 @@
 class ExportsController < ApplicationController
   include RemoteShow
 
-  # def new
-  #   form Export::Create
-  # end
-
   def create
-    run Export::Create do |operation|
-      set_file_headers
-      set_streaming_headers
-      response.status = 200
-      return self.response_body = csv_lines(operation.model)
+    endpoint Export::Create,
+             args: [params[:export], 'current_user' => current_user] do |m|
+      m.created { |result| stream_data(result) }
+      m.invalid { |_| render_error }
+      m.unauthenticated { |_| render_error }
     end
-
-    flash.now[:error] = 'Export konnte nicht erstellt werden.'
-    render :new
   end
 
   private
+
+  def render_error
+    render 'error', status: 403
+  end
+
+  def stream_data(result)
+    set_file_headers
+    set_streaming_headers
+    response.status = 200
+    self.response_body = csv_lines(result['model'])
+  end
 
   def set_file_headers
     file_name = "#{params[:object_name]}_export_#{Time.zone.now}.csv"

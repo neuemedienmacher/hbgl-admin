@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, class_name: 'User'
   devise_scope :user do
     authenticated do
-      root to: 'dashboards#main'
+      root controller: :pages, action: :react
     end
 
     unauthenticated do
@@ -14,23 +14,20 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
-  resources :offers do
-    collection do
-      get 'export', controller: :pages, action: :react
-    end
-  end
+  resources :offers, only: :show
+  resources :organizations, only: :show
 
-  resources :organizations do
-    collection do
-      get 'export', controller: :pages, action: :react
-    end
-  end
-
-  resources :divisions, controller: :pages, action: :react do
-    collection do
-      get 'export', controller: :pages, action: :react
-    end
-  end
+  # resources :organizations do
+  #   collection do
+  #     get 'export', controller: :pages, action: :react
+  #   end
+  # end
+  #
+  # resources :divisions, controller: :pages, action: :react do
+  #   collection do
+  #     get 'export', controller: :pages, action: :react
+  #   end
+  # end
 
   resources :categories do
     collection do
@@ -38,42 +35,42 @@ Rails.application.routes.draw do
       get :mindmap
     end
   end
-  resources :offer_translations, only: [:index, :edit, :update] do
-    collection do
-      get 'export', controller: :pages, action: :react
-    end
-  end
-  resources :offer_translations, only: [:show], controller: :pages, action: :react
-  resources :organization_translations, only: [:index, :edit, :update] do
-    collection do
-      get 'export', controller: :pages, action: :react
-    end
-  end
-  resources :organization_translations, only: [:show], controller: :pages, action: :react
-  resources :productivity_goals
-  resources :users, only: [:index, :show], controller: :pages, action: :react
-  resources :user_teams, only: [:index, :show, :new, :edit],
-                         controller: :pages, action: :react
-  resources :assignments, only: [:index, :show], controller: :pages, action: :react
-  get 'time_allocations(/:year/:week_number)', controller: :time_allocations,
-                                               action: :index
+  # resources :offer_translations, only: [:index, :edit, :update] do
+  #   collection do
+  #     get 'export', controller: :pages, action: :react
+  #   end
+  # end
+  # resources :offer_translations, only: [:show], controller: :pages, action: :react
+  # resources :organization_translations, only: [:index, :edit, :update] do
+  #   collection do
+  #     get 'export', controller: :pages, action: :react
+  #   end
+  # end
+  # resources :organization_translations, only: [:show], controller: :pages, action: :react
+  # resources :productivity_goals
+  # resources :users, only: [:index, :show], controller: :pages, action: :react
+  # resources :user_teams, only: [:index, :show, :new, :edit],
+  #                        controller: :pages, action: :react
+  # resources :assignments, only: [:index, :show], controller: :pages, action: :react
+  # get 'time_allocations(/:year/:week_number)', controller: :time_allocations,
+  #                                              action: :index
 
   resources :next_steps_offers, only: [:index]
 
   # Export
-  get 'exports/:object_name/new', controller: :exports, action: :new,
-                                  as: :new_export
+  # get 'exports/:object_name/new', controller: :exports, action: :new,
+  #                                 as: :new_export
   post 'exports/:object_name/', controller: :exports, action: :create,
                                 as: :exports
 
-  get 'categories/:offer_name/suggest_categories', controller: :categories,
-                                                   action: :suggest_categories
+  # get 'categories/:offer_name/suggest_categories', controller: :categories,
+  #                                                  action: :suggest_categories
   get 'next_steps_offers/:offer_id', controller: :next_steps_offers,
                                      action: :index
   put 'next_steps_offers/:id', controller: :next_steps_offers, action: :update
 
   # Stats
-  get '/statistics(/:subpage)' => 'statistics#index', as: :statistics
+  # get '/statistics(/:subpage)' => 'statistics#index', as: :statistics
   # get '/statistics/:topic(/:user_id)' => 'statistics#show', as: :statistic
 
   # non-REST paths
@@ -121,4 +118,7 @@ Rails.application.routes.draw do
   constraints constraint do
     mount Sidekiq::Web => '/sidekiq'
   end
+
+  # Forward every other page to react and let it deal with it
+  match '*path', controller: :pages, action: :react, via: :all
 end
