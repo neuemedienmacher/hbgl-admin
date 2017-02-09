@@ -20,19 +20,4 @@ class Assignment::Update < Trailblazer::Operation
 
     validates :receiver_id, numericality: true, allow_blank: true
   end
-
-  # def side_effects!(item)
-  #   puts '==========side_effects=========='
-  #   puts item.aasm_state
-  #   system_user = ::User.find_by(name: 'System')
-  #   current_user = ::User.find(item.receiver_id)
-  #   puts system_user
-  #   ::Assignment.create!(
-  #     assignable_id: item.assignable_id,
-  #     assignable_type: item.assignable_type,
-  #     creator_id: system_user.id,
-  #     receiver_id: system_user.id,
-  #     message: 'System self-assigned this, because ' + current_user.name + ' closed the active Assignment.'
-  #   )
-  # end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class OfferTranslation::Create < Trailblazer::Operation
-  include Assignable::CommonSideEffects::InitialAssignment
+  include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::OfferTranslation, :new)
 
@@ -15,6 +15,7 @@ class OfferTranslation::Create < Trailblazer::Operation
     property :name
     property :description
     property :opening_specification
+    property :old_next_steps
     property :source
     property :locale
     property :possibly_outdated

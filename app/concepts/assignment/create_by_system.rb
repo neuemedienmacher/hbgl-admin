@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Assignment::CreateInitial < Trailblazer::Operation
+class Assignment::CreateBySystem < Trailblazer::Operation
   # Expected options: assignable, last_acting_user
   step :collect_initial_params
   step :execute_nested_create! # Nested(Assignment::Create) !preferrably
@@ -20,8 +20,8 @@ class Assignment::CreateInitial < Trailblazer::Operation
       creator_id: creator(assignable, last_acting_user).id,
       creator_team_id: creator_team_id(assignable, last_acting_user),
       receiver_id: receiver_id(assignable, last_acting_user),
-      receiver_team_id: receiver_team_id,
-      message: message_for_new_assignment(assignable)
+      receiver_team_id: receiver_team_id(assignable),
+      message: message_for_new_assignment(assignable, last_acting_user)
     }
   end
 
@@ -33,7 +33,7 @@ class Assignment::CreateInitial < Trailblazer::Operation
       assignable_twin = ::Assignable::Twin.new(assignable)
       assignable_twin.created_by_system? ? ::User.system_user : last_acting_user
     else
-      last_acting_user
+      last_acting_user # NOTE: this is not used yet - rethink when other models become assignable!
     end
   end
 
@@ -46,22 +46,43 @@ class Assignment::CreateInitial < Trailblazer::Operation
   def receiver_id(assignable, last_acting_user)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
-      ::User.system_user.id
+      translation_twin = ::Translation::Twin.new(assignable)
+      if translation_twin.should_be_reviewed_by_translator?
+        nil
+      else
+        ::User.system_user.id
+      end
     else
-      last_acting_user.id
+      last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
   end
 
-  def receiver_team_id
-    nil
-  end
-
-  def message_for_new_assignment(assignable)
+  def receiver_team_id(assignable)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
-      'Initiale Zuweisung für Übersetzungen'
+      translation_twin = ::Translation::Twin.new(assignable)
+      if translation_twin.should_be_reviewed_by_translator?
+        AssignmentDefaults.translator_teams[assignable.locale.to_s]
+      else
+        nil
+      end
     else
-      'Initial Assignment'
+      nil # NOTE: this is not used yet - rethink when other models become assignable!
+    end
+  end
+
+  def message_for_new_assignment(assignable, last_acting_user)
+    case assignable.class.to_s
+    when 'OfferTranslation', 'OrganizationTranslation'
+      translation_twin = ::Translation::Twin.new(assignable)
+      if translation_twin.should_be_reviewed_by_translator?
+        reason = assignable.possibly_outdated? ? 'possibly_outdated' : 'GoogleTranslate'
+        "(#{last_acting_user}) #{reason}"
+      else
+        'Managed by system'
+      end
+    else
+      'New Assignment'
     end
   end
 end

@@ -15,7 +15,7 @@ FactoryGirl.define do
     end
 
     after :build do |translation, evaluator|
-      translation.assignments << ::Assignment::CreateInitial.(
+      translation.assignments << ::Assignment::CreateBySystem.(
         {},
         assignable: translation,
         last_acting_user: User.first || FactoryGirl.create(:researcher)

@@ -3,6 +3,7 @@ module Assignable
     collection :assignments
 
     # Methods
+    # NOTE: for later use
     # def field_assignments
     #   assignments.field
     # end
@@ -14,46 +15,36 @@ module Assignable
       assignments.active.root.base.first
     end
 
-    def current_field_assignment field
-      # return nil if the required field is not existing on the assignable model
-      return nil unless respond_to?(field)
-      # return open field assignment if one exists or current model assignment
-      assignments.active.root.where(assignable_field_type: field).first ||
-        current_assignment
-    end
-
-    # closes the current assignment (if one exists) and creates a new one
-    def create_new_assignment!(*args)
-      create_new_assignment(*args)
-      save
-    end
+    # NOTE: for later use
+    # def current_field_assignment field
+    #   # return nil if the required field is not existing on the assignable model
+    #   return nil unless respond_to?(field)
+    #   # return open field assignment if one exists or current model assignment
+    #   assignments.active.root.where(assignable_field_type: field).first ||
+    #     current_assignment
+    # end
 
     def created_by_system?
       case model.class.to_s
-      when 'OfferTranslation'
-        model.locale == 'de' || !model.offer.in_section?('refugees')
-      when 'OrganizationTranslation'
-        model.locale == 'de' || !model.organization.in_section?('refugees')
+      when 'OfferTranslation', 'OrganizationTranslation'
+        model.locale == 'de' || !model.translated_model.in_section?('refugees')
       else
-        true
+        false # NOTE: this is not used yet - rethink when other models become assignable!
       end
     end
 
-    # def create_new_assignment(
-    #   creator_id, creator_team_id, receiver_id, receiver_team_id, message = ''
-    # )
-    #   current_assignment.close! if current_assignment
-    #   assignments << Assignment.new(
-    #     assignable: model,
-    #     assignable_type: model.class.name,
-    #     creator_id: creator_id,
-    #     creator_team_id: creator_team_id,
-    #     receiver_id: receiver_id,
-    #     receiver_team_id: receiver_team_id,
-    #     message: message
-    #   )
-    #   self
-    # end
+    # only re-assign refugees translations, that are outdated or from GT and
+    # if they are not already assigned to the translator team
+    def should_create_new_assignment?
+      case model.class.to_s
+      when 'OfferTranslation', 'OrganizationTranslation'
+        translation_twin = ::Translation::Twin.new(model)
+        !translation_twin.already_assigned_to_translator_team? &&
+          translation_twin.should_be_reviewed_by_translator?
+      else
+        false # NOTE: this is not used yet - rethink when other models become assignable!
+      end
+    end
 
     # TODO: Sub-Assignments (assignment with parent)
   end

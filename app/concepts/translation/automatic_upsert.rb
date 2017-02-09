@@ -2,6 +2,7 @@
 module Translation
   class AutomaticUpsert < Trailblazer::Operation
     step :generate_translation_params
+    step :find_and_add_acting_user_to_options
     step :set_specific_create_or_update_params
     step :call_nested_specific_create_or_update
 
@@ -20,11 +21,17 @@ module Translation
       options['params'] = options['params'].merge(new_params)
     end
 
+    def find_and_add_acting_user_to_options(options)
+      user_id = options['object_to_translate'].approved_by ?
+        options['object_to_translate'].approved_by :
+        options['object_to_translate'].created_by
+      options['last_acting_user'] = User.find(user_id)
+    end
+
     def set_specific_create_or_update_params(options)
       found_model = query_for_existing_model(options).first
       if found_model
         options['nested.operation'] = model_class(options)::Update
-        # options['params']['id'] = found_model.id
         options['params'][:id] = found_model.id
       else
         options['nested.operation'] = model_class(options)::Create
@@ -33,8 +40,8 @@ module Translation
       options['params'][id_field(options)] = options['object_to_translate'].id
     end
 
-    def call_nested_specific_create_or_update(options, params:, **)
-      result = options['nested.operation'].(params)
+    def call_nested_specific_create_or_update(options, params:, last_acting_user:, **)
+      result = options['nested.operation'].(params, 'current_user' => last_acting_user)
       options['nested.result'] = result
       result.success?
     end
@@ -69,7 +76,6 @@ module Translation
         )
         params_hash['source'] = 'GoogleTranslate'
       end
-
       params_hash
     end
 
