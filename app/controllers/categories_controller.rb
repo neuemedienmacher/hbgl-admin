@@ -1,9 +1,6 @@
 # frozen_string_literal: true
-class CategoriesController < BackendController
+class CategoriesController < ApplicationController
   respond_to :json
-
-  def index
-  end
 
   # Non-REST
   # TODO: extract into separate controller?
