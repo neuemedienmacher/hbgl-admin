@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class OrganizationTranslation::Create < Trailblazer::Operation
-  include Assignable::CommonSideEffects::InitialAssignment
+  include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::OrganizationTranslation, :new)
 

@@ -5,50 +5,54 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
   let(:worker) { TranslationGenerationWorker.new }
 
   describe '#perform' do
-    # it 'should work for an offer in German' do
-    #   Offer.find(1).update_columns(
-    #     name: '*foo*', description: '*foo*', old_next_steps: '*foo*',
-    #     opening_specification: '*foo*'
-    #   )
-    #   FactoryGirl.create :definition, key: 'foo'
-    #   worker.perform :de, 'Offer', 1
-    #   translation = OfferTranslation.last
-    #   translation.name.must_equal '*foo*'
-    #   translation.description.must_equal(
-    #     "<p><em><dfn class='JS-tooltip' data-id='1'>foo</dfn></em></p>\n")
-    #   translation.old_next_steps.must_equal "<p><em>foo</em></p>\n"
-    #   translation.opening_specification.must_equal "<p><em>foo</em></p>\n"
-    # end
-    #
-    # it 'should work for an offer in English' do
-    #   worker.perform :en, 'Offer', 1
-    #   translation = OfferTranslation.last
-    #   translation.name.must_equal 'GET READY FOR CANADA'
-    #   translation.description.must_equal 'GET READY FOR CANADA'
-    #   translation.old_next_steps.must_equal 'GET READY FOR CANADA'
-    #   translation.opening_specification.must_equal 'GET READY FOR CANADA'
-    # end
-    #
-    # it 'should only translate for given set of fields if provided' do
-    #   worker.perform :en, 'Offer', 1, [:name]
-    #   translation = OfferTranslation.last
-    #   translation.name.must_equal 'GET READY FOR CANADA'
-    #   translation.description.must_equal ''
-    #   assert_nil translation.old_next_steps
-    #   assert_nil translation.opening_specification
-    # end
-    #
-    # it 'should work for an organization in German' do
-    #   worker.perform :de, 'Organization', 1
-    #   translation = OrganizationTranslation.last
-    #   translation.description.must_equal "<p>basicOrganizationDescription</p>\n"
-    # end
-    #
-    # it 'should work for an organization in English' do
-    #   worker.perform :en, 'Organization', 1
-    #   translation = OrganizationTranslation.last
-    #   translation.description.must_equal 'GET READY FOR CANADA'
-    # end
+    it 'should work for an offer in German' do
+      offer = Offer.find(1)
+      offer.update_columns(
+        name: '*foo*', description: '*foo*', old_next_steps: '*foo*',
+        opening_specification: '*foo*'
+      )
+      FactoryGirl.create :definition, key: 'foo'
+      worker.perform :de, 'Offer', offer.id
+      translation = offer.translations.where(locale: 'de').first
+      translation.name.must_equal '*foo*'
+      translation.description.must_equal(
+        "<p><em><dfn class='JS-tooltip' data-id='1'>foo</dfn></em></p>\n")
+      translation.old_next_steps.must_equal "<p><em>foo</em></p>\n"
+      translation.opening_specification.must_equal "<p><em>foo</em></p>\n"
+    end
+
+    it 'should work for an offer in English' do
+      worker.perform :en, 'Offer', 1
+      translation = OfferTranslation.last
+      translation.name.must_equal 'GET READY FOR CANADA'
+      translation.description.must_equal 'GET READY FOR CANADA'
+      translation.old_next_steps.must_equal 'GET READY FOR CANADA'
+      translation.opening_specification.must_equal 'GET READY FOR CANADA'
+    end
+
+    it 'should only translate for given set of fields if provided' do
+      translation = OfferTranslation.last
+      translation.name.must_equal 'GET READY FOR NAME'
+      translation.description.must_equal 'GET READY FOR DESCRIPTION'
+      # changes name field but not description
+      worker.perform :en, 'Offer', 1, [:name]
+      translation.reload.name.must_equal 'GET READY FOR CANADA'
+      translation.reload.description.must_equal 'GET READY FOR DESCRIPTION'
+      translation.reload.old_next_steps.must_equal 'GET READY FOR NEXT STEPS'
+      assert_nil translation.opening_specification
+    end
+
+    it 'should work for an organization in German' do
+      worker.perform :de, 'Organization', 1
+      translation = OrganizationTranslation.last
+      translation.description.must_equal "<p>basicOrganizationDescription</p>\n"
+    end
+
+    it 'should work for an organization in English' do
+      worker.perform :en, 'Organization', 1
+      translation = OrganizationTranslation.last
+      translation.description.must_equal 'GET READY FOR CANADA'
+    end
 
     # automated Assignments
 
@@ -61,124 +65,130 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       assignments.first.receiver_id.must_equal User.system_user.id
       assignments.first.aasm_state.must_equal 'open'
     end
-    #
-    # it 'should create two assignments for refugees-en-organization' do
-    #   offer = FactoryGirl.create :offer, :approved
-    #   offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
-    #   orga = offer.organizations.first
-    #   orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
-    #   worker.perform :en, 'Organization', orga.id
-    #   assignments = orga.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 2
-    #   assignments.first.creator_id.must_equal orga.approved_by
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    #   assignments.first.aasm_state.must_equal 'closed'
-    #   assignments.last.creator_id.must_equal User.system_user.id
-    #   assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
-    #   assignments.last.aasm_state.must_equal 'open'
-    # end
-    #
-    # it 'should correctly create a second assignment with a refugees-offer' do
-    #   orga = Organization.find(1)
-    #   worker.perform :en, 'Organization', orga.id
-    #   assignments =
-    #     Organization.first.translations.where(locale: 'de').first.assignments
-    #   assignments.count.must_equal 1
-    #   assignments.first.creator_id.must_equal User.system_user.id
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    #   assignments.first.aasm_state.must_equal 'open'
-    #
-    #   # add a refugees offer to the organization and start worker again
-    #   orga.offers.first.section_filters << SectionFilter.find_by(identifier: 'refugees')
-    #   orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
-    #   worker.perform :en, 'Organization', orga.id
-    #   assignments =
-    #     Organization.first.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 2
-    #   assignments.last.creator_id.must_equal User.system_user.id
-    #   assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
-    #   assignments.last.aasm_state.must_equal 'open'
-    # end
-    #
-    # it 'should correctly create the second assignment as an offer side-effect' do
-    #   orga = Organization.find(1)
-    #   worker.perform :en, 'Organization', orga.id
-    #   assignments =
-    #     Organization.first.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 1
-    #   assignments.first.creator_id.must_equal User.system_user.id
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    #   assignments.first.aasm_state.must_equal 'open'
-    #
-    #   # add a refugees offer to the organization and start worker again
-    #   offer = orga.offers.first
-    #   # first try with non-approved offer => should not generate translation
-    #   offer.update_columns aasm_state: 'initialized'
-    #   offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
-    #   orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
-    #   worker.perform :en, 'Offer', offer.id
-    #   # assignments = OrganizationTranslation.last.assignments
-    #   assignments.count.must_equal 1
-    #
-    #   # set state to approved => orga translation is generated
-    #   offer.update_columns aasm_state: 'approved'
-    #   worker.perform :en, 'Offer', offer.id
-    #   # assignments =
-    #   #   Organization.first.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 2
-    #   assignments.first.aasm_state.must_equal 'closed'
-    #   assignments.last.creator_id.must_equal User.system_user.id
-    #   assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
-    #   assignments.last.aasm_state.must_equal 'open'
-    #
-    #   # running again does not generate a new orga-assignment (already existing)
-    #   worker.perform :en, 'Offer', offer.id
-    #   # assignments = OrganizationTranslation.last.assignments
-    #   assignments.count.must_equal 2
-    # end
-    #
-    # it 'should only create system-assignment for family-en-OrganizationTranslation' do
-    #   worker.perform :en, 'Organization', 1
-    #   assignments =
-    #     Organization.first.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 1
-    #   assignments.first.creator_id.must_equal User.system_user.id
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    #   assignments.first.aasm_state.must_equal 'open'
-    # end
-    #
-    # it 'should create an initial and an updated Assignment for English' do
-    #   Offer.first.section_filters = [SectionFilter.find_by(identifier: 'refugees')]
-    #   worker.perform :en, 'Offer', 1
-    #   assignments =
-    #     Offer.first.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 2
-    #   assignments.first.creator_id.must_equal Offer.find(1).approved_by
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    #   assignments.first.aasm_state.must_equal 'closed'
-    #   assignments.last.creator_id.must_equal User.system_user.id
-    #   assignments.last.receiver_team_id.must_equal 1 # test default for transltor teams
-    #   assignments.last.aasm_state.must_equal 'open'
-    # end
-    #
-    # it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
-    #   worker.perform :de, 'Offer', 1
-    #   assignments =
-    #     Offer.first.translations.where(locale: 'de').first.assignments
-    #   assignments.count.must_equal 1
-    #   assignments.first.creator_id.must_equal User.system_user.id
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    #   assignments.first.aasm_state.must_equal 'open'
-    # end
-    #
-    # it 'should only create the initial system-assignment for English translation that belongs to a family-only offer' do
-    #   worker.perform :en, 'Offer', 1
-    #   assignments =
-    #     Offer.first.translations.where(locale: 'en').first.assignments
-    #   assignments.count.must_equal 1
-    #   assignments.first.creator_id.must_equal User.system_user.id
-    #   assignments.first.receiver_id.must_equal User.system_user.id
-    # end
+
+    it 'should create only one translation-team-assignment for a new english translation' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      orga = offer.organizations.first
+      orga.in_section?('refugees').must_equal true
+      worker.perform :en, 'Organization', orga.id
+      assignments = orga.translations.where(locale: 'en').count.must_equal 1
+      assignments = orga.translations.where(locale: 'en').first.assignments
+      assignments.count.must_equal 1
+      assignments.last.creator_id.must_equal orga.approved_by
+      assert_nil assignments.last.receiver_id
+      assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+      assignments.last.aasm_state.must_equal 'open'
+    end
+
+    it 'should correctly create a second assignment with a refugees-offer' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters = [SectionFilter.find_by(identifier: 'family')]
+      orga = offer.organizations.first
+      worker.perform :ar, 'Organization', orga.id
+      assignments = orga.translations.where(locale: 'ar').first.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.receiver_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+
+      # simply running again does not create a new assignment
+      worker.perform :ar, 'Organization', orga.id
+      assignments.count.must_equal 1
+
+      # add a refugees offer to the organization and start worker again
+      offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      orga.in_section?('refugees').must_equal true
+      worker.perform :ar, 'Organization', orga.id
+      assignments.count.must_equal 2
+      assignments.last.creator_id.must_equal orga.approved_by
+      assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+      assignments.last.aasm_state.must_equal 'open'
+    end
+
+    it 'should correctly create the second assignment as an offer side-effect' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters = [SectionFilter.find_by(identifier: 'family')]
+      orga = offer.organizations.first
+      worker.perform :en, 'Organization', orga.id
+      assignments = orga.translations.where(locale: 'en').first.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.receiver_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+
+      # add a refugees offer to the organization and start worker again
+      # offer = orga.offers.first
+      # first try with non-approved offer => should not generate translation
+      offer.update_columns aasm_state: 'initialized'
+      offer.section_filters << SectionFilter.find_by(identifier: 'refugees')
+      orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
+      worker.perform :en, 'Offer', offer.id
+      assignments.count.must_equal 1
+
+      # set state to approved => orga translation is generated
+      offer.update_columns aasm_state: 'approved'
+      worker.perform :en, 'Offer', offer.id
+      assignments.count.must_equal 2
+      assignments.first.aasm_state.must_equal 'closed'
+      assignments.last.creator_id.must_equal offer.approved_by
+      assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+      assignments.last.aasm_state.must_equal 'open'
+
+      # running again does not generate a new orga-assignment (already existing)
+      worker.perform :en, 'Offer', offer.id
+      assignments.count.must_equal 2
+    end
+
+    it 'should only create system-assignment for family-en-OrganizationTranslation' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters = [SectionFilter.find_by(identifier: 'family')]
+      orga = offer.organizations.first
+      worker.perform :en, 'Organization', orga.id
+      assignments = orga.translations.where(locale: 'en').first.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.receiver_id.must_equal User.system_user.id
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should create translator-team Assignment for English' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters = [SectionFilter.find_by(identifier: 'refugees')]
+      orga = offer.organizations.first
+      worker.perform :en, 'Organization', orga.id
+      assignments = orga.translations.where(locale: 'en').first.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal orga.approved_by
+      assignments.first.receiver_team_id.must_equal 1 # test default for translator teams
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters = [SectionFilter.find_by(identifier: 'family')]
+      worker.perform :de, 'Offer', offer.id
+      assignments = offer.translations.where(locale: 'de').first.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.receiver_id.must_equal User.system_user.id
+      assert_nil assignments.first.receiver_team_id
+      assignments.first.message.must_equal 'Managed by system'
+      assignments.first.aasm_state.must_equal 'open'
+    end
+
+    it 'should only create the initial system-assignment for English translation that belongs to a family-only offer' do
+      offer = FactoryGirl.create :offer, :approved
+      offer.section_filters = [SectionFilter.find_by(identifier: 'family')]
+      worker.perform :en, 'Offer', offer.id
+      assignments = offer.translations.where(locale: 'en').first.assignments
+      assignments.count.must_equal 1
+      assignments.first.creator_id.must_equal User.system_user.id
+      assignments.first.receiver_id.must_equal User.system_user.id
+      assert_nil assignments.first.receiver_team_id
+      assignments.first.message.must_equal 'Managed by system'
+      assignments.first.aasm_state.must_equal 'open'
+    end
   end
 
   ### PRIVATE METHODS ###
