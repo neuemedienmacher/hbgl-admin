@@ -7,7 +7,8 @@ module API::V1
     # --- Default Action Handlers --- #
 
     def index
-      endpoint index_operation do |m|
+      # NOTE: use api_args instead of only params??
+      endpoint index_operation, args: [params] do |m|
         m.success do |result|
           json = API::V1::Lib::JsonifyCollection.(
             show_representer, result['collection'], params
