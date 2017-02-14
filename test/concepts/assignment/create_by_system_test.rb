@@ -10,8 +10,14 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   it 'must create an assignment with inferred data' do
     result = ::Assignment::CreateBySystem.({}, basic_options)
     result.must_be :success?
-    # result['model'].must_be :persisted?
+    result['model'].must_be :persisted?
   end
 
-  # TODO: A lot more tests!
+  # it 'must create the correct assignment for' do
+  #   result = ::Assignment::CreateBySystem.({}, basic_options)
+  #   result.must_be :success?
+  #   result['model'].must_be :persisted?
+  # end
+
+  # TODO: moar tests!
 end

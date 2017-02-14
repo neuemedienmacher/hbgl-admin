@@ -9,7 +9,7 @@ describe API::V1::UsersController do
   it { api_get_works_for :index }
 
   describe '#update' do
-    it { update_works_with User, 1, current_team_id: 1 }
+    it { update_works_with User, 1, current_team_id: 2 }
 
     it 'unauthenticates a user other than the edited user' do
       update_fails_with User, 2, current_team_id: 1
