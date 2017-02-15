@@ -13,20 +13,39 @@ describe Offer do
       it { subject.must have_many(:informed_emails).through :offer_mailings }
     end
 
-    # describe 'scopes' do
-    #   it 'excludes offers that are not approved' do
-    #     unapproved_offer = FactoryGirl.create :offer, :approved
-    #     Offer.approved.to_a.should include(unapproved_offer)
-    #   end
-    # end
+    describe 'scopes' do
+      describe 'visible_in_frontend' do
+        it 'includes offers that are approved or expired' do
+          approved_offer = FactoryGirl.create :offer, :approved
+          expired = FactoryGirl.create :offer, aasm_state: 'expired'
+          Offer.visible_in_frontend.to_a.include?(approved_offer).must_equal true
+          Offer.visible_in_frontend.to_a.include?(expired).must_equal true
+        end
 
-    describe 'seasonal scope' do
-      it 'should correctly retrieve only seasonal offers with seasonal scope' do
-        seasonal_offer = FactoryGirl.create :offer,
-                                            starts_at: Time.zone.now - 30.days,
-                                            expires_at: Time.zone.now + 30.days
-        FactoryGirl.create :offer # additional normal offer
-        Offer.seasonal.must_equal [seasonal_offer]
+        it 'excludes offers that are not approved or expired' do
+          offer = FactoryGirl.create :offer, aasm_state: 'completed'
+          Offer.visible_in_frontend.to_a.include?(offer).must_equal false
+          offer = FactoryGirl.create :offer, aasm_state: 'initialized'
+          Offer.visible_in_frontend.to_a.include?(offer).must_equal false
+          offer = FactoryGirl.create :offer, aasm_state: 'paused'
+          Offer.visible_in_frontend.to_a.include?(offer).must_equal false
+          offer = FactoryGirl.create :offer, aasm_state: 'internal_feedback'
+          Offer.visible_in_frontend.to_a.include?(offer).must_equal false
+          offer = FactoryGirl.create :offer, aasm_state: 'organization_deactivated'
+          Offer.visible_in_frontend.to_a.include?(offer).must_equal false
+          offer = FactoryGirl.create :offer, aasm_state: 'website_unreachable'
+          Offer.visible_in_frontend.to_a.include?(offer).must_equal false
+        end
+      end
+
+      describe 'seasonal' do
+        it 'should correctly retrieve only seasonal offers with seasonal scope' do
+          seasonal_offer = FactoryGirl.create :offer,
+                                              starts_at: Time.zone.now - 30.days,
+                                              expires_at: Time.zone.now + 30.days
+          FactoryGirl.create :offer # additional normal offer
+          Offer.seasonal.must_equal [seasonal_offer]
+        end
       end
     end
 

@@ -89,6 +89,9 @@ describe Organization do
                                                    :with_location)
       end
       organization.big_player?.must_equal true
+      # must also work in 'all_done' state
+      organization.update_columns aasm_state: 'all_done'
+      organization.big_player?.must_equal true
     end
 
     it 'should be true for big organizations' do

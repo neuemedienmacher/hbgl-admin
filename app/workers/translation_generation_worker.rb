@@ -81,8 +81,8 @@ class TranslationGenerationWorker
   # Site-Effect: iterate organizations and create assignments for translations.
   # Applies the entire logic (assigns only when needed) via operation.
   def notify_associated_organizations object
-    return unless object.is_a?(Offer) && object.approved?
-    object.organizations.approved.each do |orga|
+    return unless object.is_a?(Offer) && object.visible_in_frontend?
+    object.organizations.visible_in_frontend.each do |orga|
       orga.translations.each do |translation|
         # directly call process method (assignable) for orga_translation to
         # invoke assignment logic (does not trigger new translaton)

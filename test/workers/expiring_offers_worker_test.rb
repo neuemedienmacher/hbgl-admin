@@ -11,12 +11,14 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     expiring = FactoryGirl.create :offer, :approved, expires_at: today
     later = FactoryGirl.create :offer, :approved, expires_at: today + 2.days
     Timecop.return
-    Offer.any_instance.expects(:index!).once
+    # Offer.any_instance.expects(:index!).once # no longer needed
     # OfferMailer.expect_chain(:expiring_mail, :deliver_now).once
     AsanaCommunicator.any_instance.expects(:create_expire_task).once
     worker.perform
     expiring.reload.must_be :expired?
     later.reload.must_be :approved?
+    expiring.reload.visible_in_frontend?.must_equal true
+    later.reload.visible_in_frontend?.must_equal true
   end
 
   it 'does not send an email, create asana task and call manual reindex for '\
@@ -25,7 +27,7 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     Timecop.freeze(Time.zone.local(2015)) do
       FactoryGirl.create :offer, expires_at: yesterday
     end
-    Offer.any_instance.expects(:index!).never
+    # Offer.any_instance.expects(:index!).never
     # OfferMailer.expects(:expiring_mail).never
     AsanaCommunicator.any_instance.expects(:create_expire_task).never
     worker.perform
@@ -34,7 +36,7 @@ class ExpiringOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
   it 'does not send an email, create asana task and call manual reindex for '\
      'offers that will expire' do
     FactoryGirl.create :offer, expires_at: (Time.zone.now.end_of_day + 1)
-    Offer.any_instance.expects(:index!).never
+    # Offer.any_instance.expects(:index!).never
     # OfferMailer.expects(:expiring_mail).never
     AsanaCommunicator.any_instance.expects(:create_expire_task).never
     worker.perform

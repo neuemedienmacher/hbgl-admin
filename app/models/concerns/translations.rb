@@ -6,7 +6,7 @@ module Translations
       I18n.available_locales.each do |locale|
         if locale == :de # German translation is needed and thus done right away
           TranslationGenerationWorker.new.perform(locale, self.class.name, id)
-        elsif no_state_or_approved?
+        elsif no_state_or_visible_in_frontend?
           TranslationGenerationWorker.perform_async(
             locale, self.class.name, id, fields
           )
@@ -17,9 +17,9 @@ module Translations
 
     private
 
-    def no_state_or_approved?
+    def no_state_or_visible_in_frontend?
       self.respond_to?(:aasm_state) == false ||
-        %w(approved all_done).include?(self.aasm_state)
+        self.visible_in_frontend?
     end
   end
 end

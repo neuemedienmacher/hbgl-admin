@@ -27,7 +27,7 @@ class UninformedEmailsMailingsSpawnerWorker
 
   def informable_offer_emails
     Email.where(aasm_state: 'uninformed').uniq
-         .joins(:offers).where('offers.aasm_state = ?', 'approved')
+         .joins(:offers).where('offers.aasm_state = ? OR offers.aasm_state = ?', 'approved', 'expired')
          .joins(:organizations)
          .where('organizations.mailings = ?', 'enabled')
          .where('organizations.aasm_state = ?', 'all_done')

@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 4f64b4b9292d239a8261b1dda42ffaf0184c21f2
+  revision: c7d05301d0cdd6208653efe72e255bc92232c9c4
   specs:
     clarat_base (0.1.4)
       aasm
@@ -78,10 +78,10 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    algoliasearch (1.12.5)
-      httpclient (~> 2.8.2.4)
+    algoliasearch (1.12.6)
+      httpclient (~> 2.8.3)
       json (>= 1.5.1)
-    algoliasearch-rails (1.17.0)
+    algoliasearch-rails (1.17.1)
       algoliasearch (~> 1.12.4)
       json (>= 1.5.1)
     arel (6.0.4)
@@ -111,7 +111,7 @@ GEM
       sass (~> 3.0)
       slim (>= 1.3.6, < 4.0)
       terminal-table (~> 1.4)
-    builder (3.2.2)
+    builder (3.2.3)
     bullet (5.0.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.9.0)
@@ -137,7 +137,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.2.0)
+    closure_tree (6.3.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.5)
@@ -244,12 +244,12 @@ GEM
       json
       mime-types
       multipart-post
-    geocoder (1.4.1)
+    geocoder (1.4.3)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
-    gli (2.14.0)
+    gli (2.15.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -281,8 +281,8 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    httpclient (2.8.2.4)
-    i18n (0.7.0)
+    httpclient (2.8.3)
+    i18n (0.8.0)
     i18n-js (2.1.2)
       i18n
     inflecto (0.0.2)
@@ -294,7 +294,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.5)
+    json (1.8.6)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -305,13 +305,11 @@ GEM
     letter_opener (1.4.1)
       launchy (~> 2.2)
     libv8 (3.16.14.13)
-    localeapp (2.0.0)
+    localeapp (2.1.1)
       gli
       i18n (~> 0.4)
-      json (~> 1.8)
-      mime-types (~> 2.6)
-      rest-client (~> 1.8)
-      ya2yaml
+      json
+      rest-client
     lograge (0.3.5)
       actionpack (>= 3)
       activesupport (>= 3)
@@ -330,7 +328,9 @@ GEM
       railties (>= 3.0.0, < 5.1.0)
     metaclass (0.0.4)
     method_source (0.8.2)
-    mime-types (2.99.3)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
     mini_portile2 (2.0.0)
     minitest (5.10.1)
     minitest-capybara (0.7.2)
@@ -507,7 +507,7 @@ GEM
       rails (>= 3.2)
       rainbow (~> 2.0)
     redcarpet (3.4.0)
-    redis (3.3.2)
+    redis (3.3.3)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
@@ -524,10 +524,10 @@ GEM
     require_all (1.3.3)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
-    rest-client (1.8.0)
+    rest-client (2.0.0)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rubocop (0.37.2)
       parser (>= 2.3.0.4, < 3.0)
       powerpack (~> 0.1)
@@ -584,7 +584,7 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     simpleidn (0.0.7)
-    sinatra (1.4.7)
+    sinatra (1.4.8)
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
@@ -621,7 +621,7 @@ GEM
     thor (0.19.4)
     thread (0.2.2)
     thread_safe (0.3.5)
-    tilt (2.0.5)
+    tilt (2.0.6)
     timecop (0.8.0)
     tins (1.6.0)
     trailblazer (1.1.1)
@@ -661,7 +661,6 @@ GEM
       thread_safe
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    ya2yaml (0.31)
     yard (0.8.7.6)
 
 PLATFORMS

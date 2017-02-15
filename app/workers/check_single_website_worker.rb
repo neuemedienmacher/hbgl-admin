@@ -22,14 +22,14 @@ class CheckSingleWebsiteWorker
   def expire_and_create_asana_tasks website
     asana = AsanaCommunicator.new
     # Create Asana Tasks, set state to expired and manually reindex for algolia
-    website.offers.approved.find_each do |broken_link_offer|
+    website.offers.visible_in_frontend.find_each do |broken_link_offer|
       asana.create_website_unreachable_task_offer website, broken_link_offer
       # Force-Set state change to avoid (rare) problems with invalid offers
       broken_link_offer.update_columns(aasm_state: 'website_unreachable')
       broken_link_offer.index!
     end
     # approved organizations => only create one task for all organizations
-    unless website.organizations.approved.empty?
+    unless website.organizations.visible_in_frontend.empty?
       asana.create_website_unreachable_task_orgas website
     end
   end
