@@ -66,7 +66,7 @@ class Export
       if carrier_name == :base
         header_array.push field_name
       else
-        header_array.push "#{field_name} [#{carrier_name.titleize}]"
+        header_array.push "#{field_name} [#{carrier_name.to_s.titleize}]"
       end
     end
 

@@ -3,23 +3,24 @@
 # Expects params like {model_fields: [:foo], users: [:name, :bar], comments: []}
 class Export::Create < Trailblazer::Operation
   step :instantiate_model
+  step Policy::Pundit(ExportPolicy, :create?)
   step :validate_and_sanitize_params
   step :set_requested_fields
 
-  def instantiate_model(object, params:, **)
+  def instantiate_model(options, params:, **)
     object = params[:object_name].singularize.camelize.constantize
     options['model'] =
-      Export.new(object, GenericSortFilter.transform(object, params))
+      Export.new(object, GenericSortFilter.transform(object, params[:export]))
   end
 
   def validate_and_sanitize_params(options, params:, model:, **)
-    validate_model_fields(params, model) &&
+    validate_model_fields(options, params, model) &&
       clean_empty_field_sets(options, params)
   end
 
-  def validate_model_fields(params, model)
+  def validate_model_fields(options, params, model)
     # TODO: doesn't validate association keys
-    forbidden_fields = params[:model_fields] - model.allowed_fields
+    forbidden_fields = params[:export][:model_fields] - model.allowed_fields
     if forbidden_fields.empty?
       true
     else

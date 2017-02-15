@@ -3,18 +3,18 @@ class ExportsController < ApplicationController
   include RemoteShow
 
   def create
-    endpoint Export::Create,
-             args: [params[:export], 'current_user' => current_user] do |m|
-      m.created { |result| stream_data(result) }
-      m.invalid { |_| render_error }
-      m.unauthenticated { |_| render_error }
+    result = Export::Create.(params, 'current_user' => current_user)
+    if result.success?
+      stream_data(result)
+    else
+      render_error
     end
   end
 
   private
 
   def render_error
-    render 'error', status: 403
+    render plain: 'error', status: 403
   end
 
   def stream_data(result)
