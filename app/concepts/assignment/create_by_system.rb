@@ -77,7 +77,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       translation_twin = ::Translation::Twin.new(assignable)
       if translation_twin.should_be_reviewed_by_translator?
         reason = assignable.possibly_outdated? ? 'possibly_outdated' : 'GoogleTranslate'
-        "(#{last_acting_user}) #{reason}"
+        "(#{last_acting_user.name}) #{reason}"
       else
         'Managed by system'
       end

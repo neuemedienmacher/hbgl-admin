@@ -10,8 +10,21 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   it 'must create an assignment with inferred data' do
     result = ::Assignment::CreateBySystem.({}, basic_options)
     result.must_be :success?
-    # result['model'].must_be :persisted?
+    result['model'].must_be :persisted?
   end
 
-  # TODO: A lot more tests!
+  it 'must create the a system-assignment for a family-offer-translation' do
+    result = ::Assignment::CreateBySystem.({}, basic_options)
+    result.must_be :success?
+    assignment = result['model']
+    assignment.must_be :persisted?
+    assignment.receiver_id.must_equal User.system_user.id
+    assert_nil assignment.receiver_team_id
+    assignment.creator_id.must_equal User.system_user.id
+    assert_nil assignment.creator_team_id
+    assignment.message.must_equal 'Managed by system'
+  end
+
+  # NOTE: more tests not really required because the logic is indirectly tested
+  # by automatic_upsert_test
 end

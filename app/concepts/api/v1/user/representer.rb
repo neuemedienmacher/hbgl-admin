@@ -11,6 +11,9 @@ module API::V1
         end
         property :name
         property :email
+        property :role
+        property :current_team_id
+        property :user_team_ids
 
         collection :user_teams do
           property :id

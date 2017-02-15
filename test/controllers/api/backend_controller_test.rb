@@ -41,7 +41,7 @@ describe API::V1::BackendController do
         },
         links: { previous: nil, next: nil }
       }
-      subject.expects(:params).returns(controller: 'backend_test')
+      subject.expects(:params).returns(controller: 'backend_test').twice
       subject.expects(:render).with(json: expected_hash.to_json, status: 200)
       subject.expects(:base_module).returns('API::V1::BackendTest').twice
       subject.index
