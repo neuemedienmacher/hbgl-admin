@@ -4,6 +4,6 @@ class AssignmentPolicy < ApplicationPolicy
   end
 
   def update?
-    user && user.user_teams.pluck(:id).include?(record.receiver_team_id)
+    user # && user.user_teams.pluck(:id).include?(record.receiver_team_id)
   end
 end
