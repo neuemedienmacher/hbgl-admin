@@ -378,6 +378,7 @@ RailsAdmin.config do |config|
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
+    field :residency_status
     field :participant_structure
     field :gender_first_part_of_stamp
     field :gender_second_part_of_stamp
