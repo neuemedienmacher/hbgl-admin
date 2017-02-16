@@ -42,7 +42,7 @@ class Organization < ActiveRecord::Base
 
   def big_player?
     locations.count >= 10 || (locations.count >= 2 &&
-      offers.approved.where(encounter: 'personal').count >= 10 &&
+      offers.visible_in_frontend.where(encounter: 'personal').count >= 10 &&
       BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?)
   end
 

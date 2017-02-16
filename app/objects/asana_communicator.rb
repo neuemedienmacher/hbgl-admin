@@ -33,7 +33,8 @@ class AsanaCommunicator < NetCommunicator
   end
 
   def create_website_unreachable_task_orgas website
-    organization_names = website.organizations.approved.pluck(:name).join(',')
+    organization_names =
+      website.organizations.visible_in_frontend.pluck(:name).join(',')
     create_task "[Orga-website unreachable] #{organization_names}",
                 "Unreachable website: #{website.url}", :ricochet
   end

@@ -6,8 +6,9 @@ class CheckWebsitesWorker
 
   def perform
     Website.find_each do |website|
-      next unless website.unreachable? || website.offers.approved.any? ||
-                  website.organizations.approved.any?
+      next unless website.unreachable? ||
+                  website.offers.visible_in_frontend.any? ||
+                  website.organizations.visible_in_frontend.any?
       CheckSingleWebsiteWorker.perform_async website.id
     end
   end

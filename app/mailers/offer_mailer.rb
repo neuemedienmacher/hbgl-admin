@@ -22,7 +22,7 @@ class OfferMailer < ActionMailer::Base
   def inform_offer_context email, offers = nil
     # Loads of variables in preparation for view models
     @contact_person = email.contact_people.first
-    usable_offers = offers || email.offers.approved.by_mailings_enabled_organization
+    usable_offers = offers || email.offers.visible_in_frontend.by_mailings_enabled_organization
                                    .select(&:remote_or_belongs_to_informable_city?)
     offers_per_section = get_offers_per_section usable_offers
     @offers = get_offer_teaser offers_per_section
@@ -47,7 +47,7 @@ class OfferMailer < ActionMailer::Base
   def inform_organization_context email
     # okay, because all contact_persons belong to the same organization
     orga = email.contact_people.first.organization
-    offers = orga.offers.approved.select(&:remote_or_belongs_to_informable_city?)
+    offers = orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?)
     @contact_person = email.contact_people.first
     @vague_title = email.vague_contact_title?
     @mainly_portal = mainly_portal_offers?(offers)
