@@ -36,7 +36,8 @@ class CheckSingleWebsiteWorker
 
   def check_website_unreachable? website
     url = website.ascii_url
-    # first the url with Faraday and if that fails, check with HTTParty+Cipher
+    # check the url with Faraday and HTTParty+Cipher. Retruns true only when
+    # both checks must classify the URL as unreachable (return true)
     url_unreachable_with_faraday?(url) && url_unreachable_with_httparty?(url)
   end
 
@@ -56,6 +57,7 @@ class CheckSingleWebsiteWorker
   end
 
   def url_unreachable_with_faraday? url
+    # Faraday connection with middleware to follow >= 30 redirects
     conn = Faraday.new headers: { accept_encoding: 'none' } do |conn|
       conn.use FaradayMiddleware::FollowRedirects, limit: 30
       conn.adapter :net_http
