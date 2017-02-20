@@ -36,8 +36,11 @@ class CheckSingleWebsiteWorker
 
   def check_website_unreachable? website
     url = website.ascii_url
-    # first check header then try complete get when header returns an error.
-    # If both checks fail, the website is treated as unreachable
+    # first the url with Faraday and if that fails, check with HTTParty+Cipher
+    url_unreachable_with_faraday?(url) && url_unreachable_with_httparty?(url)
+  end
+
+  def url_unreachable_with_httparty? url
     header = HttpWithCipher.head(url)
     if !header || header.code >= 400 # everything above 400 is an error
       response = HttpWithCipher.get(url)
@@ -49,6 +52,26 @@ class CheckSingleWebsiteWorker
   # catch errors that prevent a valid response
   rescue HTTParty::RedirectionTooDeep, Errno::EHOSTUNREACH, SocketError,
          Timeout::Error, URI::InvalidURIError, OpenSSL::SSL::SSLError
+    return true
+  end
+
+  def url_unreachable_with_faraday? url
+    conn = Faraday.new headers: { accept_encoding: 'none' } do |conn|
+      conn.use FaradayMiddleware::FollowRedirects, limit: 30
+      conn.adapter :net_http
+    end
+    header = conn.head(url)
+    if !header || header.status >= 400 # everything above 400 is an error
+      response = conn.get(url)
+      if !response || response.status >= 400 # everything above 400 is an error
+        return true
+      end
+    end
+    return false
+  # catch errors that prevent a valid response
+  rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Errno::EHOSTUNREACH,
+         SocketError, URI::InvalidURIError, Faraday::SSLError,
+         FaradayMiddleware::RedirectLimitReached
     return true
   end
 end
