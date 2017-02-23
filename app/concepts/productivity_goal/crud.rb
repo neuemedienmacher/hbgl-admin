@@ -29,6 +29,13 @@ class ProductivityGoal < ActiveRecord::Base
       validates :target_field_value, presence: true
       validates :user_team_id, presence: true
 
+      validate :starts_at_must_be_before_ends_at
+      def starts_at_must_be_before_ends_at
+        if !starts_at || !ends_at || starts_at >= ends_at
+          errors.add(:starts_at, 'must be before ends_at')
+        end
+      end
+
       # TODO: validate target_field_name & _value in combination with all others
     end
   end

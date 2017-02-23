@@ -17,7 +17,24 @@ class AssignmentUpdateTest < ActiveSupport::TestCase
       operation_must_work ::Assignment::Update, basic_params
     end
 
-    # TODO: A lot more tests!
+    describe 'validations' do
+      it 'must work for blank receiver_id' do
+        basic_params[:receiver_id] = nil
+        operation_must_work ::Assignment::Update, basic_params
+      end
+
+      it 'must work for correct receiver_id' do
+        basic_params[:receiver_id] = user.id
+        operation_must_work ::Assignment::Update, basic_params
+      end
+
+      it 'wont work for non-numerical receiver_id' do
+        basic_params[:receiver_id] = 'ThisDoesNotMakeSense'
+        operation_wont_work ::Assignment::Update, basic_params
+      end
+    end
+
+    # TODO: A lot more tests?!
   end
 
   describe 'API::V1::Assignment::Update' do
