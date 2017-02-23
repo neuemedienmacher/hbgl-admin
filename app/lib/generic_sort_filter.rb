@@ -5,7 +5,7 @@ module GenericSortFilter
     query = transform_by_searching(query, params[:query])
     query = transform_by_joining(query, params)
     query = transform_by_ordering(query, params)
-    transform_by_filtering(query, params[:filter], params[:operator])
+    transform_by_filtering(query, params)
   end
 
   private
@@ -49,15 +49,15 @@ module GenericSortFilter
     query.order(sort_string)
   end
 
-  def self.transform_by_filtering(query, filters, operators)
-    return query unless filters
-    filters.each do |filter, value|
+  def self.transform_by_filtering(query, params)
+    return query unless params[:filters]
+    params[:filters].each do |filter, value|
       next if value.empty?
       # transform table names (before a .) in case of association name mismatch
       filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
       filter_string = filter_key.to_s
       # append operator
-      operator = process_operator(operators, filter, value)
+      operator = process_operator(params[:operators], filter, value)
       filter_string += ' ' + operator
       # append value
       _value = transform_value(value, filter, query)
@@ -109,7 +109,7 @@ module GenericSortFilter
 
   def self.optional_query_addition(operator, value, filter_key)
     # append OR NULL for non-null, NOT-queries (include optionals)
-    if operator == '!=' && nullable_value?(value)
+    if operator == '!=' && !nullable_value?(value)
       " OR #{filter_key} IS NULL"
     else
       ''

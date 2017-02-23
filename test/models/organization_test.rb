@@ -162,4 +162,13 @@ describe Organization do
       end
     end
   end
+
+  describe 'stupid observer' do
+    it 'adds a created_by in before_create from a hacky source' do
+      orga = Organization.new
+      PaperTrail.expects(:whodunnit).returns 666
+      OrganizationObserver.instance.before_create orga
+      orga.created_by.must_equal 666
+    end
+  end
 end
