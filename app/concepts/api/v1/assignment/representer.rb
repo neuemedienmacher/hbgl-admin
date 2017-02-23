@@ -26,9 +26,9 @@ module API::V1
         end
 
         has_one :assignable do
-          type do |as|
-            as[:represented].assignable_type.tableize.to_sym
-          end
+          type :assignable_type
+          # Above is technically incorrect. Wish the following would work ...
+          # as[:represented].assignable_type.tableize.to_sym
 
           property :id
           property :created_at

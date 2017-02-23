@@ -24,7 +24,5 @@ class NetCommunicator
   end
 
   # Overwritable
-  def modify_request request
-    request
-  end
+  def modify_request(request); request; end
 end
