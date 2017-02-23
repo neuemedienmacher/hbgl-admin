@@ -9,6 +9,7 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   let(:basic_options) do
     { assignable: offer_translations(:en), last_acting_user: user }
   end
+  # let(:faked_assignable) { OpenStruct.new( assignments: [] ) }
 
   it 'must create an assignment with inferred data' do
     operation_must_work ::Assignment::CreateBySystem, {}, basic_options
@@ -23,6 +24,15 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     assignment.creator_id.must_equal User.system_user.id
     assert_nil assignment.creator_team_id
     assignment.message.must_equal 'Managed by system'
+  end
+
+  it 'must correctly used default logic for faked assignable' do
+    basic_options[:assignable] = OpenStruct.new( id: 1, assignments: [] )
+    result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
+    assignment = result['model']
+    assignment.creator_id.must_equal user.id
+    assignment.receiver_id.must_equal user.id
+    assignment.message.must_equal 'New Assignment'
   end
 
   # NOTE: more tests not really required because the logic is indirectly tested

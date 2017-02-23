@@ -24,5 +24,6 @@ class OfferTranslation::Create < Trailblazer::Operation
 
   def reindex_offer(*, model:, **)
     model.offer.reload.algolia_index!
+    true # algolia_index! always returns nil
   end
 end
