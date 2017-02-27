@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative '../test_helper'
-require_relative './policy_test_utils'
+require_relative '../support/utils/policy_test_utils'
 
 class UserPolicyTest < ActiveSupport::TestCase
   include PolicyTestUtils

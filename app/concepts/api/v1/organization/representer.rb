@@ -16,7 +16,8 @@ module API::V1
         property :locations_count
 
         collection :division_ids
-        collection :divisions, decorator: Division::Representer, class: Division
+        collection :divisions, decorator: Division::Representer::Show,
+                               class: Division
       end
 
       class Index < Show
