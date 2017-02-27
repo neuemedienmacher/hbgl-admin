@@ -26,7 +26,7 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     assignment.message.must_equal 'Managed by system'
   end
 
-  it 'must correctly used default logic for faked assignable' do
+  it 'must correctly use default logic for faked assignable' do
     basic_options[:assignable] = OpenStruct.new( id: 1, assignments: [] )
     result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
     assignment = result['model']

@@ -8,7 +8,7 @@ class Export::Create < Trailblazer::Operation
   step :set_requested_fields
 
   def instantiate_model(options, params:, **)
-    object = params[:object_name].singularize.camelize.constantize
+    object = params[:object_name].classify.constantize
     options['model'] =
       Export.new(object, GenericSortFilter.transform(object, params[:export]))
   end
@@ -32,9 +32,10 @@ class Export::Create < Trailblazer::Operation
 
   def clean_empty_field_sets(options, params)
     # clean params of empty array entries
-    params[:export].keys.each do |key|
-      params[:export][key].reject!(&:empty?)
-    end
+    # params[:export].keys.each do |key|
+    #   params[:export][key].reject!(&:empty?)
+    # end
+    params[:export].reject!{ |key, value| value.empty?}
     options['params'] = params
     true
   end

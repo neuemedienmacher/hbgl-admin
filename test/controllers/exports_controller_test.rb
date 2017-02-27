@@ -38,6 +38,25 @@ describe ExportsController do
           "id,name,id [Section Filters]\n", "1,Berlin,8\n"
         ]
       end
+
+      it 'should include a dash for nil-association' do
+        # parent on categories can be nil
+        export_hash = { model_fields: ['id', 'name_de'], parent: ['id'] }
+        result = Export::Create.(
+          { object_name: 'categories', export: export_hash },
+          'current_user' => users(:researcher)
+        )
+        result.must_be :success?
+        enum = @controller.send(:csv_lines, result['model'])
+        enum.next
+        enum.to_a.must_equal [
+          "id,name_de,id [Parent]\n",
+          "1,main1, - \n",
+          "2,main2, - \n",
+          "3,sub1.1,1\n",
+          "4,sub1.2,1\n"
+        ]
+      end
     end
   end
 end
