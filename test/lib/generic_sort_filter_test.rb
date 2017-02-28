@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative '../test_helper'
-
+# rubocop:disable Metrics/ClassLength
 class GenericSortFilterTest < ActiveSupport::TestCase
   subject { GenericSortFilter }
   let(:query) { Offer.where('1 = 1') }
@@ -33,7 +33,7 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'eager_loads with a filter' do
-      params = { filter: {'split_base.foo' => 'a', 'logic_version.bar' => 'b'} }
+      params = { filter: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
       query.expects(:eager_load).with(:split_base).returns(query)
       query.expects(:eager_load).with(:logic_version).returns(query)
       result = subject.send(:transform_by_joining, query, params)
@@ -139,3 +139,4 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

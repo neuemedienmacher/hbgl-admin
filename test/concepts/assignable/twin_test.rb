@@ -3,7 +3,7 @@ require_relative '../../test_helper'
 
 class TwinTest < ActiveSupport::TestCase
   let(:subject) { Assignable::Twin.new(offer_translations(:de)) }
-  let(:faked_assignable) { OpenStruct.new( assignments: [] ) }
+  let(:faked_assignable) { OpenStruct.new(assignments: []) }
 
   describe 'created_by_system?' do
     it 'should be true for de-translation' do

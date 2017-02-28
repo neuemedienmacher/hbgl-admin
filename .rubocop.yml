@@ -48,3 +48,19 @@ Metrics/AbcSize:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+
+LambdaCall:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/SingleLineMethods:
+  Enabled: false
+
+# TODO: do we really want to disable this? Causes problems in representers
+Style/Lambda:
+  Enabled: false
+
+HttpPositionalArguments:
+  Enabled: false

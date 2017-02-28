@@ -2,6 +2,7 @@
 require_relative '../../test_helper'
 
 module API::V1::BackendTest
+  # rubocop:disable Style/EmptyLineBetweenDefs
   class PaginatedTestResult < Array
     def total_entries; 2; end
     def total_pages; 1; end
@@ -10,12 +11,14 @@ module API::V1::BackendTest
     def previous_page; nil; end
     def next_page; nil; end
   end
+  # rubocop:enable Style/EmptyLineBetweenDefs
 
   class Index < API::V1::Default::Index
     def find_result_set(options, *)
-      options['collection'] = PaginatedTestResult.new([
-        OpenStruct.new(id: 1, foo: 'bar'), OpenStruct.new(id: 2, foo: 'fuz')
-      ])
+      options['collection'] =
+        PaginatedTestResult.new(
+          [OpenStruct.new(id: 1, foo: 'bar'), OpenStruct.new(id: 2, foo: 'fuz')]
+        )
     end
   end
 

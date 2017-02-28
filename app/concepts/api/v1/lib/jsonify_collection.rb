@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module API::V1
   module Lib
     module JsonifyCollection
@@ -9,7 +10,7 @@ module API::V1
         hash.to_json
       end
 
-      private
+      private_class_method
 
       def self.meta(collection)
         {
@@ -23,11 +24,9 @@ module API::V1
       def self.links(collection, params)
         {
           previous: previous_href(collection, params),
-          next: next_href(collection, params),
+          next: next_href(collection, params)
         }
       end
-
-      private
 
       def self.nonstandard_params(params)
         params.select do |key, _value|
@@ -39,7 +38,7 @@ module API::V1
         return nil unless collection.previous_page
         '/' + params['controller'] + '?' +
           nonstandard_params(params).merge(page: collection.previous_page)
-            .to_query
+          .to_query
       end
 
       def self.next_href(collection, params)

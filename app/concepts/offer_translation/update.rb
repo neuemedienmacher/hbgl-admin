@@ -25,7 +25,7 @@ class OfferTranslation::Update < Trailblazer::Operation
     property :possibly_outdated
   end
 
-  def reindex_offer(*, model:,  **)
+  def reindex_offer(*, model:, **)
     model.offer.reload.algolia_index!
     true
   end

@@ -2,10 +2,10 @@
 module API::V1
   module Category
     class Sort < Trailblazer::Operation
-      step :set_initial_update_count_to_zero
+      step :reset_initial_update_count_to_zero
       step :start_recursive_category_update
 
-      def set_initial_update_count_to_zero(options)
+      def reset_initial_update_count_to_zero(options)
         options['update_count'] = 0
       end
 
@@ -26,7 +26,7 @@ module API::V1
 
       def update_order_if_necessary opts, category_data, sort_order, parent_id
         found_category = ::Category.select(:id, :sort_order, :parent_id)
-          .find(category_data[:id])
+                                   .find(category_data[:id])
         # sort_order should be human readable - starting with 1 instead of 0
         desired_sort_order = sort_order.to_i + 1
         was_updated = false

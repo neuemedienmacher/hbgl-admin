@@ -325,7 +325,7 @@ feature 'Admin Backend' do
 
       orga.reload.must_be :under_construction_post?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback )
+        %w(organization_deactivated completed internal_feedback)
       )
 
       # make last offer invalid => should not be approved or in checkup but

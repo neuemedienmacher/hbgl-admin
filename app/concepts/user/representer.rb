@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'representable/json'
 
 class User::Representer < Representable::Decorator

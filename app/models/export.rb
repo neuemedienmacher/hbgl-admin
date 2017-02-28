@@ -32,9 +32,11 @@ class Export
 
   private
 
+  # rubocop:disable Style/TrivialAccessors
   def object_query # TODO: joins for faster query & possibly search filter
     @object_query
   end
+  # rubocop:enable Style/TrivialAccessors
 
   # If a field is not filled for a csv cell, give it a dash
   def dash_or string

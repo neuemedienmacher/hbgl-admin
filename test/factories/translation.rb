@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :translation do
     locale 'de'
@@ -14,7 +15,7 @@ FactoryGirl.define do
       description 'default organization_translation description'
     end
 
-    after :build do |translation, evaluator|
+    after :build do |translation, _evaluator|
       translation.assignments << ::Assignment::CreateBySystem.(
         {},
         assignable: translation,

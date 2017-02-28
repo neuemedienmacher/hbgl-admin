@@ -43,7 +43,10 @@ module RailsAdmin
               @object.errors.full_messages.each do |message|
                 error_message += '<br/>' + message
               end
+              # quite, rubocop.. we won't refactor this
+              # rubocop:disable OutputSafety
               flash[:error] = error_message.html_safe
+              # rubocop:enable OutputSafety
             end
 
             redirect_to :back

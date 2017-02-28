@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170112151713) do
+ActiveRecord::Schema.define(version: 20170120120937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -374,6 +374,7 @@ ActiveRecord::Schema.define(version: 20170112151713) do
     t.date     "starts_at"
     t.datetime "completed_at"
     t.integer  "completed_by"
+    t.string   "residency_status"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state", using: :btree

@@ -8,7 +8,7 @@ module API::V1
         property :name
         property :classification
 
-        property :user_ids # KK: Not sure if this is the best way…
+        property :user_ids # KK: Not sure if this is the best way...
         collection :users do
           property :id
           property :name

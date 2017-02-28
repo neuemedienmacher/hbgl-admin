@@ -47,7 +47,7 @@ module API::V1
     end
 
     def default_endpoints
-      Proc.new do |m|
+      proc do |m|
         m.created do |result|
           render json: result['representer.default.class'].new(result['model']),
                  status: 201

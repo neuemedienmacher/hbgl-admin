@@ -2,9 +2,9 @@
 require_relative '../../test_helper'
 
 class CommonSideEffectsTest < ActiveSupport::TestCase
-  let(:subject) {
-    Class.new { include Translation::CommonSideEffects::HumanChangeFields}
-  }
+  let(:subject) do
+    Class.new { include Translation::CommonSideEffects::HumanChangeFields }
+  end
   let(:options) do
     {
       'changes_by_human' => false,

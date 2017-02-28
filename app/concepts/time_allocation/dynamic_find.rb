@@ -31,11 +31,11 @@ class TimeAllocation::DynamicFind
 
   def find_closest_historical_match
     match = ::TimeAllocation
-      .where(user_id: @user_id)
-      .where('year <= ?', @year)
-      .where('week_number <= ?', @week_number)
-      .order('year DESC, week_number DESC')
-      .first
+            .where(user_id: @user_id)
+            .where('year <= ?', @year)
+            .where('week_number <= ?', @week_number)
+            .order('year DESC, week_number DESC')
+            .first
 
     raise NoHistoricalMatchError unless match
     match
