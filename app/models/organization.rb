@@ -42,11 +42,19 @@ class Organization < ActiveRecord::Base
 
   def big_player?
     locations.count >= 10 || (locations.count >= 2 &&
-      offers.approved.where(encounter: 'personal').count >= 10 &&
-      BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?)
+      title_includes_at_least_one_big_player_search_term? &&
+      at_least_10_approved_personal_offers?)
   end
 
   private
+
+  def at_least_10_approved_personal_offers?
+    offers.approved.where(encounter: 'personal').count >= 10
+  end
+
+  def title_includes_at_least_one_big_player_search_term?
+    BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?
+  end
 
   # sets mailings but only if it's mailings='disabled' (other options are
   # chosen explicitly and stay the same). big_player Orgas get the apropriate

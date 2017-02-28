@@ -24,6 +24,7 @@ module API::V1
         end
       end
 
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def update_order_if_necessary opts, category_data, sort_order, parent_id
         found_category = ::Category.select(:id, :sort_order, :parent_id)
                                    .find(category_data[:id])
@@ -52,6 +53,7 @@ module API::V1
           )
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
   end
 end

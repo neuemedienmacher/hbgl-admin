@@ -47,6 +47,7 @@ module GenericSortFilter
     query.order(sort_string)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.transform_by_filtering(query, params)
     return query unless params[:filters]
     params[:filters].each do |filter, value|
@@ -67,6 +68,7 @@ module GenericSortFilter
     end
     query
   end
+  # rubocop:enable Metrics/AbcSize
 
   def self.joined_table_name_for(query, filter)
     split_filter = filter.split('.')
@@ -92,6 +94,7 @@ module GenericSortFilter
     operator
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.transform_value(value, filter, query)
     model_name =
       if filter.include?('.')
@@ -108,6 +111,7 @@ module GenericSortFilter
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
   end
+  # rubocop:enable Metrics/AbcSize
 
   def self.optional_query_addition(operator, value, filter_key)
     # append OR NULL for non-null, NOT-queries (include optionals)

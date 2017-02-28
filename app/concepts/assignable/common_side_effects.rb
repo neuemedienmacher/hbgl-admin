@@ -22,19 +22,18 @@ module Assignable
         end
       end
 
-      # Side-Effect: iterate organizations and create assignments for translations.
+      # Side-Effect: iterate organizations and create assignments for
+      # translations
       def create_assignment_for_organization_if_it_should_be_assigned!(
-        _options, model:, current_user:, **
+        options, model:, current_user:, **
       )
         return true unless model.offer && model.offer.approved?
         model.offer.organizations.approved.map do |orga|
           orga.translations.map do |translation|
-            assignable_twin = ::Assignable::Twin.new(translation)
-            if translation.manually_editable? &&
-               assignable_twin.should_create_new_assignment?
-              ::Assignment::CreateBySystem.(
-                {}, assignable: translation, last_acting_user: current_user
-              ).success?
+            if translation.manually_editable?
+              create_new_assignment_if_assignable_should_be_reassigned!(
+                options, model: translation, current_user: current_user
+              )
             else
               true
             end

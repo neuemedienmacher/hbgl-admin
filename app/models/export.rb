@@ -84,18 +84,21 @@ class Export
         next
       end
 
-      associated_object = object_instance.send(carrier_name)
       values_array.push(
-        if associated_object.is_a?(ActiveRecord::Relation)
-          dash_or associated_object.map { |element| element[field] }.join(',')
-        elsif associated_object.nil?
-          ' - '
-        else
-          dash_or associated_object[field]
-        end
+        value_for(object_instance.send(carrier_name), field)
       )
     end
 
     values_array
+  end
+
+  def value_for associated_object, field
+    if associated_object.is_a?(ActiveRecord::Relation)
+      dash_or associated_object.map { |element| element[field] }.join(',')
+    elsif associated_object.nil?
+      ' - '
+    else
+      dash_or associated_object[field]
+    end
   end
 end
