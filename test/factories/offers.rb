@@ -16,6 +16,8 @@ FactoryGirl.define do
     area { Area.first unless encounter == 'personal' }
     approved_at nil
     split_base
+    # every offer should have a creator!
+    created_by { User.all.sample.id || FactoryGirl.create(:researcher).id }
 
     # associations
 
@@ -139,7 +141,7 @@ FactoryGirl.define do
         (I18n.available_locales - [:de]).each do |locale|
           FactoryGirl.create(
             :offer_translation,
-            offer_id: offer.id,
+            offer: offer,
             locale: locale,
             source: 'GoogleTranslate',
             name: "#{locale}(#{offer.name})",
@@ -151,7 +153,7 @@ FactoryGirl.define do
           offer.organizations.each do |organization|
             FactoryGirl.create(
               :organization_translation,
-              organization_id: organization.id,
+              organization: organization,
               locale: locale,
               source: 'GoogleTranslate',
               description: "#{locale}(#{organization.untranslated_description})"
