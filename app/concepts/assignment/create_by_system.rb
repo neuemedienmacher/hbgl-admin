@@ -63,11 +63,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       translation_twin = ::Translation::Twin.new(assignable)
       if translation_twin.should_be_reviewed_by_translator?
         AssignmentDefaults.translator_teams[assignable.locale.to_s]
-      else
-        nil
       end
-    else
-      nil # NOTE: this is not used yet - rethink when other models become assignable!
     end
   end
 

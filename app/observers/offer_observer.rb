@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class OfferObserver < ActiveRecord::Observer
   def after_initialize offer
     if offer.new_record?

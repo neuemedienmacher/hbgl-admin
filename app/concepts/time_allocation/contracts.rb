@@ -15,8 +15,8 @@ module TimeAllocation::Contracts
   end
 
   class Create < Update
-    validates_uniqueness_of :user_id, { scope: [:week_number, :year] }
-    validates_uniqueness_of :week_number, { scope: [:user_id, :year] }
-    validates_uniqueness_of :year, { scope: [:week_number, :user_id] }
+    validates_uniqueness_of :user_id, scope: [:week_number, :year]
+    validates_uniqueness_of :week_number, scope: [:user_id, :year]
+    validates_uniqueness_of :year, scope: [:week_number, :user_id]
   end
 end

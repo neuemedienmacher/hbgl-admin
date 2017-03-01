@@ -23,4 +23,11 @@ class API::V1::Assignment::RepresenterTest < ActiveSupport::TestCase
     result = subject.new(record).to_hash
     result[:included].first[:attributes]['label'].must_equal 'foo'
   end
+
+  it 'should generate a generic label for a model without a name' do
+    assignable = NextStep.first
+    record = Assignment.new assignable: assignable
+    result = subject.new(record).to_hash
+    result[:included].first[:attributes]['label'].must_equal 'NextStep#1'
+  end
 end

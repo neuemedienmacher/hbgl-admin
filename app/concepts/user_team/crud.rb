@@ -12,7 +12,7 @@ class UserTeam < ActiveRecord::Base
     step Model(::UserTeam, :new)
     step Policy::Pundit(::UserTeamPolicy, :create?)
 
-    step Contract::Build( constant: UserTeam::GeneralContract )
+    step Contract::Build(constant: UserTeam::GeneralContract)
     step Contract::Validate()
     step Contract::Persist()
   end
@@ -21,7 +21,7 @@ class UserTeam < ActiveRecord::Base
     step Model(::UserTeam, :find_by)
     step Policy::Pundit(::UserTeamPolicy, :update?)
 
-    step Contract::Build( constant: UserTeam::GeneralContract )
+    step Contract::Build(constant: UserTeam::GeneralContract)
     step Contract::Validate()
     step Contract::Persist()
   end

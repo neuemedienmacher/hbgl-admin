@@ -11,7 +11,7 @@ class CategorySortTest < ActiveSupport::TestCase
   let(:basic_params) do
     {
       categories: {
-        '1' => {id: 2, children: {'2' => {id: 3, children: {} } } }
+        '1' => { id: 2, children: { '2' => { id: 3, children: {} } } }
       }
     }
   end

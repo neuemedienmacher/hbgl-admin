@@ -7,11 +7,11 @@ module JsonapiErrors
     error_hash
   end
 
-  private
+  private_class_method
 
   def self.add_authentication_errors result, error_hash
     if result['result.policy.default'] &&
-        result['result.policy.default']['message']
+       result['result.policy.default']['message']
       error_hash[:errors].push title: result['result.policy.default']['message']
     end
     error_hash

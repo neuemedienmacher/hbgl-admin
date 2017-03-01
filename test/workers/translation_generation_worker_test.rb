@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../test_helper'
 
 class TranslationGenerationWorkerTest < ActiveSupport::TestCase
@@ -16,7 +17,8 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       translation = offer.translations.where(locale: 'de').first
       translation.name.must_equal '*foo*'
       translation.description.must_equal(
-        "<p><em><dfn class='JS-tooltip' data-id='1'>foo</dfn></em></p>\n")
+        "<p><em><dfn class='JS-tooltip' data-id='1'>foo</dfn></em></p>\n"
+      )
       translation.old_next_steps.must_equal "<p><em>foo</em></p>\n"
       translation.opening_specification.must_equal "<p><em>foo</em></p>\n"
     end

@@ -30,6 +30,15 @@ describe Offer do
       end
     end
 
+    describe 'observers' do
+      describe 'after create' do
+        it 'should try to set a creator' do
+          new_offer = FactoryGirl.create :offer, created_by: nil
+          assert_not_nil new_offer.created_by
+        end
+      end
+    end
+
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
         offer = FactoryGirl.create :offer, :approved

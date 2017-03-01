@@ -48,3 +48,22 @@ Metrics/AbcSize:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+
+LambdaCall:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/SingleLineMethods:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+HttpPositionalArguments:
+  Enabled: false
+
+# only alphabetical sort
+Bundler/OrderedGems:
+  Enabled: false

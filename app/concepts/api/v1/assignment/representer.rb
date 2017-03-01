@@ -34,14 +34,15 @@ module API::V1
           property :created_at
           property :label, getter: ->(object) do
             if object[:represented].class.to_s.include?('Translation')
-              object[:represented].respond_to?(:organization) ?
-                object[:represented].organization.untranslated_description :
+              if object[:represented].respond_to?(:organization)
+                object[:represented].organization.untranslated_description
+              else
                 object[:represented].offer.untranslated_name
-            else
-              # INFO: this won't work for any assignable model
-              object[:represented].respond_to?(:name) ?
-                object[:represented].name :
-                object[:represented].description
+              end
+            elsif object[:represented].respond_to?(:name)
+              object[:represented].name
+            else # create a generic label that works for any model
+              "#{object[:represented].class.name}##{object[:represented].id}"
             end
           end
         end

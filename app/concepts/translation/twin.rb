@@ -1,11 +1,12 @@
+# frozen_string_literal: true
 module Translation
   class Twin < Disposable::Twin
     # Methods
 
     def should_be_reviewed_by_translator?
-    (model.possibly_outdated || model.source == 'GoogleTranslate') &&
-      model.translated_model.in_section?('refugees') &&
-      model.manually_editable?
+      (model.possibly_outdated || model.source == 'GoogleTranslate') &&
+        model.translated_model.in_section?('refugees') &&
+        model.manually_editable?
     end
 
     def already_assigned_to_translator_team?
