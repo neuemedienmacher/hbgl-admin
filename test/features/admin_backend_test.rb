@@ -119,7 +119,7 @@ feature 'Admin Backend' do
 
       # Deactivation button click: deactivates orga and all its approved offers
 
-      orga.must_be :approved?
+      orga.visible_in_frontend?.must_equal true
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
         %w(approved completed internal_feedback)
       )
@@ -307,7 +307,7 @@ feature 'Admin Backend' do
       click_link 'Bearbeiten', match: :first
 
       # Deactivation button click: deactivates orga and all its approved offers
-      orga.must_be :approved?
+      orga.visible_in_frontend?.must_equal true
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
         %w(approved completed internal_feedback)
       )

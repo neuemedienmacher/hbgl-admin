@@ -13,7 +13,7 @@ class City < ActiveRecord::Base
   # Admin specific methods
   def thresholds_reached?
     organizations.where(aasm_state: 'all_done').count >= ORGANIZATION_THRESHOLD &&
-      offers.approved.count >= OFFER_THRESHOLD
+      offers.visible_in_frontend.count >= OFFER_THRESHOLD
   end
 
   # Search

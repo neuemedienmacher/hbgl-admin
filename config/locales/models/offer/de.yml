@@ -18,7 +18,7 @@ de:
         benötigt einen Standort, wenn Encounter "personal" ist
       refuses_location_when_remote: |
         darf keinen Standort haben, wenn Encounter nicht "personal" ist
-      only_approved_organizations: |
+      only_visible_organizations: |
         darf nur bestätigte Organisationen beinhalten. Bestätigt: %{list}.
       approved_by_creator: "kann nicht von dem/der Ersteller/in gesetzt werden"
       incomplete: |

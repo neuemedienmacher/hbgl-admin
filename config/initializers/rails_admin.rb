@@ -378,6 +378,7 @@ RailsAdmin.config do |config|
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
+    field :residency_status
     field :participant_structure
     field :gender_first_part_of_stamp
     field :gender_second_part_of_stamp
@@ -766,9 +767,9 @@ RailsAdmin.config do |config|
       field :id
       field :name
       field :offers do
-        label 'Anzahl der Angebote (approved)'
+        label 'Anzahl der Angebote ( davon sichtbar im Frontend)'
         pretty_value do
-          "#{value.count} (#{value.approved.count})"
+          "#{value.count} (#{value.visible_in_frontend.count})"
         end
       end
     end
@@ -776,7 +777,7 @@ RailsAdmin.config do |config|
       field :name
       field :offers do
         pretty_value do
-          "#{value.count} (#{value.approved.count})"
+          "#{value.count} (#{value.visible_in_frontend.count})"
         end
       end
     end

@@ -83,6 +83,9 @@ gem 'gengo'
 
 # converting between unicode and ascii urls
 gem 'simpleidn'
+# Faraday for http requests and middleware for redirects
+gem 'faraday'
+gem 'faraday_middleware'
 
 ########################
 # For Heroku & Add-Ons #

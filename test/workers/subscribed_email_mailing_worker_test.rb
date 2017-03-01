@@ -11,9 +11,25 @@ class SubscribedEmailMailingWorkerTest < ActiveSupport::TestCase
     worker.perform email.id
   end
 
+  it 'sends mailing to subscribed emails that have expired offers' do
+    email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
+    OfferMailer.expect_chain(:newly_approved_offers, :deliver_now).once
+    worker.perform email.id
+  end
+
   it 'wont send mailing to subscribed emails that have approved offers but'\
      ' that were already informed about those offers' do
     email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.create_offer_mailings email.offers.all, :inform
+    OfferMailer.expects(:newly_approved_offers).never
+    worker.perform email.id
+  end
+
+  it 'wont send mailing to subscribed emails that have expired offers but'\
+     ' that were already informed about those offers' do
+    email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
     email.create_offer_mailings email.offers.all, :inform
     OfferMailer.expects(:newly_approved_offers).never
     worker.perform email.id

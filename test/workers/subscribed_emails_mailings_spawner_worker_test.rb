@@ -11,11 +11,37 @@ class SubscribedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     worker.perform
   end
 
-  it 'wont mailing to subscribed emails that have approved offers but the '\
-     'organization is not longer all_done' do
+  it 'sends mailing to subscribed emails that have approved offers' do
     email = FactoryGirl.create :email, :subscribed, :with_approved_offer
-    email.offers.first.organizations.first.update_columns aasm_state: 'approved'
+    email.offers.update_all aasm_state: 'expired'
     SubscribedEmailMailingWorker.expects(:perform_async).with(email.id)
+    worker.perform
+  end
+
+  it 'wont send mailing to subscribed emails that have approved offers but the'\
+     ' organization is no longer all_done' do
+    email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    # reset every organization to 'approved' state instead of 'all_done'
+    email.offers.map do |o|
+      o.contact_people.map do |c|
+        c.organization.update_columns aasm_state: 'approved'
+      end
+    end
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
+  it 'wont send mailing to subscribed emails that have expired offers but the'\
+     ' organization is no longer all_done' do
+    email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
+    # reset every organization to 'approved' state instead of 'all_done'
+    email.offers.map do |o|
+      o.contact_people.map do |c|
+        c.organization.update_columns aasm_state: 'approved'
+      end
+    end
+    SubscribedEmailMailingWorker.expects(:perform_async).never
     worker.perform
   end
 
@@ -31,8 +57,35 @@ class SubscribedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     worker.perform
   end
 
+  it 'wont send mailing to unsubscribed emails that have expired offers' do
+    email = FactoryGirl.create :email, :unsubscribed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
   it 'wont send mailing to uninformed emails that have approved offers' do
     FactoryGirl.create :email, :uninformed, :with_approved_offer
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
+  it 'wont send mailing to uninformed emails that have expired offers' do
+    email = FactoryGirl.create :email, :uninformed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
+  it 'wont send mailing to uninformed emails that have approved offers' do
+    FactoryGirl.create :email, :uninformed, :with_approved_offer
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
+  it 'wont send mailing to uninformed emails that have expired offers' do
+    email = FactoryGirl.create :email, :uninformed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
     SubscribedEmailMailingWorker.expects(:perform_async).never
     worker.perform
   end
@@ -43,9 +96,25 @@ class SubscribedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     worker.perform
   end
 
+  it 'wont send mailing to informed emails that have expired offers' do
+    email = FactoryGirl.create :email, :informed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
   it 'wont send mailing to subscribed emails with approved offers but no'\
      ' mailings=enabled organization' do
     email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.organizations.update_all mailings: 'force_disabled'
+    SubscribedEmailMailingWorker.expects(:perform_async).never
+    worker.perform
+  end
+
+  it 'wont send mailing to subscribed emails with expired offers but no'\
+     ' mailings=enabled organization' do
+    email = FactoryGirl.create :email, :subscribed, :with_approved_offer
+    email.offers.update_all aasm_state: 'expired'
     email.organizations.update_all mailings: 'force_disabled'
     SubscribedEmailMailingWorker.expects(:perform_async).never
     worker.perform

@@ -43,13 +43,13 @@ class Organization < ActiveRecord::Base
   def big_player?
     locations.count >= 10 || (locations.count >= 2 &&
       title_includes_at_least_one_big_player_search_term? &&
-      at_least_10_approved_personal_offers?)
+      at_least_10_visible_in_frontend_personal_offers?)
   end
 
   private
 
-  def at_least_10_approved_personal_offers?
-    offers.approved.where(encounter: 'personal').count >= 10
+  def at_least_10_visible_in_frontend_personal_offers?
+    offers.visible_in_frontend.where(encounter: 'personal').count >= 10
   end
 
   def title_includes_at_least_one_big_player_search_term?

@@ -27,8 +27,8 @@ module Assignable
       def create_assignment_for_organization_if_it_should_be_assigned!(
         options, model:, current_user:, **
       )
-        return true unless model.offer && model.offer.approved?
-        model.offer.organizations.approved.map do |orga|
+        return true unless model.offer && model.offer.visible_in_frontend?
+        model.offer.organizations.visible_in_frontend.map do |orga|
           orga.translations.map do |translation|
             if translation.manually_editable?
               create_new_assignment_if_assignable_should_be_reassigned!(
