@@ -8,8 +8,27 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 54d2536d345cd77c06a5edb743d1fe420316edaa
+  revision: 262763b1a7069eb092652ab5c50f26720919166a
+  branch: feature/944-orgas-2
   specs:
+    clarat_base (0.1.4)
+      aasm
+      algoliasearch-rails
+      bundler (>= 1.8.4)
+      closure_tree
+      easy_translate
+      enumerize
+      friendly_id (>= 5.0)
+      geocoder
+      localeapp
+      paper_trail
+      rails (>= 4.1.12)
+      rails-i18n
+      rails-observers
+      redcarpet
+      sanitize
+      sidekiq (~> 4.1.2)
+      web-console (~> 2.0)
 
 GIT
   remote: git://github.com/efqdalton/dynamic_sitemaps.git
@@ -33,72 +52,49 @@ GIT
     trailblazer-endpoint (0.0.1)
       dry-matcher
 
-PATH
-  remote: ../clarat_base
-  specs:
-    clarat_base (0.1.4)
-      aasm
-      algoliasearch-rails
-      bundler (>= 1.8.4)
-      closure_tree
-      easy_translate
-      enumerize
-      friendly_id (>= 5.0)
-      geocoder
-      localeapp
-      paper_trail
-      rails (>= 4.1.12)
-      rails-i18n
-      rails-observers
-      redcarpet
-      sanitize
-      sidekiq (~> 4.1.2)
-      web-console (~> 2.0)
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
     aasm (4.11.1)
-    actionmailer (4.2.7.1)
-      actionpack (= 4.2.7.1)
-      actionview (= 4.2.7.1)
-      activejob (= 4.2.7.1)
+    actionmailer (4.2.8)
+      actionpack (= 4.2.8)
+      actionview (= 4.2.8)
+      activejob (= 4.2.8)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-    actionpack (4.2.7.1)
-      actionview (= 4.2.7.1)
-      activesupport (= 4.2.7.1)
+    actionpack (4.2.8)
+      actionview (= 4.2.8)
+      activesupport (= 4.2.8)
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (4.2.7.1)
-      activesupport (= 4.2.7.1)
+    actionview (4.2.8)
+      activesupport (= 4.2.8)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-      rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    activejob (4.2.7.1)
-      activesupport (= 4.2.7.1)
+      rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    activejob (4.2.8)
+      activesupport (= 4.2.8)
       globalid (>= 0.3.0)
-    activemodel (4.2.7.1)
-      activesupport (= 4.2.7.1)
+    activemodel (4.2.8)
+      activesupport (= 4.2.8)
       builder (~> 3.1)
-    activerecord (4.2.7.1)
-      activemodel (= 4.2.7.1)
-      activesupport (= 4.2.7.1)
+    activerecord (4.2.8)
+      activemodel (= 4.2.8)
+      activesupport (= 4.2.8)
       arel (~> 6.0)
-    activesupport (4.2.7.1)
+    activesupport (4.2.8)
       i18n (~> 0.7)
-      json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    algoliasearch (1.12.4)
-      httpclient (~> 2.8.2.4)
+    algoliasearch (1.12.6)
+      httpclient (~> 2.8.3)
       json (>= 1.5.1)
     algoliasearch-rails (1.18.0)
       algoliasearch (~> 1.12.4)
@@ -121,7 +117,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     brakeman (3.4.1)
-    builder (3.2.2)
+    builder (3.2.3)
     bullet (5.5.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
@@ -150,7 +146,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.3.0)
+    closure_tree (6.4.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.7)
@@ -166,7 +162,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     colorize (0.8.1)
-    concurrent-ruby (1.0.4)
+    concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     coveralls (0.8.17)
       json (>= 1.8, < 3)
@@ -194,7 +190,7 @@ GEM
       representable (>= 2.4.0, <= 3.1.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20161129)
+    domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.1)
     dotenv-rails (2.1.1)
@@ -302,7 +298,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (0.8.0)
+    i18n (0.8.1)
     i18n-js (2.1.2)
       i18n
     inflecto (0.0.2)
@@ -314,7 +310,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.6)
+    json (2.0.3)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -324,13 +320,11 @@ GEM
     letter_opener (1.4.1)
       launchy (~> 2.2)
     libv8 (3.16.14.17)
-    localeapp (2.0.0)
+    localeapp (2.1.1)
       gli
       i18n (~> 0.4)
-      json (~> 1.8)
-      mime-types (~> 2.6)
-      rest-client (~> 1.8)
-      ya2yaml
+      json
+      rest-client
     lograge (0.4.1)
       actionpack (>= 4, < 5.1)
       activesupport (>= 4, < 5.1)
@@ -435,16 +429,16 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (4.2.7.1)
-      actionmailer (= 4.2.7.1)
-      actionpack (= 4.2.7.1)
-      actionview (= 4.2.7.1)
-      activejob (= 4.2.7.1)
-      activemodel (= 4.2.7.1)
-      activerecord (= 4.2.7.1)
-      activesupport (= 4.2.7.1)
+    rails (4.2.8)
+      actionmailer (= 4.2.8)
+      actionpack (= 4.2.8)
+      actionview (= 4.2.8)
+      activejob (= 4.2.8)
+      activemodel (= 4.2.8)
+      activerecord (= 4.2.8)
+      activesupport (= 4.2.8)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.2.7.1)
+      railties (= 4.2.8)
       sprockets-rails
     rails-assets-algoliasearch (3.20.2)
     rails-assets-bootstrap (3.3.7)
@@ -517,9 +511,9 @@ GEM
       ruby-progressbar
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
-    railties (4.2.7.1)
-      actionpack (= 4.2.7.1)
-      activesupport (= 4.2.7.1)
+    railties (4.2.8)
+      actionpack (= 4.2.8)
+      activesupport (= 4.2.8)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.2.1)
@@ -547,14 +541,14 @@ GEM
     representable (3.0.2)
       declarative (~> 0.0.5)
       uber (>= 0.0.15, < 0.2.0)
-    request_store (1.3.1)
+    request_store (1.3.2)
     require_all (1.3.3)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
-    rest-client (2.0.0)
+    rest-client (2.0.1)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rubocop (0.46.0)
       parser (>= 2.3.1.1, < 3.0)
       powerpack (~> 0.1)
@@ -643,8 +637,8 @@ GEM
       rack (>= 1, < 3)
     thor (0.19.4)
     thread (0.2.2)
-    thread_safe (0.3.5)
-    tilt (2.0.5)
+    thread_safe (0.3.6)
+    tilt (2.0.6)
     timecop (0.8.1)
     tins (1.13.0)
     trailblazer (2.0.0)
@@ -686,12 +680,11 @@ GEM
       hashdiff
     websocket (1.2.3)
     will_paginate (3.1.5)
-    with_advisory_lock (3.0.0)
+    with_advisory_lock (3.1.0)
       activerecord (>= 3.2)
       thread_safe
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    ya2yaml (0.31)
     yard (0.9.5)
 
 PLATFORMS
@@ -811,4 +804,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.6
+   1.13.7
