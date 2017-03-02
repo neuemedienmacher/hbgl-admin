@@ -19,9 +19,12 @@ FactoryGirl.define do
       translation.assignments << ::Assignment::CreateBySystem.(
         {},
         assignable: translation,
-        last_acting_user: translation.try(:offer) ?
-          User.find(translation.offer.created_by) :
-          User.find(translation.organization.created_by)
+        last_acting_user:
+          if translation.try(:offer)
+            User.find(translation.offer.created_by)
+          else
+            User.find(translation.organization.created_by)
+          end
       )['model']
     end
   end

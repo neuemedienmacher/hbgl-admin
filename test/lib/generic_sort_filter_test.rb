@@ -33,7 +33,7 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'eager_loads with a filter' do
-      params = { filter: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
+      params = { filters: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
       query.expects(:eager_load).with(:split_base).returns(query)
       query.expects(:eager_load).with(:logic_version).returns(query)
       result = subject.send(:transform_by_joining, query, params)
@@ -47,13 +47,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'wont eager_load with a filter that references itself' do
-      params = { filter: ['offer.baz'] }
+      params = { filters: ['offer.baz'] }
       query.expects(:eager_load).never
       subject.send(:transform_by_joining, query, params)
     end
 
     it 'wont eager_load with a filter that uses no submodel' do
-      params = { filter: ['fuz'] }
+      params = { filters: ['fuz'] }
       query.expects(:eager_load).never
       subject.send(:transform_by_joining, query, params)
     end
