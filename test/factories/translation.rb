@@ -15,11 +15,13 @@ FactoryGirl.define do
       description 'default organization_translation description'
     end
 
-    after :build do |translation, _evaluator|
+    after :create do |translation, _evaluator|
       translation.assignments << ::Assignment::CreateBySystem.(
         {},
         assignable: translation,
-        last_acting_user: User.first || FactoryGirl.create(:researcher)
+        last_acting_user: translation.try(:offer) ?
+          User.find(translation.offer.created_by) :
+          User.find(translation.organization.created_by)
       )['model']
     end
   end

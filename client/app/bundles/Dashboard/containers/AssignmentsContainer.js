@@ -40,25 +40,25 @@ function buildQuery(scope, id, sys_id) {
   switch(scope) {
   case 'receiver':
     return {
-      'filter[receiver_id]': id, 'per_page': 10, 'filter[aasm_state]': 'open',
+      'filters[receiver_id]': id, 'per_page': 10, 'filters[aasm_state]': 'open',
       'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
   case 'creator_open':
     return {
-      'filter[creator_id]': id, 'filter[aasm_state]': 'open', 'per_page': 10,
-      'filter[receiver_id]': sys_id, 'operator[receiver_id]': '!=',
+      'filters[creator_id]': id, 'filters[aasm_state]': 'open', 'per_page': 10,
+      'filters[receiver_id]': sys_id, 'operators[receiver_id]': '!=',
       'sort_field': 'created_at', 'sort_direction': 'DESC',
     }
   case 'receiver_closed':
     return {
-      'filter[receiver_id]': id, 'per_page': 10, 'filter[aasm_state]': 'closed',
+      'filters[receiver_id]': id, 'per_page': 10, 'filters[aasm_state]': 'closed',
       'sort_field': 'created_at', 'sort_direction': 'DESC'
     }
   case 'receiver_team':
     return {
-      'filter[receiver_team_id]': id, 'filter[receiver_id]': 'nil',
-      'operator[receiver_id]': '=', 'per_page': 10,
-      'filter[aasm_state]': 'open', 'sort_field': 'created_at',
+      'filters[receiver_team_id]': id, 'filters[receiver_id]': 'nil',
+      'operators[receiver_id]': '=', 'per_page': 10,
+      'filters[aasm_state]': 'open', 'sort_field': 'created_at',
       'sort_direction': 'DESC'
     }
   default:

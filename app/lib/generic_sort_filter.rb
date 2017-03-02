@@ -26,7 +26,7 @@ module GenericSortFilter
       query = query.eager_load(params[:sort_model].split('.').first)
     end
 
-    params[:filter]&.each do |filter, _value|
+    params[:filters]&.each do |filter, _value|
       next unless filter['.']
       association_name = filter.split('.').first
       next if referring_to_own_table?(query, association_name) # dont join self

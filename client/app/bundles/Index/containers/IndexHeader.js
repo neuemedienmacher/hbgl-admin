@@ -10,9 +10,9 @@ import IndexHeader from '../components/IndexHeader'
 
 const mapStateToProps = (state, ownProps) => {
   const filters = toPairs(
-    pickBy(ownProps.params, (value, key) => key.substr(0, 6) == 'filter')
+    pickBy(ownProps.params, (value, key) => key.substr(0, 7) == 'filters')
   )
-  const plusButtonDisabled = ownProps.params.hasOwnProperty('filter[id]')
+  const plusButtonDisabled = ownProps.params.hasOwnProperty('filters[id]')
 
   const generalActions = settings.index[ownProps.model].general_actions
   const routes = generalRoutes(ownProps.model, ownProps.params).filter(route =>
@@ -35,8 +35,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
   onPlusClick(event) {
     let params = clone(ownProps.params)
-    if (params['filter[id]']) return // ID filtered - other filters not needed
-    merge(params, { 'filter[id]': '' })
+    if (params['filters[id]']) return // ID filtered - other filters not needed
+    merge(params, { 'filters[id]': '' })
     browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
   }
 })
