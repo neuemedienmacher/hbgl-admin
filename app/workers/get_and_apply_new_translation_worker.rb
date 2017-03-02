@@ -28,7 +28,7 @@ class GetAndApplyNewTranslationWorker
     # reindex affected offers if category translation was updated
     if updated_model.class == Category
       updated_model.self_and_descendants.find_each.map do |category|
-        category.offers.approved.each(&:index!)
+        category.offers.visible_in_frontend.each(&:index!)
       end
     end
   end

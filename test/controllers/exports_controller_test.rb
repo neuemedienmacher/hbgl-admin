@@ -4,7 +4,7 @@ require_relative '../test_helper'
 describe ExportsController do
   describe "POST 'create'" do
     let(:working_export_hash) do
-      { model_fields: ['id', 'name'],  section_filters: ['id'] }
+      { model_fields: %w(id name), section_filters: ['id'] }
     end
     let(:user) { users(:researcher) }
 
@@ -41,7 +41,7 @@ describe ExportsController do
 
       it 'should include a dash for nil-association' do
         # parent on categories can be nil
-        export_hash = { model_fields: ['id', 'name_de'], parent: ['id'] }
+        export_hash = { model_fields: %w(id name_de), parent: ['id'] }
         result = Export::Create.(
           { object_name: 'categories', export: export_hash },
           'current_user' => users(:researcher)

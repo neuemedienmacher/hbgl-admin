@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class OrganizationObserver < ActiveRecord::Observer
   def after_create orga
     orga.generate_translations!

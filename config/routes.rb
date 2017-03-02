@@ -81,7 +81,7 @@ Rails.application.routes.draw do
   get 'test' => 'pages#test'
 
   # API
-  namespace :api, defaults: {format: :json}  do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :categories do
         collection do

@@ -32,10 +32,7 @@ class Export::Create < Trailblazer::Operation
 
   def clean_empty_field_sets(options, params)
     # clean params of empty array entries
-    # params[:export].keys.each do |key|
-    #   params[:export][key].reject!(&:empty?)
-    # end
-    params[:export].reject!{ |key, value| value.empty?}
+    params[:export].reject! { |_key, value| value.empty? }
     options['params'] = params
     true
   end

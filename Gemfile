@@ -11,7 +11,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base', path: '../clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'feature/944-orgas-2' # , path: '../clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -56,7 +56,7 @@ gem 'trailblazer-cells'
 gem 'cells'
 gem 'cells-slim'
 gem 'cells-rails'
-gem 'reform'#, '~> 2.1.0'
+gem 'reform' # , '~> 2.1.0'
 gem 'reform-rails'
 gem 'roar', github: 'apotonick/roar', branch: 'master'
 gem 'roar-jsonapi', github: 'trailblazer/roar-jsonapi'
@@ -83,6 +83,9 @@ gem 'gengo'
 
 # converting between unicode and ascii urls
 gem 'simpleidn'
+# Faraday for http requests and middleware for redirects
+gem 'faraday'
+gem 'faraday_middleware'
 
 ########################
 # For Heroku & Add-Ons #

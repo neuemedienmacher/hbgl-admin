@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ProductivityGoalPolicy < ApplicationPolicy
   def create?
     user.role == 'super'

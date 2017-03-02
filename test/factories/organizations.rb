@@ -37,7 +37,7 @@ FactoryGirl.define do
         orga.websites << website
       end
       # Locations
-      if evaluator.location_count > 0
+      if evaluator.location_count.positive?
         orga.locations << FactoryGirl.create(:location, :hq, organization: orga)
       end
       if evaluator.location_count > 1
@@ -49,7 +49,7 @@ FactoryGirl.define do
     # traits
     trait :approved do
       after :create do |orga, _evaluator|
-        Organization.where(id: orga.id).update_all aasm_state: 'all_done',
+        Organization.where(id: orga.id).update_all aasm_state: 'approved',
                                                    approved_at: Time.zone.now
         orga.reload
       end
@@ -64,5 +64,5 @@ FactoryGirl.define do
 end
 
 def maybe result
-  rand(2) == 0 ? nil : result
+  rand(2).zero? ? nil : result
 end

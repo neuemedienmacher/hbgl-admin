@@ -15,7 +15,7 @@ describe API::V1::CategoriesController do
 
   describe '#sort' do
     it '#sort should respond to api requests' do
-      put :sort, categories: {1 => {id: 1, children: {}}}
+      put :sort, categories: { 1 => { id: 1, children: {} } }
       assert_response 200
       response.body.must_include '{"status":"success"'
       response.body.must_include '"update_count":1'

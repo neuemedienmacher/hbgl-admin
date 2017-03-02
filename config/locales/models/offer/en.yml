@@ -10,5 +10,5 @@ en:
       needs_organizations: "needs at least one organization"
       needs_encounter_filters: "needs at least one encounter filter"
       needs_age_filters: "needs at least one age filter"
-      only_approved_organizations: |
-        can only contain approved organizations. Approved: %{list}.
+      only_visible_organizations: |
+        can only contain approved or expired organizations. Valid: %{list}.

@@ -23,12 +23,10 @@ describe API::V1::AssignmentsController do
 
     it 'should successfully handle a create request' do
       sign_in user
-      create_works_with Assignment, {
-        assignable_id: OfferTranslation.last.id,
-        assignable_type: 'OfferTranslation',
-        receiver_id: users(:super),
-        message: 'Foorem Ipsbar'
-      }
+      create_works_with Assignment, assignable_id: OfferTranslation.last.id,
+                                    assignable_type: 'OfferTranslation',
+                                    receiver_id: users(:super),
+                                    message: 'Foorem Ipsbar'
 
       assignment = Assignment.last
       assignment.message.must_equal 'Foorem Ipsbar'

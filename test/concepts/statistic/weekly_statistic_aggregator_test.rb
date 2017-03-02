@@ -17,7 +17,8 @@ class WeeklyStatisticAggregatorTest < ActiveSupport::TestCase # to get fixtures
     it 'should create a weekly statistic for every unique goal key set' do
       Statistic.where(time_frame: 'weekly').count.must_equal 0
       Statistic.create!(
-        spec_attrs.merge(date: now, user_id: 1, count: 1))
+        spec_attrs.merge(date: now, user_id: 1, count: 1)
+      )
       Statistic.create!(spec_attrs.merge(date: now, user_id: 1, count: 3))
       Statistic.create!(spec_attrs.merge(date: now, user_id: 1, count: 5, field_name: 'other'))
       Statistic.create!(spec_attrs.merge(date: now, user_id: 1, count: 7, model: 'foo'))

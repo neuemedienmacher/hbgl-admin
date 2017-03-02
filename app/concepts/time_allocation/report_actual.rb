@@ -29,6 +29,6 @@ class TimeAllocation::ReportActual < Trailblazer::Operation
   end
 
   def essential_parameters(params, current_user)
-    [ current_user.id, params[:year], params[:week_number] ]
+    [current_user.id, params[:year], params[:week_number]]
   end
 end

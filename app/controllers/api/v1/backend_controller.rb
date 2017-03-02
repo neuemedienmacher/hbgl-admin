@@ -46,8 +46,9 @@ module API::V1
       }]
     end
 
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def default_endpoints
-      Proc.new do |m|
+      proc do |m|
         m.created do |result|
           render json: result['representer.default.class'].new(result['model']),
                  status: 201
@@ -62,6 +63,7 @@ module API::V1
         m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def model_class_name
       controller_name.classify

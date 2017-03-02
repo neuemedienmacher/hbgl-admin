@@ -53,11 +53,11 @@ class AssignmentCreateTest < ActiveSupport::TestCase
     describe 'methods' do
       it 'must set current_user to creator if empty' do
         basic_params[:creator_id] = nil
-        result = operation_must_work ::Assignment::Create, basic_params, {current_user: other_user}
+        result = operation_must_work ::Assignment::Create, basic_params, current_user: other_user
         result['model'].creator_id.must_equal other_user.id
       end
 
-      describe 'set_creator_team_to_creators_current_team_if_empty' do
+      describe 'optional_set_creator_team_to_creators_current_team_if_empty' do
         it 'must acceptm nil as valid value for creator_team_id' do
           user.update_columns current_team_id: nil
           result = operation_must_work ::Assignment::Create, basic_params
@@ -85,9 +85,9 @@ class AssignmentCreateTest < ActiveSupport::TestCase
           count_before = assignments.count
           assignments.open.count.must_equal 1
           assignment_before = assignments.open.first
-          result = operation_must_work ::Assignment::Create, basic_params
+          operation_must_work ::Assignment::Create, basic_params
           assignment_before.reload.aasm_state.must_equal 'closed'
-          assignments.count.must_equal (count_before + 1)
+          assignments.count.must_equal count_before + 1
           assignments.open.first.wont_equal assignment_before
         end
       end

@@ -53,7 +53,7 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     }
     opts = { model: Organization.new, json: params.to_json }
     _res, _op = TestSuite::SubmodelTester.run(opts)
-    binding.pry
+    deprecate 'Is this reached?'
     true
   end
 end

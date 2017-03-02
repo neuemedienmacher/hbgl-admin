@@ -3,7 +3,7 @@ module Translation
   class AutomaticUpsert < Trailblazer::Operation
     step :generate_translation_params
     step :find_and_add_acting_user_to_options
-    step :set_specific_create_or_update_params
+    step :add_specific_create_or_update_params
     step :call_nested_specific_create_or_update
 
     def generate_translation_params(options)
@@ -13,7 +13,7 @@ module Translation
         if found_model && found_model.manually_edited?
           # Translation was already edited by a human, so it is not updated
           # with a new translation but flagged as possibly outdated
-          {possibly_outdated: true}
+          { possibly_outdated: true }
         else
           generate_field_translations(options)
         end
@@ -22,13 +22,16 @@ module Translation
     end
 
     def find_and_add_acting_user_to_options(options)
-      user_id = options['object_to_translate'].approved_by ?
-        options['object_to_translate'].approved_by :
-        options['object_to_translate'].created_by
+      user_id =
+        if options['object_to_translate'].approved_by
+          options['object_to_translate'].approved_by
+        else
+          options['object_to_translate'].created_by
+        end
       options['last_acting_user'] = User.find(user_id)
     end
 
-    def set_specific_create_or_update_params(options)
+    def add_specific_create_or_update_params(options)
       found_model = query_for_existing_model(options).first
       if found_model
         options['nested.operation'] = model_class(options)::Update
@@ -84,7 +87,7 @@ module Translation
       fields = options['fields']
       object = options['object_to_translate']
       fields_to_translate =
-        (fields.to_s == 'all') ? object.translated_fields : fields
+        fields.to_s == 'all' ? object.translated_fields : fields
 
       fields_to_translate.each do |field|
         params_hash[field] =
