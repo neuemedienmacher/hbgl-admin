@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react'
 import FilteringSelect from '../wrappers/FilteringSelect'
 import FormInputs from '../../GenericForm/wrappers/FormInputs'
+import Form from '../../GenericForm/containers/Form'
 
 export default class CreatingSelect extends React.Component {
   render() {
     const {
-      multi, input, additionalSubmodelCount, onAdditionalObjectClick,
-      additionalSubmodelForms, submodelName, formId
+      multi, input, hasSubmodelForm, onAddSubmodelFormClick,
+      onRemoveSubmodelFormClick, submodelName, formId
     } = this.props
 
     return (
@@ -16,28 +17,34 @@ export default class CreatingSelect extends React.Component {
           label={input.attribute} attribute={input.attribute}
           formId={formId} type={input.type}
         >
+          {this._renderAdditionalObjectButton(
+            hasSubmodelForm, onAddSubmodelFormClick
+          )}
 
-          + {additionalSubmodelCount} weitere Objekte
-
-          <button onClick={onAdditionalObjectClick}>
-            ein weiteres neues Objekt hinzufügen
-          </button>
-
-          {additionalSubmodelForms.map(this._renderSubmodelForm.bind(this)(
-            submodelName
-          ))}
+          {this._renderSubmodelForm(
+            hasSubmodelForm, submodelName, onRemoveSubmodelFormClick
+          )}
         </FilteringSelect>
       </div>
     )
   }
 
-  _renderSubmodelForm(submodelName) {
-    return (form, index) => {
-      return(
-        <div key={index} style={{border: '1px solid black'}}>
-          <FormInputs submodel={submodelName} submodelIndex={index} />
-        </div>
-      )
-    }
+  _renderAdditionalObjectButton(hasSubmodelForm, clickHandler) {
+    if (hasSubmodelForm) return
+    return(
+      <button onClick={clickHandler}>
+        ein neues Objekt hinzufügen
+      </button>
+    )
+  }
+
+  _renderSubmodelForm(hasSubmodelForm, submodelName, clickHandler) {
+    if (!hasSubmodelForm) return
+    return(
+      <div style={{border: '1px solid black'}}>
+        <button onClick={clickHandler}>x</button>
+        <Form model={submodelName} />
+      </div>
+    )
   }
 }

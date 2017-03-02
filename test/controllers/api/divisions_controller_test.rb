@@ -6,8 +6,8 @@ describe API::V1::DivisionsController do
   include API::ControllerTestUtils
   let(:user) { users(:researcher) }
 
-  # it '#index should respond to jsonapi requests' do
-  #   sign_in user
-  #   api_get_works_for :index
-  # end
+  it '#index should respond to jsonapi requests' do
+    sign_in user
+    api_get_works_for :index
+  end
 end

@@ -8,21 +8,25 @@ export default class GenericFormForm extends React.Component {
   render() {
     const {
       seedData, action, method, formId, formObjectClass,
-      afterResponse, handleResponse,
+      afterResponse, handleResponse, model,
     } = this.props
 
     return (
-      <Form ajax requireValid
-        method={method} className='form'
-        formObjectClass={formObjectClass}
-        action={action} id={formId} seedData={seedData}
-        handleResponse={handleResponse} afterResponse={afterResponse}
-      >
-        <FormInputs formObjectClass={formObjectClass} formId={formId} />
-        <button className='btn btn-default' type='submit'>
+      <div className='form FormWrapper'>
+        <Form ajax requireValid
+          method={method} className='form'
+          formObjectClass={formObjectClass} model={model}
+          action={action} id={formId} seedData={seedData}
+          handleResponse={handleResponse} afterResponse={afterResponse}
+        />
+        <FormInputs
+          model={model} formObjectClass={formObjectClass} formId={formId}
+          formObjectClass={formObjectClass}
+        />
+        <button className='btn btn-default' type='submit' form={formId}>
           Abschicken
         </button>
-      </Form>
+      </div>
     )
   }
 }

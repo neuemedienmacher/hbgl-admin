@@ -3,7 +3,6 @@ import moment from 'moment'
 import { browserHistory } from 'react-router'
 import valuesIn from 'lodash/valuesIn'
 import cloneDeep from 'lodash/cloneDeep'
-import { changeFormData } from '../../../Backend/actions/changeFormData'
 import addEntities from '../../../Backend/actions/addEntities'
 import NewAssignmentForm from '../components/NewAssignmentForm'
 

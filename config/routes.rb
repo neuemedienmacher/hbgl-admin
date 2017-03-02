@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
   resources :offers, only: :show
+
+  # shouldn't consider "new" to be a slug
+  get 'organizations/new', controller: :pages, action: :react
   resources :organizations, only: :show
 
   # resources :organizations do

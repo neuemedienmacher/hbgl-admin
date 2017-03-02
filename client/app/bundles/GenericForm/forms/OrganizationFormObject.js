@@ -1,6 +1,6 @@
 import { FormObject, JsonApiAdapter } from 'rform'
 
-export default class AssignmentFormObject extends FormObject {
+export default class OrganizationFormObject extends FormObject {
   static get model() {
     return 'organization'
   }
@@ -13,30 +13,22 @@ export default class AssignmentFormObject extends FormObject {
     return ['websites', 'divisions']
   }
 
-  static get submodelConfig() {
-    return {
-      websites: { properties: ['url'], type: 'has_many' },
-      divisions: {
-        properties: [ 'name', 'description', 'section_filter_ids'],
-        type: 'oneToMany'
-      }
-    }
-  }
+  // static get submodelConfig() {
+  //   return {
+  //     websites: { properties: ['url'], type: 'has_many' },
+  //     divisions: {
+  //       properties: [ 'name', 'description', 'section_filter_ids'],
+  //       type: 'oneToMany'
+  //     }
+  //   }
+  // }
 
   static get formConfig() {
     return {
       name: { type: 'string' },
       priority: { type: 'checkbox' },
       website_ids: { type: 'creating-multiselect' },
-      websites: {
-        url: { type: 'string' }
-      },
       division_ids: { type: 'creating-multiselect' },
-      divisions: {
-        name: { type: 'string' },
-        description: { type: 'textarea' },
-        section_filter_ids: { type: 'filtering-select' },
-      },
     }
   }
 

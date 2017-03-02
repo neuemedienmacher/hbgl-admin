@@ -3,13 +3,17 @@ import FormInputs from '../components/FormInputs'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, submodel, formObjectClass } = ownProps
-  const properties = submodel ? formObjectClass.submodelConfig[submodel].properties : formObjectClass.properties
+  const properties = submodel ?
+    formObjectClass.submodelConfig[submodel].properties :
+    formObjectClass.properties
   let config = formObjectClass.formConfig
   if (submodel) config = config[submodel]
 
   const inputs = properties.map(property => ({
     attribute: property,
-    type: config[property].type
+    type: config[property].type,
+    options: config[property].options &&
+      config[property].options.map(option => ({value: option, name: option}))
   }))
   const blockedInputs = collectBlockedInputs(submodel)
 
