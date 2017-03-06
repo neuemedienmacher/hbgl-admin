@@ -4,14 +4,14 @@ module Website::Contracts
     property :host
     property :url
 
-    # binding.pry
+    # TODO: Is there any way to get DRY validations to work?
     # validation do
     #   required(:host).filled
     # end
 
-    # validates :host, presence: true
-    # validates :url, format: %r{\Ahttps?://\S+\.\S+\z}, unique: true,
-    #                 presence: true
+    validates :host, presence: true
+    validates :url, format: %r{\Ahttps?://\S+\.\S+\z}, presence: true
+    validates_uniqueness_of :url
     # validates :unreachable_count, presence: true
   end
 end
