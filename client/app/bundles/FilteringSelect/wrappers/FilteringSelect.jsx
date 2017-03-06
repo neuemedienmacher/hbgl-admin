@@ -7,7 +7,7 @@ export default class FilteringSelectWrapper extends Component {
   }
 
   render() {
-    return <FilteringSelect {...this.props} {...this.context} />
+    return <FilteringSelect {...this.context} {...this.props} />
   }
 }
 

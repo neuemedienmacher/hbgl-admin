@@ -123,5 +123,6 @@ Rails.application.routes.draw do
   end
 
   # Forward every other page to react and let it deal with it
-  match '*path', controller: :pages, action: :react, via: :all
+  match '*path', controller: :pages, action: :react, via: :all,
+                 constraints: ->(request) { request.format == :html }
 end

@@ -30,7 +30,9 @@ export default class FilteringSelect extends React.Component {
           placeholder={placeholder}
         />
 
-        <Errors className={errorClassName} attribute={attribute} errors={errors} />
+        <Errors
+          className={errorClassName} attribute={attribute} errors={errors}
+        />
 
         {children}
       </div>

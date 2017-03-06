@@ -6,7 +6,7 @@ import Form from '../components/Form'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId } = ownProps
-  const formId = `GenericForm-${model + editId}`
+  const formId = `GenericForm-${model + (editId || '-new')}`
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
 
