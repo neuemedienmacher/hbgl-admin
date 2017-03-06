@@ -2,7 +2,8 @@ import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import merge from 'lodash/merge'
 import thunkMiddleware from 'redux-thunk'
 
-import loggerMiddleware from 'lib/middlewares/loggerMiddleware'
+// TODO: import currently not working - fix when needed
+// import loggerMiddleware from 'lib/middlewares/loggerMiddleware'
 import normalize from './normalize'
 import combinedReducers, { initialStates } from '../reducers'
 import addEntities from '../actions/addEntities'

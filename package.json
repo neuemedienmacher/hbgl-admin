@@ -4,44 +4,16 @@
   "description": "Clarat Admin Interface",
   "main": "server.js",
   "engines": {
-    "node": "4.2.0",
-    "npm": "3.3.6"
+    "node": "6.9.0",
+    "npm": "4.1.1"
   },
   "scripts": {
-    "postinstall": "cd client && npm install",
+    "postinstall": "cd client && yarn install",
     "test": "rspec && (cd client && npm run lint)",
-    "express-server": "echo 'visit http://localhost:4000' && cd client && npm start",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
     "start": "foreman start -f Procfile.dev"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shakacode/react-webpack-rails-tutorial.git"
-  },
-  "keywords": [
-    "react",
-    "tutorial",
-    "comment",
-    "example"
-  ],
-  "author": "justin808",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/shakacode/react-webpack-rails-tutorial/issues"
-  },
-  "homepage": "https://github.com/shakacode/react-webpack-rails-tutorial",
-  "dependencies": {
-    "moment": "^2.14.1",
-    "react": "^15.4.2",
-    "react-on-rails": "^6.8.0",
-    "react-virtualized": "^8.5.2",
-    "webpack": "^2.2.1"
-  },
   "devDependencies": {
-    "babel-runtime": "^6.9.0"
-  },
-  "cacheDirectories": [
-    "node_modules",
-    "client/node_modules"
-  ]
+    "webpack-hot-middleware": "^2.17.1"
+  }
 }
