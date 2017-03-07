@@ -5,34 +5,32 @@ import PaginationCell from '../containers/PaginationCell'
 export default class Pagination extends Component {
   render() {
     const {
-      pages, previousPageHref, nextPageHref, model, params, current_page, myClick
+      pages, previousPageHref, nextPageHref, model, params, current_page, myClick, pageScope, paginationSize
     } = this.props
 
     return (
       <div className='pagination'>
         <ul>
           {this.renderDirectionCell('left', 'previous', previousPageHref)}
-          {this.renderFirstPageLogic(current_page, model, params, pages)}
-          {this.renderFirstPageSeparator(current_page, myClick)}
-          {this.renderPrePageLogic(current_page, model, params, pages, 4)}
-          {this.renderPrePageLogic(current_page, model, params, pages, 3)}
-          {this.renderPrePageLogic(current_page, model, params, pages, 2)}
-            <PaginationCell
-              key={pages[current_page - 1]} page={pages[current_page - 1]} model={model} params={params}
-            />
-          {this.renderPostPageLogic(current_page, model, params, pages, 0)}
-          {this.renderPostPageLogic(current_page, model, params, pages, 1)}
-          {this.renderPostPageLogic(current_page, model, params, pages, 2)}
-          {this.renderLastPageSeparator(current_page, pages, myClick)}
-          {this.renderLastPageLogic(current_page, model, params, pages)}
+          {this.renderFirstPageLogic(current_page, model, params, pages, paginationSize)}
+          {this.renderFirstPageSeparator(current_page, myClick, paginationSize)}
+          {pageScope.map(page => {
+            return(
+              <PaginationCell
+                key={page} page={page} model={model} params={params}
+              />
+            )
+          })}
+          {this.renderLastPageSeparator(current_page, pages, myClick, paginationSize)}
+          {this.renderLastPageLogic(current_page, model, params, pages, paginationSize)}
           {this.renderDirectionCell('right', 'next', nextPageHref)}
         </ul>
       </div>
     )
   }
 
-  renderFirstPageLogic(current_page, model, params, pages) {
-    if (current_page > 4) {
+  renderFirstPageLogic(current_page, model, params, pages, paginationSize) {
+    if (current_page > paginationSize + 1) {
       return(
         <PaginationCell
           key={pages[0]} page={pages[0]} model={model} params={params}
@@ -41,8 +39,8 @@ export default class Pagination extends Component {
     }
   }
 
-  renderFirstPageSeparator(current_page, myClick) {
-    if (current_page > 4) {
+  renderFirstPageSeparator(current_page, myClick, paginationSize) {
+    if (current_page > paginationSize + 1) {
       return(
         <li>
           <span onClick={myClick}>...</span>
@@ -51,8 +49,8 @@ export default class Pagination extends Component {
     }
   }
 
-  renderLastPageSeparator(current_page, pages, myClick) {
-    if (current_page < pages.length - 4) {
+  renderLastPageSeparator(current_page, pages, myClick, paginationSize) {
+    if (current_page < pages.length - paginationSize - 1) {
       return(
         <li>
           <span onClick={myClick}>...</span>
@@ -61,28 +59,8 @@ export default class Pagination extends Component {
     }
   }
 
-  renderPrePageLogic(current_page, model, params, pages, index) {
-    if (current_page > index-1) {
-      return(
-        <PaginationCell
-          key={pages[current_page - index]} page={pages[current_page - index]} model={model} params={params}
-        />
-      )
-    }
-  }
-
-  renderPostPageLogic(current_page, model, params, pages, index) {
-    if (current_page + index < pages.length - 1 ) {
-      return(
-        <PaginationCell
-          key={pages[current_page + index]} page={pages[current_page + index]} model={model} params={params}
-        />
-      )
-    }
-  }
-
-  renderLastPageLogic(current_page, model, params, pages, index) {
-    if (current_page < pages.length ) {
+  renderLastPageLogic(current_page, model, params, pages, paginationSize) {
+    if (current_page < pages.length - paginationSize ) {
       return(
         <PaginationCell
           key={pages[pages.length - 1]} page={pages[pages.length - 1]} model={model} params={params}

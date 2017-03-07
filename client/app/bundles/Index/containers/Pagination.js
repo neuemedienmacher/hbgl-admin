@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => {
   const resultData = state.ajax.indexResults
   const pages = range(1, resultData.meta.total_pages + 1)
   const current_page = resultData.meta.current_page
+  const paginationSize = 3
 
   // Remove the /api/v1 part from links to make it a ui route
   let previousPageHref = resultData.links.previous || ''
@@ -17,11 +18,26 @@ const mapStateToProps = (state, ownProps) => {
   let nextPageHref = resultData.links.next || ''
   if (nextPageHref) nextPageHref = nextPageHref.substr(7)
 
+  const pageScope = []
+  for (var i = paginationSize + 1; i > 0; i--) {
+    if (current_page >= i){
+      pageScope.push(pages[current_page - i])
+    }
+  }
+  for (var i = 0; i < paginationSize; i++) {
+    if (current_page + i < pages.length ){
+      pageScope.push(pages[current_page + i])
+    }
+  }
+
+
   return {
     pages,
     previousPageHref,
     nextPageHref,
-    current_page
+    current_page,
+    pageScope,
+    paginationSize
   }
 }
 
