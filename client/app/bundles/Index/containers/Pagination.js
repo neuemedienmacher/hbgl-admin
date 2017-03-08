@@ -30,7 +30,6 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
-
   return {
     pages,
     previousPageHref,
@@ -49,7 +48,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
 
-  myClick(event) {
+  jumpToPage(event) {
     var page = null;
     while (stateProps.pages[page-1] == null) {
       page = prompt("Springe zu 1-"+stateProps.pages.length+":", stateProps.current_page);

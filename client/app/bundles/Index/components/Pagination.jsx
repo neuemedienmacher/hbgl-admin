@@ -5,7 +5,7 @@ import PaginationCell from '../containers/PaginationCell'
 export default class Pagination extends Component {
   render() {
     const {
-      pages, previousPageHref, nextPageHref, model, params, current_page, myClick, pageScope, paginationSize
+      pages, previousPageHref, nextPageHref, model, params, current_page, jumpToPage, pageScope, paginationSize
     } = this.props
 
     return (
@@ -13,7 +13,7 @@ export default class Pagination extends Component {
         <ul>
           {this.renderDirectionCell('left', 'previous', previousPageHref)}
           {this.renderFirstPageLogic(current_page, model, params, pages, paginationSize)}
-          {this.renderFirstPageSeparator(current_page, myClick, paginationSize)}
+          {this.renderFirstPageSeparator(current_page, jumpToPage, paginationSize)}
           {pageScope.map(page => {
             return(
               <PaginationCell
@@ -21,7 +21,7 @@ export default class Pagination extends Component {
               />
             )
           })}
-          {this.renderLastPageSeparator(current_page, pages, myClick, paginationSize)}
+          {this.renderLastPageSeparator(current_page, pages, jumpToPage, paginationSize)}
           {this.renderLastPageLogic(current_page, model, params, pages, paginationSize)}
           {this.renderDirectionCell('right', 'next', nextPageHref)}
         </ul>
@@ -39,21 +39,21 @@ export default class Pagination extends Component {
     }
   }
 
-  renderFirstPageSeparator(current_page, myClick, paginationSize) {
+  renderFirstPageSeparator(current_page, jumpToPage, paginationSize) {
     if (current_page > paginationSize + 1) {
       return(
         <li>
-          <span onClick={myClick}>...</span>
+          <span onClick={jumpToPage}>...</span>
         </li>
       )
     }
   }
 
-  renderLastPageSeparator(current_page, pages, myClick, paginationSize) {
+  renderLastPageSeparator(current_page, pages, jumpToPage, paginationSize) {
     if (current_page < pages.length - paginationSize - 1) {
       return(
         <li>
-          <span onClick={myClick}>...</span>
+          <span onClick={jumpToPage}>...</span>
         </li>
       )
     }
