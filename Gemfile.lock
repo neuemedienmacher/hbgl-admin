@@ -8,8 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 9a221b0926de1240c3ec840a5dbfc00244d24fb7
-  branch: feature/944-orgas-2
+  revision: 6ac8c01a4f8779eb04cbbafad91d659088170e44
   specs:
     clarat_base (0.1.4)
       aasm
@@ -91,12 +90,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-<<<<<<< HEAD
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-=======
-    addressable (2.4.0)
->>>>>>> develop
     algoliasearch (1.12.7)
       httpclient (~> 2.8.3)
       json (>= 1.5.1)
@@ -164,13 +159,8 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-<<<<<<< HEAD
     coffee-script-source (1.12.2)
     colorize (0.8.1)
-=======
-    coffee-script-source (1.10.0)
-    colorize (0.7.7)
->>>>>>> develop
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     coveralls (0.8.17)
@@ -519,11 +509,7 @@ GEM
       require_all
       ruby-progressbar
     rails_serve_static_assets (0.0.5)
-<<<<<<< HEAD
     rails_stdout_logging (0.0.5)
-=======
-    rails_stdout_logging (0.0.4)
->>>>>>> develop
     railties (4.2.8)
       actionpack (= 4.2.8)
       activesupport (= 4.2.8)
@@ -692,11 +678,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff
     websocket (1.2.3)
-<<<<<<< HEAD
     will_paginate (3.1.5)
-=======
-    will_paginate (3.1.0)
->>>>>>> develop
     with_advisory_lock (3.1.0)
       activerecord (>= 3.2)
       thread_safe
