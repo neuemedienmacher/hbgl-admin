@@ -84,7 +84,7 @@ class OfferMailer < ActionMailer::Base
   def send_emails email, offers, mailing_type, subject
     email.create_offer_mailings offers, mailing_type
     mail subject: subject, to: email.address,
-         from: 'Anne Schulze | clarat <anne.schulze@clarat.org>'
+         from: 'clarat-Team <post@clarat.org>'
   end
 
   def get_section_suffix offers, offers_hash = nil
