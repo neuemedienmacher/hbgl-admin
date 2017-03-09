@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20170120120937) do
     t.string   "assignable_field_type", limit: 64,   default: "",     null: false
     t.integer  "creator_id"
     t.integer  "creator_team_id"
-    t.integer  "reciever_id"
-    t.integer  "reciever_team_id"
+    t.integer  "receiver_id"
+    t.integer  "receiver_team_id"
     t.string   "message",               limit: 1000
     t.integer  "parent_id"
     t.string   "aasm_state",            limit: 32,   default: "open", null: false
@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 20170120120937) do
   add_index "assignments", ["creator_id"], name: "index_assignments_on_creator_id", using: :btree
   add_index "assignments", ["creator_team_id"], name: "index_assignments_on_creator_team_id", using: :btree
   add_index "assignments", ["parent_id"], name: "index_assignments_on_parent_id", using: :btree
-  add_index "assignments", ["reciever_id"], name: "index_assignments_on_reciever_id", using: :btree
-  add_index "assignments", ["reciever_team_id"], name: "index_assignments_on_reciever_team_id", using: :btree
+  add_index "assignments", ["receiver_id"], name: "index_assignments_on_receiver_id", using: :btree
+  add_index "assignments", ["receiver_team_id"], name: "index_assignments_on_receiver_team_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name_de",                              null: false
@@ -162,7 +162,7 @@ ActiveRecord::Schema.define(version: 20170120120937) do
   create_table "divisions", force: :cascade do |t|
     t.string   "name",              null: false
     t.text     "description"
-    t.integer  "organization_id",   null: false
+    t.integer  "organization_id"
     t.integer  "section_filter_id", null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -446,6 +446,7 @@ ActiveRecord::Schema.define(version: 20170120120937) do
     t.text     "description_html"
     t.string   "aasm_state",             limit: 32
     t.string   "mailings",               limit: 255, default: "disabled", null: false
+    t.boolean  "priority",                           default: false,      null: false
   end
 
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state", using: :btree

@@ -21,12 +21,6 @@ feature 'Backend 2.0' do
 
   describe 'as a researcher' do
     before { login_as researcher }
-    scenario 'I can edit an OfferTranslation' do
-      skip 'Needs js tests'
-      visit root_path
-
-      click_link 'Administration'
-      click_link 'OfferTranslation'
-    end
+    # TODO: Needs JS tests
   end
 end

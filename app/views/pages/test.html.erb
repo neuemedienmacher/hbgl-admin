@@ -1,0 +1,16 @@
+<%= form_for Organization.new, method: 'GET', url: request.path do |f| %>
+  <%# <%= f.text_field :name %>
+  <%#
+  <%# <%= f.fields_for :divisions, Division.new do |fd| %>
+  <%#   <%= fd.text_field :name %>
+  <%#   <%= fd.text_field :section_filter %>
+  <%# <% end %>
+  <%#
+  <%# <%= f.fields_for :divisions, Division.new(name: 'bla'), child_index: 'new_division' do |fd| %>
+  <%#   <%= fd.text_field :name %>
+  <%#   <%= fd.text_field :section_filter %>
+  <%# <% end %>
+
+
+  <%= f.submit :go %>
+<% end %>

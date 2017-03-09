@@ -12,12 +12,15 @@ module API::V1
         property :name
         property :description
 
+        property :organization_id
         has_one :organization do
           type :organizations
 
           property :id
           property :name
         end
+
+        property :section_filter_id
       end
 
       class Index < Show

@@ -7,8 +7,8 @@ SimpleCov.start 'rails' do
   # add_filter "/app/workers/uninformed_emails_mailings_spawner_worker.rb"
   minimum_coverage 100
 end
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+# require 'codeclimate-test-reporter'
+# CodeClimate::TestReporter.start
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -24,6 +24,7 @@ require 'minitest/mock'
 require 'minitest-matchers'
 require 'minitest/hell'
 require 'pry-rescue/minitest' if ENV['RESCUE']
+require 'webmock/minitest'
 require 'sidekiq/testing'
 require 'fakeredis'
 
@@ -68,13 +69,13 @@ end
 Minitest.after_run do
   if $suite_passing
     brakeman
-    rails_best_practices
     rubocop
+    rails_best_practices
   end
 end
 
 class ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 end
 
 class ActiveSupport::TestCase
@@ -86,6 +87,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   before :each do
+    WebStubs.enable
     DatabaseCleaner.start
   end
 

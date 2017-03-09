@@ -5,8 +5,6 @@ module API::V1
       def base_query
         ::Website
       end
-
-      representer API::V1::Website::Representer::Show
     end
   end
 end

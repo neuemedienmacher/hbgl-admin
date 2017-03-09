@@ -16,6 +16,8 @@ FactoryGirl.define do
     area { Area.first unless encounter == 'personal' }
     approved_at nil
     split_base
+    # every offer should have a creator!
+    created_by { User.all.sample.id || FactoryGirl.create(:researcher).id }
 
     # associations
 
@@ -96,7 +98,7 @@ FactoryGirl.define do
       end
       evaluator.opening_count.times do
         offer.openings << (
-          if Opening.count != 0 && rand(2) == 0
+          if Opening.count != 0 && rand(2).zero?
             Opening.select(:id).all.sample
           else
             FactoryGirl.create(:opening)
@@ -137,8 +139,11 @@ FactoryGirl.define do
     trait :with_dummy_translations do
       after :create do |offer, _evaluator|
         (I18n.available_locales - [:de]).each do |locale|
-          OfferTranslation.create(
-            offer_id: offer.id, locale: locale, source: 'GoogleTranslate',
+          FactoryGirl.create(
+            :offer_translation,
+            offer: offer,
+            locale: locale,
+            source: 'GoogleTranslate',
             name: "#{locale}(#{offer.name})",
             description: "#{locale}(#{offer.description})",
             old_next_steps: "GET READY FOR CANADA! (#{locale})",
@@ -146,8 +151,10 @@ FactoryGirl.define do
           )
 
           offer.organizations.each do |organization|
-            OrganizationTranslation.create(
-              organization_id: organization.id, locale: locale,
+            FactoryGirl.create(
+              :organization_translation,
+              organization: organization,
+              locale: locale,
               source: 'GoogleTranslate',
               description: "#{locale}(#{organization.untranslated_description})"
             )
@@ -159,5 +166,5 @@ FactoryGirl.define do
 end
 
 def maybe result
-  rand(2) == 0 ? nil : result
+  rand(2).zero? ? nil : result
 end

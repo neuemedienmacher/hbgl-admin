@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # Non-Active-Record object to provide helper methods for exports
+# TODO: This isn't actually a model. Put this somewhere else.
 class Export
   BATCH_SIZE = 10
   attr_reader :object
@@ -29,29 +30,13 @@ class Export
     end
   end
 
-  ### --- Methods required for form generation: --- ###
-
-  def persisted?
-    false # not a database model
-  end
-
-  def has_attribute? name
-    name == :fields
-  end
-
-  def column_for_attribute(*)
-    nil
-  end
-
-  def to_key
-    nil
-  end
-
   private
 
+  # rubocop:disable Style/TrivialAccessors
   def object_query # TODO: joins for faster query & possibly search filter
     @object_query
   end
+  # rubocop:enable Style/TrivialAccessors
 
   # If a field is not filled for a csv cell, give it a dash
   def dash_or string
@@ -83,7 +68,7 @@ class Export
       if carrier_name == :base
         header_array.push field_name
       else
-        header_array.push "#{field_name} [#{carrier_name.titleize}]"
+        header_array.push "#{field_name} [#{carrier_name.to_s.titleize}]"
       end
     end
 
@@ -99,18 +84,21 @@ class Export
         next
       end
 
-      associated_object = object_instance.send(carrier_name)
       values_array.push(
-        if associated_object.is_a?(ActiveRecord::Relation)
-          dash_or associated_object.map { |element| element[field] }.join(',')
-        elsif associated_object.nil?
-          ' - '
-        else
-          dash_or associated_object[field]
-        end
+        value_for(object_instance.send(carrier_name), field)
       )
     end
 
     values_array
+  end
+
+  def value_for associated_object, field
+    if associated_object.is_a?(ActiveRecord::Relation)
+      dash_or associated_object.map { |element| element[field] }.join(',')
+    elsif associated_object.nil?
+      ' - '
+    else
+      dash_or associated_object[field]
+    end
   end
 end

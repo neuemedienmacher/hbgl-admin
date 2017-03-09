@@ -5,8 +5,6 @@ module API::V1
       def base_query
         ::City
       end
-
-      representer API::V1::City::Representer::Index
     end
   end
 end

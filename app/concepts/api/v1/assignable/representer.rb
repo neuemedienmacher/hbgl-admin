@@ -5,16 +5,19 @@ module API::V1
       class Show < API::V1::Default::Representer::Show
         # method (uses scopes) to get current_assignment
         property :current_assignment, getter: ->(item) do
-          item[:represented].current_assignment
-        end
+          ::Assignable::Twin.new(item[:represented]).current_assignment
+        end # shouldnt this be `has_one`?
 
-        collection :assignments do
+        has_many :assignments do
+          type :assignments
+
           property :id
-          property :message, as: :label
+          property :message
+          property :label, getter: ->(item) { item[:represented].message }
           property :creator_id
           property :creator_team_id
-          property :reciever_id
-          property :reciever_team_id
+          property :receiver_id
+          property :receiver_team_id
         end
       end
 

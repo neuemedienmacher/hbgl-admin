@@ -5,8 +5,6 @@ module API::V1
       def base_query
         ::ProductivityGoal
       end
-
-      representer API::V1::ProductivityGoal::Representer::Show
     end
   end
 end

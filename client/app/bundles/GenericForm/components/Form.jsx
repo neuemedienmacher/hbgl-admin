@@ -1,54 +1,32 @@
 import React, { PropTypes } from 'react'
 import { Form, InputSet } from 'rform'
-import FilteringSelect from '../../FilteringSelect/containers/FilteringSelect'
+import FormInputs from '../containers/FormInputs'
+import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
+import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 
-export default class NewForm extends React.Component {
+export default class GenericFormForm extends React.Component {
   render() {
     const {
-      inputs, seedData, action, method, formId, formObjectClass,
-      afterResponse, handleResponse,
+      seedData, action, method, formId, formObjectClass,
+      afterResponse, handleResponse, model,
     } = this.props
 
     return (
-      <Form ajax requireValid
-        method={method} className='form'
-        formObjectClass={formObjectClass}
-        action={action} id={formId} seedData={seedData}
-        handleResponse={handleResponse} afterResponse={afterResponse}
-      >
-        {inputs.map(this.renderInput.bind(this))}
-        <button className='btn btn-default' type='submit'>
+      <div className='form FormWrapper'>
+        <Form ajax requireValid
+          method={method} className='form'
+          formObjectClass={formObjectClass} model={model}
+          action={action} id={formId} seedData={seedData}
+          handleResponse={handleResponse} afterResponse={afterResponse}
+        />
+        <FormInputs
+          model={model} formObjectClass={formObjectClass} formId={formId}
+          formObjectClass={formObjectClass}
+        />
+        <button className='btn btn-default' type='submit' form={formId}>
           Abschicken
         </button>
-      </Form>
+      </div>
     )
-  }
-
-  renderInput(input, index) {
-    if (input.type == 'multiselect') {
-      return(
-        <FilteringSelect multi key={index}
-          wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          formId={this.props.formId} type={input.type}
-        />
-      )
-    } else if (input.type == 'filtering-select') {
-      return(
-        <FilteringSelect key={index}
-          wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          formId={this.props.formId} type={input.type}
-        />
-      )
-    } else {
-      return(
-        <InputSet key={index}
-          wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          type={input.type}
-        />
-      )
-    }
   }
 }

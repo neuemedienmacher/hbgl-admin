@@ -8,13 +8,14 @@ class ReactCell < Cell::ViewModel
 
   include ReactOnRailsHelper
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def props
     {
       user_teams: UserTeam.all,
-      users: User.all.map { |user| UserRepresenter.new(user) },
-      current_user: UserRepresenter.new(options[:current_user]),
+      users: User.all.map { |user| User::Representer.new(user) },
+      current_user: User::Representer.new(options[:current_user]),
 
-      filters: Filter.all.map { |filter| filter.attributes },
+      filters: Filter.all.map(&:attributes),
       productivity_goals: ProductivityGoal.all,
       statistics: Statistic.all,
       time_allocations: TimeAllocation.all,
@@ -35,4 +36,5 @@ class ReactCell < Cell::ViewModel
       }
     }
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

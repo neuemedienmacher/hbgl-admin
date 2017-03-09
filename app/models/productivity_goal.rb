@@ -15,7 +15,7 @@ class ProductivityGoal < ActiveRecord::Base
   TARGET_FIELD_NAMES = {
     'Offer' => %w(aasm_state logic_version id?),
     'Organization' => %w(aasm_state id?),
-    'SplitBase' => %w(id?),
+    'SplitBase' => %w(id?)
   }.freeze
 
   TARGET_FIELD_VALUES = {

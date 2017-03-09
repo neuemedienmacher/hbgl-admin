@@ -5,10 +5,10 @@ module GenericSortFilter
     query = transform_by_searching(query, params[:query])
     query = transform_by_joining(query, params)
     query = transform_by_ordering(query, params)
-    transform_by_filtering(query, params[:filter], params[:operator])
+    transform_by_filtering(query, params)
   end
 
-  private
+  private_class_method
 
   # In case only a model was passed in, to unify object handling, turn it into
   # a query
@@ -22,20 +22,18 @@ module GenericSortFilter
   end
 
   def self.transform_by_joining(query, params)
-    if (params[:sort_model])
+    if params[:sort_model]
       query = query.eager_load(params[:sort_model].split('.').first)
     end
 
-    if (params[:filter])
-      params[:filter].each do |filter, value|
-        next unless filter['.']
-        association_name = filter.split('.').first
-        next if referring_to_own_table?(query, association_name) # dont join self
-        query = query.eager_load(association_name.to_sym)
-      end
+    params[:filters]&.each do |filter, _value|
+      next unless filter['.']
+      association_name = filter.split('.').first
+      next if referring_to_own_table?(query, association_name) # dont join self
+      query = query.eager_load(association_name.to_sym)
     end
 
-    return query
+    query
   end
 
   def self.transform_by_ordering(query, params)
@@ -49,26 +47,28 @@ module GenericSortFilter
     query.order(sort_string)
   end
 
-  def self.transform_by_filtering(query, filters, operators)
-    return query unless filters
-    filters.each do |filter, value|
+  # rubocop:disable Metrics/AbcSize
+  def self.transform_by_filtering(query, params)
+    return query unless params[:filters]
+    params[:filters].each do |filter, value|
       next if value.empty?
       # transform table names (before a .) in case of association name mismatch
       filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
       filter_string = filter_key.to_s
       # append operator
-      operator = process_operator(operators, filter, value)
+      operator = process_operator(params[:operators], filter, value)
       filter_string += ' ' + operator
       # append value
-      _value = transform_value(value, filter, query)
-      filter_string += ' ' + _value
+      new_value = transform_value(value, filter, query)
+      filter_string += ' ' + new_value
       # append optional addition
-      filter_string += optional_query_addition(operator, _value, filter_key)
+      filter_string += optional_query_addition(operator, new_value, filter_key)
 
       query = query.where(filter_string)
     end
     query
   end
+  # rubocop:enable Metrics/AbcSize
 
   def self.joined_table_name_for(query, filter)
     split_filter = filter.split('.')
@@ -94,22 +94,28 @@ module GenericSortFilter
     operator
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.transform_value(value, filter, query)
-    model_name = filter.include?('.') ?
-      filter.split('.').first.classify.constantize : query.model
+    model_name =
+      if filter.include?('.')
+        filter.split('.').first.classify.constantize
+      else
+        query.model
+      end
 
     # convert datetime strings to specific format for query
     if model_name.columns_hash[filter] &&
-        model_name.columns_hash[filter].type == :datetime && !value.empty?
+       model_name.columns_hash[filter].type == :datetime && !value.empty?
       value = DateTime.parse(value + ' CET').utc.to_s
     end
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
   end
+  # rubocop:enable Metrics/AbcSize
 
   def self.optional_query_addition(operator, value, filter_key)
     # append OR NULL for non-null, NOT-queries (include optionals)
-    if operator == '!=' && nullable_value?(value)
+    if operator == '!=' && !nullable_value?(value)
       " OR #{filter_key} IS NULL"
     else
       ''

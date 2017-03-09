@@ -11,6 +11,9 @@ module API::V1
         end
         property :name
         property :email
+        property :role
+        property :current_team_id
+        property :user_team_ids
 
         collection :user_teams do
           property :id
@@ -22,7 +25,7 @@ module API::V1
         #   property :message, as: :label
         # end
         #
-        # collection :recieved_assignments do
+        # collection :received_assignments do
         #   property :id
         #   property :message, as: :label
         # end

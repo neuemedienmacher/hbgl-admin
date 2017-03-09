@@ -1,0 +1,15 @@
+for_offer_translation_1:
+  id: 1
+  assignable_type: OfferTranslation
+  assignable_id: 1
+  creator_id: 1
+  receiver_id: 2
+  message: 'InitialFixtureAssignmentMessage'
+
+for_orga_translation_1:
+  id: 2
+  assignable_type: OrganizationTranslation
+  assignable_id: 1
+  creator_id: 2
+  receiver_id: 1
+  message: 'InitialFixtureAssignmentMessage'
