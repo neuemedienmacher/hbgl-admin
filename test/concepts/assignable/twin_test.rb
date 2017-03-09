@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative '../../test_helper'
 
-class TwinTest < ActiveSupport::TestCase
+class Assignable::TwinTest < ActiveSupport::TestCase
   let(:subject) { Assignable::Twin.new(offer_translations(:de)) }
   let(:faked_assignable) { OpenStruct.new(assignments: []) }
 

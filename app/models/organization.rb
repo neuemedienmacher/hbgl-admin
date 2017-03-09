@@ -10,15 +10,11 @@ class Organization < ActiveRecord::Base
   ).freeze
   # Admin specific methods
 
+  # Modules
+  include StateMachine
+
   # Concerns
   include Translations
-
-  # State Machine
-  aasm do
-    event :mark_as_done, success: :apply_mailings_logic! do
-      transitions from: :approved, to: :all_done
-    end
-  end
 
   # Search
   include PgSearch

@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 262763b1a7069eb092652ab5c50f26720919166a
+  revision: 9a221b0926de1240c3ec840a5dbfc00244d24fb7
   branch: feature/944-orgas-2
   specs:
     clarat_base (0.1.4)
@@ -93,7 +93,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    algoliasearch (1.12.6)
+    algoliasearch (1.12.7)
       httpclient (~> 2.8.3)
       json (>= 1.5.1)
     algoliasearch-rails (1.18.0)
