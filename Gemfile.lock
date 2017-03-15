@@ -559,8 +559,7 @@ GEM
     ruby_parser (3.8.3)
       sexp_processor (~> 4.1)
     rubyzip (1.2.0)
-    rufus-scheduler (3.3.4)
-      tzinfo
+    rufus-scheduler (3.2.2)
     safe_yaml (1.0.4)
     sanitize (4.4.0)
       crass (~> 1.0.2)
@@ -778,6 +777,7 @@ DEPENDENCIES
   roar!
   roar-jsonapi!
   rubocop
+  rufus-scheduler (= 3.2.2)
   shoulda
   sidekiq-cron (~> 0.4.0)
   simple_form
