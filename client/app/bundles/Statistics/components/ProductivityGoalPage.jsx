@@ -1,7 +1,7 @@
 import React from 'react'
 import BurnUpChartContainer from '../containers/BurnUpChartContainer'
 
-export default class ProductivityGoalPage extends React.Component {
+export default class StatisticChartPage extends React.Component {
   render() {
     return (
       <div className='jumbotron chart'>

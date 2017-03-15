@@ -11,7 +11,7 @@ class Organization < ActiveRecord::Base
   # Admin specific methods
 
   # Modules
-  include Organization::StateMachine
+  include StateMachine
 
   # Concerns
   include Translations

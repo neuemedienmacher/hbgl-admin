@@ -8,10 +8,10 @@ import GenericForm from '../../bundles/GenericForm/containers/Standalone'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
   from '../../bundles/Dashboard/containers/DashboardContainer'
-import ShowProductivityGoalContainer
-  from '../../bundles/ShowProductivityGoal/containers/ShowProductivityGoalContainer'
-import NewProductivityGoal
-  from '../../bundles/NewProductivityGoal/components/NewProductivityGoal'
+import ShowStatisticChart
+  from '../../bundles/ShowStatisticChart/containers/ShowStatisticChart'
+import NewStatisticChart
+  from '../../bundles/NewStatisticChart/components/NewStatisticChart'
 import NewAssignment
   from '../../bundles/NewAssignment/containers/NewAssignmentForm'
 // import NewOrganization
@@ -27,7 +27,7 @@ import OfferCreatedPage from '../../bundles/Statistics/components/OfferCreatedPa
 import OfferApprovedPage from '../../bundles/Statistics/components/OfferApprovedPage'
 import OrgaCreatedPage from '../../bundles/Statistics/components/OrgaCreatedPage'
 import OrgaApprovedPage from '../../bundles/Statistics/components/OrgaApprovedPage'
-import ProductivityGoalPage from '../../bundles/Statistics/components/ProductivityGoalPage'
+import StatisticChartPage from '../../bundles/Statistics/components/StatisticChartPage'
 import EditTranslation from
   '../../bundles/EditTranslation/containers/EditTranslation'
 
@@ -58,10 +58,11 @@ export default class Routes extends React.Component {
             <Route path=':id' component={Show} />
           </Route>
 
-          <Route path='productivity_goals'>
+          /*
+          <Route path='statistic_charts'>
             <IndexRoute component={Index}/>
-            <Route path='new' component={NewProductivityGoal} />
-            <Route path=':id' component={ShowProductivityGoalContainer} />
+            <Route path='new' component={NewStatisticChart} />
+            <Route path=':id' component={ShowStatisticChart} />
           </Route>
 
           <Route path='time_allocations'>
@@ -71,6 +72,7 @@ export default class Routes extends React.Component {
               component={TimeAllocationTableContainer}
             />
           </Route>
+          */
 
           <Route path='statistics' component={StatisticsLayout}>
             <IndexRoute component={Overview}/>

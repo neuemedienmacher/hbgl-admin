@@ -33,7 +33,7 @@ export default {
       ]
     },
 
-    productivity_goals: {
+    statistic_charts: {
       fields: [
         'id', 'title', 'ends_at', 'target_model', 'target_field_name'
       ],

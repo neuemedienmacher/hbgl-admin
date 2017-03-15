@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 6ac8c01a4f8779eb04cbbafad91d659088170e44
+  revision: 4cce5df85c7701a336f3252459ab583bf32f2bbb
   specs:
     clarat_base (0.1.4)
       aasm
@@ -21,7 +21,7 @@ GIT
       geocoder
       localeapp
       paper_trail
-      rails (>= 4.1.12)
+      rails (~> 4.2)
       rails-i18n
       rails-observers
       redcarpet
@@ -95,7 +95,7 @@ GEM
     algoliasearch (1.12.7)
       httpclient (~> 2.8.3)
       json (>= 1.5.1)
-    algoliasearch-rails (1.18.0)
+    algoliasearch-rails (1.19.1)
       algoliasearch (~> 1.12.4)
       json (>= 1.5.1)
     arel (6.0.4)

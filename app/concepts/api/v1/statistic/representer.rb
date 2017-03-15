@@ -3,7 +3,10 @@ module API::V1
   module Statistic
     module Representer
       class Show < API::V1::Default::Representer::Show
+        type :statistics
+
         property :topic
+        property :time_frame
         property :user_id
         property :date
         property :count

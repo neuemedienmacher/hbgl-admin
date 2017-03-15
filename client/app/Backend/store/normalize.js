@@ -13,8 +13,8 @@ const Schemas = new function() {
   this.filter = new Schema('filters', defaultOptions)
   this.filters = arrayOf(this.filter)
 
-  this.productivity_goal = new Schema('productivity_goals', defaultOptions)
-  this.productivity_goals = arrayOf(this.productivity_goal)
+  this.statistic_chart = new Schema('statistic_charts', defaultOptions)
+  this.statistic_charts = arrayOf(this.statistic_chart)
 
   this.statistic = new Schema('statistics', defaultOptions)
   this.statistics = arrayOf(this.statistic)

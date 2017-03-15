@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 module OperationTestUtils
   def with_params(params, additional_options)
+    current_user = (defined?(user) && user) || users(:researcher)
     [
       params,
-      {'current_user' => user || users(:researcher)}.merge(additional_options)
+      {'current_user' => current_user}.merge(additional_options)
     ]
   end
 
