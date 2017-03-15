@@ -9,7 +9,7 @@ class Offer < ActiveRecord::Base
     %(initialized approved expired checkup_process approval_process edit)
 
   # Modules
-  include SearchAlgolia, StateMachine
+  include SearchAlgolia, Offer::StateMachine
 
   # Concerns
   include Translations
