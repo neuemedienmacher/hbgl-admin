@@ -33,7 +33,7 @@ export default class Navigation extends React.Component {
         <Link to='/statistics/organization_approved' className='list-group-item'>
           Organisationen Approved
         </Link>
-        <Link to='/statistics/productivity_goals' className='list-group-item'>
+        <Link to='/statistics/statistic_charts' className='list-group-item'>
           Produktivitätsziele
         </Link>
         */}

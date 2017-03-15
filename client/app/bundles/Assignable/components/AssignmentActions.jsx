@@ -25,7 +25,7 @@ export default class AssignmentActions extends Component {
     const optionalUserSelection = action.userChoice ?
       <InputSet
         wrapperClassName='form-group' className='form-control'
-        label='an' type='select' attribute='reciever_id' options={users}
+        label='an' type='select' attribute='receiver_id' options={users}
       /> : null
 
     const optionalMessage = action.messageField ?

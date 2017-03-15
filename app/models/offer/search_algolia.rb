@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+require ClaratBase::Engine.root.join('app', 'models', 'offer')
 class Offer
   module SearchAlgolia
     extend ActiveSupport::Concern

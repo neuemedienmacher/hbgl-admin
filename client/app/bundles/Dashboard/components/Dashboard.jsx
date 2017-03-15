@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import OverviewPanel from '../containers/OverviewPanel'
+import PersonalStatisticCharts from '../containers/PersonalStatisticCharts'
 import ActualWaList from './ActualWaList'
 
 export default class Dashboard extends React.Component {
@@ -23,6 +24,7 @@ export default class Dashboard extends React.Component {
         <hr />
         {actualWa}
         <OverviewPanel />
+        <PersonalStatisticCharts />
       </div>
     )
   }

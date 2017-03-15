@@ -9,8 +9,11 @@ class Website < ActiveRecord::Base
   # Search
   include PgSearch
   pg_search_scope :search_everything,
-                  against: [ :id, :host ],
+                  against: [:id, :host],
                   using: { tsearch: { prefix: true } }
+
+  # Validation Hack
+  include ReformedValidationHack
 
   # Methods
 
@@ -23,12 +26,21 @@ class Website < ActiveRecord::Base
     splitted_url[2] = SimpleIDN.to_ascii(splitted_url[2])
     # decode and encode the rest (path) of the URL to be ascii conform
     splitted_url[3..splitted_url.length].each_with_index do |item, index|
-      splitted_url[index + 3] = URI.encode(URI.decode(item))
-      # hotfix for '#' => %23 ascii is wrong and leads to false positives
-      splitted_url[index + 3].gsub!('%23', '#')
+      # splitted_url[index + 3] = URI.encode(URI.decode(item))
+      # # hotfix for '#' => %23 ascii is wrong and leads to false positives
+      # splitted_url[index + 3].gsub!('%23', '#')
+      splitted_url[index + 3] = decode_encode_url_part(item)
     end
     # after replacement, just re-join the array again and append last / if
     # it was there before (removed by .split)
     splitted_url.join('/') + (url.last == '/' ? '/' : '')
+  end
+
+  private
+
+  def decode_encode_url_part item
+    encoded_decoded = URI.encode(URI.decode(item))
+    # hotfix for '#' => %23 ascii is wrong and leads to false positives
+    encoded_decoded.gsub('%23', '#')
   end
 end

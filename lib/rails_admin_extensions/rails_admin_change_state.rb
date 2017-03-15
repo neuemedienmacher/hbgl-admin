@@ -24,9 +24,9 @@ module RailsAdmin
         register_instance_option :controller do
           proc do
             old_state = @object.aasm_state
-            # INFO Hacky hack hack: allow forced state-change to checkup for invalid objects (e.g. expired offers are invalid)
-            if !@object.valid? && params[:event] == 'start_checkup_process'
-              @object.update_columns aasm_state: 'checkup_process'
+            # NOTE Hacky hack hack: allow forced state-change to checkup and edit for invalid objects (e.g. expired offers are invalid)
+            if !@object.valid? && %w(start_checkup_process return_to_editing).include?(params[:event])
+              @object.update_columns(aasm_state: params[:event] == 'return_to_editing' ? 'edit' : 'checkup_process')
               flash[:success] = t('.success')
               Statistic::CountHandler.record(
                 current_user, @object.class.name, 'aasm_state',
@@ -43,7 +43,10 @@ module RailsAdmin
               @object.errors.full_messages.each do |message|
                 error_message += '<br/>' + message
               end
+              # quite, rubocop.. we won't refactor this
+              # rubocop:disable OutputSafety
               flash[:error] = error_message.html_safe
+              # rubocop:enable OutputSafety
             end
 
             redirect_to :back

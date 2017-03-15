@@ -10,15 +10,11 @@ class Organization < ActiveRecord::Base
   ).freeze
   # Admin specific methods
 
+  # Modules
+  include Organization::StateMachine
+
   # Concerns
   include Translations
-
-  # State Machine
-  aasm do
-    event :mark_as_done, success: :apply_mailings_logic! do
-      transitions from: :approved, to: :all_done
-    end
-  end
 
   # Search
   include PgSearch
@@ -42,11 +38,19 @@ class Organization < ActiveRecord::Base
 
   def big_player?
     locations.count >= 10 || (locations.count >= 2 &&
-      offers.visible_in_frontend.where(encounter: 'personal').count >= 10 &&
-      BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?)
+      title_includes_at_least_one_big_player_search_term? &&
+      at_least_10_visible_in_frontend_personal_offers?)
   end
 
   private
+
+  def at_least_10_visible_in_frontend_personal_offers?
+    offers.visible_in_frontend.where(encounter: 'personal').count >= 10
+  end
+
+  def title_includes_at_least_one_big_player_search_term?
+    BIG_PLAYER_SEARCH_TERMS.map { |t| name.downcase.include?(t) }.any?
+  end
 
   # sets mailings but only if it's mailings='disabled' (other options are
   # chosen explicitly and stay the same). big_player Orgas get the apropriate

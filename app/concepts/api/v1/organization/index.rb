@@ -5,8 +5,6 @@ module API::V1
       def base_query
         ::Organization
       end
-
-      representer API::V1::Organization::Representer::Index
     end
   end
 end

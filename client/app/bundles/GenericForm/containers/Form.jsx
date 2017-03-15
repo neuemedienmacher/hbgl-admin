@@ -1,13 +1,12 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import formObjectSelect from '../lib/formObjectSelect'
 import addEntities from '../../../Backend/actions/addEntities'
-import UserTeamFormObject from '../forms/UserTeamFormObject'
-import DivisionFormObject from '../forms/DivisionFormObject'
 import Form from '../components/Form'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId } = ownProps
-  const formId = `GenericForm-${model + editId}`
+  const formId = `GenericForm-${model + (editId || '-new')}`
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
 
@@ -15,11 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     fields: {}
   }
 
-  const formObjectClass = formObjectFor(model)
-  const inputs = formObjectClass.properties.map(property => ({
-    attribute: property,
-    type: formObjectClass.formConfig[property].type
-  }))
+  const formObjectClass = formObjectSelect(model)
 
   let action = `/api/v1/${model}`
   let method = 'POST'
@@ -36,7 +31,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    inputs,
     seedData,
     action,
     method,
@@ -56,20 +50,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     }
   }
 })
-
-function formObjectFor(model) {
-  switch(model) {
-  case 'user_teams':
-    return UserTeamFormObject
-  case 'divisions':
-    return DivisionFormObject
-  default:
-    throw new Error(
-      `Please provide a configuring FormObject for ${model} if you want to
-      use the GenericForm bundle`
-    )
-  }
-}
 
 export default connect(
   mapStateToProps,

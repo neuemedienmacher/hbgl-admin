@@ -1,77 +1,9 @@
+# frozen_string_literal: true
 module API::V1
   module Assignment
-    class Create < Trailblazer::Operation
-      include Model
-      model ::Assignment, :create
-
-      include Trailblazer::Operation::Representer, Responder
+    class Create < ::Assignment::Create
+      extend Trailblazer::Operation::Representer::DSL
       representer API::V1::Assignment::Representer::Show
-
-      # more complex policy?!
-      include Trailblazer::Operation::Policy
-      policy ::AssignmentPolicy, :create?
-
-      contract do
-        property :assignable_id
-        property :assignable_type
-        property :assignable_field_type
-        property :creator_id
-        property :creator_team_id
-        property :reciever_id
-        property :reciever_team_id
-        property :message
-        property :parent_id
-        property :aasm_state
-        property :created_at
-        property :updated_at
-
-        # TODO: check if model instance exists!! here or somewhere else?!
-        validates :assignable_id, presence: true, numericality: true
-        validates :assignable_type, presence: true
-        # validates :assignable_field_type, presence: true
-        # uniqueness validation: make sure there is only one open assignment
-        # w/o a parent (base assignment) per assignable model & field
-        validates_uniqueness_of :assignable_id, scope: [:assignable_type, :assignable_field_type], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
-        validates_uniqueness_of :assignable_type, scope: [:assignable_id, :assignable_field_type], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
-        validates_uniqueness_of :assignable_field_type, scope: [:assignable_type, :assignable_id], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
-        # creator or creator_team must be present
-        validates :creator_id, presence: true, unless: :creator_team_id
-        validates :creator_team_id, presence: true, unless: :creator_id
-        # reciever or reciever_team must be present
-        validates :reciever_id, presence: true, unless: :reciever_team_id
-        validates :reciever_team_id, presence: true, unless: :reciever_id
-      end
-
-      def process(params)
-        close_open_assignments! params[:data][:attributes]
-        if validate(params[:json])
-          contract.save
-          assignable_side_effect!
-        else
-          raise "Assignment form has errors: #{contract.errors.full_messages}"
-        end
-      end
-
-      def close_open_assignments! attributes
-        type = attributes[:assignable_type]
-        id = attributes[:assignable_id]
-        ::Assignment.where(assignable_id: id).where(assignable_type: type)
-          .where(aasm_state: 'open').update_all aasm_state: 'closed'
-      end
-
-      def assignable_side_effect!
-        # When a Translation gets assigned to the SystemUser, it is always
-        # handled as edited by a human translator
-        if model.reciever_id == ::User.system_user.id &&
-           %(OfferTranslation OrganizationTranslation)
-            .include?(model.assignable_type) &&
-           model.assignable.possibly_outdated
-          # Always set this values on possibly_outdated translation when a new
-          # system-assignment was created for it
-          model.assignable
-            .update_columns(source: 'researcher', possibly_outdated: false)
-        end
-      end
     end
   end
 end

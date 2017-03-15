@@ -6,10 +6,13 @@ class Offer < ActiveRecord::Base
   has_paper_trail
 
   EDITABLE_IN_STATES =
-    %(initialized approved expired checkup_process approval_process).freeze
+    %(initialized approved expired checkup_process approval_process edit)
+
+  # Modules
+  include SearchAlgolia, Offer::StateMachine
 
   # Concerns
-  include SearchAlgolia, Translations
+  include Translations
 
   # Search
   include PgSearch

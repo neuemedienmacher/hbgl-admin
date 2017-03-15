@@ -103,27 +103,27 @@ function seedDataFor(action, entities, assignment, system_user, users) {
   let assignment_copy = clone(assignment)
   switch(action) {
   case 'assign_to_current_user':
-    assignment_copy.reciever_id = entities.current_user.id
+    assignment_copy.receiver_id = entities.current_user.id
     break
   case 'assign_someone_else':
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = entities.current_user.current_team_id
-    assignment_copy.reciever_id = users[0].value
-    assignment_copy.reciever_team_id = undefined
+    assignment_copy.receiver_id = users[0].value
+    assignment_copy.receiver_team_id = undefined
     assignment_copy.message = ''
     break
   case 'retrieve_assignment':
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = undefined
-    assignment_copy.reciever_id = entities.current_user.id
-    assignment_copy.reciever_team_id = entities.current_user.current_team_id
+    assignment_copy.receiver_id = entities.current_user.id
+    assignment_copy.receiver_team_id = entities.current_user.current_team_id
     assignment_copy.message = ''
     break
   case 'assign_to_system':
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = entities.current_user.current_team_id
-    assignment_copy.reciever_id = system_user.id
-    assignment_copy.reciever_team_id = undefined
+    assignment_copy.receiver_id = system_user.id
+    assignment_copy.receiver_team_id = undefined
     assignment_copy.message = 'Erledigt!'
     break
   }
@@ -131,9 +131,9 @@ function seedDataFor(action, entities, assignment, system_user, users) {
 }
 
 function involvementCount(assignments, userID) {
-  // Maybe only count one thing (creator or reciever)
+  // Maybe only count one thing (creator or receiver)
   let assignment_count = valuesIn(assignments).filter(assignment => (
-    assignment.creator_id == userID || assignment.reciever_id == userID
+    assignment.creator_id == userID || assignment.receiver_id == userID
   )).length
   return assignment_count
 }
