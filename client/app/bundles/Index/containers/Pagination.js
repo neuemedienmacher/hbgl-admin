@@ -9,7 +9,7 @@ import Pagination from '../components/Pagination'
 const mapStateToProps = (state, ownProps) => {
   const resultData = state.ajax.indexResults
   const pages = range(1, resultData.meta.total_pages + 1)
-  const current_page = resultData.meta.current_page
+  const currentPage = resultData.meta.current_page
   const paginationSize = 3
 
   // Remove the /api/v1 part from links to make it a ui route
@@ -20,13 +20,13 @@ const mapStateToProps = (state, ownProps) => {
 
   const pageScope = []
   for (var i = paginationSize + 1; i > 0; i--) {
-    if (current_page >= i){
-      pageScope.push(pages[current_page - i])
+    if (currentPage >= i){
+      pageScope.push(pages[currentPage - i])
     }
   }
   for (var i = 0; i < paginationSize; i++) {
-    if (current_page + i < pages.length ){
-      pageScope.push(pages[current_page + i])
+    if (currentPage + i < pages.length ){
+      pageScope.push(pages[currentPage + i])
     }
   }
 
@@ -34,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
     pages,
     previousPageHref,
     nextPageHref,
-    current_page,
+    currentPage,
     pageScope,
     paginationSize
   }

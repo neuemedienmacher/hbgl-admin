@@ -5,15 +5,16 @@ import PaginationCell from '../containers/PaginationCell'
 export default class Pagination extends Component {
   render() {
     const {
-      pages, previousPageHref, nextPageHref, model, params, current_page, jumpToPage, pageScope, paginationSize
+      pages, previousPageHref, nextPageHref, model, params, currentPage,
+      jumpToPage, pageScope, paginationSize
     } = this.props
 
     return (
       <div className='pagination'>
         <ul>
           {this.renderDirectionCell('left', 'previous', previousPageHref)}
-          {this.renderFirstPageLogic(current_page, model, params, pages, paginationSize)}
-          {this.renderFirstPageSeparator(current_page, jumpToPage, paginationSize)}
+          {this.renderFirstPageLogic(currentPage, model, params, pages, paginationSize)}
+          {this.renderFirstPageSeparator(currentPage, jumpToPage, paginationSize)}
           {pageScope.map(page => {
             return(
               <PaginationCell
@@ -21,16 +22,16 @@ export default class Pagination extends Component {
               />
             )
           })}
-          {this.renderLastPageSeparator(current_page, pages, jumpToPage, paginationSize)}
-          {this.renderLastPageLogic(current_page, model, params, pages, paginationSize)}
+          {this.renderLastPageSeparator(currentPage, pages, jumpToPage, paginationSize)}
+          {this.renderLastPageLogic(currentPage, model, params, pages, paginationSize)}
           {this.renderDirectionCell('right', 'next', nextPageHref)}
         </ul>
       </div>
     )
   }
 
-  renderFirstPageLogic(current_page, model, params, pages, paginationSize) {
-    if (current_page > paginationSize + 1) {
+  renderFirstPageLogic(currentPage, model, params, pages, paginationSize) {
+    if (currentPage > paginationSize + 1) {
       return(
         <PaginationCell
           key={pages[0]} page={pages[0]} model={model} params={params}
@@ -39,8 +40,8 @@ export default class Pagination extends Component {
     }
   }
 
-  renderFirstPageSeparator(current_page, jumpToPage, paginationSize) {
-    if (current_page > paginationSize + 1) {
+  renderFirstPageSeparator(currentPage, jumpToPage, paginationSize) {
+    if (currentPage > paginationSize + 1) {
       return(
         <li>
           <span onClick={jumpToPage}>...</span>
@@ -49,8 +50,8 @@ export default class Pagination extends Component {
     }
   }
 
-  renderLastPageSeparator(current_page, pages, jumpToPage, paginationSize) {
-    if (current_page < pages.length - paginationSize - 1) {
+  renderLastPageSeparator(currentPage, pages, jumpToPage, paginationSize) {
+    if (currentPage < pages.length - paginationSize - 1) {
       return(
         <li>
           <span onClick={jumpToPage}>...</span>
@@ -59,11 +60,12 @@ export default class Pagination extends Component {
     }
   }
 
-  renderLastPageLogic(current_page, model, params, pages, paginationSize) {
-    if (current_page < pages.length - paginationSize ) {
+  renderLastPageLogic(currentPage, model, params, pages, paginationSize) {
+    if (currentPage < pages.length - paginationSize ) {
       return(
         <PaginationCell
-          key={pages[pages.length - 1]} page={pages[pages.length - 1]} model={model} params={params}
+          key={pages[pages.length - 1]} page={pages[pages.length - 1]}
+          model={model} params={params}
         />
       )
     }
