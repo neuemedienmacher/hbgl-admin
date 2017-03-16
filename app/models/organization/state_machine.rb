@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require ClaratBase::Engine.root.join('app', 'models', 'organization')
+
 module Organization::StateMachine
   extend ActiveSupport::Concern
 

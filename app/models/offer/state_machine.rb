@@ -2,6 +2,8 @@
 # This module represents the entire offer state machine and should stay
 # together
 # rubocop:disable Metrics/ModuleLength
+require ClaratBase::Engine.root.join('app', 'models', 'offer')
+
 module Offer::StateMachine
   extend ActiveSupport::Concern
 
