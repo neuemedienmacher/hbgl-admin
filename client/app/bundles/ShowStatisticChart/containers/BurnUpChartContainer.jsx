@@ -39,6 +39,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     data,
+    lastGoalAmount: lastGoal.amount
   }
 }
 

@@ -8,6 +8,7 @@ export default class BurnUpChartView extends React.Component {
     return (
       <div className="chart BurnUpChartView">
         <BurnUpChart data={data} />
+        <h6>Jahresziel: {this.props.lastGoalAmount}</h6>
         <table className="table table-condensed">
           <thead>
             <tr>
