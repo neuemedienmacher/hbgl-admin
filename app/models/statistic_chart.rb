@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # Monkeypatch clarat_base StatisticChart
 require ClaratBase::Engine.root.join('app', 'models', 'statistic_chart')
+require_relative 'offer'
+require_relative 'organization'
 
 class StatisticChart < ActiveRecord::Base
   include PgSearch
