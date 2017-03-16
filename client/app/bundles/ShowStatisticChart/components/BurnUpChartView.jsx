@@ -25,7 +25,7 @@ export default class BurnUpChartView extends React.Component {
   }
 
   renderRow(point, index) {
-    console.log(point, index, this.previousPoint)
+    // console.log(point, index, this.previousPoint)
     if(index == 0) this.previousPoint = { y: 0 }
     if(this.previousPoint.y == point.y) return
     const difference = point.y - this.previousPoint.y
