@@ -18,6 +18,13 @@ module API::V1
           property :creator_team_id
           property :receiver_id
           property :receiver_team_id
+          property :assignable_id
+          property :assignable_type
+          property :assignable_field_type
+          property :aasm_state
+          property :parent_id
+          property :created_at
+          property :updated_at
         end
       end
 
