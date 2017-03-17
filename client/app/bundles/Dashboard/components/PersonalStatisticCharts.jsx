@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import BurnUpChartContainer from '../../ShowStatisticChart/containers/BurnUpChartContainer'
+import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
 export default class PersonalStatisticCharts extends Component {
   componentDidMount() {
@@ -12,12 +13,11 @@ export default class PersonalStatisticCharts extends Component {
     } = this.props
 
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title">Meine W&A Statistiken</h3>
-        </div>
-        <div className="panel-body">
-          {statisticCharts.map(chart => {
+      <CollapsiblePanel
+        title='Meine W&A Statistiken' identifier='statistic-charts'
+        visible={false}
+        content={
+          statisticCharts.map(chart => {
             return(
               <div key={chart.id} className="chart">
                 <h4>{chart.title}</h4>
@@ -25,9 +25,9 @@ export default class PersonalStatisticCharts extends Component {
                 <hr />
               </div>
             )
-          })}
-        </div>
-      </div>
+          })
+        }
+      />
     )
   }
 }
