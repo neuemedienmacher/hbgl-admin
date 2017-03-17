@@ -1,28 +1,43 @@
 # frozen_string_literal: true
+# Prepares a non-ActiveRecord export object.
+# Expects params like {model_fields: [:foo], users: [:name, :bar], comments: []}
 class Export::Create < Trailblazer::Operation
-  def model!(params)
-    object = params[:object_name].singularize.camelize.constantize
-    Export.new(object, GenericSortFilter.transform(object, params))
+  step :instantiate_model
+  step Policy::Pundit(ExportPolicy, :create?)
+  step :validate_and_sanitize_params
+  step :set_requested_fields
+
+  def instantiate_model(options, params:, **)
+    object = params[:object_name].classify.constantize
+    options['model'] =
+      Export.new(object, GenericSortFilter.transform(object, params[:export]))
   end
 
-  contract do
-    property :model_fields, virtual: true
+  def validate_and_sanitize_params(options, params:, model:, **)
+    validate_model_fields(options, params, model) &&
+      clean_empty_field_sets(options, params)
+  end
 
-    validate do |form| # TODO: doesn't validate association keys
-      forbidden_fields = (form.model_fields - model.allowed_fields)
-      next if forbidden_fields.empty?
-      errors.add(:base, "Forbidden fields provided: #{forbidden_fields}")
+  def validate_model_fields(options, params, model)
+    # TODO: doesn't validate association keys
+    forbidden_fields = params[:export][:model_fields] - model.allowed_fields
+    if forbidden_fields.empty?
+      true
+    else
+      options['result.message'] =
+        "Forbidden fields provided: #{forbidden_fields}"
+      false
     end
   end
 
-  def process(params)
+  def clean_empty_field_sets(options, params)
     # clean params of empty array entries
-    params[:export].keys.each do |key|
-      params[:export][key].reject!(&:empty?)
-    end
+    params[:export].reject! { |_key, value| value.empty? }
+    options['params'] = params
+    true
+  end
 
-    validate(params[:export]) do |form_object|
-      form_object.model.requested_fields = params[:export]
-    end
+  def set_requested_fields(options, params:, **)
+    options['model'].requested_fields = params[:export]
   end
 end

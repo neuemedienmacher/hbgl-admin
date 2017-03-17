@@ -40,7 +40,7 @@ function headingFor(model) {
     return 'Angebotsübersetzungen'
   case 'organization_translations':
     return 'Orga-Übersetzungen'
-  case 'productivity_goals':
+  case 'statistic_charts':
     return 'Produktivitätsziele'
   case 'user_teams':
     return 'Nutzer-Teams'

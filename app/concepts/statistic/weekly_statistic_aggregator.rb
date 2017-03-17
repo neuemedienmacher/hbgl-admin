@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # PORO that aggregates daily statistic for a given week and comp them into
 # weekly ones
 class Statistic::WeeklyStatisticAggregator
@@ -58,7 +59,7 @@ class Statistic::WeeklyStatisticAggregator
       model: key[1],
       field_name: key[2],
       field_start_value: key[3],
-      field_end_value: key[4],
+      field_end_value: key[4]
     }
   end
 

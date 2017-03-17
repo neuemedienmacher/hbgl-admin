@@ -1,4 +1,4 @@
-#require 'algolia/webmock' # general mocks
+# require 'algolia/webmock' # general mocks
 
 module AlgoliaStubber
   EMPTY_RESPONSE = <<-RESPONSE

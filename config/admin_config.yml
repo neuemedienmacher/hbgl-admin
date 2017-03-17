@@ -20,7 +20,7 @@ included_models:
   # - SectionFilter
   - OrganizationTranslation
   - OfferTranslation
-  # - ProductivityGoal
+  # - StatisticChart
   - UserTeam
   - User
   # - TimeAllocation
@@ -77,7 +77,7 @@ settings:
         - visible
       order: "created_at ASC"
     display_name: "name_de"
-  ProductivityGoal:
+  StatisticChart:
     list:
       fields:
         - title

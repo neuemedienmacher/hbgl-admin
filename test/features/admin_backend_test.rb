@@ -143,7 +143,7 @@ feature 'Admin Backend' do
       )
     end
 
-    scenario 'Set offer to dozing and reinitialize it afterwards' do
+    scenario 'Set offer completed, then edit and back to completed' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, organization: orga,
@@ -155,16 +155,20 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Schlafen legen', match: :first
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :dozing?
+      offer.reload.must_be :completed?
 
-      click_link 'Re-Initialisieren', match: :first
+      click_link 'Erneut bearbeiten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :initialized?
+      offer.reload.must_be :edit?
+
+      click_link 'Als komplett markieren', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :completed?
     end
 
-    scenario 'under_construction_pre state should work correctly on offer' do
+    scenario 'disapprove offer then edit and approve it again' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, organization: orga,
@@ -176,16 +180,36 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Webseite im Aufbau', match: :first
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :under_construction_pre?
+      offer.reload.must_be :completed?
 
-      click_link 'Re-Initialisieren', match: :first
+      click_link 'Approval starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :initialized?
+      offer.reload.must_be :approval_process?
+
+      click_link 'Disapprove', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :disapproved?
+
+      click_link 'Erneut bearbeiten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :edit?
+
+      click_link 'Als komplett markieren', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :completed?
+
+      click_link 'Approval starten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approval_process?
+
+      click_link 'Freischalten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approved?
     end
 
-    scenario 'under_construction_post state should work correctly on offer' do
+    scenario 'under_construction state should work correctly on offer' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, :approved, organization: orga,
@@ -199,7 +223,7 @@ feature 'Admin Backend' do
 
       click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :under_construction_post?
+      offer.reload.must_be :under_construction?
 
       click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
@@ -271,6 +295,36 @@ feature 'Admin Backend' do
       offer.reload.must_be :checkup_process?
     end
 
+    scenario 'edit-state must be possible for invalid offers' do
+      orga = organizations(:basic)
+      split_base = FactoryGirl.create(:split_base, organization: orga)
+      offer = FactoryGirl.create :offer, :approved, organization: orga,
+                                                    split_base: split_base
+
+      offer.valid?.must_equal true
+      visit rails_admin_path
+      click_link 'Angebote', match: :first
+
+      # simulate expired offer in other deactivation state (offer invalid)
+      offer.update_columns aasm_state: 'completed', expires_at: Time.zone.now - 1.day
+      offer.valid?.must_equal false
+
+      click_link 'Bearbeiten', match: :first
+      page.must_have_link 'Approval starten'
+
+      # transition to other state than 'checkup_process' is not allowed
+      click_link 'Approval starten', match: :first
+      page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
+      page.must_have_content 'nicht valide'
+      offer.reload.must_be :completed?
+
+      # transition to other 'edit' works
+      page.must_have_link 'Erneut bearbeiten'
+      click_link 'Erneut bearbeiten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :edit?
+    end
+
     scenario 'deactivate seasonal_pending offer and reactivate it afterwards' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
@@ -323,9 +377,9 @@ feature 'Admin Backend' do
       click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
-      orga.reload.must_be :under_construction_post?
+      orga.reload.must_be :under_construction?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback )
+        %w(organization_deactivated completed internal_feedback)
       )
 
       # make last offer invalid => should not be approved or in checkup but

@@ -40,18 +40,18 @@ export default class OverviewPanel extends Component {
           </ul>
           <div className="tab-content">
             <div id="menu1" className="tab-pane fade">
-              <AssignmentsContainer scope={'reciever'} item_id={user.id} />
+              <AssignmentsContainer scope={'receiver'} item_id={user.id} />
             </div>
             <div id="menu2" className="tab-pane fade in active">
               <AssignmentsContainer
-                scope={'reciever_team'} item_id={user.current_team_id}
+                scope={'receiver_team'} item_id={user.current_team_id}
               />
             </div>
             <div id="menu3" className="tab-pane fade">
               <AssignmentsContainer scope={'creator_open'} item_id={user.id} />
             </div>
             <div id="menu4" className="tab-pane fade">
-              <AssignmentsContainer scope={'reciever_closed'} item_id={user.id} />
+              <AssignmentsContainer scope={'receiver_closed'} item_id={user.id} />
             </div>
           </div>
         </div>

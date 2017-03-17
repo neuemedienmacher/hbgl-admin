@@ -15,7 +15,7 @@ export default class TableCell extends Component {
   }
 
   renderContent(content, contentType) {
-    if (!content) {
+    if (content == undefined) {
       return null
     }
     else{

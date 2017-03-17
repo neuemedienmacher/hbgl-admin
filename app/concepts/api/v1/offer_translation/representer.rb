@@ -31,10 +31,6 @@ module API::V1
       end
 
       class Index < Show
-        link :self, toplevel: true do
-          '//offer_translations'
-          # bowl_url(opts[:bowl], :page => current_page)
-        end
       end
     end
   end

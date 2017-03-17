@@ -5,8 +5,6 @@ module API::V1
       def base_query
         ::UserTeam
       end
-
-      representer API::V1::UserTeam::Representer::Show
     end
   end
 end

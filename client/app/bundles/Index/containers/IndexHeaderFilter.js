@@ -12,10 +12,10 @@ import IndexHeaderFilter from '../components/IndexHeaderFilter'
 const mapStateToProps = (state, ownProps) => {
   const model = ownProps.model
   const filterName =
-    ownProps.filter[0].substring(7, ownProps.filter[0].length - 1)
+    ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
   const filterValue = ownProps.filter[1]
   const fields = analyzeFields(settings.index[model].fields, model)
-  const operatorName = ownProps.params[`operator[${filterName}]`] || '='
+  const operatorName = ownProps.params[`operators[${filterName}]`] || '='
   const operators = settings.OPERATORS.map(operator => {
     return {
       value: operator,
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onFilterNameChange(event) {
     let params = omit(clone(ownProps.params), ownProps.filter[0])
     let newParam = {}
-    newParam[`filter[${event.target.value}]`] = ownProps.filter[1]
+    newParam[`filters[${event.target.value}]`] = ownProps.filter[1]
     params = merge(params, newParam)
     if(ownProps.uiKey){
       dispatch(setUiAction(ownProps.uiKey, params))
@@ -61,8 +61,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let newParam = {}
     let operator = event.target.value
     let filterName =
-        ownProps.filter[0].substring(7, ownProps.filter[0].length - 1)
-    newParam[`operator[${filterName}]`] = operator
+        ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
+    newParam[`operators[${filterName}]`] = operator
     params = merge(params, newParam)
 
     if(ownProps.uiKey){

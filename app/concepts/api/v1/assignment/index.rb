@@ -5,8 +5,6 @@ module API::V1
       def base_query
         ::Assignment
       end
-
-      representer API::V1::Assignment::Representer::Show
     end
   end
 end

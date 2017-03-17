@@ -1,9 +1,0 @@
-.pagination
-  ul
-    li.previous class=previous_disabled_class
-      = page_link(current_page, '', 'fui-arrow-left')
-    - (1..page_count).each do |humanized_page_number|
-      li class=page_active_class(humanized_page_number)
-        = page_link(humanized_page_number, humanized_page_number)
-    li.next class=next_disabled_class
-      = page_link((current_page + 2), '', 'fui-arrow-right')

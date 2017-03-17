@@ -54,14 +54,15 @@
     &.initialized { background-color: darkkhaki; }
     &.completed { background-color: darkseagreen; }
     &.approved { background-color: darkcyan; }
+    &.disapproved { background-color: darkorange; }
+    &.edit { background-color: darkkhaki; }
     &.expired { background-color: tomato; }
     &.internal_feedback { background-color: darkorange; }
     &.external_feedback { background-color: chocolate; }
     &.paused { background-color: grey; }
-    &.dozing { background-color: grey; }
     &.organization_deactivated { background-color: grey; }
     &.under_construction_pre { background-color: grey; }
-    &.under_construction_post { background-color: grey; }
+    &.under_construction { background-color: grey; }
     &.approval_process { background-color: darkcyan; }
     &.checkup_process { background-color: darkcyan; }
     &.website_unreachable { background-color: grey; }

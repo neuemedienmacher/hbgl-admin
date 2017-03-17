@@ -8,7 +8,7 @@ export default class AssignmentFormObject extends FormObject {
   static get properties() {
     return [
       'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
-      'reciever_id', 'reciever_team_id', 'message'
+      'receiver_id', 'receiver_team_id', 'message'
     ]
   }
 
