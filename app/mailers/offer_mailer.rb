@@ -35,7 +35,7 @@ class OfferMailer < ActionMailer::Base
     @utm_tagging_suffix = generate_utm_suffix usable_offers, 'AO'
     @vague_title = email.vague_contact_title?
     @mainly_portal = mainly_portal_offers? usable_offers
-    headers['X-SMTPAPI'] = { category: ['inform Offer', @section_suffix].to_json }.to_json
+    headers['X-SMTPAPI'] = { 'category': ['inform offer', @section_suffix] }.to_json
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -55,7 +55,7 @@ class OfferMailer < ActionMailer::Base
     @overview_href_suffix = "/organisationen/#{orga.slug || orga.id.to_s}"
     @utm_tagging_suffix = generate_utm_suffix orga.offers, 'GF'
     @subscribe_href = get_sub_or_unsub_href email, 'subscribe'
-    headers['X-SMTPAPI'] = { category: ['Orga inform'].to_json }.to_json
+    headers['X-SMTPAPI'] = { category: ['inform orga'].to_json }.to_json
     send_emails email, offers, :orga_inform, t('.subject')
   end
   # rubocop:enable Metrics/AbcSize
@@ -73,7 +73,7 @@ class OfferMailer < ActionMailer::Base
     @vague_title = email.vague_contact_title?
     @overview_href_suffix = "/emails/#{email.id}/angebote"
     @utm_tagging_suffix = generate_utm_suffix offers, 'AO', 'FU'
-    headers['X-SMTPAPI'] = { category: ['Newly approved Offer', @section_suffix].to_json }.to_json
+    headers['X-SMTPAPI'] = { category: ['newly approved offer', @section_suffix].to_json }.to_json
     send_emails email, offers, :newly_approved,
                 t('.subject', count: offers.count,
                               name: t(".clarat_name_subject.#{@section_suffix}"))
