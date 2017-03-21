@@ -5,9 +5,10 @@ import { scaleTime, scaleLinear } from 'd3-scale'
 import { line } from 'd3-shape'
 import { axisBottom, axisLeft } from 'd3-axis'
 import { max, extent } from 'd3-array'
-import { select } from 'd3-selection'
+import { select, selection, mouse } from 'd3-selection'
 import merge from 'lodash/merge'
 import cloneDeep from 'lodash/cloneDeep'
+import * as d3 from 'd3'
 
 export default class BurnUpChart extends React.Component {
   // static propTypes = {
@@ -63,14 +64,20 @@ export default class BurnUpChart extends React.Component {
       .scale(y)
 
     // Create in-memory DOM to construct the graph in
-    const node = ReactFauxDOM.createElement('svg')
+    const node = ReactFauxDOM.createElement('svg');
 
     // Add the SVG canvas
-    const svg = select(node)
+    const svg = d3.select(node)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .on('mouseover', (event) => {
+          if (actualData[d3.event.offsetX-51]) {
+          console.log(actualData[d3.event.offsetX-margin.left-1].y)
+          console.log(actualData[d3.event.offsetX-margin.left-1].x)
+          }
+        })
 
     // Scale the range of the data
     const xDomain = x.domain(extent(allData, function (d) { return d.x }))
@@ -156,4 +163,5 @@ export default class BurnUpChart extends React.Component {
 
     return node.toReact()
   }
+
 }
