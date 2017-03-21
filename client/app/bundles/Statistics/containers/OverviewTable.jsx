@@ -12,7 +12,8 @@ const ALL = 'all'
 
 const mapStateToProps = (state, ownProps) => {
   const stateKey = `statisticsOverview_${ownProps.model}`
-  const states = (state.ajax[stateKey] && state.ajax[stateKey].states) || []
+  const states =
+    (state.ajax[stateKey] && state.ajax[stateKey].data.attributes.states) || []
   const selectedCity = state.rform[stateKey] && state.rform[stateKey].city
   const data =
     (state.entities.count && state.entities.count[ownProps.model] &&
