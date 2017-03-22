@@ -148,8 +148,8 @@ class OfferMailer < ActionMailer::Base
 
   # Method to generate a custom utm-tag-suffix for the links in our mailings.
   # Includes information about the worlds, the offer-count of the mailing, the
-  # type and the reciever of the mailing.
-  def generate_utm_suffix offers, reciever_type, mailing_type = 'OB'
+  # type and the receiver of the mailing.
+  def generate_utm_suffix offers, receiver_type, mailing_type = 'OB'
     sections = offers.map { |o| o.section_filters.pluck(:identifier).flatten }.flatten.uniq
     first_char_of_sections = sections.map { |w| w.first.upcase }.sort.join
     offers_text =
@@ -159,7 +159,7 @@ class OfferMailer < ActionMailer::Base
         offers.count < 5 ? 'EP' : 'FP'
       end
     '?utm_source=Sendgrid&utm_medium=E-Mail&utm_campaign='\
-    "#{first_char_of_sections}_#{reciever_type}_#{offers_text}_#{mailing_type}"
+    "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
   end
 end
 # rubocop:enable Style/ClassLength
