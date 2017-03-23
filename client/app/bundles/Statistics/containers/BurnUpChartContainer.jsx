@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import BurnUpChart from '../components/BurnUpChart'
+import BurnUpChart from '../../StatisticsChartsAndData/components/BurnUpChart'
 
 const mapStateToProps = function(state, ownProps) {
   return {

@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import BurnUpChartContainer from '../../ShowStatisticChart/containers/BurnUpChartContainer'
+import StatisticsChartsAndData from '../../StatisticsChartsAndData/containers/StatisticsChartsAndData'
 
 export default class PersonalStatisticCharts extends Component {
   componentDidMount() {
@@ -21,7 +21,7 @@ export default class PersonalStatisticCharts extends Component {
             return(
               <div key={chart.id} className="chart">
                 <h4>{chart.title}</h4>
-                <BurnUpChartContainer statisticChart={chart} />
+                <StatisticsChartsAndData statisticChart={chart} />
                 <hr />
               </div>
             )

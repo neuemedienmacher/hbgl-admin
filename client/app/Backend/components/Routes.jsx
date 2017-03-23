@@ -9,7 +9,7 @@ import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
   from '../../bundles/Dashboard/containers/DashboardContainer'
 import ShowStatisticChart
-  from '../../bundles/ShowStatisticChart/containers/ShowStatisticChart'
+  from '../../bundles/StatisticsChartsAndData/containers/StatisticsChartsAndData'
 import NewStatisticChart
   from '../../bundles/NewStatisticChart/components/NewStatisticChart'
 import NewAssignment

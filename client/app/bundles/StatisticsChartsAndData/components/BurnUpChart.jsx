@@ -23,6 +23,8 @@ export default class BurnUpChart extends React.Component {
   // }
 
   render() {
+console.log(this.props)
+
     const data = cloneDeep(this.props.data)
 
     const actualData = data.actual
@@ -31,6 +33,11 @@ export default class BurnUpChart extends React.Component {
     const scopeData = data.scope
     // Scale Factor for scope of yAxis
     const graphHeightFactor = 1.1
+
+    const yValueCursorPosition = actualData[this.props.CursorOffsetX-1] ? actualData[this.props.CursorOffsetX-1].y : actualData[actualData.length -1].y
+    const lastDayValue = (this.props.CursorOffsetX>1) ? actualData[this.props.CursorOffsetX-2].y : 0
+    const dailyValueCursorPosition = actualData[this.props.CursorOffsetX-1] ? actualData[this.props.CursorOffsetX-1].y - lastDayValue : 0
+    const xValueCursorPosition = actualData[this.props.CursorOffsetX-1] ? actualData[this.props.CursorOffsetX-1].x : actualData[actualData.length -1].x
 
     // Parse the date, normalize Y
     const parseDate = timeParse('%Y-%m-%d')
@@ -73,9 +80,8 @@ export default class BurnUpChart extends React.Component {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .on('mouseover', (event) => {
-          if (actualData[d3.event.offsetX-51]) {
-          console.log(actualData[d3.event.offsetX-margin.left-1].y)
-          console.log(actualData[d3.event.offsetX-margin.left-1].x)
+          if (actualData[d3.event.offsetX-margin.left-1]) {
+          this.props.handleMousePosition(d3.event.offsetX-margin.left-1, this.props.chartId)
           }
         })
 
@@ -121,6 +127,33 @@ export default class BurnUpChart extends React.Component {
       .attr('dy', '.71em')
       .text('Deadline')
 
+    const mouseCursorData = svg.append('g')
+      .attr('class', 'cursor_value')
+
+    mouseCursorData.append('text')
+      .attr('x', x(idealData[1].x) - 100)
+      .attr('y', height - 60)
+      .attr('dy', '.71em')
+      .text('Datum:' + this.props.chartId)
+
+    mouseCursorData.append('text')
+      .attr('x', x(idealData[1].x) - 100)
+      .attr('y', height - 50)
+      .attr('dy', '.71em')
+      .text(xValueCursorPosition)
+
+    mouseCursorData.append('text')
+      .attr('x', x(idealData[1].x) - 100)
+      .attr('y', height - 40)
+      .attr('dy', '.71em')
+      .text('Tagesergebnis: ' + dailyValueCursorPosition)
+
+    mouseCursorData.append('text')
+      .attr('x', x(idealData[1].x) - 100)
+      .attr('y', height - 30)
+      .attr('dy', '.71em')
+      .text('Gesamtergebnis: ' + yValueCursorPosition)
+
     // Add ideal line
     const idealLine = line()
       .x(function(d) { return x(d.x) })
@@ -163,5 +196,6 @@ export default class BurnUpChart extends React.Component {
 
     return node.toReact()
   }
-
+  _renderAdditionalObjectButton(hasSubmodelForm, clickHandler) {
+  }
 }
