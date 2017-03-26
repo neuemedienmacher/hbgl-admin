@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ModuleLength
 module GenericSortFilter
   def self.transform(base_query, params)
     query = ensure_query(base_query)
@@ -47,28 +48,45 @@ module GenericSortFilter
     query.order(sort_string)
   end
 
-  # rubocop:disable Metrics/AbcSize
   def self.transform_by_filtering(query, params)
     return query unless params[:filters]
     params[:filters].each do |filter, value|
       next if value.empty?
-      # transform table names (before a .) in case of association name mismatch
-      filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
-      filter_string = filter_key.to_s
-      # append operator
-      operator = process_operator(params[:operators], filter, value)
-      filter_string += ' ' + operator
-      # append value
-      new_value = transform_value(value, filter, query)
-      filter_string += ' ' + new_value
-      # append optional addition
-      filter_string += optional_query_addition(operator, new_value, filter_key)
 
-      query = query.where(filter_string)
+      # convert value to array for streamlined processing
+      singular_or_multiple_values = value.is_a?(Array) ? value : [value]
+      # build query strings to every array entry (only one for simple filters)
+      filter_strings = singular_or_multiple_values.map do |singular_value|
+        build_singular_filter_query(query, params, filter, singular_value)
+      end
+
+      query = query.where(filter_strings.join(join_operator(params, filter)))
     end
     query
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def self.join_operator(params, filter)
+    if !params[:operators] || !params[:operators][filter] ||
+       params[:operators][filter] == '='
+      ' OR '
+    else
+      ' AND '
+    end
+  end
+
+  def self.build_singular_filter_query(query, params, filter, value)
+    # transform table names (before a .) in case of association name mismatch
+    filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
+    filter_string = filter_key.to_s
+    # append operator
+    operator = process_operator(params[:operators], filter, value)
+    filter_string += ' ' + operator
+    # append value
+    new_value = transform_value(value, filter, query)
+    filter_string += ' ' + new_value
+    # append optional addition
+    filter_string + optional_query_addition(operator, new_value, filter_key)
+  end
 
   def self.joined_table_name_for(query, filter)
     split_filter = filter.split('.')
@@ -130,3 +148,4 @@ module GenericSortFilter
     string.classify == query.model.name
   end
 end
+# rubocop:enable Metrics/ModuleLength

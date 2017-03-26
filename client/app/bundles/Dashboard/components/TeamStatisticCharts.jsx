@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react'
-import BurnUpChartContainer from '../../ShowStatisticChart/containers/BurnUpChartContainer'
+import BurnDownChartContainer from '../../ShowStatisticChart/containers/BurnDownChartContainer'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
-export default class PersonalStatisticCharts extends Component {
+export default class TeamStatisticCharts extends Component {
   componentDidMount() {
     this.props.loadData()
   }
@@ -14,14 +14,14 @@ export default class PersonalStatisticCharts extends Component {
 
     return (
       <CollapsiblePanel
-        title='Meine W&A Statistiken' identifier='personal-statistic-charts'
-        visible={false}
+        title='Team W&A Statistiken' identifier='team-statistic-charts'
+        visible={true}
         content={
           statisticCharts.map(chart => {
             return(
               <div key={chart.id} className="chart">
                 <h4>{chart.title}</h4>
-                <BurnUpChartContainer statisticChart={chart} />
+                <BurnDownChartContainer statisticChart={chart} />
                 <hr />
               </div>
             )

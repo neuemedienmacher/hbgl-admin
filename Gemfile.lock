@@ -55,7 +55,8 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.11.1)
+    aasm (4.12.0)
+      concurrent-ruby (~> 1.0)
     actionmailer (4.2.8)
       actionpack (= 4.2.8)
       actionview (= 4.2.8)
@@ -145,7 +146,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.4.0)
+    closure_tree (6.5.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.7)
@@ -266,7 +267,7 @@ GEM
       httparty
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
-    gli (2.15.0)
+    gli (2.16.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     haml (4.0.7)
