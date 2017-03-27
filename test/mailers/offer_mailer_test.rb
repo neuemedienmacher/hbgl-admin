@@ -31,8 +31,10 @@ describe OfferMailer do
     subject { OfferMailer.inform_offer_context email }
     before { contact_person }
 
-    it 'must deliver and create offer_mailings' do
+    it 'must deliver and create offer_mailings with x-smtpapi header' do
       email.expects(:create_offer_mailings)
+      subject.header['X-SMTPAPI'].value.must_include 'inform offer'
+      subject.header['X-SMTPAPI'].value.must_include offer.section_filters.pluck(:identifier).first
       subject.must deliver_to 'foo@bar.baz'
       subject.must have_body_text 'clarat'
       subject.must have_body_text '/subscribe'
@@ -120,9 +122,10 @@ describe OfferMailer do
     subject { OfferMailer.inform_organization_context email }
     before { contact_person }
 
-    it 'must deliver and create orga_mailings' do
+    it 'must deliver and create orga_mailings with x-smtpapi header' do
       subject.must deliver_to 'foo@bar.baz'
       subject.must have_body_text 'clarat'
+      subject.header['X-SMTPAPI'].value.must_include 'inform orga'
     end
 
     describe 'for a genderless contact person without a name' do
@@ -192,9 +195,11 @@ describe OfferMailer do
     describe 'for a single offer' do
       let(:offerArray) { [offer] }
 
-      it 'must deliver and create offer_mailings' do
+      it 'must deliver and create offer_mailings with x-smtpapi header' do
         email.expects(:create_offer_mailings)
         subject.must deliver_to email.address
+        subject.header['X-SMTPAPI'].value.must_include 'newly approved offer'
+        subject.header['X-SMTPAPI'].value.must_include offer.section_filters.pluck(:identifier).first
         subject.must have_subject "clarat #{offer.section_filters.pluck(:identifier).first} – Ihr neues Angebot"
         subject.must have_body_text 'ein neues Angebot'
         subject.must have_body_text '/unsubscribe/'

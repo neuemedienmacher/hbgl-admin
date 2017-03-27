@@ -168,20 +168,22 @@ User.find_each do |user|
                                     starts_at: Date.new(2017,1,1)
  sc2.statistic_transitions = [stca, staa, stcs, stas]
  sc2.statistic_goals = [sg2]
+end
 
- date_start = Date.new(2017,1,1)
- 10.times do
-   FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
-                      user_id: user.id, model: 'Offer',
-                      field_name: 'aasm_state', field_start_value:'initialized',
-                      field_end_value:'completed'
-   FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
-                      user_id: user.id, model: 'Offer',
-                      field_name: 'aasm_state',
-                      field_start_value:'approval_process',
-                      field_end_value:'approved'
-   date_start = date_start + rand(1..3).day
- end
+team.users.find_each do |member|
+  date_start = Date.new(2017,1,1)
+  10.times do
+    FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
+                       user_id: member.id, model: 'Offer',
+                       field_name: 'aasm_state', field_start_value:'initialized',
+                       field_end_value:'completed'
+    FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
+                       user_id: member.id, model: 'Offer',
+                       field_name: 'aasm_state',
+                       field_start_value:'approval_process',
+                       field_end_value:'approved'
+    date_start = date_start + rand(1..3).day
+  end
 end
 # A few test statistics
 
