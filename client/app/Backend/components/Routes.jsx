@@ -27,7 +27,7 @@ import OfferCreatedPage from '../../bundles/Statistics/components/OfferCreatedPa
 import OfferApprovedPage from '../../bundles/Statistics/components/OfferApprovedPage'
 import OrgaCreatedPage from '../../bundles/Statistics/components/OrgaCreatedPage'
 import OrgaApprovedPage from '../../bundles/Statistics/components/OrgaApprovedPage'
-import StatisticChartPage from '../../bundles/Statistics/components/StatisticChartPage'
+// import StatisticChartPage from '../../bundles/Statistics/components/StatisticChartPage'
 import EditTranslation from
   '../../bundles/EditTranslation/containers/EditTranslation'
 
