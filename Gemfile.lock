@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 4cce5df85c7701a336f3252459ab583bf32f2bbb
+  revision: dddbb5ff223e983db310d211c6536fbd7e91e82d
   specs:
     clarat_base (0.1.4)
       aasm
@@ -55,7 +55,8 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.11.1)
+    aasm (4.12.0)
+      concurrent-ruby (~> 1.0)
     actionmailer (4.2.8)
       actionpack (= 4.2.8)
       actionview (= 4.2.8)
@@ -145,7 +146,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.4.0)
+    closure_tree (6.5.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.7)
@@ -266,7 +267,7 @@ GEM
       httparty
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
-    gli (2.15.0)
+    gli (2.16.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -636,7 +637,7 @@ GEM
     thor (0.19.4)
     thread (0.2.2)
     thread_safe (0.3.6)
-    tilt (2.0.6)
+    tilt (2.0.7)
     timecop (0.8.1)
     tins (1.13.0)
     trailblazer (2.0.0)
@@ -655,7 +656,7 @@ GEM
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0.beta1, < 2.1.0)
       trailblazer-loader (>= 0.1.0)
-    tzinfo (1.2.2)
+    tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uber (0.1.0)
     uglifier (3.0.4)

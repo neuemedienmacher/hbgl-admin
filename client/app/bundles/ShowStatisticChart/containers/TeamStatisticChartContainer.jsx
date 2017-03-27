@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import moment from 'moment'
 import valuesIn from 'lodash/valuesIn'
+import sizeOf from 'lodash/size'
 import { getTimePointsBetween } from '../../../lib/timeUtils'
-import { getAllocationForWeekAndUser } from '../../../lib/timeAllocations'
 import BurnUpChartView from '../components/BurnUpChartView'
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,13 +14,13 @@ const mapStateToProps = (state, ownProps) => {
   const relevantStatistics =
     collectRelevantData(state.entities, 'statistics', chart, relevantTransitions)
 
-  const sortedGoals = relevantGoals.sort(
-    (a, b) => +(a.starts_at > b.starts_at) || +(a.starts_at === b.starts_at)-1
-  )
-  const lastGoal = sortedGoals[sortedGoals.length - 1]
+  const teamGoal = {
+    starts_at: relevantGoals[0].starts_at, // NOTE: we assume this is the same for all goals!
+    amount: relevantGoals.map(goal => goal.amount).reduce((a, b) => a + b, 0)
+  }
 
   const actualData = aggregateActualPoints(relevantStatistics, chart)
-  const scopeData = aggregateScopePoints(sortedGoals, chart)
+  const scopeData = aggregateScopePoints([teamGoal], chart)
 
   const data = {
     actual: actualData,
@@ -29,17 +29,13 @@ const mapStateToProps = (state, ownProps) => {
     ideal: [{
       x: chart.starts_at, y: 0,
     }, {
-      x: chart.ends_at, y: lastGoal.amount,
+      x: chart.ends_at, y: teamGoal.amount,
     }],
-    //
-    // projection: aggregateProjectionPoints(
-    //   chart, lastActualPoint, allTimeAllocations, allUsers, allStatistics
-    // ),
   }
 
   return {
     data,
-    lastGoalAmount: lastGoal.amount
+    lastGoalAmount: teamGoal.amount
   }
 }
 
@@ -82,78 +78,6 @@ function aggregateScopePoints(goals, chart) {
   return points
 }
 
-// function aggregateProjectionPoints(
-//   chart, lastActualPoint, time_allocations, users, statistics
-// ) {
-//   const usersCurrentlyInTeam = users.filter(user =>
-//     user.user_team_ids.includes(chart.user_team_id)
-//   )
-//   const expectedHourlyGoalReachCount = usersCurrentlyInTeam.map(user =>
-//     averageWeeklyGoalsReachedForUser(user.id, statistics)
-//   ).reduce((pv, cv) => { return pv + cv }, 0)
-//
-//   let projectionData = [lastActualPoint]
-//   let lastCount = lastActualPoint.y
-//   let week = moment().startOf('week')
-//   let goalReachedInProjection = false
-//   let iterationCounter = 0
-//
-//   while (!goalReachedInProjection) {
-//     // prepare point from given data
-//     let endOfWeek = week.day(5).format('YYYY-MM-DD') // next Friday
-//     let hoursAvailableForTeamInWeek =
-//       availableHoursForUsersInWeek(week, usersCurrentlyInTeam, time_allocations)
-//     let expectedCountForWeek =
-//       expectedHourlyGoalReachCount * hoursAvailableForTeamInWeek
-//     let expectedEndOfWeekCount = lastCount + expectedCountForWeek
-//
-//     // limit point to chart max
-//     if (expectedEndOfWeekCount >= chart.target_count) {
-//       expectedEndOfWeekCount = chart.target_count
-//       goalReachedInProjection = true
-//     }
-//
-//     // commit point
-//     projectionData.push({
-//       x: endOfWeek, y: expectedEndOfWeekCount
-//     })
-//
-//     // continue or abort iteration
-//     lastCount = expectedEndOfWeekCount
-//     week.add(1, 'week')
-//     if (iterationCounter >= 20) {
-//       break // Endless recursion protection
-//     } else {
-//       iterationCounter += 1
-//     }
-//   }
-//
-//   return projectionData
-// }
-//
-// function averageWeeklyGoalsReachedForUser(user_id, statistics) {
-//   const pastWeeklyUserStatistics = statistics.filter((statistic) =>
-//     statistic.user_id == user_id && statistic.time_frame == 'weekly'
-//   )
-//
-//   const allHourlyGoalsReached = pastWeeklyUserStatistics.reduce((cv, pv) => {
-//     return cv + pv.count
-//   }, 0)
-//
-//   return allHourlyGoalsReached / pastWeeklyUserStatistics.length
-// }
-//
-// function availableHoursForUsersInWeek(
-//   week, usersCurrentlyInTeam, time_allocations
-// ) {
-//   return usersCurrentlyInTeam.map(user => {
-//     const [_e, _h, allocation] = getAllocationForWeekAndUser(
-//       time_allocations, week.week(), week.year(), user.id
-//     )
-//     return allocation.desired_wa_hours
-//   }).reduce((cv, pv) => { return cv + pv }, 0)
-// }
-
 function collectRelevantData(entities, type, ...additionalArgs) {
   const allEntities = valuesIn(entities[type])
   if (!allEntities) return []
@@ -177,7 +101,7 @@ function filterStatistics(chart, transitions) {
     })
     return(
       stat.time_frame == 'daily' &&
-        stat.user_id == chart.user_id &&
+        chart.user_ids.includes(stat.user_id) &&
         matchingTransitions.length
     )
   }
