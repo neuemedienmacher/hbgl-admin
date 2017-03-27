@@ -34,9 +34,8 @@ class Organization < ActiveRecord::Base
   private
 
   # sets mailings but only if it's mailings='disabled' (other options are
-  # chosen explicitly and stay the same). big_player Orgas get the apropriate
-  # option and an AsanaTask is created while other orgas get mailings=enabled
+  # chosen explicitly and stay the same)
   def enable_mailings!
-    self.update_columns mailings: 'enabled' unless self.mailings == 'force_disabled'
+    self.update_columns mailings: 'enabled' unless mailings == 'force_disabled'
   end
 end
