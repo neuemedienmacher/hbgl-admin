@@ -23,8 +23,6 @@ export default class BurnUpChart extends React.Component {
   // }
 
   render() {
-console.log(this.props)
-
     const data = cloneDeep(this.props.data)
 
     const actualData = data.actual
@@ -34,10 +32,17 @@ console.log(this.props)
     // Scale Factor for scope of yAxis
     const graphHeightFactor = 1.1
 
-    const yValueCursorPosition = actualData[this.props.CursorOffsetX-1] ? actualData[this.props.CursorOffsetX-1].y : actualData[actualData.length -1].y
-    const lastDayValue = (this.props.CursorOffsetX>1) ? actualData[this.props.CursorOffsetX-2].y : 0
-    const dailyValueCursorPosition = actualData[this.props.CursorOffsetX-1] ? actualData[this.props.CursorOffsetX-1].y - lastDayValue : 0
-    const xValueCursorPosition = actualData[this.props.CursorOffsetX-1] ? actualData[this.props.CursorOffsetX-1].x : actualData[actualData.length -1].x
+    const yValueCursorPosition = actualData[this.props.CursorOffsetX-1] ?
+                                 actualData[this.props.CursorOffsetX-1].y :
+                                 actualData[actualData.length -1].y
+    const lastDayValue = (this.props.CursorOffsetX>1) ?
+                         actualData[this.props.CursorOffsetX-2].y : 0
+    const dailyValueCursorPosition = actualData[this.props.CursorOffsetX-1] ?
+                                     actualData[this.props.CursorOffsetX-1].y -
+                                     lastDayValue : 0
+    const xValueCursorPosition = actualData[this.props.CursorOffsetX-1] ?
+                                 actualData[this.props.CursorOffsetX-1].x :
+                                 actualData[actualData.length -1].x
 
     // Parse the date, normalize Y
     const parseDate = timeParse('%Y-%m-%d')
@@ -81,7 +86,8 @@ console.log(this.props)
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .on('mouseover', (event) => {
           if (actualData[d3.event.offsetX-margin.left-1]) {
-          this.props.handleMousePosition(d3.event.offsetX-margin.left-1, this.props.chartId)
+          this.props.handleMousePosition(d3.event.offsetX-margin.left-1,
+                                        this.props.chartId)
           }
         })
 
@@ -134,7 +140,7 @@ console.log(this.props)
       .attr('x', x(idealData[1].x) - 100)
       .attr('y', height - 60)
       .attr('dy', '.71em')
-      .text('Datum:' + this.props.chartId)
+      .text('Datum:')
 
     mouseCursorData.append('text')
       .attr('x', x(idealData[1].x) - 100)
@@ -195,7 +201,5 @@ console.log(this.props)
     //   .attr('d', projectionLine)
 
     return node.toReact()
-  }
-  _renderAdditionalObjectButton(hasSubmodelForm, clickHandler) {
   }
 }
