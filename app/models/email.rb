@@ -81,7 +81,6 @@ class Email < ActiveRecord::Base
 
   def informable_orga? orga
     orga.aasm_state == 'all_done' && orga.mailings_enabled? &&
-      !orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?).empty? &&
-      !orga.big_player?
+      !orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?).empty?
   end
 end
