@@ -24,11 +24,10 @@ export default class Dashboard extends React.Component {
         <h1>Dashboard</h1>
         <hr />
         {actualWa}
+        <OverviewPanel />
         <PersonalStatisticCharts />
         <TeamStatisticCharts />
       </div>
     )
   }
 }
-
-// <OverviewPanel />

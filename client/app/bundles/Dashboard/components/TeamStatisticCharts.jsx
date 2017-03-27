@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import BurnDownChartContainer from '../../ShowStatisticChart/containers/BurnDownChartContainer'
+import TeamStatisticChartContainer from '../../ShowStatisticChart/containers/TeamStatisticChartContainer'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
 export default class TeamStatisticCharts extends Component {
@@ -15,13 +15,13 @@ export default class TeamStatisticCharts extends Component {
     return (
       <CollapsiblePanel
         title='Team W&A Statistiken' identifier='team-statistic-charts'
-        visible={true}
+        visible={false}
         content={
           statisticCharts.map(chart => {
             return(
               <div key={chart.id} className="chart">
                 <h4>{chart.title}</h4>
-                <BurnDownChartContainer statisticChart={chart} />
+                <TeamStatisticChartContainer statisticChart={chart} />
                 <hr />
               </div>
             )
