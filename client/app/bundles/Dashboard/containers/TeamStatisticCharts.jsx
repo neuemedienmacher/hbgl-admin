@@ -4,13 +4,11 @@ import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import TeamStatisticCharts from '../components/TeamStatisticCharts'
 
 const mapStateToProps = (state, ownProps) => {
-  let chartNames = ['Completion 2017', 'Approval 2017'] // TODO: change to enum
+  let chartNames = ['completion', 'approval']
   const currentTeam =
     state.entities.user_teams[state.entities.current_user.current_team_id]
   const statisticCharts =
     buildAggregatedStatisticCharts(state.entities, currentTeam, chartNames)
-
-  // console.log(statisticCharts)
 
   return {
     currentTeam,
@@ -30,11 +28,14 @@ function buildAggregatedStatisticCharts(entities, currentTeam, chartNames) {
     let lastGoalIdsOfUserCharts = chartsOfTeamMembers.map(chart => {
       return chart.statistic_goal_ids[chart.statistic_goal_ids.length - 1]
     })
+    // NOTE: we assume that this is the same for all user_charts
+    let start_date = chartsOfTeamMembers[0].starts_at
+    let end_date = chartsOfTeamMembers[0].ends_at
     aggregatedStatisticCharts.push({
       id: chartsOfTeamMembers[0].id, // NOTE: only used for key attribute - has to be uniq
-      title: chartName,
-      starts_at: chartsOfTeamMembers[0].starts_at, // NOTE: we assume that this is the same for all user_charts
-      ends_at: chartsOfTeamMembers[0].ends_at,// NOTE: we assume that this is the same for all user_charts
+      title: `${chartName} ${start_date.substr(0,4)} (${currentTeam.name})`,
+      starts_at: start_date,
+      ends_at: end_date,
       user_ids: currentTeam.user_ids,
       statistic_goal_ids: lastGoalIdsOfUserCharts,
       statistic_transition_ids: chartsOfTeamMembers[0].statistic_transition_ids // NOTE: we assume that these are the same for all user_charts

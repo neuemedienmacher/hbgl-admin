@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 FactoryGirl.define do
   factory :statistic_chart do
-    title 'Factory Goal'
+    title 'approval'
     starts_at { Date.current }
     ends_at { starts_at + 1.week }
     # target_model { StatisticChart::TARGET_MODELS.sample }

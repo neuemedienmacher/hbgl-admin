@@ -14,6 +14,8 @@ admin = User.create! email: 'admin@admin.com', password: 'password',
 team = UserTeam.create! name: 'The Experts'
 team.users << user
 team.users << admin
+user.update_columns current_team_id: team.id
+admin.update_columns current_team_id: team.id
 
 family = SectionFilter.create name: 'Family', identifier: 'family'
 refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'
@@ -150,9 +152,9 @@ staa = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
                                                 end_value: 'approved'},
                                                 current_user: User.system_user
                                               )['model']
-
-User.find_each do |user|
- sc1 = StatisticChart.create title: "Completion 2017",
+# create charts for admin and researcher user
+User.first(2).each do |user|
+ sc1 = StatisticChart.create title: "completion",
                              starts_at: Date.new(2017,1,1),
                              ends_at: Date.new(2017,12,31), user_id: user.id
  sg1 = StatisticGoal.create amount: rand(300..1000),
@@ -160,7 +162,7 @@ User.find_each do |user|
  sc1.statistic_transitions = [stic, stcc]
  sc1.statistic_goals = [sg1]
 
- sc2 = StatisticChart.create title: "Approval 2017",
+ sc2 = StatisticChart.create title: "approval",
                                     starts_at: Date.new(2017,1,1),
                                     ends_at: Date.new(2017,12,31),
                                     user_id: user.id
