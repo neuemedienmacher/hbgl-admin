@@ -8,8 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: d0cd635f56c243a77688105c16f1b991709e6dea
-  branch: feature/1064-team-goal-views
+  revision: dddbb5ff223e983db310d211c6536fbd7e91e82d
   specs:
     clarat_base (0.1.4)
       aasm
