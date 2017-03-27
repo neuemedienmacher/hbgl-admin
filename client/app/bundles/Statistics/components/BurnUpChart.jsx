@@ -135,16 +135,16 @@ export default class BurnUpChart extends React.Component {
       .attr('d', actualLine)
 
     // Add scope line
-    // const scopeLine = line()
-    //   .x(function(d) { return x(d.x) })
-    //   .y(function(d) { return y(d.y) })
-    //
-    // svg.append('path')
-    //   .datum(scopeData)
-    //   .attr('class', 'line scope')
-    //   .attr('d', scopeLine)
+    const scopeLine = line()
+      .x(function(d) { return x(d.x) })
+      .y(function(d) { return y(d.y) })
 
-    // // Add projection line
+    svg.append('path')
+      .datum(scopeData)
+      .attr('class', 'line scope')
+      .attr('d', scopeLine)
+
+    // Add projection line
     // const projectionLine = line()
     //   .x(function(d) { return x(d.x) })
     //   .y(function(d) { return y(d.y) })

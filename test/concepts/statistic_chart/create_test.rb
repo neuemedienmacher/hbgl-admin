@@ -11,7 +11,7 @@ class StatisticChartCreateTest < ActiveSupport::TestCase
   let(:orga) { organizations(:basic) }
   let(:basic_params) do
     {
-      title: 'NewStatisticChart',
+      title: 'approval',
       starts_at: Time.zone.now,
       ends_at: Time.zone.now + 1.week,
       # klass_name: 'Offer',
