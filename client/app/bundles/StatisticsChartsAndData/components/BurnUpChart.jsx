@@ -36,14 +36,8 @@ export default class BurnUpChart extends React.Component {
 
 
     // Scale the range of the data
-    const xDomain = x.domain(extent(allData, function (d) { return d.x }))
-    const yDomain = y.domain([
-      0,
-      Math.round(Math.max(
-        max(actualData, function (d) { return d.y }),
-        max(scopeData, function (d) { return d.y })
-      ) * graphHeightFactor)
-    ])
+    const xDomain = x.domain(extent(allData, (d) => d.x))
+    const yDomain = y.domain([0, max(allData, (d) => d.y) * graphHeightFactor])
 
     // Add the axes
     svg.append('g')
@@ -68,7 +62,7 @@ export default class BurnUpChart extends React.Component {
       .attr('x1', x(idealData[1].x))
       .attr('y1', y(0))
       .attr('x2', x(idealData[1].x))
-      .attr('y2', y(max(allData, (d) => d.y)))
+      .attr('y2', y(max(allData, (d) => d.y) * graphHeightFactor))
       .attr('class', 'line deadline')
 
     actualDeadline.append('text')
@@ -165,16 +159,16 @@ export default class BurnUpChart extends React.Component {
           .text('Gesamtergebnis: ' + yValueOnCursorX)
 
     // Add scope line
-    // const scopeLine = line()
-    //   .x(function(d) { return x(d.x) })
-    //   .y(function(d) { return y(d.y) })
-    //
-    // svg.append('path')
-    //   .datum(scopeData)
-    //   .attr('class', 'line scope')
-    //   .attr('d', scopeLine)
+    const scopeLine = line()
+      .x(function(d) { return x(d.x) })
+      .y(function(d) { return y(d.y) })
 
-    // // Add projection line
+    svg.append('path')
+      .datum(scopeData)
+      .attr('class', 'line scope')
+      .attr('d', scopeLine)
+
+    // Add projection line
     // const projectionLine = line()
     //   .x(function(d) { return x(d.x) })
     //   .y(function(d) { return y(d.y) })
