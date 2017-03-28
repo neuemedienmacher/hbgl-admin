@@ -52,7 +52,9 @@ const mapStateToProps = function(state, ownProps) {
                                actualData[cursorArrayIndex].x :
                                actualData[actualData.length -1].x
   const visibility = state.ui.chartCursorData &&
-                     state.ui.chartCursorData.visibility ?
+                     state.ui.chartCursorData.visibility &&
+                     (state.ui.chartCursorData.chartId ==
+                     ownProps.chartId)?
                      state.ui.chartCursorData.visibility : 'hidden'
 
   // Parse the date, normalize Y

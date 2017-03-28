@@ -3,7 +3,7 @@ import moment from 'moment'
 import valuesIn from 'lodash/valuesIn'
 import { getTimePointsBetween } from '../../../lib/timeUtils'
 import { getAllocationForWeekAndUser } from '../../../lib/timeAllocations'
-import StatisticsChartsAndData from '../components/StatisticsChartsAndData'
+import PersonalStatisticChartContainer from '../components/PersonalStatisticChartContainer'
 
 const mapStateToProps = (state, ownProps) => {
   const chart = ownProps.statisticChart
@@ -195,4 +195,4 @@ function filterStatisticGoals(chart) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatisticsChartsAndData)
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalStatisticChartContainer)
