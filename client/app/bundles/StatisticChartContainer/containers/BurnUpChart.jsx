@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
-import setUiAction from '../../../Backend/actions/setUi'
-import BurnUpChart from '../components/BurnUpChart'
 import merge from 'lodash/merge'
 import cloneDeep from 'lodash/cloneDeep'
 import { timeParse } from 'd3-time-format'
 import { scaleTime, scaleLinear } from 'd3-scale'
 import { axisBottom, axisLeft } from 'd3-axis'
+import moment from 'moment'
+import setUiAction from '../../../Backend/actions/setUi'
+import BurnUpChart from '../components/BurnUpChart'
 
 const mapStateToProps = function(state, ownProps) {
   const data = cloneDeep(ownProps.data)
@@ -14,6 +15,7 @@ const mapStateToProps = function(state, ownProps) {
   const idealData = data.ideal
   const projectionData = data.projection
   const scopeData = data.scope
+
   // Scale Factor for scope of yAxis
   const graphHeightFactor = 1.1
 
@@ -47,13 +49,13 @@ const mapStateToProps = function(state, ownProps) {
   const dailyYValueOnCursorX =
     actualData[cursorArrayIndex] ?
       actualData[cursorArrayIndex].y - lastDaysValue : 0
-  const xValueOnCursorX =
+  const rawXValueOnCursorX =
     actualData[cursorArrayIndex] ?
       actualData[cursorArrayIndex].x : actualData[actualData.length -1].x
-  const visibility =
-    state.ui.chartCursorData && state.ui.chartCursorData.visibility &&
-     (state.ui.chartCursorData.chartId == ownProps.chartId) ?
-       state.ui.chartCursorData.visibility : 'hidden'
+  const xValueOnCursorX = moment(rawXValueOnCursorX).format('DD.MM.YYYY')
+  const hasActiveCursor =
+    state.ui.chartCursorData && state.ui.chartCursorData.hasActiveCursor &&
+     (state.ui.chartCursorData.chartId == ownProps.chartId)
 
   // Parse the date, normalize Y
   const parseDate = timeParse('%Y-%m-%d')
@@ -82,20 +84,20 @@ const mapStateToProps = function(state, ownProps) {
     .scale(y)
 
   return {
-    cursorX, cursorY, visibility, fixedCursorY,
+    cursorX, cursorY, hasActiveCursor, fixedCursorY,
     x, y, xAxis, yAxis, width, height, margin, allData, parseDate,
     xValueOnCursorX, yValueOnCursorX,
     dailyYValueOnCursorX, graphHeightFactor, scopeData, actualData,
-    idealData, projectionData
+    idealData, projectionData, hasActiveCursor,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleMousePosition(cursorX, cursorY, visibility) {
+  handleMousePosition(cursorX, cursorY, hasActiveCursor) {
     let uiObjectToSave = {
       cursorX,
       cursorY,
-      visibility,
+      hasActiveCursor,
       chartId: ownProps.chartId
     }
     dispatch(setUiAction('chartCursorData', uiObjectToSave))

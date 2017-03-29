@@ -19,11 +19,11 @@ export default class BurnUpChart extends React.Component {
 
   render() {
     const {
-      cursorX, cursorY, visibility, fixedCursorY, x, y, xAxis,
+      cursorX, cursorY, fixedCursorY, x, y, xAxis,
       yAxis, width, height, margin, allData, parseDate,
       xValueOnCursorX, yValueOnCursorX,
       dailyYValueOnCursorX, graphHeightFactor, scopeData, actualData,
-      idealData, projectionData
+      idealData, projectionData, hasActiveCursor,
     } = this.props
 
     // Create in-memory DOM to construct the graph in
@@ -73,30 +73,6 @@ export default class BurnUpChart extends React.Component {
       .attr('dy', '.71em')
       .text('Deadline')
 
-    const xCoordLine = svg.append('g')
-      .attr('class', 'x coord line')
-    xCoordLine.append('line')
-      .style('stroke', 'lightgrey')
-      .style('stroke-width', 1)
-      .style('visibility', visibility)
-      .attr('x1', cursorX)
-      .attr('y1', 0)
-      .attr('x2', cursorX)
-      .attr('y2', height)
-      .attr('class', 'line x')
-
-    const yCoordLine = svg.append('g')
-      .attr('class', 'y coord line')
-    yCoordLine.append('line')
-      .style("stroke", "lightgrey")
-      .style("stroke-width", 1)
-      .style('visibility', visibility)
-      .attr('x1', 0)
-      .attr('y1', y(fixedCursorY))
-      .attr('x2', width)
-      .attr('y2', y(fixedCursorY))
-      .attr('class', 'line y')
-
     // Add ideal line
     const idealLine = line()
       .x(function(d) { return x(d.x) })
@@ -123,46 +99,58 @@ export default class BurnUpChart extends React.Component {
       .datum(actualData)
       .attr('class', 'line actual')
       .attr('d', actualLine)
-      .style('stroke-width', 10)
+      .style('stroke-width', 20)
       .style('stroke-opacity', 0)
-      .on('mousemove', () => {
-        this.props.handleMousePosition(d3.event.offsetX,
-                                       d3.event.offsetY, 'visible')
-      })
-      .on('mouseout', () => {
-        this.props.handleMousePosition(d3.event.offsetX,
-                                       d3.event.offsetY, 'hidden')
-      })
+      .on('mousedown', () =>
+        this.props.handleMousePosition(d3.event.offsetX, d3.event.offsetY, true)
+      )
 
     // Add hover crosshair and info text
 
-    const cursorPositionData = svg.append('g')
-      .attr('class', 'cursor_value')
-      .style('visibility', visibility)
+    if (hasActiveCursor) {
+      const xCoordLine = svg.append('g')
+        .attr('class', 'x coord line')
+      xCoordLine.append('line')
+        .style('stroke', 'lightgrey')
+        .style('stroke-width', 1)
+        .attr('x1', cursorX)
+        .attr('y1', 0)
+        .attr('x2', cursorX)
+        .attr('y2', height)
+        .attr('class', 'line x')
 
-    cursorPositionData.append('text')
-      .attr('x', cursorX + 20)
-      .attr('y', cursorY - 60)
-      .attr('dy', '.71em')
-      .text('Datum:')
+      const yCoordLine = svg.append('g')
+        .attr('class', 'y coord line')
+      yCoordLine.append('line')
+        .style("stroke", "lightgrey")
+        .style("stroke-width", 1)
+        .attr('x1', 0)
+        .attr('y1', y(fixedCursorY))
+        .attr('x2', width)
+        .attr('y2', y(fixedCursorY))
+        .attr('class', 'line y')
 
-    cursorPositionData.append('text')
-      .attr('x', cursorX + 20)
-      .attr('y', cursorY - 50)
-      .attr('dy', '.71em')
-      .text(xValueOnCursorX)
+      const cursorPositionData = svg.append('g')
+        .attr('class', 'cursor_value')
 
-    cursorPositionData.append('text')
-      .attr('x', cursorX + 20)
-      .attr('y', cursorY - 40)
-      .attr('dy', '.71em')
-      .text('Tagesergebnis: ' + dailyYValueOnCursorX)
+      cursorPositionData.append('text')
+        .attr('x', cursorX + 13)
+        .attr('y', cursorY - 40)
+        .attr('dy', '.71em')
+        .text(xValueOnCursorX)
 
-    cursorPositionData.append('text')
-      .attr('x', cursorX + 20)
-      .attr('y', cursorY - 30)
-      .attr('dy', '.71em')
-      .text('Gesamtergebnis: ' + yValueOnCursorX)
+      cursorPositionData.append('text')
+        .attr('x', cursorX + 13)
+        .attr('y', cursorY - 30)
+        .attr('dy', '.71em')
+        .text('Tagesergebnis: ' + dailyYValueOnCursorX)
+
+      cursorPositionData.append('text')
+        .attr('x', cursorX + 13)
+        .attr('y', cursorY - 20)
+        .attr('dy', '.71em')
+        .text('Gesamtergebnis: ' + yValueOnCursorX)
+    }
 
     // Add scope line
     const scopeLine = line()
