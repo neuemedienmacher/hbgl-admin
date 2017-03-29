@@ -84,7 +84,7 @@ module Organization::StateMachine
         transitions from: :external_feedback, to: :under_construction
       end
 
-      event :mark_as_done, success: :apply_mailings_logic! do
+      event :mark_as_done, success: :enable_mailings! do
         transitions from: :approved, to: :all_done
       end
     end
