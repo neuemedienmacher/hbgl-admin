@@ -10,8 +10,8 @@ module API::V1
         property :assignable_field_type
         property :creator_id
         property :creator_team_id
-        property :reciever_id
-        property :reciever_team_id
+        property :receiver_id
+        property :receiver_team_id
         property :message
         property :parent_id
         property :aasm_state
@@ -26,22 +26,23 @@ module API::V1
         end
 
         has_one :assignable do
-          type do |as|
-            as[:represented].assignable_type.underscore.pluralize.to_sym
-          end
+          type :assignable_type
+          # Above is technically incorrect. Wish the following would work ...
+          # as[:represented].assignable_type.tableize.to_sym
 
           property :id
           property :created_at
           property :label, getter: ->(object) do
             if object[:represented].class.to_s.include?('Translation')
-              object[:represented].respond_to?(:organization) ?
-                object[:represented].organization.untranslated_description :
+              if object[:represented].respond_to?(:organization)
+                object[:represented].organization.untranslated_description
+              else
                 object[:represented].offer.untranslated_name
-            else
-              # INFO: this won't work for any assignable model
-              object[:represented].respond_to?(:name) ?
-                object[:represented].name :
-                object[:represented].description
+              end
+            elsif object[:represented].respond_to?(:name)
+              object[:represented].name
+            else # create a generic label that works for any model
+              "#{object[:represented].class.name}##{object[:represented].id}"
             end
           end
         end

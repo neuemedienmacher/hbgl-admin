@@ -79,7 +79,11 @@ RailsAdmin.config do |config|
       field :offers_count
       field :name
       field :aasm_state
-      field :creator
+      field :creator do
+        formatted_value do
+          Creator::Twin.new(bindings[:object]).creator
+        end
+      end
       field :locations_count
       field :created_by
 
@@ -312,7 +316,11 @@ RailsAdmin.config do |config|
       field :name
       field :section_filters
       field :aasm_state
-      field :creator
+      field :creator do
+        formatted_value do
+          Creator::Twin.new(bindings[:object]).creator
+        end
+      end
       field :expires_at
       field :logic_version
       field :location

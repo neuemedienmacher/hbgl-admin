@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TimeAllocationPolicy < ApplicationPolicy
   def create?
     @user.role == 'super'

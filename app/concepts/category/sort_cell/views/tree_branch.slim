@@ -1,7 +1,0 @@
-li.dd-item.dd3-item data=item_data
-  .dd-handle.dd3-handle
-  .dd3-content
-    = name
-  - if child_categories?
-    ol.dd-list.dd3-list
-      = concept('category/tree_branch', collection: child_categories)

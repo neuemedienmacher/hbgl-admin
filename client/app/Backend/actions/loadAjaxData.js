@@ -1,4 +1,6 @@
 import { encode } from 'querystring'
+import forEach from 'lodash/forEach'
+import isArray from 'lodash/isArray'
 import transformJsonApi from '../transformers/json_api'
 import addEntities from './addEntities'
 
@@ -23,12 +25,34 @@ const loadAjaxDataSuccess = (response, key) => ({
   key,
 })
 
+// manually parses array filters and uses querystring.encode for any other input
+function parseUrlParams(params) {
+  let automaticEncodedParams = {}
+  let manualParams = ''
+
+  forEach(params, function(value, key) {
+    // additional custom parsing can be added here
+    if (isArray(value)) {
+      value.map(filter_value => {
+        // railsify query-syntax for arrays
+        let arrayEntryParameter = {}
+        arrayEntryParameter[`${key}[]`] = filter_value
+        manualParams += '&' + encode(arrayEntryParameter)
+      })
+    } else {
+      automaticEncodedParams[key] = value
+    }
+  });
+
+  return encode(automaticEncodedParams) + manualParams
+}
+
 // INFO: optional nextModel is required for different transformer (field_sets)
 export default function loadAjaxData(
-  basePath, query, key, transformer = transformJsonApi, nextModel = undefined,
+  basePath, params, key, transformer = transformJsonApi, nextModel = undefined,
   callback = ()=>{}
 ) {
-  const path = `/api/v1/${basePath}?${encode(query)}`
+  const path = `/api/v1/${basePath}?${parseUrlParams(params)}`
 
   return function(dispatch) {
     dispatch(loadAjaxDataRequest(key))

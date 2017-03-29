@@ -14,7 +14,7 @@ export default class UserTeamFormObject extends FormObject {
   static get formConfig() {
     return {
       name: { type: 'string' },
-      user_ids: { type: 'multiselect' },
+      user_ids: { type: 'filtering-multiselect' },
     }
   }
 

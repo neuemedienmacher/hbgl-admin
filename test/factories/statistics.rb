@@ -35,23 +35,23 @@ FactoryGirl.define do
     end
 
     model do
-      goal ? goal.target_model : ProductivityGoal::TARGET_MODELS.sample
+      goal ? goal.target_model : StatisticChart::TARGET_MODELS.sample
     end
 
     field_name do
       if goal
         goal.target_field_name
       else
-        ProductivityGoal::TARGET_FIELD_NAMES[model].sample
+        StatisticChart::TARGET_FIELD_NAMES[model].sample
       end
     end
 
     field_start_value do # TODO: booleans?
       if goal
-        (ProductivityGoal::TARGET_FIELD_VALUES[model][field_name] -
+        (StatisticChart::TARGET_FIELD_VALUES[model][field_name] -
           [goal.target_field_value]).sample
       else
-        ProductivityGoal::TARGET_FIELD_VALUES[model][field_name].sample
+        StatisticChart::TARGET_FIELD_VALUES[model][field_name].sample
       end
     end
 
@@ -59,7 +59,7 @@ FactoryGirl.define do
       if goal
         goal.target_field_value
       else
-        (ProductivityGoal::TARGET_FIELD_VALUES[model][field_name] -
+        (StatisticChart::TARGET_FIELD_VALUES[model][field_name] -
           [field_start_value]).sample
       end
     end

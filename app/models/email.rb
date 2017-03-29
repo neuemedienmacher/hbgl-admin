@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 # Monkeypatch clarat_base Email
-require ClaratBase::Engine.root.join('app', 'models', 'email')
+require ClaratBase::Engine.root.join('app', 'models', 'email') unless defined?(Email)
 
 class Email < ActiveRecord::Base
   # Associations
@@ -81,7 +81,6 @@ class Email < ActiveRecord::Base
 
   def informable_orga? orga
     orga.aasm_state == 'all_done' && orga.mailings_enabled? &&
-      !orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?).empty? &&
-      !orga.big_player?
+      !orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?).empty?
   end
 end

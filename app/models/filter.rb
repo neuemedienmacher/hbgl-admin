@@ -5,6 +5,6 @@ require ClaratBase::Engine.root.join('app', 'models', 'filter')
 class Filter < ActiveRecord::Base
   include PgSearch
   pg_search_scope :search_everything,
-                  against: [ :id, :name, :identifier ],
+                  against: [:id, :name, :identifier],
                   using: { tsearch: { prefix: true } }
 end

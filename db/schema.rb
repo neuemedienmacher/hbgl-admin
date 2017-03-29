@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170120120937) do
+ActiveRecord::Schema.define(version: 20170326080706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20170120120937) do
     t.string   "assignable_field_type", limit: 64,   default: "",     null: false
     t.integer  "creator_id"
     t.integer  "creator_team_id"
-    t.integer  "reciever_id"
-    t.integer  "reciever_team_id"
+    t.integer  "receiver_id"
+    t.integer  "receiver_team_id"
     t.string   "message",               limit: 1000
     t.integer  "parent_id"
     t.string   "aasm_state",            limit: 32,   default: "open", null: false
@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 20170120120937) do
   add_index "assignments", ["creator_id"], name: "index_assignments_on_creator_id", using: :btree
   add_index "assignments", ["creator_team_id"], name: "index_assignments_on_creator_team_id", using: :btree
   add_index "assignments", ["parent_id"], name: "index_assignments_on_parent_id", using: :btree
-  add_index "assignments", ["reciever_id"], name: "index_assignments_on_reciever_id", using: :btree
-  add_index "assignments", ["reciever_team_id"], name: "index_assignments_on_reciever_team_id", using: :btree
+  add_index "assignments", ["receiver_id"], name: "index_assignments_on_receiver_id", using: :btree
+  add_index "assignments", ["receiver_team_id"], name: "index_assignments_on_receiver_team_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name_de",                              null: false
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20170120120937) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "internal_mail",              default: false
+    t.string   "city"
   end
 
   create_table "definitions", force: :cascade do |t|
@@ -162,7 +163,7 @@ ActiveRecord::Schema.define(version: 20170120120937) do
   create_table "divisions", force: :cascade do |t|
     t.string   "name",              null: false
     t.text     "description"
-    t.integer  "organization_id",   null: false
+    t.integer  "organization_id"
     t.integer  "section_filter_id", null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -446,24 +447,12 @@ ActiveRecord::Schema.define(version: 20170120120937) do
     t.text     "description_html"
     t.string   "aasm_state",             limit: 32
     t.string   "mailings",               limit: 255, default: "disabled", null: false
+    t.boolean  "priority",                           default: false,      null: false
   end
 
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state", using: :btree
   add_index "organizations", ["approved_at"], name: "index_organizations_on_approved_at", using: :btree
   add_index "organizations", ["created_at"], name: "index_organizations_on_created_at", using: :btree
-
-  create_table "productivity_goals", force: :cascade do |t|
-    t.string  "title",              null: false
-    t.date    "starts_at",          null: false
-    t.date    "ends_at",            null: false
-    t.string  "target_model",       null: false
-    t.integer "target_count",       null: false
-    t.string  "target_field_name",  null: false
-    t.string  "target_field_value", null: false
-    t.integer "user_team_id",       null: false
-  end
-
-  add_index "productivity_goals", ["user_team_id"], name: "index_productivity_goals_on_user_team_id", using: :btree
 
   create_table "search_locations", force: :cascade do |t|
     t.string   "query",                 null: false
@@ -512,6 +501,43 @@ ActiveRecord::Schema.define(version: 20170120120937) do
 
   add_index "split_bases", ["organization_id"], name: "index_split_bases_on_organization_id", using: :btree
   add_index "split_bases", ["solution_category_id"], name: "index_split_bases_on_solution_category_id", using: :btree
+
+  create_table "statistic_chart_goals", id: false, force: :cascade do |t|
+    t.integer "statistic_chart_id", null: false
+    t.integer "statistic_goal_id",  null: false
+  end
+
+  add_index "statistic_chart_goals", ["statistic_chart_id"], name: "index_statistic_chart_goals_on_statistic_chart_id", using: :btree
+  add_index "statistic_chart_goals", ["statistic_goal_id"], name: "index_statistic_chart_goals_on_statistic_goal_id", using: :btree
+
+  create_table "statistic_chart_transitions", id: false, force: :cascade do |t|
+    t.integer "statistic_chart_id",      null: false
+    t.integer "statistic_transition_id", null: false
+  end
+
+  add_index "statistic_chart_transitions", ["statistic_chart_id"], name: "index_statistic_chart_transitions_on_statistic_chart_id", using: :btree
+  add_index "statistic_chart_transitions", ["statistic_transition_id"], name: "index_statistic_chart_transitions_on_statistic_transition_id", using: :btree
+
+  create_table "statistic_charts", force: :cascade do |t|
+    t.string  "title",     null: false
+    t.date    "starts_at", null: false
+    t.date    "ends_at",   null: false
+    t.integer "user_id"
+  end
+
+  add_index "statistic_charts", ["user_id"], name: "index_statistic_charts_on_user_id", using: :btree
+
+  create_table "statistic_goals", force: :cascade do |t|
+    t.integer "amount",    null: false
+    t.date    "starts_at", null: false
+  end
+
+  create_table "statistic_transitions", force: :cascade do |t|
+    t.string "klass_name",  null: false
+    t.string "field_name",  null: false
+    t.string "start_value", null: false
+    t.string "end_value",   null: false
+  end
 
   create_table "statistics", force: :cascade do |t|
     t.string  "topic"

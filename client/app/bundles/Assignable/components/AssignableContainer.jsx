@@ -40,7 +40,7 @@ export default class AssignableContainer extends Component {
         <div>
           <b>von:</b> {involved_entities.creator}, Team: {involved_entities.creator_team}
           <br />
-          <b>für:</b> {involved_entities.reciever}, Team: {involved_entities.reciever_team}
+          <b>für:</b> {involved_entities.receiver}, Team: {involved_entities.receiver_team}
           <br />
           <b>Nachricht:</b> {assignment.message}
         </div>

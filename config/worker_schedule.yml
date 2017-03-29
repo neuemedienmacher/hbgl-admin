@@ -25,7 +25,7 @@ check_websites_job:
 
 # should be closely after 'check_websites_job'
 check_unreachable_offers_job:
-  cron: "0 4 * * Thu Europe/Berlin" # every thursday at 20:00
+  cron: "0 4 * * Thu Europe/Berlin" # every thursday at 04:00
   class: "CheckUnreachableOffersWorker"
   queue: default
 
@@ -39,10 +39,10 @@ check_for_new_contacts_job:
   class: "CheckForNewContactsWorker"
   queue: default
 
-sync_absences_job:
-  cron: "0 3 * * Sat Europe/Berlin" # every Saturday at 3:00 a.m.
-  class: "SyncAbsencesWorker"
-  queue: heavy_load
+# sync_absences_job:
+#   cron: "0 3 * * Sat Europe/Berlin" # every Saturday at 3:00 a.m.
+#   class: "SyncAbsencesWorker"
+#   queue: heavy_load
 
 seasonal_offers_job:
   cron: "0 5 * * * Europe/Berlin" # every day at 05:00
