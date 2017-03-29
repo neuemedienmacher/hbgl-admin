@@ -1,13 +1,9 @@
 import React, { PropTypes } from 'react'
 import ReactFauxDOM from 'react-faux-dom'
-import { timeParse } from 'd3-time-format'
-import { scaleTime, scaleLinear } from 'd3-scale'
 import { line } from 'd3-shape'
-import { axisBottom, axisLeft } from 'd3-axis'
 import { max, extent } from 'd3-array'
 import { select } from 'd3-selection'
-import merge from 'lodash/merge'
-import cloneDeep from 'lodash/cloneDeep'
+import * as d3 from 'd3'
 
 export default class BurnUpChart extends React.Component {
   // static propTypes = {
@@ -22,55 +18,24 @@ export default class BurnUpChart extends React.Component {
   // }
 
   render() {
-    const data = cloneDeep(this.props.data)
-
-    const actualData = data.actual
-    const idealData = data.ideal
-    const projectionData = data.projection
-    const scopeData = data.scope
-    // Scale Factor for scope of yAxis
-    const graphHeightFactor = 1.1
-
-    // Parse the date, normalize Y
-    const parseDate = timeParse('%Y-%m-%d')
-    for (let dataSegment of Object.keys(data)) {
-      data[dataSegment].forEach(function (d) {
-        d.x = parseDate(d.x)
-        d.y = +d.y
-      })
-    }
-
-    // Combine data for min/max evaluation
-    const allData = merge([], actualData, projectionData, scopeData, idealData)
-
-    // Set the dimensions of the graph
-    const margin = { top: 20, right: 20, bottom: 30, left: 50 }
-    const width = 700 - margin.left - margin.right
-    const height = 400 - margin.top - margin.bottom
-
-    // Set the ranges
-    const x = scaleTime()
-      .range([0, width])
-
-    const y = scaleLinear()
-      .range([height, 0])
-
-    // Define the axes
-    const xAxis = axisBottom()
-      .scale(x)
-
-    const yAxis = axisLeft()
-      .scale(y)
+    const {
+      cursorX, cursorY, fixedCursorY, x, y, xAxis,
+      yAxis, width, height, margin, allData, parseDate,
+      xValueOnCursorX, yValueOnCursorX,
+      dailyYValueOnCursorX, graphHeightFactor, scopeData, actualData,
+      idealData, projectionData, hasActiveCursor,
+    } = this.props
 
     // Create in-memory DOM to construct the graph in
-    const node = ReactFauxDOM.createElement('svg')
+    const node = ReactFauxDOM.createElement('svg');
 
     // Add the SVG canvas
-    const svg = select(node)
+    const svg = d3.select(node)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
 
     // Scale the range of the data
     const xDomain = x.domain(extent(allData, (d) => d.x))
@@ -127,6 +92,65 @@ export default class BurnUpChart extends React.Component {
       .datum(actualData)
       .attr('class', 'line actual')
       .attr('d', actualLine)
+
+    // Add hidden wide actual line as a mouse event target
+
+    svg.append('path')
+      .datum(actualData)
+      .attr('class', 'line actual')
+      .attr('d', actualLine)
+      .style('stroke-width', 20)
+      .style('stroke-opacity', 0)
+      .on('mousedown', () =>
+        this.props.handleMousePosition(d3.event.offsetX, d3.event.offsetY, true)
+      )
+
+    // Add hover crosshair and info text
+
+    if (hasActiveCursor) {
+      const xCoordLine = svg.append('g')
+        .attr('class', 'x coord line')
+      xCoordLine.append('line')
+        .style('stroke', 'lightgrey')
+        .style('stroke-width', 1)
+        .attr('x1', cursorX)
+        .attr('y1', 0)
+        .attr('x2', cursorX)
+        .attr('y2', height)
+        .attr('class', 'line x')
+
+      const yCoordLine = svg.append('g')
+        .attr('class', 'y coord line')
+      yCoordLine.append('line')
+        .style("stroke", "lightgrey")
+        .style("stroke-width", 1)
+        .attr('x1', 0)
+        .attr('y1', y(fixedCursorY))
+        .attr('x2', width)
+        .attr('y2', y(fixedCursorY))
+        .attr('class', 'line y')
+
+      const cursorPositionData = svg.append('g')
+        .attr('class', 'cursor_value')
+
+      cursorPositionData.append('text')
+        .attr('x', cursorX + 13)
+        .attr('y', cursorY - 40)
+        .attr('dy', '.71em')
+        .text(xValueOnCursorX)
+
+      cursorPositionData.append('text')
+        .attr('x', cursorX + 13)
+        .attr('y', cursorY - 30)
+        .attr('dy', '.71em')
+        .text('Tagesergebnis: ' + dailyYValueOnCursorX)
+
+      cursorPositionData.append('text')
+        .attr('x', cursorX + 13)
+        .attr('y', cursorY - 20)
+        .attr('dy', '.71em')
+        .text('Gesamtergebnis: ' + yValueOnCursorX)
+    }
 
     // Add scope line
     const scopeLine = line()

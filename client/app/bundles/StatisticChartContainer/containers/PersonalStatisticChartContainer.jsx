@@ -3,7 +3,7 @@ import moment from 'moment'
 import valuesIn from 'lodash/valuesIn'
 import { getTimePointsBetween } from '../../../lib/timeUtils'
 import { getAllocationForWeekAndUser } from '../../../lib/timeAllocations'
-import BurnUpChartView from '../components/BurnUpChartView'
+import PersonalStatisticChartContainer from '../components/PersonalStatisticChartContainer'
 
 const mapStateToProps = (state, ownProps) => {
   const chart = ownProps.statisticChart
@@ -25,7 +25,6 @@ const mapStateToProps = (state, ownProps) => {
   const data = {
     actual: actualData,
     scope: scopeData,
-
     ideal: [{
       x: chart.starts_at, y: 0,
     }, {
@@ -39,6 +38,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     data,
+    chartId: chart.id,
     lastGoalAmount: lastGoal.amount
   }
 }
@@ -195,4 +195,4 @@ function filterStatisticGoals(chart) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BurnUpChartView)
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalStatisticChartContainer)

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import BurnUpChart from '../../Statistics/components/BurnUpChart'
+import BurnUpChart from '../../StatisticChartContainer/components/BurnUpChart'
 
 const mapStateToProps = (state, ownProps) => {
   const formData = state.rform['StatisticChartForm'] || {}

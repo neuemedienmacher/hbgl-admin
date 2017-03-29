@@ -157,6 +157,7 @@ staa = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
                                                 current_user: User.system_user
                                               )['model']
 # create charts for admin and researcher user
+
 User.find_each do |u|
  sc1 = StatisticChart.create title: "completion",
                              starts_at: Date.new(2017,1,1),

@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
-import BurnUpChart from '../../Statistics/components/BurnUpChart'
+import BurnUpChart from '../containers/BurnUpChart'
 
-export default class BurnUpChartView extends React.Component {
+export default class PersonalStatisticChartContainer extends React.Component {
   render() {
     const { data } = this.props
 
     return (
       <div className="chart BurnUpChartView">
-        <BurnUpChart data={data} />
+        <BurnUpChart data={data} chartId={this.props.chartId} />
         <h6>Jahresziel: {this.props.lastGoalAmount}</h6>
         <table className="table table-condensed">
           <thead>

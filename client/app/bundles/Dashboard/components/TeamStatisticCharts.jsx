@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import TeamStatisticChartContainer from '../../ShowStatisticChart/containers/TeamStatisticChartContainer'
+import TeamStatisticChartContainer from '../../StatisticChartContainer/containers/TeamStatisticChartContainer'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
 export default class TeamStatisticCharts extends Component {
