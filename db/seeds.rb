@@ -72,12 +72,12 @@ health.section_filters = [family, refugees]
 learn = FactoryGirl.create :category, :with_dummy_translations,
                            name_de: 'Lernen und Arbeiten', icon: 'd-learn'
 learn.section_filters = [family, refugees]
-misc = FactoryGirl.create :category, :with_dummy_translations,
+miscf = FactoryGirl.create :category, :with_dummy_translations,
                           name_de: 'Sorgen im Alltag', icon: 'e-misc'
-misc.section_filters = [family]
-misc = FactoryGirl.create :category, :with_dummy_translations,
+miscf.section_filters = [family]
+miscr = FactoryGirl.create :category, :with_dummy_translations,
                           name_de: 'Leben in Deutschland', icon: 'e-misc'
-misc.section_filters = [refugees]
+miscr.section_filters = [refugees]
 violence = FactoryGirl.create :category, :with_dummy_translations,
                               name_de: 'Gewalt', icon: 'f-violence'
 violence.section_filters = [family, refugees]
@@ -102,18 +102,22 @@ end
                      parent: subcategories.sample
 end
 
+categories = Category.all
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokales Angebot',
-                   encounter: 'personal'
+                   encounter: 'personal', categories: [categories.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokale Hotline',
-                   encounter: 'hotline', area: berlin
+                   encounter: 'hotline', area: berlin,
+                   categories: [categories.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweiter Chat',
-                   encounter: 'chat', area: schland
+                   encounter: 'chat', area: schland,
+                   categories: [categories.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweite Hotline',
-                   encounter: 'hotline', area: schland
+                   encounter: 'hotline', area: schland,
+                   categories: [categories.sample]
 
 stic = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
                                                 field_name: 'aasm_state',
@@ -153,10 +157,14 @@ staa = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
                                                 current_user: User.system_user
                                               )['model']
 # create charts for admin and researcher user
+<<<<<<< HEAD
 User.find_each do |user|
+=======
+User.find_each do |u|
+>>>>>>> develop
  sc1 = StatisticChart.create title: "completion",
                              starts_at: Date.new(2017,1,1),
-                             ends_at: Date.new(2017,12,31), user_id: user.id
+                             ends_at: Date.new(2017,12,31), user_id: u.id
  sg1 = StatisticGoal.create amount: rand(300..1000),
                             starts_at: Date.new(2017,1,1)
  sc1.statistic_transitions = [stic, stcc]
@@ -165,7 +173,7 @@ User.find_each do |user|
  sc2 = StatisticChart.create title: "approval",
                                     starts_at: Date.new(2017,1,1),
                                     ends_at: Date.new(2017,12,31),
-                                    user_id: user.id
+                                    user_id: u.id
  sg2 = StatisticGoal.create amount: rand(300..1000),
                                     starts_at: Date.new(2017,1,1)
  sc2.statistic_transitions = [stca, staa, stcs, stas]
