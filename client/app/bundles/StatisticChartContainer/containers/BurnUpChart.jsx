@@ -22,40 +22,38 @@ const mapStateToProps = function(state, ownProps) {
   const width = 700 - margin.left - margin.right
   const height = 400 - margin.top - margin.bottom
 
-  const cursorY = state.ui.chartCursorData &&
-                        state.ui.chartCursorData.cursorY ?
-                        state.ui.chartCursorData.cursorY-margin.top : null
-  const cursorX = state.ui.chartCursorData &&
-                        state.ui.chartCursorData.cursorX &&
-                        (state.ui.chartCursorData.chartId ==
-                        ownProps.chartId) ?
-                        state.ui.chartCursorData.cursorX-margin.left :
-                        null
+  const cursorY =
+    state.ui.chartCursorData && state.ui.chartCursorData.cursorY ?
+      state.ui.chartCursorData.cursorY-margin.top : null
+  const cursorX =
+    state.ui.chartCursorData && state.ui.chartCursorData.cursorX &&
+      (state.ui.chartCursorData.chartId == ownProps.chartId) ?
+        state.ui.chartCursorData.cursorX-margin.left : null
 
   //transforms cursorX to actualData arrayIndex
   const cursorArrayIndex = Math.floor(cursorX/((width-2)/365))
 
   //used to fix Y-line to actualData line, even when cursor is above it
-  const fixedCursorY = actualData[cursorArrayIndex] ?
-                       actualData[cursorArrayIndex].y : null
+  const fixedCursorY =
+    actualData[cursorArrayIndex] ? actualData[cursorArrayIndex].y : null
 
   //statistics chart data
-  const yValueOnCursorX = actualData[cursorArrayIndex] ?
-                               actualData[cursorArrayIndex].y :
-                               actualData[actualData.length -1].y
-  const lastDaysValue = (cursorArrayIndex>0) && actualData[cursorArrayIndex-1] ?
-                        actualData[cursorArrayIndex-1].y : 0
-  const dailyYValueOnCursorX = actualData[cursorArrayIndex] ?
-                                   actualData[cursorArrayIndex].y -
-                                   lastDaysValue : 0
-  const xValueOnCursorX = actualData[cursorArrayIndex] ?
-                               actualData[cursorArrayIndex].x :
-                               actualData[actualData.length -1].x
-  const visibility = state.ui.chartCursorData &&
-                     state.ui.chartCursorData.visibility &&
-                     (state.ui.chartCursorData.chartId ==
-                     ownProps.chartId)?
-                     state.ui.chartCursorData.visibility : 'hidden'
+  const yValueOnCursorX =
+    actualData[cursorArrayIndex] ?
+      actualData[cursorArrayIndex].y : actualData[actualData.length -1].y
+  const lastDaysValue =
+    (cursorArrayIndex>0) && actualData[cursorArrayIndex-1] ?
+      actualData[cursorArrayIndex-1].y : 0
+  const dailyYValueOnCursorX =
+    actualData[cursorArrayIndex] ?
+      actualData[cursorArrayIndex].y - lastDaysValue : 0
+  const xValueOnCursorX =
+    actualData[cursorArrayIndex] ?
+      actualData[cursorArrayIndex].x : actualData[actualData.length -1].x
+  const visibility =
+    state.ui.chartCursorData && state.ui.chartCursorData.visibility &&
+     (state.ui.chartCursorData.chartId == ownProps.chartId) ?
+       state.ui.chartCursorData.visibility : 'hidden'
 
   // Parse the date, normalize Y
   const parseDate = timeParse('%Y-%m-%d')
@@ -84,22 +82,20 @@ const mapStateToProps = function(state, ownProps) {
     .scale(y)
 
   return {
-    data: ownProps.data,
-    chartId: ownProps.chartId,
     cursorX, cursorY, visibility, fixedCursorY,
     x, y, xAxis, yAxis, width, height, margin, allData, parseDate,
     xValueOnCursorX, yValueOnCursorX,
     dailyYValueOnCursorX, graphHeightFactor, scopeData, actualData,
     idealData, projectionData
-	}
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleMousePosition(cursorX, cursorY, visibility) {
     let uiObjectToSave = {
-      cursorX: cursorX,
-      cursorY: cursorY,
-      visibility: visibility,
+      cursorX,
+      cursorY,
+      visibility,
       chartId: ownProps.chartId
     }
     dispatch(setUiAction('chartCursorData', uiObjectToSave))

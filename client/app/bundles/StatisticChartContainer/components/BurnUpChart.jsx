@@ -18,11 +18,13 @@ export default class BurnUpChart extends React.Component {
   // }
 
   render() {
-    const { cursorX, cursorY, visibility, fixedCursorY, x, y, xAxis,
-            yAxis, width, height, margin, allData, parseDate,
-            xValueOnCursorX, yValueOnCursorX,
-            dailyYValueOnCursorX, graphHeightFactor, scopeData, actualData,
-            idealData, projectionData } = this.props
+    const {
+      cursorX, cursorY, visibility, fixedCursorY, x, y, xAxis,
+      yAxis, width, height, margin, allData, parseDate,
+      xValueOnCursorX, yValueOnCursorX,
+      dailyYValueOnCursorX, graphHeightFactor, scopeData, actualData,
+      idealData, projectionData
+    } = this.props
 
     // Create in-memory DOM to construct the graph in
     const node = ReactFauxDOM.createElement('svg');
@@ -115,6 +117,8 @@ export default class BurnUpChart extends React.Component {
       .attr('class', 'line actual')
       .attr('d', actualLine)
 
+    // Add hidden wide actual line as a mouse event target
+
     svg.append('path')
       .datum(actualData)
       .attr('class', 'line actual')
@@ -122,13 +126,15 @@ export default class BurnUpChart extends React.Component {
       .style('stroke-width', 10)
       .style('stroke-opacity', 0)
       .on('mousemove', () => {
-          this.props.handleMousePosition(d3.event.offsetX,
-                                         d3.event.offsetY, 'visible')
-        })
+        this.props.handleMousePosition(d3.event.offsetX,
+                                       d3.event.offsetY, 'visible')
+      })
       .on('mouseout', () => {
-          this.props.handleMousePosition(d3.event.offsetX,
-                                         d3.event.offsetY, 'hidden')
-        })
+        this.props.handleMousePosition(d3.event.offsetX,
+                                       d3.event.offsetY, 'hidden')
+      })
+
+    // Add hover crosshair and info text
 
     const cursorPositionData = svg.append('g')
       .attr('class', 'cursor_value')
@@ -156,7 +162,7 @@ export default class BurnUpChart extends React.Component {
       .attr('x', cursorX + 20)
       .attr('y', cursorY - 30)
       .attr('dy', '.71em')
-          .text('Gesamtergebnis: ' + yValueOnCursorX)
+      .text('Gesamtergebnis: ' + yValueOnCursorX)
 
     // Add scope line
     const scopeLine = line()
