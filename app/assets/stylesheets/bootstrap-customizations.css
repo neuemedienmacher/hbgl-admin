@@ -6,3 +6,24 @@
   background-color: #fff;
   z-index: 1;
 }
+
+.navbar-form.navbar-right {
+    width: 70%;
+}
+
+.navbar-form.navbar-right .form-group {
+    margin-top: 10px;
+}
+
+.navbar-form.navbar-right .form-control {
+    margin-right: 10px;
+}
+
+.navbar-default .navbar-form.navbar-right .input-group-btn .btn {
+    background-color: #1ABC9C;
+    color: #fff;
+}
+
+.navbar-default .navbar-form.navbar-right .input-group-btn .btn[disabled] {
+    background-color: rgba(26, 188, 156, .5);
+}
