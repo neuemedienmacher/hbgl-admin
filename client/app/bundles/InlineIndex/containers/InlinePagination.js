@@ -1,56 +1,22 @@
 import { connect } from 'react-redux'
-import range from 'lodash/range'
 import merge from 'lodash/merge'
 import clone from 'lodash/clone'
 import setUiAction from '../../../Backend/actions/setUi'
-import InlinePagination from '../components/InlinePagination'
+import Pagination from '../../Index/components/Pagination'
 
 const mapStateToProps = (state, ownProps) => {
-  let resultData = state.ajax[ownProps.identifier]
-  const pages = resultData ? range(1, resultData.meta.total_pages + 1) : [1]
-  const current_page = resultData && resultData.meta.current_page ? resultData.meta.current_page : 1
-  const paginationSize = 3
-  const previousPageHref =
-    resultData && resultData.links.previous ? '#' + ownProps.identifier: ''
-  const nextPageHref =
-    resultData && resultData.links.next ? '#' + ownProps.identifier: ''
-
-  const pageScope = []
-  for (var i = paginationSize + 1; i > 0; i--) {
-    if (current_page >= i){
-      pageScope.push(pages[current_page - i])
-    }
-  }
-  for (var i = 0; i < paginationSize; i++) {
-    if (current_page + i < pages.length ){
-      pageScope.push(pages[current_page + i])
-    }
-  }
+  const resultData = state.ajax[ownProps.identifier]
+  const currentPage = (resultData && resultData.meta.current_page) || 1
+  const totalPages = (resultData && resultData.meta.total_pages) || 1
 
   return {
-    pages,
-    previousPageHref,
-    nextPageHref,
-    pageScope,
-    current_page,
-    paginationSize
+    currentPage,
+    totalPages
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    dispatch,
-  previousPage(e) {
-    let params = ownProps.params
-    let current_page = params.page || 1
-    let linkParams = merge(clone(params), {page: current_page - 1})
-    dispatch(setUiAction(ownProps.uiKey, linkParams))
-  },
-  nextPage(e) {
-    let params = ownProps.params
-    let current_page = params.page || 1
-    let linkParams = merge(clone(params), {page: current_page + 1})
-    dispatch(setUiAction(ownProps.uiKey, linkParams))
-  }
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -59,15 +25,27 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 
   jumpToPage(e) {
-    let params = ownProps.params
-    let current_page = params.page || 1
-    var page = null;
-    while (stateProps.pages[page-1] == null) {
-      page = prompt("Springe zu 1-"+stateProps.pages.length+":", current_page);
+    var page = null
+    while(typeof page != 'number' || page < 1 || page > stateProps.totalPages) {
+      page = Number(
+        prompt(
+          "Springe zu 1-"+stateProps.totalPages+":", stateProps.currentPage
+        )
+      )
     }
-    let linkParams = merge(clone(params), {page})
-    dispatchProps.dispatch(setUiAction(ownProps.uiKey, linkParams))
+    gotoPage(page, ownProps, dispatchProps)
   },
+
+  onPageSelect(pageNumber) {
+    gotoPage(pageNumber, ownProps, dispatchProps)
+  }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(InlinePagination)
+function gotoPage(page, ownProps, dispatchProps) {
+  let linkParams = merge(clone(ownProps.params), {page})
+  dispatchProps.dispatch(setUiAction(ownProps.uiKey, linkParams))
+}
+
+export default connect(
+  mapStateToProps, mapDispatchToProps, mergeProps
+)(Pagination)
