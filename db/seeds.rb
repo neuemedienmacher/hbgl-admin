@@ -14,6 +14,8 @@ admin = User.create! email: 'admin@admin.com', password: 'password',
 team = UserTeam.create! name: 'The Experts'
 team.users << user
 team.users << admin
+user.update_columns current_team_id: team.id
+admin.update_columns current_team_id: team.id
 
 family = SectionFilter.create name: 'Family', identifier: 'family'
 refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'
@@ -70,12 +72,12 @@ health.section_filters = [family, refugees]
 learn = FactoryGirl.create :category, :with_dummy_translations,
                            name_de: 'Lernen und Arbeiten', icon: 'd-learn'
 learn.section_filters = [family, refugees]
-misc = FactoryGirl.create :category, :with_dummy_translations,
+miscf = FactoryGirl.create :category, :with_dummy_translations,
                           name_de: 'Sorgen im Alltag', icon: 'e-misc'
-misc.section_filters = [family]
-misc = FactoryGirl.create :category, :with_dummy_translations,
+miscf.section_filters = [family]
+miscr = FactoryGirl.create :category, :with_dummy_translations,
                           name_de: 'Leben in Deutschland', icon: 'e-misc'
-misc.section_filters = [refugees]
+miscr.section_filters = [refugees]
 violence = FactoryGirl.create :category, :with_dummy_translations,
                               name_de: 'Gewalt', icon: 'f-violence'
 violence.section_filters = [family, refugees]
@@ -100,19 +102,95 @@ end
                      parent: subcategories.sample
 end
 
+categories = Category.all
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokales Angebot',
-                   encounter: 'personal'
+                   encounter: 'personal', categories: [categories.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokale Hotline',
-                   encounter: 'hotline', area: berlin
+                   encounter: 'hotline', area: berlin,
+                   categories: [categories.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweiter Chat',
-                   encounter: 'chat', area: schland
+                   encounter: 'chat', area: schland,
+                   categories: [categories.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweite Hotline',
-                   encounter: 'hotline', area: schland
+                   encounter: 'hotline', area: schland,
+                   categories: [categories.sample]
 
+stic = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
+                                                field_name: 'aasm_state',
+                                                start_value: 'initialized',
+                                                end_value: 'completed'},
+                                                current_user: User.system_user
+                                              )['model']
+stcc = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
+                                                field_name: 'aasm_state',
+                                                start_value: 'checkup_process',
+                                                end_value: 'completed'},
+                                                current_user: User.system_user
+                                              )['model']
+
+stcs = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
+                                                field_name: 'aasm_state',
+                                                start_value: 'checkup_process',
+                                                end_value: 'seasonal_pending'},
+                                                current_user: User.system_user
+                                              )['model']
+stas = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
+                                                field_name: 'aasm_state',
+                                                start_value: 'approval_process',
+                                                end_value: 'seasonal_pending'},
+                                                current_user: User.system_user
+                                              )['model']
+stca = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
+                                                field_name: 'aasm_state',
+                                                start_value: 'checkup_process',
+                                                end_value: 'approved'},
+                                                current_user: User.system_user
+                                              )['model']
+staa = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
+                                                field_name: 'aasm_state',
+                                                start_value: 'approval_process',
+                                                end_value: 'approved'},
+                                                current_user: User.system_user
+                                              )['model']
+# create charts for admin and researcher user
+User.find_each do |u|
+ sc1 = StatisticChart.create title: "completion",
+                             starts_at: Date.new(2017,1,1),
+                             ends_at: Date.new(2017,12,31), user_id: u.id
+ sg1 = StatisticGoal.create amount: rand(300..1000),
+                            starts_at: Date.new(2017,1,1)
+ sc1.statistic_transitions = [stic, stcc]
+ sc1.statistic_goals = [sg1]
+
+ sc2 = StatisticChart.create title: "approval",
+                                    starts_at: Date.new(2017,1,1),
+                                    ends_at: Date.new(2017,12,31),
+                                    user_id: u.id
+ sg2 = StatisticGoal.create amount: rand(300..1000),
+                                    starts_at: Date.new(2017,1,1)
+ sc2.statistic_transitions = [stca, staa, stcs, stas]
+ sc2.statistic_goals = [sg2]
+end
+
+team.users.find_each do |member|
+  date_start = Date.new(2017,1,1)
+  10.times do
+    FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
+                       user_id: member.id, model: 'Offer',
+                       field_name: 'aasm_state', field_start_value:'initialized',
+                       field_end_value:'completed'
+    FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
+                       user_id: member.id, model: 'Offer',
+                       field_name: 'aasm_state',
+                       field_start_value:'approval_process',
+                       field_end_value:'approved'
+    date_start = date_start + rand(1..3).day
+  end
+end
 # A few test statistics
 
 # # A running goal

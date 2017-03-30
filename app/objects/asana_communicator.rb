@@ -47,23 +47,6 @@ class AsanaCommunicator < NetCommunicator
                 :ricochet
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def create_big_orga_is_done_task orga
-    base_link = 'http://claradmin.herokuapp.com/admin'
-    content = "#{base_link}/organization/#{orga.id}/edit"
-    # first position contact (if any)
-    contacts = orga.contact_people.where.not(position: nil)
-    if contacts.any?
-      content += " | Position-Kontakt: #{base_link}/contact_person/"\
-                 "#{contacts.first.id}/edit"
-    end
-    # homepage
-    content += " | Website: #{base_link}/website/#{orga.homepage.id}/edit"
-    create_task "#{orga.section_filters.pluck(:identifier).uniq.join(', ')} | "\
-                "#{orga.name}", content, :big_orga_without_mailing
-  end
-  # rubocop:enable Metrics/AbcSize
-
   protected
 
   def modify_request request

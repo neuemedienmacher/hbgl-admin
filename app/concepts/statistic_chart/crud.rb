@@ -18,7 +18,7 @@ class StatisticChart < ActiveRecord::Base
       # property :target_count
       # property :target_field_name
       # property :target_field_value
-      property :user_team_id
+      # property :user_team_id
       property :user_id
 
       validates :title, presence: true

@@ -12,7 +12,6 @@ module API::V1
         property :starts_at
         property :ends_at
         property :user_id
-        property :user_team_id
 
         property :statistic_transition_ids
         has_many :statistic_transitions do
