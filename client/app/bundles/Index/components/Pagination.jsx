@@ -1,37 +1,26 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
-import PaginationCell from '../containers/PaginationCell'
+import { Pagination, Button } from 'react-bootstrap'
 
-export default class Pagination extends Component {
+export default class PaginationComponent extends Component {
   render() {
     const {
-      pages, previousPageHref, nextPageHref, model, params
+      totalPages, currentPage, onPageSelect, jumpToPage
     } = this.props
 
     return (
-      <div className='pagination'>
-        <ul>
-          {this.renderDirectionCell('left', 'previous', previousPageHref)}
-          {pages.map(page => {
-            return(
-              <PaginationCell
-                key={page} page={page} model={model} params={params}
-              />
-            )
-          })}
-          {this.renderDirectionCell('right', 'next', nextPageHref)}
-        </ul>
+      <div>
+        <Pagination
+          prev next first last ellipsis boundaryLinks
+          items={totalPages}
+          maxButtons={5}
+          activePage={currentPage}
+          onSelect={onPageSelect}
+        />
+        <Button onClick={jumpToPage} style={{marginLeft: '5px'}}>
+          Zu Seite…
+        </Button>
       </div>
     )
-  }
-
-  renderDirectionCell(direction, className, href) {
-    if (href) {
-      return(
-        <li className={className}>
-          <Link className={`fui-arrow-${direction}`} to={href} />
-        </li>
-      )
-    }
   }
 }
