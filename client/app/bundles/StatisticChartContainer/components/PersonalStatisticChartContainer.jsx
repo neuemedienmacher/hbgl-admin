@@ -4,14 +4,16 @@ import GoalsStatisticTable from '../containers/GoalsStatisticTable'
 
 export default class PersonalStatisticChartContainer extends React.Component {
   render() {
-    const { data } = this.props
+    const { data, currentPoints, currentGoalProgress, lastGoalAmount } = this.props
 
     return (
       <div className="chart PersonalChartAndTable">
         <BurnUpChart data={data} chartId={this.props.chartId} />
-        <h6>Jahresziel: {this.props.lastGoalAmount}</h6>
+        <h6>Jahresziel: {lastGoalAmount} / Bisher
+          erreicht: {currentPoints} ( {currentGoalProgress}&#037; ) </h6>
+        <p></p>
         <GoalsStatisticTable actualData={data.actual}
-                             lastGoalAmount = {this.props.lastGoalAmount} />
+                             lastGoalAmount = {lastGoalAmount} />
       </div>
     )
   }

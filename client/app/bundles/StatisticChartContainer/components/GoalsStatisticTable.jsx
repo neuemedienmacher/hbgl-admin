@@ -7,7 +7,7 @@ export default class GoalsStatisticTable extends React.Component {
             titleArray, monthlyGoal } = this.props
 
     return (
-      <table className="personal statistic table">
+      <table className="table table-condensed table-personal-statistics">
         <thead>
           <tr>
             {titleArray.map(this.renderSingleCell.bind(this))}
