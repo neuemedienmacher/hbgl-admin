@@ -3,7 +3,7 @@ import moment from 'moment'
 import valuesIn from 'lodash/valuesIn'
 import sizeOf from 'lodash/size'
 import { getTimePointsBetween } from '../../../lib/timeUtils'
-import BurnUpChart from '../../StatisticChartContainer/containers/BurnUpChart'
+import BurnUpChart from './BurnUpChart'
 
 const mapStateToProps = (state, ownProps) => {
   const chart = ownProps.statisticChart

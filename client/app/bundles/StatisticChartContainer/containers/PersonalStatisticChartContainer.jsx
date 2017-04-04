@@ -15,12 +15,14 @@ const mapStateToProps = (state, ownProps) => {
     collectRelevantData(state.entities, 'statistics', chart, relevantTransitions)
 
   const sortedGoals = relevantGoals.sort(
-    (a, b) => +(a.starts_at > b.starts_at) || +(a.starts_at === b.starts_at)-1
+    (a, b) => +(a.starts_at > b.starts_at) || +(a.starts_at === b.starts_at) - 1
   )
   const lastGoal = sortedGoals[sortedGoals.length - 1]
 
   const actualData = aggregateActualPoints(relevantStatistics, chart)
   const scopeData = aggregateScopePoints(sortedGoals, chart)
+  const currentPoints = actualData ? actualData[actualData.length - 1].y : 0
+  const currentGoalProgress = Math.round(currentPoints / lastGoal.amount * 100)
 
   const data = {
     actual: actualData,
@@ -39,7 +41,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     data,
     chartId: chart.id,
-    lastGoalAmount: lastGoal.amount
+    lastGoalAmount: lastGoal.amount,
+    currentPoints,
+    currentGoalProgress
   }
 }
 
