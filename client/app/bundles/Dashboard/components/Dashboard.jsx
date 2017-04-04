@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import OverviewPanel from '../containers/OverviewPanel'
 import PersonalStatisticCharts from '../containers/PersonalStatisticCharts'
 import TeamStatisticCharts from '../containers/TeamStatisticCharts'
+import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 import ActualWaList from './ActualWaList'
 
 export default class Dashboard extends React.Component {
@@ -12,7 +13,7 @@ export default class Dashboard extends React.Component {
 
   render() {
     const {
-      hasOutstandingTimeAllocations, outstandingTimeAllocations,
+      user, hasOutstandingTimeAllocations, outstandingTimeAllocations,
     } = this.props
 
     const actualWa = hasOutstandingTimeAllocations ? (
@@ -24,9 +25,24 @@ export default class Dashboard extends React.Component {
         <h1>Dashboard</h1>
         <hr />
         {actualWa}
-        <OverviewPanel />
-        <PersonalStatisticCharts />
-        <TeamStatisticCharts />
+        <CollapsiblePanel
+          title={`Willkommen, ${user.name}`} identifier='dashboard'
+          visible={true}
+        >
+          <OverviewPanel />
+        </CollapsiblePanel>
+        <CollapsiblePanel
+          title='Meine W&A Statistiken' identifier='personal-statistic-charts'
+          visible={false}
+        >
+          <PersonalStatisticCharts />
+        </CollapsiblePanel>
+        <CollapsiblePanel
+          title='Team W&A Statistiken' identifier='team-statistic-charts'
+          visible={false}
+        >
+          <TeamStatisticCharts />
+        </CollapsiblePanel>
       </div>
     )
   }

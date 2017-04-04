@@ -3,7 +3,7 @@ import moment from 'moment'
 import valuesIn from 'lodash/valuesIn'
 import sizeOf from 'lodash/size'
 import { getTimePointsBetween } from '../../../lib/timeUtils'
-import BurnUpChart from './BurnUpChart'
+import BurnUpChartAndTable from '../components/BurnUpChartAndTable'
 
 const mapStateToProps = (state, ownProps) => {
   const chart = ownProps.statisticChart
@@ -21,6 +21,8 @@ const mapStateToProps = (state, ownProps) => {
 
   const actualData = aggregateActualPoints(relevantStatistics, chart)
   const scopeData = aggregateScopePoints([teamGoal], chart)
+  const currentPoints = actualData ? actualData[actualData.length - 1].y : 0
+  const currentGoalProgress = Math.round(currentPoints / teamGoal.amount * 100)
 
   const data = {
     actual: actualData,
@@ -36,7 +38,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     data,
     chartId: chart.id,
-    lastGoalAmount: teamGoal.amount
+    lastGoalAmount: teamGoal.amount,
+    currentPoints,
+    currentGoalProgress
   }
 }
 
@@ -120,4 +124,4 @@ function filterStatisticGoals(chart) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BurnUpChart)
+export default connect(mapStateToProps, mapDispatchToProps)(BurnUpChartAndTable)

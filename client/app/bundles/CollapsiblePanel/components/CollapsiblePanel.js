@@ -1,20 +1,37 @@
 import React, { PropTypes, Component } from 'react'
+import { Panel } from 'react-bootstrap'
 
 export default class CollapsiblePanel extends Component {
   render() {
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <a data-toggle="collapse" href={`#${this.props.identifier}`}>
-            <h3 className="panel-title">{this.props.title}</h3>
-          </a>
-        </div>
-        <div id={this.props.identifier} className={this.props.className}>
-          <div className="panel-body">
-            {this.props.content}
-          </div>
-        </div>
+      <div className='ca-panel'>
+        <Panel collapsible expanded={this.props.open}
+          header={this.renderCollapsibleHeader(
+            this.props.title, this.props.open, this.props.onClick
+          )}
+        >
+          {this.props.open && this.props.children ? this.props.children : null}
+        </Panel>
       </div>
     )
+  }
+
+  renderCollapsibleHeader(title, open, onClick) {
+    return (
+      <div onClick={onClick} style={{cursor: 'pointer'}}
+        className='CustomCollapsiblePanelHeader'
+      >
+        {title}
+        {this.renderCollapsibleSymbol(open)}
+      </div>
+    )
+  }
+
+  renderCollapsibleSymbol(open) {
+    if (open) {
+      return <i className='fui-triangle-up' style={{float: 'right'}} />
+    } else {
+      return <i className='fui-triangle-down' style={{float: 'right'}} />
+    }
   }
 }

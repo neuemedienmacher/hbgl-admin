@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import BurnUpChart from '../containers/BurnUpChart'
 import GoalsStatisticTable from '../containers/GoalsStatisticTable'
 
-export default class PersonalStatisticChartContainer extends React.Component {
+export default class BurnUpChartAndTable extends React.Component {
   render() {
     const { data, currentPoints, currentGoalProgress, lastGoalAmount } = this.props
 
