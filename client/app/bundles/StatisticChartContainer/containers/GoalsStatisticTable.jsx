@@ -14,51 +14,43 @@ const mapStateToProps = (state, ownProps) => {
   const titleArray = ['Tag', 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul',
                       'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
 
-  const monthlyGoal = Math.floor(ownProps.lastGoalAmount/12)
+  // const monthlyGoal = Math.floor(ownProps.lastGoalAmount/12)
 
   return {
     lastGoalAmount: ownProps.lastGoalAmount,
     monthlySortedActualData,
     monthlySum,
     titleArray,
-    monthlyGoal
+    // monthlyGoal
   }
 }
 
 function sortActualDataPerMonth(actualData) {
+  let monthSumArray = Array(12).fill('-')
   let yearData = []
-  let monthSumArray = []
 
-  for (var month = 0; month < 12; month++){
-    monthSumArray.push('-')
+  for (var day = 0; day < 31; day++) {
+    yearData.push(Array.from(monthSumArray))
   }
 
-  for (var day = 0; day < 31; day++){
-    let monthData = []
-    for (var month = 0; month < 12; month++){
-      monthData.push('-')
-    }
-    yearData.push(monthData)
-  }
   let lastYValue = 0
   let monthOfArray = 0
   let monthSum = 0
-  for (var i = 0; i < actualData.length; i++) {
+  for (var i = 0; i < actualData.length; i++ ) {
     let dataDay = actualData[i]
-    yearData[moment(dataDay.x).date()-1][moment(dataDay.x).month()] = dataDay.y - lastYValue
+    yearData[moment(dataDay.x).date() - 1][moment(dataDay.x).month()] =
+      dataDay.y - lastYValue
 
     if (monthOfArray != moment(dataDay.x).month()) {
-      monthSumArray[monthOfArray] = monthOfArray>0 ?
-                               lastYValue - monthSum :
-                               lastYValue
+      monthSumArray[monthOfArray] =
+        monthOfArray > 0 ? lastYValue - monthSum : lastYValue
       monthSum = monthSum + monthSumArray[monthOfArray]
       monthOfArray = moment(dataDay.x).month()
     }
 
-    if (actualData.length == i+1) {
-      monthSumArray[moment(dataDay.x).month()] = monthOfArray>0 ?
-                               dataDay.y - monthSum :
-                               dataDay.y
+    if (actualData.length == i + 1) {
+      monthSumArray[moment(dataDay.x).month()] =
+        monthOfArray > 0 ? dataDay.y - monthSum : dataDay.y
     }
 
     lastYValue = dataDay.y

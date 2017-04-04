@@ -3,8 +3,7 @@ import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel
 
 export default class GoalsStatisticTable extends React.Component {
   render() {
-    const { monthlySortedActualData, monthlySum,
-            titleArray, monthlyGoal } = this.props
+    const { monthlySortedActualData, monthlySum, titleArray } = this.props
 
     return (
       <table className="table table-condensed table-personal-statistics">
@@ -15,7 +14,7 @@ export default class GoalsStatisticTable extends React.Component {
         </thead>
         <tbody>
           <tr>
-            <th>Ist<br></br>Soll</th>
+            <th>Summe</th>
             {monthlySum.map(this.renderGoalsRow.bind(this))}
           </tr>
             {monthlySortedActualData.map(this.renderDayRow.bind(this))}
@@ -26,23 +25,22 @@ export default class GoalsStatisticTable extends React.Component {
 
   renderGoalsRow(sum, index){
     return(
-    <th key={index}>{sum}<br></br>{this.props.monthlyGoal}</th>
+      <th key={index}>{sum}</th>
     )
   }
 
   renderDayRow(row, index){
     return(
-    <tr key={index}>
-      <th>{index+1}.</th>
-      {row.map(this.renderSingleCell.bind(this))}
-    </tr>
+      <tr key={index}>
+        <th>{index + 1}</th>
+        {row.map(this.renderSingleCell.bind(this))}
+      </tr>
     )
   }
 
   renderSingleCell(row, index){
     return(
-    <th key={index}>{row}</th>
+      <th key={index}>{row}</th>
     )
   }
-
 }
