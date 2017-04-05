@@ -32,7 +32,7 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     assignment = result['model']
     assignment.creator_id.must_equal user.id
     assignment.receiver_id.must_equal user.id
-    assignment.message.must_equal 'New Assignment'
+    assignment.message.must_equal 'Assigned by system'
   end
 
   # NOTE: more tests not really required because the logic is indirectly tested

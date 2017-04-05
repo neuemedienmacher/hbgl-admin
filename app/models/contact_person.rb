@@ -5,6 +5,8 @@ require ClaratBase::Engine.root.join('app', 'models', 'contact_person')
 class ContactPerson < ActiveRecord::Base
   # Admin specific methods
 
+  include Translations
+
   # Customize duplication.
   def partial_dup
     self.dup.tap do |contact_person|
