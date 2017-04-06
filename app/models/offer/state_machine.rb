@@ -47,6 +47,7 @@ module Offer::StateMachine
       end
 
       event :approve, before: :set_approved_information,
+                      guards: :expiration_date_in_future?,
                       success: :generate_translations! do
         transitions from: :approval_process, to: :seasonal_pending,
                     guard: :seasonal_offer_not_yet_to_be_approved?
@@ -117,6 +118,10 @@ module Offer::StateMachine
 
     def at_least_one_organization_not_visible?
       organizations.where.not(aasm_state: %w(approved all_done)).any?
+    end
+
+    def expiration_date_in_future?
+      self.expires_at > Time.zone.now
     end
 
     def set_approved_information
