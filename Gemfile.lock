@@ -7,29 +7,6 @@ GIT
       representable (~> 3.0.0)
 
 GIT
-  remote: git://github.com/clarat-org/clarat_base.git
-  revision: 449660a81da4445f91a0b0a1068412b93b8b9dea
-  specs:
-    clarat_base (0.1.4)
-      aasm
-      algoliasearch-rails
-      bundler (>= 1.8.4)
-      closure_tree
-      easy_translate
-      enumerize
-      friendly_id (>= 5.0)
-      geocoder
-      localeapp
-      paper_trail
-      rails (~> 4.2)
-      rails-i18n
-      rails-observers
-      redcarpet
-      sanitize
-      sidekiq (~> 4.1.2)
-      web-console (~> 2.0)
-
-GIT
   remote: git://github.com/efqdalton/dynamic_sitemaps.git
   revision: f229cb40391ab3283efd2091ab58bbec68c720cf
   branch: adds-custom-storages
@@ -50,6 +27,28 @@ GIT
   specs:
     trailblazer-endpoint (0.0.1)
       dry-matcher
+
+PATH
+  remote: ../clarat_base
+  specs:
+    clarat_base (0.1.4)
+      aasm
+      algoliasearch-rails
+      bundler (>= 1.8.4)
+      closure_tree
+      easy_translate
+      enumerize
+      friendly_id (>= 5.0)
+      geocoder
+      localeapp
+      paper_trail
+      rails (~> 4.2)
+      rails-i18n
+      rails-observers
+      redcarpet
+      sanitize
+      sidekiq (~> 4.1.2)
+      web-console (~> 2.0)
 
 GEM
   remote: https://rubygems.org/

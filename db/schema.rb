@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326080706) do
+ActiveRecord::Schema.define(version: 20170404141617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(version: 20170326080706) do
     t.datetime "completed_at"
     t.integer  "completed_by"
     t.string   "residency_status"
+    t.integer  "section_filter_id"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state", using: :btree
@@ -465,6 +466,13 @@ ActiveRecord::Schema.define(version: 20170326080706) do
 
   add_index "search_locations", ["geoloc"], name: "index_search_locations_on_geoloc", using: :btree
   add_index "search_locations", ["query"], name: "index_search_locations_on_query", using: :btree
+
+  create_table "section_filters", force: :cascade do |t|
+    t.string   "name"
+    t.string   "identifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sitemaps", force: :cascade do |t|
     t.string "path",    null: false
