@@ -18,7 +18,6 @@ module API::V1
         property :updated_at
         property :opening_specification
         property :approved_at
-        property :legal_information
         property :created_by
         property :approved_by
         property :expires_at
