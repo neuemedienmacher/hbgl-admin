@@ -32,4 +32,11 @@ class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtu
     worker.perform
     offer.reload.must_be :website_unreachable?
   end
+
+  it 'should NOT re-activate valid offer if it has no website' do
+    offer = FactoryGirl.create :offer, :approved, website_count: 0
+    offer.update_columns aasm_state: 'website_unreachable'
+    worker.perform
+    offer.reload.must_be :website_unreachable?
+  end
 end
