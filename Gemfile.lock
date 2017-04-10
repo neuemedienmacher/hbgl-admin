@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 009bab1f66763126ca21107a6e1f7b2d507632a8
+  revision: a1c696835d060ac40ab46da8d60a02870eabc708
   specs:
     clarat_base (0.1.4)
       aasm
@@ -190,7 +190,7 @@ GEM
       representable (>= 2.4.0, <= 3.1.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20170223)
+    domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.1)
     dotenv-rails (2.1.1)

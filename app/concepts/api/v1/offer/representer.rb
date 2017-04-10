@@ -25,7 +25,6 @@ module API::V1
         property :description_html
         property :next_steps_html
         property :opening_specification_html
-        property :exclusive_gender
         property :age_from
         property :age_to
         property :target_audience
