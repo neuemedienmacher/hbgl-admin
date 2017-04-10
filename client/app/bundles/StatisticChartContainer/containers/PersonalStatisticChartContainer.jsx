@@ -86,78 +86,6 @@ function aggregateScopePoints(goals, chart) {
   return points
 }
 
-// function aggregateProjectionPoints(
-//   chart, lastActualPoint, time_allocations, users, statistics
-// ) {
-//   const usersCurrentlyInTeam = users.filter(user =>
-//     user.user_team_ids.includes(chart.user_team_id)
-//   )
-//   const expectedHourlyGoalReachCount = usersCurrentlyInTeam.map(user =>
-//     averageWeeklyGoalsReachedForUser(user.id, statistics)
-//   ).reduce((pv, cv) => { return pv + cv }, 0)
-//
-//   let projectionData = [lastActualPoint]
-//   let lastCount = lastActualPoint.y
-//   let week = moment().startOf('week')
-//   let goalReachedInProjection = false
-//   let iterationCounter = 0
-//
-//   while (!goalReachedInProjection) {
-//     // prepare point from given data
-//     let endOfWeek = week.day(5).format('YYYY-MM-DD') // next Friday
-//     let hoursAvailableForTeamInWeek =
-//       availableHoursForUsersInWeek(week, usersCurrentlyInTeam, time_allocations)
-//     let expectedCountForWeek =
-//       expectedHourlyGoalReachCount * hoursAvailableForTeamInWeek
-//     let expectedEndOfWeekCount = lastCount + expectedCountForWeek
-//
-//     // limit point to chart max
-//     if (expectedEndOfWeekCount >= chart.target_count) {
-//       expectedEndOfWeekCount = chart.target_count
-//       goalReachedInProjection = true
-//     }
-//
-//     // commit point
-//     projectionData.push({
-//       x: endOfWeek, y: expectedEndOfWeekCount
-//     })
-//
-//     // continue or abort iteration
-//     lastCount = expectedEndOfWeekCount
-//     week.add(1, 'week')
-//     if (iterationCounter >= 20) {
-//       break // Endless recursion protection
-//     } else {
-//       iterationCounter += 1
-//     }
-//   }
-//
-//   return projectionData
-// }
-//
-// function averageWeeklyGoalsReachedForUser(user_id, statistics) {
-//   const pastWeeklyUserStatistics = statistics.filter((statistic) =>
-//     statistic.user_id == user_id && statistic.time_frame == 'weekly'
-//   )
-//
-//   const allHourlyGoalsReached = pastWeeklyUserStatistics.reduce((cv, pv) => {
-//     return cv + pv.count
-//   }, 0)
-//
-//   return allHourlyGoalsReached / pastWeeklyUserStatistics.length
-// }
-//
-// function availableHoursForUsersInWeek(
-//   week, usersCurrentlyInTeam, time_allocations
-// ) {
-//   return usersCurrentlyInTeam.map(user => {
-//     const [_e, _h, allocation] = getAllocationForWeekAndUser(
-//       time_allocations, week.week(), week.year(), user.id
-//     )
-//     return allocation.desired_wa_hours
-//   }).reduce((cv, pv) => { return cv + pv }, 0)
-// }
-
 function collectRelevantData(entities, type, ...additionalArgs) {
   const allEntities = valuesIn(entities[type])
   if (!allEntities) return []
@@ -180,9 +108,8 @@ function filterStatistics(chart, transitions) {
         stat.field_end_value == transition.end_value
     })
     return(
-      stat.time_frame == 'daily' &&
-        stat.user_id == chart.user_id &&
-        matchingTransitions.length
+      stat.time_frame == 'daily' && stat.trackable_type == 'User' &&
+        stat.trackable_id == chart.user_id && matchingTransitions.length
     )
   }
 }

@@ -20,6 +20,12 @@ module API::V1
           property :name, as: :label
         end
 
+        has_many :led_teams do
+          type :user_teams
+          property :id
+          property :name, as: :label
+        end
+
         # collection :created_assignments do
         #   property :id
         #   property :message, as: :label

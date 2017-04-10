@@ -105,9 +105,8 @@ function filterStatistics(chart, transitions) {
         stat.field_end_value == transition.end_value
     })
     return(
-      stat.time_frame == 'daily' &&
-        chart.user_ids.includes(stat.user_id) &&
-        matchingTransitions.length
+      stat.time_frame == 'daily' && stat.trackable_type == 'UserTeam' &&
+        stat.trackable_id == chart.team_id && matchingTransitions.length
     )
   }
 }

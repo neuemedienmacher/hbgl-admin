@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: a1c696835d060ac40ab46da8d60a02870eabc708
+  revision: de278e39902c88f2cbcdb87bb1b84c17cecee471
   specs:
     clarat_base (0.1.4)
       aasm
@@ -256,7 +256,7 @@ GEM
       railties (>= 3.2, < 5.1)
     foreman (0.82.0)
       thor (~> 0.19.1)
-    friendly_id (5.2.0)
+    friendly_id (5.2.1)
       activerecord (>= 4.0.0)
     gengo (0.1.0)
       json

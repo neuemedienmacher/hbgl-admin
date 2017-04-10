@@ -267,6 +267,7 @@ feature 'Admin Backend' do
 
     scenario 'checkup_process must be possible for invalid offers' do
       orga = organizations(:basic)
+      researcher.user_teams = [UserTeam.first]
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, :approved, organization: orga,
                                                     split_base: split_base
@@ -523,6 +524,8 @@ feature 'Admin Backend' do
     scenario 'Approve offer' do
       orga = organizations(:basic)
       orga.update_column :aasm_state, 'completed'
+
+      researcher.user_teams = [UserTeam.first]
 
       # Create incomplete offer
       visit rails_admin_path
