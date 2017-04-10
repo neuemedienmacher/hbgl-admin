@@ -18,7 +18,6 @@ module API::V1
         property :updated_at
         property :opening_specification
         property :approved_at
-        property :legal_information
         property :created_by
         property :approved_by
         property :expires_at
@@ -26,7 +25,6 @@ module API::V1
         property :description_html
         property :next_steps_html
         property :opening_specification_html
-        property :exclusive_gender
         property :age_from
         property :age_to
         property :target_audience

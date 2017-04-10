@@ -30,4 +30,12 @@ class API::V1::Assignment::RepresenterTest < ActiveSupport::TestCase
     result = subject.new(record).to_hash
     result[:included].first[:attributes]['label'].must_equal 'NextStep#1'
   end
+
+  it 'contact person assignable test' do
+    assignable = FactoryGirl.create :contact_person,
+                                    responsibility: 'Geduld und Disziplin'
+    record = Assignment.new assignable: assignable.translations.first
+    result = subject.new(record).to_hash
+    result[:included].first[:attributes]['label'].must_equal 'Geduld und Disziplin'
+  end
 end

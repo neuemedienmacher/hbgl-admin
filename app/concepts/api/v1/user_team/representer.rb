@@ -7,6 +7,19 @@ module API::V1
 
         property :name
         property :classification
+        property :parent_id
+
+        has_one :parent do
+          type :user_teams
+          property :id
+          property :name, as: :label
+        end
+
+        has_many :children do
+          type :user_teams
+          property :id
+          property :name, as: :label
+        end
 
         property :user_ids # KK: Not sure if this is the best way...
         collection :users do

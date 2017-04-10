@@ -32,6 +32,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'OfferTranslation', 'OrganizationTranslation'
       assignable_twin = ::Assignable::Twin.new(assignable)
       assignable_twin.created_by_system? ? ::User.system_user : last_acting_user
+    when 'ContactPersonTranslation'
+      ::User.system_user
     else
       last_acting_user # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -52,6 +54,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       else
         ::User.system_user.id
       end
+    when 'ContactPersonTranslation'
+      ::User.system_user.id
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -78,7 +82,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
         'Managed by system'
       end
     else
-      'New Assignment'
+      'Assigned by system'
     end
   end
 end

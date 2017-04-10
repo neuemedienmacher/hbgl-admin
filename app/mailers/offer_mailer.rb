@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# rubocop:disable Style/ClassLength
+# rubocop:disable Metrics/ClassLength
 class OfferMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
   MAX_OFFER_TEASER_COUNT = 5
@@ -162,4 +162,4 @@ class OfferMailer < ActionMailer::Base
     "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
   end
 end
-# rubocop:enable Style/ClassLength
+# rubocop:enable Metrics/ClassLength

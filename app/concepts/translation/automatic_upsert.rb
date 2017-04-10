@@ -23,7 +23,9 @@ module Translation
 
     def find_and_add_acting_user_to_options(options)
       user_id =
-        if options['object_to_translate'].approved_by
+        if options['object_to_translate'].class.name == 'ContactPerson'
+          User.system_user.id
+        elsif options['object_to_translate'].approved_by
           options['object_to_translate'].approved_by
         else
           options['object_to_translate'].created_by
@@ -70,7 +72,6 @@ module Translation
 
     def generate_field_translations options
       params_hash = direct_translate_to_html(options)
-
       if options['locale'].to_sym == :de
         params_hash['source'] = 'researcher'
       else
@@ -99,8 +100,8 @@ module Translation
 
     def direct_translate_via_strategy object, field, locale
       case field.to_sym
-      when :name
-        object.untranslated_name
+      when :name, :responsibility
+        object.send("untranslated_#{field}")
       when :description
         output = MarkdownRenderer.render(object.untranslated_description)
         output = Definition.infuse(output) if locale.to_sym == :de

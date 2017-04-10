@@ -107,6 +107,17 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
   end
 
+  it 'should create system-assignment for contact_person' do
+    cont = FactoryGirl.create :contact_person, responsibility: 'Geduld und Disziplin.'
+    operation.({}, 'locale' => :en, 'fields' => :all,
+                   'object_to_translate' => cont)
+    assignments = cont.translations.where(locale: 'en').first.assignments
+    assignments.count.must_equal 1
+    assignments.first.creator_id.must_equal User.system_user.id
+    assignments.first.receiver_id.must_equal User.system_user.id
+    assignments.first.aasm_state.must_equal 'open'
+  end
+
   it 'should create translator-team Assignment for English' do
     offer = FactoryGirl.create :offer, :approved
     offer.section_filters = [SectionFilter.find_by(identifier: 'refugees')]

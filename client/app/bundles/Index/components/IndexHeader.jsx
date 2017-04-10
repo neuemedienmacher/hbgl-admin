@@ -11,7 +11,7 @@ export default class IndexHeader extends Component {
     } = this.props
 
     return (
-      <Navbar inverse fluid>
+      <Navbar fluid>
         <Nav>
           {routes.map(route => this.renderLinkContainer(route))}
         </Nav>

@@ -36,6 +36,8 @@ module API::V1
             if object[:represented].class.to_s.include?('Translation')
               if object[:represented].respond_to?(:organization)
                 object[:represented].organization.untranslated_description
+              elsif object[:represented].respond_to?(:contact_person)
+                object[:represented].contact_person.untranslated_responsibility
               else
                 object[:represented].offer.untranslated_name
               end

@@ -14,7 +14,8 @@ class Statistic::WeeklyStatisticAggregator
       sorted_statistics_from_week.each do |key, daily_statistic_array|
         Statistic.create!(
           deserialize_goal_unique_key(key).merge(
-            user_id: @user_id,
+            trackable_id: @user_id,
+            trackable_type: 'User',
             date: Date.commercial(@year, @week_number, 7),
             time_frame: 'weekly',
             count: count_for_daily_statistics(daily_statistic_array)
@@ -31,7 +32,7 @@ class Statistic::WeeklyStatisticAggregator
     max_date = min_date + 6.days
 
     Statistic
-      .where(user_id: @user_id)
+      .where(trackable_id: @user_id)
       .where('date >= ?', min_date)
       .where('date <= ?', max_date)
   end
@@ -48,18 +49,17 @@ class Statistic::WeeklyStatisticAggregator
 
   def serialize_goal_unique_key statistic
     [
-      statistic.user_team_id, statistic.model, statistic.field_name,
+      statistic.model, statistic.field_name,
       statistic.field_start_value, statistic.field_end_value
     ]
   end
 
   def deserialize_goal_unique_key key
     {
-      user_team_id: key[0],
-      model: key[1],
-      field_name: key[2],
-      field_start_value: key[3],
-      field_end_value: key[4]
+      model: key[0],
+      field_name: key[1],
+      field_start_value: key[2],
+      field_end_value: key[3]
     }
   end
 

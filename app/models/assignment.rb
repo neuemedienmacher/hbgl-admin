@@ -10,7 +10,6 @@ class Assignment < ActiveRecord::Base
                     :message
                   ],
                   using: { tsearch: { prefix: true } }
-
   # Only used by NewAssignment Form - can be removed when the form is obsolete
   ASSIGNABLE_MODELS = %w(OfferTranslation OrganizationTranslation).freeze
 

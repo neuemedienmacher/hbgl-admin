@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import merge from 'lodash/merge'
 import thunkMiddleware from 'redux-thunk'
-
+import errorHandlerMiddleware from './errorHandlerMiddleware'
 import loggerMiddleware from 'lib/middlewares/loggerMiddleware'
 import normalize from './normalize'
 import combinedReducers, { initialStates } from '../reducers'
@@ -26,7 +26,7 @@ export default function getStore(props) {
     combinedReducers,
     // initialStates,
     applyMiddleware(
-      thunkMiddleware,
+      thunkMiddleware, errorHandlerMiddleware,
       // loggerMiddleware // for debugging
     )
   )

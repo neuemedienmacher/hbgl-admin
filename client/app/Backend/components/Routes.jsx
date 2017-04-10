@@ -9,7 +9,7 @@ import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
   from '../../bundles/Dashboard/containers/DashboardContainer'
 import ShowStatisticChart
-  from '../../bundles/ShowStatisticChart/containers/ShowStatisticChart'
+  from '../../bundles/StatisticChartContainer/containers/PersonalStatisticChartContainer'
 import NewStatisticChart
   from '../../bundles/NewStatisticChart/components/NewStatisticChart'
 import NewAssignment
@@ -23,11 +23,11 @@ import Overview from '../../bundles/Statistics/components/Overview'
 import OfferOverviewPage from '../../bundles/Statistics/components/OfferOverviewPage'
 import OrgaOverviewPage from '../../bundles/Statistics/components/OrgaOverviewPage'
 import RatioOverviewPage from '../../bundles/Statistics/containers/RatioOverviewPage'
-import OfferCreatedPage from '../../bundles/Statistics/components/OfferCreatedPage'
-import OfferApprovedPage from '../../bundles/Statistics/components/OfferApprovedPage'
-import OrgaCreatedPage from '../../bundles/Statistics/components/OrgaCreatedPage'
-import OrgaApprovedPage from '../../bundles/Statistics/components/OrgaApprovedPage'
-import StatisticChartPage from '../../bundles/Statistics/components/StatisticChartPage'
+// import OfferCreatedPage from '../../bundles/Statistics/components/OfferCreatedPage'
+// import OfferApprovedPage from '../../bundles/Statistics/components/OfferApprovedPage'
+// import OrgaCreatedPage from '../../bundles/Statistics/components/OrgaCreatedPage'
+// import OrgaApprovedPage from '../../bundles/Statistics/components/OrgaApprovedPage'
+// import StatisticChartPage from '../../bundles/Statistics/components/StatisticChartPage'
 import EditTranslation from
   '../../bundles/EditTranslation/containers/EditTranslation'
 

@@ -267,6 +267,7 @@ feature 'Admin Backend' do
 
     scenario 'checkup_process must be possible for invalid offers' do
       orga = organizations(:basic)
+      researcher.user_teams = [UserTeam.first]
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, :approved, organization: orga,
                                                     split_base: split_base
@@ -276,8 +277,8 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Bearbeiten', match: :first
 
-      # simulate expired offer in other deactivation state (offer invalid)
-      offer.update_columns aasm_state: 'internal_feedback', expires_at: Time.zone.now - 1.day
+      # simulate invalid age in other deactivation state (offer invalid)
+      offer.update_columns aasm_state: 'internal_feedback', age_from: -1
       offer.valid?.must_equal false
 
       page.must_have_link 'Deaktivieren (External Feedback)'
@@ -306,7 +307,7 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
 
       # simulate expired offer in other deactivation state (offer invalid)
-      offer.update_columns aasm_state: 'completed', expires_at: Time.zone.now - 1.day
+      offer.update_columns aasm_state: 'completed', age_from: -1
       offer.valid?.must_equal false
 
       click_link 'Bearbeiten', match: :first
@@ -523,6 +524,8 @@ feature 'Admin Backend' do
     scenario 'Approve offer' do
       orga = organizations(:basic)
       orga.update_column :aasm_state, 'completed'
+
+      researcher.user_teams = [UserTeam.first]
 
       # Create incomplete offer
       visit rails_admin_path
