@@ -25,7 +25,7 @@ class Offer < ActiveRecord::Base
                   # against: attribute_names.map(&:to_sym),
                   against: [
                     :name, :description, :aasm_state, :encounter,
-                    :old_next_steps, :legal_information, :code_word
+                    :old_next_steps, :code_word
                   ],
                   associated_against: {
                     section_filters: :name,
