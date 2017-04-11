@@ -181,12 +181,12 @@ team.users.find_each do |member|
   date_start = Date.new(2017,1,1)
   10.times do
     FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
-                       trackable_id: u.id, trackable_type: 'User', model: 'Offer',
+                       trackable_id: member.id, trackable_type: 'User', model: 'Offer',
                        field_name: 'aasm_state', field_start_value:'initialized',
                        field_end_value: 'completed'
     FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
-                       trackable_id: u.id, trackable_type: 'User', model: 'Offer',
-                       field_name: 'aasm_state', field_end_value: 'approved'
+                       trackable_id: member.id, trackable_type: 'User', model: 'Offer',
+                       field_name: 'aasm_state', field_end_value: 'approved',
                        field_start_value:'approval_process'
     date_start = date_start + rand(1..3).day
   end
