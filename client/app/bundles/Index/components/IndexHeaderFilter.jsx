@@ -6,8 +6,8 @@ export default class IndexHeaderFilter extends Component {
   render() {
     const {
       options, onTrashClick, fields, operators, filterName, operatorName,
-      filterValue, onFilterNameChange, onFilterValueChange,
-      onFilterOperatorChange
+      filterValue, onFilterNameChange, onFilterValueChange, onCheckboxChange,
+      onFilterOperatorChange, filterType, nilChecked
     } = this.props
 
     return (
@@ -31,10 +31,17 @@ export default class IndexHeaderFilter extends Component {
               />
             )}
           </select>
+          <label>
+            <input type="checkbox" name="nil" value="nil"
+              onChange={onCheckboxChange} checked={nilChecked}
+            />
+            leer
+          </label>
           <div className='input-group'>
+
             <input
               className='form-control' onChange={onFilterValueChange}
-              value={filterValue}
+              value={filterValue} type={filterType} disabled={nilChecked}
             />
             <span className='input-group-btn'>
               <button className='btn' onClick={onTrashClick}>

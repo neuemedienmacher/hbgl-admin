@@ -76,7 +76,7 @@ module GenericSortFilter
 
   def self.build_singular_filter_query(query, params, filter, value)
     # transform table names (before a .) in case of association name mismatch
-    filter_key = filter['.'] ? joined_table_name_for(query, filter) : filter
+    filter_key = joined_or_own_table_name_for(query, filter, params)
     filter_string = filter_key.to_s
     # append operator
     operator = process_operator(params[:operators], filter, value)
@@ -88,10 +88,16 @@ module GenericSortFilter
     filter_string + optional_query_addition(operator, new_value, filter_key)
   end
 
-  def self.joined_table_name_for(query, filter)
-    split_filter = filter.split('.')
-    split_filter[0] = table_name_for(query, split_filter[0])
-    split_filter.join('.')
+  def self.joined_or_own_table_name_for(query, filter, params)
+    if filter['.']
+      split_filter = filter.split('.')
+      split_filter[0] = table_name_for(query, split_filter[0])
+      split_filter.join('.')
+    elsif params[:controller]
+      params[:controller].split('/').last + '.' + filter
+    else
+      filter
+    end
   end
 
   def self.table_name_for(query, filter)
@@ -112,7 +118,6 @@ module GenericSortFilter
     operator
   end
 
-  # rubocop:disable Metrics/AbcSize
   def self.transform_value(value, filter, query)
     model_name =
       if filter.include?('.')
@@ -120,16 +125,20 @@ module GenericSortFilter
       else
         query.model
       end
-
-    # convert datetime strings to specific format for query
-    if model_name.columns_hash[filter] &&
-       model_name.columns_hash[filter].type == :datetime && !value.empty?
-      value = DateTime.parse(value + ' CET').utc.to_s
-    end
+    value = parse_value_by_type(value, filter, model_name)
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def self.parse_value_by_type(value, filter, model_name)
+    # convert datetime strings to specific format for query
+    if model_name.columns_hash[filter] && !nullable_value?(value) &&
+       model_name.columns_hash[filter].type == :datetime && !value.empty?
+      DateTime.parse(value + ' CET').utc.to_s
+    else
+      value
+    end
+  end
 
   def self.optional_query_addition(operator, value, filter_key)
     # append OR NULL for non-null, NOT-queries (include optionals)
