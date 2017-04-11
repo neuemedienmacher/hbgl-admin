@@ -23,15 +23,6 @@ const mapStateToProps = (state, ownProps) => {
       })
     })) : []
   )
-  // append user_ids of leads of child_teams of led_teams.. yes, really..
-  selectable_data = selectable_data.concat(
-    state.entities.current_user.led_teams ?
-    flatten(state.entities.current_user.led_teams.map(team => {
-      return !team.children ? [] : team.children.map(c_team => {
-        return c_team.lead_id ? [c_team.lead_id, `${state.entities.users[c_team.lead_id].name} (Lead von: ${c_team.name})`] : []
-      })
-    })) : []
-  )
   const dataLoaded = state.ajax.isLoading[dataKey] === false &&
                      state.ajax[dataKey]
   return {
