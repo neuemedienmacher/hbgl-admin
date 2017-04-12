@@ -30,7 +30,7 @@ class Statistic::DailyTeamStatisticSynchronizer
   def all_statistics_of_users_in_year
     min_date = Date.new(@year, 1, 1)
     max_date = Date.new(@year, 12, 31)
-    user_ids = @team.users.pluck(:id)
+    user_ids = recursive_user_ids_of_team(@team).uniq
 
     Statistic
       .where(trackable_id: user_ids)
@@ -38,6 +38,12 @@ class Statistic::DailyTeamStatisticSynchronizer
       .where(time_frame: 'daily')
       .where('date >= ?', min_date)
       .where('date <= ?', max_date)
+  end
+
+  def recursive_user_ids_of_team team
+    (team.users.pluck(:id) + team.children.map do |child_team|
+      recursive_user_ids_of_team child_team
+    end).flatten
   end
 
   def find_or_initialize properties

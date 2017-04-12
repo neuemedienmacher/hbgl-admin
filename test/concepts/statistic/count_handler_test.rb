@@ -3,7 +3,7 @@ require_relative '../../test_helper'
 
 class StatisticCountHandlerTest < ActiveSupport::TestCase # to have fixtures
   subject { Statistic::CountHandler }
-  let(:user) { OpenStruct.new(id: 99, current_team: OpenStruct.new(id: 33)) }
+  let(:user) { OpenStruct.new(id: 99) }
 
   describe '#record' do
     it 'must create a new statistic with the given data if none existed' do
