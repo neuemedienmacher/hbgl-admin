@@ -16,9 +16,7 @@ const mapStateToProps = (state, ownProps) => {
   // add ids of all users in children-teams of led_teams (lead-only)
   affectedUserIds = affectedUserIds.concat(
     flatten(current_user.led_teams.map(team => {
-      return flatten(team.children.map(child_team => {
-        return flatten(child_team.user_ids)
-      }))
+      return recursive_user_ids_of_team(team)
     }))
   )
   affectedUserIds = compact(uniq(affectedUserIds))
@@ -34,6 +32,16 @@ const mapStateToProps = (state, ownProps) => {
     selectedTab,
     dataLoaded
   }
+}
+
+function recursive_user_ids_of_team(team) {
+  let ids = team.user_ids || []
+  ids = ids.concat(
+    team.children && team.children.length != 0 ? team.children.map(s_team => {
+        return recursive_user_ids_of_team(s_team)
+      }) : []
+  )
+  return flatten(ids)
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
