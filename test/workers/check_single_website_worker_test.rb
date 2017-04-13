@@ -6,8 +6,8 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
   it 'should create asana task, expire and index offer with 404 website' do
     website = FactoryGirl.create :website, :own
     offer = FactoryGirl.create :offer, :approved
-    offer.section_filters = [SectionFilter.find_by(identifier: 'refugees') ||
-      FactoryGirl.create(:section_filter, identifier: 'refugees', name: 'Refugees')]
+    offer.section_filter = SectionFilter.find_by(identifier: 'refugees') ||
+      FactoryGirl.create(:section_filter, identifier: 'refugees', name: 'Refugees')
     website.offers << offer
     Offer.any_instance.expects(:index!)
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
@@ -29,8 +29,8 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
      'website' do
     website = FactoryGirl.create :website, :own, unreachable_count: 1
     offer = FactoryGirl.create :offer, :approved
-    offer.section_filters = [SectionFilter.find_by(identifier: 'refugees') ||
-      FactoryGirl.create(:section_filter, identifier: 'refugees', name: 'Refugees')]
+    offer.section_filter = SectionFilter.find_by(identifier: 'refugees') ||
+      FactoryGirl.create(:section_filter, identifier: 'refugees', name: 'Refugees')
     website.offers << offer
     Offer.any_instance.expects(:index!)
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
@@ -43,8 +43,8 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
   it 'should increment unreachable_count but not create tasks a second time' do
     website = FactoryGirl.create :website, :own, unreachable_count: 2
     offer = FactoryGirl.create :offer, :approved
-    offer.section_filters = [SectionFilter.find_by(identifier: 'refugees') ||
-      FactoryGirl.create(:section_filter, identifier: 'refugees', name: 'Refugees')]
+    offer.section_filter = SectionFilter.find_by(identifier: 'refugees') ||
+      FactoryGirl.create(:section_filter, identifier: 'refugees', name: 'Refugees')
     website.offers << offer
     Offer.any_instance.expects(:index!).never
     AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer).never

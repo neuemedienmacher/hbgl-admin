@@ -121,7 +121,7 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'filters with a mismatching association/table name' do
-      params = { filters: { 'section_filters.foobar' => 'bazfuz' } }
+      params = { filters: { 'language_filters.foobar' => 'bazfuz' } }
       query.expects(:where).with("filters.foobar = 'bazfuz'")
       subject.send(:transform_by_filtering, query, params)
     end

@@ -7,5 +7,17 @@ FactoryGirl.define do
     end
     identifier { _random[0] }
     name { _random[1] }
+
+    trait :family do
+      identifier 'family'
+      name 'Family'
+    end
+
+    trait :refugees do
+      identifier 'refugees'
+      name 'Refugees'
+      binding.pry
+    end
   end
+
 end

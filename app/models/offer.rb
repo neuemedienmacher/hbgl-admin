@@ -72,7 +72,7 @@ class Offer < ActiveRecord::Base
       offer.organizations = self.organizations
       offer.openings = self.openings
       offer.categories = self.categories
-      offer.section_filters = self.section_filters
+      offer.section_filter = self.section_filter
       offer.language_filters = self.language_filters
       offer.target_audience_filters = self.target_audience_filters
       offer.trait_filters = self.trait_filters

@@ -45,14 +45,16 @@ module API::V1
         property :starts_at
         property :completed_at
         property :completed_by
+        property :section_filter_id
+
 
         collection :organizations do
           property :name, as: :label
         end
-        collection :section_filters do
-          property :label, getter: ->(r) { r[:represented].name }
-          property :name
-        end
+        # belongs_to :section_filter do
+        #   property :label, getter: ->(r) { r[:represented].name }
+        #   property :name
+        # end
         collection :target_audience_filters do
           property :name, as: :label
         end

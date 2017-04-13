@@ -314,7 +314,7 @@ RailsAdmin.config do |config|
     weight(-4)
     list do
       field :name
-      field :section_filters
+      field :section_filter
       field :aasm_state
       field :creator do
         formatted_value do
@@ -331,7 +331,7 @@ RailsAdmin.config do |config|
       field :created_by
     end
 
-    field :section_filters
+    field :section_filter
     field :split_base
     field :all_inclusive
     field :name do
@@ -769,8 +769,8 @@ RailsAdmin.config do |config|
     parent Filter
   end
   config.model 'SectionFilter' do
-    weight 3
-    parent Filter
+    #weight 3
+    #parent Filter
     list do
       field :id
       field :name

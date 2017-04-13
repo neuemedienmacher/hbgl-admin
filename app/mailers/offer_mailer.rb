@@ -150,7 +150,7 @@ class OfferMailer < ActionMailer::Base
   # Includes information about the worlds, the offer-count of the mailing, the
   # type and the receiver of the mailing.
   def generate_utm_suffix offers, receiver_type, mailing_type = 'OB'
-    sections = offers.map { |o| o.section_filters.pluck(:identifier).flatten }.flatten.uniq
+    sections = offers.map { |o| o.section_filter.identifier }.flatten.uniq
     first_char_of_sections = sections.map { |w| w.first.upcase }.sort.join
     offers_text =
       if offers.count == 1

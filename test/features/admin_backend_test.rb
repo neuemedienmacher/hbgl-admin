@@ -17,7 +17,7 @@ feature 'Admin Backend' do
       click_link 'Neu hinzufügen'
 
       assert_difference 'Offer.count', 1 do
-        select 'Family', from: 'offer_section_filter_ids'
+        select 'Family', from: 'offer_section_filter_id'
         fill_in 'offer_name', with: 'testangebot'
         fill_in 'offer_description', with: 'testdescription'
         fill_in 'offer_age_from', with: 0
@@ -459,7 +459,7 @@ feature 'Admin Backend' do
 
       # contact_person becomes SPoC, still needs target_audience
       contact_person.update_column :spoc, true
-      select 'Family', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_filter_id'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Contact people müssen alle zu einer der'\
                              ' ausgewählten Organisationen gehören oder als'\
@@ -530,7 +530,7 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Neu hinzufügen'
 
-      select 'Family', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_filter_id'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
       fill_in 'offer_age_from', with: 0

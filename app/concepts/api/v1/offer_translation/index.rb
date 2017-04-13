@@ -5,8 +5,10 @@ module API::V1
       def base_query
         ::OfferTranslation
           .where(locale: [:en, :ar, :fa])
-          .joins(:section_filters).where('filters.identifier = ?', 'refugees')
+          .joins(:section_filter).where('section_filters.identifier = ?', 'family')
       end
     end
   end
 end
+
+::OfferTranslation.where(locale: [:en, :ar, :fa]).joins(:offer).where('offers.section_filter_id = ?', '2')
