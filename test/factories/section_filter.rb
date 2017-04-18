@@ -16,7 +16,6 @@ FactoryGirl.define do
     trait :refugees do
       identifier 'refugees'
       name 'Refugees'
-      binding.pry
     end
   end
 
