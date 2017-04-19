@@ -22,7 +22,7 @@ module API::V1
         end
 
         property :user_ids # KK: Not sure if this is the best way...
-        collection :users do
+        has_many :users do
           property :id
           property :name
           property :name, as: :label

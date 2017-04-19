@@ -15,15 +15,24 @@ module API::V1
         property :current_team_id
         property :user_team_ids
 
-        collection :user_teams do
+        has_many :user_teams do
+          type :user_teams
+
           property :id
-          property :name, as: :label
+          property :name
+          property :label, getter: ->(user_team) do
+            user_team[:represented].name
+          end
         end
 
         has_many :led_teams do
           type :user_teams
+
           property :id
-          property :name, as: :label
+          property :name
+          property :label, getter: ->(led_team) do
+            led_team[:represented].name
+          end
         end
 
         # collection :created_assignments do
