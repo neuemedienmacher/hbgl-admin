@@ -55,7 +55,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 1
 
     # add a refugees offer to the organization and start Operation again
-    orga = refugees_section_offer.organizations.first
+    orga.offers << refugees_section_offer
     orga.in_section?('refugees').must_equal true
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -76,9 +76,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
 
     # add a refugeesoffer to the organization and start Operation again
-    #family_section_offer.update_columns aasm_state: 'initialized'
-    #offer.section_filter = SectionFilter.find_by(identifier: 'refugees')
-    orga = refugees_section_offer.organizations.first
+    orga.offers << refugees_section_offer
+    refugees_section_offer.update_columns aasm_state: 'initialized'
     orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => refugees_section_offer)
@@ -90,7 +89,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
                    'object_to_translate' => refugees_section_offer)
     assignments.count.must_equal 2
     assignments.first.aasm_state.must_equal 'closed'
-    assignments.last.creator_id.must_equaloffer.approved_by
+    assignments.last.creator_id.must_equal refugees_section_offer.approved_by
     assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
     assignments.last.aasm_state.must_equal 'open'
 
