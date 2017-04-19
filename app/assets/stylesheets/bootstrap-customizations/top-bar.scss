@@ -1,0 +1,86 @@
+.claradmin {
+
+  .top-bar {
+    background-color: var(--main-yellow);
+    height: 73px;
+    border-top: 3px solid var(--main-yellow);
+    border-bottom: none;
+
+    .nav-tabs {
+      margin-left: 65px;
+
+      & > li > a,
+      & > li,
+      & {
+        font-size: 20px;
+      }
+
+      &.nav-justified {
+        li {
+          a {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+
+    .navbar-nav {
+      > .open > a,
+      > .open > a:hover,
+      > .open > a:focus,
+      .open > a {
+        background-color: transparent;
+      }
+
+      & > li.open > a,
+      & > li.open > a:hover,
+      & > li.open > a:focus,
+      & > li.open > a,
+      & > .dropdown > a:hover .caret,
+      & > .dropdown > a:focus .caret,
+      &.nav.nav-tabs > li > a {
+        line-height: 34px;
+        color: #fff;
+      }
+    }
+
+    &.navbar-default .active.dropdown .caret {
+      border-bottom-color: var(--main-brown);
+      border-top-color: var(--main-brown);
+    }
+
+    > li.active {
+      background-color: #fff;
+      height: 76px;
+    }
+
+    .nav-tabs.nav-justified > li.active > a {
+      color: var(--main-brown);
+      background: #fff;
+      height: 76px;
+      border: none;
+    }
+
+
+    .dropdown-menu {
+      margin-top: -3px;
+      border-radius: 0;
+    }
+
+    .dropdown-menu > .active > a,
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+      color: #fff;
+      background-color: var(--main-yellow);
+    }
+
+    &__mascot {
+      position: absolute;
+    }
+
+    .label {
+      vertical-align: top;
+      line-height: 2;
+    }
+  }
+}

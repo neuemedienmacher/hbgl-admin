@@ -14,7 +14,7 @@ export default class ShowItems extends React.Component {
       return (
         <div className="content ShowList">
           <div className="panel-group">
-            <h5>Eigene Felder</h5>
+            <h5 className="section-title">Eigene Felder</h5>
             {column_names.map(name =>
               <ShowFieldItem key={name} name={name} content={model_instance[name]}/>
             )}

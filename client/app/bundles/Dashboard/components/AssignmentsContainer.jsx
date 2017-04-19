@@ -10,11 +10,10 @@ export default class AssignmentsContainer extends Component {
 
     return (
       <div className="panel-group">
-        <b>{heading}</b>
+        <p>{heading}</p>
         <InlineIndex
           model={model} baseQuery={filter_query} identifier_addition={scope}
         />
-        <hr />
       </div>
     )
   }

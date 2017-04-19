@@ -1,0 +1,71 @@
+.claradmin {
+
+  .table-header {
+
+    .navbar-default .navbar-nav > li > a,
+    .active > a,
+    a {
+      color: var(--main-brown);
+    }
+
+    .container-fluid {
+      padding-right: 10px;
+      padding-left: 10px;
+      display: flex;
+    }
+
+    .nav {
+      flex: 1 1 auto;
+
+      a,
+      li {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      li {
+        border-top: 5px solid transparent;
+
+        &.active {
+          border-color: var(--main-beige);
+          font-weight: 700;
+
+          a {
+            background: #fff;
+          }
+        }
+      }
+    }
+
+    .navbar {
+      background-color: var(--main-beige);
+      border-radius: 0;
+      border: none;
+
+      > .active > a,
+      > .active > a:hover,
+      > .active > a:focus {
+        background-color: #fff;
+        font-weight: bold;
+        border-color: var(--main-beige);
+      }
+
+      &-form.navbar-right {
+
+        .form-group {
+          margin-top: 10px;
+        }
+
+        .form-control {
+          margin-right: 10px;
+          box-shadow: none;
+
+          &:focus {
+            border: 1px solid var(--main-brown);
+          }
+        }
+      }
+    }
+  }
+}

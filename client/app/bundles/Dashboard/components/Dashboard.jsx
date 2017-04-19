@@ -21,8 +21,7 @@ export default class Dashboard extends React.Component {
 
     return (
       <div className='Dashboard'>
-        <h1>Dashboard</h1>
-        <hr />
+        <h1 className="page-title">Dashboard</h1>
         {actualWa}
         <CollapsiblePanel
           title={`Willkommen, ${user.name}`} identifier='dashboard'

@@ -1,0 +1,67 @@
+.claradmin {
+
+  .navbar {
+
+    &-form {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .select-wrapper {
+      display: inline-block;
+      position: relative;
+
+      &::after {
+        content: "\25BE";
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+    }
+
+    select.form-control {
+      padding-right: 35px;
+    }
+
+    &-default {
+      .navbar-form.navbar-right .input-group-btn .btn {
+        background-color: var(--main-brown);
+        color: #fff;
+        border-radius: 0;
+      }
+
+      .navbar-form.navbar-right .input-group-btn .btn[disabled] {
+        background-color: var(--main-brown-lite);
+      }
+
+      .navbar-nav > .dropdown > a:hover .caret,
+      .nav.nav-tabs .caret {
+        border-bottom-color: #fff;
+        border-top-color: #fff;
+      }
+
+      .nav.nav-tabs {
+        background: transparent;
+
+        > li > a:hover {
+          border: none;
+          border-radius: 0;
+        }
+
+        > li > a {
+          border-radius: 0;
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  .nav-tabs.nav-justified > li > a {
+    border-bottom: none;
+  }
+}
+
+
+
+

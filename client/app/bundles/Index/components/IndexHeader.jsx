@@ -28,7 +28,7 @@ export default class IndexHeader extends Component {
                 className='btn' onClick={onPlusClick}
                 disabled={plusButtonDisabled}
               >
-                <span className='fui-plus' />
+                <span className='fa fa-plus' />
               </button>
             </span>
           </div>

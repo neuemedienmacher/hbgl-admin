@@ -13,7 +13,6 @@ export default class NewOrganizationForm extends React.Component {
     return (
       <div className='content NewOrganization'>
         <h2>Neue Zuweisung</h2>
-        <hr />
         <Form ajax requireValid
           action='/api/v1/organizations/' method='POST'
           className='form'
