@@ -47,7 +47,6 @@ module API::V1
         property :completed_by
         property :section_filter_id
 
-
         collection :organizations do
           property :name, as: :label
         end

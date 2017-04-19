@@ -35,7 +35,7 @@ describe ExportsController do
         enum = @controller.send(:csv_lines, result['model'])
         enum.next
         enum.to_a.must_equal [
-          "id,name,id [Section Filters]\n", "1,Berlin,8\n"
+          "id,name,id [Section Filters]\n", "1,Berlin,1\n"
         ]
       end
 

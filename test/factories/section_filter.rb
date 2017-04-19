@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :section_filter do
     transient do
@@ -18,5 +19,4 @@ FactoryGirl.define do
       name 'Refugees'
     end
   end
-
 end
