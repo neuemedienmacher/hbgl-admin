@@ -506,12 +506,10 @@ feature 'Admin Backend' do
       page.wont_have_content(
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
-      page.must_have_content "benötigt mindestens eine 'Family' Kategorie"
 
       # Fill categories, it saves again
       select 'main1', from: 'offer_category_ids'
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content "benötigt mindestens eine 'Family' Kategorie"
       page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Complete works
