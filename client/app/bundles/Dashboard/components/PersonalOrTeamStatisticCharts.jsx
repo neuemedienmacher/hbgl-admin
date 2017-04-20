@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
-import { FormControl } from 'react-bootstrap'
 import PersonalStatisticChartContainer from '../../StatisticChartContainer/containers/PersonalStatisticChartContainer'
 import TeamStatisticChartContainer from '../../StatisticChartContainer/containers/TeamStatisticChartContainer'
+import ControlledSelectView from '../../ControlledSelectView/containers/ControlledSelectView'
 
 export default class PersonalOrTeamStatisticCharts extends Component {
   componentDidMount() {
@@ -17,13 +17,11 @@ export default class PersonalOrTeamStatisticCharts extends Component {
 
   render() {
     return (
-      <div>
-        Zeige Statistiken von:
-        <FormControl componentClass="select" onChange={this.props.onSelect}>
-          {this.props.selectable_data.map( data => {
-            return(<option value={data[0]}>{data[1]}</option>)
-          })}
-        </FormControl>
+      <div className="select-set">
+        <span className="select-set__label">Zeige Statistiken von:</span>
+        <ControlledSelectView identifier={this.props.chartType + 'Statistics'}>
+          {this.props.selectable_data}
+        </ControlledSelectView>
         {this.existingChartsOrLoading(
           this.props.statisticCharts, this.props.dataLoaded, this.props.chartType
         )}

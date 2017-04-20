@@ -3,7 +3,6 @@ import flatten from 'lodash/flatten'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
-import setUiAction from '../../../Backend/actions/setUi'
 import StatisticsContainer from '../components/StatisticsContainer'
 
 const mapStateToProps = (state, ownProps) => {
@@ -21,7 +20,6 @@ const mapStateToProps = (state, ownProps) => {
   )
   affectedUserIds = compact(uniq(affectedUserIds))
 
-  const selectedTab = state.ui.statisticSelectedTab || 0
   const dataLoaded = state.ajax.overallStatisticChartData &&
                      state.ajax.isLoading.overallStatisticChartData === false &&
                      state.entities.statistic_charts &&
@@ -29,7 +27,6 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     affectedUserIds,
-    selectedTab,
     dataLoaded
   }
 }
@@ -65,14 +62,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
         'overallStatisticChartData'
       )
     )
-  },
-
-  handleSelect(e){
-    if (stateProps.selectedTab != e) {
-      dispatchProps.dispatch(
-        setUiAction('statisticSelectedTab', e)
-      )
-    }
   }
 })
 

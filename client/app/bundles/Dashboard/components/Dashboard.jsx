@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import OverviewPanel from '../containers/OverviewPanel'
+import OverviewPanel from '../components/OverviewPanel'
 import StatisticsContainer from '../containers/StatisticsContainer'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 import ActualWaList from './ActualWaList'

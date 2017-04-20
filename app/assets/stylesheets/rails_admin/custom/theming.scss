@@ -103,3 +103,60 @@
     display: none;
   }
 }
+
+
+.login-page {
+
+  .login-wrapper {
+    max-width: 800px;
+    position: relative;
+    margin: 12em auto 0;
+  }
+
+  .login-icon {
+    margin-right: 20px;
+  }
+
+
+  .login-form {
+    flex: 1 1 auto;
+  }
+
+  .login-screen {
+    display: flex;
+    background-color: #F6EED9;
+    padding: 40px 30px;
+    border-radius: 12px 0;
+  }
+
+
+  label {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 10px;
+  }
+
+  .btn {
+    border-radius: 0;
+    border: none;
+    font-family: "Roboto", sans-serif;
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  .form-actions {
+    margin-top: 20px;
+  }
+
+  .form-control {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 0;
+
+    &:focus {
+      border-color: #41311A;
+    }
+  }
+}

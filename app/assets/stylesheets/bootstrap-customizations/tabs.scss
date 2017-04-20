@@ -32,4 +32,14 @@
     font-weight: bold;
   }
 
-}
+  > li > a,
+  > li > a:hover {
+    color: #fff;
+  }
+
+  > li > a:hover {
+    text-decoration: underline;
+  }
+
+
+  }

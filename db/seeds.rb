@@ -14,8 +14,6 @@ admin = User.create! email: 'admin@admin.com', password: 'password',
 team = UserTeam.create! name: 'The Experts'
 team.users << user
 team.users << admin
-user.update_columns current_team_id: team.id
-admin.update_columns current_team_id: team.id
 
 family = SectionFilter.create name: 'Family', identifier: 'family'
 refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'

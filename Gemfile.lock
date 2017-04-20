@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: de278e39902c88f2cbcdb87bb1b84c17cecee471
+  revision: 75a8854b537cb881d7c35ddfe060decad3ef8e9f
   specs:
     clarat_base (0.1.4)
       aasm
@@ -268,8 +268,8 @@ GEM
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
     gli (2.16.0)
-    globalid (0.3.7)
-      activesupport (>= 4.1.0)
+    globalid (0.4.0)
+      activesupport (>= 4.2.0)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -310,7 +310,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (2.0.3)
+    json (2.1.0)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -379,7 +379,7 @@ GEM
     nokogumbo (1.4.10)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (7.0.0)
+    paper_trail (7.0.1)
       activerecord (>= 4.0, < 5.2)
       request_store (~> 1.1)
     parser (2.3.3.1)
@@ -661,7 +661,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.2)
+    unf_ext (0.0.7.4)
     unicode-display_width (1.1.2)
     uniform_notifier (1.10.0)
     warden (1.2.6)

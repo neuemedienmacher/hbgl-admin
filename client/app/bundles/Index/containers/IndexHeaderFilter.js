@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import omit from 'lodash/omit'
 import clone from 'lodash/clone'
 import merge from 'lodash/merge'
+import filter from 'lodash/filter'
 import { encode } from 'querystring'
 import { browserHistory } from 'react-router'
 import settings from '../../../lib/settings'
@@ -16,7 +17,12 @@ const mapStateToProps = (state, ownProps) => {
   const filterType = setFilterType(filterName)
   const filterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1]
   const nilChecked = ownProps.filter[1] == 'nil'
-  const fields = analyzeFields(settings.index[model].fields, model)
+  // only show filters that are not locked (currently InlineIndex only)
+  const fields =
+    analyzeFields(settings.index[model].fields, model).filter(value =>
+      !ownProps.lockedParams ||
+        !ownProps.lockedParams.hasOwnProperty(`filters[${value.field}]`)
+    )
   const operatorName = ownProps.params[`operators[${filterName}]`] || '='
   const operators = settings.OPERATORS.map(operator => {
     return {
