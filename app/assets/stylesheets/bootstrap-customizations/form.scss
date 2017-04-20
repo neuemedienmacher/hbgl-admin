@@ -25,6 +25,23 @@
       background-color: var(--main-beige);
     }
   }
+
+  .select-wrapper {
+    display: inline-block;
+    position: relative;
+
+    .form-control {
+      padding-right: 25px;
+    }
+
+    &::after {
+      content: "\25BE";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
 }
 
 .btn {

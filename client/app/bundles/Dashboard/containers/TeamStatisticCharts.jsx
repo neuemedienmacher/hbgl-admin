@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
 import valuesIn from 'lodash/valuesIn'
 import flatten from 'lodash/flatten'
-import setUiAction from '../../../Backend/actions/setUi'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import PersonalOrTeamStatisticCharts from '../components/PersonalOrTeamStatisticCharts'
 
 const mapStateToProps = (state, ownProps) => {
   let user = state.entities.current_user
+  const chartType = 'UserTeam'
   const chartNames = ['completion', 'approval']
-  const trackableId =
-    state.ui.teamStatisticSelectedId || user.user_teams[0].id
+  let selectIdentifier = 'controlled-select-view-' + chartType + 'Statistics'
+  const trackableId = state.ui[selectIdentifier] || user.user_teams[0].id
   const dataKey = 'teamStatistics#' + trackableId
   const statisticCharts = buildAggregatedStatisticCharts(
     state.entities, state.entities.user_teams[trackableId], chartNames
@@ -38,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
     selectable_data,
     dataKey,
     dataLoaded,
-    chartType: 'UserTeam'
+    chartType
   }
 }
 
@@ -91,7 +91,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 
   loadData(newProps = stateProps) {
-    // console.log('==> DATA LOAD!!!')
     let lowest_start_date = newProps.statisticCharts.map(chart => {
       return chart.starts_at
     }).sort((a, b) => +(a > b) || +(a === b) - 1)[0]
@@ -108,12 +107,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
         },
         newProps.dataKey
       )
-    )
-  },
-
-  onSelect(e) {
-    dispatchProps.dispatch(
-      setUiAction('teamStatisticSelectedId', e.target.value)
     )
   }
 })

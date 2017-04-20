@@ -31,7 +31,6 @@ describe API::V1::AssignmentsController do
       assignment = Assignment.last
       assignment.message.must_equal 'Foorem Ipsbar'
       assignment.creator.must_equal user
-      assignment.creator_team.must_equal user.current_team
     end
   end
 

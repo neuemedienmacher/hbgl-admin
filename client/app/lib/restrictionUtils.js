@@ -9,9 +9,9 @@ function _isUserAssigned(entities, id) {
 
 function _isTeamAssigned(entities, id) {
   let assignment = entities.assignments && entities.assignments[id]
-  let team_id = entities.users[entities.current_user.id].current_team_id
+  let team_ids = entities.users[entities.current_user.id].user_team_ids
 
-  return assignment && team_id && assignment.receiver_team_id == team_id
+  return assignment && team_ids.includes(assignment.receiver_team_id)
 }
 
 export function currentAssignmentIdFor(model, model_instance) {

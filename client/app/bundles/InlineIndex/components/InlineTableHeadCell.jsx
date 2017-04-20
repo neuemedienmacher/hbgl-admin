@@ -19,9 +19,9 @@ export default class InlineTableHeadCell extends Component {
   renderSortSymbol() {
     if (this.props.isCurrentSortField) {
       if (this.props.currentDirection == 'ASC') {
-        return <i className='fui-triangle-up-small' />
+        return <i className='fa fa-caret-up' />
       } else {
-        return <i className='fui-triangle-down-small' />
+        return <i className='fa fa-caret-down' />
       }
     }
   }

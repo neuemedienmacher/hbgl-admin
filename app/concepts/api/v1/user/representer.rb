@@ -12,7 +12,6 @@ module API::V1
         property :name
         property :email
         property :role
-        property :current_team_id
         property :user_team_ids
 
         has_many :user_teams do
@@ -54,7 +53,9 @@ module API::V1
         include Roar::JSON::JSONAPI
         type :users
         property :id
-        property :current_team_id
+        property :name
+        property :email
+        property :role
       end
     end
   end

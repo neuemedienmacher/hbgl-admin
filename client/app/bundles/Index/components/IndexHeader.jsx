@@ -6,7 +6,7 @@ import IndexHeaderFilter from '../containers/IndexHeaderFilter'
 export default class IndexHeader extends Component {
   render() {
     const {
-      onQueryChange, query, onPlusClick, filters, model, params,
+      onQueryChange, query, onPlusClick, filters, model, params, lockedParams,
       plusButtonDisabled, routes, uiKey
     } = this.props
 
@@ -36,7 +36,7 @@ export default class IndexHeader extends Component {
             return(
               <IndexHeaderFilter
                 model={model} params={params} key={filter[0]} filter={filter}
-                uiKey={uiKey}
+                uiKey={uiKey} lockedParams={lockedParams}
               />
             )
           })}

@@ -76,9 +76,10 @@ function visibleFor(action, entities, model, id, system_user) {
     case 'assign_to_system':
       // NOTE: only assigned users in translator-teams may directly assign the
       // system_user (only to Translations)
-      let current_team = entities.current_user.current_team_id &&
-        entities.user_teams[entities.current_user.current_team_id]
-      return current_team && current_team.classification == 'translator' &&
+      let team_roles = entities.current_user.user_teams.map(
+        team => team.classification
+      )
+      return team_roles.includes('translator') &&
         isCurrentUserAssignedToModel(entities, model, id) && system_user &&
         (model == 'offer_translations' || model == 'organization_translations')
     default:
@@ -107,7 +108,6 @@ function seedDataFor(action, entities, assignment, system_user, users) {
     break
   case 'assign_someone_else':
     assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.creator_team_id = entities.current_user.current_team_id
     assignment_copy.receiver_id = users[0].value
     assignment_copy.receiver_team_id = undefined
     assignment_copy.message = ''
@@ -116,12 +116,10 @@ function seedDataFor(action, entities, assignment, system_user, users) {
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = undefined
     assignment_copy.receiver_id = entities.current_user.id
-    assignment_copy.receiver_team_id = entities.current_user.current_team_id
     assignment_copy.message = ''
     break
   case 'assign_to_system':
     assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.creator_team_id = entities.current_user.current_team_id
     assignment_copy.receiver_id = system_user.id
     assignment_copy.receiver_team_id = undefined
     assignment_copy.message = 'Erledigt!'

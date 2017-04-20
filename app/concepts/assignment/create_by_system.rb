@@ -18,7 +18,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       assignable_id: assignable.id,
       assignable_type: assignable.class.name,
       creator_id: creator(assignable, last_acting_user).id,
-      creator_team_id: creator_team_id(assignable, last_acting_user),
+      creator_team_id: nil,
       receiver_id: receiver_id(assignable, last_acting_user),
       receiver_team_id: receiver_team_id(assignable),
       message: message_for_new_assignment(assignable, last_acting_user)
@@ -37,12 +37,6 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     else
       last_acting_user # NOTE: this is not used yet - rethink when other models become assignable!
     end
-  end
-
-  # NOTE: We are not yet sure whether this will be useful, but we're collecting
-  # the data for now.
-  def creator_team_id(assignable, last_acting_user)
-    creator(assignable, last_acting_user).current_team.try(:id)
   end
 
   def receiver_id(assignable, last_acting_user)

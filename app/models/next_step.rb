@@ -5,6 +5,8 @@ require ClaratBase::Engine.root.join('app', 'models', 'next_step')
 class NextStep < ActiveRecord::Base
   after_save :translate_if_text_en_changed
 
+  include ReformedValidationHack
+
   private
 
   def translate_if_text_en_changed

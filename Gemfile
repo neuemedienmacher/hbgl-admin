@@ -139,7 +139,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-nestable2'
 end
 
-
 gem 'react_on_rails'
 
 #####################
