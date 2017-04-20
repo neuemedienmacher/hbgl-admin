@@ -7,4 +7,6 @@ class Filter < ActiveRecord::Base
   pg_search_scope :search_everything,
                   against: [:id, :name, :identifier],
                   using: { tsearch: { prefix: true } }
+
+  include ReformedValidationHack
 end
