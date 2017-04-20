@@ -50,10 +50,10 @@ module API::V1
         collection :organizations do
           property :name, as: :label
         end
-        # belongs_to :section_filter do
-        #   property :label, getter: ->(r) { r[:represented].name }
-        #   property :name
-        # end
+        belongs_to :section_filter do
+          property :label, getter: ->(r) { r[:represented].name }
+          property :name
+        end
         collection :target_audience_filters do
           property :name, as: :label
         end

@@ -769,8 +769,8 @@ RailsAdmin.config do |config|
     parent Filter
   end
   config.model 'SectionFilter' do
-    #weight 3
-    #parent Filter
+    weight 3
+    parent Filter
     list do
       field :id
       field :name
