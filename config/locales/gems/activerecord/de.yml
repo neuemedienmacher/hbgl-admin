@@ -86,7 +86,7 @@ de:
         spoc: "SPoC"
       offer:
         aasm_state: "Zustand"
-        section_filter: "clarat-Welten"
+        section_filter: "clarat-Welt"
       organization:
         aasm_state: "Zustand"
       category:
