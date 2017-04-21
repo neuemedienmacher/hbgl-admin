@@ -10,5 +10,3 @@ module API::V1
     end
   end
 end
-
-::OfferTranslation.where(locale: [:en, :ar, :fa]).joins(:offer).where('offers.section_filter_id = ?', '2')
