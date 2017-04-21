@@ -59,7 +59,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     params['filters[organizations.aasm_state]'] = 'all_done'
 
     if (typeof section == 'object') {
-      params['filters[section_filters.id]'] = section.id
+      params['filters[section_filter_id]'] = section.id
     }
 
     return params

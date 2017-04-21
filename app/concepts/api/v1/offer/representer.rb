@@ -50,7 +50,7 @@ module API::V1
         collection :organizations do
           property :name, as: :label
         end
-        
+
         collection :target_audience_filters do
           property :name, as: :label
         end

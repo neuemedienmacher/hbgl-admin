@@ -28,7 +28,7 @@ class Offer < ActiveRecord::Base
                     :old_next_steps, :legal_information, :code_word
                   ],
                   associated_against: {
-                    section_filters: :name,
+                    section_filter: :name,
                     organizations: :name,
                     location: :display_name,
                     categories: :name_de,

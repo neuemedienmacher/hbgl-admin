@@ -62,7 +62,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     if (aasm_state)
       params[`filters[${pluralize(model)}.aasm_state]`] = aasm_state
     if (typeof section == 'object')
-      params['filters[section_filters.id]'] = section.id
+      params['filters[section_filter_id]'] = section.id
     return params
   }
 
