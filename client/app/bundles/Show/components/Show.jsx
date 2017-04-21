@@ -19,8 +19,7 @@ export default class Show extends Component {
     } = this.props
     return (
       <div className='content Show'>
-        <h3>{heading}</h3>
-        <hr />
+        <h3 className="page-title">{heading}</h3>
         <ShowItems model={model} id={id} params={location.query} />
       </div>
     )

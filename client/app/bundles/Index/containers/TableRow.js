@@ -33,11 +33,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ })
 function iconFor(action) {
   switch(action) {
   case 'edit':
-    return 'fui-new'
+    return 'fa fa-pencil-square'
   case 'show':
-    return 'fui-eye'
+    return 'fa fa-eye'
   case 'edit_assignable':
-    return 'fui-new'
+    return 'fa fa-pencil-square-o'
   }
 }
 

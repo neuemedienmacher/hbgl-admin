@@ -15,6 +15,7 @@ class RegenerateHtmlWorkerTest < ActiveSupport::TestCase
     it 'should regenerate german offer and orga translation' do
       offer = offers(:basic)
       orga = organizations(:basic)
+
       FactoryGirl.create :definition, key: offer.untranslated_description
       FactoryGirl.create :definition, key: orga.untranslated_description
 

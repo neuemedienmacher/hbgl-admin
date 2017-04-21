@@ -21,7 +21,7 @@ export default class AssignableContainer extends Component {
       <div className='content Assignment'>
         <div key={model} className={panel_class}>
           <div key={`${model}-heading`} className="panel-heading show--panel">
-            <b>{heading}</b>
+            {heading}
           </div>
           <div key={name} className="panel-body show--panel">
             {this.renderLoadingOrAssignment()}

@@ -6,7 +6,6 @@ class Assignment::Create < Trailblazer::Operation
   step Contract::Build()
   step Contract::Validate()
   step :set_current_user_to_creator_if_empty
-  step :optional_set_creator_team_to_creators_current_team_if_empty
   step :close_open_assignments!
   step Contract::Persist()
 
@@ -52,14 +51,6 @@ class Assignment::Create < Trailblazer::Operation
     else
       options['contract.default'].creator_id = current_user.id
     end
-  end
-
-  def optional_set_creator_team_to_creators_current_team_if_empty(options)
-    if options['contract.default'].creator_team_id.nil?
-      options['contract.default'].creator_team_id =
-        User.find(options['contract.default'].creator_id).current_team_id
-    end
-    true # If there is no current team, that's okay too.
   end
 
   def close_open_assignments! options

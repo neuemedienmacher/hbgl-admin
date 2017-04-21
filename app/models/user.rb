@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 
   def self.system_user
     find_by(name: 'System') || create!(
-      name: 'System', password: SecureRandom.base64, email: 'dev@clarat.org'
+      name: 'System', password: SecureRandom.base64, email: 'dev@clarat.org', role: 'super'
     )
   end
 

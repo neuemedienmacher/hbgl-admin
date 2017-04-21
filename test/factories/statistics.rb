@@ -5,14 +5,6 @@ FactoryGirl.define do
       goal nil
     end
 
-    user do
-      if goal
-        goal.user_team.users.sample
-      else
-        FactoryGirl.create :researcher
-      end
-    end
-
     date do
       if goal
         goal.starts_at
@@ -26,7 +18,23 @@ FactoryGirl.define do
       rand(1..max)
     end
 
-    user_team do
+    # user do
+    #   if goal
+    #     goal.user_team.users.sample
+    #   else
+    #     FactoryGirl.create :researcher
+    #   end
+    # end
+
+    # user_team do
+    #   if goal
+    #     goal.user_team
+    #   else
+    #     FactoryGirl.create :user_team, users: [user]
+    #   end
+    # end
+
+    trackable do
       if goal
         goal.user_team
       else

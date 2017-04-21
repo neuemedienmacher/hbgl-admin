@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
   onPlusClick(event) {
     let params = clone(ownProps.params)
-    if (params['filters[id]']) return // ID filtered - other filters not needed
+    // if (params['filters[id]']) return // ID filtered - other filters not needed
     merge(params, { 'filters[id]': '' })
     browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
   }

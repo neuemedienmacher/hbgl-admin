@@ -22,7 +22,6 @@ export default class TeamStatisticCharts extends Component {
               <div key={chart.id} className="chart">
                 <h4>{chart.title}</h4>
                 <TeamStatisticChartContainer statisticChart={chart} />
-                <hr />
               </div>
             )
           })

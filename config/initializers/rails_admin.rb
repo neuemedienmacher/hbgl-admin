@@ -348,7 +348,6 @@ RailsAdmin.config do |config|
       read_only false # set to true once deprecated
     end
     field :code_word
-    field :legal_information
     field :contact_people
     field :hide_contact_people do
       help do

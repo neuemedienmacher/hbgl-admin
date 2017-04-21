@@ -42,7 +42,6 @@ export default class AssignmentActions extends Component {
         key={action.formId} formObjectClass={AssignmentFormObject}
         handleResponse={handleResponse} afterResponse={afterResponse}
       >
-        <hr />
         {optionalMessage}
         {optionalUserSelection}
         <button type='submit' className='btn btn-warning'>

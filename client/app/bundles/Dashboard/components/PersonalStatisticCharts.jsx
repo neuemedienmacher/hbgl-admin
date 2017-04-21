@@ -22,7 +22,6 @@ export default class PersonalStatisticCharts extends Component {
               <div key={chart.id} className="chart">
                 <h4>{chart.title}</h4>
                 <PersonalStatisticChartContainer statisticChart={chart} />
-                <hr />
               </div>
             )
           })

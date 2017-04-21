@@ -14,8 +14,6 @@ admin = User.create! email: 'admin@admin.com', password: 'password',
 team = UserTeam.create! name: 'The Experts'
 team.users << user
 team.users << admin
-user.update_columns current_team_id: team.id
-admin.update_columns current_team_id: team.id
 
 family = SectionFilter.create name: 'Family', identifier: 'family'
 refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'
@@ -171,7 +169,7 @@ User.find_each do |u|
                                     starts_at: Date.new(2017,1,1),
                                     ends_at: Date.new(2017,12,31),
                                     user_id: u.id
- sg2 = StatisticGoal.create amount: rand(300..1000),
+ sg2 = StatisticGoal.create amount: rand(600..1800),
                                     starts_at: Date.new(2017,1,1)
  sc2.statistic_transitions = [stca, staa, stcs, stas]
  sc2.statistic_goals = [sg2]
@@ -181,14 +179,13 @@ team.users.find_each do |member|
   date_start = Date.new(2017,1,1)
   10.times do
     FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
-                       user_id: member.id, model: 'Offer',
+                       trackable_id: member.id, trackable_type: 'User', model: 'Offer',
                        field_name: 'aasm_state', field_start_value:'initialized',
-                       field_end_value:'completed'
+                       field_end_value: 'completed'
     FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
-                       user_id: member.id, model: 'Offer',
-                       field_name: 'aasm_state',
-                       field_start_value:'approval_process',
-                       field_end_value:'approved'
+                       trackable_id: member.id, trackable_type: 'User', model: 'Offer',
+                       field_name: 'aasm_state', field_end_value: 'approved',
+                       field_start_value:'approval_process'
     date_start = date_start + rand(1..3).day
   end
 end

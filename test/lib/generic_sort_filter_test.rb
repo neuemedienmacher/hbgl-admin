@@ -103,8 +103,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'filters for an owned field' do
-      params = { filters: { 'foo' => 'bar' } }
-      query.expects(:where).with("foo = 'bar'")
+      params = { filters: { 'foo' => 'bar' }, controller: 'api/controller' }
+      query.expects(:where).with("controller.foo = 'bar'")
       subject.send(:transform_by_filtering, query, params)
     end
 

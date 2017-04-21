@@ -60,7 +60,7 @@ export default {
 
     users: {
       fields: [
-        'id', 'name', 'email', 'user_teams'
+        'id', 'name', 'email', { user_teams: ['name'] }
       ],
       general_actions: [
         'index'
@@ -96,7 +96,7 @@ export default {
 
     user_teams: {
       fields: [
-        'id', 'name', 'classification', 'users'
+        'id', 'name', 'classification', { users: ['name'] }
       ],
       general_actions: [
         'index', 'new',

@@ -11,7 +11,7 @@ export default class AssociationItems extends React.Component {
 
     return (
       <div className="panel-group">
-        <h5>Verknüpfte Modelle</h5>
+        <h5 className="section-title">Verknüpfte Modelle</h5>
         {associations.map(([name, class_name, filter, href]) =>
           this.renderAssociation(
             name, class_name, model_instance[name], href, filter

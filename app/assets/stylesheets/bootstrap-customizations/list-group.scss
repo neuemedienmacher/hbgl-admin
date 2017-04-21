@@ -1,0 +1,16 @@
+.claradmin {
+
+  .list-group {
+    border-radius: 0;
+
+    .list-group-item {
+      border-color: var(--main-yellow);
+      border-radius: 0;
+    }
+
+    a,
+    a:hover {
+      background: transparent;
+    }
+  }
+}

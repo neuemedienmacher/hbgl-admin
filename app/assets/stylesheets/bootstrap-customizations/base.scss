@@ -1,0 +1,48 @@
+.claradmin {
+  font-family: 'Roboto', sans-serif;
+  color: var(--main-brown);
+
+  a {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      color: inherit;
+    }
+  }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 22px 0;
+  }
+
+  .page-title {
+    font-size: 42px;
+    font-weight: 700;
+    margin: 38px 0;
+
+    .content & {
+      margin-top: auto;
+    }
+  }
+}
+
+.tab-content,
+.panel-body {
+  padding: 20px;
+}
+
+.select-set {
+  margin: 1em 0;
+}
+
+.select-set__label {
+  margin-right: .5em;
+}
+
+.collapsible-arrow {
+  float: right;
+  line-height: 1.15;
+  font-size: 20px;
+}

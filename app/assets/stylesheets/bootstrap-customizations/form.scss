@@ -1,0 +1,55 @@
+.claradmin {
+
+  .form-control {
+    border-radius: 0;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    padding: 6px 8px;
+  }
+
+  label {
+    font-weight: normal;
+  }
+
+  .inputset-current_team_id {
+    margin: .5em 0 1em;
+
+    select {
+      margin-left: 10px;
+    }
+  }
+
+  .jumbotron {
+    & {
+      border-radius: 0;
+      background-color: var(--main-beige);
+    }
+  }
+
+  .select-wrapper {
+    display: inline-block;
+    position: relative;
+
+    .form-control {
+      padding-right: 25px;
+    }
+
+    &::after {
+      content: "\25BE";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+
+.btn {
+
+  &,
+  &:hover {
+    background-color: var(--main-brown);
+    color: #fff;
+
+  }
+}

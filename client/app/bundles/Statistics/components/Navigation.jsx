@@ -11,7 +11,7 @@ export default class Navigation extends React.Component {
     return (
       <div className='list-group'>
         <Link to='/statistics' className='list-group-item'> Übersicht </Link>
-        <Link to='/statistics/offer_overview' className='list-group-item'>
+        <Link to='/statistics/offer_overview' className='list-group-item '>
           Angebotsübersicht
         </Link>
         <Link to='/statistics/organization_overview' className='list-group-item'>

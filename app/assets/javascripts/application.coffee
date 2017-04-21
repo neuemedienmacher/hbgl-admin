@@ -10,7 +10,6 @@
 # require jquery_ujs
 # = require jquery-ui
 # = require bootstrap
-# = require flat-ui
 # require d3
 # = require nestable2
 #

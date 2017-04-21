@@ -3,10 +3,11 @@ expire_offers_job:
   class: "ExpiringOffersWorker"
   queue: default
 
-regenerate_html_job:
-  cron: "50 23 * * Thu Europe/Berlin" # every thursday at 00:00
-  class: "RegenerateHtmlWorker"
-  queue: default
+# hotfix: deactivated because it caused too many operations per month, new logic pending
+# regenerate_html_job:
+#   cron: "50 23 * * Thu Europe/Berlin" # every thursday at 00:00
+#   class: "RegenerateHtmlWorker"
+#   queue: default
 
 subscribed_mails_spawner_job:
   cron: "0 20 * * Mon Europe/Berlin" # every monday at 20:00

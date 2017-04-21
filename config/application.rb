@@ -32,7 +32,7 @@ module Claradmin
 
     # Activate observers that should always be running.
     config.active_record.observers = %w(
-      location_observer offer_observer organization_observer
+      location_observer offer_observer organization_observer contact_person_observer
     )
 
     # Trailblazer config
