@@ -52,6 +52,14 @@ module API::V1
         collection :target_audience_filters do
           property :name, as: :label
         end
+
+        has_one :section_filter do
+          type :section_filters
+
+          property :id
+          property :name
+          property :identifier
+        end
       end
     end
   end

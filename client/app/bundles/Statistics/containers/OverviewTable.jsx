@@ -18,8 +18,7 @@ const mapStateToProps = (state, ownProps) => {
   const data =
     (state.entities.count && state.entities.count[ownProps.model] &&
       state.entities.count[ownProps.model][selectedCity || ALL]) || {}
-  const sections =
-    values(state.entities.filters).filter(obj => obj.type == 'SectionFilter')
+  const sections = values(state.entities.section_filters)
   const loadedCities =
     (state.entities.count && keys(state.entities.count[ownProps.model])) || []
 
@@ -61,8 +60,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     if (cityId) params[`filters[${cityAssociationName}.id]`] = cityId
     if (aasm_state)
       params[`filters[${pluralize(model)}.aasm_state]`] = aasm_state
-    if (typeof section == 'object')
-      params['filters[section_filter_id]'] = section.id
+    if (typeof section == 'object') {
+      let sectionFilterName =
+        model == 'offer' ? 'section_filter_id' : 'section_filters.id'
+      params[`filters[${sectionFilterName}]`] = section.id
+    }
     return params
   }
 
@@ -93,11 +95,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     loadData,
 
-    loadStates() {
+    loadStatesAndFilters() {
       dispatch(
         loadAjaxData(
           `states/${model}`, {}, stateProps.stateKey, () => ({})
         )
+      ),
+      dispatch(
+        loadAjaxData('section_filters', {}, 'section_filters')
       )
     },
 

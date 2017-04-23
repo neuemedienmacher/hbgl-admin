@@ -82,9 +82,9 @@ describe Offer do
       it 'should validate that section filters of offer and categories match '\
          'and that the correct error messages are generated' do
         category = FactoryGirl.create(:category)
-        category.section_filters = [filters(:family)]
+        category.section_filters = [section_filters(:family)]
         basicOffer.categories = [category]
-        basicOffer.section_filter = filters(:refugees)
+        basicOffer.section_filter = section_filters(:refugees)
         basicOffer.valid?
         basicOffer.errors.messages[:categories].must_include(
           "benötigt mindestens eine 'Refugees' Kategorie\n"
@@ -92,11 +92,11 @@ describe Offer do
         basicOffer.errors.messages[:categories].wont_include(
           "benötigt mindestens eine 'Family' Kategorie\n"
         )
-        basicOffer.section_filter = filters(:refugees)
-        category.section_filters = [filters(:refugees)]
+        basicOffer.section_filter = section_filters(:refugees)
+        category.section_filters = [section_filters(:refugees)]
         basicOffer.valid?
         basicOffer.errors.messages[:categories].must_be :nil?
-        category.section_filters = [filters(:refugees), filters(:family)]
+        category.section_filters = [section_filters(:refugees), section_filters(:family)]
         basicOffer.valid?
         basicOffer.errors.messages[:categories].must_be :nil?
       end
