@@ -5,7 +5,7 @@ module API::V1
       class Show < API::V1::Default::Representer::Show
         type :section_filters
 
-        property :label, getter: -> (section_filter) do
+        property :label, getter: ->(section_filter) do
           section_filter[:represented].identifier
         end
 
