@@ -33,7 +33,7 @@ RailsAdmin.config do |config|
     Organization Website Location FederalState Offer Opening
     Category Email UpdateRequest LanguageFilter User Contact
     Keyword Definition Note Area SearchLocation ContactPerson
-    Subscription SectionFilter NextStep SolutionCategory
+    Subscription Section NextStep SolutionCategory
     LogicVersion SplitBase City
   )
 
@@ -41,25 +41,25 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['User', 'FederalState', 'SectionFilter']
+      except ['User', 'FederalState', 'Section']
     end
     export
     bulk_delete do
-      except ['User', 'FederalState', 'SectionFilter']
+      except ['User', 'FederalState', 'Section']
     end
     show
     edit do
-      except ['SectionFilter']
+      except ['Section']
     end
     delete do
-      except ['User', 'FederalState', 'SectionFilter']
+      except ['User', 'FederalState', 'Section']
     end
     show_in_app do
       only ['Offer', 'Organization']
     end
 
     clone do
-      except ['SectionFilter', 'City']
+      except ['Section', 'City']
     end
     # nested_set do
     #   only ['Category']
@@ -314,7 +314,7 @@ RailsAdmin.config do |config|
     weight(-4)
     list do
       field :name
-      field :section_filter
+      field :section
       field :aasm_state
       field :creator do
         formatted_value do
@@ -331,7 +331,7 @@ RailsAdmin.config do |config|
       field :created_by
     end
 
-    field :section_filter
+    field :section
     field :split_base
     field :all_inclusive
     field :name do
@@ -597,7 +597,7 @@ RailsAdmin.config do |config|
   config.model 'Category' do
     weight(-3)
     field :name_de
-    field :section_filters
+    field :sections
     field :parent
     field :sort_order
     field :visible
@@ -767,7 +767,7 @@ RailsAdmin.config do |config|
   config.model 'Target_AudienceFilter' do
     parent Filter
   end
-  config.model 'SectionFilter' do
+  config.model 'Section' do
     weight 3
     parent Filter
     list do

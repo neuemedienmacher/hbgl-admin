@@ -12,7 +12,7 @@ class AsanaCommunicator < NetCommunicator
   def create_expire_task offer
     organization_names = offer.organizations.pluck(:name).join(',')
     section_name =
-      offer.section_filter.identifier.first(3)
+      offer.section.identifier.first(3)
     create_task(
       "#{organization_names} - #{offer.expires_at} - #{section_name}"\
       " - #{offer.name}",
@@ -22,7 +22,7 @@ class AsanaCommunicator < NetCommunicator
 
   def create_website_unreachable_task_offer website, offer
     orgas = offer.organizations.pluck(:name).join(',')
-    world = offer.section_filter.identifier
+    world = offer.section.identifier
     create_task(
       "[Offer website unreachable] #{world} | Version:"\
       " #{offer.logic_version.version} | #{orgas} | #{offer.name}",

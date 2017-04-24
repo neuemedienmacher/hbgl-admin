@@ -43,7 +43,7 @@ module API::V1
         property :starts_at
         property :completed_at
         property :completed_by
-        property :section_filter_id
+        property :section_id
 
         collection :organizations do
           property :name, as: :label
@@ -53,8 +53,8 @@ module API::V1
           property :name, as: :label
         end
 
-        has_one :section_filter do
-          type :section_filters
+        has_one :section do
+          type :sections
 
           property :id
           property :name

@@ -14,10 +14,10 @@ class Division::Create < Trailblazer::Operation
     property :name
     property :description
     property :organization_id
-    property :section_filter_id
+    property :section_id
 
     validates :name, presence: true
     validates :organization_id, presence: true
-    validates :section_filter_id, presence: true
+    validates :section_id, presence: true
   end
 end

@@ -29,7 +29,7 @@ export default class NewOrganizationForm extends React.Component {
           />
           <InputSet
             wrapperClassName='form-group' className='form-control'
-            label='clarat Welt' attribute='section_filter_ids'
+            label='clarat Welt' attribute='section_ids'
           />
           <InputSet
             wrapperClassName='form-group' className='form-control'

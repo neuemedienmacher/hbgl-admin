@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
   const data =
     (state.entities.count && state.entities.count[ownProps.model] &&
       state.entities.count[ownProps.model][selectedCity || ALL]) || {}
-  const sections = values(state.entities.section_filters)
+  const sections = values(state.entities.sections)
   const loadedCities =
     (state.entities.count && keys(state.entities.count[ownProps.model])) || []
 
@@ -61,9 +61,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     if (aasm_state)
       params[`filters[${pluralize(model)}.aasm_state]`] = aasm_state
     if (typeof section == 'object') {
-      let sectionFilterName =
-        model == 'offer' ? 'section_filter_id' : 'section_filters.id'
-      params[`filters[${sectionFilterName}]`] = section.id
+      let sectionName =
+        model == 'offer' ? 'section_id' : 'sections.id'
+      params[`filters[${sectionName}]`] = section.id
     }
     return params
   }
@@ -102,7 +102,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         )
       ),
       dispatch(
-        loadAjaxData('section_filters', {}, 'section_filters')
+        loadAjaxData('sections', {}, 'sections')
       )
     },
 

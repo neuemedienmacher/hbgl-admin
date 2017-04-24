@@ -6,7 +6,7 @@ import RatioOverviewPage from '../components/RatioOverviewPage'
 
 const mapStateToProps = (state, ownProps) => {
   const data = state.entities.count
-  const sections = values(state.entities.section_filters)
+  const sections = values(state.entities.sections)
 
   const allDataLoaded = (
     data && data.offer != undefined && data.offer.ratio != undefined &&
@@ -63,9 +63,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     params['filters[organizations.aasm_state]'] = 'all_done'
 
     if (typeof section == 'object') {
-      let sectionFilterName =
-        model == 'offer' ? 'section_filter_id' : 'section_filters.id'
-      params[`filters[${sectionFilterName}]`] = section.id
+      let sectionName =
+        model == 'offer' ? 'section_id' : 'sections.id'
+      params[`filters[${sectionName}]`] = section.id
     }
 
     return params
@@ -87,7 +87,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     loadFilters() {
-      dispatch(loadAjaxData('section_filters', {}, 'section_filters'))
+      dispatch(loadAjaxData('sections', {}, 'sections'))
     },
 
     loadData(sections) {

@@ -7,7 +7,7 @@ export default class DivisionFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'description', 'organization_id', 'section_filter_id'
+      'name', 'description', 'organization_id', 'section_id'
     ]
   }
 
@@ -16,7 +16,7 @@ export default class DivisionFormObject extends FormObject {
       name: { type: 'string' },
       description: { type: 'textarea' },
       organization_id: { type: 'filtering-select' },
-      section_filter_id: { type: 'filtering-select' },
+      section_id: { type: 'filtering-select' },
     }
   }
 
@@ -27,6 +27,6 @@ export default class DivisionFormObject extends FormObject {
   validation() {
     this.required('name').filled()
     this.required('organization_id').filled()
-    this.required('section_filter_id').filled()
+    this.required('section_id').filled()
   }
 }

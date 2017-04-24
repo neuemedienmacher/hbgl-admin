@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 FactoryGirl.define do
-  factory :section_filter do
+  factory :section do
     transient do
       _random do
         [%w(family Family), %w(refugees Refugees)].sample

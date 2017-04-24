@@ -8,8 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 6eb27ce9257e6638d15c3a4733f722cd3d767ff0
-  branch: feature/1004-one-section-per-offer
+  revision: 1915048b53d7438a46d6fc2572bc8474dcd53999
   specs:
     clarat_base (0.1.4)
       aasm
@@ -544,7 +543,7 @@ GEM
     require_all (1.3.3)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
-    rest-client (2.0.1)
+    rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)

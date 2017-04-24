@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 module API::V1
-  module SectionFilter
+  module Section
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :section_filters
+        type :sections
 
-        property :label, getter: ->(section_filter) do
-          section_filter[:represented].identifier
+        property :label, getter: ->(section) do
+          section[:represented].identifier
         end
 
         property :identifier

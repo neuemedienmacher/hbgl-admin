@@ -19,11 +19,7 @@ describe Filter do
     end
 
     describe 'TargetAudienceFilter' do
-      it { TargetAudienceFilter.new.must belong_to :section_filter }
-    end
-
-    describe 'SectionFilter' do
-      it { SectionFilter.new.must have_many :target_audience_filters }
+      it { TargetAudienceFilter.new.must belong_to :section }
     end
   end
 end

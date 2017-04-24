@@ -5,15 +5,15 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   let(:operation) { Translation::AutomaticUpsert }
   let(:family_section_offer) do
     offer = FactoryGirl.create :offer, :approved
-    offer.section_filter = FactoryGirl.create(:section_filter, :family)
-    offer.categories = [FactoryGirl.create(:category, section_filters: [offer.section_filter])]
+    offer.section = FactoryGirl.create(:section, :family)
+    offer.categories = [FactoryGirl.create(:category, sections: [offer.section])]
     offer.save
     offer
   end
   let(:refugees_section_offer) do
     offer = FactoryGirl.create :offer, :approved
-    offer.section_filter = FactoryGirl.create(:section_filter, :refugees)
-    offer.categories = [FactoryGirl.create(:category, section_filters: [offer.section_filter])]
+    offer.section = FactoryGirl.create(:section, :refugees)
+    offer.categories = [FactoryGirl.create(:category, sections: [offer.section])]
     offer.save
     offer
   end
@@ -78,7 +78,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     # add a refugeesoffer to the organization and start Operation again
     orga.offers << refugees_section_offer
     refugees_section_offer.update_columns aasm_state: 'initialized'
-    orga.section_filters.pluck(:identifier).include?('refugees').must_equal true
+    orga.sections.pluck(:identifier).include?('refugees').must_equal true
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => refugees_section_offer)
     assignments.count.must_equal 1

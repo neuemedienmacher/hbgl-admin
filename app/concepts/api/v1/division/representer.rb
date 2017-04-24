@@ -20,7 +20,7 @@ module API::V1
           property :name
         end
 
-        property :section_filter_id
+        property :section_id
       end
 
       class Index < Show

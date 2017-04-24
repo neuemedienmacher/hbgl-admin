@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 module API::V1
-  module SectionFilter
+  module Section
     class Index < API::V1::Default::Index
       def base_query
-        ::SectionFilter
+        ::Section
       end
     end
   end
