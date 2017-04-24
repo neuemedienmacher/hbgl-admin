@@ -7,7 +7,6 @@ de:
         location_error: |
           muss zu der unten angegebenen Organisation gehören.
       needs_organizations: "benötigt mindestens eine Organisation"
-      needs_sections: "benötigt mindestens eine clarat-Welt"
       needs_age_filters: "benötigt mindestens einen Altersfilter"
       needs_language_filters: "benötigt mindestens einen Sprachfilter"
       needs_target_audience_filters: |
