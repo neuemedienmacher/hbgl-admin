@@ -134,7 +134,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-shariff'
   gem 'rails-assets-algoliasearch' # search client
   gem 'rails-assets-bootstrap'
-  gem 'rails-assets-flat-ui'
+  gem 'rails-assets-font-awesome'
   gem 'rails-assets-d3'
   gem 'rails-assets-nestable2'
 end

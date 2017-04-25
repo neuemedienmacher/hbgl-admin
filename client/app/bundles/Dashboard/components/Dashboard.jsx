@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import OverviewPanel from '../containers/OverviewPanel'
+import OverviewPanel from '../components/OverviewPanel'
 import StatisticsContainer from '../containers/StatisticsContainer'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 import ActualWaList from './ActualWaList'
@@ -21,8 +21,7 @@ export default class Dashboard extends React.Component {
 
     return (
       <div className='Dashboard'>
-        <h1>Dashboard</h1>
-        <hr />
+        <h1 className="page-title">Dashboard</h1>
         {actualWa}
         <CollapsiblePanel
           title={`Willkommen, ${user.name}`} identifier='dashboard'

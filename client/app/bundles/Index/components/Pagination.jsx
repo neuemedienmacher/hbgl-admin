@@ -9,7 +9,7 @@ export default class PaginationComponent extends Component {
     } = this.props
 
     return (
-      <div>
+      <div className="table-pagination">
         <Pagination
           prev next first last ellipsis boundaryLinks
           items={totalPages}

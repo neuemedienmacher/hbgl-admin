@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: de278e39902c88f2cbcdb87bb1b84c17cecee471
+  revision: e1ea1ebc435dea910aec13443b6c5cb69f7c7ac5
   specs:
     clarat_base (0.1.4)
       aasm
@@ -268,8 +268,8 @@ GEM
       multi_json (>= 1.9.0)
     git-version-bump (0.15.1)
     gli (2.16.0)
-    globalid (0.3.7)
-      activesupport (>= 4.1.0)
+    globalid (0.4.0)
+      activesupport (>= 4.2.0)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -310,7 +310,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (2.0.3)
+    json (2.1.0)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -379,7 +379,7 @@ GEM
     nokogumbo (1.4.10)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (7.0.0)
+    paper_trail (7.0.1)
       activerecord (>= 4.0, < 5.2)
       request_store (~> 1.1)
     parser (2.3.3.1)
@@ -445,8 +445,7 @@ GEM
       rails-assets-jquery (>= 1.9.1, < 4)
     rails-assets-d3 (4.4.0)
     rails-assets-ev-emitter (1.0.3)
-    rails-assets-flat-ui (2.3.0)
-      rails-assets-videojs (~> 4.7.2)
+    rails-assets-font-awesome (4.7.0)
     rails-assets-imagesloaded (4.1.1)
       rails-assets-ev-emitter (~> 1.0.0)
     rails-assets-jquery (2.2.4)
@@ -458,7 +457,6 @@ GEM
       rails-assets-jquery (>= 1.6.0)
     rails-assets-shariff (1.24.1)
       rails-assets-jquery (>= 2.1.1, < 3)
-    rails-assets-videojs (4.7.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.8)
@@ -663,7 +661,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.2)
+    unf_ext (0.0.7.4)
     unicode-display_width (1.1.2)
     uniform_notifier (1.10.0)
     warden (1.2.6)
@@ -758,7 +756,7 @@ DEPENDENCIES
   rails-assets-algoliasearch!
   rails-assets-bootstrap!
   rails-assets-d3!
-  rails-assets-flat-ui!
+  rails-assets-font-awesome!
   rails-assets-jquery!
   rails-assets-lodash!
   rails-assets-nestable2!

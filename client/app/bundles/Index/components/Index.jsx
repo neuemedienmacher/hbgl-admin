@@ -20,9 +20,8 @@ export default class Index extends Component {
     } = this.props
 
     return (
-      <div className='content Index'>
-        <h2>{heading}</h2>
-        <hr />
+      <div className='content Index table-header'>
+        <h2 className="page-title">{heading}</h2>
         <IndexHeader model={model} params={location.query} />
         <IndexTable model={model} params={location.query} />
         <Pagination model={model} params={location.query} />

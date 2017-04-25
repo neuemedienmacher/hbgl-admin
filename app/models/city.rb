@@ -10,6 +10,8 @@ class City < ActiveRecord::Base
   # Associations
   has_many :section_filters, -> { uniq }, through: :offers
 
+  include ReformedValidationHack
+
   # Admin specific methods
   def thresholds_reached?
     organizations.where(aasm_state: 'all_done').count >= ORGANIZATION_THRESHOLD &&

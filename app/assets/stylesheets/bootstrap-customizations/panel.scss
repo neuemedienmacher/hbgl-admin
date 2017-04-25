@@ -1,0 +1,34 @@
+.Layout .panel-default > .panel-heading {
+  border-color: transparent;
+  background-color: var(--main-beige);
+}
+
+.Layout .panel-default {
+  border-color: var(--main-beige);
+  border-radius: 0;
+}
+
+.panel-title {
+  font-weight: 700;
+}
+
+.ShowList,
+.Show {
+  .panel-heading,
+  .panel-body {
+    padding: 8px;
+  }
+
+  .panel {
+    margin-bottom: 1em;
+  }
+}
+
+.CustomCollapsiblePanelHeader a {
+  display: block;
+  height: inherit;
+  margin: -10px -15px;
+  padding: 10px 15px;
+  font-weight: 600;
+  font-size: 15px;
+}

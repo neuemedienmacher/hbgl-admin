@@ -23,9 +23,9 @@ export default class ShowFieldItem extends React.Component {
     switch(contentType) {
       case 'boolean':
         if (content) {
-          return <span className='fui-check' title='Ja' />
+          return <span className='fa fa-check' title='Ja' />
         } else {
-          return <span className='fui-cross' title='Nein' />
+          return <span className='fa fa-cross' title='Nein' />
         }
       case 'time':
         return new Date(content).toLocaleString('de-de')

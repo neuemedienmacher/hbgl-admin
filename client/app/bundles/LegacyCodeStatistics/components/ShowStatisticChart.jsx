@@ -6,7 +6,6 @@ export default class ShowStatisticChart extends React.Component {
     return (
       <div className="content ShowStatisticChart">
         <h2>Ziel: {this.props.statistic_chart.title}</h2>
-        <hr />
         <div className="chart">
           <BurnUpChartContainer
             statisticChart={this.props.statistic_chart}

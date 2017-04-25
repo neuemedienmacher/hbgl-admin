@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
-import { Tabs, Tab } from 'react-bootstrap'
 import PersonalStatisticCharts from '../containers/PersonalStatisticCharts'
 import TeamStatisticCharts from '../containers/TeamStatisticCharts'
+import ControlledTabView from '../../ControlledTabView/containers/ControlledTabView'
 
 export default class StatisticsContainer extends Component {
   componentDidMount() {
@@ -13,28 +13,22 @@ export default class StatisticsContainer extends Component {
   render() {
     return (
       <div>
-        {this.existingChartsOrLoading(
-          this.props.dataLoaded, this.props.handleSelect, this.props.selectedTab
-        )}
+        {this.existingChartsOrLoading(this.props.dataLoaded)}
       </div>
     )
   }
 
-  existingChartsOrLoading(loaded, handleSelect, selected) {
+  existingChartsOrLoading(loaded) {
     if (!loaded) {
       return (
         <div>Loading chart data... </div>
       )
     } else {
       return (
-        <Tabs activeKey={selected} onSelect={handleSelect} id="controlled-tab">
-          <Tab eventKey={0} title="Individualstatistiken">
-            <PersonalStatisticCharts />
-          </Tab>
-          <Tab eventKey={1} title="Teamstatistiken">
-            <TeamStatisticCharts />
-          </Tab>
-        </Tabs>
+        <ControlledTabView identifier="statistics">
+          <PersonalStatisticCharts tabTitle='Individualstatistiken' />
+          <TeamStatisticCharts tabTitle='Teamstatistiken' />
+        </ControlledTabView>
       )
     }
   }

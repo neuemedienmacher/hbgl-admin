@@ -6,7 +6,6 @@ import InlineIndexHeader from '../containers/InlineIndexHeader'
 export default class InlineIndex extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.equalParams(nextProps.params, this.props.params) == false) {
-      // console.log('InlineIndex: NEW DATA LOAD')
       this.props.loadData(nextProps.params, nextProps.model)
     }
   }
@@ -17,15 +16,16 @@ export default class InlineIndex extends Component {
 
   render() {
     const {
-      params, model, identifier, uiKey, count
+      params, lockedParams, model, identifier, uiKey, count
     } = this.props
 
     return (
-      <div className='content InlineIndex'>
+      <div className='content InlineIndex table-header'>
         <InlineIndexHeader
           model={model} params={params} identifier={identifier} uiKey={uiKey}
+          lockedParams={lockedParams}
         />
-        Gefundene Daten: {count}
+        <p className="index-title">Gefundene Daten: {count}</p>
         <InlineIndexTable
           model={model} params={params} identifier={identifier} uiKey={uiKey}
         />

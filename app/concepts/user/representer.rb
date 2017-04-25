@@ -8,7 +8,6 @@ class User::Representer < Representable::Decorator
   property :name
   property :email
   property :role
-  property :current_team_id
   property :user_team_ids
 
   collection :led_teams, decorator: UserTeam::Representer, class: UserTeam
