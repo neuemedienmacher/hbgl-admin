@@ -2,7 +2,7 @@
 require_relative '../../test_helper'
 require_relative '../../support/utils/api_controller_test_utils'
 
-describe API::V1::SectionFiltersController do
+describe API::V1::SectionsController do
   include API::ControllerTestUtils
   let(:user) { users(:researcher) }
   before do

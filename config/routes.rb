@@ -100,7 +100,7 @@ Rails.application.routes.draw do
       resources :statistic_charts, except: [:destroy]
       resources :time_allocations, only: [:create, :update]
       resources :user_teams
-      resources :section_filters, only: [:index]
+      resources :sections, only: [:index]
       resources :cities, only: [:index]
       resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,

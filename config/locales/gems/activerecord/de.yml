@@ -55,7 +55,7 @@ de:
       filter:
         one: "Filter"
         other: "Filter"
-      section_filter:
+      section:
         one: "clarat-Welt"
         other: "clarat-Welt"
       language_filter:
@@ -86,8 +86,8 @@ de:
         spoc: "SPoC"
       offer:
         aasm_state: "Zustand"
-        section_filters: "clarat-Welten"
+        section: "clarat-Welt"
       organization:
         aasm_state: "Zustand"
       category:
-        section_filters: "clarat-Welten"
+        sections: "clarat-Welten"

@@ -17,7 +17,7 @@ included_models:
   # - SearchLocation
   # - ContactPerson
   # - Subscription
-  # - SectionFilter
+  # - Section
   - OrganizationTranslation
   - OfferTranslation
   # - StatisticChart
@@ -49,7 +49,7 @@ settings:
     list:
       fields:
         - name
-        - section_filters
+        - section
         - location
         - aasm_state
         - creator
@@ -71,7 +71,7 @@ settings:
     list:
       fields:
         - name_de
-        - section_filters
+        - sections
         - parent
         - sort_order
         - visible

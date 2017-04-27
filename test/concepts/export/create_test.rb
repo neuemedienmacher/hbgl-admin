@@ -13,7 +13,7 @@ class ExportCreateTest < ActiveSupport::TestCase
       object_name: 'offers',
       export: {
         model_fields: %w(id name),
-        section_filters: ['id']
+        trait_filters: ['id']
       }
     }
   end
@@ -51,7 +51,7 @@ class ExportCreateTest < ActiveSupport::TestCase
         options = {}
         operation.new.clean_empty_field_sets(options, basic_params)
         options['params'][:export].must_equal(model_fields: %w(id name),
-                                              section_filters: ['id'])
+                                              trait_filters: ['id'])
       end
 
       it 'should reject empty keys in export hash' do
@@ -59,7 +59,7 @@ class ExportCreateTest < ActiveSupport::TestCase
         options = {}
         operation.new.clean_empty_field_sets(options, basic_params)
         options['params'][:export].must_equal(model_fields: %w(id name),
-                                              section_filters: ['id'])
+                                              trait_filters: ['id'])
       end
     end
   end

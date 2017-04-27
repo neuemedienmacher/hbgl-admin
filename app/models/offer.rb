@@ -28,7 +28,7 @@ class Offer < ActiveRecord::Base
                     :old_next_steps, :code_word
                   ],
                   associated_against: {
-                    section_filters: :name,
+                    section: :name,
                     organizations: :name,
                     location: :display_name,
                     categories: :name_de,
@@ -61,6 +61,7 @@ class Offer < ActiveRecord::Base
   }
 
   # Admin specific methods
+  delegate :identifier, to: :section, prefix: true
 
   # Customize duplication.
   # Lots of configs here, so we are OK with a longer method:
@@ -72,7 +73,7 @@ class Offer < ActiveRecord::Base
       offer.organizations = self.organizations
       offer.openings = self.openings
       offer.categories = self.categories
-      offer.section_filters = self.section_filters
+      offer.section = self.section
       offer.language_filters = self.language_filters
       offer.target_audience_filters = self.target_audience_filters
       offer.trait_filters = self.trait_filters

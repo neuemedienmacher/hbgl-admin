@@ -1,9 +1,16 @@
 import React from 'react'
-import OverviewTable from '../containers/OverviewTable'
 
 export default class OrgaOverviewPage extends React.Component {
   componentDidMount() {
-    this.props.loadData()
+    // Load sections unless they were already loaded
+    if (!this.props.sections || !this.props.sections.length)
+      this.props.loadSections()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Load Data when sections are loaded
+    if (!this.props.sections.length && nextProps.sections.length)
+      this.props.loadData(nextProps.sections)
   }
 
   render() {

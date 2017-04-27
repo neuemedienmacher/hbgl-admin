@@ -11,10 +11,10 @@ class AsanaCommunicator < NetCommunicator
 
   def create_expire_task offer
     organization_names = offer.organizations.pluck(:name).join(',')
-    section_names =
-      offer.section_filters.pluck(:identifier).map { |f| f.first(3) }.join(',')
+    section_name =
+      offer.section.identifier.first(3)
     create_task(
-      "#{organization_names} - #{offer.expires_at} - #{section_names}"\
+      "#{organization_names} - #{offer.expires_at} - #{section_name}"\
       " - #{offer.name}",
       "Expired: http://claradmin.herokuapp.com/admin/offer/#{offer.id}/edit"
     )
@@ -22,9 +22,9 @@ class AsanaCommunicator < NetCommunicator
 
   def create_website_unreachable_task_offer website, offer
     orgas = offer.organizations.pluck(:name).join(',')
-    worlds = offer.section_filters.pluck(:identifier).join(',')
+    world = offer.section.identifier
     create_task(
-      "[Offer website unreachable] #{worlds} | Version:"\
+      "[Offer website unreachable] #{world} | Version:"\
       " #{offer.logic_version.version} | #{orgas} | #{offer.name}",
       'Deactivated: http://claradmin.herokuapp.com/admin/offer/'\
       "#{offer.id}/edit | Unreachable website: #{website.url}",

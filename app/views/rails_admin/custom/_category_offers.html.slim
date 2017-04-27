@@ -1,6 +1,6 @@
 - if object.try(:offers) && object.offers.any?
-  - object.section_filters.each do |filter|
-    - filtered_offers = object.offers.select{ |o| o.section_filters.include? filter }
+  - object.sections.each do |filter|
+    - filtered_offers = object.offers.select{ |o| o.eql? filter }
     - approved_offers = filtered_offers.map{ |o| o if o.visible_in_frontend? }.compact
     h5 = filter.name + ': ' + filtered_offers.count.to_s + ' (' + approved_offers.count.to_s + ')'
     - filtered_offers.first(300).each do |offer|

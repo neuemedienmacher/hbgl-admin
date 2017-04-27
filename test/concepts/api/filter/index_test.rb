@@ -14,10 +14,10 @@ class FilterIndexTest < ActiveSupport::TestCase
       ::API::V1::Filter::Index::General.new.base_query.must_equal ::Filter
     end
   end
-
-  describe '::Filter::Index::SectionFilter' do
-    it 'base_query must be ::SectionFilter per default' do
-      ::API::V1::Filter::Index::SectionFilter.new.base_query.must_equal ::SectionFilter
-    end
-  end
+  # NOTE: for later use (other specific e.g. trait_filters)
+  # describe '::Filter::Index::Section' do
+  #   it 'base_query must be ::Section per default' do
+  #     ::API::V1::Filter::Index::Section.new.base_query.must_equal ::Section
+  #   end
+  # end
 end
