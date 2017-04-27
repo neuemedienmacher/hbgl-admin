@@ -33,6 +33,7 @@ const config = {
 
   resolve: {
     extensions: ['.js', '.jsx'],
+    modulesDirectories: [path.resolve(__dirname, 'node_modules')]
   },
 
   plugins: [
