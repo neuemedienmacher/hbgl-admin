@@ -11,8 +11,11 @@ describe OffersController do
 
     it 'should redirect to the remote frontend offers#show' do
       sign_in users(:researcher)
-      get :show, id: 'doesntmatter'
-      assert_redirected_to 'http://test.host.com/preview/angebote/doesntmatter'
+      o = FactoryGirl.create :offer, slug: 'whatever'
+      get :show, id: o.slug
+      assert_redirected_to(
+        "http://test.host.com/#{o.section.identifier}/preview/angebote/whatever"
+      )
     end
   end
 end
