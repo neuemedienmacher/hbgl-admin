@@ -58,9 +58,9 @@ FactoryGirl.define do
         offer.location = location
       end
       # Filters
-      offer.section_filters << (
-        SectionFilter.all.sample ||
-          FactoryGirl.create(:section_filter)
+      offer.section = (
+        Section.all.sample ||
+          FactoryGirl.create(:section)
       )
       evaluator.language_count.times do
         offer.language_filters << (
@@ -93,7 +93,7 @@ FactoryGirl.define do
         evaluator.category_count.times do
           offer.categories <<
             FactoryGirl.create(
-              :category, section_filters: offer.section_filters
+              :category, sections: [offer.section]
             )
         end
       end

@@ -6,17 +6,21 @@ import RatioOverviewPage from '../components/RatioOverviewPage'
 
 const mapStateToProps = (state, ownProps) => {
   const data = state.entities.count
-  const sections =
-    values(state.entities.filters).filter(obj => obj.type == 'SectionFilter')
+  const sections = values(state.entities.sections)
 
   const allDataLoaded = (
-    data && data.offer && data.offer.ratio && data.offer.ratio.family &&
-      data.offer.ratio.refugees && data.organization &&
-      data.organization.ratio.family && data.organization.ratio.refugees
+    data && data.offer != undefined && data.offer.ratio != undefined &&
+      data.offer.ratio.family != undefined &&
+      data.offer.ratio.refugees != undefined &&
+      data.organization != undefined &&
+      data.organization.ratio.family != undefined &&
+      data.organization.ratio.refugees != undefined
   )
 
-  const calculateRatio = (section) =>
-    round(data.offer.ratio[section] / data.organization.ratio[section], 2)
+  const calculateRatio = (section) => {
+    return data.offer.ratio[section] == 0 || data.organization.ratio[section] == 0 ? 0.0 :
+      round(data.offer.ratio[section] / data.organization.ratio[section], 2)
+  }
 
   let familyRatio = 'Lade…'
   let refugeesRatio = 'Lade…'
@@ -59,7 +63,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     params['filters[organizations.aasm_state]'] = 'all_done'
 
     if (typeof section == 'object') {
-      params['filters[section_filters.id]'] = section.id
+      let sectionName =
+        model == 'offer' ? 'section_id' : 'sections.id'
+      params[`filters[${sectionName}]`] = section.id
     }
 
     return params
@@ -80,12 +86,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    loadData(states) {
-      for (let section of stateProps.sections) {
+    loadSections() {
+      dispatch(loadAjaxData('sections', {}, 'sections'))
+    },
+
+    loadData(sections) {
+      for (let section of sections) {
         dispatchDataLoad(section)
       }
       dispatchDataLoad('total')
-    },
+    }
   })
 }
 

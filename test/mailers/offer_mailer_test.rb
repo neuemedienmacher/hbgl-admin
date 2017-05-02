@@ -34,7 +34,7 @@ describe OfferMailer do
     it 'must deliver and create offer_mailings with x-smtpapi header' do
       email.expects(:create_offer_mailings)
       subject.header['X-SMTPAPI'].value.must_include 'inform offer'
-      subject.header['X-SMTPAPI'].value.must_include offer.section_filters.pluck(:identifier).first
+      subject.header['X-SMTPAPI'].value.must_include offer.section.identifier
       subject.must deliver_to 'foo@bar.baz'
       subject.must have_body_text 'clarat'
       subject.must have_body_text '/subscribe'
@@ -199,8 +199,8 @@ describe OfferMailer do
         email.expects(:create_offer_mailings)
         subject.must deliver_to email.address
         subject.header['X-SMTPAPI'].value.must_include 'newly approved offer'
-        subject.header['X-SMTPAPI'].value.must_include offer.section_filters.pluck(:identifier).first
-        subject.must have_subject "clarat #{offer.section_filters.pluck(:identifier).first} – Ihr neues Angebot"
+        subject.header['X-SMTPAPI'].value.must_include offer.section.identifier
+        subject.must have_subject "clarat #{offer.section.identifier} – Ihr neues Angebot"
         subject.must have_body_text 'ein neues Angebot'
         subject.must have_body_text '/unsubscribe/'
         subject.must have_body_text email.security_code
@@ -217,7 +217,7 @@ describe OfferMailer do
       end
 
       it 'must correctly mention them' do
-        section_name_array = offerArray.map { |o| o.section_filters.map(&:identifier).flatten }.flatten.compact.uniq.sort
+        section_name_array = offerArray.map { |o| o.section.identifier }.flatten.compact.uniq.sort
         subject.must have_subject "clarat #{section_name_array.join(' und clarat ')} – Ihre neuen Angebote"
         subject.must have_body_text 'neue Angebote'
         subject.must have_body_text 'Ihre Angebote'

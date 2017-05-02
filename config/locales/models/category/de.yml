@@ -1,6 +1,6 @@
 de:
   category:
     validations:
-      needs_section_filters: "benötigt mindestens eine clarat-Welt"
-      parent_needs_same_section_filter: |
+      needs_sections: "benötigt mindestens eine clarat-Welt"
+      parent_needs_same_section: |
         die Oberkategorie '%{parent_name}' muss ebenfalls der clarat-Welt '%{filter_name}' zugeordnet sein

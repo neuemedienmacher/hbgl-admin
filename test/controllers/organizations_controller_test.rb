@@ -9,11 +9,23 @@ describe OrganizationsController do
       assert_redirected_to 'http://test.host/users/sign_in'
     end
 
-    it 'should redirect to the remote frontend offers#show' do
+    it 'should redirect to frontend organization#show even w/o sections' do
       sign_in users(:researcher)
-      get :show, id: 'doesntmatter'
+      orga = FactoryGirl.create :organization, slug: 'whatever'
+      get :show, id: orga.slug
       assert_redirected_to(
-        'http://test.host.com/preview/organisationen/doesntmatter'
+        'http://test.host.com/refugees/preview/organisationen/whatever'
+      )
+    end
+
+    it 'should redirect to frontend organization#show with first section' do
+      sign_in users(:researcher)
+      orga = FactoryGirl.create :organization, slug: 'whatever'
+      FactoryGirl.create :offer, organization: orga
+      section = orga.sections.first.identifier
+      get :show, id: orga.slug
+      assert_redirected_to(
+        "http://test.host.com/#{section}/preview/organisationen/whatever"
       )
     end
   end

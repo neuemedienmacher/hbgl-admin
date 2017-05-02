@@ -15,8 +15,8 @@ team = UserTeam.create! name: 'The Experts'
 team.users << user
 team.users << admin
 
-family = SectionFilter.create name: 'Family', identifier: 'family'
-refugees = SectionFilter.create name: 'Refugees', identifier: 'refugees'
+family = Section.create name: 'Family', identifier: 'family'
+refugees = Section.create name: 'Refugees', identifier: 'refugees'
 LanguageFilter.create name: 'Deutsch', identifier: 'deu'
 LanguageFilter.create name: 'Englisch', identifier: 'eng'
 LanguageFilter.create name: 'Türkisch', identifier: 'tur'
@@ -60,28 +60,28 @@ SearchLocation.create query: 'Berlin', latitude: 52.520007,
 
 fam = FactoryGirl.create :category, :with_dummy_translations,
                          name_de: 'Familie', icon: 'b-family'
-fam.section_filters = [family, refugees]
+fam.sections = [family, refugees]
 legal = FactoryGirl.create :category, :with_dummy_translations,
                            name_de: 'Asyl und Recht', icon: 'a-legal'
-legal.section_filters = [refugees]
+legal.sections = [refugees]
 health = FactoryGirl.create :category, :with_dummy_translations,
                             name_de: 'Gesundheit', icon: 'c-health'
-health.section_filters = [family, refugees]
+health.sections = [family, refugees]
 learn = FactoryGirl.create :category, :with_dummy_translations,
                            name_de: 'Lernen und Arbeiten', icon: 'd-learn'
-learn.section_filters = [family, refugees]
+learn.sections = [family, refugees]
 miscf = FactoryGirl.create :category, :with_dummy_translations,
                           name_de: 'Sorgen im Alltag', icon: 'e-misc'
-miscf.section_filters = [family]
+miscf.sections = [family]
 miscr = FactoryGirl.create :category, :with_dummy_translations,
                           name_de: 'Leben in Deutschland', icon: 'e-misc'
-miscr.section_filters = [refugees]
+miscr.sections = [refugees]
 violence = FactoryGirl.create :category, :with_dummy_translations,
                               name_de: 'Gewalt', icon: 'f-violence'
-violence.section_filters = [family, refugees]
+violence.sections = [family, refugees]
 crisis = FactoryGirl.create :category, :with_dummy_translations,
                             name_de: 'Notfall', icon: 'g-crisis'
-crisis.section_filters = [family, refugees]
+crisis.sections = [family, refugees]
 
 refugee_mains = Category.mains.in_section(:refugees).all
 subcategories = []
@@ -89,14 +89,14 @@ subcategories = []
 10.times do
   subcategories.push(
     FactoryGirl.create :category, :with_dummy_translations,
-                       section_filters: [refugees],
+                       sections: [refugees],
                        parent: refugee_mains.sample
   )
 end
 
 20.times do
   FactoryGirl.create :category, :with_dummy_translations,
-                     section_filters: [refugees],
+                     sections: [refugees],
                      parent: subcategories.sample
 end
 

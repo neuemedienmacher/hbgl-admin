@@ -13,7 +13,7 @@ export default class OrganizationFormObject extends FormObject {
   //   return {
   //     websites: { properties: ['url'], type: 'has_many' },
   //     divisions: {
-  //       properties: [ 'name', 'description', 'section_filter_ids'],
+  //       properties: [ 'name', 'description', 'section_ids'],
   //       type: 'oneToMany'
   //     }
   //   }

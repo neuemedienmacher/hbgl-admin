@@ -132,7 +132,7 @@ class OfferMailer < ActionMailer::Base
   def get_offers_per_section offers
     return [] unless offers && !offers.empty?
     offers_per_section = {}
-    SectionFilter.pluck(:identifier).each do |filter|
+    Section.pluck(:identifier).each do |filter|
       section_offers = offers.map { |o| o if o.in_section? filter }.compact
       offers_per_section[filter] = section_offers
     end
@@ -150,7 +150,7 @@ class OfferMailer < ActionMailer::Base
   # Includes information about the worlds, the offer-count of the mailing, the
   # type and the receiver of the mailing.
   def generate_utm_suffix offers, receiver_type, mailing_type = 'OB'
-    sections = offers.map { |o| o.section_filters.pluck(:identifier).flatten }.flatten.uniq
+    sections = offers.map { |o| o.section.identifier }.flatten.uniq
     first_char_of_sections = sections.map { |w| w.first.upcase }.sort.join
     offers_text =
       if offers.count == 1

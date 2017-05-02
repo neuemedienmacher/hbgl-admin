@@ -7,12 +7,6 @@ module API::V1
           ::Filter
         end
       end
-
-      class SectionFilter < API::V1::Filter::Index::General
-        def base_query
-          ::SectionFilter
-        end
-      end
     end
   end
 end

@@ -18,7 +18,7 @@ class Organization::Create < Trailblazer::Operation
     # property :division_ids
     collection :divisions, populate_if_empty: Division do
       property :name
-      property :section_filter_id
+      property :section_id
     end
 
     # def divisions!(options)

@@ -24,7 +24,7 @@ module API::V1
         end
 
         # property :organization_section, getter: ->(ot) do
-        #   ot[:represented].organization.section_filters.pluck(:identifier)
+        #   ot[:represented].organization.sections.pluck(:identifier)
         # end
       end
 

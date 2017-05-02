@@ -5,7 +5,7 @@ module API::V1
       def base_query
         ::OrganizationTranslation
           .where(locale: [:en, :ar, :fa]).uniq
-          .joins(:section_filters).where('filters.identifier = ?', 'refugees')
+          .joins(:sections).where('sections.identifier = ?', 'refugees')
       end
     end
   end

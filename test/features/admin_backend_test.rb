@@ -17,7 +17,7 @@ feature 'Admin Backend' do
       click_link 'Neu hinzufügen'
 
       assert_difference 'Offer.count', 1 do
-        select 'Family', from: 'offer_section_filter_ids'
+        select 'Family', from: 'offer_section_id'
         fill_in 'offer_name', with: 'testangebot'
         fill_in 'offer_description', with: 'testdescription'
         fill_in 'offer_age_from', with: 0
@@ -460,7 +460,7 @@ feature 'Admin Backend' do
 
       # contact_person becomes SPoC, still needs target_audience
       contact_person.update_column :spoc, true
-      select 'Family', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_id'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Contact people müssen alle zu einer der'\
                              ' ausgewählten Organisationen gehören oder als'\
@@ -507,12 +507,10 @@ feature 'Admin Backend' do
       page.wont_have_content(
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
-      page.must_have_content "benötigt mindestens eine 'Family' Kategorie"
 
       # Fill categories, it saves again
       select 'main1', from: 'offer_category_ids'
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content "benötigt mindestens eine 'Family' Kategorie"
       page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Complete works
@@ -533,7 +531,7 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Neu hinzufügen'
 
-      select 'Family', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_id'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
       fill_in 'offer_age_from', with: 0
@@ -684,17 +682,17 @@ feature 'Admin Backend' do
       page.must_have_content 'benötigt mindestens eine clarat-Welt'
     end
 
-    scenario 'Try to edit existing category and remove section_filters' do
+    scenario 'Try to edit existing category and remove sections' do
       visit rails_admin_path
       click_link 'Problem-Kategorien', match: :first
       click_link 'Bearbeiten', match: :first
-      unselect 'Family', from: 'category_section_filter_ids'
-      unselect 'Refugees', from: 'category_section_filter_ids'
+      unselect 'Family', from: 'category_section_ids'
+      unselect 'Refugees', from: 'category_section_ids'
       click_button 'Speichern und bearbeiten'
       page.must_have_content 'Kategorie wurde nicht aktualisiert'
       page.must_have_content 'benötigt mindestens eine clarat-Welt'
 
-      select 'Family', from: 'category_section_filter_ids'
+      select 'Family', from: 'category_section_ids'
       click_button 'Speichern'
       page.must_have_content 'Kategorie wurde erfolgreich aktualisiert'
     end
