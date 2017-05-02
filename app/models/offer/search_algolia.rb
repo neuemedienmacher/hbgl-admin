@@ -29,7 +29,7 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:_tags) { _tags(locale) }
+          attribute(:_categories) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
@@ -37,7 +37,7 @@ module Offer::SearchAlgolia
           add_attribute(*attributes)
           add_attribute(*facets)
           add_attribute :_geoloc
-          attributesForFaceting facets + [:_tags]
+          attributesForFaceting facets + [:_categories]
           optionalWords STOPWORDS
         end
 
@@ -49,7 +49,7 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:_tags) { _tags(locale) }
+          attribute(:_categories) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
@@ -58,7 +58,7 @@ module Offer::SearchAlgolia
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
           add_attribute(*facets)
-          attributesForFaceting facets + [:_tags, :encounter]
+          attributesForFaceting facets + [:_categories, :encounter]
           optionalWords STOPWORDS
 
           # no geo necessary
