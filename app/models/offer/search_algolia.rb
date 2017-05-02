@@ -10,7 +10,7 @@ module Offer::SearchAlgolia
     algoliasearch do
       I18n.available_locales.each do |locale|
         index = %w(
-          name description code_word next_steps keyword_string
+          name description code_word next_steps keyword_string category_keywords
           organization_names category_names stamp_family stamp_refugees
         )
         # :category_string,
@@ -33,6 +33,7 @@ module Offer::SearchAlgolia
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
+          attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
           add_attribute(*facets)
           add_attribute :_geoloc
@@ -52,6 +53,7 @@ module Offer::SearchAlgolia
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
+          attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
