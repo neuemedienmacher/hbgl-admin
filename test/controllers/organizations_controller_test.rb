@@ -5,14 +5,14 @@ describe OrganizationsController do
   describe "GET 'show'" do
     it 'should redirect to the login page when not authenticated' do
       sign_out users(:researcher)
-      get :show, id: 'something'
+      get :show, id: 1
       assert_redirected_to 'http://test.host/users/sign_in'
     end
 
     it 'should redirect to frontend organization#show even w/o sections' do
       sign_in users(:researcher)
       orga = FactoryGirl.create :organization, slug: 'whatever'
-      get :show, id: orga.slug
+      get :show, id: orga.id
       assert_redirected_to(
         'http://test.host.com/refugees/preview/organisationen/whatever'
       )
@@ -23,7 +23,7 @@ describe OrganizationsController do
       orga = FactoryGirl.create :organization, slug: 'whatever'
       FactoryGirl.create :offer, organization: orga
       section = orga.sections.first.identifier
-      get :show, id: orga.slug
+      get :show, id: orga.id
       assert_redirected_to(
         "http://test.host.com/#{section}/preview/organisationen/whatever"
       )
