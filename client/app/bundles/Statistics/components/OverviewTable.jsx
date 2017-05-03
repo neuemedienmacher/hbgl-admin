@@ -12,7 +12,8 @@ export default class OverviewTable extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Load Data when states are loaded
-    if (!this.props.states.length && nextProps.states.length)
+    if (nextProps.states.length && nextProps.sections.length &&
+        (!this.props.states.length || !this.props.sections.length))
       this.props.loadData(nextProps.states)
   }
 
