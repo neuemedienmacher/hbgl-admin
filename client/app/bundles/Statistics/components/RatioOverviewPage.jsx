@@ -1,10 +1,15 @@
 import React from 'react'
 
-export default class OrgaOverviewPage extends React.Component {
+export default class RatioOverviewPage extends React.Component {
   componentDidMount() {
     // Load sections unless they were already loaded
     if (!this.props.sections || !this.props.sections.length)
       this.props.loadSections()
+    else if (this.props.sections.length && (this.props.data == undefined ||
+             this.props.data.offer == undefined || 
+             this.props.data.organization == undefined)) {
+      this.props.loadData(this.props.sections)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
