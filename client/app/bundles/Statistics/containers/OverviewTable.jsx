@@ -79,9 +79,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     )
   }
 
-  const loadData = function(states, cityId) {
+  const loadData = function(states, sections, cityId) {
     for (let aasm_state of states.concat(null)) { // null for the "total" row
-      for (let section of stateProps.sections) {
+      for (let section of sections) {
         dispatchDataLoad(aasm_state, section, cityId)
       }
       dispatchDataLoad(aasm_state, 'total', cityId)
@@ -109,7 +109,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     onCityChange(selected) {
       const city = (selected && selected.value) || ALL
       if (!stateProps.loadedCities.includes(city))
-        loadData(stateProps.states, selected.value)
+        loadData(stateProps.states, stateProps.sections, selected.value)
     }
   })
 }
