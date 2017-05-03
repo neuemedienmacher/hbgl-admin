@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 module RemoteShow
-  def redirect_to_remote_show controller
+  def redirect_to_remote_show controller, identifier
     host = Rails.application.secrets.frontend_host
-    section = section_for_model params
-    identifier = section.nil? ? 'refugees' : section.identifier # for orga's without offers (no section)
-    redirect_to "#{host}/#{identifier}/preview/#{controller}/#{params[:id]}"
+    item = model_instance params
+    redirect_to "#{host}/#{identifier}/preview/#{controller}/#{item.slug}"
   end
 
   private
 
-  def section_for_model params
+  def model_instance params
     klass = params[:controller].classify.constantize
-    item = klass.where(slug: params[:id]).first
-    klass == Offer ? item.section : item.sections.first
+    klass.find(params[:id])
   end
 end
