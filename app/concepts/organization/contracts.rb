@@ -9,17 +9,14 @@ module Organization::Contracts
     property :comment
     property :division_ids
 
-    # validates :website_id, presence: true
-    # validates :location_ids, presence: true
-    # validates :category_ids, presence: true
-    # validates :solution_category_ids, presence: true
-
     validates :name, length: { maximum: 100 }, presence: true
     validates_uniqueness_of :name
+    validates :website_id, presence: true
+    # validates :location_ids, presence: true
+    # validates :contact_person_ids, presence: true
 
+    # TODO: ausschliesslich own erlauben in Auswahl und nested create
     # validate :validate_websites_hosts
-    # validate :must_have_umbrella_filter
-    #
     # def validate_websites_hosts
     #   websites.where.not(host: 'own').each do |website|
     #     errors.add(
@@ -28,37 +25,27 @@ module Organization::Contracts
     #     )
     #   end
     # end
-    #
-    # def must_have_umbrella_filter
-    #   if umbrella_filters.empty?
-    #     fail_validation :umbrella_filters, 'needs_umbrella_filters'
-    #   end
-    # end
+  end
+
+  class Update < Create
+    property :description
+    property :legal_form
+    property :charitable
+    property :umbrella_filter_ids
   end
 
   # validates :slug, uniqueness: true
   # validates :mailings, presence: true
 
-  class Update < Reform::Form
-    property :description
-    property :legal_form
-    property :charitable
-    property :accredited_institution
-    property :founded
-    property :umbrella___
-    validates :founded, length: { is: 4 }, allow_blank: true
-
-    # validate :validate_hq_location, on: :update
-    #
-    # def validate_hq_location
-    #   if locations.to_a.count(&:hq) != 1
-    #     errors.add(:base, I18n.t('organization.validations.hq_location'))
-    #   end
-    # end
-  end
-
-  class Approve < Reform::Form
+  class ChangeState < Update
     validates :description, presence: true
     validates :legal_form, presence: true
+
+    validate :has_one_hq_location
+    def has_one_hq_location
+      if Location.where(id: location_ids, hq: true).count != 1
+        errors.add(:base, I18n.t('organization.validations.hq_location'))
+      end
+    end
   end
 end

@@ -7,7 +7,7 @@ class API::V1::Website::RepresenterTest < ActiveSupport::TestCase
   it 'should provide its fields' do
     result =
       subject.new(FactoryGirl.create(:website, url: 'https://foo.de')).to_hash
-    result[:data][:id].must_equal '1'
+    result[:data][:id].must_equal '2'
     result[:data][:attributes]['label'].must_equal 'https://foo.de'
     result[:data][:attributes]['url'].must_equal 'https://foo.de'
   end
