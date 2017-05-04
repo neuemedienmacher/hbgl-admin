@@ -9,7 +9,7 @@ class Organization < ActiveRecord::Base
   include StateMachine
 
   # Concerns
-  include Translations
+  include Translations, RailsAdminParamHack
 
   # Search
   include PgSearch

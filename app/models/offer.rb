@@ -12,7 +12,7 @@ class Offer < ActiveRecord::Base
   include SearchAlgolia, StateMachine
 
   # Concerns
-  include Translations
+  include Translations, RailsAdminParamHack
 
   # Search
   include PgSearch
