@@ -56,6 +56,7 @@ export default class TopNav extends Component {
             })}
           </NavDropdown>
 
+          {/* TODO: Cause of unknown props warnings. react-bootstrap#2199 */}
           <li>
             <a href='/admin'>
               Altes Backend

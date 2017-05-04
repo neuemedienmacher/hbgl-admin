@@ -19,8 +19,10 @@ module JsonapiErrors
 
   def self.add_contract_errors result, error_hash
     if result['contract.default']
-      result['contract.default'].errors.full_messages.each do |message|
-        error_hash[:errors].push(title: message)
+      result['contract.default'].errors.each_entry do |field, message|
+        error_hash[:errors].push(
+          title: message, source: { pointer: "/data/attributes/#{field}" }
+        )
       end
     end
     error_hash

@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       get :mindmap
     end
   end
+
   # resources :offer_translations, only: [:index, :edit, :update] do
   #   collection do
   #     get 'export', controller: :pages, action: :react
@@ -88,13 +89,14 @@ Rails.application.routes.draw do
           put 'sort'
         end
       end
+      resources :solution_categories, only: [:show, :index]
       resources :offers, only: [:index, :show]
       resources :locations, only: [:index]
       resources :organizations, only: [:show, :index, :create, :update]
       resources :divisions, only: [:show, :index, :create, :update]
       get '/statistics' => 'statistics#index'
       resources :users, only: [:index, :show, :update]
-      resources :websites, only: [:index]
+      resources :websites, only: [:index, :create]
       resources :offer_translations, only: [:index, :show, :update]
       resources :organization_translations, only: [:index, :show, :update]
       resources :statistic_charts, except: [:destroy]
@@ -102,6 +104,7 @@ Rails.application.routes.draw do
       resources :user_teams
       resources :sections, only: [:index]
       resources :cities, only: [:index]
+      resources :contact_people, only: [:index]
       resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual

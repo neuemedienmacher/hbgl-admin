@@ -52,6 +52,7 @@ export function pluralize(string) {
     [ /(octop|vir)i$/i, '$1i' ],
     [ /(octop|vir)us$/i, '$1i' ],
     [ /^(ax|test)is$/i, '$1es' ],
+    [ /(pe)rson$/i, '$1ople' ],
     [ /s$/, 's' ],
     [ /$/, 's' ],
   ]

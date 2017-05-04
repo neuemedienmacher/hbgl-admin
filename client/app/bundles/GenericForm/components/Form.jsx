@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Form, InputSet } from 'rform'
+import { Form, InputSet, Input } from 'rform'
 import FormInputs from '../containers/FormInputs'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
@@ -8,7 +8,7 @@ export default class GenericFormForm extends React.Component {
   render() {
     const {
       seedData, action, method, formId, formObjectClass,
-      afterResponse, handleResponse, model,
+      afterResponse, handleResponse, model, nestingModel,
     } = this.props
 
     return (
@@ -21,7 +21,7 @@ export default class GenericFormForm extends React.Component {
         />
         <FormInputs
           model={model} formObjectClass={formObjectClass} formId={formId}
-          formObjectClass={formObjectClass}
+          nestingModel={nestingModel}
         />
         <button className='btn btn-default' type='submit' form={formId}>
           Abschicken

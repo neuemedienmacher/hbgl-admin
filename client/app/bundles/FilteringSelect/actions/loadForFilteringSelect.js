@@ -12,14 +12,14 @@ const loadForFilteringSelectFailure = (error, key) => ({
   key
 })
 
-const loadForFilteringSelectSuccess = (key, options) => ({
+export const addForFilteringSelect = (key, options) => ({
   type: 'LOAD_FOR_FILTERING_SELECT_SUCCESS',
   key,
   options,
 })
 
 // INFO: optional nextModel is required for different transformer (field_sets)
-export default function loadForFilteringSelect(
+export function loadForFilteringSelect(
   input, associatedModel
 ) {
   const path = `/api/v1/${associatedModel}?query=${input}`
@@ -41,7 +41,7 @@ export default function loadForFilteringSelect(
       }
     ).then(json => {
       dispatch(
-        loadForFilteringSelectSuccess(associatedModel, json.data.map(datum => (
+        addForFilteringSelect(associatedModel, json.data.map(datum => (
           { value: datum.id, label: datum.attributes.label }
         )))
       )

@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import { setupAction } from 'rform'
 import formObjectSelect from '../lib/formObjectSelect'
 import addEntities from '../../../Backend/actions/addEntities'
 import Form from '../components/Form'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId } = ownProps
-  const formId = `GenericForm-${model + (editId || '-new')}`
+  const formId = `GenericForm-${model}-${editId || 'new'}`
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
 
@@ -41,17 +42,36 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
+})
 
-  handleResponse: (_formId, data) => dispatch(addEntities(data)),
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps
 
-  afterResponse(response) {
-    if (response.data && response.data.id) {
-      browserHistory.push(`/${ownProps.model}/${response.data.id}`)
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+
+    handleResponse: (_formId, data, serverErrors) => {
+      if (!serverErrors.length) {
+        dispatch(addEntities(data))
+      }
+    },
+
+    afterResponse(response) {
+      if (response.data && response.data.id) {
+        if (ownProps.onSuccessfulSubmit)
+          return ownProps.onSuccessfulSubmit(response)
+
+        dispatch(setupAction(stateProps.formId, {})) // reset form
+        // browserHistory.push(`/${ownProps.model}/${response.data.id}`)
+      }
     }
   }
-})
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
+  mergeProps
 )(Form)

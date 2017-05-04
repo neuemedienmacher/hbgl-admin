@@ -7,7 +7,8 @@ export default class CreatingSelect extends React.Component {
   render() {
     const {
       multi, input, hasSubmodelForm, onAddSubmodelFormClick,
-      onRemoveSubmodelFormClick, submodelName, formId
+      onRemoveSubmodelFormClick, submodelName, formId, model,
+      onSuccessfulSubmodelFormSubmit
     } = this.props
 
     return (
@@ -15,14 +16,15 @@ export default class CreatingSelect extends React.Component {
         <FilteringSelect multi={multi}
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
-          formId={formId} type={input.type}
+          formId={formId} type={input.type} resource={input.resource}
         >
           {this._renderAdditionalObjectButton(
             hasSubmodelForm, onAddSubmodelFormClick
           )}
 
           {this._renderSubmodelForm(
-            hasSubmodelForm, submodelName, onRemoveSubmodelFormClick
+            hasSubmodelForm, model, submodelName, onRemoveSubmodelFormClick,
+            onSuccessfulSubmodelFormSubmit
           )}
         </FilteringSelect>
       </div>
@@ -38,12 +40,18 @@ export default class CreatingSelect extends React.Component {
     )
   }
 
-  _renderSubmodelForm(hasSubmodelForm, submodelName, clickHandler) {
+  _renderSubmodelForm(
+    hasSubmodelForm, model, submodelName, removeClickHandler,
+    successfulSubmitCallback
+  ) {
     if (!hasSubmodelForm) return
     return(
       <div style={{border: '1px solid black'}}>
-        <button onClick={clickHandler}>x</button>
-        <Form model={submodelName} />
+        <button onClick={removeClickHandler}>x</button>
+        <Form
+          model={submodelName} nestingModel={model}
+          onSuccessfulSubmit={successfulSubmitCallback}
+        />
       </div>
     )
   }

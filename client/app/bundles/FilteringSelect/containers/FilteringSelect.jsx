@@ -2,16 +2,15 @@ import { connect } from 'react-redux'
 import isArray from 'lodash/isArray'
 import { updateAction, navigateThroughSubmodels } from 'rform'
 import { pluralize } from '../../../lib/inflection'
-import loadForFilteringSelect from '../actions/loadForFilteringSelect'
+import { loadForFilteringSelect } from '../actions/loadForFilteringSelect'
 import FilteringSelect from '../components/FilteringSelect'
 
 const mapStateToProps = (state, ownProps) => {
   const { attribute, submodel, submodelIndex } = ownProps
-  // remove last "_id" from attribute
-  let associatedModel = ownProps.associatedModel ||
-    ownProps.attribute.replace(/_id([^_id]*)$/, '$1')
+  // remove last "_id(s)" from attribute
+  let resource = ownProps.resource || attribute.replace(/(_id|_ids)$/, '')
   // pluralize
-  associatedModel = pluralize(associatedModel)
+  resource = pluralize(resource)
 
   const formState = state.rform[ownProps.formId]
   const statePath =
@@ -22,10 +21,10 @@ const mapStateToProps = (state, ownProps) => {
   // Server gives array elements as list of ids. Transform it to simpleValue
   if (isArray(value)) value = value.join(',')
 
-  const options = state.filteringSelect.options[associatedModel] || []
-  const isLoading = state.filteringSelect.isLoading[associatedModel] || false
+  const options = state.filteringSelect.options[resource] || []
+  const isLoading = state.filteringSelect.isLoading[resource] || false
   const alreadyLoadedInputs =
-    state.filteringSelect.alreadyLoadedInputs[associatedModel] || []
+    state.filteringSelect.alreadyLoadedInputs[resource] || []
 
   const errors = [] // TODO: Implement errors!
 
@@ -34,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
     errors,
     options,
     isLoading,
-    associatedModel,
+    resource,
     alreadyLoadedInputs,
   }
 }
@@ -64,18 +63,18 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onMount() {
-      dispatch(loadForFilteringSelect('', stateProps.associatedModel))
+      dispatch(loadForFilteringSelect('', stateProps.resource))
     },
 
     onFirstValue(value) {
       for (let id of value.split(',')) {
-        dispatch(loadForFilteringSelect(id, stateProps.associatedModel))
+        dispatch(loadForFilteringSelect(id, stateProps.resource))
       }
     },
 
     onInputChange(input) {
       if (stateProps.alreadyLoadedInputs.includes(input)) return
-      dispatch(loadForFilteringSelect(input, stateProps.associatedModel))
+      dispatch(loadForFilteringSelect(input, stateProps.resource))
     },
   }
 }

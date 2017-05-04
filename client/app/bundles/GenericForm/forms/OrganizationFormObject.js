@@ -6,7 +6,10 @@ export default class OrganizationFormObject extends FormObject {
   }
 
   static get properties() {
-    return [ 'name', 'website_ids', 'priority', 'division_ids' ]
+    return [
+      'name', 'priority', 'website_id', 'location_ids', 'contact_person_ids',
+      'comment', 'division_ids'
+    ]
   }
 
   // static get submodelConfig() {
@@ -22,8 +25,11 @@ export default class OrganizationFormObject extends FormObject {
   static get formConfig() {
     return {
       name: { type: 'string' },
+      website_id: { type: 'creating-select' },
+      location_ids: { type: 'creating-multiselect' },
+      contact_person_ids: { type: 'creating-multiselect' },
+      comment: { type: 'textarea' },
       priority: { type: 'checkbox' },
-      website_ids: { type: 'creating-multiselect' },
       division_ids: { type: 'creating-multiselect' },
     }
   }

@@ -103,7 +103,7 @@ module Translation
       when :name, :responsibility
         object.send("untranslated_#{field}")
       when :description
-        output = MarkdownRenderer.render(object.untranslated_description)
+        output = MarkdownRenderer.render(object.untranslated_description || '')
         output = Definition.infuse(output) if locale.to_sym == :de
         output
       when :old_next_steps, :opening_specification

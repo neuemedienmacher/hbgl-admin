@@ -11,9 +11,11 @@ class Organization < ActiveRecord::Base
   # Concerns
   include Translations
 
+  # Validation Hack
+  include ReformedValidationHack
+
   # Search
   include PgSearch
-  # Search
   pg_search_scope :search_everything,
                   against: [
                     :id, :offers_count, :name, :aasm_state, :locations_count

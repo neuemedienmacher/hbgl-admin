@@ -1,23 +1,9 @@
 # frozen_string_literal: true
 class Division::Create < Trailblazer::Operation
   step Model(::Division, :new)
+  step Policy::Pundit(DivisionPolicy, :create?)
 
-  step Contract::Build()
+  step Contract::Build(constant: Division::Contracts::Create)
   step Contract::Validate()
   step Contract::Persist()
-
-  # include Trailblazer::Operation::Policy
-  # policy ::DivisionPolicy, :create?
-
-  extend Contract::DSL
-  contract do
-    property :name
-    property :description
-    property :organization_id
-    property :section_id
-
-    validates :name, presence: true
-    validates :organization_id, presence: true
-    validates :section_id, presence: true
-  end
 end
