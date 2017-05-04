@@ -10,7 +10,7 @@ module Offer::SearchAlgolia
     algoliasearch do
       I18n.available_locales.each do |locale|
         index = %w(
-          name description code_word next_steps keyword_string
+          name description code_word next_steps keyword_string category_keywords
           organization_names category_names stamp_family stamp_refugees
         )
         # :category_string,
@@ -29,14 +29,15 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:_tags) { _tags(locale) }
+          attribute(:_categories) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
+          attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
           add_attribute(*facets)
           add_attribute :_geoloc
-          attributesForFaceting facets + [:_tags]
+          attributesForFaceting facets + [:_categories]
           optionalWords STOPWORDS
         end
 
@@ -48,15 +49,16 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:_tags) { _tags(locale) }
+          attribute(:_categories) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
+          attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
           add_attribute(*facets)
-          attributesForFaceting facets + [:_tags, :encounter]
+          attributesForFaceting facets + [:_categories, :encounter]
           optionalWords STOPWORDS
 
           # no geo necessary

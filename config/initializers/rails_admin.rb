@@ -596,13 +596,17 @@ RailsAdmin.config do |config|
   config.model 'Category' do
     weight(-3)
     field :name_de
+    field :keywords_de
     field :sections
     field :parent
     field :sort_order
     field :visible
     field :name_en
+    field :keywords_en
     field :name_ar
+    field :keywords_ar
     field :name_fa
+    field :keywords_fa
     field :name_tr
     field :name_pl
     field :name_ru
