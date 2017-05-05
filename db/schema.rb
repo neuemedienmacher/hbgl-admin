@@ -81,6 +81,14 @@ ActiveRecord::Schema.define(version: 20170502132754) do
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de", using: :btree
 
+  create_table "categories_filters", id: false, force: :cascade do |t|
+    t.integer "filter_id",   null: false
+    t.integer "category_id", null: false
+  end
+
+  add_index "categories_filters", ["category_id"], name: "index_filters_categories_on_category_id", using: :btree
+  add_index "categories_filters", ["filter_id"], name: "index_filters_categories_on_filter_id", using: :btree
+
   create_table "categories_offers", id: false, force: :cascade do |t|
     t.integer "offer_id",    null: false
     t.integer "category_id", null: false
@@ -89,15 +97,15 @@ ActiveRecord::Schema.define(version: 20170502132754) do
   add_index "categories_offers", ["category_id"], name: "index_categories_offers_on_category_id", using: :btree
   add_index "categories_offers", ["offer_id"], name: "index_categories_offers_on_offer_id", using: :btree
 
-  create_table "categories_sections", id: false, force: :cascade do |t|
-    t.integer "section_id",  null: false
-    t.integer "category_id", null: false
+  create_table "categories_sections", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "section_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "categories_sections", ["category_id"], name: "index_categories_sections_on_category_id", using: :btree
-  add_index "categories_sections", ["category_id"], name: "index_filters_categories_on_category_id", using: :btree
   add_index "categories_sections", ["section_id"], name: "index_categories_sections_on_section_id", using: :btree
-  add_index "categories_sections", ["section_id"], name: "index_filters_categories_on_filter_id", using: :btree
 
   create_table "category_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -177,6 +185,22 @@ ActiveRecord::Schema.define(version: 20170502132754) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "definitions_offers", force: :cascade do |t|
+    t.integer "definition_id", null: false
+    t.integer "offer_id",      null: false
+  end
+
+  add_index "definitions_offers", ["definition_id"], name: "index_definitions_offers_on_definition_id", using: :btree
+  add_index "definitions_offers", ["offer_id"], name: "index_definitions_offers_on_offer_id", using: :btree
+
+  create_table "definitions_organizations", force: :cascade do |t|
+    t.integer "definition_id",   null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "definitions_organizations", ["definition_id"], name: "index_definitions_organizations_on_definition_id", using: :btree
+  add_index "definitions_organizations", ["organization_id"], name: "index_definitions_organizations_on_organization_id", using: :btree
 
   create_table "divisions", force: :cascade do |t|
     t.string   "name",            null: false
