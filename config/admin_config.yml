@@ -10,7 +10,7 @@ included_models:
   # - LanguageFilter
   # - User
   # - Contact
-  # - Keyword
+  # - Tag
   # - Definition
   # - Note
   # - Area

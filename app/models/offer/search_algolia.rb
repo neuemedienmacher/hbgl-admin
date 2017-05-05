@@ -10,12 +10,12 @@ module Offer::SearchAlgolia
     algoliasearch do
       I18n.available_locales.each do |locale|
         index = %w(
-          name description code_word next_steps keyword_string category_keywords
-          organization_names category_names stamp_family stamp_refugees
+          name description code_word next_steps category_keywords
+          organization_names category_names stamp_family stamp_refugees tags
         )
         # :category_string,
         attributes = [:organization_count, :location_address, :location_name,
-                      :slug, :encounter, :keyword_string, :organization_names,
+                      :slug, :encounter, :organization_names,
                       :location_visible, :code_word]
         facets = [:_age_filters, :_language_filters, :_target_audience_filters,
                   :_exclusive_gender_filters, :section_identifier]
@@ -29,6 +29,7 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
+          attribute(:tags) { tag_string(locale) }
           attribute(:_categories) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
@@ -49,6 +50,7 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
+          attribute(:tags) { tag_string(locale) }
           attribute(:_categories) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
