@@ -4,6 +4,7 @@ require ClaratBase::Engine.root.join('app', 'models', 'location')
 
 class Location < ActiveRecord::Base
   # Admin specific methods
+  include ReformedValidationHack
 
   # Customize duplication.
   def partial_dup

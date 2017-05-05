@@ -31,11 +31,11 @@ FactoryGirl.define do
     end
 
     after :create do |orga, evaluator|
-      evaluator.website_count.times do
-        website = FactoryGirl.create(:website, host: 'own')
-        website.organizations << orga
-        orga.websites << website
-      end
+      # evaluator.website_count.times do
+         website = FactoryGirl.create(:website, host: 'own')
+        # website.organizations << orga
+         orga.website_id = website.id
+      # end
       # Locations
       if evaluator.location_count.positive?
         orga.locations << FactoryGirl.create(:location, :hq, organization: orga)

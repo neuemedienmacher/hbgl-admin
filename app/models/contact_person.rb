@@ -6,6 +6,7 @@ class ContactPerson < ActiveRecord::Base
   # Admin specific methods
 
   include Translations
+  include ReformedValidationHack
 
   # Customize duplication.
   def partial_dup
