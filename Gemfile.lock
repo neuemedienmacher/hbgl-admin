@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: e38873ada8f590e65c0ce83f6a0c19a128f74567
+  revision: 94fbd4230ff1063dfdfc099cdf7911a3fc452400
   branch: feature/944-945-orga-division-2
   specs:
     clarat_base (0.1.4)

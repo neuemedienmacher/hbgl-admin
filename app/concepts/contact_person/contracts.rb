@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 module ContactPerson::Contracts
   class Create < Reform::Form
+    property :first_name
+    property :last_name
+    property :operational_name
+    property :local_number_1
+    property :fax_number
+    property :email_id
+
     property :organization_id
     property :area_code_1
     property :local_number_1
@@ -8,7 +15,6 @@ module ContactPerson::Contracts
     property :local_number_2
     property :fax_area_code
     property :fax_number
-    property :at_least_one_field_present
 
     validates :organization_id, presence: true
     validates :area_code_1, format: /\A\d*\z/, length: { maximum: 6 }
@@ -17,17 +23,17 @@ module ContactPerson::Contracts
     validates :local_number_2, format: /\A\d*\z/, length: { maximum: 32 }
     validates :fax_area_code, format: /\A\d*\z/, length: { maximum: 6 }
     validates :fax_number, format: /\A\d*\z/, length: { maximum: 32 }
-    # validate :at_least_one_field_present
+    validate :at_least_one_field_present
 
-    # def at_least_one_field_present
-    #   one_field_blank = %w(first_name last_name operational_name local_number_1
-    #                        fax_number email_id).all? do |field|
-    #     self[field].blank?
-    #   end
-    #
-    #   if one_field_blank
-    #     errors.add :base, I18n.t('contact_person.validations.incomplete')
-    #   end
-    # end
+    def at_least_one_field_present
+      one_field_blank = %w(first_name last_name operational_name local_number_1
+                           fax_number email_id).all? do |field|
+        self.send(field).blank?
+      end
+
+      if one_field_blank
+        errors.add :base, I18n.t('contact_person.validations.incomplete')
+      end
+    end
   end
 end
