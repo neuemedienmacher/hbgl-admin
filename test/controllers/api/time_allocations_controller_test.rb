@@ -18,7 +18,7 @@ describe API::V1::TimeAllocationsController do
     it 'fails with incomplete data' do
       sign_in users(:super)
       create_fails_with TimeAllocation, year: 2000
-      response.body.must_include 'User muss ausgefüllt werden'
+      response.body.must_include 'muss ausgefüllt werden'
     end
 
     it 'successfully responds to a valid request' do

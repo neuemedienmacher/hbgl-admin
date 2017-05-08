@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427161550) do
+ActiveRecord::Schema.define(version: 20170428085131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,13 +59,13 @@ ActiveRecord::Schema.define(version: 20170427161550) do
   add_index "assignments", ["receiver_team_id"], name: "index_assignments_on_receiver_team_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name_de",    limit: 255,                null: false
+    t.string   "name_de",     limit: 255,                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "icon",       limit: 12
+    t.string   "icon",        limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
-    t.boolean  "visible",                default: true
+    t.boolean  "visible",                 default: true
     t.string   "name_en"
     t.string   "name_ar"
     t.string   "name_fr"
@@ -73,6 +73,10 @@ ActiveRecord::Schema.define(version: 20170427161550) do
     t.string   "name_tr"
     t.string   "name_ru"
     t.string   "name_fa"
+    t.text     "keywords_de"
+    t.text     "keywords_en"
+    t.text     "keywords_ar"
+    t.text     "keywords_fa"
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de", using: :btree
@@ -496,6 +500,7 @@ ActiveRecord::Schema.define(version: 20170427161550) do
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state", using: :btree
   add_index "organizations", ["approved_at"], name: "index_organizations_on_approved_at", using: :btree
   add_index "organizations", ["created_at"], name: "index_organizations_on_created_at", using: :btree
+  add_index "organizations", ["website_id"], name: "index_organizations_on_website_id", using: :btree
 
   create_table "search_locations", force: :cascade do |t|
     t.string   "query",      limit: 255, null: false

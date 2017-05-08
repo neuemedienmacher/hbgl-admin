@@ -59,7 +59,7 @@ module API
 
     def has_no_route_for method, action
       assert_raises(ActionController::UrlGenerationError) do # No route matches
-        send(method, action)
+        send(method, action) # If this raises another error, the route exists
       end
     end
 

@@ -24,15 +24,17 @@ module RailsAdmin
         register_instance_option :controller do
           proc do
             old_state = @object.aasm_state
+            object_valid_for_state_change =
+              @object.class::Contracts::ChangeState.new(@object).valid?
             # NOTE Hacky hack hack: allow forced state-change to checkup and edit for invalid objects (e.g. expired offers are invalid)
-            if !@object.valid? && %w(start_checkup_process return_to_editing).include?(params[:event])
+            if !object_valid_for_state_change && %w(start_checkup_process return_to_editing).include?(params[:event])
               @object.update_columns(aasm_state: params[:event] == 'return_to_editing' ? 'edit' : 'checkup_process')
               flash[:success] = t('.success')
               Statistic::UserAndParentTeamsCountHandler.record(
                 current_user, @object.class.name, 'aasm_state',
                 old_state, @object.aasm_state
               )
-            elsif @object.valid? && @object.send("#{params[:event]}!")
+            elsif object_valid_for_state_change && @object.send("#{params[:event]}!")
               flash[:success] = t('.success')
               Statistic::UserAndParentTeamsCountHandler.record(
                 current_user, @object.class.name, 'aasm_state',
