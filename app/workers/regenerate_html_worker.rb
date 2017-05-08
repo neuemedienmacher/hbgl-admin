@@ -37,6 +37,7 @@ class RegenerateHtmlWorker
       OfferTranslation.where(
         offer_id: offer.id, locale: 'de'
       ).first.update_attribute(:description, infused_description)
+      offer.index!
     end
   end
 
