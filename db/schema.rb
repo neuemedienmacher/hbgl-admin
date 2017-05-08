@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428085131) do
+ActiveRecord::Schema.define(version: 20170502133942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 20170428085131) do
     t.string   "aasm_state",            limit: 32,   default: "open", null: false
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
+    t.string   "topic"
+    t.boolean  "created_by_system",                  default: false
   end
 
   add_index "assignments", ["aasm_state"], name: "index_assignments_on_aasm_state", using: :btree
@@ -186,6 +188,22 @@ ActiveRecord::Schema.define(version: 20170428085131) do
     t.datetime "updated_at"
   end
 
+  create_table "definitions_offers", force: :cascade do |t|
+    t.integer "definition_id", null: false
+    t.integer "offer_id",      null: false
+  end
+
+  add_index "definitions_offers", ["definition_id"], name: "index_definitions_offers_on_definition_id", using: :btree
+  add_index "definitions_offers", ["offer_id"], name: "index_definitions_offers_on_offer_id", using: :btree
+
+  create_table "definitions_organizations", force: :cascade do |t|
+    t.integer "definition_id",   null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "definitions_organizations", ["definition_id"], name: "index_definitions_organizations_on_definition_id", using: :btree
+  add_index "definitions_organizations", ["organization_id"], name: "index_definitions_organizations_on_organization_id", using: :btree
+
   create_table "divisions", force: :cascade do |t|
     t.string   "name",                               null: false
     t.integer  "organization_id"
@@ -272,19 +290,6 @@ ActiveRecord::Schema.define(version: 20170428085131) do
 
   add_index "hyperlinks", ["linkable_id", "linkable_type"], name: "index_hyperlinks_on_linkable_id_and_linkable_type", using: :btree
   add_index "hyperlinks", ["website_id"], name: "index_hyperlinks_on_website_id", using: :btree
-
-  create_table "keywords", force: :cascade do |t|
-    t.string "name",     limit: 255
-    t.text   "synonyms"
-  end
-
-  create_table "keywords_offers", id: false, force: :cascade do |t|
-    t.integer "keyword_id", null: false
-    t.integer "offer_id",   null: false
-  end
-
-  add_index "keywords_offers", ["keyword_id"], name: "index_keywords_offers_on_keyword_id", using: :btree
-  add_index "keywords_offers", ["offer_id"], name: "index_keywords_offers_on_offer_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "street",           limit: 255,                null: false
@@ -614,6 +619,29 @@ ActiveRecord::Schema.define(version: 20170428085131) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name_de",     limit: 255
+    t.text   "keywords_de"
+    t.text   "keywords_en"
+    t.text   "keywords_ar"
+    t.text   "keywords_fa"
+    t.string "name_en"
+    t.string "name_fr"
+    t.string "name_pl"
+    t.string "name_ru"
+    t.string "name_ar"
+    t.string "name_fa"
+    t.string "name_tr"
+  end
+
+  create_table "tags_offers", id: false, force: :cascade do |t|
+    t.integer "tag_id",   null: false
+    t.integer "offer_id", null: false
+  end
+
+  add_index "tags_offers", ["offer_id"], name: "index_tags_offers_on_offer_id", using: :btree
+  add_index "tags_offers", ["tag_id"], name: "index_tags_offers_on_tag_id", using: :btree
 
   create_table "time_allocations", force: :cascade do |t|
     t.integer "user_id",                     null: false

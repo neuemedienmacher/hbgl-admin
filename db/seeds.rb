@@ -94,6 +94,10 @@ subcategories = []
   )
 end
 
+10.times do
+    FactoryGirl.create :tag, :with_dummy_translations
+end
+
 20.times do
   FactoryGirl.create :category, :with_dummy_translations,
                      sections: [refugees],
@@ -101,21 +105,23 @@ end
 end
 
 categories = Category.all
+tags = Tag.all
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokales Angebot',
-                   encounter: 'personal', categories: [categories.sample]
+                   encounter: 'personal', categories: [categories.sample],
+                   tags: [tags.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokale Hotline',
                    encounter: 'hotline', area: berlin,
-                   categories: [categories.sample]
+                   categories: [categories.sample], tags: [tags.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweiter Chat',
                    encounter: 'chat', area: schland,
-                   categories: [categories.sample]
+                   categories: [categories.sample], tags: [tags.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweite Hotline',
                    encounter: 'hotline', area: schland,
-                   categories: [categories.sample]
+                   categories: [categories.sample], tags: [tags.sample]
 
 stic = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
                                                 field_name: 'aasm_state',

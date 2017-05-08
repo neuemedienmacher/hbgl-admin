@@ -25,7 +25,7 @@ module Assignable
     #     current_assignment
     # end
 
-    def created_by_system?
+    def should_be_created_by_system?
       case model.class.to_s
       when 'OfferTranslation', 'OrganizationTranslation'
         model.locale == 'de' || !model.translated_model.in_section?('refugees')

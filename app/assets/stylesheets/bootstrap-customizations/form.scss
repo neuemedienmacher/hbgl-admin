@@ -2,7 +2,6 @@
 
   .form-control {
     border-radius: 0;
-    -webkit-appearance: none;
     -webkit-border-radius: 0;
     padding: 6px 8px;
   }
@@ -11,6 +10,7 @@
     font-weight: normal;
   }
 
+  // TODO: is this obsolete?
   .inputset-current_team_id {
     margin: .5em 0 1em;
 

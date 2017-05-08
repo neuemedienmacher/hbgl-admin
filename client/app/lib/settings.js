@@ -109,10 +109,11 @@ export default {
     assignments: {
       fields: [
         'id', 'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
-        'receiver_id', 'receiver_team_id', 'aasm_state', 'created_at'
+        'receiver_id', 'receiver_team_id', 'message', 'topic', 'aasm_state',
+        'created_at'
       ],
       inline_fields: [
-        'assignable_type', 'assignable_id',
+        'assignable_type', 'assignable_id', 'topic',
         {assignable: ['label', 'created_at']},
         {creator: ['name']}, 'message', 'created_at'
       ],

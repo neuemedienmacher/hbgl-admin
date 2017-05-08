@@ -23,6 +23,8 @@ class Assignment::Create < Trailblazer::Operation
     property :aasm_state
     property :created_at
     property :updated_at
+    property :topic
+    property :created_by_system
 
     # TODO: check if model instance exists!! here or somewhere else?!
     validates :assignable_id, presence: true, numericality: true

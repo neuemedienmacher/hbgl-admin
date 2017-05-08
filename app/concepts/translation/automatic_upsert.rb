@@ -103,14 +103,22 @@ module Translation
       when :name, :responsibility
         object.send("untranslated_#{field}")
       when :description
-        output = MarkdownRenderer.render(object.untranslated_description || '')
-        output = Definition.infuse(output) if locale.to_sym == :de
-        output
+        output = MarkdownRenderer.render(object.untranslated_description)
+        locale.to_sym == :de ? infuse_definitions(object, output) : output
       when :old_next_steps, :opening_specification
         MarkdownRenderer.render object.send("untranslated_#{field}")
       else
         raise "Translation::AutomaticUpsert: #{field} needs translation strategy"
       end
+    end
+
+    def infuse_definitions object, output
+      Definition::LinkAndInfuse.(
+        {},
+        'object_to_link' => object,
+        'string_to_infuse' => output,
+        'definition_positions' => []
+      )['infused_description']
     end
   end
 end

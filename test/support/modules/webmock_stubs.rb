@@ -29,7 +29,7 @@ module WebStubs
       "hitsPerPage" : 10,
       "processingTimeMS" : 1,
       "facets" : {
-        "_tags": {}
+        "_categories": {}
       },
       "query" : "",
       "params" : "query="
@@ -79,7 +79,7 @@ module WebStubs
       'hitsPerPage' => 10,
       'processingTimeMS' => 1,
       'facets' => {
-        '_tags' => categories
+        '_categories' => categories
       },
       'query' => "#{query}",
       'params' => "query=#{query}"
@@ -149,7 +149,7 @@ end
 # "hitsPerPage" : 10,
 # "processingTimeMS" : 1,
 # "facets" : {
-#   "_tags" : {
+#   "_categories" : {
 #     "Erziehungsberatung" : 3,
 #     "Konfliktlösung" : 3,
 #     "Krisenintervention" : 3,
