@@ -25,6 +25,8 @@ module API::V1
           property :parent_id
           property :created_at
           property :updated_at
+          property :topic
+          property :created_by_system
         end
       end
 

@@ -79,7 +79,7 @@ class Offer < ActiveRecord::Base
       offer.trait_filters = self.trait_filters
       offer.websites = self.websites
       offer.contact_people = self.contact_people
-      offer.keywords = self.keywords
+      offer.tags = self.tags
       offer.next_steps = self.next_steps
       offer.area = self.area
       offer.aasm_state = 'initialized'

@@ -10,12 +10,11 @@ module Offer::SearchAlgolia
     algoliasearch do
       I18n.available_locales.each do |locale|
         index = %w(
-          name description code_word next_steps keyword_string
-          organization_names category_names stamp_family stamp_refugees
+          name description code_word next_steps category_keywords definitions
+          organization_names category_names stamp_family stamp_refugees tags
         )
-        # :category_string,
-        attributes = [:organization_count, :location_address, :slug,
-                      :encounter, :keyword_string, :organization_names,
+        attributes = [:organization_count, :location_address, :location_name,
+                      :slug, :encounter, :organization_names,
                       :location_visible, :code_word]
         facets = [:_age_filters, :_language_filters, :_target_audience_filters,
                   :_exclusive_gender_filters, :section_identifier]
@@ -29,10 +28,13 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:_tags) { _tags(locale) }
+          attribute(:tags) { tag_string(locale) }
+          attribute(:definitions) { definitions_string(locale) }
+          attribute(:_tags) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
+          attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
           add_attribute(*facets)
           add_attribute :_geoloc
@@ -48,10 +50,13 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:_tags) { _tags(locale) }
+          attribute(:tags) { tag_string(locale) }
+          attribute(:definitions) { definitions_string(locale) }
+          attribute(:_tags) { _categories(locale) }
           attribute(:stamp_family) { stamp_family(locale) }
           attribute(:stamp_refugees) { stamp_refugees(locale) }
           attribute(:category_names) { category_names(locale) }
+          attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong

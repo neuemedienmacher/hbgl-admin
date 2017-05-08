@@ -16,9 +16,9 @@ de:
       solution_category:
         one: "Lösungs-Kategorie"
         other: "Lösungs-Kategorien"
-      keyword:
-        one: "Keyword"
-        other: "Keywords"
+      tag:
+        one: "Tag"
+        other: "Tags"
       federal_state:
         one: "Bundesland"
         other: "Bundesländer"

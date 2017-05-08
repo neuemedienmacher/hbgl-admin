@@ -102,6 +102,7 @@ function buttonTextFor(action) {
 
 function seedDataFor(action, entities, assignment, system_user, users) {
   let assignment_copy = clone(assignment)
+  assignment_copy.created_by_system = false
   switch(action) {
   case 'assign_to_current_user':
     assignment_copy.receiver_id = entities.current_user.id

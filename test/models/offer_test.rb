@@ -72,7 +72,7 @@ describe Offer do
         duplicate.target_audience_filters.must_equal offer.target_audience_filters
         duplicate.websites.must_equal offer.websites
         duplicate.contact_people.must_equal offer.contact_people
-        duplicate.keywords.must_equal offer.keywords
+        duplicate.tags.must_equal offer.tags
         duplicate.area.must_equal offer.area
         duplicate.aasm_state.must_equal 'initialized'
       end

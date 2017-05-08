@@ -32,7 +32,7 @@ RailsAdmin.config do |config|
   config.included_models = %w(
     Organization Website Location FederalState Offer Opening
     Category Email UpdateRequest LanguageFilter User Contact
-    Keyword Definition Note Area SearchLocation ContactPerson
+    Tag Definition Note Area SearchLocation ContactPerson
     Subscription Section NextStep SolutionCategory
     LogicVersion SplitBase City
   )
@@ -398,7 +398,7 @@ RailsAdmin.config do |config|
       end
     end
     field :websites
-    field :keywords do
+    field :tags do
       inverse_of :offers
     end
     field :starts_at do
@@ -596,13 +596,17 @@ RailsAdmin.config do |config|
   config.model 'Category' do
     weight(-3)
     field :name_de
+    field :keywords_de
     field :sections
     field :parent
     field :sort_order
     field :visible
     field :name_en
+    field :keywords_en
     field :name_ar
+    field :keywords_ar
     field :name_fa
+    field :keywords_fa
     field :name_tr
     field :name_pl
     field :name_ru
@@ -806,8 +810,21 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model 'Keyword' do
+  config.model 'Tag' do
     weight 1
+    field :name_de
+    field :keywords_de
+    field :name_en
+    field :keywords_en
+    field :name_ar
+    field :keywords_ar
+    field :name_fa
+    field :keywords_fa
+    field :name_tr
+    field :name_pl
+    field :name_ru
+
+    object_label_method :name_de
   end
 
   config.model 'Area' do
