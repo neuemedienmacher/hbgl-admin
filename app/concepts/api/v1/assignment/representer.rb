@@ -17,6 +17,8 @@ module API::V1
         property :aasm_state
         property :created_at
         property :updated_at
+        property :topic
+        property :created_by_system
 
         has_one :creator do
           type :users

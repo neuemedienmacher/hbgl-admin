@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502132754) do
+ActiveRecord::Schema.define(version: 20170502133942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 20170502132754) do
     t.string   "aasm_state",            limit: 32,   default: "open", null: false
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
+    t.string   "topic"
+    t.boolean  "created_by_system",                  default: false
   end
 
   add_index "assignments", ["aasm_state"], name: "index_assignments_on_aasm_state", using: :btree
