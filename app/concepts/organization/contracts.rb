@@ -41,8 +41,8 @@ module Organization::Contracts
     validates :description, presence: true
     validates :legal_form, presence: true
 
-    validate :has_one_hq_location
-    def has_one_hq_location
+    validate :one_hq_location?
+    def one_hq_location?
       if Location.where(id: location_ids, hq: true).count != 1
         errors.add(:base, I18n.t('organization.validations.hq_location'))
       end

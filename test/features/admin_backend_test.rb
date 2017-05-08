@@ -48,6 +48,7 @@ feature 'Admin Backend' do
         select 'e.V.', from: 'organization_legal_form'
         select 'basicLocation', from: 'organization_location_ids'
         select 'Diakonie', from: 'organization_umbrella_filter_ids'
+        select 'http://basic.com', from: 'organization_website_id'
         check 'organization_accredited_institution'
 
         click_button 'Speichern'
@@ -71,22 +72,27 @@ feature 'Admin Backend' do
       page.must_have_content 'nicht valide'
 
       # 1: With two hq locations
-      click_button 'Speichern'
+      # click_button 'Speichern'
+      click_link 'Als komplett markieren', match: :first
+      page.must_have_content 'nicht valide'
       page.must_have_content 'Es muss genau eine HQ-Location zugeordnet werden'
 
       # 2: With non-hq locations
       locations(:basic).update_column :hq, false
       location.update_column :hq, false
-      click_button 'Speichern'
+      # click_button 'Speichern'
+      click_link 'Als komplett markieren', match: :first
+      page.must_have_content 'nicht valide'
       page.must_have_content 'Es muss genau eine HQ-Location zugeordnet werden'
 
       # 3: With one hq location
       location.update_column :hq, true
-      click_button 'Speichern'
-      page.must_have_content 'Organisation wurde erfolgreich aktualisiert'
+      # click_button 'Speichern'
+      click_link 'Als komplett markieren', match: :first
+      # page.must_have_content 'Organisation wurde erfolgreich aktualisiert'
 
       # complete works
-      click_link 'Als komplett markieren', match: :first
+      # click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich.'
 
       click_link 'Approval starten', match: :first

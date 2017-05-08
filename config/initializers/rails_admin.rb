@@ -110,7 +110,7 @@ RailsAdmin.config do |config|
       read_only true
     end
 
-    field :website_id
+    field :website
     field :contact_people
     field :mailings do
       help do

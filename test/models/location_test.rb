@@ -30,9 +30,9 @@ describe Location do
       before do
         # valid location in germany
         subject.assign_attributes street: 'street 1',
-                              city_id: 1,         # fixture City
-                              organization_id: 1, # fixture Orga
-                              federal_state_id: 1 # fixture federal_state
+                                  city_id: 1,         # fixture City
+                                  organization_id: 1, # fixture Orga
+                                  federal_state_id: 1 # fixture federal_state
       end
 
       it 'should allow any zip length' do

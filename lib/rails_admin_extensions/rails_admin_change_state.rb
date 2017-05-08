@@ -24,8 +24,8 @@ module RailsAdmin
         register_instance_option :controller do
           proc do
             old_state = @object.aasm_state
-            object_valid_for_state_change =
-              @object.class::Contracts::ChangeState.new(@object).valid?
+            contract = @object.class::Contracts::ChangeState.new(@object)
+            object_valid_for_state_change = contract.valid?
             # NOTE Hacky hack hack: allow forced state-change to checkup and edit for invalid objects (e.g. expired offers are invalid)
             if !object_valid_for_state_change && %w(start_checkup_process return_to_editing).include?(params[:event])
               @object.update_columns(aasm_state: params[:event] == 'return_to_editing' ? 'edit' : 'checkup_process')
@@ -42,10 +42,10 @@ module RailsAdmin
               )
             else
               error_message = t('.invalid', obj: @object.class.to_s)
-              @object.errors.full_messages.each do |message|
+              contract.errors.full_messages.each do |message|
                 error_message += '<br/>' + message
               end
-              # quite, rubocop.. we won't refactor this
+              # quiet, rubocop.. we won't refactor this
               # rubocop:disable OutputSafety
               flash[:error] = error_message.html_safe
               # rubocop:enable OutputSafety

@@ -10,9 +10,7 @@ module Offer::Contracts
 
   class ChangeState < Update
     # replace this with something useful
-    validate :hack_and_back
-    def hack_and_back
-      model.valid?
-    end
+    delegate :valid?, to: :model, prefix: false
+    delegate :errors, to: :model, prefix: false
   end
 end
