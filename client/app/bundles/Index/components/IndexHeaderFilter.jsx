@@ -7,7 +7,7 @@ export default class IndexHeaderFilter extends Component {
     const {
       options, onTrashClick, fields, operators, filterName, operatorName,
       filterValue, onFilterNameChange, onFilterValueChange, onCheckboxChange,
-      onFilterOperatorChange, filterType, nilChecked
+      onFilterOperatorChange, filterType, nilChecked, range
     } = this.props
 
     return (
@@ -31,6 +31,7 @@ export default class IndexHeaderFilter extends Component {
             {operators.map(operator =>
               <IndexHeaderOperatorOption
                 key={operator.value} operator={operator}
+
               />
             )}
           </select>
@@ -45,6 +46,10 @@ export default class IndexHeaderFilter extends Component {
             <input
               className='form-control' onChange={onFilterValueChange}
               value={filterValue} type={filterType} disabled={nilChecked}
+            />
+            <input
+              className='form-control' onChange={onFilterValueChange}
+              value={filterValue} type={filterType} disabled={nilChecked} style={{visibility:range}}
             />
             <span className='input-group-btn'>
               <button className='btn' onClick={onTrashClick}>

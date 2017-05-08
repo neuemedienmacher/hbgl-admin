@@ -125,7 +125,7 @@ export default {
     },
   },
 
-  OPERATORS: ['=', '!=', '<', '>'],
+  OPERATORS: ['=', '!=', '<', '>', '...'],
 
   SECTIONS: ['family', 'refugees'],
 }

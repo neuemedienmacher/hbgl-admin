@@ -17,6 +17,7 @@ const mapStateToProps = (state, ownProps) => {
   const filterType = setFilterType(filterName)
   const filterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1]
   const nilChecked = ownProps.filter[1] == 'nil'
+  const range = ownProps.params['operators[id]'] == "..." ? 'visible' : 'hidden'
   // only show filters that are not locked (currently InlineIndex only)
   const fields =
     analyzeFields(settings.index[model].fields, model).filter(value =>
@@ -38,7 +39,8 @@ const mapStateToProps = (state, ownProps) => {
     filterType,
     fields,
     operators,
-    operatorName
+    operatorName,
+    range
   }
 }
 
@@ -125,6 +127,7 @@ function setFilterType (filterName) {
   }
 }
 
+
 function textForOperator(operator) {
   switch(operator) {
     case '<':
@@ -135,9 +138,12 @@ function textForOperator(operator) {
       return 'genau gleich'
     case '!=':
       return 'nicht gleich'
+    case '...':
+      return 'zwischen'
     default:
       return '??'
   }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexHeaderFilter)
