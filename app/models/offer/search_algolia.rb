@@ -38,7 +38,7 @@ module Offer::SearchAlgolia
           add_attribute(*attributes)
           add_attribute(*facets)
           add_attribute :_geoloc
-          attributesForFaceting facets + [:_categories]
+          attributesForFaceting facets + [:_tags]
           optionalWords STOPWORDS
         end
 
@@ -60,7 +60,7 @@ module Offer::SearchAlgolia
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
           add_attribute(*facets)
-          attributesForFaceting facets + [:_categories, :encounter]
+          attributesForFaceting facets + [:_tags, :encounter]
           optionalWords STOPWORDS
 
           # no geo necessary
