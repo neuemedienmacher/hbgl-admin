@@ -26,6 +26,7 @@
 
       li {
         border-top: 5px solid transparent;
+        max-height: 48px;
 
         &.active {
           border-color: var(--main-beige);
@@ -58,7 +59,7 @@
         }
 
         .form-control {
-          margin-right: 10px;
+          margin-right: 0;
           box-shadow: none;
 
           &:focus {

@@ -19,7 +19,7 @@ export default class EditTranslation extends Component {
           assignment_id={current_assignment_id} may_edit={may_edit}
           assignableDataLoad={loadData}
         />
-        <h2>{heading}</h2>
+        <h2 className="page-title">{heading}</h2>
 
         {this.renderLoadingOrForm()}
       </div>
