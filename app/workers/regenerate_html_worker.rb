@@ -7,13 +7,15 @@ class RegenerateHtmlWorker
     organizations = []
 
     Definition.where('updated_at > ?', 7.days.ago).each do |definition|
-      key_search_string = '\m' + definition.key + '\M'
-      offers |= create_offer_array(key_search_string)
-      organizations |= create_orga_array(key_search_string)
+      definition.key.split(',').map(&:strip).each do |key|
+        key_search_string = '\m' + key.downcase + '\M'
+        offers |= create_offer_array(key_search_string)
+        organizations |= create_orga_array(key_search_string)
+      end
     end
-    update_offers(offers)
-    update_organizations(organizations)
+    update_arrays offers, organizations
   end
+
 
   def create_offer_array key_search_string
     Offer.visible_in_frontend.where(
@@ -25,6 +27,11 @@ class RegenerateHtmlWorker
     Organization.visible_in_frontend.where(
       'LOWER(description) ~ ?', key_search_string
     ).to_a
+  end
+
+  def update_arrays offers, organizations
+    update_offers(offers)
+    update_organizations(organizations)
   end
 
   def update_offers offers
