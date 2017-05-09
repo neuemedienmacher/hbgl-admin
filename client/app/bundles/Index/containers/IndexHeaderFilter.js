@@ -17,7 +17,6 @@ const mapStateToProps = (state, ownProps) => {
   const filterType = setFilterType(filterName)
   const filterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1]
   const nilChecked = ownProps.filter[1] == 'nil'
-  const range = ownProps.params['operators[id]'] == "..." ? 'visible' : 'hidden'
   // only show filters that are not locked (currently InlineIndex only)
   const fields =
     analyzeFields(settings.index[model].fields, model).filter(value =>
@@ -25,10 +24,11 @@ const mapStateToProps = (state, ownProps) => {
         !ownProps.lockedParams.hasOwnProperty(`filters[${value.field}]`)
     )
   const operatorName = ownProps.params[`operators[${filterName}]`] || '='
+  const range = (operatorName == "..." && filterType != 'text') ? 'visible' : 'hidden'
   const operators = settings.OPERATORS.map(operator => {
     return {
       value: operator,
-      displayName: textForOperator(operator)
+      displayName: textForOperator(operator, filterType)
     }
   })
 
@@ -128,20 +128,20 @@ function setFilterType (filterName) {
 }
 
 
-function textForOperator(operator) {
-  switch(operator) {
-    case '<':
+function textForOperator(operator, filterType) {
+  switch(true) {
+    case operator == '<':
       return 'kleiner als'
-    case '>':
+    case operator == '>':
       return 'größer als'
-    case '=':
+    case operator == '=':
       return 'genau gleich'
-    case '!=':
+    case operator == '!=':
       return 'nicht gleich'
-    case '...':
+    case operator == '...' && filterType != 'text':
       return 'zwischen'
     default:
-      return '??'
+      return ''
   }
 }
 
