@@ -16,7 +16,6 @@ class RegenerateHtmlWorker
     update_arrays offers, organizations
   end
 
-
   def create_offer_array key_search_string
     Offer.visible_in_frontend.where(
       'LOWER(description) ~ ?', key_search_string
