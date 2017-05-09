@@ -11,7 +11,7 @@ export default class AssignmentActions extends Component {
     } = this.props
 
     return (
-      <div className='content AssignmentActions'>
+      <div className='content AssignmentActions assignment-actions'>
         {actions.map(action => {
           return this.renderForm(action)
         })}
@@ -23,10 +23,10 @@ export default class AssignmentActions extends Component {
     const { handleResponse, afterResponse, users } = this.props
 
     const optionalUserSelection = action.userChoice ?
-      <InputSet
+      <div className="select-wrapper"><InputSet
         wrapperClassName='form-group' className='form-control'
         label='an' type='select' attribute='receiver_id' options={users}
-      /> : null
+      /></div> : null
 
     const optionalMessage = action.messageField ?
       <InputSet
@@ -37,6 +37,7 @@ export default class AssignmentActions extends Component {
       /> : null
 
     return(
+
       <Form ajax requireValid seedData={action.seedData} id={action.formId}
         method='POST' action={action.href} className='form-inline'
         key={action.formId} formObjectClass={AssignmentFormObject}
@@ -44,7 +45,7 @@ export default class AssignmentActions extends Component {
       >
         {optionalMessage}
         {optionalUserSelection}
-        <button type='submit' className='btn btn-warning'>
+        <button type='submit' className='btn btn-default'>
           {action.buttonText}
         </button>
       </Form>
