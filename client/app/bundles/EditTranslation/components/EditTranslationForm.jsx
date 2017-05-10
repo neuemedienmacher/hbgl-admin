@@ -6,14 +6,14 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      handleResponse, afterResponse, may_edit, editLink, previewLink
+      afterResponse, may_edit, editLink, previewLink
     } = this.props
 
     return (
       <Form ajax requireValid
         method='PATCH' action={action}
         id={formId} seedData={seedData} formObjectClass={formObjectClass}
-        handleResponse={handleResponse} afterResponse={afterResponse}
+        afterResponse={afterResponse}
       >
         <fieldset>
           <table className="table table-condensed offer-translations--form-table">
