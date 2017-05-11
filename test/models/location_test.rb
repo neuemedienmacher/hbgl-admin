@@ -50,4 +50,40 @@ describe Location do
       end
     end
   end
+
+  describe 'methods' do
+    describe '#generate_display_name' do
+      before do
+        subject.assign_attributes street: 'street',
+                                  zip: 'zip',
+                                  city_id: 1,         # fixture City
+                                  organization_id: 1  # fixture Orga
+      end
+
+      it 'should show the basic info if nothing else exists' do
+        subject.display_name.must_be_nil
+        subject.generate_display_name
+        subject.display_name.must_equal 'foobar | street zip Berlin'
+      end
+
+      it 'should show the location name if one exists' do
+        subject.name = 'name'
+        subject.generate_display_name
+        subject.display_name.must_equal 'foobar, name | street zip Berlin'
+      end
+
+      it 'should show the addition if one exists' do
+        subject.addition = 'addition'
+        subject.generate_display_name
+        subject.display_name.must_equal 'foobar | street, addition, zip Berlin'
+      end
+
+      it 'should show name & addition if both exist' do
+        subject.name = 'name'
+        subject.addition = 'addition'
+        subject.generate_display_name
+        subject.display_name.must_equal 'foobar, name | street, addition, zip Berlin'
+      end
+    end
+  end
 end

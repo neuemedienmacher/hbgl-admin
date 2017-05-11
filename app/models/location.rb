@@ -16,4 +16,13 @@ class Location < ActiveRecord::Base
       location.city = self.city
     end
   end
+
+  before_hack :generate_display_name
+  def generate_display_name
+    display = organization_name.to_s
+    display += ", #{name}" unless name.blank?
+    display += " | #{street}"
+    display += ", #{addition}," unless addition.blank?
+    self.display_name = display + " #{zip} #{city_name}"
+  end
 end
