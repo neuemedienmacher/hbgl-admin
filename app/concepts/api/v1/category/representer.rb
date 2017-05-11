@@ -3,16 +3,19 @@ module API::V1
   module Category
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :categories
+        # type :categories
+        include Roar::JSON::JSONAPI.resource :categories
 
-        property :name
-        property :visible
+        attributes do
+          property :name
+          property :visible
 
-        property :label, getter: ->(category) do
-          category[:represented].name_de
+          property :label, getter: ->(category) do
+            category[:represented].name_de
+          end
         end
 
-        collection :children, extend: Show, if: (lambda do |opts|
+        has_many :children, class: Category, extend: Show, if: (lambda do |opts|
           opts[:represented].children.any?
         end)
       end

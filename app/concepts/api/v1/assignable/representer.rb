@@ -3,15 +3,11 @@ module API::V1
   module Assignable
     module Representer
       class Show < API::V1::Default::Representer::Show
-        # method (uses scopes) to get current_assignment
-        property :current_assignment, getter: ->(item) do
-          ::Assignable::Twin.new(item[:represented]).current_assignment
-        end # shouldnt this be `has_one`?
+        include Roar::JSON::JSONAPI.resource :assignables
 
         has_many :assignments do
           type :assignments
 
-          property :id
           property :message
           property :label, getter: ->(item) { item[:represented].message }
           property :creator_id
@@ -27,6 +23,14 @@ module API::V1
           property :updated_at
           property :topic
           property :created_by_system
+        end
+
+        # method (uses scopes) to get current_assignment
+        has_one :current_assignment,
+                # class: ::Assignment,
+                # extend: API::V1::Assignment::Representer::Show,
+                getter: ->(item) do
+          ::Assignable::Twin.new(item[:represented]).current_assignment
         end
       end
 

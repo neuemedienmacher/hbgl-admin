@@ -20,7 +20,7 @@ module API
       end
       # Validate JSONAPI spec implementation: returns 201 + resource document
       assert_response 201
-      response.body.must_include '{"data":{"type":'
+      response.body.must_include '{"data":{'
     end
 
     def create_fails_with klass, params
@@ -42,7 +42,7 @@ module API
 
       # Validate JSONAPI spec implementation: returns 200 + resource document
       assert_response :success
-      response.body.must_include '{"data":{"type":'
+      response.body.must_include '{"data":{'
     end
 
     def update_fails_with klass, id, params

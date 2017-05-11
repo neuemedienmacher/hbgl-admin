@@ -24,8 +24,11 @@ module API::V1::BackendTest
 
   module Representer
     class Show < API::V1::Default::Representer::Show
-      type :tests
-      property :foo
+      include Roar::JSON::JSONAPI.resource :tests
+
+      attributes do
+        property :foo
+      end
     end
   end
 end
@@ -36,8 +39,8 @@ describe API::V1::BackendController do
     it 'should handle a successful query' do
       expected_hash = {
         data: [
-          { type: 'tests', id: '1', attributes: { foo: 'bar' } },
-          { type: 'tests', id: '2', attributes: { foo: 'fuz' } }
+          { id: '1', attributes: { foo: 'bar' }, type: 'tests' },
+          { id: '2', attributes: { foo: 'fuz' }, type: 'tests' }
         ],
         meta: {
           total_entries: 2, total_pages: 1, current_page: 1, per_page: 2

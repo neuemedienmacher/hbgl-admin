@@ -3,12 +3,14 @@ module API::V1
   module SolutionCategory
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :solution_categories
+        include Roar::JSON::JSONAPI.resource :solution_categories
 
-        property :name
+        attributes do
+          property :name
 
-        property :label, getter: ->(solution_category) do
-          solution_category[:represented].name
+          property :label, getter: ->(solution_category) do
+            solution_category[:represented].name
+          end
         end
       end
 

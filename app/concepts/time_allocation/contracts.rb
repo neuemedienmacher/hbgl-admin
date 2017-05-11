@@ -6,6 +6,7 @@ module TimeAllocation::Contracts
     property :year
     property :desired_wa_hours
     property :actual_wa_hours
+    property :actual_wa_comment
 
     validates :user_id, presence: true, numericality: true
     validates :week_number, presence: true, numericality: true

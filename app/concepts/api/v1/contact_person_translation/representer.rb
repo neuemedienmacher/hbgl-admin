@@ -3,23 +3,27 @@ module API::V1
   module ContactPersonTranslation
     module Representer
       class Show < API::V1::Assignable::Representer::Show
-        type :contact_person_translations
+        include Roar::JSON::JSONAPI.resource :contact_person_translations
 
-        property :label, getter: ->(ot) do
-          "##{ot[:represented].id} (#{ot[:represented].locale})"
+        attributes do
+          property :label, getter: ->(ot) do
+            "##{ot[:represented].id} (#{ot[:represented].locale})"
+          end
+          property :locale
+          property :source
+          property :responsibility
+          property :created_at
+          property :updated_at
+
+          property :contact_person_id
         end
-        property :contact_person_id
-        property :locale
-        property :source
-        property :responsibility
-        property :created_at
-        property :updated_at
 
         has_one :contact_person do
           type :contact_people
 
-          property :id
-          property :responsibility
+          attributes do
+            property :responsibility
+          end
         end
       end
 

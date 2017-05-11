@@ -40,5 +40,6 @@ export default class OrganizationFormObject extends FormObject {
 
   validation() {
     this.required('name').filled()
+    this.required('website_id').filled()
   }
 }

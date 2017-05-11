@@ -3,34 +3,37 @@ module API::V1
   module User
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :users
+        include Roar::JSON::JSONAPI.resource :users
 
-        property :id
-        property :label, getter: ->(user) do
-          user[:represented].name
+        attributes do
+          property :label, getter: ->(user) do
+            user[:represented].name
+          end
+          property :name
+          property :email
+          property :role
+          property :user_team_ids
         end
-        property :name
-        property :email
-        property :role
-        property :user_team_ids
 
         has_many :user_teams do
           type :user_teams
 
-          property :id
-          property :name
-          property :label, getter: ->(user_team) do
-            user_team[:represented].name
+          attributes do
+            property :name
+            property :label, getter: ->(user_team) do
+              user_team[:represented].name
+            end
           end
         end
 
         has_many :led_teams do
           type :user_teams
 
-          property :id
-          property :name
-          property :label, getter: ->(led_team) do
-            led_team[:represented].name
+          attributes do
+            property :name
+            property :label, getter: ->(led_team) do
+              led_team[:represented].name
+            end
           end
         end
 
@@ -50,12 +53,13 @@ module API::V1
       # end
 
       class Update < Roar::Decorator
-        include Roar::JSON::JSONAPI
-        type :users
-        property :id
-        property :name
-        property :email
-        property :role
+        include Roar::JSON::JSONAPI.resource :users
+
+        attributes do
+          property :name
+          property :email
+          property :role
+        end
       end
     end
   end

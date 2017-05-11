@@ -3,6 +3,14 @@
 require ClaratBase::Engine.root.join('app', 'models', 'contact_person')
 
 class ContactPerson < ActiveRecord::Base
+  # Search
+  include PgSearch
+  pg_search_scope :search_everything,
+                  against: [
+                    :id, :position, :operational_name, :first_name, :last_name
+                  ],
+                  using: { tsearch: { prefix: true } }
+
   # Admin specific methods
 
   include Translations

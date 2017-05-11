@@ -4,10 +4,12 @@ require 'roar/json/json_api'
 module API::V1
   module States
     class Show < Roar::Decorator
-      include Roar::JSON::JSONAPI
+      include Roar::JSON::JSONAPI.resource :states
 
-      property :states, getter: ->(r) do
-        r[:represented].aasm.states_for_select.map(&:last)
+      attributes do
+        property :states, getter: ->(r) do
+          r[:represented].aasm.states_for_select.map(&:last)
+        end
       end
     end
   end

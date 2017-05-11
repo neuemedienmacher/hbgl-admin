@@ -3,14 +3,16 @@ module API::V1
   module Section
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :sections
+        include Roar::JSON::JSONAPI.resource :sections
 
-        property :label, getter: ->(section) do
-          section[:represented].identifier
+        attributes do
+          property :label, getter: ->(section) do
+            section[:represented].identifier
+          end
+
+          property :identifier
+          property :name
         end
-
-        property :identifier
-        property :name
       end
 
       class Index < Show

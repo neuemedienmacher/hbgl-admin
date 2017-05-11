@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/apotonick/roar.git
-  revision: 020beef5a19a96feda8626fb5e0581b305f384d5
+  revision: edcd8efa0181d689b0b1cfc950acb1108a2efa82
   branch: master
   specs:
     roar (1.1.0)
@@ -40,9 +40,10 @@ GIT
 
 GIT
   remote: git://github.com/trailblazer/roar-jsonapi.git
-  revision: 9b5abb18f8681babefe0b71039bcf67608efeefa
+  revision: 3ca7fa8e0f5af83faa6d188fd1916d490776f084
   specs:
-    roar-jsonapi (0.0.1)
+    roar-jsonapi (0.0.3)
+      representable (~> 3.0, >= 3.0.3)
       roar (~> 1.1)
 
 GIT
@@ -178,8 +179,8 @@ GEM
     dalli (2.7.6)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
-    declarative (0.0.8)
-      uber (>= 0.0.15)
+    declarative (0.0.9)
+    declarative-option (0.1.0)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -537,9 +538,10 @@ GEM
       activemodel (>= 3.2)
       reform (>= 2.2.0)
     remotipart (1.3.1)
-    representable (3.0.2)
-      declarative (~> 0.0.5)
-      uber (>= 0.0.15, < 0.2.0)
+    representable (3.0.4)
+      declarative (< 0.1.0)
+      declarative-option (< 0.2.0)
+      uber (< 0.2.0)
     request_store (1.3.2)
     require_all (1.3.3)
     responders (2.3.0)

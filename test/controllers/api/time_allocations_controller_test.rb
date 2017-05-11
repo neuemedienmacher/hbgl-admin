@@ -27,7 +27,7 @@ describe API::V1::TimeAllocationsController do
     end
   end
 
-  describe '#create' do
+  describe '#update' do
     it 'unauthenticates a regular user' do
       TimeAllocation.create valid_params
       sign_in users(:researcher)

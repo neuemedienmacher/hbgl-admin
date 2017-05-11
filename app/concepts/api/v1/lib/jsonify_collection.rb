@@ -3,7 +3,7 @@ module API::V1
   module Lib
     module JsonifyCollection
       def self.call(representer_class, collection, params)
-        representer = representer_class.for_collection.new(collection)
+        representer = representer_class.for_collection.prepare(collection)
         hash = representer.to_hash
         hash[:meta] = meta(collection) if meta(collection)
         hash[:links] = links(collection, params) if links(collection, params)

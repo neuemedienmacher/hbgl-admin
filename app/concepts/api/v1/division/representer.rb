@@ -3,42 +3,54 @@ module API::V1
   module Division
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :divisions
+        # type :divisions
+        include Roar::JSON::JSONAPI.resource :divisions
 
-        property :label, getter: ->(division) do
-          division[:represented].name
+        attributes do
+          property :label, getter: ->(division) do
+            division[:represented].name
+          end
+
+          property :name
+          property :comment
+          property :size
+
+          property :website_id
+
+          property :organization_id
+          property :section_id
         end
 
-        property :name
-
-        property :organization_id
         has_one :organization do
           type :organizations
 
-          property :id
-          property :name, as: :label
+          attributes do
+            property :name, as: :label
+          end
         end
 
-        property :section_id
         has_one :section do
           type :sections
 
-          property :id
-          property :identifier, as: :label
+          attributes do
+            property :identifier, as: :label
+          end
         end
 
         has_many :presumed_categories do
           type :categories
 
-          property :id
-          property :name_de, as: :label
+          attributes do
+            property :name_de, as: :label
+          end
         end
 
         has_many :presumed_solution_categories do
           type :solution_categories
 
-          property :id
-          property :name_de, as: :label
+          attributes do
+            property :name_de, as: :label
+          end
         end
       end
 

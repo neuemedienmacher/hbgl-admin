@@ -2,10 +2,10 @@
 class UserTeam < ActiveRecord::Base
   class GeneralContract < Reform::Form
     property :name
-    property :user_ids
+    property :users
 
     validates :name, presence: true
-    validates :user_ids, presence: true
+    validates :users, presence: true
   end
 
   class Create < Trailblazer::Operation

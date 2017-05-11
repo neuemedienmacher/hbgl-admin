@@ -9,7 +9,7 @@ module OperationTestUtils
   end
 
   def with_document(params, additional_options)
-    param_hash = params['"id":'] ? {id: params.match(/"id":(\d+)/)[1]}: {}
+    param_hash = params['"id":'] ? {id: params.match(/"id":"(\d+)"/)[1]}: {}
     [
       param_hash,
       {'document' => params, 'current_user' => user || users(:researcher)}

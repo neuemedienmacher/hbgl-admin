@@ -9,6 +9,6 @@ class API::V1::ContactPerson::RepresenterTest < ActiveSupport::TestCase
       first_name: 'Foo', last_name: 'Bar', organization: organizations(:basic)
     )
     result = subject.new(record).to_hash
-    result[:data][:attributes]['label'].must_equal '#1 Foo Bar (foobar)'
+    result['data']['attributes']['label'].must_equal '#1 Foo Bar (foobar)'
   end
 end

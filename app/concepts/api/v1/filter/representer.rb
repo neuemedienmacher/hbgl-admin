@@ -3,14 +3,17 @@ module API::V1
   module Filter
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :filters
+        # type :filters
+        include Roar::JSON::JSONAPI.resource :filters
 
-        property :label, getter: ->(filter) do
-          filter[:represented].identifier
+        attributes do
+          property :label, getter: ->(filter) do
+            filter[:represented].identifier
+          end
+
+          property :identifier
+          property :name
         end
-
-        property :identifier
-        property :name
       end
 
       class Index < Show

@@ -3,29 +3,41 @@ module API::V1
   module UserTeam
     module Representer
       class Show < API::V1::Default::Representer::Show
-        type :user_teams
+        include Roar::JSON::JSONAPI.resource :user_teams
+        defaults do |name, _|
+          { as: JSONAPI::MemberName.(name, strict: false) }
+        end
 
-        property :name
-        property :classification
-        property :parent_id
+        attributes do
+          property :name
+          property :classification
+          property :parent_id
+          property :user_ids
+        end
 
         has_one :parent do
           type :user_teams
-          property :id
-          property :name, as: :label
+
+          attributes do
+            property :name, as: :label
+          end
         end
 
         has_many :children do
           type :user_teams
-          property :id
-          property :name, as: :label
+
+          attributes do
+            property :name, as: :label
+          end
         end
 
-        property :user_ids # KK: Not sure if this is the best way...
-        has_many :users do
-          property :id
-          property :name
-          property :name, as: :label
+        has_many :users, class: ::User do
+          type :users
+
+          attributes do
+            property :name
+            property :name, as: :label
+          end
         end
 
         # collection :created_assignments do
