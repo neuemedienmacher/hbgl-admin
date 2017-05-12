@@ -6,6 +6,7 @@ module GenericSortFilter
     query = transform_by_searching(query, params[:query])
     query = transform_by_joining(query, params)
     query = transform_by_ordering(query, params)
+    puts params.inspect
     transform_by_filtering(query, params)
   end
 
@@ -54,13 +55,27 @@ module GenericSortFilter
       next if value.empty?
 
       # convert value to array for streamlined processing
-      singular_or_multiple_values = value.is_a?(Array) ? value : [value]
-      # build query strings to every array entry (only one for simple filters)
-      filter_strings = singular_or_multiple_values.map do |singular_value|
-        build_singular_filter_query(query, params, filter, singular_value)
+      if value.is_a?(Array)
       end
+      singular_or_multiple_values = value.is_a?(Array) ? value : [value]
+      #binding.pry
+      # Once this works: build_range_filter_query
 
-      query = query.where(filter_strings.join(join_operator(params, filter)))
+      # build query strings to every array entry (only one for simple filters)
+      if singular_or_multiple_values.count > 1 && params[:operators].has_value?('...') #range query
+      #if there is only one value for a range, change operator to '='
+      elsif singular_or_multiple_values.count < 2 && params[:operators].has_value?('...')
+        params[:operators].merge!("#{filter}": '=')
+        #binding.pry
+        filter_strings = [build_singular_filter_query(query, params, filter, singular_or_multiple_values.first)]
+        query = query.where(filter_strings.join(join_operator(params, filter)))
+      else
+        filter_strings = singular_or_multiple_values.map do |singular_value|
+          build_singular_filter_query(query, params, filter, singular_value)
+        end
+        #binding.pry
+        query = query.where(filter_strings.join(join_operator(params, filter)))
+      end
     end
     query
   end
@@ -72,6 +87,10 @@ module GenericSortFilter
     else
       ' AND '
     end
+  end
+
+  def self.build_range_filter_query
+    #code goes here
   end
 
   def self.build_singular_filter_query(query, params, filter, value)

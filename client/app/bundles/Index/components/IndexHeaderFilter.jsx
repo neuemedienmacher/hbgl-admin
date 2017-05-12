@@ -49,7 +49,7 @@ export default class IndexHeaderFilter extends Component {
             />
             <input
               className='form-control' onChange={onFilterValueChange}
-              value={filterValue} type={filterType} disabled={nilChecked} style={{visibility:range}}
+              value='10' type={filterType} disabled={nilChecked} style={{visibility:range}}
             />
             <span className='input-group-btn'>
               <button className='btn' onClick={onTrashClick}>
