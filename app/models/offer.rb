@@ -10,6 +10,7 @@ class Offer < ActiveRecord::Base
 
   # Modules
   include SearchAlgolia, StateMachine
+  include ReformedValidationHack
 
   # Concerns
   include Translations, RailsAdminParamHack
