@@ -57,16 +57,16 @@ export default class TopNav extends Component {
           </NavDropdown>
 
           {/* TODO: Cause of unknown props warnings. react-bootstrap#2199 */}
-          <li>
-            <a href='/admin'>
+          <IndexLinkContainer to={{ pathname:'/admin'}}>
+            <NavItem>
               Altes Backend
-            </a>
-          </li>
-          <li>
-            <a href='/users/sign_out' data-method='delete'>
+            </NavItem>
+          </IndexLinkContainer>
+          <IndexLinkContainer to={{ pathname:'/users/sign_out'}} data-method='delete'>
+            <NavItem>
               <span className='label label-important'>Abmelden</span>
-            </a>
-          </li>
+            </NavItem>
+          </IndexLinkContainer>
         </Nav>
       </Navbar>
     )
