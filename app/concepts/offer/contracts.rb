@@ -81,7 +81,7 @@ module Offer::Contracts
     end
 
     def validate_associated_presence field
-      errors.add field, I18n.t("offer.validations.needs_#{field}") if send(field).empty?
+      custom_error field, "needs_#{field}" if send(field).empty?
     end
 
     ## Custom Validation Methods ##
@@ -89,42 +89,43 @@ module Offer::Contracts
     # Age From has to be smaller than Age To
     def age_from_fits_age_to
       return if !age_from || !age_to || age_from.to_i <= age_to.to_i
-      errors.add :age_from, I18n.t('offer.validations.age_from_be_smaller')
+      custom_error :age_from, 'age_from_be_smaller'
     end
 
     # Location is only allowed when encounter is personal, but if it is, it
     # HAS to be present. A remote offer needs an area.
     def location_and_area_fit_encounter
       if personal? && !location
-        errors.add :location, I18n.t(
-          'offer.validations.needs_location_when_personal'
-        )
+        custom_error :location, 'needs_location_when_personal'
       elsif !personal?
         if location
-          errors.add :location, I18n.t(
-            'offer.validations.refuses_location_when_remote'
-          )
+          custom_error :location, 'refuses_location_when_remote'
         end
         unless area
-          errors.add :area, I18n.t(
-            'offer.validations.needs_area_when_remote'
-          )
+          custom_error :area, 'needs_area_when_remote'
         end
       end
+    end
+
+    def custom_error attribute, string, optional = {}
+      errors.add attribute, I18n.t(
+        "offer.validations.#{string}"
+      ), optional
     end
 
     # Fail if an organization added to this offer is not visible in frontend
     def only_visible_organizations
       # return unless association_instance_get(:organizations) # tests fail w/o
       if visible_in_frontend? && organizations.to_a.count { |orga| !orga.visible_in_frontend? }.positive?
-        problematic_organization_names =
-          (organizations - organizations.visible_in_frontend)
-          .map(&:name).join(', ')
-
-        errors.add :organizations, I18n.t(
-          'offer.validations.only_visible_organizations'
-        ), ist: problematic_organization_names
+        problematic_organization_names = invisible_orga_names
+        custom_error :organizations, 'only_visible_organizations',
+          list: problematic_organization_names
       end
+    end
+
+    def invisible_orga_names
+      (organizations - organizations.visible_in_frontend)
+        .map(&:name).join(', ')
     end
 
     # Contact people either belong to one of the Organizations or are SPoC
@@ -133,29 +134,23 @@ module Offer::Contracts
         next if contact_person.spoc ||
                 organizations.include?(contact_person.organization)
         # There are no intersections between both sets of orgas and not SPoC
-        errors.add :contact_people, I18n.t(
-          'offer.validations.contact_person_not_choosable'
-        )
+        custom_error :contact_people, 'contact_person_not_choosable'
       end
     end
 
     def no_more_than_10_next_steps
       return if next_steps.to_a.size <= 10
-      errors.add :next_steps, I18n.t(
-        'offer.validations.no_more_than_10_next_steps'
-      )
+      custom_error :next_steps, 'no_more_than_10_next_steps'
     end
 
     def split_base_id_if_version_greater_7
       return if !logic_version || logic_version.version < 7 || split_base_id
-      errors.add :split_base, I18n.t('offer.validations.is_needed')
+      custom_error :split_base, I18n.t('offer.validations.is_needed')
     end
 
     def start_date_must_be_before_expiry_date
       return if !starts_at || !expires_at || expires_at > starts_at
-      errors.add :starts_at, I18n.t(
-        'offer.validations.must_be_smaller_than_expiry_date'
-      )
+      custom_error :starts_at, 'must_be_smaller_than_expiry_date'
     end
 
     def personal?
@@ -181,10 +176,10 @@ module Offer::Contracts
     def location_fits_organization
       ids = organizations.pluck(:id)
       if personal? && location && !ids.include?(location.organization_id)
-        errors.add :location_id, I18n.t(
+        custom_error :location_id, I18n.t(
           'offer.validations.location_fits_organization.location_error'
         )
-        errors.add :organizations, I18n.t(
+        custom_error :organizations, I18n.t(
           'offer.validations.location_fits_organization.organization_error'
         )
       end
@@ -195,12 +190,8 @@ module Offer::Contracts
       if categories.any?
         categories.each do |category|
           next if category.sections.include?(section)
-          errors.add(
-            :categories,
-            I18n.t(
-              'offer.validations.category_for_section_needed'
-            ), world: section.name
-          )
+          custom_error :categories, 'category_for_section_needed',
+                       world: section.name
         end
       end
     end
@@ -209,12 +200,8 @@ module Offer::Contracts
       if categories.any?
         categories.each do |offer_category|
           next if offer_category.sections.include?(section)
-          errors.add(
-            :categories,
-            I18n.t(
-              'offer.validations.section_for_category_needed'
-            ), category: offer_category.name
-          )
+          custom_error :categories, 'section_for_category_needed',
+                       category: offer_category.name
         end
       end
     end

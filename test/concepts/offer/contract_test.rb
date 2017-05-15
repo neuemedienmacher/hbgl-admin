@@ -85,7 +85,7 @@ class OfferContractTest < ActiveSupport::TestCase
 
       it 'should ensure locations and organizations match (personal)' do
         subject.model.location = Location.create(organization:
-                                                 organizations(:basic).id)
+                                                 organizations(:basic))
         subject.model.must_be :valid?
       end
 
