@@ -2,7 +2,7 @@
 module API::V1
   module TimeAllocation
     module Representer
-      class Show < API::V1::Default::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :time_allocations
 
         attributes do

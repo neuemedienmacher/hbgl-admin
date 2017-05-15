@@ -2,8 +2,9 @@
 module API::V1
   module Assignable
     module Representer
-      class Show < API::V1::Default::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :assignables
+        include Default::Representer::NonStrictNaming
 
         has_many :assignments do
           type :assignments
@@ -23,18 +24,13 @@ module API::V1
           property :updated_at
           property :topic
           property :created_by_system
-        end
 
-        # method (uses scopes) to get current_assignment
-        has_one :current_assignment,
-                # class: ::Assignment,
-                # extend: API::V1::Assignment::Representer::Show,
-                getter: ->(item) do
-          ::Assignable::Twin.new(item[:represented]).current_assignment
+          # method (uses scopes) to get current_assignment
+          property :current_assignment_id,
+            getter: ->(item) do
+            ::Assignable::Twin.new(item[:represented]).current_assignment.id
+          end
         end
-      end
-
-      class Index < Show
       end
     end
   end

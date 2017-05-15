@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module TimeAllocation::Contracts
   class Update < Reform::Form
+    property :id, writeable: false
     property :user_id
     property :week_number
     property :year

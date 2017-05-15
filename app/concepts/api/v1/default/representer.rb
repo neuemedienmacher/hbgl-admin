@@ -12,15 +12,6 @@ module API::V1
           end
         end
       end
-
-      # DEPRECATED
-      class Show < Roar::Decorator
-      end
-
-      # I dont think we need Index decorators at all any more
-      class Index < Roar::Decorator
-        # include Roar::JSON::JSONAPI
-      end
     end
   end
 end

@@ -20,8 +20,9 @@ module JsonapiErrors
   def self.add_contract_errors result, error_hash
     if result['contract.default']
       result['contract.default'].errors.each_entry do |field, message|
+        dashed = field.to_s.dasherize
         error_hash[:errors].push(
-          title: message, source: { pointer: "/data/attributes/#{field}" }
+          title: message, source: { pointer: "/data/attributes/#{dashed}" }
         )
       end
     end

@@ -2,8 +2,9 @@
 module API::V1
   module ContactPersonTranslation
     module Representer
-      class Show < API::V1::Assignable::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :contact_person_translations
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :label, getter: ->(ot) do
@@ -25,9 +26,6 @@ module API::V1
             property :responsibility
           end
         end
-      end
-
-      class Index < Show
       end
     end
   end

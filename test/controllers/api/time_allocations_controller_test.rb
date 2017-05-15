@@ -48,7 +48,8 @@ describe API::V1::TimeAllocationsController do
     set_jsonapi_raw_post({ actual_wa_hours: 1 }, TimeAllocation)
     post :report_actual, year: 2000, week_number: 1
     assert_response 200
-    response.body.must_include '{"data":{"type":"time_allocations","id":"2"'
+    response.body.must_include '"type":"time-allocations"'
+    response.body.must_include '"id":"2"'
     TimeAllocation.last.actual_wa_hours.must_equal 1
   end
 

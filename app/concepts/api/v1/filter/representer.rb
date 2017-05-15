@@ -2,9 +2,9 @@
 module API::V1
   module Filter
     module Representer
-      class Show < API::V1::Default::Representer::Show
-        # type :filters
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :filters
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :label, getter: ->(filter) do
@@ -14,9 +14,6 @@ module API::V1
           property :identifier
           property :name
         end
-      end
-
-      class Index < Show
       end
     end
   end

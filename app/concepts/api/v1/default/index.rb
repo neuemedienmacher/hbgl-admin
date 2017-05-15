@@ -11,7 +11,7 @@ module API::V1
       end
 
       def base_query
-        raise 'Implement Operation #base_query'
+        raise 'Implement Index Operation #base_query'
       end
     end
   end

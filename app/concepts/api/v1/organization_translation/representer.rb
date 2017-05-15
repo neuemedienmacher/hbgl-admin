@@ -2,8 +2,9 @@
 module API::V1
   module OrganizationTranslation
     module Representer
-      class Show < API::V1::Assignable::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :organization_translations
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :label, getter: ->(ot) do
@@ -30,9 +31,6 @@ module API::V1
         # property :organization_section, getter: ->(ot) do
         #   ot[:represented].organization.sections.pluck(:identifier)
         # end
-      end
-
-      class Index < Show
       end
     end
   end

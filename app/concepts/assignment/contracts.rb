@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Assignment::Contracts
   class Update < Reform::Form
-    # property :id
+    property :id, writeable: false
     property :assignable_id
     property :assignable_type
     property :creator_id

@@ -9,6 +9,7 @@ class User::Update < Trailblazer::Operation
 
   extend Contract::DSL
   contract do
+    property :id, writeable: false
     property :name
     validates :name, presence: true
   end

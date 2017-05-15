@@ -2,9 +2,9 @@
 module API::V1
   module Category
     module Representer
-      class Show < API::V1::Default::Representer::Show
-        # type :categories
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :categories
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :name
@@ -18,10 +18,6 @@ module API::V1
         has_many :children, class: Category, extend: Show, if: (lambda do |opts|
           opts[:represented].children.any?
         end)
-      end
-
-      class Index < API::V1::Default::Representer::Index
-        # items extend: Show
       end
     end
   end

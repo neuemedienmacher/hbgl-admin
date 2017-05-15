@@ -2,8 +2,9 @@
 module API::V1
   module Organization
     module Representer
-      class Show < API::V1::Default::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :organizations
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :label, getter: ->(organization) do
@@ -27,9 +28,6 @@ module API::V1
 
         has_many :divisions, extend: API::V1::Division::Representer::Show,
                              class: Division
-      end
-
-      class Index < Show
       end
     end
   end

@@ -2,8 +2,9 @@
 module API::V1
   module Location
     module Representer
-      class Show < API::V1::Default::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :locations
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :display_name, as: :label

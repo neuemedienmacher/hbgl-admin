@@ -19,7 +19,7 @@ describe API::V1::AssignmentsController do
       sign_in user
       create_fails_with Assignment, foo: 'foo'
       response.body.must_include 'muss ausgefüllt werden' # ie
-      response.body.must_include '/data/attributes/assignable_type'
+      response.body.must_include '/data/attributes/assignable-type'
     end
 
     it 'should successfully handle a create request' do

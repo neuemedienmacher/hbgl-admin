@@ -2,9 +2,9 @@
 module API::V1
   module Offer
     module Representer
-      class Show < API::V1::Default::Representer::Show
-        # type :offers
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :offers
+        include Default::Representer::NonStrictNaming
 
         attributes do
           property :label, getter: ->(offer) do

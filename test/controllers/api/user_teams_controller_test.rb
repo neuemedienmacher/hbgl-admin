@@ -20,7 +20,7 @@ describe API::V1::UserTeamsController do
     it 'fails an incomplete request' do
       create_fails_with UserTeam, name: 'foo'
       response.body.must_include 'muss ausgefüllt werden'
-      response.body.must_include '/data/attributes/user_ids'
+      response.body.must_include '/data/attributes/users'
     end
   end
 
