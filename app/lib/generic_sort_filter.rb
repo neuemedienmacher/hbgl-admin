@@ -55,25 +55,24 @@ module GenericSortFilter
       next if value.empty?
 
       # convert value to array for streamlined processing
-      if value.is_a?(Array)
-      end
       singular_or_multiple_values = value.is_a?(Array) ? value : [value]
-      #binding.pry
       # Once this works: build_range_filter_query
-
       # build query strings to every array entry (only one for simple filters)
       if singular_or_multiple_values.count > 1 && params[:operators].has_value?('...') #range query
       #if there is only one value for a range, change operator to '='
+        query = build_range_filter_query(query, params, filter, value)
+      elsif params[:operators].nil?
+        params[:operators] = '='
+        filter_strings = [build_singular_filter_query(query, params, filter, singular_or_multiple_values.first)]
+        query = query.where(filter_strings.join(join_operator(params, filter)))
       elsif singular_or_multiple_values.count < 2 && params[:operators].has_value?('...')
         params[:operators].merge!("#{filter}": '=')
-        #binding.pry
         filter_strings = [build_singular_filter_query(query, params, filter, singular_or_multiple_values.first)]
         query = query.where(filter_strings.join(join_operator(params, filter)))
       else
         filter_strings = singular_or_multiple_values.map do |singular_value|
           build_singular_filter_query(query, params, filter, singular_value)
         end
-        #binding.pry
         query = query.where(filter_strings.join(join_operator(params, filter)))
       end
     end
@@ -89,8 +88,11 @@ module GenericSortFilter
     end
   end
 
-  def self.build_range_filter_query
-    #code goes here
+  def self.build_range_filter_query(query, params, filter, value)
+    range = params[:filters][:id].sort();
+    filter_key = joined_or_own_table_name_for(query, filter, params)
+    filter_string = filter_key.to_s
+    query.where("#{filter_string} BETWEEN #{range[0]} and #{range[1]}")
   end
 
   def self.build_singular_filter_query(query, params, filter, value)

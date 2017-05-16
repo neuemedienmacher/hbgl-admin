@@ -16,9 +16,9 @@ const mapStateToProps = (state, ownProps) => {
     ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
   const filterType = setFilterType(filterName)
   const filterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][0]
-  console.log(filterValue)
-  //const secondFilterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1].slice(-1)[0]
-  //console.log(secondFilterValue)
+  console.log('first value: ' + filterValue)
+  const secondFilterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][1]
+  console.log('second value: ' + secondFilterValue)
   const nilChecked = ownProps.filter[1] == 'nil'
   // only show filters that are not locked (currently InlineIndex only)
   const fields =
@@ -37,13 +37,14 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     filterName,
-    filterValue,
     nilChecked,
     filterType,
     fields,
     operators,
     operatorName,
-    range
+    range,
+    filterValue,
+    secondFilterValue
   }
 }
 
@@ -108,16 +109,25 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onFilterValueChange(event) {
     let params = clone(ownProps.params)
     params[ownProps.filter[0]] = [event.target.value]
-    // if(Array.isArray(params[ownProps.filter[0]]) && params[ownProps.filter[0]].length > 0) {
-    //   params[ownProps.filter[0]].concat(event.target.value)
-    // } else {
-    //   params[ownProps.filter[0]] = [event.target.value]
-    // }
-    // params[ownProps.filter[0]].sort();
 
-    //params[ownProps.filter[0]].length > 0
-    //params[ownProps.filter[0]] = event.target.value
-    console.log(params)
+    console.log(params[ownProps.filter[0]] + ' ' + ownProps.uiKey)
+    if(ownProps.uiKey){
+      dispatch(setUiAction(ownProps.uiKey, params))
+    }
+    else{
+      browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+    }
+  },
+
+  onSecondFilterValueChange(event) {
+    let params = clone(ownProps.params)
+    params[ownProps.filter[0]] = [params[ownProps.filter[0]]].concat([event.target.value])
+    if(!params[ownProps.filter[0]][0].length){
+      alert('Bitte gib einen Anfangswert ein');
+      params[ownProps.filter[0]] = params[ownProps.filter[0]].filter(Boolean);
+    };
+
+    console.log(params[ownProps.filter[0]] + ' ' + ownProps.uiKey)
     if(ownProps.uiKey){
       dispatch(setUiAction(ownProps.uiKey, params))
     }
@@ -125,19 +135,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
     }
   }
-
-  // onFilterValueChangeSecond(event) {
-  //   let params = clone(ownProps.params)
-  //   debugger
-  //   params[ownProps.filter[0]] = event.target.value
-  //   console.log('second:' + ' ' + params)
-  //   if(ownProps.uiKey){
-  //     dispatch(setUiAction(ownProps.uiKey, params))
-  //   }
-  //   else{
-  //     browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
-  //   }
-  // }
 })
 
 function setFilterType (filterName) {
