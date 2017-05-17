@@ -4,7 +4,6 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :contact_person_translations
-        include Default::Representer::NonStrictNaming
 
         attributes do
           property :label, getter: ->(ot) do

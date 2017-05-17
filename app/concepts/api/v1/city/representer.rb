@@ -4,7 +4,6 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :cities
-        include Default::Representer::NonStrictNaming
 
         attributes do
           property :name

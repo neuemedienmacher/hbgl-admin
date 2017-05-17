@@ -4,7 +4,6 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :assignables
-        include Default::Representer::NonStrictNaming
 
         has_many :assignments do
           type :assignments
