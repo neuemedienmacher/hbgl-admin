@@ -15,10 +15,10 @@ const mapStateToProps = (state, ownProps) => {
   const filterName =
     ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
   const filterType = setFilterType(filterName)
-  const filterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][0]
-  console.log('first value: ' + filterValue + Array.isArray(ownProps.filter[1]))
+  const filterValue = getValue(ownProps.filter[1])
+  console.log('first value: ' + filterValue + Array.isArray(filterValue))
   const secondFilterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][1]
-  console.log('second value: ' + secondFilterValue + Array.isArray(ownProps.filter[1]))
+  console.log('second value: ' + secondFilterValue + Array.isArray(secondFilterValue))
   const nilChecked = ownProps.filter[1] == 'nil'
   // only show filters that are not locked (currently InlineIndex only)
   const fields =
@@ -110,6 +110,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let params = clone(ownProps.params)
     params[ownProps.filter[0]] = [event.target.value]
     console.log(params[ownProps.filter[0]])
+
     if(ownProps.uiKey){
       console.log('dispatch ' + dispatch(setUiAction(ownProps.uiKey, params)))
       dispatch(setUiAction(ownProps.uiKey, params))
@@ -147,6 +148,18 @@ function setFilterType (filterName) {
       return 'number'
     default:
       return 'text'
+  }
+}
+
+function getValue(props) {
+  if(Array.isArray(props)) {
+    return props[0]
+  } else {
+    if(props == 'nil') {
+      return ''
+    } else {
+      return [props]
+    }
   }
 }
 
