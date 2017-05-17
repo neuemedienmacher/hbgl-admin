@@ -89,7 +89,7 @@ module GenericSortFilter
   end
 
   def self.build_range_filter_query(query, params, filter, value)
-    range = params[:filters][:id].sort();
+    range = params["filters"]["#{filter}"].sort
     filter_key = joined_or_own_table_name_for(query, filter, params)
     filter_string = filter_key.to_s
     query.where("#{filter_string} BETWEEN #{range[0]} and #{range[1]}")
