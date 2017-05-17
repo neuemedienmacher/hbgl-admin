@@ -8,12 +8,12 @@ class API::V1::Assignment::RepresenterTest < ActiveSupport::TestCase
     record = Assignment.find(1)
     result = subject.new(record).to_hash
     result['data']['id'].must_equal '1'
-    result['data']['attributes']['assignable_id'].must_equal 1
+    result['data']['attributes']['assignable-id'].must_equal 1
     result['data']['relationships']['creator']['data']['id'].must_equal '1'
     result['included'].first['type'].must_equal 'users'
     result['included'].first['id'].must_equal '1'
     result['data']['relationships']['assignable']['data']['id'].must_equal '1'
-    result['included'].last['type'].must_equal 'assignable_type' # TODO: fix
+    result['included'].last['type'].must_equal 'assignable-type' # TODO: fix
     result['included'].last['id'].must_equal '1'
   end
 

@@ -18,7 +18,7 @@ describe API::V1::CategoriesController do
       put :sort, categories: { 1 => { id: 1, children: {} } }
       assert_response 200
       response.body.must_include '{"status":"success"'
-      response.body.must_include '"update-count":1'
+      response.body.must_include '"update_count":1'
     end
   end
 end

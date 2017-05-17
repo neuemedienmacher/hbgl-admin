@@ -11,7 +11,7 @@ class UserTeamCreateTest < ActiveSupport::TestCase
   let(:basic_params) do
     {
       name: 'UserTeamName',
-      user_ids: [1]
+      users: [User.first]
     }
   end
 
@@ -26,12 +26,12 @@ class UserTeamCreateTest < ActiveSupport::TestCase
         operation_wont_work ::UserTeam::Create, basic_params
       end
 
-      it 'must validate user_ids' do
-        basic_params[:user_ids] = nil
+      it 'must validate users' do
+        basic_params[:users] = nil
         operation_wont_work ::UserTeam::Create, basic_params
-        basic_params[:user_ids] = []
+        basic_params[:users] = []
         operation_wont_work ::UserTeam::Create, basic_params
-        basic_params[:user_ids] = [1, 2]
+        basic_params[:users] = User.first(2)
         operation_must_work ::UserTeam::Create, basic_params
       end
     end

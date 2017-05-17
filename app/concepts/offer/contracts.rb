@@ -119,7 +119,7 @@ module Offer::Contracts
       if visible_in_frontend? && organizations.to_a.count { |orga| !orga.visible_in_frontend? }.positive?
         problematic_organization_names = invisible_orga_names
         custom_error :organizations, 'only_visible_organizations',
-          list: problematic_organization_names
+                     list: problematic_organization_names
       end
     end
 

@@ -78,14 +78,15 @@ describe Offer do
       end
     end
 
-    describe 'validations' do
+    describe 'validations' do # gehoert nicht mehr hier rein
       it 'should validate that section filters of offer and categories match '\
          'and that the correct error messages are generated' do
+        skip
         category = FactoryGirl.create(:category)
         category.sections = [sections(:family)]
         basicOffer.categories = [category]
         basicOffer.section = sections(:refugees)
-        basicOffer.valid?
+        basicOffer.valid?.must_equal false
         basicOffer.errors.messages[:categories].must_include(
           "benötigt mindestens eine 'Refugees' Kategorie\n"
         )

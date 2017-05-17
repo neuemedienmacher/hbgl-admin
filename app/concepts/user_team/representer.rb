@@ -7,7 +7,7 @@ class UserTeam::Representer < Representable::Decorator
   property :id
   property :name
   property :classification
-  property :user_ids
+  property :users
   property :lead_id
 
   property :parent_id

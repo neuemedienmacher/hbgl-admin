@@ -28,7 +28,7 @@ module API::V1
           end
         end
 
-        has_many :users, class: ::User do
+        has_many :users, class: ::User, populator: Lib::Populators::Find do
           type :users
 
           attributes do

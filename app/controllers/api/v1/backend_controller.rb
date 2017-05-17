@@ -25,6 +25,7 @@ module API::V1
 
     def create
       endpoint create_operation, { args: api_args }, &default_endpoints
+      true
     end
 
     def update
