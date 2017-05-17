@@ -17,7 +17,7 @@ feature 'Admin Backend' do
       click_link 'Neu hinzufügen'
 
       assert_difference 'Offer.count', 1 do
-        select 'Family', from: 'offer_section_filter_ids'
+        select 'Family', from: 'offer_section_id'
         fill_in 'offer_name', with: 'testangebot'
         fill_in 'offer_description', with: 'testdescription'
         fill_in 'offer_age_from', with: 0
@@ -143,7 +143,7 @@ feature 'Admin Backend' do
       )
     end
 
-    scenario 'Set offer to dozing and reinitialize it afterwards' do
+    scenario 'Set offer completed, then edit and back to completed' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, organization: orga,
@@ -155,16 +155,20 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Schlafen legen', match: :first
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :dozing?
+      offer.reload.must_be :completed?
 
-      click_link 'Re-Initialisieren', match: :first
+      click_link 'Erneut bearbeiten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :initialized?
+      offer.reload.must_be :edit?
+
+      click_link 'Als komplett markieren', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :completed?
     end
 
-    scenario 'under_construction_pre state should work correctly on offer' do
+    scenario 'disapprove offer then edit and approve it again' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, organization: orga,
@@ -176,16 +180,36 @@ feature 'Admin Backend' do
 
       offer.must_be :initialized?
 
-      click_link 'Webseite im Aufbau', match: :first
+      click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :under_construction_pre?
+      offer.reload.must_be :completed?
 
-      click_link 'Re-Initialisieren', match: :first
+      click_link 'Approval starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :initialized?
+      offer.reload.must_be :approval_process?
+
+      click_link 'Disapprove', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :disapproved?
+
+      click_link 'Erneut bearbeiten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :edit?
+
+      click_link 'Als komplett markieren', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :completed?
+
+      click_link 'Approval starten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approval_process?
+
+      click_link 'Freischalten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :approved?
     end
 
-    scenario 'under_construction_post state should work correctly on offer' do
+    scenario 'under_construction state should work correctly on offer' do
       orga = organizations(:basic)
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, :approved, organization: orga,
@@ -199,7 +223,7 @@ feature 'Admin Backend' do
 
       click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
-      offer.reload.must_be :under_construction_post?
+      offer.reload.must_be :under_construction?
 
       click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
@@ -243,6 +267,7 @@ feature 'Admin Backend' do
 
     scenario 'checkup_process must be possible for invalid offers' do
       orga = organizations(:basic)
+      researcher.user_teams = [UserTeam.first]
       split_base = FactoryGirl.create(:split_base, organization: orga)
       offer = FactoryGirl.create :offer, :approved, organization: orga,
                                                     split_base: split_base
@@ -252,8 +277,8 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
       click_link 'Bearbeiten', match: :first
 
-      # simulate expired offer in other deactivation state (offer invalid)
-      offer.update_columns aasm_state: 'internal_feedback', expires_at: Time.zone.now - 1.day
+      # simulate invalid age in other deactivation state (offer invalid)
+      offer.update_columns aasm_state: 'internal_feedback', age_from: -1
       offer.valid?.must_equal false
 
       page.must_have_link 'Deaktivieren (External Feedback)'
@@ -269,6 +294,36 @@ feature 'Admin Backend' do
       click_link 'Checkup starten', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :checkup_process?
+    end
+
+    scenario 'edit-state must be possible for invalid offers' do
+      orga = organizations(:basic)
+      split_base = FactoryGirl.create(:split_base, organization: orga)
+      offer = FactoryGirl.create :offer, :approved, organization: orga,
+                                                    split_base: split_base
+
+      offer.valid?.must_equal true
+      visit rails_admin_path
+      click_link 'Angebote', match: :first
+
+      # simulate expired offer in other deactivation state (offer invalid)
+      offer.update_columns aasm_state: 'completed', age_from: -1
+      offer.valid?.must_equal false
+
+      click_link 'Bearbeiten', match: :first
+      page.must_have_link 'Approval starten'
+
+      # transition to other state than 'checkup_process' is not allowed
+      click_link 'Approval starten', match: :first
+      page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
+      page.must_have_content 'nicht valide'
+      offer.reload.must_be :completed?
+
+      # transition to other 'edit' works
+      page.must_have_link 'Erneut bearbeiten'
+      click_link 'Erneut bearbeiten', match: :first
+      page.must_have_content 'Zustandsänderung war erfolgreich'
+      offer.reload.must_be :edit?
     end
 
     scenario 'deactivate seasonal_pending offer and reactivate it afterwards' do
@@ -323,7 +378,7 @@ feature 'Admin Backend' do
       click_link 'Webseite im Aufbau', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
 
-      orga.reload.must_be :under_construction_post?
+      orga.reload.must_be :under_construction?
       orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
         %w(organization_deactivated completed internal_feedback)
       )
@@ -405,7 +460,7 @@ feature 'Admin Backend' do
 
       # contact_person becomes SPoC, still needs target_audience
       contact_person.update_column :spoc, true
-      select 'Family', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_id'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Contact people müssen alle zu einer der'\
                              ' ausgewählten Organisationen gehören oder als'\
@@ -452,12 +507,10 @@ feature 'Admin Backend' do
       page.wont_have_content(
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
-      page.must_have_content "benötigt mindestens eine 'Family' Kategorie"
 
       # Fill categories, it saves again
       select 'main1', from: 'offer_category_ids'
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content "benötigt mindestens eine 'Family' Kategorie"
       page.must_have_content 'Angebot wurde erfolgreich aktualisiert'
 
       # Complete works
@@ -470,13 +523,15 @@ feature 'Admin Backend' do
       orga = organizations(:basic)
       orga.update_column :aasm_state, 'completed'
 
+      researcher.user_teams = [UserTeam.first]
+
       # Create incomplete offer
       visit rails_admin_path
 
       click_link 'Angebote', match: :first
       click_link 'Neu hinzufügen'
 
-      select 'Family', from: 'offer_section_filter_ids'
+      select 'Family', from: 'offer_section_id'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
       fill_in 'offer_age_from', with: 0
@@ -627,17 +682,17 @@ feature 'Admin Backend' do
       page.must_have_content 'benötigt mindestens eine clarat-Welt'
     end
 
-    scenario 'Try to edit existing category and remove section_filters' do
+    scenario 'Try to edit existing category and remove sections' do
       visit rails_admin_path
       click_link 'Problem-Kategorien', match: :first
       click_link 'Bearbeiten', match: :first
-      unselect 'Family', from: 'category_section_filter_ids'
-      unselect 'Refugees', from: 'category_section_filter_ids'
+      unselect 'Family', from: 'category_section_ids'
+      unselect 'Refugees', from: 'category_section_ids'
       click_button 'Speichern und bearbeiten'
       page.must_have_content 'Kategorie wurde nicht aktualisiert'
       page.must_have_content 'benötigt mindestens eine clarat-Welt'
 
-      select 'Family', from: 'category_section_filter_ids'
+      select 'Family', from: 'category_section_ids'
       click_button 'Speichern'
       page.must_have_content 'Kategorie wurde erfolgreich aktualisiert'
     end

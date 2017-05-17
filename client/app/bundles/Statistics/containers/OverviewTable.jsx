@@ -12,13 +12,13 @@ const ALL = 'all'
 
 const mapStateToProps = (state, ownProps) => {
   const stateKey = `statisticsOverview_${ownProps.model}`
-  const states = (state.ajax[stateKey] && state.ajax[stateKey].states) || []
+  const states =
+    (state.ajax[stateKey] && state.ajax[stateKey].data.attributes.states) || []
   const selectedCity = state.rform[stateKey] && state.rform[stateKey].city
   const data =
     (state.entities.count && state.entities.count[ownProps.model] &&
       state.entities.count[ownProps.model][selectedCity || ALL]) || {}
-  const sections =
-    values(state.entities.filters).filter(obj => obj.type == 'SectionFilter')
+  const sections = values(state.entities.sections)
   const loadedCities =
     (state.entities.count && keys(state.entities.count[ownProps.model])) || []
 
@@ -60,8 +60,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     if (cityId) params[`filters[${cityAssociationName}.id]`] = cityId
     if (aasm_state)
       params[`filters[${pluralize(model)}.aasm_state]`] = aasm_state
-    if (typeof section == 'object')
-      params['filters[section_filters.id]'] = section.id
+    if (typeof section == 'object') {
+      let sectionName =
+        model == 'offer' ? 'section_id' : 'sections.id'
+      params[`filters[${sectionName}]`] = section.id
+    }
     return params
   }
 
@@ -76,9 +79,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     )
   }
 
-  const loadData = function(states, cityId) {
+  const loadData = function(states, sections, cityId) {
     for (let aasm_state of states.concat(null)) { // null for the "total" row
-      for (let section of stateProps.sections) {
+      for (let section of sections) {
         dispatchDataLoad(aasm_state, section, cityId)
       }
       dispatchDataLoad(aasm_state, 'total', cityId)
@@ -92,18 +95,21 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     loadData,
 
-    loadStates() {
+    loadStatesAndSections() {
       dispatch(
         loadAjaxData(
           `states/${model}`, {}, stateProps.stateKey, () => ({})
         )
+      ),
+      dispatch(
+        loadAjaxData('sections', {}, 'sections')
       )
     },
 
     onCityChange(selected) {
       const city = (selected && selected.value) || ALL
       if (!stateProps.loadedCities.includes(city))
-        loadData(stateProps.states, selected.value)
+        loadData(stateProps.states, stateProps.sections, selected.value)
     }
   })
 }

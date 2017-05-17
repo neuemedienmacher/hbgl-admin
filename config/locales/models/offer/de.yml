@@ -7,7 +7,6 @@ de:
         location_error: |
           muss zu der unten angegebenen Organisation gehören.
       needs_organizations: "benötigt mindestens eine Organisation"
-      needs_section_filters: "benötigt mindestens eine clarat-Welt"
       needs_age_filters: "benötigt mindestens einen Altersfilter"
       needs_language_filters: "benötigt mindestens einen Sprachfilter"
       needs_target_audience_filters: |
@@ -28,9 +27,9 @@ de:
       contact_person_not_choosable: |
         müssen alle zu einer der ausgewählten Organisationen gehören oder
         als SPoC markiert sein
-      category_for_section_filter_needed: |
+      category_for_section_needed: |
         benötigt mindestens eine '%{world}' Kategorie
-      section_filter_for_category_needed: |
+      section_for_category_needed: |
         die Kategorie '%{category}' hat nicht die passenden clarat-Welten
       no_more_than_10_next_steps: |
         dürfen nicht mehr als 10 sein

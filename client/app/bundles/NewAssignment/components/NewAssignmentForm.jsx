@@ -12,7 +12,6 @@ export default class NewAssignmentForm extends React.Component {
     return (
       <div className='content NewAssignment'>
         <h2>Neue Zuweisung</h2>
-        <hr />
         <Form ajax requireValid
           action='/api/v1/assignments/' method='POST'
           className='form-inline'

@@ -19,9 +19,8 @@ export default class Export extends Component {
     } = this.props
 
     return (
-      <div className='content Export'>
-        <h2>{`Export: ${model}`}</h2>
-        <hr />
+      <div className='content Export table-header'>
+        <h2 className="page-title">{`Export: ${model}`}</h2>
         <IndexHeader model={model} params={location.query} />
         <ExportForm model={model} params={location.query} />
       </div>

@@ -6,10 +6,13 @@ class Offer < ActiveRecord::Base
   has_paper_trail
 
   EDITABLE_IN_STATES =
-    %(initialized approved expired checkup_process approval_process)
+    %(initialized approved expired checkup_process approval_process edit)
+
+  # Modules
+  include SearchAlgolia, StateMachine
 
   # Concerns
-  include SearchAlgolia, Translations
+  include Translations, RailsAdminParamHack
 
   # Search
   include PgSearch
@@ -22,10 +25,10 @@ class Offer < ActiveRecord::Base
                   # against: attribute_names.map(&:to_sym),
                   against: [
                     :name, :description, :aasm_state, :encounter,
-                    :old_next_steps, :legal_information, :code_word
+                    :old_next_steps, :code_word
                   ],
                   associated_against: {
-                    section_filters: :name,
+                    section: :name,
                     organizations: :name,
                     location: :display_name,
                     categories: :name_de,
@@ -58,6 +61,7 @@ class Offer < ActiveRecord::Base
   }
 
   # Admin specific methods
+  delegate :identifier, to: :section, prefix: true
 
   # Customize duplication.
   # Lots of configs here, so we are OK with a longer method:
@@ -69,13 +73,13 @@ class Offer < ActiveRecord::Base
       offer.organizations = self.organizations
       offer.openings = self.openings
       offer.categories = self.categories
-      offer.section_filters = self.section_filters
+      offer.section = self.section
       offer.language_filters = self.language_filters
       offer.target_audience_filters = self.target_audience_filters
       offer.trait_filters = self.trait_filters
       offer.websites = self.websites
       offer.contact_people = self.contact_people
-      offer.keywords = self.keywords
+      offer.tags = self.tags
       offer.next_steps = self.next_steps
       offer.area = self.area
       offer.aasm_state = 'initialized'

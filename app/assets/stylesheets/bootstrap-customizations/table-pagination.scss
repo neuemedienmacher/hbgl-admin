@@ -1,0 +1,38 @@
+.claradmin {
+
+  .table-pagination {
+    display: flex;
+    margin-bottom: 20px;
+
+    .pagination {
+      flex: 1 1 auto;
+      margin: 0;
+
+      > li > a,
+      > li > span {
+        border-color: var(--main-green);
+
+        &:hover {
+          background: transparent;
+        }
+      }
+
+      > li:last-child > a,
+      > li:last-child > span,
+      > li:first-child > a,
+      > li:first-child > span {
+        border-radius: 0;
+      }
+
+       > .active > a {
+         background-color: var(--main-green);
+         color: #fff;
+
+         &:hover {
+           background: var(--main-green);
+         }
+       }
+    }
+
+  }
+}

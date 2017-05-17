@@ -1,5 +1,5 @@
 export function getTimePointsBetween(start, end, step = 'day') {
-	let now = start.startOf(step)
+  let now = start.startOf(step)
   let dates = []
 
   while (now.isBefore(end)) {

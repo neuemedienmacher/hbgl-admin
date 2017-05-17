@@ -33,7 +33,7 @@ export default {
       ]
     },
 
-    productivity_goals: {
+    statistic_charts: {
       fields: [
         'id', 'title', 'ends_at', 'target_model', 'target_field_name'
       ],
@@ -48,7 +48,7 @@ export default {
     offers: {
       fields: [
         'id', 'name', 'aasm_state', 'created_by', 'expires_at',
-        'logic_version_id', { section_filters: ['name'] }
+        'logic_version_id', { section: ['name'] }
       ],
       general_actions: [
         'index', 'export'
@@ -60,7 +60,7 @@ export default {
 
     users: {
       fields: [
-        'id', 'name', 'email', 'user_teams'
+        'id', 'name', 'email', { user_teams: ['name'] }
       ],
       general_actions: [
         'index'
@@ -96,7 +96,7 @@ export default {
 
     user_teams: {
       fields: [
-        'id', 'name', 'classification', 'users'
+        'id', 'name', 'classification', { users: ['name'] }
       ],
       general_actions: [
         'index', 'new',
@@ -109,10 +109,11 @@ export default {
     assignments: {
       fields: [
         'id', 'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
-        'receiver_id', 'receiver_team_id', 'aasm_state', 'created_at'
+        'receiver_id', 'receiver_team_id', 'message', 'topic', 'aasm_state',
+        'created_at'
       ],
       inline_fields: [
-        'assignable_type', 'assignable_id',
+        'assignable_type', 'assignable_id', 'topic',
         {assignable: ['label', 'created_at']},
         {creator: ['name']}, 'message', 'created_at'
       ],

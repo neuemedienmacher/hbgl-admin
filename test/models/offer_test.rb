@@ -67,24 +67,24 @@ describe Offer do
         duplicate.organizations.must_equal offer.organizations
         duplicate.openings.must_equal offer.openings
         duplicate.categories.must_equal offer.categories
-        duplicate.section_filters.must_equal offer.section_filters
+        duplicate.section.must_equal offer.section
         duplicate.language_filters.must_equal offer.language_filters
         duplicate.target_audience_filters.must_equal offer.target_audience_filters
         duplicate.websites.must_equal offer.websites
         duplicate.contact_people.must_equal offer.contact_people
-        duplicate.keywords.must_equal offer.keywords
+        duplicate.tags.must_equal offer.tags
         duplicate.area.must_equal offer.area
         duplicate.aasm_state.must_equal 'initialized'
       end
     end
 
     describe 'validations' do
-      it 'should validate that section filters of offer and categories fit '\
+      it 'should validate that section filters of offer and categories match '\
          'and that the correct error messages are generated' do
         category = FactoryGirl.create(:category)
-        category.section_filters = [filters(:family)]
+        category.sections = [sections(:family)]
         basicOffer.categories = [category]
-        basicOffer.section_filters = [filters(:refugees)]
+        basicOffer.section = sections(:refugees)
         basicOffer.valid?
         basicOffer.errors.messages[:categories].must_include(
           "benötigt mindestens eine 'Refugees' Kategorie\n"
@@ -92,16 +92,11 @@ describe Offer do
         basicOffer.errors.messages[:categories].wont_include(
           "benötigt mindestens eine 'Family' Kategorie\n"
         )
-        basicOffer.section_filters = [filters(:family), filters(:refugees)]
-        category.section_filters = [filters(:refugees)]
+        basicOffer.section = sections(:refugees)
+        category.sections = [sections(:refugees)]
         basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_include(
-          "benötigt mindestens eine 'Family' Kategorie\n"
-        )
-        basicOffer.errors.messages[:categories].wont_include(
-          "benötigt mindestens eine 'Refugees' Kategorie\n"
-        )
-        category.section_filters = [filters(:refugees), filters(:family)]
+        basicOffer.errors.messages[:categories].must_be :nil?
+        category.sections = [sections(:refugees), sections(:family)]
         basicOffer.valid?
         basicOffer.errors.messages[:categories].must_be :nil?
       end
@@ -133,6 +128,76 @@ describe Offer do
         remote_offer.area = FactoryGirl.create :area, name: 'NotACity'
         remote_offer.organizations.first.update_columns aasm_state: 'approved'
         remote_offer.remote_or_belongs_to_informable_city?.must_equal true
+      end
+    end
+
+    describe 'State Machine' do
+      describe '#different_actor?' do
+        it 'should return true when created_by differs from current_actor' do
+          offer.created_by = 99
+          offer.send(:different_actor?).must_equal true
+        end
+
+        it 'should return false when created_by is nil' do
+          offer.send(:different_actor?).must_equal false
+        end
+
+        it 'should return false when current_actor is nil' do
+          offer.created_by = 1
+          Creator::Twin.any_instance.stubs(:current_actor).returns(nil)
+          offer.send(:different_actor?).must_equal false
+        end
+      end
+
+      describe '#LogicVersion' do
+        it 'should have the latest LogicVersion after :complete and :approve' do
+          offer.created_by = 99
+          offer.aasm_state = 'initialized'
+          new_logic1 = LogicVersion.create(name: 'Foo', version: 200)
+          offer.send(:complete)
+          offer.logic_version_id.must_equal new_logic1.id
+          new_logic2 = LogicVersion.create(name: 'Bar', version: 201)
+          offer.send(:start_approval_process)
+          offer.send(:approve)
+          offer.logic_version_id.must_equal new_logic2.id
+        end
+      end
+
+      describe 'seasonal offers' do
+        it 'should transition to seasonal_pending for a future start_date' do
+          basicOffer.update_columns aasm_state: 'approval_process',
+                                    starts_at: Time.zone.now + 1.day,
+                                    expires_at: Time.zone.now + 30.days
+          basicOffer.must_be :valid?
+          basicOffer.send(:approve)
+          basicOffer.must_be :seasonal_pending?
+        end
+
+        it 'should transition to approved for a past start_date' do
+          basicOffer.update_columns aasm_state: 'approval_process',
+                                    starts_at: Time.zone.now - 1.day,
+                                    expires_at: Time.zone.now + 30.days
+          basicOffer.must_be :valid?
+          basicOffer.send(:approve)
+          basicOffer.must_be :approved?
+        end
+      end
+
+      describe '#seasonal_offer_not_yet_to_be_approved' do
+        it 'should be false without a start date' do
+          basicOffer.starts_at = nil
+          basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+        end
+
+        it 'should be false with a start date in the past' do
+          basicOffer.starts_at = Time.zone.now - 1.day
+          basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+        end
+
+        it 'should be true with a start date in the future' do
+          basicOffer.starts_at = Time.zone.now + 1.day
+          basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal true
+        end
       end
     end
 

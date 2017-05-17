@@ -17,6 +17,8 @@ module API::V1
         property :aasm_state
         property :created_at
         property :updated_at
+        property :topic
+        property :created_by_system
 
         has_one :creator do
           type :users
@@ -36,6 +38,8 @@ module API::V1
             if object[:represented].class.to_s.include?('Translation')
               if object[:represented].respond_to?(:organization)
                 object[:represented].organization.untranslated_description
+              elsif object[:represented].respond_to?(:contact_person)
+                object[:represented].contact_person.untranslated_responsibility
               else
                 object[:represented].offer.untranslated_name
               end

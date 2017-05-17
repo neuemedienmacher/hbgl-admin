@@ -27,8 +27,11 @@ const mapStateToProps = (state, ownProps) => {
   const alreadyLoadedInputs =
     state.filteringSelect.alreadyLoadedInputs[associatedModel] || []
 
+  const errors = [] // TODO: Implement errors!
+
   return {
     value,
+    errors,
     options,
     isLoading,
     associatedModel,

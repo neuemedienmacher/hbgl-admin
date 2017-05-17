@@ -13,7 +13,7 @@ class Category < ActiveRecord::Base
   # main categories get an additional asterisk
   def name_with_world_suffix_and_optional_asterisk
     return unless name
-    sections_suffix = "(#{section_filters.map { |f| f.name.first }.join(',')})"
+    sections_suffix = "(#{sections.map { |f| f.name.first }.join(',')})"
     name_de + (icon ? "#{sections_suffix}*" : sections_suffix)
   end
 

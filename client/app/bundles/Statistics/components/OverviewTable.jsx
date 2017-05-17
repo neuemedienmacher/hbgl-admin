@@ -5,14 +5,16 @@ import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 export default class OverviewTable extends React.Component {
   componentDidMount() {
     // Load states unless they were already loaded
-    if(!this.props.states || !this.props.states.length)
-      this.props.loadStates()
+    if(!this.props.states || !this.props.states.length ||
+       !this.props.sections || !this.props.sections.length)
+      this.props.loadStatesAndSections()
   }
 
   componentWillReceiveProps(nextProps) {
     // Load Data when states are loaded
-    if (!this.props.states.length && nextProps.states.length)
-      this.props.loadData(nextProps.states)
+    if (nextProps.states.length && nextProps.sections.length &&
+        (!this.props.states.length || !this.props.sections.length))
+      this.props.loadData(nextProps.states, nextProps.sections)
   }
 
   render() {

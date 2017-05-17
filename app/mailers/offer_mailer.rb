@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 class OfferMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
   MAX_OFFER_TEASER_COUNT = 5
@@ -34,7 +35,7 @@ class OfferMailer < ActionMailer::Base
     @utm_tagging_suffix = generate_utm_suffix usable_offers, 'AO'
     @vague_title = email.vague_contact_title?
     @mainly_portal = mainly_portal_offers? usable_offers
-
+    headers['X-SMTPAPI'] = { 'category': ['inform offer', @section_suffix] }.to_json
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -54,7 +55,7 @@ class OfferMailer < ActionMailer::Base
     @overview_href_suffix = "/organisationen/#{orga.slug || orga.id.to_s}"
     @utm_tagging_suffix = generate_utm_suffix orga.offers, 'GF'
     @subscribe_href = get_sub_or_unsub_href email, 'subscribe'
-
+    headers['X-SMTPAPI'] = { category: ['inform orga'] }.to_json
     send_emails email, offers, :orga_inform, t('.subject')
   end
   # rubocop:enable Metrics/AbcSize
@@ -72,7 +73,7 @@ class OfferMailer < ActionMailer::Base
     @vague_title = email.vague_contact_title?
     @overview_href_suffix = "/emails/#{email.id}/angebote"
     @utm_tagging_suffix = generate_utm_suffix offers, 'AO', 'FU'
-
+    headers['X-SMTPAPI'] = { category: ['newly approved offer', @section_suffix] }.to_json
     send_emails email, offers, :newly_approved,
                 t('.subject', count: offers.count,
                               name: t(".clarat_name_subject.#{@section_suffix}"))
@@ -84,7 +85,7 @@ class OfferMailer < ActionMailer::Base
   def send_emails email, offers, mailing_type, subject
     email.create_offer_mailings offers, mailing_type
     mail subject: subject, to: email.address,
-         from: 'Anne Schulze | clarat <anne.schulze@clarat.org>'
+         from: 'clarat-Team <post@clarat.org>'
   end
 
   def get_section_suffix offers, offers_hash = nil
@@ -119,7 +120,8 @@ class OfferMailer < ActionMailer::Base
       *offers_hash[sorted_sects[0]][0..(MAX_OFFER_TEASER_COUNT / 2)]
     ]
     teasing_offers.push(
-      *offers_hash[sorted_sects[1]][0..(MAX_OFFER_TEASER_COUNT - teasing_offers.count - 1)]
+      *offers_hash[sorted_sects[1]][0..(MAX_OFFER_TEASER_COUNT -
+        teasing_offers.count - 1)]
     ).uniq
   end
 
@@ -130,7 +132,7 @@ class OfferMailer < ActionMailer::Base
   def get_offers_per_section offers
     return [] unless offers && !offers.empty?
     offers_per_section = {}
-    SectionFilter.pluck(:identifier).each do |filter|
+    Section.pluck(:identifier).each do |filter|
       section_offers = offers.map { |o| o if o.in_section? filter }.compact
       offers_per_section[filter] = section_offers
     end
@@ -140,14 +142,15 @@ class OfferMailer < ActionMailer::Base
   # over a certain treshold (currently 60%) the mailing is treated as a
   # mainly-portal-mailing with some content changes
   def mainly_portal_offers? offers
-    (offers.map { |o| o if o.encounter == 'portal' }.compact.count.to_f / offers.count.to_f) >= 0.6
+    (offers.map { |o| o if o.encounter == 'portal' }.compact.count.to_f /
+      offers.count.to_f) >= 0.6
   end
 
   # Method to generate a custom utm-tag-suffix for the links in our mailings.
   # Includes information about the worlds, the offer-count of the mailing, the
   # type and the receiver of the mailing.
   def generate_utm_suffix offers, receiver_type, mailing_type = 'OB'
-    sections = offers.map { |o| o.section_filters.pluck(:identifier).flatten }.flatten.uniq
+    sections = offers.map { |o| o.section.identifier }.flatten.uniq
     first_char_of_sections = sections.map { |w| w.first.upcase }.sort.join
     offers_text =
       if offers.count == 1
@@ -159,3 +162,4 @@ class OfferMailer < ActionMailer::Base
     "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
   end
 end
+# rubocop:enable Metrics/ClassLength

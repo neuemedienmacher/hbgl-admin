@@ -8,11 +8,14 @@ import { getAllocationForWeekAndUser } from '../../../lib/timeAllocations'
 import Dashboard from '../components/Dashboard'
 
 const mapStateToProps = (state, ownProps) => {
+  // read current_user from users with current_user.id (current_user not updated)
+  const user = state.entities.users[state.entities.current_user.id]
   const outstandingTimeAllocations = getOutstandingTimeAllocations(
     valuesIn(state.entities.time_allocations), state.entities.current_user
   )
 
   return {
+    user,
     hasOutstandingTimeAllocations: !!outstandingTimeAllocations.length,
     outstandingTimeAllocations,
   }

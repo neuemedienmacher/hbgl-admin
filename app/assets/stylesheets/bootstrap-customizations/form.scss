@@ -1,0 +1,86 @@
+.claradmin {
+
+  .form-control {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    padding: 6px 8px;
+  }
+
+   textarea.form-control {
+    min-height: 150px;
+  }
+
+  .inline-errors {
+    position: absolute;
+    background: #a94442;
+    color: #fff;
+    font-size: 75%;
+    padding: 0 7px;
+  }
+
+  label {
+    font-weight: normal;
+  }
+
+  // TODO: is this obsolete?
+  .inputset-current_team_id {
+    margin: .5em 0 1em;
+
+    select {
+      margin-left: 10px;
+    }
+  }
+
+  .jumbotron {
+    & {
+      border-radius: 0;
+      background-color: var(--main-beige);
+    }
+  }
+
+  .select-wrapper {
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+
+    .form-control {
+      padding-right: 25px;
+    }
+
+    &::after {
+      content: "\25BE";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translate(0, -50%);
+      pointer-events: none;
+    }
+  }
+}
+
+.btn {
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    opacity: .25;
+  }
+
+  &,
+  &:hover {
+    background-color: var(--main-petrol);
+    color: #fff;
+    border-radius: 0;
+    border: 0 none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.btn-warning,
+  &.btn-warning:hover {
+    background-color: var(--main-orange);
+    color: #fff;
+  }
+}

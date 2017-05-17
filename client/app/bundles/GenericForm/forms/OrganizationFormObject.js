@@ -9,15 +9,11 @@ export default class OrganizationFormObject extends FormObject {
     return [ 'name', 'website_ids', 'priority', 'division_ids' ]
   }
 
-  static get submodels() {
-    return ['websites', 'divisions']
-  }
-
   // static get submodelConfig() {
   //   return {
   //     websites: { properties: ['url'], type: 'has_many' },
   //     divisions: {
-  //       properties: [ 'name', 'description', 'section_filter_ids'],
+  //       properties: [ 'name', 'description', 'section_ids'],
   //       type: 'oneToMany'
   //     }
   //   }
@@ -38,9 +34,5 @@ export default class OrganizationFormObject extends FormObject {
 
   validation() {
     this.required('name').filled()
-
-    this.inSubmodel('divisions', () => {
-      this.required('name').filled()
-    })
   }
 }

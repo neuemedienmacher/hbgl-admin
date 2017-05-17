@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   #   end
   # end
   # resources :organization_translations, only: [:show], controller: :pages, action: :react
-  # resources :productivity_goals
+  # resources :statistic_charts
   # resources :users, only: [:index, :show], controller: :pages, action: :react
   # resources :user_teams, only: [:index, :show, :new, :edit],
   #                        controller: :pages, action: :react
@@ -97,10 +97,10 @@ Rails.application.routes.draw do
       resources :websites, only: [:index]
       resources :offer_translations, only: [:index, :show, :update]
       resources :organization_translations, only: [:index, :show, :update]
-      resources :productivity_goals, except: [:destroy]
+      resources :statistic_charts, except: [:destroy]
       resources :time_allocations, only: [:create, :update]
       resources :user_teams
-      resources :section_filters, only: [:index]
+      resources :sections, only: [:index]
       resources :cities, only: [:index]
       resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
@@ -123,5 +123,6 @@ Rails.application.routes.draw do
   end
 
   # Forward every other page to react and let it deal with it
-  match '*path', controller: :pages, action: :react, via: :all
+  match '*path', controller: :pages, action: :react, via: :all,
+                 constraints: ->(request) { request.format == :html }
 end

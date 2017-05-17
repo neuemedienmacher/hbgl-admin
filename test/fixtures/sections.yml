@@ -1,0 +1,9 @@
+family:
+  id: 1
+  name: Family
+  identifier: family
+
+refugees:
+  id: 2
+  name: Refugees
+  identifier: refugees

@@ -32,8 +32,8 @@ RailsAdmin.config do |config|
   config.included_models = %w(
     Organization Website Location FederalState Offer Opening
     Category Email UpdateRequest LanguageFilter User Contact
-    Keyword Definition Note Area SearchLocation ContactPerson
-    Subscription SectionFilter NextStep SolutionCategory
+    Tag Definition Note Area SearchLocation ContactPerson
+    Subscription Section NextStep SolutionCategory
     LogicVersion SplitBase City
   )
 
@@ -41,25 +41,25 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['User', 'FederalState', 'SectionFilter']
+      except ['User', 'FederalState', 'Section']
     end
     export
     bulk_delete do
-      except ['User', 'FederalState', 'SectionFilter']
+      except ['User', 'FederalState', 'Section']
     end
     show
     edit do
-      except ['SectionFilter']
+      except ['Section']
     end
     delete do
-      except ['User', 'FederalState', 'SectionFilter']
+      except ['User', 'FederalState', 'Section']
     end
     show_in_app do
       only ['Offer', 'Organization']
     end
 
     clone do
-      except ['SectionFilter', 'City']
+      except ['Section', 'City']
     end
     # nested_set do
     #   only ['Category']
@@ -79,7 +79,11 @@ RailsAdmin.config do |config|
       field :offers_count
       field :name
       field :aasm_state
-      field :creator
+      field :creator do
+        formatted_value do
+          Creator::Twin.new(bindings[:object]).creator
+        end
+      end
       field :locations_count
       field :created_by
 
@@ -254,7 +258,6 @@ RailsAdmin.config do |config|
     end
     show do
       field :name
-      field :offers
       field :organizations
     end
     field :name
@@ -310,9 +313,13 @@ RailsAdmin.config do |config|
     weight(-4)
     list do
       field :name
-      field :section_filters
+      field :section
       field :aasm_state
-      field :creator
+      field :creator do
+        formatted_value do
+          Creator::Twin.new(bindings[:object]).creator
+        end
+      end
       field :expires_at
       field :logic_version
       field :location
@@ -323,7 +330,7 @@ RailsAdmin.config do |config|
       field :created_by
     end
 
-    field :section_filters
+    field :section
     field :split_base
     field :all_inclusive
     field :name do
@@ -340,7 +347,6 @@ RailsAdmin.config do |config|
       read_only false # set to true once deprecated
     end
     field :code_word
-    field :legal_information
     field :contact_people
     field :hide_contact_people do
       help do
@@ -392,7 +398,7 @@ RailsAdmin.config do |config|
       end
     end
     field :websites
-    field :keywords do
+    field :tags do
       inverse_of :offers
     end
     field :starts_at do
@@ -590,13 +596,17 @@ RailsAdmin.config do |config|
   config.model 'Category' do
     weight(-3)
     field :name_de
-    field :section_filters
+    field :keywords_de
+    field :sections
     field :parent
     field :sort_order
     field :visible
     field :name_en
+    field :keywords_en
     field :name_ar
+    field :keywords_ar
     field :name_fa
+    field :keywords_fa
     field :name_tr
     field :name_pl
     field :name_ru
@@ -745,42 +755,29 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model 'Filter' do
-    weight 1
-    list do
-      field :id
-      field :name
-      field :identifier
-      field :offers
-    end
+  config.model 'TraitFilter' do
+    field :id
+    field :name
+    field :identifier
   end
+
   config.model 'LanguageFilter' do
-    parent Filter
+    field :id
+    field :name
+    field :identifier
   end
-  config.model 'Target_AudienceFilter' do
-    parent Filter
+
+  config.model 'TargetAudienceFilter' do
+    field :id
+    field :name
+    field :identifier
   end
-  config.model 'SectionFilter' do
+
+  config.model 'Section' do
     weight 3
-    parent Filter
-    list do
-      field :id
-      field :name
-      field :offers do
-        label 'Anzahl der Angebote ( davon sichtbar im Frontend)'
-        pretty_value do
-          "#{value.count} (#{value.visible_in_frontend.count})"
-        end
-      end
-    end
-    show do
-      field :name
-      field :offers do
-        pretty_value do
-          "#{value.count} (#{value.visible_in_frontend.count})"
-        end
-      end
-    end
+    field :id
+    field :name
+    field :identifier
   end
 
   config.model 'User' do
@@ -813,12 +810,31 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model 'Keyword' do
+  config.model 'Tag' do
     weight 1
+    field :name_de
+    field :keywords_de
+    field :name_en
+    field :keywords_en
+    field :name_ar
+    field :keywords_ar
+    field :name_fa
+    field :keywords_fa
+    field :name_tr
+    field :name_pl
+    field :name_ru
+
+    object_label_method :name_de
   end
 
   config.model 'Area' do
     weight 1
+    field :id
+    field :name
+    field :minlat
+    field :maxlat
+    field :minlong
+    field :maxlong
   end
 
   config.model 'Contact' do

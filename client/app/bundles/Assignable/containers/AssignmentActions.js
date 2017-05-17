@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import AssignmentActions from '../components/AssignmentActions'
-import addEntities from '../../../Backend/actions/addEntities'
 import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel,
          isCurrentUserActiveInTranslatorTeam }
   from '../../../lib/restrictionUtils'
@@ -49,17 +48,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  handleResponse(_formId, data){
-    dispatch(addEntities(data))
+  afterResponse(response) {
     // call dataLoad-Function of the assignable to update current_assignment
     if(ownProps.assignableDataLoad){
       ownProps.assignableDataLoad()
     }
-  },
-
-  afterResponse(response) {
-    // console.log('=========afterResponse==========')
-    // console.log(response)
   }
 })
 
@@ -76,9 +69,10 @@ function visibleFor(action, entities, model, id, system_user) {
     case 'assign_to_system':
       // NOTE: only assigned users in translator-teams may directly assign the
       // system_user (only to Translations)
-      let current_team = entities.current_user.current_team_id &&
-        entities.user_teams[entities.current_user.current_team_id]
-      return current_team && current_team.classification == 'translator' &&
+      let team_roles = entities.current_user.user_teams.map(
+        team => team.classification
+      )
+      return team_roles.includes('translator') &&
         isCurrentUserAssignedToModel(entities, model, id) && system_user &&
         (model == 'offer_translations' || model == 'organization_translations')
     default:
@@ -101,13 +95,13 @@ function buttonTextFor(action) {
 
 function seedDataFor(action, entities, assignment, system_user, users) {
   let assignment_copy = clone(assignment)
+  assignment_copy.created_by_system = false
   switch(action) {
   case 'assign_to_current_user':
     assignment_copy.receiver_id = entities.current_user.id
     break
   case 'assign_someone_else':
     assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.creator_team_id = entities.current_user.current_team_id
     assignment_copy.receiver_id = users[0].value
     assignment_copy.receiver_team_id = undefined
     assignment_copy.message = ''
@@ -116,12 +110,10 @@ function seedDataFor(action, entities, assignment, system_user, users) {
     assignment_copy.creator_id = entities.current_user.id
     assignment_copy.creator_team_id = undefined
     assignment_copy.receiver_id = entities.current_user.id
-    assignment_copy.receiver_team_id = entities.current_user.current_team_id
     assignment_copy.message = ''
     break
   case 'assign_to_system':
     assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.creator_team_id = entities.current_user.current_team_id
     assignment_copy.receiver_id = system_user.id
     assignment_copy.receiver_team_id = undefined
     assignment_copy.message = 'Erledigt!'

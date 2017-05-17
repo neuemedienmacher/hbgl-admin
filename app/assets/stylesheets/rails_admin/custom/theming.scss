@@ -54,14 +54,15 @@
     &.initialized { background-color: darkkhaki; }
     &.completed { background-color: darkseagreen; }
     &.approved { background-color: darkcyan; }
+    &.disapproved { background-color: darkorange; }
+    &.edit { background-color: darkkhaki; }
     &.expired { background-color: tomato; }
     &.internal_feedback { background-color: darkorange; }
     &.external_feedback { background-color: chocolate; }
     &.paused { background-color: grey; }
-    &.dozing { background-color: grey; }
     &.organization_deactivated { background-color: grey; }
     &.under_construction_pre { background-color: grey; }
-    &.under_construction_post { background-color: grey; }
+    &.under_construction { background-color: grey; }
     &.approval_process { background-color: darkcyan; }
     &.checkup_process { background-color: darkcyan; }
     &.website_unreachable { background-color: grey; }
@@ -101,4 +102,67 @@
   .ra-multiselect-item-add {
     display: none;
   }
+}
+
+.login-page {
+
+  .login-wrapper {
+    max-width: 800px;
+    position: relative;
+    margin: 12em auto 0;
+  }
+
+  .login-icon {
+    margin-right: 20px;
+  }
+
+
+  .login-form {
+    flex: 1 1 auto;
+  }
+
+  .login-screen {
+    display: flex;
+    background-color: #F6EED9;
+    padding: 40px 30px;
+    border-radius: 12px 0;
+  }
+
+  label {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 10px;
+  }
+
+  .btn {
+    border-radius: 0;
+    border: none;
+    font-family: "Roboto", sans-serif;
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  .form-actions {
+    margin-top: 20px;
+  }
+
+  .form-control {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 0;
+
+    &:focus {
+      border-color: #41311A;
+    }
+  }
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("/assets/fontawesome-webfont.eot");
+  src: url("/assets/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("/assets/fontawesome-webfont.woff") format("woff"), url("/assets/fontawesome-webfont.ttf") format("truetype"), url("/assets/fontawesome-webfont.svg#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
 }

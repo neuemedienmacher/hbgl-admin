@@ -57,27 +57,6 @@ class AssignmentCreateTest < ActiveSupport::TestCase
         result['model'].creator_id.must_equal other_user.id
       end
 
-      describe 'optional_set_creator_team_to_creators_current_team_if_empty' do
-        it 'must acceptm nil as valid value for creator_team_id' do
-          user.update_columns current_team_id: nil
-          result = operation_must_work ::Assignment::Create, basic_params
-          assert_nil result['model'].creator_team_id
-        end
-
-        it 'must set creator_team_id to current_team_id if it is empty' do
-          user.update_columns current_team_id: 1
-          result = operation_must_work ::Assignment::Create, basic_params
-          result['model'].creator_team_id.must_equal user.current_team_id
-        end
-
-        it 'does not override creator_team_id if it is given in params' do
-          basic_params[:creator_team_id] = 2
-          user.update_columns current_team_id: 1
-          result = operation_must_work ::Assignment::Create, basic_params
-          result['model'].creator_team_id.must_equal 2
-        end
-      end
-
       describe 'close_open_assignments!' do
         it 'must close all open assignments and create a new one' do
           assignments =
@@ -89,6 +68,37 @@ class AssignmentCreateTest < ActiveSupport::TestCase
           assignment_before.reload.aasm_state.must_equal 'closed'
           assignments.count.must_equal count_before + 1
           assignments.open.first.wont_equal assignment_before
+        end
+      end
+
+      describe 'reset_translation_if_returned_to_system_user' do
+        it 'resets translation when system_user is assigned by other user' do
+          t = OfferTranslation.find(basic_params[:assignable_id])
+          t.update_columns source: 'GoogleTranslate', possibly_outdated: true
+          basic_params[:receiver_id] = User.system_user.id
+          basic_params[:created_by_system] = false
+          operation_must_work ::Assignment::Create, basic_params
+          t.reload.source.must_equal 'researcher'
+          t.reload.possibly_outdated.must_equal false
+        end
+
+        it 'does not reset translation if created_by_system is true' do
+          t = OfferTranslation.find(basic_params[:assignable_id])
+          t.update_columns source: 'GoogleTranslate', possibly_outdated: true
+          basic_params[:receiver_id] = User.system_user.id
+          basic_params[:created_by_system] = true
+          operation_must_work ::Assignment::Create, basic_params
+          t.reload.source.must_equal 'GoogleTranslate'
+          t.reload.possibly_outdated.must_equal true
+        end
+
+        it 'does not reset translation if someone else is assigned' do
+          t = OfferTranslation.find(basic_params[:assignable_id])
+          t.update_columns source: 'GoogleTranslate', possibly_outdated: true
+          basic_params[:created_by_system] = false
+          operation_must_work ::Assignment::Create, basic_params
+          t.reload.source.must_equal 'GoogleTranslate'
+          t.reload.possibly_outdated.must_equal true
         end
       end
     end

@@ -9,7 +9,7 @@ class User::Update < Trailblazer::Operation
 
   extend Contract::DSL
   contract do
-    property :current_team_id
-    validates :current_team_id, presence: true, numericality: true
+    property :name
+    validates :name, presence: true
   end
 end

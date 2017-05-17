@@ -11,7 +11,7 @@ FactoryGirl.define do
     age_to { rand(4..6) }
     encounter do
       # weighted
-      %w(personal personal personal personal hotline chat forum email online-course portal fax letter).sample
+      %w(personal personal personal personal hotline chat forum email online-course portal).sample
     end
     area { Area.first unless encounter == 'personal' }
     approved_at nil
@@ -58,9 +58,9 @@ FactoryGirl.define do
         offer.location = location
       end
       # Filters
-      offer.section_filters << (
-        SectionFilter.all.sample ||
-          FactoryGirl.create(:section_filter)
+      offer.section = (
+        Section.all.sample ||
+          FactoryGirl.create(:section)
       )
       evaluator.language_count.times do
         offer.language_filters << (
@@ -91,9 +91,10 @@ FactoryGirl.define do
                                                name: evaluator.category)
       else
         evaluator.category_count.times do
-          # Category.select(:id).all.try(:sample) ||
           offer.categories <<
-            FactoryGirl.create(:category, section_filters: offer.section_filters)
+            FactoryGirl.create(
+              :category, sections: [offer.section]
+            )
         end
       end
       evaluator.opening_count.times do
@@ -129,7 +130,7 @@ FactoryGirl.define do
     end
 
     # trait :remote do
-    #   encounter %w(hotline chat forum email online-course portal letter).sample
+    #   encounter %w(hotline chat forum email online-course portal).sample
     # end
 
     trait :with_creator do

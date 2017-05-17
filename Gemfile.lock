@@ -8,8 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 1efdda907a4092d021a8ecff8b33b707082e3f26
-  branch: feature/944-orgas-2
+  revision: 3fbc3d741027ccfe5d08820819cafb95df635b27
   specs:
     clarat_base (0.1.4)
       aasm
@@ -17,12 +16,12 @@ GIT
       bundler (>= 1.8.4)
       closure_tree
       easy_translate
-      enumerize
+      enumerize (= 2.0.1)
       friendly_id (>= 5.0)
       geocoder
       localeapp
       paper_trail
-      rails (>= 4.1.12)
+      rails (~> 4.2)
       rails-i18n
       rails-observers
       redcarpet
@@ -180,7 +179,7 @@ GEM
     daemons (1.2.4)
     dalli (2.7.6)
     database_cleaner (1.5.3)
-    debug_inspector (0.0.2)
+    debug_inspector (0.0.3)
     declarative (0.0.9)
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
@@ -240,7 +239,7 @@ GEM
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
       mail (~> 2.6.3)
-    enumerize (2.1.0)
+    enumerize (2.0.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
     et-orbi (1.0.3)
@@ -356,7 +355,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_portile2 (2.0.0)
-    minitest (5.10.1)
+    minitest (5.10.2)
     minitest-capybara (0.8.2)
       capybara (~> 2.2)
       minitest (~> 5.0)
@@ -424,7 +423,7 @@ GEM
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rack (1.6.5)
+    rack (1.6.8)
     rack-cache (1.7.0)
       rack (>= 0.4)
     rack-contrib (1.4.0)
@@ -453,8 +452,7 @@ GEM
       rails-assets-jquery (>= 1.9.1, < 4)
     rails-assets-d3 (4.8.0)
     rails-assets-ev-emitter (1.0.3)
-    rails-assets-flat-ui (2.3.0)
-      rails-assets-videojs (~> 4.7.2)
+    rails-assets-font-awesome (4.7.0)
     rails-assets-imagesloaded (4.1.1)
       rails-assets-ev-emitter (~> 1.0.0)
     rails-assets-jquery (2.2.4)
@@ -466,7 +464,6 @@ GEM
       rails-assets-jquery (>= 1.6.0)
     rails-assets-shariff (1.24.1)
       rails-assets-jquery (>= 2.1.1, < 3)
-    rails-assets-videojs (4.7.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.8)
@@ -766,7 +763,7 @@ DEPENDENCIES
   rails-assets-algoliasearch!
   rails-assets-bootstrap!
   rails-assets-d3!
-  rails-assets-flat-ui!
+  rails-assets-font-awesome!
   rails-assets-jquery!
   rails-assets-lodash!
   rails-assets-nestable2!
@@ -783,10 +780,10 @@ DEPENDENCIES
   rake
   react_on_rails
   reform
-  reform-rails
   roar!
   roar-jsonapi!
   rubocop
+  rufus-scheduler (= 3.4.0)
   shoulda
   sidekiq-cron (~> 0.4.0)
   simple_form
@@ -811,4 +808,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.7
+   1.14.5

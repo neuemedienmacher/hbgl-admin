@@ -8,27 +8,24 @@ class ReactCell < Cell::ViewModel
 
   include ReactOnRailsHelper
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def props
     {
-      user_teams: UserTeam.all,
+      user_teams: UserTeam.all.map { |team| UserTeam::Representer.new(team) },
       users: User.all.map { |user| User::Representer.new(user) },
       current_user: User::Representer.new(options[:current_user]),
 
       filters: Filter.all.map(&:attributes),
-      productivity_goals: ProductivityGoal.all,
-      statistics: Statistic.all,
-      time_allocations: TimeAllocation.all,
 
       authToken: options[:form_authenticity_token],
       settings: {
         time_allocations: {
           start_year: User.order('created_at ASC').first.created_at.year
         },
-        productivity_goals: {
-          target_models: ProductivityGoal::TARGET_MODELS,
-          target_field_names: ProductivityGoal::TARGET_FIELD_NAMES,
-          target_field_values: ProductivityGoal::TARGET_FIELD_VALUES
+        statistic_charts: {
+          target_models: StatisticChart::TARGET_MODELS,
+          target_field_names: StatisticChart::TARGET_FIELD_NAMES,
+          target_field_values: StatisticChart::TARGET_FIELD_VALUES
         },
         assignments: {
           assignable_models: Assignment::ASSIGNABLE_MODELS
@@ -36,5 +33,5 @@ class ReactCell < Cell::ViewModel
       }
     }
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 end

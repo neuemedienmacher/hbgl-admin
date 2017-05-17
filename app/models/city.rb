@@ -8,7 +8,9 @@ class City < ActiveRecord::Base
   ORGANIZATION_THRESHOLD = Integer(ENV['THRESHOLDS_ORGA_COUNT'] || 1)
 
   # Associations
-  has_many :section_filters, -> { uniq }, through: :offers
+  has_many :sections, -> { uniq }, through: :offers
+
+  include ReformedValidationHack
 
   # Admin specific methods
   def thresholds_reached?

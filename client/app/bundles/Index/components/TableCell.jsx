@@ -15,7 +15,7 @@ export default class TableCell extends Component {
   }
 
   renderContent(content, contentType) {
-    if (!content) {
+    if (content == undefined) {
       return null
     }
     else{
@@ -36,9 +36,9 @@ export default class TableCell extends Component {
           }
         case 'boolean':
           if (content) {
-            return <span className='fui-check' title='Ja' />
+            return <span className='fa fa-check' title='Ja' />
           } else {
-            return <span className='fui-cross' title='Nein' />
+            return <span className='fa fa-times' title='Nein' />
           }
         case 'string':
           return content.substr(0, 100) + (content.length > 100 ? ' (...)' : '')

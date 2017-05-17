@@ -103,13 +103,25 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'filters for an owned field' do
-      params = { filters: { 'foo' => 'bar' } }
-      query.expects(:where).with("foo = 'bar'")
+      params = { filters: { 'foo' => 'bar' }, controller: 'api/controller' }
+      query.expects(:where).with("controller.foo = 'bar'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for an array of owned field with default OR-joining' do
+      params = { filters: { 'foo' => %w(bar fuz) } }
+      query.expects(:where).with("foo = 'bar' OR foo = 'fuz'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for an array of owned field with !=-operator and AND-joining' do
+      params = { filters: { 'x' => %w(bar fuz) }, operators: { 'x' => '!=' } }
+      query.expects(:where).with("x != 'bar' OR x IS NULL AND x != 'fuz' OR x IS NULL")
       subject.send(:transform_by_filtering, query, params)
     end
 
     it 'filters with a mismatching association/table name' do
-      params = { filters: { 'section_filters.foobar' => 'bazfuz' } }
+      params = { filters: { 'language_filters.foobar' => 'bazfuz' } }
       query.expects(:where).with("filters.foobar = 'bazfuz'")
       subject.send(:transform_by_filtering, query, params)
     end

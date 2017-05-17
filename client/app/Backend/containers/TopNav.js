@@ -50,30 +50,32 @@ const routes = [
     access: all,
   }, {
     id: 7,
-    pathname: '/productivity_goals',
-    anchor: 'Produktivitätsziele',
-    access: superuser,
-  }, {
-    id: 8,
-    pathname: '/time_allocations',
-    anchor: 'Ressourcenplanung',
-    access: superuser,
-  }, {
-    id: 9,
     pathname: '/user_teams',
     anchor: 'Teams',
     access: superuser,
   }, {
-    id: 10,
+    id: 8,
     pathname: '/users',
     anchor: 'Nutzer',
     access: superuser,
   }, {
-    id: 11,
+    id: 9,
     pathname: '/assignments',
     anchor: 'Zuweisungen',
     access: superuser,
+  }/*,
+  {
+    id: 10,
+    pathname: '/statistic_charts',
+    anchor: 'Produktivitätsziele',
+    access: superuser,
+  }, {
+    id: 11,
+    pathname: '/time_allocations',
+    anchor: 'Ressourcenplanung',
+    access: superuser,
   }
+  */
 ]
 
 function routesForRole(role) {

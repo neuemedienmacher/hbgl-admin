@@ -5,7 +5,7 @@ module API::V1
       def base_query
         ::OfferTranslation
           .where(locale: [:en, :ar, :fa])
-          .joins(:section_filters).where('filters.identifier = ?', 'refugees')
+          .joins(:section).where('sections.identifier = ?', 'refugees')
       end
     end
   end

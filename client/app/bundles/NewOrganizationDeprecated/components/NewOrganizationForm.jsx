@@ -13,7 +13,6 @@ export default class NewOrganizationForm extends React.Component {
     return (
       <div className='content NewOrganization'>
         <h2>Neue Zuweisung</h2>
-        <hr />
         <Form ajax requireValid
           action='/api/v1/organizations/' method='POST'
           className='form'
@@ -30,7 +29,7 @@ export default class NewOrganizationForm extends React.Component {
           />
           <InputSet
             wrapperClassName='form-group' className='form-control'
-            label='clarat Welt' attribute='section_filter_ids'
+            label='clarat Welt' attribute='section_ids'
           />
           <InputSet
             wrapperClassName='form-group' className='form-control'

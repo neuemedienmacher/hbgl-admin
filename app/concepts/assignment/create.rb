@@ -6,9 +6,9 @@ class Assignment::Create < Trailblazer::Operation
   step Contract::Build()
   step Contract::Validate()
   step :set_current_user_to_creator_if_empty
-  step :optional_set_creator_team_to_creators_current_team_if_empty
   step :close_open_assignments!
   step Contract::Persist()
+  step :reset_translation_if_returned_to_system_user
 
   extend Contract::DSL
   contract do
@@ -24,6 +24,8 @@ class Assignment::Create < Trailblazer::Operation
     property :aasm_state
     property :created_at
     property :updated_at
+    property :topic
+    property :created_by_system
 
     # TODO: check if model instance exists!! here or somewhere else?!
     validates :assignable_id, presence: true, numericality: true
@@ -54,18 +56,22 @@ class Assignment::Create < Trailblazer::Operation
     end
   end
 
-  def optional_set_creator_team_to_creators_current_team_if_empty(options)
-    if options['contract.default'].creator_team_id.nil?
-      options['contract.default'].creator_team_id =
-        User.find(options['contract.default'].creator_id).current_team_id
-    end
-    true # If there is no current team, that's okay too.
-  end
-
   def close_open_assignments! options
     type = options['contract.default'].assignable_type
     id = options['contract.default'].assignable_id
     ::Assignment.where(assignable_id: id).where(assignable_type: type)
                 .where(aasm_state: 'open').update_all aasm_state: 'closed'
+  end
+
+  def reset_translation_if_returned_to_system_user(_options, model:, **)
+    sys_user_id = User.system_user.id
+    if model.receiver_id == sys_user_id && model.creator_id != sys_user_id &&
+       %w(OfferTranslation OrganizationTranslation).include?(model.assignable_type) &&
+       model.created_by_system == false
+      model.assignable.update_columns(
+        source: 'researcher', possibly_outdated: false
+      )
+    end
+    true
   end
 end
