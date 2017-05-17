@@ -7,7 +7,7 @@ import OrganizationTranslationFormObject from
 import EditTranslationForm from '../components/EditTranslationForm'
 
 const mapStateToProps = (state, ownProps) => {
-  const { id, model, translation, may_edit } = ownProps
+  const { id, model, translation, mayEdit } = ownProps
   const formId = `${model}Translation${id}`
 
   const action = `/api/v1/${model}_translations/${id}`
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
   afterResponse(response) {
     // if (response.data && response.data.id) {
-    //   browserHistory.push(`/${ownProps.model}_translations`)
+    //   browserHistory.push(`/${ownProps.model}-translations`)
     // }
   }
 })

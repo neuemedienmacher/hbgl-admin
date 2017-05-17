@@ -4,14 +4,14 @@ import addEntities from '../../../Backend/actions/addEntities'
 import ActualWaForm from '../components/ActualWaForm'
 
 const mapStateToProps = (state, ownProps) => {
-  const ta = ownProps.time_allocation
-  const week = moment().week(ta.week_number).year(ta.year)
+  const ta = ownProps.timeAllocation
+  const week = moment().week(ta['week-number']).year(ta.year)
 
   return {
     startDate: week.startOf('week').format('DD.MM.YYYY'),
     endDate: week.endOf('week').format('DD.MM.YYYY'),
-    action: `/api/v1/time_allocations/${ta.year}/${ta.week_number}`,
-    formId: ['ActualWaForm', ta.week_number].join('-'),
+    action: `/api/v1/time_allocations/${ta.year}/${ta['week-number']}`,
+    formId: ['ActualWaForm', ta['week-number']].join('-'),
   }
 }
 

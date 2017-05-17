@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
     state.form[ownProps.formId].additionalSubmodelForms) || []
   const attribute = ownProps.input.attribute
   const hasSubmodelForm = additionalSubmodelForms.includes(attribute)
-  const attributeWithoutId = attribute.replace(/_id(s?)/, '')
+  const attributeWithoutId = attribute.replace(/-id(s?)/, '')
   const submodelName = pluralize(attributeWithoutId)
 
   const formState = state.rform[ownProps.formId]
@@ -62,7 +62,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       // add display data for the filtering select
       dispatch(addForFilteringSelect(
-        pluralize(input.resource || input.attribute.replace(/(_id|_ids)$/, '')),
+        pluralize(input.resource || input.attribute.replace(/(-id|-ids)$/, '')),
         { value: response.data.id, label: response.data.attributes.label }
       ))
     }

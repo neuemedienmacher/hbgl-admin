@@ -13,10 +13,10 @@ const mapStateToProps = (state, ownProps) => {
   const statisticCharts = valuesIn(state.entities.statistic_charts).filter(
     chart => chart.user_id == trackableId
   )
-  let selectable_data =
+  let selectableData =
     [[state.entities.current_user.id, state.entities.current_user.name]]
   // append user_ids of users in led_teams
-  selectable_data = selectable_data.concat(
+  selectableData = selectableData.concat(
     state.entities.current_user.led_teams ?
     flatten(state.entities.current_user.led_teams.map(team => {
       return team.user_ids.map(user_id => {
@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     trackableId,
     statisticCharts,
-    selectable_data,
+    selectableData,
     dataKey,
     dataLoaded,
     chartType,

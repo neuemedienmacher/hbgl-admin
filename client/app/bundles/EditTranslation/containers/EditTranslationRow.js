@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import EditTranslationRow from '../components/EditTranslationRow'
 
 const mapStateToProps = (state, ownProps) => {
-  const { property, formId, may_edit } = ownProps
+  const { property, formId, mayEdit } = ownProps
 
   const type = (property == 'name') ? 'string' : 'textarea'
   const content = state.rform[formId] && state.rform[formId][property]

@@ -20,7 +20,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // manually
   const transformResponse = function(apiResponse, nextModel) {
     let object = { field_sets: {} }
-    object.field_sets[nextModel] = apiResponse
+    object['field-sets'][nextModel] = apiResponse
     return object
   }
 
@@ -35,7 +35,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field_set',
+          'field_set/' + singularModel, {}, 'field-set',
           transformResponse, stateProps.model
         )
       )

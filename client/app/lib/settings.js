@@ -2,15 +2,15 @@ export default {
   index: {
     assignable: {
       assignment_actions: [
-        'assign_someone_else', 'retrieve_assignment', 'assign_to_system',
-        'assign_to_current_user'
+        'assign-someone-else', 'retrieve-assignment', 'assign-to-system',
+        'assign-to-current-user'
       ]
     },
 
     offer_translations: {
       fields: [
-        'id', 'offer_id', 'locale', 'source', 'name',
-        'possibly_outdated', {offer: ['approved_at', 'created_by']}
+        'id', 'offer-id', 'locale', 'source', 'name',
+        'possibly-outdated', {offer: ['approved-at', 'created-by']}
       ],
       general_actions: [
         'index', 'export'
@@ -23,7 +23,7 @@ export default {
     organization_translations: {
       fields: [
         'id', 'organization_id', 'locale', 'source', 'description',
-        'possibly_outdated', {organization: ['approved_at']}
+        'possibly-outdated', {organization: ['approved-at']}
       ],
       general_actions: [
         'index', 'export'
@@ -35,7 +35,7 @@ export default {
 
     statistic_charts: {
       fields: [
-        'id', 'title', 'ends_at', 'target_model', 'target_field_name'
+        'id', 'title', 'ends-at', 'target-model', 'target-field-name'
       ],
       general_actions: [
         'index', 'new'
@@ -47,8 +47,8 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', 'aasm_state', 'created_by', 'expires_at',
-        'logic_version_id', { section: ['name'] }
+        'id', 'name', 'aasm-state', 'created-by', 'expires-at',
+        'logic-version-id', { section: ['name'] }
       ],
       general_actions: [
         'index', 'export'
@@ -60,7 +60,7 @@ export default {
 
     users: {
       fields: [
-        'id', 'name', 'email', { user_teams: ['name'] }
+        'id', 'name', 'email', { 'user-teams': ['name'] }
       ],
       general_actions: [
         'index'
@@ -72,7 +72,7 @@ export default {
 
     organizations: {
       fields: [
-        'id', 'offers_count', 'name', 'aasm_state', 'locations_count'
+        'id', 'offers-count', 'name', 'aasm-state', 'locations-count'
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -108,14 +108,14 @@ export default {
 
     assignments: {
       fields: [
-        'id', 'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
-        'receiver_id', 'receiver_team_id', 'message', 'topic', 'aasm_state',
-        'created_at'
+        'id', 'assignable-id', 'assignable-type', 'creator-id', 'creator-team-id',
+        'receiver-id', 'receiver-team-id', 'message', 'topic', 'aasm-state',
+        'created-at'
       ],
       inline_fields: [
-        'assignable_type', 'assignable_id', 'topic',
-        {assignable: ['label', 'created_at']},
-        {creator: ['name']}, 'message', 'created_at'
+        'assignable-type', 'assignable-id', 'topic',
+        {assignable: ['label', 'created-at']},
+        {creator: ['name']}, 'message', 'created-at'
       ],
       general_actions: [
         'index'

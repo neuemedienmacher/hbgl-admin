@@ -3,18 +3,18 @@ import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import AssignableContainer from '../components/AssignableContainer'
 
 const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.assignment_id
+  const id = ownProps.assignmentId
   const assignableDataLoad = ownProps.assignableDataLoad
   const model = 'assignments'
   const assignment = id ? state.entities[model] && state.entities[model][id] : false
   const loaded = !!assignment
   const heading = id ? `Aktuelle Zuweisung: ${model}#${id}` : 'Keine Zuweisung gefunden!'
-  const involved_entities = loaded ? {
-    creator: assignment.creator_id ? state.entities.users[assignment.creator_id].name : '',
-    creator_team: assignment.creator_team_id ? state.entities.user_teams[assignment.creator_team_id].name : '',
-    receiver: assignment.receiver_id ? state.entities.users[assignment.receiver_id].name : '',
-    receiver_team: assignment.receiver_team_id ? state.entities.user_teams[assignment.receiver_team_id].name : ''
-  } : {creator: '', creator_team: '', receiver: '' , receiver_team: ''}
+  const involvedEntities = loaded ? {
+    creator: assignment['creator-id'] ? state.entities.users[assignment['creator-id']].name : '',
+    creatorTeam: assignment['creator-team-id'] ? state.entities['user-teams'][assignment['creator-team-id']].name : '',
+    receiver: assignment['receiver-id'] ? state.entities.users[assignment['receiver-id']].name : '',
+    receiverTeam: assignment['receiver-team-id'] ? state.entities['user-teams'][assignment['receiver-team-id']].name : ''
+  } : {creator: '', creatorTeam: '', receiver: '' , receiverTeam: ''}
 
   return {
     id,
@@ -22,9 +22,9 @@ const mapStateToProps = (state, ownProps) => {
     loaded,
     assignment,
     heading,
-    involved_entities,
+    involvedEntities,
     assignableDataLoad,
-    may_edit: ownProps.may_edit
+    mayEdit: ownProps.mayEdit
   }
 }
 

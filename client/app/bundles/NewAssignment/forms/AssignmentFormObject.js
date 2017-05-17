@@ -7,8 +7,8 @@ export default class AssignmentFormObject extends FormObject {
 
   static get properties() {
     return [
-      'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
-      'receiver_id', 'receiver_team_id', 'message'
+      'assignable-id', 'assignable-type', 'creator-id', 'creator-team-id',
+      'receiver-id', 'receiver-team-id', 'message'
     ]
   }
 
@@ -17,8 +17,8 @@ export default class AssignmentFormObject extends FormObject {
   }
 
   validation() {
-    this.required('assignable_id').filled('int?')
-    this.required('assignable_type').filled()
+    this.required('assignable-id').filled('int?')
+    this.required('assignable-type').filled()
     this.required('message').filled()
     // TODO: moar?
   }

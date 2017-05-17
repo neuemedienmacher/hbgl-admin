@@ -18,9 +18,9 @@ export default class EditTranslationForm extends Component {
   }
 
   renderTextOrForm(){
-    const { property, length, source, content, type, may_edit } = this.props
+    const { property, length, source, content, type, mayEdit } = this.props
 
-    if (may_edit && (source && source[property] || content)) {
+    if (mayEdit && (source && source[property] || content)) {
       return (
         <div>
           <InputSet

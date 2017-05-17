@@ -10,10 +10,10 @@ import addSettings from '../actions/addSettings'
 
 function initialDispatches(dispatch, props) {
   dispatch(addEntities(merge(
-    normalize('user_teams', props.user_teams).entities,
+    normalize('user-teams', props['user-teams']).entities,
     normalize('users', props.users).entities,
     normalize('filters', props.filters).entities,
-    { current_user: props.current_user }
+    { 'current-user': props['current-user'] }
   )))
   dispatch(addSettings(merge(
     { authToken: props.authToken },

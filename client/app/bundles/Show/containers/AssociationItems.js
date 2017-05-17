@@ -3,25 +3,24 @@ import settings from '../../../lib/settings'
 import AssociationItems from '../components/AssociationItems'
 
 const mapStateToProps = (state, ownProps) => {
-  const model_instance = ownProps.model_instance
-  const associations = processAssociations(ownProps.associations || [], model_instance)
-
+  const modelInstance = ownProps.modelInstance
+  const associations = processAssociations(ownProps.associations || [], modelInstance)
   return {
-    model_instance,
+    modelInstance,
     associations
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-function processAssociations(associations, model_instance) {
+function processAssociations(associations, modelInstance) {
   let new_associations = []
   associations.map(([assoc_name, assoc]) => {
     let class_name = assoc.class_name
     let filter = ''
     if(assoc.key) {
       filter = {'per_page': 15}
-      filter[`filter[${assoc.key}]`] = model_instance.id
+      filter[`filter[${assoc.key}]`] = modelInstance.id
     }
     let href = ''
     if(settings.index[class_name] && settings.index[class_name].member_actions){

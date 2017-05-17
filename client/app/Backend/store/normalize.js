@@ -5,10 +5,10 @@ const Schemas = new function() {
 
   this.user = new Schema('users', defaultOptions)
   this.users = arrayOf(this.user)
-  this.current_user = this.user
+  this['current-user'] = this.user
 
-  this.user_team = new Schema('user_teams', defaultOptions)
-  this.user_teams = arrayOf(this.user_team)
+  this['user-team'] = new Schema('user-teams', defaultOptions)
+  this['user-teams'] = arrayOf(this['user-team'])
 
   this.filter = new Schema('filters', defaultOptions)
   this.filters = arrayOf(this.filter)

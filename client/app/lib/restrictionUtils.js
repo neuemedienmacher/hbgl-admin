@@ -2,37 +2,37 @@
 
 function _isUserAssigned(entities, id) {
   let assignment = entities.assignments && entities.assignments[id]
-  let current_user = entities.current_user
+  let currentUser = entities['current-user']
 
-  return assignment && current_user && assignment.receiver_id == current_user.id
+  return assignment && currentUser && assignment['receiver-id'] == currentUser.id
 }
 
 function _isTeamAssigned(entities, id) {
   let assignment = entities.assignments && entities.assignments[id]
-  let team_ids = entities.users[entities.current_user.id].user_team_ids
+  let teamIds = entities.users[entities['current-user'].id]['user-team-ids']
 
-  return assignment && team_ids.includes(assignment.receiver_team_id)
+  return assignment && teamIds.includes(assignment['receiver-team-id'])
 }
 
-export function currentAssignmentIdFor(model, model_instance) {
+export function currentAssignmentIdFor(model, modelInstance) {
   if (model == 'assignments') {
-    return model_instance && model_instance.id
+    return modelInstance && modelInstance.id
   } else {
-    return model_instance && model_instance.current_assignment &&
-      model_instance.current_assignment.id ? model_instance.current_assignment.id : undefined
+    return modelInstance && modelInstance['current-assignment'] &&
+      modelInstance['current-assignment'].id ? modelInstance['current-assignment'].id : undefined
   }
 }
 
 export function isCurrentUserAssignedToModel(entities, model, id) {
-  let model_instance = entities[model] && entities[model][id]
-  let assignment_id = currentAssignmentIdFor(model, model_instance)
+  let modelInstance = entities[model] && entities[model][id]
+  let assignmentId = currentAssignmentIdFor(model, modelInstance)
 
-  return model_instance && assignment_id && _isUserAssigned(entities, assignment_id)
+  return modelInstance && assignmentId && _isUserAssigned(entities, assignmentId)
 }
 
 export function isTeamOfCurrentUserAssignedToModel(entities, model, id) {
-  let model_instance = entities[model] && entities[model][id]
-  let assignment_id = currentAssignmentIdFor(model, model_instance)
+  let modelInstance = entities[model] && entities[model][id]
+  let assignmentId = currentAssignmentIdFor(model, modelInstance)
 
-  return model_instance && assignment_id && _isTeamAssigned(entities, assignment_id)
+  return modelInstance && assignmentId && _isTeamAssigned(entities, assignmentId)
 }

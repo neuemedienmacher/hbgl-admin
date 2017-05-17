@@ -6,7 +6,7 @@ import InlineIndex from '../../InlineIndex/containers/InlineIndex'
 export default class AssociationItems extends React.Component {
   render() {
     const {
-      model_instance, associations
+      modelInstance, associations
     } = this.props
 
     return (
@@ -14,7 +14,7 @@ export default class AssociationItems extends React.Component {
         <h5 className="section-title">Verknüpfte Modelle</h5>
         {associations.map(([name, class_name, filter, href]) =>
           this.renderAssociation(
-            name, class_name, model_instance[name], href, filter
+            name, class_name, modelInstance[name], href, filter
           )
         )}
       </div>
@@ -37,7 +37,7 @@ export default class AssociationItems extends React.Component {
       return(
         <div key={name} className="panel-body show--panel">
           <InlineIndex
-            model={class_name} baseQuery={filter} identifier_addition={name}
+            model={class_name} baseQuery={filter} identifierAddition={name}
           />
         </div>
       )

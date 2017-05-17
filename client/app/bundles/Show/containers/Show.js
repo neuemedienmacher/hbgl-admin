@@ -23,8 +23,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
   // manually
   const transformResponse = function(apiResponse, nextModel) {
-    let object = { field_sets: {} }
-    object.field_sets[nextModel] = apiResponse
+    let object = { 'field-sets': {} }
+    object['field-sets'][nextModel] = apiResponse
     return object
   }
 
@@ -39,7 +39,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field_set', transformResponse,
+          'field_set/' + singularModel, {}, 'field-set', transformResponse,
           nextModel
         )
       )

@@ -7,7 +7,7 @@ export default class ActionUpdateFormObject extends FormObject {
 
   static get properties() {
     return [
-      'receiver_id'
+      'receiver-id'
     ]
   }
 

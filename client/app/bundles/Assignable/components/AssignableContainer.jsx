@@ -14,12 +14,12 @@ export default class AssignableContainer extends Component {
   }
 
   render() {
-    const { model, heading, may_edit } = this.props
-    const panel_class = may_edit ? 'panel panel-info' : 'panel panel-warning'
+    const { model, heading, mayEdit } = this.props
+    const panelClass = mayEdit ? 'panel panel-info' : 'panel panel-warning'
 
     return (
       <div className='content Assignment'>
-        <div key={model} className={panel_class}>
+        <div key={model} className={panelClass}>
           <div key={`${model}-heading`} className="panel-heading show--panel">
             {heading}
           </div>
@@ -33,14 +33,14 @@ export default class AssignableContainer extends Component {
   }
 
   renderLoadingOrAssignment() {
-    const { assignment, involved_entities, loaded } = this.props
+    const { assignment, involvedEntities, loaded } = this.props
 
     if (loaded) {
       return(
         <div>
-          <b>von:</b> {involved_entities.creator}, Team: {involved_entities.creator_team}
+          <b>von:</b> {involvedEntities.creator}, Team: {involvedEntities.creatorTeam}
           <br />
-          <b>für:</b> {involved_entities.receiver}, Team: {involved_entities.receiver_team}
+          <b>für:</b> {involvedEntities.receiver}, Team: {involvedEntities.receiverTeam}
           <br />
           <b>Nachricht:</b> {assignment.message}
         </div>
@@ -51,7 +51,7 @@ export default class AssignableContainer extends Component {
   }
 
   renderActionsIfAssigned() {
-    const { assignment, loaded, may_edit, assignableDataLoad } = this.props
+    const { assignment, loaded, mayEdit, assignableDataLoad } = this.props
 
     if (loaded) {
       return (

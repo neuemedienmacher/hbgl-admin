@@ -7,8 +7,8 @@ import FilteringSelect from '../components/FilteringSelect'
 
 const mapStateToProps = (state, ownProps) => {
   const { attribute, submodel, submodelIndex } = ownProps
-  // remove last "_id(s)" from attribute
-  let resource = ownProps.resource || attribute.replace(/(_id|_ids)$/, '')
+  // remove last "-id(s)" from attribute
+  let resource = ownProps.resource || attribute.replace(/(-id|-ids)$/, '')
   // pluralize
   resource = pluralize(resource)
 
