@@ -51,7 +51,7 @@ function collectBlockedInputs(inputs, nestingModel) {
   if (nestingModel) {
     const singularModel = singularize(nestingModel)
     potentiallyBlockedInputs.push(
-      `${singularModel}_id`, `${singularModel}_ids`
+      `${singularModel}-id`, `${singularModel}-ids`
     )
   }
 

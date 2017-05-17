@@ -8,7 +8,7 @@ export default class ActualWaList extends React.Component {
     } = this.props
 
     const actualWaForms = outstandingTimeAllocations.reverse().map(ta =>
-      <ActualWaFormContainer time_allocation={ta} key={ta.week_number} />
+      <ActualWaFormContainer timeAllocation={ta} key={ta.week_number} />
     )
 
     return (

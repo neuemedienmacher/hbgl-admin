@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   const formSettings = state.settings.statistic_charts
   const formData = state.rform[formId] || {}
 
-  const userTeams = valuesIn(state.entities.user_teams).map((team) => ({
+  const userTeams = valuesIn(state.entities['user-teams']).map((team) => ({
     name: team.name, value: team.id
   }))
   const targetModels = formSettings.target_models.map(transformOptions)

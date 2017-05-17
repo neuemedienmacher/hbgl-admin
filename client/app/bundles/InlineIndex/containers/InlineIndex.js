@@ -8,7 +8,7 @@ import clone from 'lodash/clone'
 
 const mapStateToProps = (state, ownProps) => {
   let optional =
-    ownProps.identifier_addition ? '_' + ownProps.identifier_addition : ''
+    ownProps.identifierAddition ? '_' + ownProps.identifierAddition : ''
   const model = ownProps.model
   const identifier = 'indexResults_' + model + optional
   const uiKey = 'index_' + model + optional
@@ -40,7 +40,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   loadData(query = merge(clone(ownProps.optionalParams), ownProps.lockedParams), nextModel = ownProps.model) {
     let optional =
-      ownProps.identifier_addition ? '_' + ownProps.identifier_addition : ''
+      ownProps.identifierAddition ? '_' + ownProps.identifierAddition : ''
     dispatchProps.dispatch(
       loadAjaxData(nextModel, query, 'indexResults_' + nextModel + optional)
     )

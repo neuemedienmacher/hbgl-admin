@@ -1,42 +1,40 @@
 import { connect } from 'react-redux'
 import AssignmentActions from '../components/AssignmentActions'
 import addEntities from '../../../Backend/actions/addEntities'
-import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel,
-         isCurrentUserActiveInTranslatorTeam }
+import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
   from '../../../lib/restrictionUtils'
 import settings from '../../../lib/settings'
-import snakeCase from 'lodash/snakeCase'
+import pluralize from '../../../lib/inflection'
 import clone from 'lodash/clone'
-import filter_collection from 'lodash/filter'
+import filterCollection from 'lodash/filter'
 import valuesIn from 'lodash/valuesIn'
 import orderBy from 'lodash/orderBy'
 
 const mapStateToProps = (state, ownProps) => {
   const assignment = ownProps.assignment
-  // TODO: 'pluralization' may be wrong, but works for now (Translations)
-  let model = snakeCase(assignment.assignable_type) + 's'
-  let assignments = state.entities[model][assignment.assignable_id].assignments
-  let settings_actions = settings.index[model].assignment_actions ||
+  let model = pluralize(assignment['assignable-type'])
+  let assignments = state.entities[model][assignment['assignable-id']].assignments
+  let settingsActions = settings.index[model].assignment_actions ||
     settings.index.assignable.assignment_actions
-  let system_user =
-    filter_collection(state.entities.users, {'name': 'System'} )[0]
+  let systemUser =
+    filterCollection(state.entities.users, {'name': 'System'} )[0]
   const users = orderBy(valuesIn(state.entities.users).filter(user => (
-    user.name != 'System' && user.id != state.entities.current_user.id
+    user.name != 'System' && user.id != state.entities['current-user'].id
   )).map(user => ({
     name: user.name + ` (${involvementCount(assignments, user.id)})`,
     value: user.id, sortValue: involvementCount(assignments, user.id)
   })), ['sortValue', 'name'],  ['desc', 'asc'])
 
-  const actions = settings_actions.filter(
+  const actions = settingsActions.filter(
     action => visibleFor(action, state.entities, model,
-                         assignment.assignable_id, system_user)
+                         assignment['assignable-id'], systemUser)
   ).map(action => ({
     buttonText: buttonTextFor(action),
     href: '/api/v1/assignments/',
     formId: `Assignment${assignment.id}:${action}`,
-    seedData: seedDataFor(action, state.entities, assignment, system_user, users),
-    userChoice: action == 'assign_someone_else',
-    messageField: action != 'assign_to_system' && action != 'assign_to_current_user'
+    seedData: seedDataFor(action, state.entities, assignment, systemUser, users),
+    userChoice: action == 'assign-someone-else',
+    messageField: action != 'assign-to-system' && action != 'assign-to-current-user'
   }))
 
   return {
@@ -63,24 +61,24 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 })
 
-function visibleFor(action, entities, model, id, system_user) {
+function visibleFor(action, entities, model, id, systemUser) {
   switch(action) {
-    case 'assign_to_current_user':
+    case 'assign-to-current-user':
       return isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_someone_else':
+    case 'assign-someone-else':
       return isCurrentUserAssignedToModel(entities, model, id)
-    case 'retrieve_assignment':
+    case 'retrieve-assignment':
       return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
-    case 'assign_to_system':
+    case 'assign-to-system':
       // NOTE: only assigned users in translator-teams may directly assign the
-      // system_user (only to Translations)
-      let team_roles = entities.current_user.user_teams.map(
+      // systemUser (only to Translations)
+      let teamRoles = entities['current-user']['user-teams'].map(
         team => team.classification
       )
-      return team_roles.includes('translator') &&
-        isCurrentUserAssignedToModel(entities, model, id) && system_user &&
+      return teamRoles.includes('translator') &&
+        isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
         (model == 'offer_translations' || model == 'organization_translations')
     default:
       return false
@@ -89,40 +87,40 @@ function visibleFor(action, entities, model, id, system_user) {
 
 function buttonTextFor(action) {
   switch(action) {
-  case 'assign_someone_else':
+  case 'assign-someone-else':
     return 'Neu zuweisen'
-  case 'assign_to_current_user':
+  case 'assign-to-current-user':
     return 'Mir zuweisen'
-  case 'retrieve_assignment':
+  case 'retrieve-assignment':
     return 'Neue Zuweisung öffnen'
-  case 'assign_to_system':
+  case 'assign-to-system':
     return 'Zuweisung schließen!'
   }
 }
 
-function seedDataFor(action, entities, assignment, system_user, users) {
+function seedDataFor(action, entities, assignment, systemUser, users) {
   let assignment_copy = clone(assignment)
-  assignment_copy.created_by_system = false
+  assignment_copy['created-by-system'] = false
   switch(action) {
-  case 'assign_to_current_user':
-    assignment_copy.receiver_id = entities.current_user.id
+  case 'assign-to-current-user':
+    assignment_copy['receiver-id'] = entities['current-user'].id
     break
-  case 'assign_someone_else':
-    assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.receiver_id = users[0].value
-    assignment_copy.receiver_team_id = undefined
+  case 'assign-someone-else':
+    assignment_copy['creator-id'] = entities['current-user'].id
+    assignment_copy['receiver-id'] = users[0].value
+    assignment_copy['receiver-team-id'] = undefined
     assignment_copy.message = ''
     break
-  case 'retrieve_assignment':
-    assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.creator_team_id = undefined
-    assignment_copy.receiver_id = entities.current_user.id
+  case 'retrieve-assignment':
+    assignment_copy['creator-id'] = entities['current-user'].id
+    assignment_copy['creator-team-id'] = undefined
+    assignment_copy['receiver-id'] = entities['current-user'].id
     assignment_copy.message = ''
     break
-  case 'assign_to_system':
-    assignment_copy.creator_id = entities.current_user.id
-    assignment_copy.receiver_id = system_user.id
-    assignment_copy.receiver_team_id = undefined
+  case 'assign-to-system':
+    assignment_copy['creator-id'] = entities['current-user'].id
+    assignment_copy['receiver-id'] = systemUser.id
+    assignment_copy['receiver-team-id'] = undefined
     assignment_copy.message = 'Erledigt!'
     break
   }
@@ -131,10 +129,10 @@ function seedDataFor(action, entities, assignment, system_user, users) {
 
 function involvementCount(assignments, userID) {
   // Maybe only count one thing (creator or receiver)
-  let assignment_count = valuesIn(assignments).filter(assignment => (
-    assignment.creator_id == userID || assignment.receiver_id == userID
+  let assignmentCount = valuesIn(assignments).filter(assignment => (
+    assignment['creator-id'] == userID || assignment['receiver-id'] == userID
   )).length
-  return assignment_count
+  return assignmentCount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssignmentActions)

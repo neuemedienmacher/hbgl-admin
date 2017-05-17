@@ -25,27 +25,33 @@ export function analyzeFields(rawFields, model) {
 }
 
 export function denormalizeIndexResults(results) {
+  // console.log(results)
   return results.data.map(datum => {
     // get base attributes
     let denormalized = clone(datum.attributes)
     denormalized.id = datum.id
 
+    // console.log(datum)
     // denormalize JSON API relationship information
     forIn(datum.relationships, (relationshipData, name) => {
-      let denormalized_relationship
-      // iterate relation if it's an array and add array of attributes
-      if (isArray(relationshipData.data)) {
-        denormalized_relationship = results.included.filter(included => {
-          return relationshipData.data.filter(relation => {
-            return compareIDAndType(included, relation)
-          }).length > 0
-        }).map( foundRelation => { return foundRelation.attributes } )
-      } else { // otherwise just add the attributes of the single item
-        denormalized_relationship = results.included.filter(included => {
-          return compareIDAndType(included, relationshipData.data)
-        })[0].attributes
+      // console.log(name)
+      if (relationshipData && relationshipData.data ) {
+        // console.log(relationshipData)
+        let denormalized_relationship
+        // iterate relation if it's an array and add array of attributes
+        if (isArray(relationshipData.data)) {
+          denormalized_relationship = results.included.filter(included => {
+            return relationshipData.data.filter(relation => {
+              return compareIDAndType(included, relation)
+            }).length > 0
+          }).map( foundRelation => { return foundRelation.attributes } )
+        } else { // otherwise just add the attributes of the single item
+          denormalized_relationship = results.included.filter(included => {
+            return compareIDAndType(included, relationshipData.data)
+          })[0].attributes
+        }
+        denormalized[name] = denormalized_relationship
       }
-      denormalized[name] = denormalized_relationship
     })
     return denormalized
   })

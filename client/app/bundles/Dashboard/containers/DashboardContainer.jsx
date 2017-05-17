@@ -9,9 +9,9 @@ import Dashboard from '../components/Dashboard'
 
 const mapStateToProps = (state, ownProps) => {
   // read current_user from users with current_user.id (current_user not updated)
-  const user = state.entities.users[state.entities.current_user.id]
+  const user = state.entities.users[state.entities['current-user'].id]
   const outstandingTimeAllocations = getOutstandingTimeAllocations(
-    valuesIn(state.entities.time_allocations), state.entities.current_user
+    valuesIn(state.entities['time-allocations']), user
   )
 
   return {
@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
 
-function getOutstandingTimeAllocations(time_allocations, current_user) {
+function getOutstandingTimeAllocations(timeAllocations, user) {
   let outstandingTimeAllocations = []
 
   // Displaying outstanding allocations for the last 5 weeks
@@ -33,21 +33,21 @@ function getOutstandingTimeAllocations(time_allocations, current_user) {
     getTimePointsBetween(firstPotentialWeek, lastPotentialWeek, 'week')
 
   for (let week of weeks) {
-    let week_number = week.week()
+    let weekNumber = week.week()
     let [_isFromThatWeek, isHistorical, weeksTimeAllocation] =
       getAllocationForWeekAndUser(
-        time_allocations, week_number, week.year(), current_user.id
+        timeAllocations, weekNumber, week.year(), user.id
       )
 
     if (isHistorical) {
       weeksTimeAllocation = merge(clone(weeksTimeAllocation), {
-        week_number,
+        weekNumber,
         id: null
       })
     }
 
-    if (!weeksTimeAllocation.actual_wa_hours &&
-        weeksTimeAllocation.desired_wa_hours > 0) {
+    if (!weeksTimeAllocation['actual-wa-hours'] &&
+        weeksTimeAllocation['desired-wa-hours'] > 0) {
       outstandingTimeAllocations.push(weeksTimeAllocation)
     }
   }

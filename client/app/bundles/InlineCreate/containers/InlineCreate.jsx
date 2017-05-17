@@ -5,9 +5,9 @@ import loadForFilteringSelect from '../actions/loadForFilteringSelect'
 import InlineCreate from '../components/InlineCreate'
 
 const mapStateToProps = (state, ownProps) => {
-  // remove last "_id" from attribute
+  // remove last "-id" from attribute
   let associatedModel = ownProps.associatedModel ||
-    ownProps.attribute.replace(/_id([^_id]*)$/, '$1')
+    ownProps.attribute.replace(/-id([^-id]*)$/, '$1')
   // pluralize
   if (associatedModel[associatedModel.length - 1] != 's') associatedModel += 's'
 

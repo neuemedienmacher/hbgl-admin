@@ -11,9 +11,9 @@ class ReactCell < Cell::ViewModel
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def props
     {
-      user_teams: UserTeam.all.map { |team| UserTeam::Representer.new(team) },
+      'user-teams': UserTeam.all.map { |team| UserTeam::Representer.new(team) },
       users: User.all.map { |user| User::Representer.new(user) },
-      current_user: User::Representer.new(options[:current_user]),
+      'current-user': User::Representer.new(options[:current_user]),
 
       filters: Filter.all.map(&:attributes),
 
