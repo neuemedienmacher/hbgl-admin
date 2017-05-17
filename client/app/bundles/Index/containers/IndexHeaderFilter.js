@@ -16,9 +16,9 @@ const mapStateToProps = (state, ownProps) => {
     ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
   const filterType = setFilterType(filterName)
   const filterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][0]
-  console.log('first value: ' + filterValue)
+  console.log('first value: ' + filterValue + Array.isArray(ownProps.filter[1]))
   const secondFilterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][1]
-  console.log('second value: ' + secondFilterValue)
+  console.log('second value: ' + secondFilterValue + Array.isArray(ownProps.filter[1]))
   const nilChecked = ownProps.filter[1] == 'nil'
   // only show filters that are not locked (currently InlineIndex only)
   const fields =
@@ -109,12 +109,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onFilterValueChange(event) {
     let params = clone(ownProps.params)
     params[ownProps.filter[0]] = [event.target.value]
-
-    console.log(params[ownProps.filter[0]] + ' ' + ownProps.uiKey)
+    console.log(params[ownProps.filter[0]])
     if(ownProps.uiKey){
+      console.log('dispatch ' + dispatch(setUiAction(ownProps.uiKey, params)))
       dispatch(setUiAction(ownProps.uiKey, params))
     }
     else{
+      console.log('NO dispatch ' + browserHistory.replace(`/${ownProps.model}?${encode(params)}`))
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
     }
   },
@@ -126,8 +127,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       alert('Bitte gib einen Anfangswert ein');
       params[ownProps.filter[0]] = params[ownProps.filter[0]].filter(Boolean);
     };
-
-    console.log(params[ownProps.filter[0]] + ' ' + ownProps.uiKey)
+    console.log(params[ownProps.filter[0]])
     if(ownProps.uiKey){
       dispatch(setUiAction(ownProps.uiKey, params))
     }

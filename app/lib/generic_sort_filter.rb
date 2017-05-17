@@ -58,17 +58,8 @@ module GenericSortFilter
       singular_or_multiple_values = value.is_a?(Array) ? value : [value]
       # Once this works: build_range_filter_query
       # build query strings to every array entry (only one for simple filters)
-      if singular_or_multiple_values.count > 1 && params[:operators].has_value?('...') #range query
-      #if there is only one value for a range, change operator to '='
+      if !params[:operators].nil? && params[:operators].has_value?('...') && singular_or_multiple_values.count > 1
         query = build_range_filter_query(query, params, filter, value)
-      elsif params[:operators].nil?
-        params[:operators] = '='
-        filter_strings = [build_singular_filter_query(query, params, filter, singular_or_multiple_values.first)]
-        query = query.where(filter_strings.join(join_operator(params, filter)))
-      elsif singular_or_multiple_values.count < 2 && params[:operators].has_value?('...')
-        params[:operators].merge!("#{filter}": '=')
-        filter_strings = [build_singular_filter_query(query, params, filter, singular_or_multiple_values.first)]
-        query = query.where(filter_strings.join(join_operator(params, filter)))
       else
         filter_strings = singular_or_multiple_values.map do |singular_value|
           build_singular_filter_query(query, params, filter, singular_value)
