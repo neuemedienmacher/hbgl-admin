@@ -79,7 +79,7 @@ function visibleFor(action, entities, model, id, systemUser) {
       )
       return teamRoles.includes('translator') &&
         isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
-        (model == 'offer_translations' || model == 'organization_translations')
+        (model == 'offer-translations' || model == 'organization-translations')
     default:
       return false
   }

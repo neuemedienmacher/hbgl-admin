@@ -20,12 +20,12 @@ const superuser = ['super']
 const routes = [
   {
     id: 1,
-    pathname: '/offer_translations',
+    pathname: '/offer-translations',
     anchor: 'Offer Translations',
     access: all,
   }, {
     id: 2,
-    pathname: '/organization_translations',
+    pathname: '/organization-translations',
     anchor: 'Orga Translations',
     access: all,
   }, {
@@ -50,7 +50,7 @@ const routes = [
     access: all,
   }, {
     id: 7,
-    pathname: '/user_teams',
+    pathname: '/user-teams',
     anchor: 'Teams',
     access: superuser,
   }, {
@@ -66,12 +66,12 @@ const routes = [
   }/*,
   {
     id: 10,
-    pathname: '/statistic_charts',
+    pathname: '/statistic-charts',
     anchor: 'Produktivitätsziele',
     access: superuser,
   }, {
     id: 11,
-    pathname: '/time_allocations',
+    pathname: '/time-allocations',
     anchor: 'Ressourcenplanung',
     access: superuser,
   }

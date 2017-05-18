@@ -36,13 +36,13 @@ function headingFor(model) {
     return 'Abteilungen'
   case 'offers':
     return 'Angebote'
-  case 'offer_translations':
+  case 'offer-translations':
     return 'Angebotsübersetzungen'
-  case 'organization_translations':
+  case 'organization-translations':
     return 'Orga-Übersetzungen'
-  case 'statistic_charts':
+  case 'statistic-charts':
     return 'Produktivitätsziele'
-  case 'user_teams':
+  case 'user-teams':
     return 'Nutzer-Teams'
   case 'users':
     return 'Nutzer'

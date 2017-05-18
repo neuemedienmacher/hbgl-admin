@@ -14,7 +14,8 @@ module API::V1
           end
         end
 
-        has_many :children, class: Category, extend: Show, if: (lambda do |opts|
+        has_many :children,
+                 class: Category, decorator: Show, if: (lambda do |opts|
           opts[:represented].children.any?
         end)
       end

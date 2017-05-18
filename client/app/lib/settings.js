@@ -1,13 +1,13 @@
 export default {
   index: {
     assignable: {
-      assignment_actions: [
+      'assignment-actions': [
         'assign-someone-else', 'retrieve-assignment', 'assign-to-system',
         'assign-to-current-user'
       ]
     },
 
-    offer_translations: {
+    'offer-translations': {
       fields: [
         'id', 'offer-id', 'locale', 'source', 'name',
         'possibly-outdated', {offer: ['approved-at', 'created-by']}
@@ -20,7 +20,7 @@ export default {
       ]
     },
 
-    organization_translations: {
+    'organization-translations': {
       fields: [
         'id', 'organization_id', 'locale', 'source', 'description',
         'possibly-outdated', {organization: ['approved-at']}
@@ -33,7 +33,7 @@ export default {
       ]
     },
 
-    statistic_charts: {
+    'statistic-charts': {
       fields: [
         'id', 'title', 'ends-at', 'target-model', 'target-field-name'
       ],
@@ -94,7 +94,7 @@ export default {
       ]
     },
 
-    user_teams: {
+    'user-teams': {
       fields: [
         'id', 'name', 'classification', { users: ['name'] }
       ],
