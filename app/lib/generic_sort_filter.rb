@@ -121,7 +121,7 @@ module GenericSortFilter
 
   # retrives the given operator or falls back to '='. Special case for 'nil'
   def self.process_operator(operators, filter, value)
-    operator = operators && operators[filter] != '...' ? operators[filter] : '='
+    operator = operators && operators[filter] && operators[filter] != '...' ? operators[filter] : '='
     if nullable_value?(value)
       operator = operator == '=' ? 'IS' : 'IS NOT'
     end
