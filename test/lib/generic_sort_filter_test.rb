@@ -6,6 +6,20 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   let(:query) { Offer.where('1 = 1') }
   let(:invalid_query) { OpenStruct.new }
 
+  describe '#snake_case_contents' do
+    it 'should transform kebab-case contents to snake_case' do
+      params = {
+        sort_field: 'foo-bar', sort_model: 'split-base', sort_direction: 'ASC',
+        filters: { 'split-base.foo-bar' => 'dont-touch' }
+      }
+      result = subject.send(:snake_case_contents, params)
+      result.must_equal(
+        sort_field: 'foo_bar', sort_model: 'split_base', sort_direction: 'ASC',
+        filters: { 'split_base.foo_bar' => 'dont-touch' }
+      )
+    end
+  end
+
   describe '#transform_by_searching' do
     it 'does nothing without a param' do
       invalid_query.expects(:search_everything).never

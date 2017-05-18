@@ -2,14 +2,30 @@
 # rubocop:disable Metrics/ModuleLength
 module GenericSortFilter
   def self.transform(base_query, params)
+    adjusted_params = snake_case_contents(params)
     query = ensure_query(base_query)
-    query = transform_by_searching(query, params[:query])
-    query = transform_by_joining(query, params)
-    query = transform_by_ordering(query, params)
-    transform_by_filtering(query, params)
+    query = transform_by_searching(query, adjusted_params[:query])
+    query = transform_by_joining(query, adjusted_params)
+    query = transform_by_ordering(query, adjusted_params)
+    transform_by_filtering(query, adjusted_params)
   end
 
   private_class_method
+
+  UNDERSCORABLE_PARAMS = [:sort_field, :sort_model, :filters].freeze
+  def self.snake_case_contents(original_params)
+    original_params.map do |key, value|
+      if UNDERSCORABLE_PARAMS.include?(key)
+        if value.is_a?(Hash)
+          [key, value.map { |k, v| [k.underscore, v] }.to_h]
+        else
+          [key, value.underscore]
+        end
+      else
+        [key, value]
+      end
+    end.to_h
+  end
 
   # In case only a model was passed in, to unify object handling, turn it into
   # a query
