@@ -5,5 +5,10 @@ module API::V1
       extend Trailblazer::Operation::Representer::DSL
       representer API::V1::Organization::Representer::Show
     end
+
+    class Update < ::Organization::Update
+      extend Trailblazer::Operation::Representer::DSL
+      representer API::V1::Organization::Representer::Show
+    end
   end
 end

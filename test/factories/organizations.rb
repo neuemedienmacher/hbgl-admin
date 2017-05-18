@@ -59,6 +59,12 @@ FactoryGirl.define do
     trait :mailings_disabled do
       mailings 'force_disabled'
     end
+
+    trait :with_translation do
+      after :create do |orga, _evaluator|
+        orga.generate_translations!
+      end
+    end
   end
 end
 

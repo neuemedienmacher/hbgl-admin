@@ -3,15 +3,15 @@ module Organization::Contracts
   class Create < Reform::Form
     property :name
     property :priority
-    property :website_id
-    property :location_ids
-    property :contact_person_ids
+    property :website
+    property :locations
+    property :contact_people
     property :comment
-    property :division_ids
+    property :divisions
 
     validates :name, length: { maximum: 100 }, presence: true
     validates_uniqueness_of :name
-    validates :website_id, presence: true
+    validates :website, presence: true
     # validates :location_ids, presence: true
     # validates :contact_person_ids, presence: true
 
@@ -28,10 +28,12 @@ module Organization::Contracts
   end
 
   class Update < Create
+    property :id, writeable: false
     property :description
     property :legal_form
     property :charitable
     property :umbrella_filter_ids
+    property :mailings
   end
 
   # validates :slug, uniqueness: true
@@ -43,7 +45,7 @@ module Organization::Contracts
 
     validate :one_hq_location?
     def one_hq_location?
-      if Location.where(id: location_ids, hq: true).count != 1
+      if locations.where(hq: true).count != 1
         errors.add(:base, I18n.t('organization.validations.hq_location'))
       end
     end

@@ -28,7 +28,7 @@ module API::V1
           end
         end
 
-        has_one :section do
+        has_one :section, class: ::Section, populator: Lib::Populators::Find do
           type :sections
 
           attributes do
@@ -36,7 +36,7 @@ module API::V1
           end
         end
 
-        has_many :presumed_categories do
+        has_many :presumed_categories, class: ::Category do
           type :categories
 
           attributes do
@@ -44,7 +44,7 @@ module API::V1
           end
         end
 
-        has_many :presumed_solution_categories do
+        has_many :presumed_solution_categories, class: ::Category do
           type :solution_categories
 
           attributes do

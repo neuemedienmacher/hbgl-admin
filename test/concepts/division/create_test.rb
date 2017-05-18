@@ -13,8 +13,8 @@ class DivisionCreateTest < ActiveSupport::TestCase
     {
       name: 'DivisionName',
       description: 'DivisionDescription',
-      organization_id: orga.id,
-      section_id: orga.sections.first.id
+      organization: orga,
+      section: orga.sections.first
     }
   end
 
@@ -29,13 +29,13 @@ class DivisionCreateTest < ActiveSupport::TestCase
         operation_wont_work ::Division::Create, basic_params
       end
 
-      it 'must validate organization_id' do
-        basic_params[:organization_id] = nil
+      it 'must validate organization' do
+        basic_params[:organization] = nil
         operation_wont_work ::Division::Create, basic_params
       end
 
-      it 'must validate section_id' do
-        basic_params[:section_id] = nil
+      it 'must validate section' do
+        basic_params[:section] = nil
         operation_wont_work ::Division::Create, basic_params
       end
     end

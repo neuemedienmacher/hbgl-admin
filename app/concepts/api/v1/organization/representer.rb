@@ -11,6 +11,7 @@ module API::V1
           end
 
           property :name
+          property :description
           property :priority
           property :comment
           property :offers_count
@@ -23,10 +24,11 @@ module API::V1
           property :division_ids
         end
 
-        has_one :website, extend: API::V1::Website::Representer::Show
+        has_one :website, extend: API::V1::Website::Representer::Show,
+                          class: ::Website
 
         has_many :divisions, extend: API::V1::Division::Representer::Show,
-                             class: Division
+                             class: ::Division
       end
     end
   end
