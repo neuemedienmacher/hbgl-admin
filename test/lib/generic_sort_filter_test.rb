@@ -149,6 +149,24 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       query.expects(:where).with("created_at = '2014-09-15 11:02:00 UTC'")
       subject.send(:transform_by_filtering, query, params)
     end
+
+    it 'filters for a range when range operator is given' do
+      params = { filters: { 'foo' => %w(5 1) }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo BETWEEN '1' and '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for a single value when no second value is given for range' do
+      params = { filters: { 'foo' => '5' }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo = '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for a single value when empty second value is given for range' do
+      params = { filters: { 'foo' => ['5', ''] }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo = '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

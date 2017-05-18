@@ -6,7 +6,6 @@ module GenericSortFilter
     query = transform_by_searching(query, params[:query])
     query = transform_by_joining(query, params)
     query = transform_by_ordering(query, params)
-    puts params.inspect
     transform_by_filtering(query, params)
   end
 
@@ -56,12 +55,11 @@ module GenericSortFilter
 
       # convert value to array for streamlined processing
       singular_or_multiple_values = value.is_a?(Array) ? value : [value]
-      # Once this works: build_range_filter_query
       # build query strings to every array entry (only one for simple filters)
-      if !params[:operators].nil? && params[:operators].has_value?('...') && singular_or_multiple_values.reject(&:blank?).count > 1
+      if !params[:operators].nil? && params[:operators].value?('...') && singular_or_multiple_values.reject(&:blank?).count > 1
         query = build_range_filter_query(query, params, filter, value)
       else
-        filter_strings = singular_or_multiple_values.map do |singular_value|
+        filter_strings = singular_or_multiple_values.reject(&:blank?).map do |singular_value|
           build_singular_filter_query(query, params, filter, singular_value)
         end
         query = query.where(filter_strings.join(join_operator(params, filter)))
@@ -80,7 +78,7 @@ module GenericSortFilter
   end
 
   def self.build_range_filter_query(query, params, filter, value)
-    range = params["filters"][filter].sort
+    range = value.sort
     filter_key = joined_or_own_table_name_for(query, filter, params)
     filter_string = filter_key.to_s
     query.where("#{filter_string} BETWEEN '#{range[0]}' and '#{range[1]}'")
@@ -123,7 +121,7 @@ module GenericSortFilter
 
   # retrives the given operator or falls back to '='. Special case for 'nil'
   def self.process_operator(operators, filter, value)
-    operator = (operators && operators[filter] != '...') ? operators[filter] : '='
+    operator = operators && operators[filter] != '...' ? operators[filter] : '='
     if nullable_value?(value)
       operator = operator == '=' ? 'IS' : 'IS NOT'
     end
