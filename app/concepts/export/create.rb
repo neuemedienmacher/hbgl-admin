@@ -10,7 +10,10 @@ class Export::Create < Trailblazer::Operation
   def instantiate_model(options, params:, **)
     object = params[:object_name].classify.constantize
     options['model'] =
-      Export.new(object, GenericSortFilter.transform(object, params[:export]))
+      Export.new(
+        object,
+        GenericSortFilter.transform(object, params.except(:controller))
+      )
   end
 
   def validate_and_sanitize_params(options, params:, model:, **)
