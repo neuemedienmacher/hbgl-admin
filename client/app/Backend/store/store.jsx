@@ -3,17 +3,16 @@ import merge from 'lodash/merge'
 import thunkMiddleware from 'redux-thunk'
 import errorHandlerMiddleware from './errorHandlerMiddleware'
 import loggerMiddleware from 'lib/middlewares/loggerMiddleware'
-import normalize from './normalize'
 import combinedReducers, { initialStates } from '../reducers'
 import addEntities from '../actions/addEntities'
 import addSettings from '../actions/addSettings'
+import transformJsonApi from '../transformers/json_api'
 
 function initialDispatches(dispatch, props) {
   dispatch(addEntities(merge(
-    normalize('user-teams', props['user-teams']).entities,
-    normalize('users', props.users).entities,
-    normalize('filters', props.filters).entities,
-    { 'current-user': props['current-user'] }
+    transformJsonApi(props['user-teams']),
+    transformJsonApi(props.users),
+    { 'current-user-id': props['current-user-id'] }
   )))
   dispatch(addSettings(merge(
     { authToken: props.authToken },

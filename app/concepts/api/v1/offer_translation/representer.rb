@@ -21,7 +21,7 @@ module API::V1
           property :offer_id
         end
 
-        has_one :offer do
+        has_one :offer, class: ::Offer do
           type :offers
 
           attributes do

@@ -1,25 +1,31 @@
 import { connect } from 'react-redux'
 import flatten from 'lodash/flatten'
+import filter from 'lodash/filter'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import StatisticsContainer from '../components/StatisticsContainer'
 
 const mapStateToProps = (state, ownProps) => {
-  let currentUser = state.entities['current-user']
+  let currentUser = state.entities.users[state.entities['current-user-id']]
   let affectedUserIds = [currentUser.id] // add own id
   // add ids of all users of own teams
   affectedUserIds = affectedUserIds.concat(flatten(
-    currentUser['user-teams'].map(team => { return flatten(team['user-ids']) })
+    filter(
+      state.entities['user-teams'],
+      team => { return currentUser['user-team-ids'].includes(team.id) }
+    ).map(team => { return flatten(team['user-ids']) })
   ))
   // add ids of all users in children-teams of led_teams (lead-only)
-  affectedUserIds = affectedUserIds.concat(
-    flatten(currentUser['led-teams'].map(team => {
-      return recursiveUserIdsOfTeam(team)
-    }))
-  )
+  affectedUserIds = affectedUserIds.concat(flatten(
+    filter(
+      state.entities['user-teams'],
+      function(team) { return team['lead-id'] == currentUser.id }
+    ).map(team => {
+      return recursiveUserIdsOfTeam(team, state.entities)
+    })
+  ))
   affectedUserIds = compact(uniq(affectedUserIds))
-
   const dataLoaded = state.ajax.overallStatisticChartData &&
                      state.ajax.isLoading.overallStatisticChartData === false &&
                      state.entities['statistic-charts'] &&
@@ -31,12 +37,16 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-function recursiveUserIdsOfTeam(team) {
+function recursiveUserIdsOfTeam(team, entities) {
   let ids = team['user-ids'] || []
+  let children = filter(
+    entities['user-teams'],
+    otherTeam => { return otherTeam['parent-id'] == team.id }
+  )
   ids = ids.concat(
-    team.children && team.children.length != 0 ? team.children.map(s_team => {
-        return recursiveUserIdsOfTeam(s_team)
-      }) : []
+    children.length != 0 ? children.map(subTeam => {
+      return recursiveUserIdsOfTeam(subTeam, entities)
+    }) : []
   )
   return flatten(ids)
 }

@@ -6,24 +6,24 @@ import AssignmentsContainer from '../components/AssignmentsContainer'
 const mapStateToProps = (state, ownProps) => {
   const scope = ownProps.scope
   const model = 'assignments'
-  const user = state.entities.users[state.entities.current_user.id]
-  let system_user =
+  const user = state.entities.users[state.entities['current-user-id']]
+  let systemUser =
     filter(state.entities.users, {'name': 'System'} )[0]
 
   let itemId = user.id
   let selectableData = []
   if (scope == 'receiverTeam'){
-    selectableData = valuesIn(state.entities.user_teams).filter(
-      team => user.user_team_ids.includes(team.id)
+    selectableData = valuesIn(state.entities['user-teams']).filter(
+      team => user['user-team-ids'].includes(team.id)
     ).map(team => [team.id, team.name])
     let selectIdentifier = 'controlled-select-view-team-assignments'
     itemId = state.ui[selectIdentifier] !== undefined ?
              state.ui[selectIdentifier] :
              selectableData[0][0]
   }
-  const lockedParams = lockedParamsFor(scope, itemId, system_user.id)
+  const lockedParams = lockedParamsFor(scope, itemId, systemUser.id)
   const optionalParams =
-    { 'sort_field': 'created_at', 'sort_direction': 'DESC' }
+    { 'sort_field': 'created-at', 'sort_direction': 'DESC' }
   const heading = headingFor(scope)
 
   return {
@@ -61,7 +61,7 @@ function lockedParamsFor(scope, id, systemId) {
     }
   case 'creatorOpen':
     return {
-      'filters[creator_id]': id, 'filters[aasm-state]': 'open', 'per_page': 10,
+      'filters[creator-id]': id, 'filters[aasm-state]': 'open', 'per_page': 10,
       'filters[receiver-id]': systemId, 'operators[receiver-id]': '!=',
       'filters[created-by-system]': 'false'
     }

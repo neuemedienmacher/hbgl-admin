@@ -4,22 +4,28 @@ import addEntities from '../../../Backend/actions/addEntities'
 import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
   from '../../../lib/restrictionUtils'
 import settings from '../../../lib/settings'
-import pluralize from '../../../lib/inflection'
+import { pluralize } from '../../../lib/inflection'
 import clone from 'lodash/clone'
-import filterCollection from 'lodash/filter'
+import filter from 'lodash/filter'
+import kebabCase from 'lodash/kebabCase'
 import valuesIn from 'lodash/valuesIn'
 import orderBy from 'lodash/orderBy'
 
 const mapStateToProps = (state, ownProps) => {
   const assignment = ownProps.assignment
-  let model = pluralize(assignment['assignable-type'])
-  let assignments = state.entities[model][assignment['assignable-id']].assignments
-  let settingsActions = settings.index[model].assignment_actions ||
-    settings.index.assignable.assignment_actions
-  let systemUser =
-    filterCollection(state.entities.users, {'name': 'System'} )[0]
+  let model = pluralize(kebabCase(assignment['assignable-type']))
+  let assignments = filter(
+    state.entities.assignments,
+    a => {
+      return a['assignable-type'] == assignment['assignable-type'] &&
+             a['assignable-id'] == assignment['assignable-id']
+    }
+  )
+  let settingsActions = settings.index[model]['assignment-actions'] ||
+    settings.index.assignable['assignment-actions']
+  let systemUser = filter(state.entities.users, {'name': 'System'} )[0]
   const users = orderBy(valuesIn(state.entities.users).filter(user => (
-    user.name != 'System' && user.id != state.entities['current-user'].id
+    user.name != 'System' && user.id != state.entities['current-user-id']
   )).map(user => ({
     name: user.name + ` (${involvementCount(assignments, user.id)})`,
     value: user.id, sortValue: involvementCount(assignments, user.id)
@@ -74,9 +80,11 @@ function visibleFor(action, entities, model, id, systemUser) {
     case 'assign-to-system':
       // NOTE: only assigned users in translator-teams may directly assign the
       // systemUser (only to Translations)
-      let teamRoles = entities['current-user']['user-teams'].map(
-        team => team.classification
-      )
+      let currentUser = entities.users[entities['current-user-id']]
+      let teamRoles = filter(
+        entities['user-teams'],
+        team => { return currentUser['user-team-ids'].includes(team.id) }
+      ).map( team => team.classification )
       return teamRoles.includes('translator') &&
         isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
         (model == 'offer-translations' || model == 'organization-translations')
@@ -103,22 +111,22 @@ function seedDataFor(action, entities, assignment, systemUser, users) {
   assignment_copy['created-by-system'] = false
   switch(action) {
   case 'assign-to-current-user':
-    assignment_copy['receiver-id'] = entities['current-user'].id
+    assignment_copy['receiver-id'] = entities['current-user-id']
     break
   case 'assign-someone-else':
-    assignment_copy['creator-id'] = entities['current-user'].id
+    assignment_copy['creator-id'] = entities['current-user-id']
     assignment_copy['receiver-id'] = users[0].value
     assignment_copy['receiver-team-id'] = undefined
     assignment_copy.message = ''
     break
   case 'retrieve-assignment':
-    assignment_copy['creator-id'] = entities['current-user'].id
+    assignment_copy['creator-id'] = entities['current-user-id']
     assignment_copy['creator-team-id'] = undefined
-    assignment_copy['receiver-id'] = entities['current-user'].id
+    assignment_copy['receiver-id'] = entities['current-user-id']
     assignment_copy.message = ''
     break
   case 'assign-to-system':
-    assignment_copy['creator-id'] = entities['current-user'].id
+    assignment_copy['creator-id'] = entities['current-user-id']
     assignment_copy['receiver-id'] = systemUser.id
     assignment_copy['receiver-team-id'] = undefined
     assignment_copy.message = 'Erledigt!'

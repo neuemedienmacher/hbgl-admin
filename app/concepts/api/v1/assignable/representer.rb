@@ -5,7 +5,14 @@ module API::V1
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :assignables
 
-        has_many :assignments do
+        attributes do
+          # method (uses scopes) to get current_assignment
+          property :current_assignment_id, getter: ->(item) do
+            ::Assignable::Twin.new(item[:represented]).current_assignment.id
+          end
+        end
+
+        has_many :assignments, class: ::Assignment do
           type :assignments
 
           attributes do
@@ -24,13 +31,6 @@ module API::V1
             property :updated_at
             property :topic
             property :created_by_system
-          end
-        end
-
-        attributes do
-          # method (uses scopes) to get current_assignment
-          property :current_assignment_id, getter: ->(item) do
-            ::Assignable::Twin.new(item[:represented]).current_assignment.id
           end
         end
       end

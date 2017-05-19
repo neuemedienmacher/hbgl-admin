@@ -9,7 +9,7 @@ import Dashboard from '../components/Dashboard'
 
 const mapStateToProps = (state, ownProps) => {
   // read current_user from users with current_user.id (current_user not updated)
-  const user = state.entities.users[state.entities['current-user'].id]
+  const user = state.entities.users[state.entities['current-user-id']]
   const outstandingTimeAllocations = getOutstandingTimeAllocations(
     valuesIn(state.entities['time-allocations']), user
   )
@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 function getOutstandingTimeAllocations(timeAllocations, user) {
   let outstandingTimeAllocations = []
+  return outstandingTimeAllocations // NOTE: this should not be rendered
 
   // Displaying outstanding allocations for the last 5 weeks
   const firstPotentialWeek = moment().subtract(5, 'weeks')

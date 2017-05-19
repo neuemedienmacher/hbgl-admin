@@ -15,7 +15,7 @@ module API::V1
           property :user_team_ids
         end
 
-        has_many :user_teams do
+        has_many :user_teams, class: ::UserTeam do
           type :user_teams
 
           attributes do
@@ -26,7 +26,7 @@ module API::V1
           end
         end
 
-        has_many :led_teams do
+        has_many :led_teams, class: ::UserTeam do
           type :user_teams
 
           attributes do

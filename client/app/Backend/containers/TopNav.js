@@ -4,7 +4,9 @@ import TopNav from '../components/TopNav'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    routes: routesForRole(state.entities['current-user'].role),
+    routes: routesForRole(
+      state.entities.users[state.entities['current-user-id']].role
+    ),
     activeKey: state.ui.activeKey,
   }
 }

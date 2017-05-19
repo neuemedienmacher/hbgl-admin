@@ -8,6 +8,7 @@ module API::V1
         attributes do
           property :name
           property :classification
+          property :lead_id
           property :parent_id
           property :user_ids
         end
@@ -20,7 +21,7 @@ module API::V1
           end
         end
 
-        has_many :children do
+        has_many :children, class: ::UserTeam do
           type :user_teams
 
           attributes do

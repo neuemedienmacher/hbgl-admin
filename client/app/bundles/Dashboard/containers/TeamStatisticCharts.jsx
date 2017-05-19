@@ -1,33 +1,40 @@
 import { connect } from 'react-redux'
 import valuesIn from 'lodash/valuesIn'
 import flatten from 'lodash/flatten'
+import filter from 'lodash/filter'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import PersonalOrTeamStatisticCharts from '../components/PersonalOrTeamStatisticCharts'
 
 const mapStateToProps = (state, ownProps) => {
-  let user = state.entities['current-user']
+  let user = state.entities.users[state.entities['current-user-id']]
+  let userTeams = filter(
+    state.entities['user-teams'],
+    team => { return user['user-team-ids'].includes(team.id) }
+  )
   const chartType = 'UserTeam'
   const chartNames = ['completion', 'approval']
   let selectIdentifier = 'controlled-select-view-' + chartType + 'Statistics'
-  const trackableId = state.ui[selectIdentifier] || user['user-teams'][0].id
+  const trackableId = state.ui[selectIdentifier] || userTeams[0].id
   const dataKey = 'teamStatistics#' + trackableId
   const statisticCharts = buildAggregatedStatisticCharts(
     state.entities, state.entities['user-teams'][trackableId], chartNames
   )
-  let selectableData = !user['user-teams'] ? [] : (
-    user['user-teams'].map(team => {
-      return [team.id, team.name]
-    })
-  )
-  selectableData = selectableData.concat(
-    !user['led-teams'] ? [] : (
-      flatten(user['led-teams'].map(ledTeam => {
-        return !ledTeam.children ? [] : ledTeam.children.map(childTeam =>{
-          return [childTeam.id, `${childTeam.name} (SubTeam von: ${ledTeam.name})`]
-        })
+  let selectableData = userTeams.map(team => {
+    return [team.id, team.name]
+  })
+  selectableData = selectableData.concat(flatten(
+    filter(
+      state.entities['user-teams'], team => { return team['lead-id'] == user.id }
+    ).map(ledTeam => {
+      let children = filter(
+        entities['user-teams'],
+        otherTeam => { return otherTeam['parent-id'] == ledTeam.id }
+      )
+      return children.map(childTeam => {
+        return [childTeam.id, `${childTeam.name} (SubTeam von: ${ledTeam.name})`]
       })
-    ))
-  )
+    })
+  ))
 
   const dataLoaded = state.ajax.isLoading[dataKey] === false &&
                      state.ajax[dataKey]
@@ -47,9 +54,9 @@ const mapStateToProps = (state, ownProps) => {
 function buildAggregatedStatisticCharts(entities, currentTeam, chartNames) {
   let aggregatedStatisticCharts = []
   for (var i = 0; i < chartNames.length; i++) {
-    let affectedUserIds = recursiveUserIdsOfTeam(currentTeam)
+    let affectedUserIds = recursiveUserIdsOfTeam(currentTeam, entities)
     let chartName = chartNames[i]
-    let chartsOfAffectedUsers = valuesIn(entities['statistic_charts']).filter(
+    let chartsOfAffectedUsers = valuesIn(entities['statistic-charts']).filter(
       chart => chart.title == chartName && affectedUserIds.includes(chart['user-id'])
     )
     if (!chartsOfAffectedUsers.length) continue;
@@ -73,12 +80,16 @@ function buildAggregatedStatisticCharts(entities, currentTeam, chartNames) {
   return aggregatedStatisticCharts
 }
 
-function recursiveUserIdsOfTeam(team) {
+function recursiveUserIdsOfTeam(team, entities) {
   let ids = team['user-ids'] || []
+  let children = filter(
+    entities['user-teams'],
+    otherTeam => { return otherTeam['parent-id'] == team.id }
+  )
   ids = ids.concat(
-    team.children && team.children.length != 0 ? team.children.map(s_team => {
-        return recursiveUserIdsOfTeam(s_team)
-      }) : []
+    children.length != 0 ? children.map(subTeam => {
+      return recursiveUserIdsOfTeam(subTeam, entities)
+    }) : []
   )
   return flatten(ids)
 }
@@ -94,7 +105,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   loadData(newProps = stateProps) {
     let lowestStartDate = newProps.statisticCharts.map(chart => {
-      return chart['starts_at']
+      return chart['starts-at']
     }).sort((a, b) => +(a > b) || +(a === b) - 1)[0]
     let page = newProps.dataLoaded != undefined && newProps.dataLoaded.meta ?
       newProps.dataLoaded.meta.current_page + 1 : 1

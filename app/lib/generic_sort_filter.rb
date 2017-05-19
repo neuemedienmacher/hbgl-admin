@@ -12,17 +12,17 @@ module GenericSortFilter
 
   private_class_method
 
-  UNDERSCORABLE_PARAMS = [:sort_field, :sort_model, :filters].freeze
+  UNDERSCORABLE_PARAMS = [:sort_field, :sort_model, :filters, :operators].freeze
   def self.snake_case_contents(original_params)
     original_params.map do |key, value|
-      if UNDERSCORABLE_PARAMS.include?(key)
+      if UNDERSCORABLE_PARAMS.include?(key.to_sym)
         if value.is_a?(Hash)
-          [key, value.map { |k, v| [k.underscore, v] }.to_h]
+          [key.to_sym, value.map { |k, v| [k.underscore, v] }.to_h]
         else
-          [key, value.underscore]
+          [key.to_sym, value.underscore]
         end
       else
-        [key, value]
+        [key.to_sym, value]
       end
     end.to_h
   end
@@ -75,7 +75,6 @@ module GenericSortFilter
       filter_strings = singular_or_multiple_values.map do |singular_value|
         build_singular_filter_query(query, params, filter, singular_value)
       end
-
       query = query.where(filter_strings.join(join_operator(params, filter)))
     end
     query

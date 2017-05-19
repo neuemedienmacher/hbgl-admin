@@ -10,10 +10,10 @@ const mapStateToProps = (state, ownProps) => {
   let t_model = model + '-translations'
   const translation = state.entities[t_model] && state.entities[t_model][id]
   const source = state.entities[model + 's'] && translation &&
-    state.entities[model + 's'][translation[`${model}_id`]]
+    state.entities[model + 's'][translation[`${model}-id`]]
   const loaded = !!translation
   const heading = `${model} translation #${id}`
-  const currentAssignmentId = currentAssignmentIdFor(model, translation)
+  const currentAssignmentId = currentAssignmentIdFor(t_model, translation)
   const mayEdit = isCurrentUserAssignedToModel(state.entities, t_model, id)
 
   return {

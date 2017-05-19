@@ -22,7 +22,7 @@ module API::V1
           property :created_by_system
         end
 
-        has_one :creator do
+        has_one :creator, class: ::User do
           type :users
 
           attributes do

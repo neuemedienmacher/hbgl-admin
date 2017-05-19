@@ -23,14 +23,12 @@ export default class Dashboard extends React.Component {
       <div className='Dashboard'>
         <h1 className="page-title">Dashboard</h1>
         {actualWa}
-        // Collapsible OverView (Assignments)
         <CollapsiblePanel
           title={`Willkommen, ${user.name}`} identifier='dashboard'
           visible={true}
         >
           <OverviewPanel />
         </CollapsiblePanel>
-        // Collapsible Statistics
         <CollapsiblePanel
           title='W&A Statistiken' identifier='overall-statistic-charts'
           visible={false}
