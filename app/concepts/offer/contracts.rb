@@ -145,7 +145,7 @@ module Offer::Contracts
 
     def split_base_id_if_version_greater_7
       return if !logic_version || logic_version.version < 7 || split_base_id
-      custom_error :split_base, I18n.t('offer.validations.is_needed')
+      errors.add :split_base, I18n.t('offer.validations.is_needed')
     end
 
     def start_date_must_be_before_expiry_date
@@ -166,20 +166,19 @@ module Offer::Contracts
   # rubocop:enable ClassLength
   class Update < Create
     # fill me!
-    validate :sections_must_match_categories_sections, on: :update
-    validate :at_least_one_section_of_each_category_must_be_present,
-             on: :update
-    validate :location_fits_organization, on: :update
+    validate :sections_must_match_categories_sections
+    validate :at_least_one_section_of_each_category_must_be_present
+    validate :location_fits_organization
 
     # Ensure selected organization is the same as the selected location's
     # organization
     def location_fits_organization
       ids = organizations.pluck(:id)
       if personal? && location && !ids.include?(location.organization_id)
-        custom_error :location_id, I18n.t(
+        errors.add :location_id, I18n.t(
           'offer.validations.location_fits_organization.location_error'
         )
-        custom_error :organizations, I18n.t(
+        errors.add :organizations, I18n.t(
           'offer.validations.location_fits_organization.organization_error'
         )
       end
@@ -190,8 +189,8 @@ module Offer::Contracts
       if categories.any?
         categories.each do |category|
           next if category.sections.include?(section)
-          custom_error :categories, 'category_for_section_needed',
-                       world: section.name
+          errors.add(:categories, I18n.t('offer.validations.category_for_section_needed',
+                                         world: section.name))
         end
       end
     end
@@ -200,8 +199,8 @@ module Offer::Contracts
       if categories.any?
         categories.each do |offer_category|
           next if offer_category.sections.include?(section)
-          custom_error :categories, 'section_for_category_needed',
-                       category: offer_category.name
+          errors.add(:categories, I18n.t('offer.validations.section_for_category_needed',
+                                         category: offer_category.name))
         end
       end
     end

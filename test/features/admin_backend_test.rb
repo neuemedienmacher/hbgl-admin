@@ -404,7 +404,6 @@ feature 'Admin Backend' do
     end
 
     scenario 'Try to create offer with errors' do
-      skip
       location = FactoryGirl.create(:location, name: 'testname')
       contact_person = FactoryGirl.create :contact_person
 

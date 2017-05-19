@@ -78,16 +78,16 @@ class OfferContractTest < ActiveSupport::TestCase
       end
 
       it 'should fail if locations and organizations do not match (personal)' do
-        skip
+        subject = Offer::Contracts::Update.new(offers(:basic))
         location = Location.create(organization: Organization.new.id)
-        subject.model.location = location
-        subject.model.wont_be :valid?
+        subject.location = location
+        subject.wont_be :valid?
       end
 
       it 'should ensure locations and organizations match (personal)' do
-        subject.model.location = Location.create(organization:
-                                                 organizations(:basic))
-        subject.model.must_be :valid?
+        subject = Offer::Contracts::Update.new(offers(:basic))
+        subject.location = Location.create(organization: organizations(:basic))
+        subject.must_be :valid?
       end
 
       it 'should ensure all chosen organizations are expired' do
@@ -204,38 +204,60 @@ class OfferContractTest < ActiveSupport::TestCase
         subject.valid?.must_equal true
       end
 
-      it 'should validate that section filters of offer and categories match' do
-        skip
-        subject = offers(:basic)
+      it 'should fail if sections of offer and both categories dont match' do
+        subject = Offer::Contracts::Update.new(offers(:basic))
+        category = FactoryGirl.create(:category)
+        category.sections =
+          [sections(:refugees), sections(:family)]
+        subject.section = sections(:refugees)
+        category2 = FactoryGirl.create(:category)
+        category2.sections = [sections(:family)]
+        subject.categories = [category, category2]
+        subject.valid?.must_equal false
+      end
+
+      it 'should succeed if sections of offer and categories match' do
+        subject = Offer::Contracts::Update.new(offers(:basic))
+        category2 = FactoryGirl.create(:category)
+        category2.sections = [sections(:family)]
+        subject.categories << category2
+        subject.section = sections(:family)
+        subject.valid?.must_equal true
+      end
+
+      it 'should fail when sections of offer and categories dont match + errors' do
+        subject = Offer::Contracts::Update.new(offers(:basic))
         category = FactoryGirl.create(:category)
         category.sections = [sections(:family)]
         subject.categories = [category]
         subject.section = sections(:refugees)
         subject.valid?.must_equal false
+        subject.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        subject.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+      end
 
-        subject.section = sections(:family)
+      it 'should succeed when sections of offer and categories match' do
+        subject = Offer::Contracts::Update.new(offers(:basic))
+        category = FactoryGirl.create(:category)
+        subject.section = sections(:refugees)
         category.sections = [sections(:refugees)]
-        subject.valid?.must_equal false
-
-        category.sections =
-          [sections(:refugees), sections(:family)]
+        subject.categories = [category]
         subject.valid?.must_equal true
         subject.errors.messages[:categories].must_be :nil?
+      end
 
+      it 'should succeed when sections of offer and categories (2 sect.) match' do
+        subject = Offer::Contracts::Update.new(offers(:basic))
+        category = FactoryGirl.create(:category)
         subject.section = sections(:refugees)
-        category2 = FactoryGirl.create(:category)
-        category2.sections = [sections(:family)]
-        subject.categories << category2
-        subject.valid?.must_equal false
-
-        subject.section = sections(:family)
+        subject.categories = [category]
+        category.sections = [sections(:refugees), sections(:family)]
         subject.valid?.must_equal true
-
-        category.sections = [sections(:refugees)]
-        subject.valid?.must_equal false
-
-        # subject.section = [sections(:family), sections(:refugees)]
-        # subject.valid?.must_equal true
+        subject.errors.messages[:categories].must_be :nil?
       end
 
       it 'should fail when version < 7' do
