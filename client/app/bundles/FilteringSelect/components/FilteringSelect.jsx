@@ -17,25 +17,35 @@ export default class FilteringSelect extends React.Component {
     const {
       wrapperClassName, attribute, errorClassName, errors, label, loadOptions,
       onChange, value, multi, placeholder, children,
-      options, isLoading, onInputChange,
+      options, isLoading, onInputChange, showSelect
     } = this.props
 
     return (
       <div className={wrapperClassName}>
         <Label attribute={attribute} content={label} />
 
-        <VirtualizedSelect multi={multi}
-          options={options} isLoading={isLoading} onChange={onChange}
-          onInputChange={onInputChange} value={value}
-          placeholder={placeholder}
-        />
+        {showSelect && this._renderSelect(
+          multi, options, isLoading, onChange, onInputChange, value, placeholder
+        )}
+
+        {children}
 
         <Errors
           className={errorClassName} attribute={attribute} errors={errors}
         />
-
-        {children}
       </div>
+    )
+  }
+
+  _renderSelect(
+    multi, options, isLoading, onChange, onInputChange, value, placeholder
+  ) {
+    return(
+      <VirtualizedSelect multi={multi}
+        options={options} isLoading={isLoading} onChange={onChange}
+        onInputChange={onInputChange} value={value}
+        placeholder={placeholder}
+      />
     )
   }
 }

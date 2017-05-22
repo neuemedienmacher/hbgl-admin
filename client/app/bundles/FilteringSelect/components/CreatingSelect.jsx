@@ -7,8 +7,8 @@ export default class CreatingSelect extends React.Component {
   render() {
     const {
       multi, input, hasSubmodelForm, onAddSubmodelFormClick,
-      onRemoveSubmodelFormClick, submodelName, formId, model,
-      onSuccessfulSubmodelFormSubmit
+      onRemoveSubmodelFormClick, submodelName, formId, model, showSelect,
+      showButton
     } = this.props
 
     return (
@@ -17,41 +17,32 @@ export default class CreatingSelect extends React.Component {
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
           formId={formId} type={input.type} resource={input.resource}
+          showSelect={showSelect}
         >
-          {this._renderAdditionalObjectButton(
-            hasSubmodelForm, onAddSubmodelFormClick
-          )}
+          {showButton &&
+            this._renderAdditionalObjectButton(onAddSubmodelFormClick)}
 
-          {this._renderSubmodelForm(
-            hasSubmodelForm, model, submodelName, onRemoveSubmodelFormClick,
-            onSuccessfulSubmodelFormSubmit
+          {hasSubmodelForm && this._renderSubmodelForm(
+            model, submodelName, onRemoveSubmodelFormClick
           )}
         </FilteringSelect>
       </div>
     )
   }
 
-  _renderAdditionalObjectButton(hasSubmodelForm, clickHandler) {
-    if (hasSubmodelForm) return
+  _renderAdditionalObjectButton(addHandler) {
     return(
-      <button onClick={clickHandler}>
+      <button onClick={addHandler}>
         ein neues Objekt hinzufügen
       </button>
     )
   }
 
-  _renderSubmodelForm(
-    hasSubmodelForm, model, submodelName, removeClickHandler,
-    successfulSubmitCallback
-  ) {
-    if (!hasSubmodelForm) return
+  _renderSubmodelForm(model, submodelName, removeClickHandler) {
     return(
       <div style={{border: '1px solid black'}}>
         <button onClick={removeClickHandler}>x</button>
-        <Form
-          model={submodelName} nestingModel={model}
-          onSuccessfulSubmit={successfulSubmitCallback}
-        />
+        <Form model={submodelName} nestingModel={model} />
       </div>
     )
   }

@@ -18,10 +18,15 @@ const mapStateToProps = (state, ownProps) => {
   const formState = state.rform[ownProps.formId]
   const currentSelectValue = formState && formState[attribute]
 
+  const showSelect = ownProps.multi || !hasSubmodelForm
+  const showButton = ownProps.multi || !hasSubmodelForm && !currentSelectValue
+
   return {
     hasSubmodelForm,
     submodelName,
     currentSelectValue,
+    showSelect,
+    showButton,
   }
 }
 
@@ -43,29 +48,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onRemoveSubmodelFormClick,
-
-    onSuccessfulSubmodelFormSubmit(response) {
-      // hide submodel form
-      onRemoveSubmodelFormClick()
-
-      // add returned id to filtering select
-      let newValue = response.data.id
-      if (ownProps.multi)
-        newValue = concat(stateProps.currentSelectValue, newValue)
-
-      dispatch(
-        updateAction(
-          formId, input.attribute, ownProps.submodel, ownProps.submodelIndex,
-          newValue
-        )
-      )
-
-      // add display data for the filtering select
-      dispatch(addForFilteringSelect(
-        pluralize(input.resource || input.attribute.replace(/(-id|-ids)$/, '')),
-        { value: response.data.id, label: response.data.attributes.label }
-      ))
-    }
   }
 }
 

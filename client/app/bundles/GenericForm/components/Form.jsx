@@ -23,10 +23,18 @@ export default class GenericFormForm extends React.Component {
           model={model} formObjectClass={formObjectClass} formId={formId}
           nestingModel={nestingModel}
         />
-        <button className='btn btn-default' type='submit' form={formId}>
-          Abschicken
-        </button>
+        {this.renderButton(formId, nestingModel)}
       </div>
+    )
+  }
+
+  renderButton(formId, nestingModel) {
+    if (nestingModel) return
+
+    return(
+      <button className='btn btn-default' type='submit' form={formId}>
+        Abschicken
+      </button>
     )
   }
 }
