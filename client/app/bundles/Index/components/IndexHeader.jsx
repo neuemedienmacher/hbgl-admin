@@ -15,7 +15,7 @@ export default class IndexHeader extends Component {
         <Nav>
           {routes.map(route => this.renderLinkContainer(route))}
         </Nav>
-        <Navbar.Form pullRight inline>
+        <Navbar.Form pullRight>
           <div className='input-group'>
             <input
               className='form-control' name='query' type='search'
