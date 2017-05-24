@@ -24,6 +24,7 @@ de:
         kann nicht angehakt werden, wenn nicht auch "Completed" gesetzt ist
       is_needed: "wird benötigt"
       age_from_be_smaller: "darf nicht größer sein als Age to"
+      age_not_within_bounds: "muss zwischen 0 und 99 liegen"
       contact_person_not_choosable: |
         müssen alle zu einer der ausgewählten Organisationen gehören oder
         als SPoC markiert sein

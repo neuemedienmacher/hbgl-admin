@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 3fbc3d741027ccfe5d08820819cafb95df635b27
+  revision: bcbead6b1f8c53e6d149761ffa7a831881def32f
   specs:
     clarat_base (0.1.4)
       aasm
@@ -176,7 +176,7 @@ GEM
     daemons (1.2.4)
     dalli (2.7.6)
     database_cleaner (1.5.3)
-    debug_inspector (0.0.2)
+    debug_inspector (0.0.3)
     declarative (0.0.8)
       uber (>= 0.0.15)
     devise (4.2.0)
@@ -262,7 +262,7 @@ GEM
       json
       mime-types
       multipart-post
-    geocoder (1.4.3)
+    geocoder (1.4.4)
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
@@ -376,7 +376,7 @@ GEM
     newrelic_rpm (3.17.2.327)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    nokogumbo (1.4.10)
+    nokogumbo (1.4.11)
       nokogiri
     orm_adapter (0.5.0)
     paper_trail (7.0.2)
@@ -416,7 +416,7 @@ GEM
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rack (1.6.5)
+    rack (1.6.8)
     rack-cache (1.6.1)
       rack (>= 0.4)
     rack-contrib (1.4.0)
@@ -733,7 +733,7 @@ DEPENDENCIES
   memcachier
   memory_test_fix
   meta_request
-  minitest
+  minitest (= 5.10.1)
   minitest-line
   minitest-matchers
   minitest-rails-capybara

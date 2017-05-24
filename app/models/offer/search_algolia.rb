@@ -11,7 +11,7 @@ module Offer::SearchAlgolia
       I18n.available_locales.each do |locale|
         index = %w(
           name description code_word next_steps category_keywords definitions
-          organization_names category_names stamp_family stamp_refugees tags
+          organization_names category_names stamps_string tags
         )
         attributes = [:organization_count, :location_address, :location_name,
                       :slug, :encounter, :organization_names,
@@ -31,8 +31,8 @@ module Offer::SearchAlgolia
           attribute(:tags) { tag_string(locale) }
           attribute(:definitions) { definitions_string(locale) }
           attribute(:_tags) { _categories(locale) }
-          attribute(:stamp_family) { stamp_family(locale) }
-          attribute(:stamp_refugees) { stamp_refugees(locale) }
+          attribute(:stamps_string) { stamps_string(locale) }
+          attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:category_names) { category_names(locale) }
           attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
@@ -53,8 +53,8 @@ module Offer::SearchAlgolia
           attribute(:tags) { tag_string(locale) }
           attribute(:definitions) { definitions_string(locale) }
           attribute(:_tags) { _categories(locale) }
-          attribute(:stamp_family) { stamp_family(locale) }
-          attribute(:stamp_refugees) { stamp_refugees(locale) }
+          attribute(:stamps_string) { stamps_string(locale) }
+          attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:category_names) { category_names(locale) }
           attribute(:category_keywords) { category_keywords(locale) }
           add_attribute(*attributes)
