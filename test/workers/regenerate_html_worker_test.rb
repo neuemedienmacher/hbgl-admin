@@ -18,10 +18,10 @@ class RegenerateHtmlWorkerTest < ActiveSupport::TestCase
       worker.perform
 
       offer.translations.first.reload.description.must_include(
-        "<dfn class='JS-tooltip' data-id='1'>foo</dfn>"
+        "<p>xy <dfn class='JS-tooltip' data-id='1'>foo</dfn> bar</p>"
       )
       orga.translations.first.reload.description.must_include(
-        "<dfn class='JS-tooltip' data-id='1'>foo</dfn>"
+        "<p>xy <dfn class='JS-tooltip' data-id='1'>foo</dfn> bar</p>"
       )
     end
   end
