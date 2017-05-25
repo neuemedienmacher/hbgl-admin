@@ -16,7 +16,11 @@ class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtu
   it 'should NOT re-activate deactivated invalid offer with reachable website' do
     website = FactoryGirl.create :website, :own, unreachable_count: 0
     invalid_offer = FactoryGirl.create :offer, :approved
-    invalid_offer.update_columns aasm_state: 'website_unreachable', age_from: -1
+    invalid_offer.update_columns(
+      aasm_state: 'website_unreachable',
+      starts_at: Time.zone.now,
+      expires_at: Time.zone.now - 1.day
+    )
     website.offers << invalid_offer
     Offer.any_instance.expects(:index!).never
     worker.perform

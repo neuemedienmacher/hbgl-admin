@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import addEntities from '../../../Backend/actions/addEntities'
 import OfferTranslationFormObject from '../forms/OfferTranslationFormObject'
 import OrganizationTranslationFormObject from
   '../forms/OrganizationTranslationFormObject'
@@ -34,8 +33,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
-
-  handleResponse: (_formId, data) => dispatch(addEntities(data)),
 
   afterResponse(response) {
     // if (response.data && response.data.id) {

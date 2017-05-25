@@ -77,7 +77,6 @@ module Offer::Contracts
     def validate_associated_fields
       validate_associated_presence :organizations
       validate_associated_presence :language_filters
-      validate_associated_presence :target_audience_filters
     end
 
     def validate_associated_presence field
@@ -169,6 +168,7 @@ module Offer::Contracts
     validate :sections_must_match_categories_sections
     validate :at_least_one_section_of_each_category_must_be_present
     validate :location_fits_organization
+    validate :validate_target_audience_filters
 
     # Ensure selected organization is the same as the selected location's
     # organization
@@ -202,6 +202,15 @@ module Offer::Contracts
           errors.add(:categories, I18n.t('offer.validations.section_for_category_needed',
                                          category: offer_category.name))
         end
+      end
+    end
+
+    def validate_target_audience_filters
+      unless target_audience_filters.any?
+        errors.add(
+          :target_audience_filters,
+          I18n.t('offer.validations.needs_target_audience_filters')
+        )
       end
     end
   end

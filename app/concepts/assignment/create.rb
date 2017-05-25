@@ -8,6 +8,7 @@ class Assignment::Create < Trailblazer::Operation
   step :set_current_user_to_creator_if_empty
   step :close_open_assignments!
   step Contract::Persist()
+  step :reset_translation_if_returned_to_system_user
 
   extend Contract::DSL
   contract do
@@ -60,5 +61,17 @@ class Assignment::Create < Trailblazer::Operation
     id = options['contract.default'].assignable_id
     ::Assignment.where(assignable_id: id).where(assignable_type: type)
                 .where(aasm_state: 'open').update_all aasm_state: 'closed'
+  end
+
+  def reset_translation_if_returned_to_system_user(_options, model:, **)
+    sys_user_id = User.system_user.id
+    if model.receiver_id == sys_user_id && model.creator_id != sys_user_id &&
+       %w(OfferTranslation OrganizationTranslation).include?(model.assignable_type) &&
+       model.created_by_system == false
+      model.assignable.update_columns(
+        source: 'researcher', possibly_outdated: false
+      )
+    end
+    true
   end
 end

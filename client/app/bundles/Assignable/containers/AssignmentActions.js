@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import AssignmentActions from '../components/AssignmentActions'
-import addEntities from '../../../Backend/actions/addEntities'
 import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
   from '../../../lib/restrictionUtils'
 import settings from '../../../lib/settings'
@@ -53,17 +52,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  handleResponse(_formId, data){
-    dispatch(addEntities(data))
+  afterResponse(response) {
     // call dataLoad-Function of the assignable to update current_assignment
     if(ownProps.assignableDataLoad){
       ownProps.assignableDataLoad()
     }
-  },
-
-  afterResponse(response) {
-    // console.log('=========afterResponse==========')
-    // console.log(response)
   }
 })
 

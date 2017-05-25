@@ -69,7 +69,6 @@ describe Offer do
         duplicate.categories.must_equal offer.categories
         duplicate.section.must_equal offer.section
         duplicate.language_filters.must_equal offer.language_filters
-        duplicate.target_audience_filters.must_equal offer.target_audience_filters
         duplicate.websites.must_equal offer.websites
         duplicate.contact_people.must_equal offer.contact_people
         duplicate.tags.must_equal offer.tags

@@ -1,0 +1,33 @@
+.assignment-actions,
+.assignment-head {
+  line-height: 2;
+}
+
+.assignment-actions {
+  form {
+    margin: 1em 0;
+  }
+
+  div.inputset-message.form-group.saved  label {
+    margin-right: .5em;
+  }
+
+  .select-wrapper {
+    label {
+      margin: 0 .5em
+    }
+  }
+
+  form + form {
+
+    button {
+      float: right;
+      background-color: var(--main-orange);
+
+      &:hover {
+        background-color: var(--main-orange);
+        color: #fff;
+      }
+    }
+  }
+}
