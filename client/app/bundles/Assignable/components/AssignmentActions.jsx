@@ -25,7 +25,7 @@ export default class AssignmentActions extends Component {
       <div className="select-wrapper">
         <InputSet
           wrapperClassName='form-group' className='form-control'
-          label='an' type='select' attribute='receiver_id' options={users}
+          label='an' type='select' attribute='receiver-id' options={users}
         />
       </div> : null
 
