@@ -1,6 +1,7 @@
 # encoding: UTF-8
 require_relative '../../lib/rails_admin_extensions/rails_admin_change_state.rb'
 require_relative '../../lib/rails_admin_extensions/rails_admin_new.rb'
+require_relative '../../lib/rails_admin_extensions/rails_admin_delete.rb'
 
 RailsAdmin.config do |config|
 
