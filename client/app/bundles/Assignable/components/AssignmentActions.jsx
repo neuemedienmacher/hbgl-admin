@@ -19,13 +19,15 @@ export default class AssignmentActions extends Component {
   }
 
   renderForm(action) {
-    const { handleResponse, afterResponse, users } = this.props
+    const { afterResponse, users } = this.props
 
     const optionalUserSelection = action.userChoice ?
-      <div className="select-wrapper"><InputSet
-        wrapperClassName='form-group' className='form-control'
-        label='an' type='select' attribute='receiver_id' options={users}
-      /></div> : null
+      <div className="select-wrapper">
+        <InputSet
+          wrapperClassName='form-group' className='form-control'
+          label='an' type='select' attribute='receiver_id' options={users}
+        />
+      </div> : null
 
     const optionalMessage = action.messageField ?
       <InputSet
@@ -40,7 +42,7 @@ export default class AssignmentActions extends Component {
       <Form ajax requireValid seedData={action.seedData} id={action.formId}
         method='POST' action={action.href} className='form-inline'
         key={action.formId} formObjectClass={AssignmentFormObject}
-        handleResponse={handleResponse} afterResponse={afterResponse}
+        afterResponse={afterResponse}
       >
         {optionalMessage}
         {optionalUserSelection}

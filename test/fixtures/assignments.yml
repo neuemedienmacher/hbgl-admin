@@ -5,6 +5,7 @@ for_offer_translation_1:
   creator_id: 1
   receiver_id: 2
   message: 'InitialFixtureAssignmentMessage'
+  aasm_state: 'open'
 
 for_orga_translation_1:
   id: 2
@@ -13,3 +14,4 @@ for_orga_translation_1:
   creator_id: 2
   receiver_id: 1
   message: 'InitialFixtureAssignmentMessage'
+  aasm_state: 'open'
