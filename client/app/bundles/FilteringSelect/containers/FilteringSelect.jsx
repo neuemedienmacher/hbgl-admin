@@ -6,15 +6,14 @@ import { loadForFilteringSelect } from '../actions/loadForFilteringSelect'
 import FilteringSelect from '../components/FilteringSelect'
 
 const mapStateToProps = (state, ownProps) => {
-  const { attribute, submodel, submodelIndex } = ownProps
+  const { attribute, submodelPath } = ownProps
   // remove last "-id(s)" from attribute
   let resource = ownProps.resource || attribute.replace(/(-id|-ids)$/, '')
   // pluralize
   resource = pluralize(resource)
 
   const formState = state.rform[ownProps.formId]
-  const statePath =
-    navigateThroughSubmodels(formState, submodel, submodelIndex)
+  const statePath = navigateThroughSubmodels(formState, submodelPath)
 
   let value = statePath && statePath[attribute]
 
@@ -54,8 +53,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       dispatch(
         updateAction(
-          ownProps.formId, ownProps.attribute, ownProps.submodel,
-          ownProps.submodelIndex, newValue
+          ownProps.formId, ownProps.attribute, newValue, ownProps.submodelPath
         )
       )
 

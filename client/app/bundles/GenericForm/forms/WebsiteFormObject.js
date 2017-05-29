@@ -2,7 +2,11 @@ import { FormObject, JsonApiAdapter } from 'rform'
 
 export default class WebsiteFormObject extends FormObject {
   static get model() {
-    return 'division'
+    return 'website'
+  }
+
+  static get type() {
+    return 'websites'
   }
 
   static get properties() {

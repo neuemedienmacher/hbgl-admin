@@ -7,6 +7,10 @@ export default class OrganizationFormObject extends FormObject {
     return 'organization'
   }
 
+  static get type() {
+    return 'organizations'
+  }
+
   static get properties() {
     return [
       'name', 'priority', 'website', 'locations', 'contact-people',
@@ -22,11 +26,11 @@ export default class OrganizationFormObject extends FormObject {
     return {
       website: {
         object: WebsiteFormObject,
-        type: 'oneToOne'
+        relationship: 'oneToOne'
       },
       divisions: {
         object: DivisionFormObject,
-        type: 'oneToMany'
+        relationship: 'oneToMany'
       }
     }
   }

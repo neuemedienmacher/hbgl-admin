@@ -1,13 +1,16 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { setupAction } from 'rform'
+import concat from 'lodash/concat'
 import formObjectSelect from '../lib/formObjectSelect'
+import generateFormId from '../lib/generateFormId'
 import addEntities from '../../../Backend/actions/addEntities'
 import Form from '../components/Form'
 
 const mapStateToProps = (state, ownProps) => {
-  const { model, editId } = ownProps
-  const formId = `GenericForm-${model}-${editId || 'new'}`
+  const { model, editId, submodelKey } = ownProps
+  const submodelPath = ownProps.submodelPath || []
+  const formId = generateFormId(model, submodelPath, submodelKey, editId)
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
 

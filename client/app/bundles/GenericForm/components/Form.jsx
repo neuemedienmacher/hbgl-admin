@@ -7,7 +7,7 @@ import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 export default class GenericFormForm extends React.Component {
   render() {
     const {
-      seedData, action, method, formId, formObjectClass,
+      seedData, action, method, formId, formObjectClass, submodelPath,
       afterResponse, handleResponse, model, nestingModel,
     } = this.props
 
@@ -21,7 +21,7 @@ export default class GenericFormForm extends React.Component {
         />
         <FormInputs
           model={model} formObjectClass={formObjectClass} formId={formId}
-          nestingModel={nestingModel}
+          nestingModel={nestingModel} submodelPath={submodelPath}
         />
         {this.renderButton(formId, nestingModel)}
       </div>

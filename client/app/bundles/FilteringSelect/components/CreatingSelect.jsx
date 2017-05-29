@@ -6,9 +6,9 @@ import Form from '../../GenericForm/containers/Form'
 export default class CreatingSelect extends React.Component {
   render() {
     const {
-      multi, input, hasSubmodelForm, onAddSubmodelFormClick,
+      multi, input, additionalSubmodelForms, onAddSubmodelFormClick,
       onRemoveSubmodelFormClick, submodelName, formId, model, showSelect,
-      showButton
+      showButton, parentModels
     } = this.props
 
     return (
@@ -22,9 +22,8 @@ export default class CreatingSelect extends React.Component {
           {showButton &&
             this._renderAdditionalObjectButton(onAddSubmodelFormClick)}
 
-          {hasSubmodelForm && this._renderSubmodelForm(
-            model, submodelName, onRemoveSubmodelFormClick
-          )}
+          {additionalSubmodelForms.map(this._renderSubmodelForms(
+            model, submodelName, parentModels, onRemoveSubmodelFormClick))}
         </FilteringSelect>
       </div>
     )
@@ -38,12 +37,17 @@ export default class CreatingSelect extends React.Component {
     )
   }
 
-  _renderSubmodelForm(model, submodelName, removeClickHandler) {
-    return(
-      <div style={{border: '1px solid black'}}>
-        <button onClick={removeClickHandler}>x</button>
-        <Form model={submodelName} nestingModel={model} />
-      </div>
-    )
+  _renderSubmodelForms(model, submodelName, parentModels, removeClickHandler) {
+    return (_, index) => {
+      return(
+        <div style={{border: '1px solid black'}} key={index}>
+          <button onClick={removeClickHandler}>x</button>
+          <Form
+            model={submodelName} nestingModel={model}
+            submodelPath={parentModels} submodelKey={index}
+          />
+        </div>
+      )
+    }
   }
 }

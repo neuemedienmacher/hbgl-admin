@@ -10,21 +10,21 @@ export default class FormInputs extends React.Component {
 
   render() {
     const {
-      inputs, formId, blockedInputs, model, formObjectClass
+      inputs, formId, blockedInputs, model, formObjectClass, submodelPath
     } = this.props
 
     return (
       <div className='FormInputs'>
         {
           inputs.map(this._renderInput.bind(this)(
-            formId, blockedInputs, model, formObjectClass
+            formId, blockedInputs, model, formObjectClass, submodelPath
           ))
         }
       </div>
     )
   }
 
-  _renderInput(formId, blockedInputs, model, formObjectClass) {
+  _renderInput(formId, blockedInputs, model, formObjectClass, submodelPath) {
     return (input, index) => {
       // Skip rendering blocked inputs
       if (blockedInputs.includes(input.attribute)) {
@@ -59,14 +59,14 @@ export default class FormInputs extends React.Component {
           return(
             <CreatingSelect multi key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
-              input={input}
+              input={input} submodelPath={submodelPath}
             />
           )
         case 'creating-select':
           return(
             <CreatingSelect key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
-              input={input}
+              input={input} submodelPath={submodelPath}
             />
           )
         default:

@@ -5,6 +5,10 @@ export default class UserTeamFormObject extends FormObject {
     return 'user_team'
   }
 
+  static get type() {
+    return 'user_teams'
+  }
+
   static get properties() {
     return [
       'name', 'user_ids'

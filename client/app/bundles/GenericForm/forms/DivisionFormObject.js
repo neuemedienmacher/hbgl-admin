@@ -1,4 +1,5 @@
 import { FormObject, JsonApiAdapter } from 'rform'
+import WebsiteFormObject from './WebsiteFormObject'
 
 export default class DivisionFormObject extends FormObject {
   static get model() {
@@ -7,23 +8,33 @@ export default class DivisionFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'organization_id', 'section_id', 'website_ids',
-      'presumed_category_ids', 'presumed_solution_category_ids', 'comment',
+      'name', 'organization', 'section', 'websites',
+      'presumed-categories', 'presumed-solution-categories', 'comment',
       'size'
     ]
+  }
+
+  static get submodels() {
+    return ['websites']
+  }
+
+  static get submodelConfig() {
+    return {
+      websites: { type: 'oneToMany', object: WebsiteFormObject }
+    }
   }
 
   static get formConfig() {
     return {
       name: { type: 'string' },
-      organization_id: { type: 'filtering-select' },
-      section_id: { type: 'filtering-select' },
-      website_ids: { type: 'creating-multiselect' },
-      presumed_category_ids: {
+      organization: { type: 'filtering-select' },
+      section: { type: 'filtering-select' },
+      websites: { type: 'creating-multiselect' },
+      'presumed-categories': {
         type: 'filtering-multiselect', resource: 'categories'
       },
-      presumed_solution_category_ids: {
-        type: 'filtering-multiselect', resource: 'solution_categories'
+      'presumed-solution-categories': {
+        type: 'filtering-multiselect', resource: 'solution-categories'
       },
       comment: { type: 'textarea' },
       size: { type: 'select', options: ['small', 'medium', 'large'] },
@@ -36,6 +47,6 @@ export default class DivisionFormObject extends FormObject {
 
   validation() {
     this.required('name').filled()
-    this.required('section_id').filled()
+    this.required('section').filled()
   }
 }
