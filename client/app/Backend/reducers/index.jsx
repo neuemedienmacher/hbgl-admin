@@ -6,6 +6,7 @@ import form from './formReducer'
 import { reducer as rform, initialState as initialRformState } from 'rform'
 import ajax from './loadAjaxDataReducer'
 import entities from './entityReducer'
+import flashMessages from './FlashMessagesReducer'
 import filteringSelect
   from '../../bundles/FilteringSelect/reducers/filteringSelectReducer'
 import statistics
@@ -20,4 +21,5 @@ export default combineReducers({
   statistics,
   settings,
   filteringSelect,
+  flashMessages
 })
