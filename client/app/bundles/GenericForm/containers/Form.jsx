@@ -5,6 +5,7 @@ import concat from 'lodash/concat'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
 import addEntities from '../../../Backend/actions/addEntities'
+import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import Form from '../components/Form'
 
 const mapStateToProps = (state, ownProps) => {
@@ -58,16 +59,28 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     handleResponse: (_formId, data, serverErrors) => {
       if (!serverErrors.length) {
         dispatch(addEntities(data))
+      } else {
+        console.log(serverErrors)
+        for (let error of serverErrors) {
+          let message = error.source.pointer + ': ' + error.title
+          dispatch(addFlashMessage('error', message))
+        }
       }
     },
 
     afterResponse(response) {
       if (response.data && response.data.id) {
+        dispatch(addFlashMessage('success', 'Läuft bei dir!'))
         if (ownProps.onSuccessfulSubmit)
           return ownProps.onSuccessfulSubmit(response)
 
         dispatch(setupAction(stateProps.formId, {})) // reset form
         // browserHistory.push(`/${ownProps.model}/${response.data.id}`)
+      } else if (response.errors && response.errors.length) {
+        for (let error of response.errors) {
+          let message = error.source.pointer + ': ' + error.title
+          dispatch(addFlashMessage('error', message))
+        }
       }
     }
   }
