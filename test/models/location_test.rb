@@ -15,75 +15,101 @@ describe Location do
     end
   end
 
-  describe 'validations' do
-    describe 'always' do
-      it { subject.must validate_length_of(:name).is_at_most 100 }
-      it { subject.must validate_presence_of :street }
-      it { subject.must validate_presence_of :zip }
-      it { subject.must validate_length_of(:zip).is_equal_to 5 }
-      it { subject.must validate_presence_of :city_id }
-      it { subject.must validate_presence_of :organization_id }
-      it { subject.must validate_presence_of :federal_state_id }
+  describe 'Observer' do
+    it 'should call index on approved offers after visible change' do
+      loc = locations(:basic)
+      # add another offer - both must be re-indexed
+      another_offer = FactoryGirl.create(:offer, :approved, :with_location)
+      another_offer.organizations.map do |orga|
+        orga.locations << loc
+      end
+      another_offer.location_id = loc.id
+      another_offer.save!
+      # add unapproved offer => should not be re-indexed
+      initialized_offer = FactoryGirl.create(:offer, :with_location)
+      initialized_offer.organizations.map do |orga|
+        orga.locations << loc
+      end
+      initialized_offer.location = loc
+      initialized_offer.save!
+      initialized_offer.expects(:index!).never
+      Offer.any_instance.expects(:index!).times(loc.offers.visible_in_frontend.count)
+      loc.visible = !loc.visible
+      loc.save!
+      LocationObserver.send(:new).after_commit(loc)
     end
 
-    describe 'when location is not in germany' do
-      before do
-        # valid location in germany
-        subject.assign_attributes street: 'street 1',
-                                  city_id: 1,         # fixture City
-                                  organization_id: 1, # fixture Orga
-                                  federal_state_id: 1 # fixture federal_state
+    it 'should not update on irrelevant location change but on zip' do
+      loc = FactoryGirl.create(:location)
+      loc.assign_attributes(longitude: 5, latitude: 5)
+      # add another offer - both must be re-indexed
+      another_offer = FactoryGirl.create(:offer, :approved, :with_location)
+      another_offer.organizations.map do |orga|
+        orga.locations << loc
       end
-
-      it 'should allow any zip length' do
-        subject.assign_attributes zip: '123456-789'
-        subject.valid?.must_equal false
-        subject.assign_attributes in_germany: false
-        subject.valid?.must_equal true
-      end
-
-      it 'should be okay with a missing federal_state_id' do
-        subject.assign_attributes federal_state_id: nil
-        subject.valid?.must_equal false
-        subject.assign_attributes in_germany: false
-        subject.valid?.must_equal true
-      end
+      another_offer.location_id = loc.id
+      another_offer.save!
+      LocationObserver.send(:new).after_commit(loc)
+      loc.reload
+      another_offer.reload
+      another_offer._geoloc.must_equal('lat' => 5, 'lng' => 5)
+      loc.assign_attributes(zip: 100_05)
+      loc.save!
+      LocationObserver.send(:new).after_commit(loc)
+      loc.reload
+      another_offer.reload
+      another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
     end
-  end
 
-  describe 'methods' do
-    describe '#generate_display_name' do
-      before do
-        subject.assign_attributes street: 'street',
-                                  zip: 'zip',
-                                  city_id: 1,         # fixture City
-                                  organization_id: 1  # fixture Orga
+    it 'should update offer on street change' do
+      loc = FactoryGirl.create(:location)
+      # add another offer - both must be re-indexed
+      another_offer = FactoryGirl.create(:offer, :approved, :with_location)
+      another_offer.organizations.map do |orga|
+        orga.locations << loc
       end
+      another_offer.location_id = loc.id
+      another_offer.save!
+      loc.assign_attributes(street: '10005')
+      loc.save!
+      LocationObserver.send(:new).after_commit(loc)
+      loc.reload
+      another_offer.reload
+      another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
+    end
 
-      it 'should show the basic info if nothing else exists' do
-        subject.display_name.must_be_nil
-        subject.generate_display_name
-        subject.display_name.must_equal 'foobar | street zip Berlin'
+    it 'should update offer on federal state change' do
+      loc = FactoryGirl.create(:location)
+      # add another offer - both must be re-indexed
+      another_offer = FactoryGirl.create(:offer, :approved, :with_location)
+      another_offer.organizations.map do |orga|
+        orga.locations << loc
       end
+      another_offer.location_id = loc.id
+      another_offer.save!
+      loc.assign_attributes(federal_state_id: '2')
+      loc.save!
+      LocationObserver.send(:new).after_commit(loc)
+      loc.reload
+      another_offer.reload
+      another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
+    end
 
-      it 'should show the location name if one exists' do
-        subject.name = 'name'
-        subject.generate_display_name
-        subject.display_name.must_equal 'foobar, name | street zip Berlin'
+    it 'should update offer on city change' do
+      loc = FactoryGirl.create(:location)
+      # add another offer - both must be re-indexed
+      another_offer = FactoryGirl.create(:offer, :approved, :with_location)
+      another_offer.organizations.map do |orga|
+        orga.locations << loc
       end
-
-      it 'should show the addition if one exists' do
-        subject.addition = 'addition'
-        subject.generate_display_name
-        subject.display_name.must_equal 'foobar | street, addition, zip Berlin'
-      end
-
-      it 'should show name & addition if both exist' do
-        subject.name = 'name'
-        subject.addition = 'addition'
-        subject.generate_display_name
-        subject.display_name.must_equal 'foobar, name | street, addition, zip Berlin'
-      end
+      another_offer.location_id = loc.id
+      another_offer.save!
+      loc.assign_attributes(city_id: '2')
+      loc.save!
+      LocationObserver.send(:new).after_commit(loc)
+      loc.reload
+      another_offer.reload
+      another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
     end
   end
 end

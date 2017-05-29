@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require_relative '../../lib/rails_admin_extensions/rails_admin_change_state.rb'
+require_relative '../../lib/rails_admin_extensions/rails_admin_new.rb'
 
 RailsAdmin.config do |config|
 
@@ -34,7 +35,7 @@ RailsAdmin.config do |config|
     Category Email UpdateRequest LanguageFilter User Contact
     Tag Definition Note Area SearchLocation ContactPerson
     Subscription Section NextStep SolutionCategory
-    LogicVersion SplitBase City
+    LogicVersion SplitBase City TargetAudienceFiltersOffer
   )
 
   config.actions do
@@ -59,7 +60,7 @@ RailsAdmin.config do |config|
     end
 
     clone do
-      except ['Section', 'City']
+      except ['Section', 'City', 'TargetAudienceFiltersOffer']
     end
     # nested_set do
     #   only ['Category']
@@ -378,19 +379,28 @@ RailsAdmin.config do |config|
     field :language_filters do
       inline_add false
     end
-    field :target_audience_filters do
+    # field :target_audience_filters do
+    #   help do
+    #     'Richtet sich das Angebot direkt an das Kind, oder an Erwachsene wie
+    #     z.B. die Eltern, einen Nachbarn oder einen Lotsen'
+    #   end
+    # end
+    field :target_audience_filters_offers do
+      visible do
+        !bindings[:object].new_record?
+      end
       help do
         'Richtet sich das Angebot direkt an das Kind, oder an Erwachsene wie
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
-    field :residency_status
-    field :participant_structure
-    field :gender_first_part_of_stamp
-    field :gender_second_part_of_stamp
-    field :age_from
-    field :age_to
-    field :age_visible
+    # field :residency_status
+    # field :participant_structure
+    # field :gender_first_part_of_stamp
+    # field :gender_second_part_of_stamp
+    # field :age_from
+    # field :age_to
+    # field :age_visible
     field :openings
     field :opening_specification do
       help do
@@ -472,6 +482,37 @@ RailsAdmin.config do |config|
     export do
       field :id
     end
+  end
+
+  config.model 'TargetAudienceFiltersOffer' do
+    weight 3
+    field(:id) { read_only true }
+    field(:offer_id) { read_only true }
+    field :target_audience_filter
+    field :residency_status
+    field :gender_first_part_of_stamp
+    field :gender_second_part_of_stamp
+    field :addition
+    field :age_from
+    field :age_to
+    field :age_visible
+    field(:stamp_de) { read_only true }
+    field(:stamp_en) { read_only true }
+    list do
+      sort_by :id
+      field :offer_id
+      field :target_audience_filter
+    end
+    edit do
+      field :offer_id do
+        read_only do
+          !bindings[:object].new_record?
+        end
+      end
+    end
+    # queryable false
+    # filterable false
+    object_label_method :name
   end
 
   config.model 'ContactPerson' do

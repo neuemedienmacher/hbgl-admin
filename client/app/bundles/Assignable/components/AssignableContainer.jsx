@@ -37,7 +37,7 @@ export default class AssignableContainer extends Component {
 
     if (loaded) {
       return(
-        <div>
+        <div className="assignment-head">
           <b>von:</b> {involvedEntities.creator}, Team: {involvedEntities.creatorTeam}
           <br />
           <b>für:</b> {involvedEntities.receiver}, Team: {involvedEntities.receiverTeam}
