@@ -51,7 +51,7 @@ module RailsAdmin
 
                 # NOTE: Hacky hack hack: retrieve TargetAudienceFiltersOffers if object is a cloned offer
                 regex = request.referer.match(%r{/offer/(\d+)/clone})
-                if regex && regex[1] && Offer.where(id: regex[1]).any?
+                if regex && regex[1] && Offer.where(id: regex[1]).any? && @object.class == Offer
                   source_offer = Offer.where(id: regex[1]).first
                   source_offer.target_audience_filters_offers.map do |tafo|
                     attributes = tafo.attributes.except(
