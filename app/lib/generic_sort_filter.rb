@@ -52,20 +52,27 @@ module GenericSortFilter
     return query unless params[:filters]
     params[:filters].each do |filter, value|
       next if value.empty?
-
       # convert value to array for streamlined processing
       singular_or_multiple_values = value.is_a?(Array) ? value : [value]
-      # build query strings to every array entry (only one for simple filters)
-      if !params[:operators].nil? && params[:operators].value?('...') && singular_or_multiple_values.reject(&:blank?).count > 1
+      # build query strings for every array entry (only one for simple filters)
+      if range_filter_query?(params, singular_or_multiple_values)
         query = build_range_filter_query(query, params, filter, value)
       else
-        filter_strings = singular_or_multiple_values.reject(&:blank?).map do |singular_value|
-          build_singular_filter_query(query, params, filter, singular_value)
-        end
-        query = query.where(filter_strings.join(join_operator(params, filter)))
+        filtered_strings = filter_strings(singular_or_multiple_values, query, params, filter)
+        query = query.where(filtered_strings.join(join_operator(params, filter)))
       end
     end
     query
+  end
+
+  def self.filter_strings(values, query, params, filter)
+    values.reject(&:blank?).map do |value|
+      build_singular_filter_query(query, params, filter, value)
+    end
+  end
+
+  def self.range_filter_query?(params, values)
+    !params[:operators].nil? && params[:operators].value?('...') && values.reject(&:blank?).count > 1
   end
 
   def self.join_operator(params, filter)

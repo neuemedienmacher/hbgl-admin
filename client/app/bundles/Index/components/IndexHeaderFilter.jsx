@@ -31,7 +31,6 @@ export default class IndexHeaderFilter extends Component {
             {operators.map(operator =>
               <IndexHeaderOperatorOption
                 key={operator.value} operator={operator}
-
               />
             )}
           </select>
