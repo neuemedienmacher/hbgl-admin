@@ -4,7 +4,6 @@ module API::V1
     class Index < API::V1::Default::Index
       def base_query
         ::Location
-        # .where('LOWER(display_name) LIKE LOWER(?)', "%#{params[:query]}%")
       end
     end
   end

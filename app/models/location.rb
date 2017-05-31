@@ -4,7 +4,12 @@ require ClaratBase::Engine.root.join('app', 'models', 'location')
 
 class Location < ActiveRecord::Base
   # Admin specific methods
-  include ReformedValidationHack
+  include ReformedValidationHack, PgSearch
+
+  # Search
+  pg_search_scope :search_everything,
+                  against: [:id, :display_name],
+                  using: { tsearch: { prefix: true } }
 
   # Customize duplication.
   def partial_dup

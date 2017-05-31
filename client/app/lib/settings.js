@@ -58,6 +58,70 @@ export default {
       ]
     },
 
+    locations: {
+      fields: [
+        'id', 'name', 'street', 'addition', 'zip', 'hq', 'visible', 'in_germany',
+        { federal_state: ['label'] }, { organization: ['label'] },
+        { city: ['label'] }
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    cities: {
+      fields: [
+        'id', 'name'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    federal_states: {
+      fields: [
+        'id', 'name'
+      ],
+      general_actions: [
+        'index', 'export',
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    contact_people: {
+      fields: [
+        'id', 'first_name', 'last_name', { organization: ['label'] },
+        { email: ['label'] }, 'area_code_1', 'local_number_1', 'area_code_2',
+        'local_number_2'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    emails: {
+      fields: [
+        'id', 'address'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
     users: {
       fields: [
         'id', 'name', 'email', { 'user-teams': ['name'] }

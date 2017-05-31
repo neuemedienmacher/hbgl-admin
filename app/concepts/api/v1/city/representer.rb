@@ -10,6 +10,8 @@ module API::V1
           property :label, getter: ->(city) {
             city[:represented].name
           }
+          property :created_at
+          property :updated_at
         end
       end
     end

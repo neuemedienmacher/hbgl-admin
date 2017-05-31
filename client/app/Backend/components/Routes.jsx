@@ -58,6 +58,40 @@ export default class Routes extends React.Component {
             <Route path=':id' component={Show} />
           </Route>
 
+          <Route path='locations'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='cities'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='federal_states'>
+            <IndexRoute component={Index}/>
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='contact_people'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='emails'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+          </Route>
+
           /*
           <Route path='statistic_charts'>
             <IndexRoute component={Index}/>

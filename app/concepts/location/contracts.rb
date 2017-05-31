@@ -10,6 +10,8 @@ module Location::Contracts
     property :organization_id
     property :federal_state_id
     property :in_germany
+    property :hq
+    property :visible
 
     validates :name, length: { maximum: 100 }
     validates :street, presence: true,
@@ -17,11 +19,14 @@ module Location::Contracts
     validates :addition, length: { maximum: 255 }
     validates :zip, presence: true, length: { is: 5 },
                     if: ->(location) { location.in_germany }
-    validates :display_name, presence: true
+    # validates :display_name, presence: true
 
     validates :city_id, presence: true
     validates :organization_id, presence: true
-    validates :federal_state_id, presence: true,
-                                 if: ->(location) { location.in_germany }
+    validates :federal_state_id, presence: true
+  end
+
+  class Update < Create
+    validates :display_name, presence: true
   end
 end

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { singularize } from '../../../lib/inflection'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Show from '../components/Show'
 
@@ -6,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   const id = ownProps.params.id
   const pathname = ownProps.location.pathname
   const model = pathname.split('/')[1]
-  const heading = model.substr(0, model.length - 1) + '#' + id
+  const heading = singularize(model) + '#' + id
 
   return {
     id,
@@ -34,7 +35,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     loadData(nextModel = stateProps.model, nextID = stateProps.id) {
-      const singularModel = nextModel.substr(0, nextModel.length - 1)
+      const singularModel = singularize(nextModel)
 
       // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(

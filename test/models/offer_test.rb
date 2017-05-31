@@ -60,7 +60,7 @@ describe Offer do
 
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
-        offer = FactoryGirl.create :offer, :approved
+        offer = FactoryGirl.create :offer, :approved, :with_location
         duplicate = offer.partial_dup
         assert_nil duplicate.created_by
         duplicate.location.must_equal offer.location
@@ -72,7 +72,7 @@ describe Offer do
         duplicate.websites.must_equal offer.websites
         duplicate.contact_people.must_equal offer.contact_people
         duplicate.tags.must_equal offer.tags
-        duplicate.area.must_equal offer.area
+        assert_nil duplicate.area
         duplicate.aasm_state.must_equal 'initialized'
       end
     end

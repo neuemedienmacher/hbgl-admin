@@ -48,6 +48,16 @@ function headingFor(model) {
     return 'Nutzer'
   case 'assignments':
     return 'Zuweisungen'
+  case 'locations':
+    return 'Standorte'
+  case 'cities':
+    return 'Städte'
+  case 'federal_states':
+    return 'Bundesländer'
+  case 'contact_people':
+    return 'Kontaktpersonen'
+  case 'emails':
+    return 'Emails'
   default:
     throw new Error(`Please provide a heading for ${model}`)
   }

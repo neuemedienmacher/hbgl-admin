@@ -25,6 +25,7 @@ export function singularize(string) {
     [ /((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)(sis|ses)$/i, '$1sis' ],
     [ /([ti])a$/i, '$1um' ],
     [ /(n)ews$/i, '$1ews' ],
+    [ /(pe)ople$/i, '$1rson' ],
     [ /(ss)$/i, '$1' ],
     [ /s$/i, '' ],
   ]

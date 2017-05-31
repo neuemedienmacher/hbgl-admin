@@ -28,6 +28,21 @@ function headingFor(model, id) {
   case 'organizations':
     heading = 'Organisation'
     break
+  case 'locations':
+    heading = 'Standort'
+    break
+  case 'cities':
+    heading = 'Stadt'
+    break
+  case 'federal_states':
+    heading = 'Bundesland'
+    break
+  case 'contact_people':
+    heading = 'Kontaktperson'
+    break
+  case 'emails':
+    heading = 'Email'
+    break
   default:
     throw new Error(`Please provide a GenericForm heading for ${model}`)
   }

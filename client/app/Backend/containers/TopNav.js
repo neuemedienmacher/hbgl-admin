@@ -65,6 +65,31 @@ const routes = [
     pathname: '/assignments',
     anchor: 'Zuweisungen',
     access: superuser,
+  }, {
+    id: 10,
+    pathname: '/locations',
+    anchor: 'Standorte',
+    access: all,
+  }, {
+    id: 11,
+    pathname: '/cities',
+    anchor: 'Städte',
+    access: all,
+  }, {
+    id: 12,
+    pathname: '/federal_states',
+    anchor: 'Bundesländer',
+    access: all,
+  }, {
+    id: 13,
+    pathname: '/contact_people',
+    anchor: 'Kontaktpersonen',
+    access: all,
+  }, {
+    id: 14,
+    pathname: '/emails',
+    anchor: 'Emails',
+    access: all,
   }/*,
   {
     id: 10,

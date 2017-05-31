@@ -3,5 +3,10 @@
 require ClaratBase::Engine.root.join('app', 'models', 'federal_state')
 # Normalization of (German) federal states.
 class FederalState < ActiveRecord::Base
-  include ReformedValidationHack
+  include ReformedValidationHack, PgSearch
+
+  # Search
+  pg_search_scope :search_everything,
+                  against: [:id, :name],
+                  using: { tsearch: { prefix: true } }
 end

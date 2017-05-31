@@ -94,7 +94,7 @@ Rails.application.routes.draw do
       end
       api_resources :solution_categories, only: [:show, :index]
       api_resources :offers, only: [:index, :show]
-      api_resources :locations, only: [:index]
+      api_resources :locations, only: [:index, :show]
       api_resources :organizations, only: [:show, :index, :create, :update]
       api_resources :divisions, only: [:show, :index, :create, :update]
       api_resources :statistics, only: [:index]
@@ -106,8 +106,10 @@ Rails.application.routes.draw do
       api_resources :time_allocations, only: [:create, :update]
       api_resources :user_teams
       api_resources :sections, only: [:index]
-      api_resources :cities, only: [:index]
-      api_resources :contact_people, only: [:index]
+      api_resources :cities, only: [:index, :show]
+      api_resources :federal_states, only: [:index, :show]
+      api_resources :contact_people, only: [:index, :show]
+      api_resources :emails, only: [:index, :show]
       api_resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual
