@@ -371,6 +371,9 @@ RailsAdmin.config do |config|
       inline_add false
       css_class 'js-category-suggestions'
     end
+    field :tags do
+      inverse_of :offers
+    end
     field :solution_category do
       inline_add false
       inline_edit false
@@ -409,9 +412,6 @@ RailsAdmin.config do |config|
       end
     end
     field :websites
-    field :tags do
-      inverse_of :offers
-    end
     field :starts_at do
       help do
         'Optional. Nur für saisonale Angebote ausfüllen!'
