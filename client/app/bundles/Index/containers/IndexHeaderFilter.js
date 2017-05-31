@@ -15,8 +15,8 @@ const mapStateToProps = (state, ownProps) => {
   const filterName =
     ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
   const filterType = setFilterType(filterName)
-  const filterValue = getValue(ownProps.filter[1])
-  const secondFilterValue = ownProps.filter[1] == 'nil' ? '' : ownProps.filter[1][1]
+  const filterValue = getValue(ownProps.filter[1], 0)
+  const secondFilterValue = getValue(ownProps.filter[1], 1)
   const nilChecked = ownProps.filter[1] == 'nil'
   // only show filters that are not locked (currently InlineIndex only)
   const fields =
@@ -102,11 +102,36 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
     }
+    params[ownProps.filter[0]] = []
   },
 
   onFilterValueChange(event) {
     let params = clone(ownProps.params)
-    params[ownProps.filter[0]] = [event.target.value]
+
+    if(params['operators[id]'] != '...') {
+      params[ownProps.filter[0]] = [event.target.value]
+    } else {
+      params[ownProps.filter[0]] = [params[ownProps.filter[0]][1]].concat([event.target.value]).slice(-2).sort(function(a, b) {return a - b;}); //only take last two elements and sort them
+    }
+
+    if(ownProps.uiKey){
+      dispatch(setUiAction(ownProps.uiKey, params))
+    }
+    else{
+      browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+    }
+
+  },
+
+  onSecondFilterValueChange(event) {
+    let params = clone(ownProps.params)
+
+    params[ownProps.filter[0]] = [params[ownProps.filter[0]][0]].concat([event.target.value]).slice(-2).sort(function(a, b) {return a - b;}); //only take last two elements and sort them
+    if(!params[ownProps.filter[0]][0].length){
+      alert('Bitte gib einen Anfangswert ein');
+
+      params[ownProps.filter[0]] = params[ownProps.filter[0]].filter(Boolean);
+    };
 
     if(ownProps.uiKey){
       dispatch(setUiAction(ownProps.uiKey, params))
@@ -116,20 +141,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     }
   },
 
-  onSecondFilterValueChange(event) {
-    let params = clone(ownProps.params)
-    params[ownProps.filter[0]] = [params[ownProps.filter[0]]].concat([event.target.value])
-    if(!params[ownProps.filter[0]][0].length){
-      alert('Bitte gib einen Anfangswert ein');
-      params[ownProps.filter[0]] = params[ownProps.filter[0]].filter(Boolean);
-    };
-    if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
-    }
-    else{
-      browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
-    }
-  }
 })
 
 function setFilterType (filterName) {
@@ -145,9 +156,9 @@ function setFilterType (filterName) {
   }
 }
 
-function getValue(props) {
+function getValue(props, index) {
   if(Array.isArray(props)) {
-    return props[0]
+    return props[index]
   } else {
     if(props == 'nil') {
       return ''
