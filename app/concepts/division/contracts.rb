@@ -3,6 +3,7 @@ module Division::Contracts
   class Create < Reform::Form
     property :name
     property :organization
+    property :websites
     property :section
     property :presumed_categories
     property :presumed_solution_categories
@@ -12,5 +13,8 @@ module Division::Contracts
     validates :name, presence: true
     validates :organization, presence: true
     validates :section, presence: true
+
+    include ::NestedValidation
+    validate_nested_collection :websites, Website::Contracts::Create
   end
 end

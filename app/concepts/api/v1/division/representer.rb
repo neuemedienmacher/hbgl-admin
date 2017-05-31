@@ -51,6 +51,9 @@ module API::V1
             property :name_de, as: :label
           end
         end
+
+        has_many :websites, class: ::Website,
+                            decorator: API::V1::Website::Representer::Show
       end
     end
   end

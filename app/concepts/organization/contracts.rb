@@ -12,6 +12,10 @@ module Organization::Contracts
     validates :name, length: { maximum: 100 }, presence: true
     validates_uniqueness_of :name
     validates :website, presence: true
+
+    include ::NestedValidation
+    validate_nested :website, Website::Contracts::Create
+    validate_nested_collection :divisions, Division::Contracts::Create
     # validates :location_ids, presence: true
     # validates :contact_person_ids, presence: true
 
