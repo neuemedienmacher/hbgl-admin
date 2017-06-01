@@ -378,7 +378,6 @@ RailsAdmin.config do |config|
       inline_add false
       inline_edit false
     end
-    field :treatment_type
     field :trait_filters
     field :language_filters do
       inline_add false
@@ -399,7 +398,6 @@ RailsAdmin.config do |config|
       end
     end
     # field :residency_status
-    # field :participant_structure
     # field :gender_first_part_of_stamp
     # field :gender_second_part_of_stamp
     # field :age_from
