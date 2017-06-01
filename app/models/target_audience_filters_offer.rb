@@ -18,8 +18,15 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   validates :addition, length: { maximum: 80 }
   validates :offer_id, presence: true
   validates :target_audience_filter_id, presence: true
-  validates :offer_id, uniqueness: { scope: [:target_audience_filter_id] }
-  validates :target_audience_filter_id, uniqueness: { scope: [:offer_id] }
+  validates :offer_id, uniqueness: {
+    scope: [:target_audience_filter_id, :residency_status]
+  }
+  validates :target_audience_filter_id, uniqueness: {
+    scope: [:offer_id, :residency_status]
+  }
+  validates :residency_status, uniqueness: {
+    scope: [:offer_id, :target_audience_filter_id]
+  }
 
   ## Custom Validation Methods ##
   # Age From has to be smaller than Age To (if both exist)
@@ -41,10 +48,15 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   # Callbacks
   before_save :generate_stamps!
 
-  require_relative '../objects/value/filters_offer_stamp.rb'
+  require_relative '../objects/value/target_audience_filters_offer_stamp.rb'
   def generate_stamps!
     I18n.available_locales.each do |locale|
-      self.send("stamp_#{locale}=", FiltersOfferStamp.generate_stamp(self, offer.section.identifier, locale))
+      self.send(
+        "stamp_#{locale}=",
+        TargetAudienceFiltersOfferStamp.generate_stamp(
+          self, offer.section.identifier, locale
+        )
+      )
     end
   end
 
@@ -52,8 +64,10 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   def name
     if stamp_de.blank? == false
       stamp_de
+    elsif target_audience_filter && offer
+      "#{target_audience_filter.name} (Offer##{offer.id})"
     else
-      "#{target_audience_filter ? target_audience_filter.name : nil} (Offer##{offer ? offer.id : nil})"
+      'Leere Verknüpfung'
     end
   end
 end
