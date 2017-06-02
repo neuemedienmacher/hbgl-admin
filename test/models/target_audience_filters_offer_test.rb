@@ -5,8 +5,6 @@ describe TargetAudienceFiltersOffer do
   let(:subject) { target_audience_filters_offer(:basicAudience) }
 
   describe 'validations' do
-    it { subject.must validate_length_of(:addition).is_at_most 80 }
-
     it 'should ensure that age_from fits age_to' do
       subject.age_from = 9
       subject.age_to = 1
@@ -608,16 +606,6 @@ describe TargetAudienceFiltersOffer do
       subject.residency_status = 'with_deportation_decision'
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete Frauen – mit Abschiebebescheid'
-    end
-
-    it 'should add the addition only to the _de stamp' do
-      subject.offer.section = Section.find_by(identifier: 'refugees')
-      subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_general').id
-      subject.addition = 'aus Pankow'
-      subject.generate_stamps!
-      subject.stamp_de.must_equal 'für Flüchtlinge (aus Pankow)'
-      subject.stamp_en.must_equal 'for refugees'
     end
   end
 end
