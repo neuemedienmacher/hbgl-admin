@@ -25,7 +25,6 @@ module API::V1
         has_many :users do
           property :id
           property :name
-          property :name, as: :label
         end
 
         # collection :created_assignments do
