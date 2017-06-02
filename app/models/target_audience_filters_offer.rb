@@ -15,7 +15,6 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   validate :age_from_fits_age_to
   validate :age_from_within_bounds
   validate :age_to_within_bounds
-  validates :addition, length: { maximum: 80 }
   validates :offer_id, presence: true
   validates :target_audience_filter_id, presence: true
   validates :offer_id, uniqueness: {

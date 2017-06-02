@@ -491,7 +491,6 @@ RailsAdmin.config do |config|
     field :residency_status
     field :gender_first_part_of_stamp
     field :gender_second_part_of_stamp
-    field :addition
     field :age_from
     field :age_to
     field :age_visible
