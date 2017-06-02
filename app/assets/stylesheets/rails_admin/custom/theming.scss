@@ -104,6 +104,14 @@
   }
 }
 
+#offer_target_audience_filters_offer_ids_field {
+  .ra-multiselect-collection,
+  .ra-multiselect-center,
+  .ra-multiselect-item-add,
+  .ra-multiselect-search { display: none; }
+  .ra-multiselect-left { display: none; }
+}
+
 .login-page {
 
   .login-wrapper {

@@ -20,15 +20,13 @@ feature 'Admin Backend' do
         select 'Family', from: 'offer_section_id'
         fill_in 'offer_name', with: 'testangebot'
         fill_in 'offer_description', with: 'testdescription'
-        fill_in 'offer_age_from', with: 0
-        fill_in 'offer_age_to', with: 17
         select 'basicNextStep', from: 'offer_next_step_ids'
         select 'Personal', from: 'offer_encounter'
         select 'basicLocation', from: 'offer_location_id'
         select 'foobar', from: 'offer_organization_ids'
         select 'English', from: 'offer_language_filter_ids'
-        select 'Bekannte', from: 'offer_target_audience_filter_ids'
         select 'basicSplitBaseTitle', from: 'offer_split_base_id'
+        # NOTE: creation works without TargetAudienceFilter (Validation on update)
 
         click_button 'Speichern'
         page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
@@ -278,7 +276,11 @@ feature 'Admin Backend' do
       click_link 'Bearbeiten', match: :first
 
       # simulate invalid age in other deactivation state (offer invalid)
-      offer.update_columns aasm_state: 'internal_feedback', age_from: -1
+      offer.update_columns(
+        aasm_state: 'internal_feedback',
+        starts_at: Time.zone.now,
+        expires_at: Time.zone.now - 1.day
+      )
       offer.valid?.must_equal false
 
       page.must_have_link 'Deaktivieren (External Feedback)'
@@ -307,7 +309,11 @@ feature 'Admin Backend' do
       click_link 'Angebote', match: :first
 
       # simulate expired offer in other deactivation state (offer invalid)
-      offer.update_columns aasm_state: 'completed', age_from: -1
+      offer.update_columns(
+        aasm_state: 'completed',
+        starts_at: Time.zone.now,
+        expires_at: Time.zone.now - 1.day
+      )
       offer.valid?.must_equal false
 
       click_link 'Bearbeiten', match: :first
@@ -424,33 +430,6 @@ feature 'Admin Backend' do
         'Organizations muss die des angegebenen Standorts beinhalten.'
       )
 
-      fill_in 'offer_age_from', with: -1
-      fill_in 'offer_age_to', with: 19
-      click_button 'Speichern und bearbeiten'
-
-      page.wont_have_content 'Age from muss ausgefüllt werden'
-      page.wont_have_content 'Age to muss ausgefüllt werden'
-
-      # Age filter needs correct lower bounds
-      page.must_have_content 'Age from muss größer oder gleich 0 sein'
-      fill_in 'offer_age_from', with: 0
-      fill_in 'offer_age_to', with: 100
-      click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'Age from muss größer oder gleich 0 sein'
-
-      # Age filter needs correct upper bounds
-      page.must_have_content 'Age to muss kleiner oder gleich 99 sein'
-      fill_in 'offer_age_from', with: 9
-      fill_in 'offer_age_to', with: 8
-      click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'Age to muss kleiner oder gleich 99 sein'
-
-      # Age Filter in correct range, but from is higher than to
-      page.must_have_content 'Age from darf nicht größer sein als Age to'
-
-      # Age Filter correct, but wrong contact_person chosen
-      fill_in 'offer_age_from', with: 0
-      fill_in 'offer_age_to', with: 17
       select contact_person.display_name, from: 'offer_contact_person_ids'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Age from darf nicht größer sein als Age to'
@@ -465,12 +444,8 @@ feature 'Admin Backend' do
       page.wont_have_content 'Contact people müssen alle zu einer der'\
                              ' ausgewählten Organisationen gehören oder als'\
                              ' SPoC markiert sein'
-      page.must_have_content 'benötigt mindestens einen Target Audience Filter'
 
-      # target audience selected, needs language filters
-      select 'Bekannte', from: 'offer_target_audience_filter_ids'
       click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'benötigt mindestens einen Target Audience Filter'
       page.must_have_content 'Language filters benötigt mindestens einen'\
                              ' Sprachfilter'
 
@@ -482,6 +457,21 @@ feature 'Admin Backend' do
       page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
 
       ## Test Update validations
+      # binding.pry
+      # try to save => does not work (needs target audience filter)
+      click_button 'Speichern und bearbeiten'
+      page.must_have_content 'Angebot wurde nicht aktualisiert'
+      page.must_have_content 'benötigt mindestens einen Target Audience Filter'
+      # directly create FiltersOffer (TargetAudienceFilter)
+      TargetAudienceFiltersOffer.create!(
+        offer_id: Offer.where(name: 'testangebot').first.id,
+        target_audience_filter_id: TargetAudienceFilter.find_by(name: 'Bekannte').id
+      )
+      # Force Form Reload (..)
+      click_link 'Anzeigen'
+      click_link 'Bearbeiten'
+      click_button 'Speichern und bearbeiten'
+      page.wont_have_content 'benötigt mindestens einen Target Audience Filter'
 
       # Try to complete, doesnt work
       click_link 'Als komplett markieren', match: :first
@@ -534,8 +524,6 @@ feature 'Admin Backend' do
       select 'Family', from: 'offer_section_id'
       fill_in 'offer_name', with: 'testangebot'
       fill_in 'offer_description', with: 'testdescription'
-      fill_in 'offer_age_from', with: 0
-      fill_in 'offer_age_to', with: 6
       select 'basicNextStep', from: 'offer_next_step_ids'
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
@@ -572,18 +560,21 @@ feature 'Admin Backend' do
 
       # language filter given, needs target audience
       select 'Deutsch', from: 'offer_language_filter_ids'
-      click_button 'Speichern'
+      click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Language filters benötigt mindestens einen'\
                              ' Sprachfilter'
-      page.must_have_content 'benötigt mindestens einen Target Audience Filter'
-
-      # target audience is given, it saves
-      select 'Bekannte', from: 'offer_target_audience_filter_ids'
-      click_button 'Speichern und bearbeiten'
-      page.wont_have_content 'benötigt mindestens einen Target Audience Filter'
       page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
       offer = Offer.last
 
+      # target audience is given, it saves
+      # directly create FiltersOffer (TargetAudienceFilter)
+      TargetAudienceFiltersOffer.create!(
+        offer_id: offer.id,
+        target_audience_filter_id: TargetAudienceFilter.first.id
+      )
+      # Force Form Reload (..)
+      click_link 'Anzeigen'
+      click_link 'Bearbeiten'
       click_link 'Als komplett markieren', match: :first
       page.must_have_content 'Zustandsänderung war erfolgreich'
       offer.reload.must_be :completed?

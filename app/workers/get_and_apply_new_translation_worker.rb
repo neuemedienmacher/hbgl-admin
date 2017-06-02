@@ -2,22 +2,28 @@
 class GetAndApplyNewTranslationWorker
   include Sidekiq::Worker
 
-  # TODO: reindex connected offers if a category translation was updated
   def perform gengo_order_id
     gengo_order = GengoOrder.find(gengo_order_id)
-    order = GengoCommunicator.new.fetch_order gengo_order.order_id
+    model, id, _field = gengo_order.expected_slug.split(':')
 
-    # ignore unfinished orders (total_job_count != approved_jobs_count)
-    return unless order['total_jobs'].to_i == order['jobs_approved'].count
-
-    #
-    get_and_apply_translations_of_order order, gengo_order.expected_slug
-
-    # delete gengo_order
-    gengo_order.delete
+    if model.constantize.exists?(id)
+      order = GengoCommunicator.new.fetch_order gengo_order.order_id
+      continue_with_fetched_order order, gengo_order
+    else
+      gengo_order.delete
+    end
   end
 
   private
+
+  def continue_with_fetched_order order, gengo_order
+    # ignore unfinished orders (total_job_count != approved_jobs_count)
+    if order['total_jobs'].to_i == order['jobs_approved'].count
+      get_and_apply_translations_of_order order, gengo_order.expected_slug
+      # delete gengo_order
+      gengo_order.delete
+    end
+  end
 
   def get_and_apply_translations_of_order order, expected_slug
     # store model_istance of single jobs

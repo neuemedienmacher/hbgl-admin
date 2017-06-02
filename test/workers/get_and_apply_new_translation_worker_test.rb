@@ -25,6 +25,14 @@ class GetAndApplyNewTranslationWorkerTest < ActiveSupport::TestCase
     Category.find(1).name_ar.must_equal 'ar(GET READY FOR CANADA)'
   end
 
+  it 'should delete order before fetching if object doesnt exist' do
+    order = GengoOrder.create order_id: 123, expected_slug: 'Category:1:name'
+    Category.find(1).delete
+    worker.perform order.id
+    GengoCommunicator.any_instance.expects(:fetch_order).never
+    GengoOrder.exists?(123).must_equal false
+  end
+
   it 'should ignore uncompleted orders' do
     order = GengoOrder.create order_id: 123, expected_slug: 'Category:1:name'
     GengoCommunicator.any_instance.expects(:fetch_order).with(123).returns(
