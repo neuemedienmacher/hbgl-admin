@@ -296,7 +296,9 @@ RailsAdmin.config do |config|
       help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
     end
     field :organization
-    field :solution_category
+    field :solution_category do
+      help { 'Erforderlich ab Version 8.'}
+    end
     field :comments
 
     list do
@@ -333,7 +335,9 @@ RailsAdmin.config do |config|
     end
 
     field :section
-    field :split_base
+    field :split_base do
+      help { 'Erforderlich ab Version 7.'}
+    end
     field :all_inclusive
     field :name do
       css_class 'js-category-suggestions__trigger'
@@ -371,11 +375,14 @@ RailsAdmin.config do |config|
       inline_add false
       css_class 'js-category-suggestions'
     end
+    field :tags do
+      inverse_of :offers
+    end
     field :solution_category do
       inline_add false
       inline_edit false
+      help { 'Erforderlich ab Version 8.'}
     end
-    field :treatment_type
     field :trait_filters
     field :language_filters do
       inline_add false
@@ -396,7 +403,6 @@ RailsAdmin.config do |config|
       end
     end
     # field :residency_status
-    # field :participant_structure
     # field :gender_first_part_of_stamp
     # field :gender_second_part_of_stamp
     # field :age_from
@@ -409,9 +415,6 @@ RailsAdmin.config do |config|
       end
     end
     field :websites
-    field :tags do
-      inverse_of :offers
-    end
     field :starts_at do
       help do
         'Optional. Nur für saisonale Angebote ausfüllen!'
@@ -493,7 +496,6 @@ RailsAdmin.config do |config|
     field :residency_status
     field :gender_first_part_of_stamp
     field :gender_second_part_of_stamp
-    field :addition
     field :age_from
     field :age_to
     field :age_visible

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170521063647) do
+ActiveRecord::Schema.define(version: 20170602133758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -395,8 +395,6 @@ ActiveRecord::Schema.define(version: 20170521063647) do
     t.boolean  "age_visible",                             default: false
     t.string   "code_word",                   limit: 140
     t.integer  "solution_category_id"
-    t.string   "treatment_type"
-    t.string   "participant_structure"
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"
     t.integer  "logic_version_id"
@@ -628,7 +626,6 @@ ActiveRecord::Schema.define(version: 20170521063647) do
     t.string   "residency_status"
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"
-    t.string   "addition"
     t.integer  "age_from"
     t.integer  "age_to"
     t.boolean  "age_visible",                 default: false

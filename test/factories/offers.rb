@@ -16,11 +16,11 @@ FactoryGirl.define do
     area { Area.first unless encounter == 'personal' }
     approved_at nil
     split_base
+    solution_category
     # every offer should have a creator!
     created_by { User.all.sample.id || FactoryGirl.create(:researcher).id }
 
     # associations
-
     transient do
       organization_count 1
       organization nil

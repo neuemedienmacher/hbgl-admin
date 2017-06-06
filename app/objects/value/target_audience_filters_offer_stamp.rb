@@ -23,16 +23,14 @@ class TargetAudienceFiltersOfferStamp
     stamp = I18n.t(locale_entry, locale: locale)
     opt_age = stamp_optional_age(filters_offer, ta, section, locale)
     opt_status = stamp_optional_residency_status(filters_offer, locale, section)
-    opt_addition = stamp_optional_addition(filters_offer, locale)
-    generate_final_stamp(locale, stamp, opt_age, opt_status, opt_addition)
+    generate_final_stamp(locale, stamp, opt_age, opt_status)
   end
 
-  def self.generate_final_stamp locale, stamp, opt_age, opt_status, opt_addition
+  def self.generate_final_stamp locale, stamp, opt_age, opt_status
     I18n.t('offer.stamp.format', locale: locale,
                                  stamp: stamp,
                                  optional_age: opt_age,
-                                 optional_status: opt_status,
-                                 optional_addition: opt_addition)
+                                 optional_status: opt_status)
   end
 
   # --------- FAMILY
@@ -204,15 +202,7 @@ class TargetAudienceFiltersOfferStamp
     end
   end
 
-  # --------- GENERAL (AGE & ADDITION)
-
-  def self.stamp_optional_addition filters_offer, locale
-    if filters_offer.addition.blank? == false && locale.to_s == 'de'
-      " (#{filters_offer.addition})"
-    else
-      ''
-    end
-  end
+  # --------- GENERAL (AGE)
 
   def self.stamp_optional_age filters_offer, ta, section, locale
     append_age =
