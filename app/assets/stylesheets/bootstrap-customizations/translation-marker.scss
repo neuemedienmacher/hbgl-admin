@@ -1,0 +1,19 @@
+.translation-marker {
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-style: italic;
+    font-weight: 400;
+
+    &.text-success {
+      background: #3c763d;
+     }
+
+    &.text-danger {
+      background: #76142c;
+    }
+
+    &.text-warning {
+      background: #767114;
+    }
+}

@@ -70,6 +70,37 @@ class AssignmentCreateTest < ActiveSupport::TestCase
           assignments.open.first.wont_equal assignment_before
         end
       end
+
+      describe 'reset_translation_if_returned_to_system_user' do
+        it 'resets translation when system_user is assigned by other user' do
+          t = OfferTranslation.find(basic_params[:assignable_id])
+          t.update_columns source: 'GoogleTranslate', possibly_outdated: true
+          basic_params[:receiver_id] = User.system_user.id
+          basic_params[:created_by_system] = false
+          operation_must_work ::Assignment::Create, basic_params
+          t.reload.source.must_equal 'researcher'
+          t.reload.possibly_outdated.must_equal false
+        end
+
+        it 'does not reset translation if created_by_system is true' do
+          t = OfferTranslation.find(basic_params[:assignable_id])
+          t.update_columns source: 'GoogleTranslate', possibly_outdated: true
+          basic_params[:receiver_id] = User.system_user.id
+          basic_params[:created_by_system] = true
+          operation_must_work ::Assignment::Create, basic_params
+          t.reload.source.must_equal 'GoogleTranslate'
+          t.reload.possibly_outdated.must_equal true
+        end
+
+        it 'does not reset translation if someone else is assigned' do
+          t = OfferTranslation.find(basic_params[:assignable_id])
+          t.update_columns source: 'GoogleTranslate', possibly_outdated: true
+          basic_params[:created_by_system] = false
+          operation_must_work ::Assignment::Create, basic_params
+          t.reload.source.must_equal 'GoogleTranslate'
+          t.reload.possibly_outdated.must_equal true
+        end
+      end
     end
   end
 

@@ -55,5 +55,16 @@
   .table-condensed > tfoot > tr > td {
     padding: 8px;
   }
+
+  .offer-translations--form-table {
+
+    tbody tr th {
+      text-align: left;
+    }
+
+    label {
+      font-weight: 700;
+    }
+  }
 }
 

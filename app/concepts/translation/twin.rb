@@ -9,10 +9,10 @@ module Translation
         model.manually_editable?
     end
 
-    def already_assigned_to_translator_team?
+    def currently_assigned_to_system_user?
       current_assignment = ::Assignable::Twin.new(model).current_assignment
-      current_assignment.nil? == false && current_assignment.receiver_team_id ==
-        AssignmentDefaults.translator_teams[model.locale.to_s]
+      current_assignment.nil? == false && current_assignment.receiver_id ==
+        ::User.system_user.id
     end
   end
 end

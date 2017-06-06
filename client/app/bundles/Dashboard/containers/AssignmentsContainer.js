@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   const lockedParams = lockedParamsFor(scope, itemId, system_user.id)
   const optionalParams =
-    { 'sort_field': 'created_at', 'sort_direction': 'DESC' }
+    { 'sort_field': 'updated_at', 'sort_direction': 'DESC' }
   const heading = headingFor(scope)
 
   return {
@@ -62,7 +62,8 @@ function lockedParamsFor(scope, id, sys_id) {
   case 'creator_open':
     return {
       'filters[creator_id]': id, 'filters[aasm_state]': 'open', 'per_page': 10,
-      'filters[receiver_id]': sys_id, 'operators[receiver_id]': '!='
+      'filters[receiver_id]': sys_id, 'operators[receiver_id]': '!=',
+      'filters[created_by_system]': 'false'
     }
   case 'receiver_closed':
     return {

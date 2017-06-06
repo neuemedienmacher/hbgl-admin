@@ -84,3 +84,12 @@ $(document).on 'rails_admin.dom_ready', ->
                 , (response) ->
                   console.log response
               )
+
+  # TargetAudicenceFiltersOffers creation
+
+  $(document).on 'rails_admin.dom_ready', (e, form) ->
+    if form[0].id is 'new_target_audience_filters_offer'
+      form.find('#target_audience_filters_offer_offer_id')[0].value = location.href.match(/\/offer\/(\d+)\/edit/)[1]
+      # unless $('#ta_filters_table_for_modal').length
+      #   form.before('<div style="float:right;width:250px;" id="ta_filters_table_for_modal"><table class="table"><thead></thead><tbody><tr><th>Filter</th><th>id</th></tr><tr><td>Flüchtlinge</td><td>80</td></tr><tr><td>geflüchtete Kinder</td><td>81</td></tr><tr><td>unbgl. minderj. Flüchtlinge</td><td>84</td></tr><tr><td>geflüchtete Familien</td><td>86</td></tr><tr><td>geflüchtete Eltern</td><td>97</td></tr><tr><td>Kinder</td><td>72</td></tr><tr><td>Eltern</td><td>74</td></tr><tr><td>Kernfamilie</td><td>73</td></tr><tr><td>alle</td><td>79</td></tr><tr><td>werdende Eltern</td><td>108</td></tr><tr><td>Angehörige</td><td>71</td></tr><tr><td>geflüchtete werdende Eltern</td><td>142</td></tr></tbody></table></div>')
+      #   form.parentsUntil('.modal-dialog').last().css(width: '800px')

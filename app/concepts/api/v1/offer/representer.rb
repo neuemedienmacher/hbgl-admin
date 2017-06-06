@@ -33,8 +33,6 @@ module API::V1
         property :age_visible
         property :code_word
         property :solution_category_id
-        property :treatment_type
-        property :participant_structure
         property :gender_first_part_of_stamp
         property :gender_second_part_of_stamp
         property :logic_version_id

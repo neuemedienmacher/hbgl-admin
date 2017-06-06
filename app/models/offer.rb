@@ -69,13 +69,13 @@ class Offer < ActiveRecord::Base
   def partial_dup
     self.dup.tap do |offer|
       offer.created_by = nil
+      offer.expires_at = Time.zone.now + 1.year
       offer.location = self.location
       offer.organizations = self.organizations
       offer.openings = self.openings
       offer.categories = self.categories
       offer.section = self.section
       offer.language_filters = self.language_filters
-      offer.target_audience_filters = self.target_audience_filters
       offer.trait_filters = self.trait_filters
       offer.websites = self.websites
       offer.contact_people = self.contact_people
