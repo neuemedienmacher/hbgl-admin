@@ -26,6 +26,7 @@ feature 'Admin Backend' do
         select 'foobar', from: 'offer_organization_ids'
         select 'English', from: 'offer_language_filter_ids'
         select 'basicSplitBaseTitle', from: 'offer_split_base_id'
+        select 'basicSolutionCategoryName', from: 'offer_solution_category_id'
         # NOTE: creation works without TargetAudienceFilter (Validation on update)
 
         click_button 'Speichern'
@@ -449,6 +450,11 @@ feature 'Admin Backend' do
       page.must_have_content 'Language filters benötigt mindestens einen'\
                              ' Sprachfilter'
 
+      select 'basicSolutionCategoryName', from: 'offer_solution_category_id'
+      click_button 'Speichern und bearbeiten'
+      page.wont_have_content 'Solution Category benötigt mindestens einen'\
+                             ' Lösungskategorie'
+
       # language filter selected, it saves
       select 'English', from: 'offer_language_filter_ids'
       click_button 'Speichern und bearbeiten'
@@ -529,6 +535,7 @@ feature 'Admin Backend' do
       select 'basicLocation', from: 'offer_location_id'
       select 'main1', from: 'offer_category_ids'
       select 'basicSplitBaseTitle', from: 'offer_split_base_id'
+      select 'basicSolutionCategoryName', from: 'offer_solution_category_id'
 
       ## Test general validations
 

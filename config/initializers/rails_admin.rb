@@ -296,7 +296,9 @@ RailsAdmin.config do |config|
       help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
     end
     field :organization
-    field :solution_category
+    field :solution_category do
+      help { 'Erforderlich ab Version 8.'}
+    end
     field :comments
 
     list do
@@ -333,7 +335,9 @@ RailsAdmin.config do |config|
     end
 
     field :section
-    field :split_base
+    field :split_base do
+      help { 'Erforderlich ab Version 7.'}
+    end
     field :all_inclusive
     field :name do
       css_class 'js-category-suggestions__trigger'
@@ -377,6 +381,7 @@ RailsAdmin.config do |config|
     field :solution_category do
       inline_add false
       inline_edit false
+      help { 'Erforderlich ab Version 8.'}
     end
     field :trait_filters
     field :language_filters do
