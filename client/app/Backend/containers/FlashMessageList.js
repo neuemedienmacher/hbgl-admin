@@ -4,7 +4,6 @@ import removeFlashMessage from '../actions/removeFlashMessage'
 import FlashMessageList from '../components/FlashMessageList'
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     messages: values(state.flashMessages)
   }

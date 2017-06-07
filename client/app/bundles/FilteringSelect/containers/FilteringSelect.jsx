@@ -25,7 +25,8 @@ const mapStateToProps = (state, ownProps) => {
   const alreadyLoadedInputs =
     state.filteringSelect.alreadyLoadedInputs[resource] || []
 
-  const errors = [] // TODO: Implement errors!
+  const errors =
+    (statePath && statePath.errors && statePath.errors[attribute]) || []
 
   return {
     value,
@@ -53,7 +54,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       dispatch(
         updateAction(
-          ownProps.formId, ownProps.attribute, newValue, ownProps.submodelPath
+          ownProps.formId, ownProps.attribute, ownProps.submodelPath, newValue
         )
       )
 

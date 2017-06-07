@@ -1,4 +1,5 @@
 import { FormObject, JsonApiAdapter } from 'rform'
+import { URL_REGEX } from '../lib/formats'
 
 export default class WebsiteFormObject extends FormObject {
   static get model() {
@@ -35,6 +36,6 @@ export default class WebsiteFormObject extends FormObject {
 
   validation() {
     this.required('host').filled()
-    this.required('url').filled()
+    this.required('url').filled({ 'format?': URL_REGEX })
   }
 }
