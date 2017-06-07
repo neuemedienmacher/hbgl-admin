@@ -26,7 +26,8 @@ class ReactCell < Cell::ViewModel
           target_field_values: StatisticChart::TARGET_FIELD_VALUES
         },
         assignments: {
-          assignable_models: Assignment::ASSIGNABLE_MODELS
+          assignable_models: Assignment::ASSIGNABLE_MODELS,
+          topics: Assignment::TOPICS
         }
       }
     }

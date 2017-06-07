@@ -17,4 +17,8 @@ module Division::Contracts
     include ::NestedValidation
     validate_nested_collection :websites, Website::Contracts::Create
   end
+
+  class Update < Create
+    # update-specific validations?
+  end
 end

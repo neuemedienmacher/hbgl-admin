@@ -38,14 +38,20 @@ const mapStateToProps = (state, ownProps) => {
     href: '/api/v1/assignments/',
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, systemUser, users),
-    userChoice: action == 'assign-someone-else',
+    userChoice: false,//action == 'assign-someone-else', // TODO: change this back once rform is fixed!!
+    topicChoice: false, // model == 'divisions' // TODO: change this back once rform is fixed!!
     messageField: action != 'assign-to-system' && action != 'assign-to-current-user'
+  }))
+  const topics = state.settings.assignments.topics.map(topic => ({
+    name: topic,
+    value: topic
   }))
 
   return {
     assignment,
     actions,
-    users
+    users,
+    topics
   }
 }
 
@@ -101,6 +107,7 @@ function buttonTextFor(action) {
 
 function seedDataFor(action, entities, assignment, systemUser, users) {
   let assignment_copy = clone(assignment)
+  assignment_copy['id'] = undefined
   assignment_copy['created-by-system'] = false
   switch(action) {
   case 'assign-to-current-user':

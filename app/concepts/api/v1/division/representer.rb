@@ -2,7 +2,7 @@
 module API::V1
   module Division
     module Representer
-      class Show < Roar::Decorator
+      class Show < API::V1::Assignable::Representer::Show
         include Roar::JSON::JSONAPI.resource :divisions
 
         attributes do

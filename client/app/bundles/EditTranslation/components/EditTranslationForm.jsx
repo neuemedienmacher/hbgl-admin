@@ -3,11 +3,17 @@ import { Form, InputSet, Button } from 'rform'
 import EditTranslationRow from '../containers/EditTranslationRow'
 
 export default class EditTranslationForm extends Component {
+  static contextTypes = {
+    mayEdit: PropTypes.bool
+  }
+
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      afterResponse, mayEdit, editLink, previewLink
+      afterResponse, editLink, previewLink
     } = this.props
+
+    const { mayEdit } = this.context
 
     return (
       <Form ajax requireValid

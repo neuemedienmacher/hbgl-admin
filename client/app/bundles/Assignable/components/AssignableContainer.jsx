@@ -3,6 +3,17 @@ import { Link } from 'react-router'
 import AssignmentActions from '../containers/AssignmentActions'
 
 export default class AssignableContainer extends Component {
+  static childContextTypes = {
+    mayEdit: PropTypes.bool,
+    test: PropTypes.string
+  }
+
+  getChildContext() {
+    return {
+      mayEdit: this.props.mayEdit
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.model != this.props.model || nextProps.id != this.props.id) {
       this.props.loadData(nextProps.model, nextProps.id)
@@ -28,6 +39,7 @@ export default class AssignableContainer extends Component {
             {this.renderActionsIfAssigned()}
           </div>
         </div>
+        {this.props.children}
       </div>
     )
   }

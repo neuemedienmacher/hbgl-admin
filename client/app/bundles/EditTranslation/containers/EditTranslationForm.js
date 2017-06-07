@@ -6,7 +6,7 @@ import OrganizationTranslationFormObject from
 import EditTranslationForm from '../components/EditTranslationForm'
 
 const mapStateToProps = (state, ownProps) => {
-  const { id, model, translation, mayEdit } = ownProps
+  const { id, model, translation } = ownProps
   const formId = `${model}Translation${id}`
 
   const action = `/api/v1/${model}_translations/${id}`

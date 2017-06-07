@@ -34,17 +34,25 @@ module Assignable
       end
     end
 
-    # only re-assign refugees translations, that are outdated or from GT and
-    # if they are not already assigned to the translator team
+
     def should_create_new_assignment?
       case model.class.to_s
+      # only re-assign refugees translations, that are outdated or from GT and
+      # if they are not already assigned to the translator team
       when 'OfferTranslation', 'OrganizationTranslation'
         translation_twin = ::Translation::Twin.new(model)
         !translation_twin.already_assigned_to_translator_team? &&
           translation_twin.should_be_reviewed_by_translator?
+      # only re-assign Divisions that are done and not assigned to system_user
+      when 'Division'
+        model.done == true && assigned_to_system? == false
       else
         false # NOTE: this is not used yet - rethink when other models become assignable!
       end
+    end
+
+    def assigned_to_system?
+      current_assignment.receiver_id == ::User.system_user.id
     end
 
     # TODO: Sub-Assignments (assignment with parent)

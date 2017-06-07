@@ -6,6 +6,7 @@ import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
 import addEntities from '../../../Backend/actions/addEntities'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
+import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Form from '../components/Form'
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,6 +15,9 @@ const mapStateToProps = (state, ownProps) => {
   const formId = generateFormId(model, submodelPath, submodelKey, editId)
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
+  const instance = state.entities[model] && state.entities[model][editId]
+  const isAssignable =
+    instance && instance['current-assignment-id'] !== undefined
 
   let seedData = {
     fields: {}
@@ -41,6 +45,8 @@ const mapStateToProps = (state, ownProps) => {
     method,
     formId,
     formObjectClass,
+    instance,
+    isAssignable
   }
 }
 
@@ -81,6 +87,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
           let message = error.source.pointer + ': ' + error.title
           dispatch(addFlashMessage('error', message))
         }
+      }
+    },
+
+    loadData(model = ownProps.model, id = ownProps.editId) {
+      if (model && id) {
+        dispatchProps.dispatch(
+          loadAjaxData(`${model}/${id}`, '', model)
+        )
       }
     }
   }

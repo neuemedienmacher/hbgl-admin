@@ -23,7 +23,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       receiver_team_id: receiver_team_id(assignable),
       message: message_for_new_assignment(assignable, last_acting_user),
       created_by_system: true,
-      topic: 'translation' # NOTE: switch-case this later (for other models)
+      topic: topic(assignable)
     }
   end
 
@@ -52,6 +52,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       end
     when 'ContactPersonTranslation'
       ::User.system_user.id
+    when 'Division'
+      nil
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -64,6 +66,17 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       if translation_twin.should_be_reviewed_by_translator?
         AssignmentDefaults.translator_teams[assignable.locale.to_s]
       end
+    when 'Division'
+      AssignmentDefaults.section_teams[assignable.section.identifier]
+    end
+  end
+
+  def topic(assignable)
+    case assignable.class.to_s
+    when 'OfferTranslation', 'OrganizationTranslation'
+      'translation'
+    when 'Division'
+      'new'
     end
   end
 
@@ -77,6 +90,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       else
         'Managed by system'
       end
+    when 'Division'
+      "Bitte die #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
     else
       'Assigned by system'
     end

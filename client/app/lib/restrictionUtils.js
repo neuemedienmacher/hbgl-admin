@@ -27,7 +27,8 @@ export function isCurrentUserAssignedToModel(entities, model, id) {
   let modelInstance = entities[model] && entities[model][id]
   let assignmentId = currentAssignmentIdFor(model, modelInstance)
 
-  return modelInstance && assignmentId && _isUserAssigned(entities, assignmentId)
+  return modelInstance !== undefined && assignmentId !== undefined &&
+         _isUserAssigned(entities, assignmentId) === true
 }
 
 export function isTeamOfCurrentUserAssignedToModel(entities, model, id) {
