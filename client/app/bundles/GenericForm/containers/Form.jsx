@@ -62,18 +62,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    handleResponse: (_formId, data, serverErrors) => {
-      if (!serverErrors || !serverErrors.length) {
-        dispatch(addEntities(data))
-      } else {
-        console.log(serverErrors)
-        for (let error of serverErrors) {
-          let message = error.source.pointer + ': ' + error.title
-          dispatch(addFlashMessage('error', message))
-        }
-      }
-    },
-
     afterResponse(response) {
       if (response.data && response.data.id) {
         dispatch(addFlashMessage('success', 'Läuft bei dir!'))
@@ -83,10 +71,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         dispatch(setupAction(stateProps.formId, {})) // reset form
         // browserHistory.push(`/${ownProps.model}/${response.data.id}`)
       } else if (response.errors && response.errors.length) {
-        for (let error of response.errors) {
-          let message = error.source.pointer + ': ' + error.title
-          dispatch(addFlashMessage('error', message))
-        }
+        const message =
+          'Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese' +
+          ' und versuche es erneut.'
+        dispatch(addFlashMessage('error', message))
       }
     },
 

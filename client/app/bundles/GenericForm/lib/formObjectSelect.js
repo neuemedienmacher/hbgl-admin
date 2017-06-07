@@ -10,7 +10,7 @@ import EmailFormObject from '../forms/EmailFormObject'
 
 export default function formObjectSelect(model) {
   switch(model) {
-  case 'user_teams':
+  case 'user-teams':
     return UserTeamFormObject
   case 'divisions':
     return DivisionFormObject
@@ -22,9 +22,9 @@ export default function formObjectSelect(model) {
     return LocationFormObject
   case 'cities':
     return CityFormObject
-  case 'federal_states':
+  case 'federal-states':
     return FederalStateFormObject
-  case 'contact_people':
+  case 'contact-people':
     return ContactPersonFormObject
   case 'emails':
     return EmailFormObject

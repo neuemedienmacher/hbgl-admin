@@ -6,6 +6,10 @@ export default class DivisionFormObject extends FormObject {
     return 'division'
   }
 
+  static get type() {
+    return 'divisions'
+  }
+
   static get properties() {
     return [
       'name', 'organization', 'section', 'websites',
@@ -20,7 +24,7 @@ export default class DivisionFormObject extends FormObject {
 
   static get submodelConfig() {
     return {
-      websites: { type: 'oneToMany', object: WebsiteFormObject }
+      websites: { relationship: 'oneToMany', object: WebsiteFormObject }
     }
   }
 

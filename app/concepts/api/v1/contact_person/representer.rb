@@ -41,7 +41,7 @@ module API::V1
         has_one :email do
           type :organizations
           attributes do
-            property :name, as: :label
+            property :address, as: :label
           end
         end
       end
