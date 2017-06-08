@@ -19,13 +19,18 @@ export default class DivisionFormObject extends FormObject {
   }
 
   static get submodels() {
-    return ['websites', 'section']
+    return [
+      'websites', 'section', 'presumed-categories',
+      'presumed-solution-categories'
+      ]
   }
 
   static get submodelConfig() {
     return {
       websites: { relationship: 'oneToMany', object: WebsiteFormObject },
-      section: { relationship: 'oneToOne' }
+      section: { relationship: 'oneToOne' },
+      'presumed-categories': { relationship: 'oneToMany' },
+      'presumed-solution-categories': { relationship: 'oneToMany' }
     }
   }
 

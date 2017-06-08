@@ -6,7 +6,7 @@ module API::V1
     respond_to :json
 
     def show
-      model = params[:model].camelize.constantize
+      model = params[:model].underscore.camelize.constantize
       render json: API::V1::FieldSet::Show.new(model)
     end
   end

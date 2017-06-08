@@ -1,6 +1,8 @@
 import { FormObject, JsonApiAdapter } from 'rform'
 import WebsiteFormObject from './WebsiteFormObject'
 import DivisionFormObject from './DivisionFormObject'
+import LocationFormObject from './LocationFormObject'
+import ContactPersonFormObject from './ContactPersonFormObject'
 
 export default class OrganizationFormObject extends FormObject {
   static get model() {
@@ -19,7 +21,7 @@ export default class OrganizationFormObject extends FormObject {
   }
 
   static get submodels() {
-    return ['website', 'divisions'] // , 'locations', 'contact-people'
+    return ['website', 'divisions', 'locations', 'contact-people']
   }
 
   static get submodelConfig() {
@@ -30,6 +32,14 @@ export default class OrganizationFormObject extends FormObject {
       },
       divisions: {
         object: DivisionFormObject,
+        relationship: 'oneToMany'
+      },
+      locations: {
+        object: LocationFormObject,
+        relationship: 'oneToMany'
+      },
+      'contact-people': {
+        object: ContactPersonFormObject,
         relationship: 'oneToMany'
       }
     }
