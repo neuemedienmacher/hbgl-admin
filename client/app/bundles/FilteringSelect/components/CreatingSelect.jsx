@@ -38,12 +38,12 @@ export default class CreatingSelect extends React.Component {
   }
 
   _renderSubmodelForms(model, submodelName, parentModels, removeClickHandler) {
-    return (_, index) => {
+    return (formId, index) => {
       return(
         <div style={{border: '1px solid black'}} key={index}>
-          <button onClick={removeClickHandler}>x</button>
+          <button onClick={removeClickHandler(formId)}>x</button>
           <Form
-            model={submodelName} nestingModel={model}
+            formId={formId} model={submodelName} nestingModel={model}
             submodelPath={parentModels} submodelKey={index}
           />
         </div>

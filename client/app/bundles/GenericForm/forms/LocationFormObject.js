@@ -31,6 +31,17 @@ export default class LocationFormObject extends FormObject {
     }
   }
 
+  // static get submodels() {
+  //   return ['city', 'federal-state']
+  // }
+  //
+  // static get submodelFormConfig() {
+  //   return {
+  //     city: { relationship: 'oneToOne' },
+  //     'federal-state': { relationship: 'oneToOne' },
+  //   }
+  // }
+  //
   static get ajaxAdapter() {
     return JsonApiAdapter
   }
