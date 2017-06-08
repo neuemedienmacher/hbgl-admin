@@ -36,13 +36,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
 
-  setValuesOfBlockedInputs() {
-    for (let input of stateProps.blockedInputs) {
-      dispatchProps.dispatch(
-        updateAction(ownProps.formId, input, null, null, '_blocked', false)
-      )
-    }
-  }
+  // setValuesOfBlockedInputs() {
+  //   for (let input of stateProps.blockedInputs) {
+  //     dispatchProps.dispatch(
+  //       updateAction(ownProps.formId, input, null, null, '_blocked', false)
+  //     )
+  //   }
+  // }
 })
 
 function collectBlockedInputs(inputs, nestingModel) {
@@ -51,7 +51,7 @@ function collectBlockedInputs(inputs, nestingModel) {
   if (nestingModel) {
     const singularModel = singularize(nestingModel)
     potentiallyBlockedInputs.push(
-      `${singularModel}-id`, `${singularModel}-ids`
+      singularModel, `${singularModel}-id`, `${singularModel}-ids`
     )
   }
 

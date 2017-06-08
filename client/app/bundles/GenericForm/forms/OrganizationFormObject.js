@@ -13,8 +13,8 @@ export default class OrganizationFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'priority', 'website', 'locations', 'contact-people',
-      'comment', 'divisions'
+      'name', 'website', 'locations', 'contact-people',
+      'comment', 'priority', 'divisions'
     ]
   }
 

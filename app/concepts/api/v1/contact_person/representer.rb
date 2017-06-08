@@ -38,12 +38,9 @@ module API::V1
           end
         end
 
-        has_one :email do
-          type :organizations
-          attributes do
-            property :address, as: :label
-          end
-        end
+        has_one :email, decorator: API::V1::Email::Representer::Show,
+                        populator: Lib::Populators::FindOrInstantiate,
+                        class: ::Email
       end
     end
   end

@@ -5,10 +5,14 @@ export default class LocationFormObject extends FormObject {
     return 'location'
   }
 
+  static get type() {
+    return 'locations'
+  }
+
   static get properties() {
     return [
-      'name', 'street', 'addition', 'zip', 'hq', 'visible', 'in_germany',
-      'organization_id', 'city_id', 'federal_state_id'
+      'name', 'street', 'addition', 'zip', 'hq', 'visible', 'in-germany',
+      'organization', 'city', 'federal-state'
     ]
   }
 
@@ -20,10 +24,10 @@ export default class LocationFormObject extends FormObject {
       zip: { type: 'string' },
       hq: { type: 'checkbox' },
       visible: { type: 'checkbox' },
-      in_germany: { type: 'checkbox' },
-      organization_id: { type: 'creating-select' },
-      city_id: { type: 'creating-select' },
-      federal_state_id: { type: 'filtering-select' },
+      'in-germany': { type: 'checkbox' },
+      organization: { type: 'filtering-select' },
+      city: { type: 'filtering-select' },
+      'federal-state': { type: 'filtering-select' },
     }
   }
 
@@ -34,8 +38,8 @@ export default class LocationFormObject extends FormObject {
   validation() {
     this.required('street').filled()
     this.required('zip').filled()
-    // this.required('organization_id').filled()
-    // this.required('city_id').filled()
-    // this.required('federal_state_id').filled()
+    // this.required('organization').filled()
+    // this.required('city').filled()
+    // this.required('federal-state').filled()
   }
 }

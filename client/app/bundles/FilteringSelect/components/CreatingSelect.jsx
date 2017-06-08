@@ -17,7 +17,7 @@ export default class CreatingSelect extends React.Component {
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
           formId={formId} type={input.type} resource={input.resource}
-          showSelect={showSelect}
+          showSelect={showSelect} model={model}
         >
           {showButton &&
             this._renderAdditionalObjectButton(onAddSubmodelFormClick)}

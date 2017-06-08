@@ -1,14 +1,17 @@
 import { FormObject, JsonApiAdapter } from 'rform'
+import { EMAIL_REGEX } from '../lib/formats'
 
-export default class CityFormObject extends FormObject {
+export default class EmailFormObject extends FormObject {
   static get model() {
     return 'email'
   }
 
+  static get type() {
+    return 'emails'
+  }
+
   static get properties() {
-    return [
-      'address'
-    ]
+    return ['address']
   }
 
   static get formConfig() {
@@ -22,6 +25,6 @@ export default class CityFormObject extends FormObject {
   }
 
   validation() {
-    this.required('address').filled()
+    this.required('address').filled({ 'format?': EMAIL_REGEX })
   }
 }

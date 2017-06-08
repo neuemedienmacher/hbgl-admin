@@ -37,19 +37,11 @@ module API::V1
           end
         end
 
-        has_one :federal_state do
-          type :federal_states
-          attributes do
-            property :name, as: :label
-          end
-        end
-
-        has_one :city do
-          type :cities
-          attributes do
-            property :name, as: :label
-          end
-        end
+        has_one :federal_state,
+                decorator: API::V1::FederalState::Representer::Show,
+                populator: Lib::Populators::Find, class: ::FederalState
+        has_one :city, decorator: API::V1::City::Representer::Show,
+                       populator: Lib::Populators::Find, class: ::City
       end
 
       # class Update < Roar::Decorator

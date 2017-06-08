@@ -15,9 +15,9 @@ class LocationCreateTest < ActiveSupport::TestCase
       street: 'LocationStreet 23',
       in_germany: false,
       zip: '12345',
-      organization_id: orga.id,
-      city_id: city.id,
-      federal_state_id: federal_state.id
+      organization: orga,
+      city: city,
+      federal_state: federal_state
     }
   end
 
@@ -38,18 +38,18 @@ class LocationCreateTest < ActiveSupport::TestCase
         operation_wont_work ::Location::Create, basic_params
       end
 
-      it 'must validate organization_id' do
-        basic_params[:organization_id] = nil
+      it 'must validate organization' do
+        basic_params[:organization] = nil
         operation_wont_work ::Location::Create, basic_params
       end
 
-      it 'must validate city_id' do
-        basic_params[:city_id] = nil
+      it 'must validate city' do
+        basic_params[:city] = nil
         operation_wont_work ::Location::Create, basic_params
       end
 
-      it 'must validate federal_state_id' do
-        basic_params[:federal_state_id] = nil
+      it 'must validate federal_state' do
+        basic_params[:federal_state] = nil
         operation_wont_work ::Location::Create, basic_params
       end
     end

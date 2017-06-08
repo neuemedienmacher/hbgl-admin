@@ -10,7 +10,7 @@ class ContactPersonCreateTest < ActiveSupport::TestCase
   let(:basic_params) do
     {
       first_name: 'ContactPersonName',
-      organization_id: orga.id
+      organization: orga
     }
   end
 
@@ -25,8 +25,8 @@ class ContactPersonCreateTest < ActiveSupport::TestCase
         operation_wont_work ::ContactPerson::Create, basic_params
       end
 
-      it 'must validate organization_id' do
-        basic_params[:organization_id] = nil
+      it 'must validate organization' do
+        basic_params[:organization] = nil
         operation_wont_work ::ContactPerson::Create, basic_params
       end
 

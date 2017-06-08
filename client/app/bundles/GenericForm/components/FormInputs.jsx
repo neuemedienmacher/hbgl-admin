@@ -4,9 +4,9 @@ import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 
 export default class FormInputs extends React.Component {
-  componentDidMount() {
-    this.props.setValuesOfBlockedInputs()
-  }
+  // componentDidMount() {
+  //   this.props.setValuesOfBlockedInputs()
+  // }
 
   render() {
     const {

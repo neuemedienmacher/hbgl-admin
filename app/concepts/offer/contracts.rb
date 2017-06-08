@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module Offer::Contracts
-  # rubocop:disable ClassLength
+  # rubocop:disable Metrics/ClassLength
   class Create < Reform::Form
     # fill me!
     property :name
@@ -162,7 +162,7 @@ module Offer::Contracts
       VISIBLE_FRONTEND_STATES.include?(aasm_state)
     end
   end
-  # rubocop:enable ClassLength
+  # rubocop:enable Metrics/ClassLength
   class Update < Create
     # fill me!
     validate :sections_must_match_categories_sections

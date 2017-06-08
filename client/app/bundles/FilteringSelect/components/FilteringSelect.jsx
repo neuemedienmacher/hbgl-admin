@@ -17,12 +17,14 @@ export default class FilteringSelect extends React.Component {
     const {
       wrapperClassName, attribute, errorClassName, errors, label, loadOptions,
       onChange, value, multi, placeholder, children,
-      options, isLoading, onInputChange, showSelect
+      options, isLoading, onInputChange, showSelect, formId, model,
     } = this.props
 
     return (
       <div className={wrapperClassName}>
-        <Label attribute={attribute} content={label} />
+        <Label
+          formId={formId} model={model} attribute={attribute} content={label}
+        />
 
         {showSelect && this._renderSelect(
           multi, options, isLoading, onChange, onInputChange, value, placeholder
