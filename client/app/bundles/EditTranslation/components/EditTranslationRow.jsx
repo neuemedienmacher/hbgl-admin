@@ -2,6 +2,10 @@ import React, { PropTypes, Component } from 'react'
 import { Form, InputSet } from 'rform'
 
 export default class EditTranslationForm extends Component {
+  static contextTypes = {
+    disableUiElements: PropTypes.bool
+  }
+
   render() {
     const { property, source } = this.props
 
@@ -18,9 +22,10 @@ export default class EditTranslationForm extends Component {
   }
 
   renderTextOrForm(){
-    const { property, length, source, content, type, mayEdit } = this.props
+    const { property, length, source, content, type } = this.props
+    const { disableUiElements } = this.context
 
-    if (mayEdit && (source && source[property] || content)) {
+    if (disableUiElements == false && (source && source[property] || content)) {
       return (
         <div>
           <InputSet

@@ -2,8 +2,9 @@
 module API::V1
   module OfferTranslation
     module Representer
-      class Show < API::V1::Assignable::Representer::Show
+      class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :offer_translations
+        include API::V1::Assignable::Representer
 
         attributes do
           property :label, getter: ->(ot) do

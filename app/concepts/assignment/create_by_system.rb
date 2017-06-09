@@ -53,7 +53,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'ContactPersonTranslation'
       ::User.system_user.id
     when 'Division'
-      nil
+      assignable.done == false ? nil : ::User.system_user.id
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -67,7 +67,9 @@ class Assignment::CreateBySystem < Trailblazer::Operation
         AssignmentDefaults.translator_teams[assignable.locale.to_s]
       end
     when 'Division'
-      AssignmentDefaults.section_teams[assignable.section.identifier]
+      if assignable.done == false
+        AssignmentDefaults.section_teams[assignable.section.identifier]
+      end
     end
   end
 
@@ -76,7 +78,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
     when 'Division'
-      'new'
+      assignable_twin = ::Assignable::Twin.new(assignable)
+      assignable.done == false ? 'new' : assignable_twin..current_assignment.topic
     end
   end
 
@@ -91,7 +94,11 @@ class Assignment::CreateBySystem < Trailblazer::Operation
         'Managed by system'
       end
     when 'Division'
-      "Bitte die #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
+      if assignable.done == false
+        "Bitte die #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
+      else
+        'Managed by system'
+      end
     else
       'Assigned by system'
     end

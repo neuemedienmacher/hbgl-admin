@@ -5,7 +5,7 @@ import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 
 export default class FormInputs extends React.Component {
   static contextTypes = {
-    mayEdit: PropTypes.bool
+    disableUiElements: PropTypes.bool
   }
 
   componentDidMount() {
@@ -29,8 +29,8 @@ export default class FormInputs extends React.Component {
   }
 
   _renderInput(formId, blockedInputs, model, formObjectClass, submodelPath) {
-    const disabled =
-      this.context.mayEdit !== undefined ? !this.context.mayEdit : false
+    const disabled = this.context.disableUiElements !== undefined ?
+                      this.context.disableUiElements : false
 
     return (input, index) => {
       // Skip rendering blocked inputs

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import AssignableContainer from '../components/AssignableContainer'
+import filter from 'lodash/filter'
 import { isCurrentUserAssignedToModel, currentAssignmentIdFor }
   from '../../../lib/restrictionUtils'
 
@@ -8,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
   let assignable_id = ownProps.assignable && ownProps.assignable.id
   const id =
     currentAssignmentIdFor(ownProps.assignable_type, ownProps.assignable)
-  const mayEdit = isCurrentUserAssignedToModel(
+  const disableUiElements = !isCurrentUserAssignedToModel(
     state.entities, ownProps.assignable_type, assignable_id
   )
   const assignableDataLoad = ownProps.assignableDataLoad
@@ -24,6 +25,9 @@ const mapStateToProps = (state, ownProps) => {
     receiver: assignment['receiver-id'] ? state.entities.users[assignment['receiver-id']].name : '',
     receiverTeam: assignment['receiver-team-id'] ? state.entities['user-teams'][assignment['receiver-team-id']].name : ''
   } : {creator: '', creatorTeam: '', receiver: '' , receiverTeam: ''}
+  const assignments = ownProps.assignable ? filter(state.entities[model],
+    a => { return ownProps.assignable['assignment-ids'].includes(a.id) }
+  ) : []
 
   return {
     id,
@@ -33,7 +37,8 @@ const mapStateToProps = (state, ownProps) => {
     heading,
     involvedEntities,
     assignableDataLoad,
-    mayEdit
+    disableUiElements,
+    assignments
   }
 }
 

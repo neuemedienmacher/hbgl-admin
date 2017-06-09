@@ -34,7 +34,6 @@ module Assignable
       end
     end
 
-
     def should_create_new_assignment?
       case model.class.to_s
       # only re-assign refugees translations, that are outdated or from GT and

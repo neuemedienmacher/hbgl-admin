@@ -5,7 +5,8 @@ class API::V1::Division::RepresenterTest < ActiveSupport::TestCase
   let(:subject) { API::V1::Division::Representer::Show }
 
   it 'should provide its fields' do
-    record = Division.new name: 'foo', organization_id: 1
+    record = FactoryGirl.create :division,
+                                name: 'foo', organization: Organization.find(1)
     result = subject.new(record).to_hash
     result['data']['attributes']['label'].must_equal 'foo'
     result['data']['relationships']['organization']['data']['id'].must_equal '1'
