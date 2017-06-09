@@ -87,7 +87,7 @@ describe Location do
       end
       another_offer.location_id = loc.id
       another_offer.save!
-      loc.assign_attributes(federal_state_id: '2')
+      loc.federal_state = FederalState.create(name: 'Malle')
       loc.save!
       LocationObserver.send(:new).after_commit(loc)
       loc.reload
@@ -104,7 +104,7 @@ describe Location do
       end
       another_offer.location_id = loc.id
       another_offer.save!
-      loc.assign_attributes(city_id: '2')
+      loc.city = City.create(name: 'Metropolis')
       loc.save!
       LocationObserver.send(:new).after_commit(loc)
       loc.reload

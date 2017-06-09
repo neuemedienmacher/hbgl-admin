@@ -34,6 +34,8 @@ function filterFields(fields, modelInstance) {
 }
 
 function filterAssociations(assocs, modelInstance) {
+  // TODO: This does not work anymore, as modelInstance does not have nested
+  // relationship anymore
   return assocs.filter(assoc => modelInstance[assoc[0]] != undefined)
 }
 

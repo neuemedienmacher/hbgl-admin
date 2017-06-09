@@ -1,43 +1,58 @@
 import { FormObject, JsonApiAdapter } from 'rform'
+import EmailFormObject from './EmailFormObject'
 
 export default class CityFormObject extends FormObject {
   static get model() {
-    return 'contact_person'
+    return 'contact-person'
+  }
+
+  static get type() {
+    return 'contact-people'
   }
 
   static get properties() {
     return [
-      'address', 'area_code_1', 'area_code_2', 'local_number_1',
-      'local_number_2', 'fax_area_code', 'fax_number', 'first_name',
-      'last_name', 'operational_name', 'academic_title', 'gender',
-      'responsibility', 'position', 'street', 'zip_and_city', 'spoc',
-      'organization_id', 'email_id'
+      'address', 'area-code-1', 'area-code-2', 'local-number-1',
+      'local-number-2', 'fax-area-code', 'fax-number', 'first-name',
+      'last-name', 'operational-name', 'academic-title', 'gender',
+      'responsibility', 'position', 'street', 'zip-and-city', 'spoc',
+      'organization', 'email'
     ]
   }
 
   static get formConfig() {
     return {
       address: { type: 'string' },
-      area_code_1: { type: 'string' },
-      area_code_2: { type: 'string' },
-      local_number_1: { type: 'string' },
-      local_number_2: { type: 'string' },
-      fax_area_code: { type: 'string' },
-      fax_number: { type: 'string' },
-      first_name: { type: 'string' },
-      last_name: { type: 'string' },
-      operational_name: { type: 'string' },
-      academic_title: { type: 'select', options: ['dr', 'prof_dr'] },
+      'area-code-1': { type: 'string' },
+      'area-code-2': { type: 'string' },
+      'local-number-1': { type: 'string' },
+      'local-number-2': { type: 'string' },
+      'fax-area-code': { type: 'string' },
+      'fax-number': { type: 'string' },
+      'first-name': { type: 'string' },
+      'last-name': { type: 'string' },
+      'operational-name': { type: 'string' },
+      'academic-title': { type: 'select', options: ['dr', 'prof_dr'] },
       gender: { type: 'select', options: ['male', 'female'] },
       responsibility: { type: 'string' },
       position: {
-        type: 'select', options: ['superior', 'public_relations', 'other']
+        type: 'select', options: ['superior', 'public-relations', 'other']
       },
       street: { type: 'string' },
-      zip_and_city: { type: 'string' },
+      'zip-and-city': { type: 'string' },
       spoc: { type: 'checkbox' },
-      organization_id: { type: 'creating-select' },
-      email_id: { type: 'creating-select' }
+      organization: { type: 'filtering-select' },
+      email: { type: 'creating-select' }
+    }
+  }
+
+  static get submodels() {
+    return ['email']
+  }
+
+  static get submodelConfig() {
+    return {
+      email: { relationship: 'oneToOne', object: EmailFormObject }
     }
   }
 
@@ -47,6 +62,6 @@ export default class CityFormObject extends FormObject {
 
   validation() {
     this.required('address').filled()
-    this.required('organization_id').filled()
+    this.required('organization').filled()
   }
 }

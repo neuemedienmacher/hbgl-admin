@@ -9,7 +9,7 @@ import CreatingSelect from '../components/CreatingSelect'
 
 const mapStateToProps = (state, ownProps) => {
   const attribute = ownProps.input.attribute
-  const additionalSubmodelForms = (state.rform[ownProps.formId] &&
+  let additionalSubmodelForms = (state.rform[ownProps.formId] &&
     state.rform[ownProps.formId]._registeredSubmodelForms &&
     state.rform[ownProps.formId]._registeredSubmodelForms[attribute]) || []
   const hasSubmodelForm = !!additionalSubmodelForms.length
@@ -39,22 +39,28 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
   const { formId, input } = ownProps
   const { submodelName, parentModels, additionalSubmodelForms } = stateProps
-  const submodelFormId = generateFormId(
-    submodelName, parentModels, additionalSubmodelForms.length
-  )
 
   return {
     ...stateProps,
     ...ownProps,
 
     onAddSubmodelFormClick() {
-      dispatch(registerSubmodelForm(formId, input.attribute, submodelFormId))
+      const nextSubFormId = generateFormId(submodelName, parentModels, uid())
+      dispatch(registerSubmodelForm(formId, input.attribute, nextSubFormId))
     },
 
-    onRemoveSubmodelFormClick() {
-      dispatch(unregisterSubmodelForm(formId, input.attribute, submodelFormId))
+    onRemoveSubmodelFormClick(removedFormId) {
+      return () => {
+        dispatch(
+          unregisterSubmodelForm(formId, input.attribute, removedFormId)
+        )
+      }
     },
   }
+}
+
+function uid() {
+  return Math.random().toString(36).substring(2)
 }
 
 export default connect(

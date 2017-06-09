@@ -4,7 +4,7 @@ module API::V1
     class Show < Representable::Decorator
       include Representable::JSON
 
-      property :column_names, getter: ->(r) do
+      property :'column-names', getter: ->(r) do
         r[:represented].column_names
       end
 
@@ -21,7 +21,7 @@ module API::V1
           end
           assocs[assoc.name] = {
             'columns' => assoc.klass.column_names,
-            'class_name' => class_name,
+            'class-name' => class_name,
             'key' => key
           }
         end

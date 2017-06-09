@@ -2,6 +2,7 @@
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
 
+# rubocop:disable Metrics/ClassLength
 class OrganizationCreateTest < ActiveSupport::TestCase
   include OperationTestUtils
 
@@ -28,6 +29,33 @@ class OrganizationCreateTest < ActiveSupport::TestCase
                 }
               }
             ]
+          },
+          'contact-people': {
+            data: [
+              {
+                type: 'contact-people',
+                attributes: { 'first-name': 'jane' }
+              }, {
+                type: 'contact-people',
+                attributes: { 'last-name': 'johnson' }
+              }
+            ]
+          },
+          'locations': {
+            data: [
+              {
+                type: 'locations',
+                attributes: {
+                  name: 'HaQu', street: 'foob 1', zip: '12345',
+                  'in-germany': true, hq: true
+                },
+                relationships: {
+                  city: { data: { type: 'cities', id: '1' } },
+                  'federal-state': { data: { type: 'federal-states', id: '1' } }
+                }
+              },
+              { type: 'locations', id: '1' }
+            ]
           }
         }
       }
@@ -43,6 +71,14 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     result['model'].divisions.first.section_id.must_equal 1
     result['model'].divisions.last.name.must_equal 'baz'
     result['model'].divisions.last.section_id.must_equal 2
+    result['model'].contact_people.length.must_equal 2
+    result['model'].contact_people.first.first_name.must_equal 'jane'
+    result['model'].contact_people.last.last_name.must_equal 'johnson'
+    result['model'].locations.length.must_equal 2
+    result['model'].locations.first.name.must_equal 'HaQu'
+    result['model'].locations.first.city.name.must_equal 'Berlin'
+    result['model'].locations.first.federal_state.id.must_equal 1
+    result['model'].locations.last.street.must_equal 'basicStreet 1'
   end
 
   it 'wont get created with faulty website submodel' do
@@ -105,3 +141,4 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

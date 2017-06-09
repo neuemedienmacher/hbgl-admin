@@ -2,8 +2,8 @@
 module Email::Contracts
   class Create < Reform::Form
     property :address
-    property :aasm_state
-    property :security_code
+    # property :aasm_state
+    # property :security_code
 
     # Validations
     # no whitespaces allowed.. whitespacec are theoratically allowed within " "
@@ -15,6 +15,8 @@ module Email::Contracts
   end
 
   class Update < Create
+    # TODO: user writable security code??
+    property :security_code
     validates :security_code, presence: true, unless: :blocked?
     validates_uniqueness_of :security_code
 

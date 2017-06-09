@@ -45,7 +45,7 @@ module API::V1
           end
         end
 
-        has_many :presumed_solution_categories, class: ::Category do
+        has_many :presumed_solution_categories, class: ::SolutionCategory do
           type :solution_categories
 
           attributes do

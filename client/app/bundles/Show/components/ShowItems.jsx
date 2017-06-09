@@ -16,10 +16,14 @@ export default class ShowItems extends React.Component {
           <div className="panel-group">
             <h5 className="section-title">Eigene Felder</h5>
             {columnNames.map(name =>
-              <ShowFieldItem key={name} name={name} content={modelInstance[name]}/>
+              <ShowFieldItem
+                key={name} name={name} content={modelInstance[name]}
+              />
             )}
           </div>
-          <AssociationItems modelInstance={modelInstance} associations={associations}/>
+          <AssociationItems
+            modelInstance={modelInstance} associations={associations}
+          />
         </div>
       )
     }

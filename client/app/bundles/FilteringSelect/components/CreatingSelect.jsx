@@ -17,7 +17,7 @@ export default class CreatingSelect extends React.Component {
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
           formId={formId} type={input.type} resource={input.resource}
-          showSelect={showSelect}
+          showSelect={showSelect} model={model}
         >
           {showButton &&
             this._renderAdditionalObjectButton(onAddSubmodelFormClick)}
@@ -38,12 +38,12 @@ export default class CreatingSelect extends React.Component {
   }
 
   _renderSubmodelForms(model, submodelName, parentModels, removeClickHandler) {
-    return (_, index) => {
+    return (formId, index) => {
       return(
         <div style={{border: '1px solid black'}} key={index}>
-          <button onClick={removeClickHandler}>x</button>
+          <button onClick={removeClickHandler(formId)}>x</button>
           <Form
-            model={submodelName} nestingModel={model}
+            formId={formId} model={submodelName} nestingModel={model}
             submodelPath={parentModels} submodelKey={index}
           />
         </div>

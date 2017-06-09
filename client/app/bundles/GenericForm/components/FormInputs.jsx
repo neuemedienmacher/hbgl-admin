@@ -8,9 +8,9 @@ export default class FormInputs extends React.Component {
     disableUiElements: PropTypes.bool
   }
 
-  componentDidMount() {
-    this.props.setValuesOfBlockedInputs()
-  }
+  // componentDidMount() {
+  //   this.props.setValuesOfBlockedInputs()
+  // }
 
   render() {
     const {

@@ -35,6 +35,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoading,
     resource,
     alreadyLoadedInputs,
+    showSelect: ownProps.showSelect || true,
   }
 }
 

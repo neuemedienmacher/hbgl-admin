@@ -6,9 +6,9 @@ module Location::Contracts
     property :addition
     property :zip
     property :display_name
-    property :city_id
-    property :organization_id
-    property :federal_state_id
+    property :city
+    property :organization
+    property :federal_state
     property :in_germany
     property :hq
     property :visible
@@ -21,9 +21,9 @@ module Location::Contracts
                     if: ->(location) { location.in_germany }
     # validates :display_name, presence: true
 
-    validates :city_id, presence: true
-    validates :organization_id, presence: true
-    validates :federal_state_id, presence: true
+    validates :city, presence: true
+    validates :organization, presence: true
+    validates :federal_state, presence: true
   end
 
   class Update < Create

@@ -4,7 +4,8 @@ import AssociationItems from '../components/AssociationItems'
 
 const mapStateToProps = (state, ownProps) => {
   const modelInstance = ownProps.modelInstance
-  const associations = processAssociations(ownProps.associations || [], modelInstance)
+  const associations =
+    processAssociations(ownProps.associations || [], modelInstance)
   return {
     modelInstance,
     associations
@@ -16,7 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ })
 function processAssociations(associations, modelInstance) {
   let new_associations = []
   associations.map(([assoc_name, assoc]) => {
-    let class_name = assoc.class_name
+    let class_name = assoc['class-name']
     let filter = ''
     if(assoc.key) {
       filter = {'per_page': 15}
