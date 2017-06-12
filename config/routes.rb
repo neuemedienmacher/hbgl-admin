@@ -95,7 +95,7 @@ Rails.application.routes.draw do
       api_resources :solution_categories, only: [:show, :index]
       api_resources :offers, only: [:index, :show]
       api_resources :locations, only: [:index, :show]
-      api_resources :organizations, only: [:show, :index, :create, :update]
+      api_resources :organizations
       api_resources :divisions, only: [:show, :index, :create, :update]
       api_resources :statistics, only: [:index]
       api_resources :users, only: [:index, :show, :update]
