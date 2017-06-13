@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Assignment::Create < Trailblazer::Operation
+  include Assignable::CommonSideEffects::CreateNewAssignment
+
   step Model(Assignment, :new)
   # step :decorate_assignable
   step Policy::Pundit(AssignmentPolicy, :create?)
@@ -9,6 +11,7 @@ class Assignment::Create < Trailblazer::Operation
   step :close_open_assignments!
   step Contract::Persist()
   step :reset_translation_if_returned_to_system_user
+  step :create_optional_assignment_for_organization!
 
   extend Contract::DSL
   contract do

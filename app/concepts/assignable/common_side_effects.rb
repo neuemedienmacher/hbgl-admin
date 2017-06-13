@@ -24,7 +24,7 @@ module Assignable
 
       # Side-Effect: iterate organizations and create assignments for
       # translations
-      def create_assignment_for_organization_if_it_should_be_assigned!(
+      def create_optional_assignment_for_organization_translation!(
         options, model:, current_user:, **
       )
         return true unless model.offer && model.offer.visible_in_frontend?
@@ -39,6 +39,21 @@ module Assignable
             end
           end.all? # NOTE: problem?
         end.all? # NOTE: u mad bro?
+      end
+
+      def create_optional_assignment_for_organization!(
+        _options, model:, current_user:, **
+      )
+        return true unless model.class == Division && model.organization
+        orga_assignable_twin = ::Assignable::Twin.new(model.organization)
+        if model.organization.aasm_state == 'initialized' &&
+           orga_assignable_twin.receiver_id.nil?
+          ::Assignment::CreateBySystem.(
+            {}, assignable: model.organization, last_acting_user: current_user
+          ).success?
+        else
+          true
+        end
       end
     end
   end

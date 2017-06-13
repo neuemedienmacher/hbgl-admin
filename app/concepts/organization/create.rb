@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Organization::Create < Trailblazer::Operation
+  include Assignable::CommonSideEffects::CreateNewAssignment
+
   step Model(::Organization, :new)
   step Policy::Pundit(OrganizationPolicy, :create?)
 
@@ -7,6 +9,7 @@ class Organization::Create < Trailblazer::Operation
   step Contract::Validate()
   step :set_creating_user
   step Contract::Persist()
+  step :create_initial_assignment!
 
   def set_creating_user(_, current_user:, model:, **)
     model.created_by = current_user.id

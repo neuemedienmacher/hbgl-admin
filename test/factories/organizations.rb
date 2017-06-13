@@ -43,6 +43,11 @@ FactoryGirl.define do
         create_list :location, (evaluator.location_count - 1),
                     organization: orga, hq: false
       end
+      orga.assignments << ::Assignment::CreateBySystem.(
+        {},
+        assignable: orga,
+        last_acting_user: User.find(orga.created_by)
+      )['model']
     end
 
     # traits

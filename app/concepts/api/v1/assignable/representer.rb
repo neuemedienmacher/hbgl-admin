@@ -2,6 +2,7 @@
 module API::V1
   module Assignable
     module Representer
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def self.included(base)
         base.attributes do
           # method (uses scopes) to get current_assignment
@@ -33,6 +34,7 @@ module API::V1
           end
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
   end
 end

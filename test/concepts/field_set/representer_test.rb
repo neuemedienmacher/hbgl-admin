@@ -11,7 +11,7 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
 
   it 'should correctly process the class_name' do
     result = subject.new(User).to_hash
-    result['associations'][:created_assignments]['class_name'].must_equal 'assignments'
+    result['associations'][:created_assignments]['class-name'].must_equal 'assignments'
   end
 
   it 'should provide the correct key for a given class name' do

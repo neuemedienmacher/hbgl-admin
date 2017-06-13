@@ -12,32 +12,32 @@ export default class AssociationItems extends React.Component {
     return (
       <div className="panel-group">
         <h5 className="section-title">Verknüpfte Modelle</h5>
-        {associations.map(([name, class_name, filter, href]) =>
+        {associations.map(([name, className, filter, href]) =>
           this.renderAssociation(
-            name, class_name, modelInstance[name], href, filter
+            name, className, modelInstance[name], href, filter
           )
         )}
       </div>
     )
   }
 
-  renderAssociation(name, class_name, items, href, filter){
+  renderAssociation(name, className, items, href, filter){
     return(
       <div key={name} className="panel panel-default">
         <div key={`${name}-heading`} className="panel-heading show--panel">
           <h3 className="panel-title">{name}</h3>
         </div>
-        {this.renderSwitch(name, class_name, items, href, filter)}
+        {this.renderSwitch(name, className, items, href, filter)}
       </div>
     )
   }
 
-  renderSwitch(name, class_name, items, href, filter){
+  renderSwitch(name, className, items, href, filter){
     if(filter) {
       return(
         <div key={name} className="panel-body show--panel">
           <InlineIndex
-            model={class_name} baseQuery={filter} identifierAddition={name}
+            model={className} baseQuery={filter} identifierAddition={name}
           />
         </div>
       )
