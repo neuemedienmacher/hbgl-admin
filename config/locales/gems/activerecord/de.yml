@@ -64,6 +64,9 @@ de:
       target_audience_filter:
         one: "Zielgruppenfilter"
         other: "Zielgruppenfilter"
+      target_audience_filters_offer:
+        one: "erweiterte Zielgruppe"
+        other: "erweiterte Zielgruppen"
       encounter_filter:
         one: "Kontaktfilter"
         other: "Kontaktfilter"
@@ -85,6 +88,7 @@ de:
       contact_person:
         spoc: "SPoC"
       offer:
+        target_audience_filters_offers: "erweiterte Zielgruppen"
         aasm_state: "Zustand"
         section: "clarat-Welt"
       organization:

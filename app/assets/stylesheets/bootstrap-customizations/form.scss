@@ -6,6 +6,18 @@
     padding: 6px 8px;
   }
 
+   textarea.form-control {
+    min-height: 150px;
+  }
+
+  .inline-errors {
+    position: absolute;
+    background: #a94442;
+    color: #fff;
+    font-size: 75%;
+    padding: 0 7px;
+  }
+
   label {
     font-weight: normal;
   }
@@ -29,6 +41,7 @@
   .select-wrapper {
     display: inline-block;
     position: relative;
+    margin-right: 10px;
 
     .form-control {
       padding-right: 25px;
@@ -40,16 +53,34 @@
       right: 10px;
       top: 50%;
       transform: translate(0, -50%);
+      pointer-events: none;
     }
   }
 }
 
 .btn {
 
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    opacity: .25;
+  }
+
   &,
   &:hover {
-    background-color: var(--main-brown);
+    background-color: var(--main-petrol);
     color: #fff;
+    border-radius: 0;
+    border: 0 none;
+  }
 
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.btn-warning,
+  &.btn-warning:hover {
+    background-color: var(--main-orange);
+    color: #fff;
   }
 }

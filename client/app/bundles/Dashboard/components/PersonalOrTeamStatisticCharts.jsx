@@ -10,7 +10,10 @@ export default class PersonalOrTeamStatisticCharts extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.dataLoaded && nextProps.trackableId != this.props.trackableId) {
+    if(nextProps.trackableId != this.props.trackableId ||
+       nextProps.dataLoaded && nextProps.dataLoaded.meta != undefined &&
+       nextProps.dataLoaded.meta.current_page < nextProps.dataLoaded.meta.total_pages
+    ) {
       this.props.loadData(nextProps)
     }
   }
@@ -32,7 +35,7 @@ export default class PersonalOrTeamStatisticCharts extends Component {
   existingChartsOrLoading(charts, loaded, type) {
     if (!loaded) {
       return (
-        <div>Loading statistic data... </div>
+        <div>Loading statistic data: {this.props.dataPercentage}</div>
       )
     } else {
       return (

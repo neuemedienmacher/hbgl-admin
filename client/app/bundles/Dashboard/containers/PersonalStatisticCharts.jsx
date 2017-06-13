@@ -26,13 +26,16 @@ const mapStateToProps = (state, ownProps) => {
   )
   const dataLoaded = state.ajax.isLoading[dataKey] === false &&
                      state.ajax[dataKey]
+  const dataPercentage = !state.ajax[dataKey] ? '0 %' :
+    ((state.ajax[dataKey].meta.current_page / state.ajax[dataKey].meta.total_pages) * 100).toFixed(2) + ' %'
   return {
     trackableId,
     statisticCharts,
     selectable_data,
     dataKey,
     dataLoaded,
-    chartType
+    chartType,
+    dataPercentage
   }
 }
 
@@ -49,6 +52,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     let lowest_start_date = newProps.statisticCharts.map(chart => {
       return chart.starts_at
     }).sort((a, b) => +(a > b) || +(a === b) - 1)[0]
+    let page = newProps.dataLoaded != undefined && newProps.dataLoaded.meta ?
+      newProps.dataLoaded.meta.current_page + 1 : 1
     dispatchProps.dispatch(
       loadAjaxData(
         'statistics',
@@ -58,7 +63,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
           'filters[time_frame]': 'daily',
           'filters[date]': lowest_start_date,
           'operators[date]': '>=', // TODO? allow for ranges in filters and also filter <= ends_at ?!
-          'per_page': 9999
+          'per_page': 50,
+          'page': page
         },
         newProps.dataKey
       )

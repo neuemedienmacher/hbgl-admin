@@ -25,7 +25,7 @@ module Assignable
     #     current_assignment
     # end
 
-    def created_by_system?
+    def should_be_created_by_system?
       case model.class.to_s
       when 'OfferTranslation', 'OrganizationTranslation'
         model.locale == 'de' || !model.translated_model.in_section?('refugees')
@@ -40,8 +40,9 @@ module Assignable
       case model.class.to_s
       when 'OfferTranslation', 'OrganizationTranslation'
         translation_twin = ::Translation::Twin.new(model)
-        !translation_twin.already_assigned_to_translator_team? &&
-          translation_twin.should_be_reviewed_by_translator?
+        current_assignment.nil? == true ||
+          translation_twin.currently_assigned_to_system_user? &&
+            translation_twin.should_be_reviewed_by_translator?
       else
         false # NOTE: this is not used yet - rethink when other models become assignable!
       end

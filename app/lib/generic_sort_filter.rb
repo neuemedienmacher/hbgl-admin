@@ -18,8 +18,11 @@ module GenericSortFilter
   end
 
   def self.transform_by_searching(query, param)
-    return query if !param || param.empty?
-    query.search_everything(param)
+    if !param || param.empty? || query.search_everything(param).nil?
+      query
+    else
+      query.search_everything(param).with_pg_search_rank
+    end
   end
 
   def self.transform_by_joining(query, params)

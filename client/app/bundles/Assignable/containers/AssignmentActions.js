@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import AssignmentActions from '../components/AssignmentActions'
-import addEntities from '../../../Backend/actions/addEntities'
 import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel,
          isCurrentUserActiveInTranslatorTeam }
   from '../../../lib/restrictionUtils'
@@ -49,17 +48,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  handleResponse(_formId, data){
-    dispatch(addEntities(data))
+  afterResponse(response) {
     // call dataLoad-Function of the assignable to update current_assignment
     if(ownProps.assignableDataLoad){
       ownProps.assignableDataLoad()
     }
-  },
-
-  afterResponse(response) {
-    // console.log('=========afterResponse==========')
-    // console.log(response)
   }
 })
 
@@ -102,6 +95,7 @@ function buttonTextFor(action) {
 
 function seedDataFor(action, entities, assignment, system_user, users) {
   let assignment_copy = clone(assignment)
+  assignment_copy.created_by_system = false
   switch(action) {
   case 'assign_to_current_user':
     assignment_copy.receiver_id = entities.current_user.id
