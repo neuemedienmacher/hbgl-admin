@@ -25,12 +25,14 @@ const mapStateToProps = (state, ownProps) => {
         !ownProps.lockedParams.hasOwnProperty(`filters[${value.field}]`)
     )
   const operatorName = ownProps.params[`operators[${filterName}]`] || '='
-  const range = (operatorName == "..." && filterType != 'text') ? 'visible' : 'hidden'
+  const range = 
+    (operatorName == "..." && filterType != 'text') ? 'visible' : 'hidden'
   const operators = settings.OPERATORS.map(operator => {
     return {
       value: operator,
-      displayName: textForOperator(operator, filterType)
+      displayName: textForOperator(operator, filterType, ownProps)
     }
+  debugger
   })
 
   return {
@@ -82,7 +84,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     params = merge(params, newParam)
 
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      let search = {}
+      search[ownProps.uiKey] = params
+      let searchString = jQuery.param(search)
+      browserHistory.replace(`/?${searchString}`)
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
@@ -102,7 +107,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
     }
-    params[ownProps.filter[0]] = []
   },
 
   onFilterValueChange(event) {
@@ -111,36 +115,54 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     if(params['operators[id]'] != '...') {
       params[ownProps.filter[0]] = [event.target.value]
     } else {
-      params[ownProps.filter[0]] = [params[ownProps.filter[0]][1]].concat([event.target.value]).slice(-2).sort(function(a, b) {return a - b;}); //only take last two elements and sort them
+      params[ownProps.filter[0]] = 
+        [params[ownProps.filter[0]][1]].concat([event.target.value]).slice(-2).
+          sort(function(a, b) {return a - b;}); //only take last two elements and sort them
     }
+    // console.log(ownProps.uiKey)
+    // let searchString = ownProps.uiKey ? '' : ownProps.model
+
+    // browserHistory.replace(`/${searchString}?${encode(params)}`)
 
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      //dispatch(setUiAction(ownProps.uiKey, params))
+      let search = {}
+      search[ownProps.uiKey] = params
+      let searchString = jQuery.param(search)
+      browserHistory.replace(`/?${searchString}`)
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
     }
-
   },
 
   onSecondFilterValueChange(event) {
     let params = clone(ownProps.params)
-
-    params[ownProps.filter[0]] = [params[ownProps.filter[0]][0]].concat([event.target.value]).slice(-2).sort(function(a, b) {return a - b;}); //only take last two elements and sort them
+    
+    params[ownProps.filter[0]] = 
+      [params[ownProps.filter[0]][0]].concat([event.target.value]).slice(-2).
+        sort(function(a, b) {return a - b;}); //only take last two elements and sort them
     if(!params[ownProps.filter[0]][0].length){
       alert('Bitte gib einen Anfangswert ein');
 
       params[ownProps.filter[0]] = params[ownProps.filter[0]].filter(Boolean);
     };
+    
+    // let searchString = ownProps.uiKey ? '' : ownProps.model
+
+    // browserHistory.replace(`/${searchString}?${encode(params)}`)
 
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      //dispatch(setUiAction(ownProps.uiKey, params))
+      let search = {}
+      search[ownProps.uiKey] = params
+      let searchString = jQuery.param(search)
+      browserHistory.replace(`/?${searchString}`)
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
     }
   },
-
 })
 
 function setFilterType (filterName) {
@@ -169,7 +191,7 @@ function getValue(props, index) {
 }
 
 
-function textForOperator(operator, filterType) {
+function textForOperator(operator, filterType, ownProps) {
   switch(true) {
     case operator == '<':
       return 'kleiner als'

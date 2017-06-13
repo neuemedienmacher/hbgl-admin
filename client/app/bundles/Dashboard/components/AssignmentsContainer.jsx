@@ -1,8 +1,12 @@
 import React, { PropTypes, Component } from 'react'
-import InlineIndex from '../../InlineIndex/containers/InlineIndex'
+import Index from '../../Index/containers/Index'
 import ControlledSelectView from '../../ControlledSelectView/containers/ControlledSelectView'
 
 export default class AssignmentsContainer extends Component {
+
+  componentDidMount() {
+    this.props.setQueryParams()
+  }
 
   render() {
     const {
@@ -13,7 +17,7 @@ export default class AssignmentsContainer extends Component {
       <div className="panel-group">
         {this.teamSelectOrNull(this.props.selectable_data)}
         <b>{heading}</b>
-        <InlineIndex
+        <Index
           model={model} identifier_addition={scope}
           lockedParams={lockedParams} optionalParams={optionalParams}
         />
