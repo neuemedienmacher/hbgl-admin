@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps) => {
     state.filteringSelect.alreadyLoadedInputs[resource] || []
 
   const errors =
-    (statePath && statePath.errors && statePath.errors[attribute]) || []
+    (statePath && statePath._errors && statePath._errors[attribute]) || []
 
   return {
     value,

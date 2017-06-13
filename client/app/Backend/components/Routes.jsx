@@ -74,13 +74,13 @@ export default class Routes extends React.Component {
             <Route path=':id' component={Show} />
           </Route>
 
-          <Route path='federal_states'>
+          <Route path='federal-states'>
             <IndexRoute component={Index}/>
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
           </Route>
 
-          <Route path='contact_people'>
+          <Route path='contact-people'>
             <IndexRoute component={Index}/>
             <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
