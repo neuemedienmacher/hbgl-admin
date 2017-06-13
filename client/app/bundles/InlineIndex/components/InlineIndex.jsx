@@ -11,6 +11,7 @@ export default class InlineIndex extends Component {
   }
 
   componentDidMount() {
+    debugger
     this.props.loadData()
   }
 

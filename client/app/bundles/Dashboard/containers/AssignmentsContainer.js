@@ -27,12 +27,8 @@ const mapStateToProps = (state, ownProps) => {
   }
   const lockedParams = lockedParamsFor(scope, itemId, system_user.id)
   const optionalParams =
-<<<<<<< HEAD
     { 'sort_field': 'created_at', 'sort_direction': 'DESC' }
   const params = merge(clone(optionalParams), clone(lockedParams))
-=======
-    { 'sort_field': 'updated_at', 'sort_direction': 'DESC' }
->>>>>>> 6ec7be1dd852ac03de0da756a23f26e70aae5246
   const heading = headingFor(scope)
 
   return {
