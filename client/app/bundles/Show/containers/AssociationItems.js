@@ -17,17 +17,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ })
 function processAssociations(associations, modelInstance) {
   let new_associations = []
   associations.map(([assoc_name, assoc]) => {
-    let class_name = assoc['class-name']
+    let className = assoc['class-name']
     let filter = ''
     if(assoc.key) {
       filter = {'per_page': 15}
       filter[`filter[${assoc.key}]`] = modelInstance.id
     }
     let href = ''
-    if(settings.index[class_name] && settings.index[class_name].member_actions){
-      href = `/${class_name}/`
+    if(settings.index[className] && settings.index[className].member_actions){
+      href = `/${className}/`
     }
-    new_associations.push([assoc_name, class_name, filter, href])
+    new_associations.push([assoc_name, className, filter, href])
   })
   return new_associations
 }

@@ -1,9 +1,22 @@
 # frozen_string_literal: true
 class Division::Create < Trailblazer::Operation
+  include Assignable::CommonSideEffects::CreateNewAssignment
+
   step Model(::Division, :new)
   step Policy::Pundit(DivisionPolicy, :create?)
 
   step Contract::Build(constant: Division::Contracts::Create)
   step Contract::Validate()
   step Contract::Persist()
+  step :create_initial_assignment!
+  step :reset_organization_to_approved_when_it_is_done
+
+  # new Division are (per definition) not done, so we reset the organization
+  # to approved if it is all_done (all divisions are done)
+  def reset_organization_to_approved_when_it_is_done(_options, model:, **)
+    if model.organization.all_done?
+      model.organization.update_columns(aasm_state: 'approved')
+    end
+    true
+  end
 end

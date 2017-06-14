@@ -23,7 +23,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       receiver_team_id: receiver_team_id(assignable),
       message: message_for_new_assignment(assignable, last_acting_user),
       created_by_system: true,
-      topic: 'translation' # NOTE: switch-case this later (for other models)
+      topic: topic(assignable)
     }
   end
 
@@ -41,6 +41,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     end
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def receiver_id(assignable, last_acting_user)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
@@ -52,6 +53,10 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       end
     when 'ContactPersonTranslation'
       ::User.system_user.id
+    when 'Division'
+      assignable.done == false ? nil : ::User.system_user.id
+    when 'Organization'
+      assignable.all_done? ? ::User.system_user.id : last_acting_user.id # TODO: is this correct????
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -64,6 +69,22 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       if translation_twin.should_be_reviewed_by_translator?
         AssignmentDefaults.translator_teams[assignable.locale.to_s]
       end
+    when 'Division'
+      if assignable.done == false
+        AssignmentDefaults.section_teams[assignable.section.identifier]
+      end
+    end
+  end
+
+  def topic(assignable)
+    twin = ::Assignable::Twin.new(assignable)
+    case assignable.class.to_s
+    when 'OfferTranslation', 'OrganizationTranslation'
+      'translation'
+    when 'Division'
+      assignable.done == false ? 'new' : twin.current_assignment.topic
+    else
+      twin.current_assignment ? twin.current_assignment.topic : 'new'
     end
   end
 
@@ -77,8 +98,17 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       else
         'Managed by system'
       end
+    when 'Division'
+      if assignable.done == false
+        "Bitte die #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
+      else
+        'Managed by system'
+      end
+    when 'Organization'
+      assignable.all_done? ? 'Managed by system' : 'Assigned by system'
     else
       'Assigned by system'
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end

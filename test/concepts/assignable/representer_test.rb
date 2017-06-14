@@ -2,7 +2,8 @@
 require_relative '../../test_helper'
 
 class API::V1::Assignable::RepresenterTest < ActiveSupport::TestCase
-  let(:subject) { API::V1::Assignable::Representer::Show }
+  # use OfferTranslation for simple assignable representer tests
+  let(:subject) { API::V1::OfferTranslation::Representer::Show }
 
   it 'should provide the current_assignment and the assignments collection' do
     record = OfferTranslation.find(1)

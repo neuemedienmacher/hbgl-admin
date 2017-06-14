@@ -39,13 +39,19 @@ const mapStateToProps = (state, ownProps) => {
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, systemUser, users),
     userChoice: action == 'assign-someone-else',
+    topicChoice: model == 'divisions' && action == 'assign-someone-else',
     messageField: action != 'assign-to-system' && action != 'assign-to-current-user'
+  }))
+  const topics = state.settings.assignments.topics.map(topic => ({
+    name: topic,
+    value: topic
   }))
 
   return {
     assignment,
     actions,
-    users
+    users,
+    topics
   }
 }
 
@@ -78,9 +84,9 @@ function visibleFor(action, entities, model, id, systemUser) {
         entities['user-teams'],
         team => { return currentUser['user-team-ids'].includes(team.id) }
       ).map( team => team.classification )
-      return teamRoles.includes('translator') &&
-        isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
-        (model == 'offer-translations' || model == 'organization-translations')
+      return isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
+        model == 'divisions' || (teamRoles.includes('translator') &&
+        (model == 'offer-translations' || model == 'organization-translations'))
     default:
       return false
   }
@@ -101,6 +107,7 @@ function buttonTextFor(action) {
 
 function seedDataFor(action, entities, assignment, systemUser, users) {
   let assignment_copy = clone(assignment)
+  assignment_copy['id'] = undefined
   assignment_copy['created-by-system'] = false
   switch(action) {
   case 'assign-to-current-user':

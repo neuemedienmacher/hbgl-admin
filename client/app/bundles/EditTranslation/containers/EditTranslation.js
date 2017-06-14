@@ -1,7 +1,5 @@
 import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
-import { isCurrentUserAssignedToModel, currentAssignmentIdFor }
-  from '../../../lib/restrictionUtils'
 import EditTranslation from '../components/EditTranslation'
 
 const mapStateToProps = (state, ownProps) => {
@@ -13,8 +11,6 @@ const mapStateToProps = (state, ownProps) => {
     state.entities[model + 's'][translation[`${model}-id`]]
   const loaded = !!translation
   const heading = `${model} translation #${id}`
-  const currentAssignmentId = currentAssignmentIdFor(t_model, translation)
-  const mayEdit = isCurrentUserAssignedToModel(state.entities, t_model, id)
 
   return {
     id,
@@ -23,8 +19,7 @@ const mapStateToProps = (state, ownProps) => {
     source,
     heading,
     translation,
-    currentAssignmentId,
-    mayEdit
+    t_model
   }
 }
 

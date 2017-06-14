@@ -4,6 +4,7 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :organizations
+        include API::V1::Assignable::Representer
 
         attributes do
           property :label, getter: ->(organization) do

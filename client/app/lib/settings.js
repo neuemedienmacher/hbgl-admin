@@ -84,7 +84,7 @@ export default {
       ]
     },
 
-    federal_states: {
+    'federal-states': {
       fields: [
         'id', 'name'
       ],
@@ -96,7 +96,7 @@ export default {
       ]
     },
 
-    contact_people: {
+    'contact-people': {
       fields: [
         'id', 'first_name', 'last_name', { organization: ['label'] },
         { email: ['label'] }, 'area_code_1', 'local_number_1', 'area_code_2',
@@ -148,13 +148,13 @@ export default {
 
     divisions: {
       fields: [
-        'id', 'name', { organization: ['name'] }
+        'id', 'name', { organization: ['name'] }, 'size', 'done'
       ],
       general_actions: [
-        'index', 'export', 'new'
+        'index', 'export', 'new',
       ],
       member_actions: [
-        'show'
+        'show', 'edit'
       ]
     },
 

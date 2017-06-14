@@ -4,10 +4,11 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :divisions
+        include API::V1::Assignable::Representer
 
         attributes do
           property :label, getter: ->(division) do
-            division[:represented].name
+            "#{division[:represented].name} (#{division[:represented].size})"
           end
 
           property :name
@@ -20,7 +21,7 @@ module API::V1
           property :section_id
         end
 
-        has_one :organization do
+        has_one :organization, class: ::Organization do
           type :organizations
 
           attributes do

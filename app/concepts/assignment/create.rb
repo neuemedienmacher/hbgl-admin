@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Assignment::Create < Trailblazer::Operation
+  include Assignable::CommonSideEffects::CreateNewAssignment
+
   step Model(Assignment, :new)
   # step :decorate_assignable
   step Policy::Pundit(AssignmentPolicy, :create?)
@@ -9,6 +11,8 @@ class Assignment::Create < Trailblazer::Operation
   step :close_open_assignments!
   step Contract::Persist()
   step :reset_translation_if_returned_to_system_user
+  step :create_optional_assignment_for_organization!
+  step :optional_set_done_for_division_and_mark_orga_as_done
 
   extend Contract::DSL
   contract do
@@ -74,4 +78,27 @@ class Assignment::Create < Trailblazer::Operation
     end
     true
   end
+
+  # TODO: remove this and call the operation on custom ActionButton of the model
+  # rubocop:disable Metrics/AbcSize
+  def optional_set_done_for_division_and_mark_orga_as_done(
+    _options, model:, current_user:, **
+  )
+    sys_user_id = User.system_user.id
+    if model.assignable_type == 'Division' && model.creator_id != sys_user_id &&
+       model.receiver_id == sys_user_id
+      # set divison to done
+      model.assignable.update_columns(done: true)
+      # update organization if this was the last undone division of it
+      orga = model.assignable.organization
+      if orga.divisions.where(done: false).empty? && orga.may_mark_as_done?
+        orga.mark_as_done! # trigger event for callbacks
+        ::Assignment::CreateBySystem.(
+          {}, assignable: orga, last_acting_user: current_user
+        ).success?
+      end
+    end
+    true
+  end
+  # rubocop:enable Metrics/AbcSize
 end

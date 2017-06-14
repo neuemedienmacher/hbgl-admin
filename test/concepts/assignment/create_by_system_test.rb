@@ -27,7 +27,11 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   end
 
   it 'must correctly use default logic for faked assignable' do
-    basic_options[:assignable] = OpenStruct.new(id: 1, assignments: [])
+    result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
+    assignment = result['model']
+    assignment.must_be :persisted?
+    basic_options[:assignable] =
+      OpenStruct.new(id: 1, assignments: Assignment.where(id: assignment.id))
     result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
     assignment = result['model']
     assignment.creator_id.must_equal user.id

@@ -4,6 +4,10 @@ import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 
 export default class FormInputs extends React.Component {
+  static contextTypes = {
+    disableUiElements: PropTypes.bool
+  }
+
   // componentDidMount() {
   //   this.props.setValuesOfBlockedInputs()
   // }
@@ -25,6 +29,9 @@ export default class FormInputs extends React.Component {
   }
 
   _renderInput(formId, blockedInputs, model, formObjectClass, submodelPath) {
+    const disabled = this.context.disableUiElements !== undefined ?
+                      this.context.disableUiElements : false
+
     return (input, index) => {
       // Skip rendering blocked inputs
       if (blockedInputs.includes(input.attribute)) {
@@ -43,7 +50,7 @@ export default class FormInputs extends React.Component {
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}
-              type={input.type} resource={input.resource}
+              type={input.type} resource={input.resource} disabled={disabled}
             />
           )
         case 'filtering-select':
@@ -52,21 +59,21 @@ export default class FormInputs extends React.Component {
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}
-              type={input.type} resource={input.resource}
+              type={input.type} resource={input.resource} disabled={disabled}
             />
           )
         case 'creating-multiselect':
           return(
             <CreatingSelect multi key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
-              input={input} submodelPath={submodelPath}
+              input={input} submodelPath={submodelPath} disabled={disabled}
             />
           )
         case 'creating-select':
           return(
             <CreatingSelect key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
-              input={input} submodelPath={submodelPath}
+              input={input} submodelPath={submodelPath} disabled={disabled}
             />
           )
         default:
@@ -75,7 +82,7 @@ export default class FormInputs extends React.Component {
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}
-              type={input.type} options={input.options}
+              type={input.type} options={input.options} disabled={disabled}
             />
           )
       }

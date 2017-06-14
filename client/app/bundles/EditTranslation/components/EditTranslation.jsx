@@ -3,39 +3,38 @@ import EditTranslationForm from '../containers/EditTranslationForm'
 import AssignableContainer from '../../Assignable/containers/AssignableContainer'
 
 export default class EditTranslation extends Component {
-
   componentDidMount() {
     this.props.loadData()
   }
 
   render() {
     const {
-      heading, currentAssignmentId, mayEdit, loadData
+      heading, t_model, loadData, translation
     } = this.props
 
     return (
-      <div className='content EditTranslation'>
-        <AssignableContainer
-          assignmentId={currentAssignmentId} mayEdit={mayEdit}
-          assignableDataLoad={loadData}
-        />
-        <h2 className="page-title">{heading}</h2>
+      <AssignableContainer
+        assignable_type={t_model} assignable={translation}
+        assignableDataLoad={loadData}
+      >
+        <div className='content EditTranslation'>
+          <h2 className="page-title">{heading}</h2>
 
-        {this.renderLoadingOrForm()}
-      </div>
+          {this.renderLoadingOrForm()}
+        </div>
+      </AssignableContainer>
     )
   }
 
   renderLoadingOrForm() {
     const {
-      id, model, loaded, source, translation, mayEdit
+      model, source, id, translation, loaded
     } = this.props
 
     if (loaded) {
       return(
         <EditTranslationForm
           model={model} source={source} id={id} translation={translation}
-          mayEdit={mayEdit}
         />
       )
     } else {

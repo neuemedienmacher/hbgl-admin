@@ -11,7 +11,8 @@ class Assignment < ActiveRecord::Base
                   ],
                   using: { tsearch: { prefix: true } }
   # Only used by NewAssignment Form - can be removed when the form is obsolete
-  ASSIGNABLE_MODELS = %w(OfferTranslation OrganizationTranslation).freeze
+  ASSIGNABLE_MODELS =
+    %w(OfferTranslation OrganizationTranslation Division Organization).freeze
 
   # TODO: this should be dynamic (based on field_set of model)
   # ASSIGNABLE_FIELD_NAMES = {

@@ -2,17 +2,17 @@
 module API::V1
   module Assignable
     module Representer
-      class Show < Roar::Decorator
-        include Roar::JSON::JSONAPI.resource :assignables
-
-        attributes do
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      def self.included(base)
+        base.attributes do
           # method (uses scopes) to get current_assignment
           property :current_assignment_id, getter: ->(item) do
             ::Assignable::Twin.new(item[:represented]).current_assignment.id
           end
+          property :assignment_ids
         end
 
-        has_many :assignments, class: ::Assignment do
+        base.has_many :assignments, class: ::Assignment do
           type :assignments
 
           attributes do
@@ -34,6 +34,7 @@ module API::V1
           end
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
   end
 end
