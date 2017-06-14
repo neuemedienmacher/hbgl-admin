@@ -21,7 +21,7 @@ module API::V1
           property :section_id
         end
 
-        has_one :organization do
+        has_one :organization, class: ::Organization do
           type :organizations
 
           attributes do

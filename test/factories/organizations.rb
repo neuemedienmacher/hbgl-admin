@@ -48,6 +48,10 @@ FactoryGirl.define do
         assignable: orga,
         last_acting_user: User.find(orga.created_by)
       )['model']
+      # create default division for random section
+      orga.divisions << FactoryGirl.create(
+        :division, organization: orga, section: Section.all.sample
+      )
     end
 
     # traits
