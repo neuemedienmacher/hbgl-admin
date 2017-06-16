@@ -33,7 +33,6 @@ const mapStateToProps = (state, ownProps) => {
       displayName: textForOperator(operator, filterType, ownProps)
     }
   })
-  debugger
 
   return {
     filterName,

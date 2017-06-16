@@ -11,7 +11,7 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    debugger
+
     const {
       user, hasOutstandingTimeAllocations, outstandingTimeAllocations
     } = this.props

@@ -12,7 +12,7 @@ export default class AssignmentsContainer extends Component {
     const {
       heading, model, lockedParams, optionalParams, scope, params
     } = this.props
-    debugger
+
     return (
       <div className="panel-group">
         {this.teamSelectOrNull(this.props.selectable_data)}

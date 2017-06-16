@@ -22,7 +22,6 @@ const mapStateToProps = (state, ownProps) => {
   )
   const params = ownProps.params
   console.log(filters)
-  debugger
 
   return {
     params,
@@ -45,7 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onPlusClick(event) {
     let params = clone(ownProps.params)
     merge(params, { 'filters[id]': '' })
-    debugger
+
     let query = searchString(ownProps.model, params)
     browserHistory.replace(`/${query}`)
     // if (params['filters[id]']) return // ID filtered - other filters not needed
