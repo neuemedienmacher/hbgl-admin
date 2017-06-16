@@ -7,13 +7,13 @@ import size from 'lodash/size'
 import forIn from 'lodash/forIn'
 
 const mapStateToProps = (state, ownProps) => {
+  debugger
   const pathname = window.location.pathname
   let model = 'assignments'
-  let query = merge(clone(ownProps.optionalParams), ownProps.lockedParams)
+  let query = ownProps.params
 
   if(pathname.length > 1) {
     model = pathname.substr(1, pathname.length)
-    query = ownProps.location.query
   }
   
   return {

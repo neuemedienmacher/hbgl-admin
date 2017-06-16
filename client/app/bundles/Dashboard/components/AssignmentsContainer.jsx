@@ -10,15 +10,15 @@ export default class AssignmentsContainer extends Component {
 
   render() {
     const {
-      heading, model, lockedParams, optionalParams, scope
+      heading, model, lockedParams, optionalParams, scope, params
     } = this.props
-
+    debugger
     return (
       <div className="panel-group">
         {this.teamSelectOrNull(this.props.selectable_data)}
         <b>{heading}</b>
         <Index
-          model={model} identifier_addition={scope}
+          model={model} identifier_addition={scope} params={this.props.params}
           lockedParams={lockedParams} optionalParams={optionalParams}
         />
       </div>
