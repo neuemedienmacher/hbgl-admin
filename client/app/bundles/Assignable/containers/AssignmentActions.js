@@ -20,7 +20,8 @@ const mapStateToProps = (state, ownProps) => {
   let system_user =
     filter_collection(state.entities.users, {'name': 'System'} )[0]
   const users = orderBy(valuesIn(state.entities.users).filter(user => (
-    user.name != 'System' && user.id != state.entities.current_user.id
+    user.name != 'System' && user.id != state.entities.current_user.id &&
+    user.active
   )).map(user => ({
     name: user.name + ` (${involvementCount(assignments, user.id)})`,
     value: user.id, sortValue: involvementCount(assignments, user.id)
