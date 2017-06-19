@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 module Translation
+  # rubocop:disable Metrics/ClassLength
   class AutomaticUpsert < Trailblazer::Operation
     step :generate_translation_params
     step :find_and_add_acting_user_to_options
@@ -25,12 +26,18 @@ module Translation
       user_id =
         if options['object_to_translate'].class.name == 'ContactPerson'
           User.system_user.id
-        elsif options['object_to_translate'].approved_by
-          options['object_to_translate'].approved_by
         else
-          options['object_to_translate'].created_by
+          assign_to_creator_or_approver(options)
         end
       options['last_acting_user'] = User.find(user_id)
+    end
+
+    def assign_to_creator_or_approver(options)
+      if options['object_to_translate'].created_by && User.find(options['object_to_translate'].created_by).active
+        options['object_to_translate'].created_by
+      else
+        options['object_to_translate'].approved_by
+      end
     end
 
     def add_specific_create_or_update_params(options)
@@ -121,4 +128,5 @@ module Translation
       )['infused_description']
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

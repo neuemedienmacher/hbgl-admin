@@ -33,7 +33,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     orga.translations.where(locale: 'en').count.must_equal 1
     assignments = orga.translations.where(locale: 'en').first.assignments
     assignments.count.must_equal 1
-    assignments.last.creator_id.must_equal orga.approved_by
+    assignments.last.creator_id.must_equal orga.created_by
     assert_nil assignments.last.receiver_id
     assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
     assignments.last.aasm_state.must_equal 'open'
@@ -60,8 +60,19 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
     assignments.count.must_equal 2
-    assignments.last.creator_id.must_equal orga.approved_by
+    assignments.last.creator_id.must_equal orga.created_by
     assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+    assignments.last.aasm_state.must_equal 'open'
+  end
+
+  it 'should assign to approver if creator is inactive' do
+    orga = family_section_offer.organizations.first
+    orga.offers << refugees_section_offer
+    User.find(orga.created_by).update_attributes(active: false)
+    operation.({}, 'locale' => :ar, 'fields' => :all,
+                   'object_to_translate' => orga)
+    assignments = orga.translations.where(locale: 'ar').first.assignments
+    assignments.last.creator_id.must_equal orga.approved_by
     assignments.last.aasm_state.must_equal 'open'
   end
 
@@ -89,7 +100,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
                    'object_to_translate' => refugees_section_offer)
     assignments.count.must_equal 2
     assignments.first.aasm_state.must_equal 'closed'
-    assignments.last.creator_id.must_equal refugees_section_offer.approved_by
+    assignments.last.creator_id.must_equal refugees_section_offer.created_by
     assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
     assignments.last.aasm_state.must_equal 'open'
 
@@ -125,10 +136,10 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     orga = refugees_section_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
-    user = User.find(orga.approved_by)
+    user = User.find(orga.created_by)
     assignments = orga.translations.where(locale: 'en').first.assignments
     assignments.count.must_equal 1
-    assignments.first.creator_id.must_equal orga.approved_by
+    assignments.first.creator_id.must_equal orga.created_by
     assignments.first.receiver_team_id.must_equal 1 # test default for translator teams
     assignments.first.message.must_equal "(#{user.name}) GoogleTranslate"
     assignments.first.aasm_state.must_equal 'open'

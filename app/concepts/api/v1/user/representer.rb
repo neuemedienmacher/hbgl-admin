@@ -13,6 +13,7 @@ module API::V1
         property :email
         property :role
         property :user_team_ids
+        property :active
 
         has_many :user_teams do
           type :user_teams

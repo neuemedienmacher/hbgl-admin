@@ -21,7 +21,7 @@ puts "Before: Offer count #{Offer.count}"
 10.times do
   begin
     FactoryGirl.create :offer, :approved, :with_dummy_translations,
-                       approved_by: u, fake_address: true,
+                       approved_by: User.where(active: true).sample.id, fake_address: true,
                        categories: [Category.all.sample]
   rescue ActiveRecord::RecordInvalid
     puts "Offer data are randomly repeating"
