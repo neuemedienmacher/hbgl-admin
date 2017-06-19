@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170602133758) do
+ActiveRecord::Schema.define(version: 20170607090741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,13 +61,13 @@ ActiveRecord::Schema.define(version: 20170602133758) do
   add_index "assignments", ["receiver_team_id"], name: "index_assignments_on_receiver_team_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name_de",                               null: false
+    t.string   "name_de",                                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "icon",        limit: 12
+    t.string   "icon",            limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
-    t.boolean  "visible",                default: true
+    t.boolean  "visible",                    default: true
     t.string   "name_en"
     t.string   "name_ar"
     t.string   "name_fr"
@@ -79,6 +79,10 @@ ActiveRecord::Schema.define(version: 20170602133758) do
     t.text     "keywords_en"
     t.text     "keywords_ar"
     t.text     "keywords_fa"
+    t.text     "explanations_de"
+    t.text     "explanations_en"
+    t.text     "explanations_ar"
+    t.text     "explanations_fa"
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de", using: :btree
@@ -610,6 +614,10 @@ ActiveRecord::Schema.define(version: 20170602133758) do
     t.string "name_ar"
     t.string "name_fa"
     t.string "name_tr"
+    t.text   "explanations_de"
+    t.text   "explanations_en"
+    t.text   "explanations_ar"
+    t.text   "explanations_fa"
   end
 
   create_table "tags_offers", id: false, force: :cascade do |t|
@@ -691,6 +699,7 @@ ActiveRecord::Schema.define(version: 20170602133758) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
+    t.boolean  "active",             default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
