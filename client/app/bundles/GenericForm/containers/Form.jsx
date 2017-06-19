@@ -8,6 +8,7 @@ import addEntities from '../../../Backend/actions/addEntities'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Form from '../components/Form'
+import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId, submodelKey } = ownProps
@@ -27,6 +28,7 @@ const mapStateToProps = (state, ownProps) => {
 
   let action = `/api/v1/${model}`
   let method = 'POST'
+  let buttonData = buildActionButtonData(state, model, editId)
 
   // Changes in case the form updates instead of creating
   if (editId) {
@@ -34,10 +36,13 @@ const mapStateToProps = (state, ownProps) => {
     method = 'PUT'
 
     const stateEntity = state.entities[model][editId]
+    let denormalizedEntity =
+      denormalizeStateEntity(state.entities, model, editId)
     for (let property of formObjectClass.properties) {
-      seedData.fields[property] = stateEntity[property]
+      seedData.fields[property] = denormalizedEntity[property]
     }
   }
+  console.log(state)
 
   return {
     seedData,
@@ -46,7 +51,8 @@ const mapStateToProps = (state, ownProps) => {
     formId,
     formObjectClass,
     instance,
-    isAssignable
+    isAssignable,
+    buttonData
   }
 }
 
@@ -85,6 +91,53 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         )
       }
     }
+  }
+}
+
+function buildActionButtonData(state, model, editId) {
+  // start with default save button (might be extended)
+  let buttonData = [{
+    className: 'btn btn-default',
+    buttonLabel: 'Speichern'
+  }]
+  // iterate additional actions (e.g. state-changes) only for editing
+  if (state.settings.actions[model] && editId) {
+    state.settings.actions[model].map(action => {
+      buttonData.push({
+        className: model == 'divisions' ? 'btn btn-warning' : 'btn btn-default',
+        buttonLabel: 'Speichern & ' + textForActionName(action, model),
+        actionName: action
+      })
+    })
+  }
+  return buttonData
+}
+
+// TODO: use translations
+function textForActionName(action, model){
+  switch(action) {
+  case 'reinitialize':
+    return 'Re-initialisieren'
+  case 'complete':
+    return 'als komplett markieren'
+  case 'start_approval_process':
+    return 'Approval starten'
+  case 'approve':
+    return 'Freischalten'
+  case 'approve_with_deactivated_offers':
+    return 'Freischalten (Comms-Only)'
+  case 'approve':
+    return 'Freischalten'
+  case 'deactivate_internal':
+    return 'Deaktivieren (Internal Feedback)'
+  case 'deactivate_external':
+    return 'Deaktivieren (External Feedback)'
+  case 'website_under_construction':
+    return 'Webseite im Aufbau'
+  case 'mark_as_done':
+    return model == 'divisions' ? 'als erledigt markieren' : 'Orga ist fertig (all done)'
+  default:
+    return action
   }
 }
 

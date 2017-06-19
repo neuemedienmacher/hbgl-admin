@@ -85,8 +85,8 @@ function visibleFor(action, entities, model, id, systemUser) {
         team => { return currentUser['user-team-ids'].includes(team.id) }
       ).map( team => team.classification )
       return isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
-        model == 'divisions' || (teamRoles.includes('translator') &&
-        (model == 'offer-translations' || model == 'organization-translations'))
+        ['offer-translations', 'organization-translations'].includes(model) &&
+        teamRoles.includes('translator')
     default:
       return false
   }

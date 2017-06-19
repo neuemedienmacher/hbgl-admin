@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class Division::Update < Trailblazer::Operation
-  include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::Division, :find_by)
   step Policy::Pundit(DivisionPolicy, :update?)
@@ -8,5 +7,13 @@ class Division::Update < Trailblazer::Operation
   step Contract::Build(constant: Division::Contracts::Update)
   step Contract::Validate()
   step Contract::Persist()
-  step :create_new_assignment_if_assignable_should_be_reassigned!
+  step :mark_as_done_side_effect
+
+  def mark_as_done_side_effect(_, model:, params:, current_user: , **)
+    action_event = params['meta']['commit']
+    return true unless action_event && action_event == 'mark_as_done'
+    ::Division::MarkAsDone.(
+      {}, divison: model, last_acting_user: current_user
+    ).success?
+  end
 end

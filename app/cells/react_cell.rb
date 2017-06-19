@@ -28,6 +28,11 @@ class ReactCell < Cell::ViewModel
         assignments: {
           assignable_models: Assignment::ASSIGNABLE_MODELS,
           topics: Assignment::TOPICS
+        },
+        actions: {
+          organizations: Organization.aasm.events.map(&:name),
+          offers: Organization.aasm.events.map(&:name),
+          divisions: %w(mark_as_done)
         }
       }
     }

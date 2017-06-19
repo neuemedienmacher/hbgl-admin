@@ -21,7 +21,7 @@ export default class DivisionFormObject extends FormObject {
   static get submodels() {
     return [
       'websites', 'section', 'presumed-categories',
-      'presumed-solution-categories'
+      'presumed-solution-categories', 'organization'
       ]
   }
 
@@ -29,6 +29,7 @@ export default class DivisionFormObject extends FormObject {
     return {
       websites: { relationship: 'oneToMany', object: WebsiteFormObject },
       section: { relationship: 'oneToOne' },
+      organization: { relationship: 'oneToOne' },
       'presumed-categories': { relationship: 'oneToMany' },
       'presumed-solution-categories': { relationship: 'oneToMany' }
     }

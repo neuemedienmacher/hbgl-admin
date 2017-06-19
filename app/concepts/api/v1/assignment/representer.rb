@@ -31,9 +31,12 @@ module API::V1
         end
 
         has_one :assignable do
-          type :assignable_type
+          type :assignables
           # Above is technically incorrect. Wish the following would work ...
           # as[:represented].assignable_type.tableize.to_sym
+          # property :type , getter: ->(object) do
+          #   object[:represented].class.name.tableize.dasherize
+          # end
 
           attributes do
             property :created_at

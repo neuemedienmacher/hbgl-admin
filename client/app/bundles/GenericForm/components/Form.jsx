@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Form, InputSet, Input } from 'rform'
+import { Form, InputSet, Input, Button } from 'rform'
 import FormInputs from '../containers/FormInputs'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
@@ -10,7 +10,7 @@ export default class GenericFormForm extends React.Component {
     const {
       seedData, action, method, formId, formObjectClass, submodelPath,
       afterResponse, handleResponse, model, nestingModel, instance, loadData,
-      isAssignable
+      isAssignable, buttonData
     } = this.props
 
     return (
@@ -26,7 +26,7 @@ export default class GenericFormForm extends React.Component {
             model={model} formObjectClass={formObjectClass} formId={formId}
             nestingModel={nestingModel} submodelPath={submodelPath}
           />
-          {this.renderButton(formId, nestingModel)}
+          {this.renderButtons(formId, nestingModel, buttonData)}
         </div>), isAssignable, model, instance, loadData
       )
     )
@@ -49,13 +49,22 @@ export default class GenericFormForm extends React.Component {
     }
   }
 
-  renderButton(formId, nestingModel) {
+  renderButtons(formId, nestingModel, buttonData) {
     if (nestingModel) return
 
     return(
-      <button className='btn btn-default' type='submit' form={formId}>
-        Abschicken
-      </button>
+      <div className='form button-container'>
+        {buttonData.map((action, index) => {
+          return (
+            <Button
+              className={action.className} type='submit' formId={formId}
+              key={index} commit={action.actionName}
+            >
+              {action.buttonLabel}
+            </Button>
+          )
+        })}
+      </div>
     )
   }
 }
