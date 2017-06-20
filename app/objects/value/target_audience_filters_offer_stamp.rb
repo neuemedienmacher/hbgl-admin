@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 # This represents the entire stamp-generation and should stay together
-# rubocop:disable Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/PerceivedComplexity
 class TargetAudienceFiltersOfferStamp
   def self.generate_stamp filters_offer, section, locale
     # generate stamp
@@ -38,9 +38,9 @@ class TargetAudienceFiltersOfferStamp
   def self.stamp_family_children f_o
     if !f_o.gender_first_part_of_stamp.nil?
       ".#{f_o.gender_first_part_of_stamp}"
-    elsif f_o.age_from && f_o.age_to && f_o.age_from >= 14 && f_o.age_to >= 14
+    elsif f_o.age_from >= 14 && f_o.age_to >= 14
       '.adolescents'
-    elsif f_o.age_from && f_o.age_to && f_o.age_from < 14 && f_o.age_to >= 14
+    elsif f_o.age_from < 14 && f_o.age_to >= 14
       '.and_adolescents'
     else
       '.default'
@@ -71,12 +71,12 @@ class TargetAudienceFiltersOfferStamp
   # (...)
   def self.stamp_family_nuclear_family_default_special f_o
     f_o.gender_second_part_of_stamp == 'neutral' &&
-      !f_o.age_visible && f_o.age_to && f_o.age_to > 1
+      !f_o.age_visible && f_o.age_to > 1
   end
 
   def self.stamp_family_nuclear_family_gender_second_part f_o
     if f_o.gender_second_part_of_stamp == 'neutral' &&
-       f_o.age_from && f_o.age_to && f_o.age_from.zero? && f_o.age_to == 1
+       f_o.age_from.zero? && f_o.age_to == 1
       '.with_baby'
     elsif f_o.gender_second_part_of_stamp.nil?
       '.neutral'
@@ -125,9 +125,9 @@ class TargetAudienceFiltersOfferStamp
   def self.stamp_refugees_children f_o
     if !f_o.gender_first_part_of_stamp.nil?
       ".#{f_o.gender_first_part_of_stamp}"
-    elsif f_o.age_from && f_o.age_to && f_o.age_from >= 14 && f_o.age_to >= 14
+    elsif f_o.age_from >= 14 && f_o.age_to >= 14
       '.adolescents'
-    elsif f_o.age_from && f_o.age_to && f_o.age_from < 14 && f_o.age_to >= 14
+    elsif f_o.age_from < 14 && f_o.age_to >= 14
       '.and_adolescents'
     else
       '.default'
@@ -179,7 +179,7 @@ class TargetAudienceFiltersOfferStamp
       end
     if f_o.gender_first_part_of_stamp == 'male' ||
        f_o.gender_first_part_of_stamp == 'female'
-      locale_entry += f_o.age_from && f_o.age_from >= 18 ? '.default' : '.special'
+      locale_entry += f_o.age_from >= 18 ? '.default' : '.special'
     end
     locale_entry + stamp_refugees_general_adult_special(f_o)
   end
@@ -187,7 +187,7 @@ class TargetAudienceFiltersOfferStamp
   def self.stamp_refugees_general_adult_special f_o
     if f_o.gender_first_part_of_stamp.blank? ||
        f_o.gender_first_part_of_stamp == 'neutral'
-      if f_o.age_to && f_o.age_from && f_o.age_to >= 18 && f_o.age_from >= 18
+      if f_o.age_to >= 18 && f_o.age_from >= 18
         '.adults'
       else
         '.neutral'
@@ -242,11 +242,11 @@ class TargetAudienceFiltersOfferStamp
   end
 
   def self.generate_age_for_stamp from, to, section, locale
-    if from && from.zero?
+    if from.zero?
       I18n.t('offer.stamp.age.age_to', locale: locale, count: to)
-    elsif to && (to == 99 || section == 'family' && to > 17)
+    elsif to == 99 || section == 'family' && to > 17
       I18n.t('offer.stamp.age.age_from', locale: locale, count: from)
-    elsif from && to && from == to
+    elsif from == to
       "#{from} #{I18n.t('offer.stamp.age.suffix', locale: locale)}"
     else
       "#{from} – #{to} #{I18n.t('offer.stamp.age.suffix', locale: locale)}"

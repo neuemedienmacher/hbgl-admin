@@ -21,7 +21,7 @@ describe TargetAudienceFiltersOffer do
       subject.age_from = 10
       subject.must_be :valid?
       subject.age_from = nil
-      subject.must_be :valid?
+      subject.wont_be :valid?
     end
 
     it 'should validate age_to' do
@@ -32,7 +32,7 @@ describe TargetAudienceFiltersOffer do
       subject.age_to = 10
       subject.must_be :valid?
       subject.age_to = nil
-      subject.must_be :valid?
+      subject.wont_be :valid?
     end
 
     it 'should correctly validate uniqueness' do
