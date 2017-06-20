@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: a997e56af33bf5fcc96154561b69fc9df9e35b72
+  revision: 9e77ee28a24ecfd3ef1d4004b4c39e8071c578f3
   branch: feature/944-945-orga-division-2
   specs:
     clarat_base (0.1.4)
@@ -744,7 +744,6 @@ DEPENDENCIES
   multi_json
   newrelic_rpm
   nokogiri (= 1.6.7.2)
-  nokogumbo (= 1.4.11)
   pg
   pg_search
   pry-byebug

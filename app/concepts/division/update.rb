@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class Division::Update < Trailblazer::Operation
-
   step Model(::Division, :find_by)
   step Policy::Pundit(DivisionPolicy, :update?)
 
@@ -9,7 +8,7 @@ class Division::Update < Trailblazer::Operation
   step Contract::Persist()
   step :mark_as_done_side_effect
 
-  def mark_as_done_side_effect(_, model:, params:, current_user: , **)
+  def mark_as_done_side_effect(_, model:, params:, current_user:, **)
     action_event = params['meta']['commit']
     return true unless action_event && action_event == 'mark_as_done'
     ::Division::MarkAsDone.(

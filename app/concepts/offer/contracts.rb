@@ -22,6 +22,7 @@ module Offer::Contracts
     property :next_steps
     property :logic_version
     property :split_base_id
+    property :solution_category_id
     property :starts_at
     property :categories
     property :section
@@ -150,7 +151,8 @@ module Offer::Contracts
 
     def categories_is_not_empty_if_version_greater_8
       return if !logic_version || logic_version.version < 8 || solution_category_id
-      fail_validation :solution_category, 'needs_solution_category'
+      errors.add :solution_category,
+                 I18n.t('offer.validations.needs_solution_category')
     end
 
     def start_date_must_be_before_expiry_date
