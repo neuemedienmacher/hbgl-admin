@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
 import isArray from 'lodash/isArray'
-import Index from '../../Index/containers/Index'
+import InlineIndex from '../../InlineIndex/containers/InlineIndex'
 
 export default class AssociationItems extends React.Component {
   render() {
@@ -36,7 +36,7 @@ export default class AssociationItems extends React.Component {
     if(filter) {
       return(
         <div key={name} className="panel-body show--panel">
-          <Index
+          <InlineIndex
             model={class_name} baseQuery={filter} identifier_addition={name}
           />
         </div>

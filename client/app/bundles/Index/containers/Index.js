@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
   let model = 'assignments'
   let query = ownProps.params
 
-  if(pathname.length > 1) {
+  if(pathname.length > 1 && ownProps.location) {
     model = pathname.substr(1, pathname.length)
     query = ownProps.location.query
   }
