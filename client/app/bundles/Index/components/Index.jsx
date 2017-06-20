@@ -18,6 +18,7 @@ export default class Index extends Component {
     const {
       location, model, heading, query, lockedParams, params, optionalParams
     } = this.props
+
     return (
       <div className='content Index table-header'>
         <h2 className="page-title">{heading}</h2>

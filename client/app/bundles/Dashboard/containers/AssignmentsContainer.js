@@ -29,7 +29,7 @@ const mapStateToProps = (state, ownProps) => {
   const optionalParams =
     { 'sort_field': 'created_at', 'sort_direction': 'DESC' }
   const params = ownProps.params
-  const queryParams = merge(clone(optionalParams), clone(lockedParams), clone(params))
+  const queryParams = merge(clone(optionalParams), clone(lockedParams))
   const heading = headingFor(scope)
 
   return {

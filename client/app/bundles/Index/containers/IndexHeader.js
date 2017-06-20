@@ -21,7 +21,6 @@ const mapStateToProps = (state, ownProps) => {
     generalActions.includes(route.action)
   )
   const params = ownProps.params
-  console.log(filters)
 
   return {
     params,
