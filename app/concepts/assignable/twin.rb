@@ -40,7 +40,8 @@ module Assignable
       # if they are not already assigned to the translator team
       when 'OfferTranslation', 'OrganizationTranslation'
         translation_twin = ::Translation::Twin.new(model)
-        !translation_twin.already_assigned_to_translator_team? &&
+        current_assignment.nil? == true ||
+          translation_twin.currently_assigned_to_system_user? &&
           translation_twin.should_be_reviewed_by_translator?
       # only re-assign Divisions that are done and not assigned to system_user
       when 'Division'

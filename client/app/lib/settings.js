@@ -174,12 +174,12 @@ export default {
       fields: [
         'id', 'assignable-id', 'assignable-type', 'creator-id', 'creator-team-id',
         'receiver-id', 'receiver-team-id', 'message', 'topic', 'aasm-state',
-        'created-at'
+        'created-at', 'updated-at'
       ],
       inline_fields: [
         'assignable-type', 'assignable-id', 'topic',
         {assignable: ['label', 'created-at']},
-        {creator: ['name']}, 'message', 'created-at'
+        {creator: ['name']}, 'message', 'updated-at'
       ],
       general_actions: [
         'index'

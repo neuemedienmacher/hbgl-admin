@@ -18,6 +18,8 @@ module Assignable
             {}, assignable: model, last_acting_user: current_user
           ).success?
         else
+          # touch current_assignment (sets updated_at to current time)
+          assignable_twin.current_assignment.touch
           true
         end
       end

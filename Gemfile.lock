@@ -744,6 +744,7 @@ DEPENDENCIES
   multi_json
   newrelic_rpm
   nokogiri (= 1.6.7.2)
+  nokogumbo (= 1.4.11)
   pg
   pg_search
   pry-byebug

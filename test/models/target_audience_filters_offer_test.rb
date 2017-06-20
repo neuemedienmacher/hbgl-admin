@@ -5,8 +5,6 @@ describe TargetAudienceFiltersOffer do
   let(:subject) { target_audience_filters_offer(:basicAudience) }
 
   describe 'validations' do
-    it { subject.must validate_length_of(:addition).is_at_most 80 }
-
     it 'should ensure that age_from fits age_to' do
       subject.age_from = 9
       subject.age_to = 1
@@ -23,7 +21,7 @@ describe TargetAudienceFiltersOffer do
       subject.age_from = 10
       subject.must_be :valid?
       subject.age_from = nil
-      subject.must_be :valid?
+      subject.wont_be :valid?
     end
 
     it 'should validate age_to' do
@@ -34,7 +32,18 @@ describe TargetAudienceFiltersOffer do
       subject.age_to = 10
       subject.must_be :valid?
       subject.age_to = nil
-      subject.must_be :valid?
+      subject.wont_be :valid?
+    end
+
+    it 'should correctly validate uniqueness' do
+      new_tafo = TargetAudienceFiltersOffer.new(
+        target_audience_filter_id: subject.target_audience_filter_id,
+        offer_id: subject.offer_id,
+        residency_status: subject.residency_status
+      )
+      new_tafo.wont_be :valid?
+      new_tafo.residency_status = 'with_deportation_decision'
+      new_tafo.must_be :valid?
     end
   end
 
@@ -49,7 +58,7 @@ describe TargetAudienceFiltersOffer do
     it 'should generate a name even without an offer and filter' do
       subject.target_audience_filter_id = nil
       subject.offer_id = nil
-      subject.name.must_equal ' (Offer#)'
+      subject.name.must_equal 'Leere Verknüpfung'
     end
   end
 
@@ -374,10 +383,11 @@ describe TargetAudienceFiltersOffer do
       subject.stamp_de.must_equal 'für geflüchtete Kinder und Jugendliche (13 – 17 Jahre)'
     end
 
-    it 'should behave correctly for refugees_umf target_audience' do
+    it "should return 'für unbegleitete minderjährige Flüchtlinge' for minor refugees_uf target_audience " do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_umf').id
+        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_uf').id
+      subject.age_to = 17
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
 
@@ -388,11 +398,33 @@ describe TargetAudienceFiltersOffer do
 
       subject.gender_first_part_of_stamp = 'male'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für unbegleitete minderjährige Jungen'
+      subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
 
       subject.gender_first_part_of_stamp = 'female'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für unbegleitete minderjährige Mädchen'
+      subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
+    end
+
+    it "should return 'für unbegleitete Flüchtlinge' for non-minor refugees_uf target_audience " do
+      subject.offer.section = Section.find_by(identifier: 'refugees')
+      subject.target_audience_filter_id =
+        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_uf').id
+      subject.age_to = 18
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
+
+      # neutral equals nil
+      subject.gender_first_part_of_stamp = 'neutral'
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
+
+      subject.gender_first_part_of_stamp = 'male'
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
+
+      subject.gender_first_part_of_stamp = 'female'
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
     end
 
     it 'should behave correctly for refugees_parents_to_be target_audience' do
@@ -597,16 +629,6 @@ describe TargetAudienceFiltersOffer do
       subject.residency_status = 'with_deportation_decision'
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete Frauen – mit Abschiebebescheid'
-    end
-
-    it 'should add the addition only to the _de stamp' do
-      subject.offer.section = Section.find_by(identifier: 'refugees')
-      subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_general').id
-      subject.addition = 'aus Pankow'
-      subject.generate_stamps!
-      subject.stamp_de.must_equal 'für Flüchtlinge (aus Pankow)'
-      subject.stamp_en.must_equal 'for refugees'
     end
   end
 end

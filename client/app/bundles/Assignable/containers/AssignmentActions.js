@@ -24,7 +24,8 @@ const mapStateToProps = (state, ownProps) => {
     settings.index.assignable['assignment-actions']
   let systemUser = filter(state.entities.users, {'name': 'System'} )[0]
   const users = orderBy(valuesIn(state.entities.users).filter(user => (
-    user.name != 'System' && user.id != state.entities['current-user-id']
+    user.name != 'System' && user.id != state.entities['current-user-id'] &&
+    user.active
   )).map(user => ({
     name: user.name + ` (${involvementCount(assignments, user.id)})`,
     value: user.id, sortValue: involvementCount(assignments, user.id)
