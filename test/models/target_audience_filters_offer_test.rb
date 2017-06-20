@@ -21,7 +21,7 @@ describe TargetAudienceFiltersOffer do
       subject.age_from = 10
       subject.must_be :valid?
       subject.age_from = nil
-      subject.must_be :valid?
+      subject.wont_be :valid?
     end
 
     it 'should validate age_to' do
@@ -32,7 +32,7 @@ describe TargetAudienceFiltersOffer do
       subject.age_to = 10
       subject.must_be :valid?
       subject.age_to = nil
-      subject.must_be :valid?
+      subject.wont_be :valid?
     end
 
     it 'should correctly validate uniqueness' do
@@ -383,10 +383,11 @@ describe TargetAudienceFiltersOffer do
       subject.stamp_de.must_equal 'für geflüchtete Kinder und Jugendliche (13 – 17 Jahre)'
     end
 
-    it 'should behave correctly for refugees_umf target_audience' do
+    it "should return 'für unbegleitete minderjährige Flüchtlinge' for minor refugees_uf target_audience " do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_umf').id
+        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_uf').id
+      subject.age_to = 17
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
 
@@ -397,11 +398,33 @@ describe TargetAudienceFiltersOffer do
 
       subject.gender_first_part_of_stamp = 'male'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für unbegleitete minderjährige Jungen'
+      subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
 
       subject.gender_first_part_of_stamp = 'female'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für unbegleitete minderjährige Mädchen'
+      subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
+    end
+
+    it "should return 'für unbegleitete Flüchtlinge' for non-minor refugees_uf target_audience " do
+      subject.offer.section = Section.find_by(identifier: 'refugees')
+      subject.target_audience_filter_id =
+        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_uf').id
+      subject.age_to = 18
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
+
+      # neutral equals nil
+      subject.gender_first_part_of_stamp = 'neutral'
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
+
+      subject.gender_first_part_of_stamp = 'male'
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
+
+      subject.gender_first_part_of_stamp = 'female'
+      subject.generate_stamps!
+      subject.stamp_de.must_equal 'für unbegleitete Flüchtlinge'
     end
 
     it 'should behave correctly for refugees_parents_to_be target_audience' do

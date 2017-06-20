@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607090741) do
+ActiveRecord::Schema.define(version: 20170619152449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -634,8 +634,8 @@ ActiveRecord::Schema.define(version: 20170607090741) do
     t.string   "residency_status"
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"
-    t.integer  "age_from"
-    t.integer  "age_to"
+    t.integer  "age_from",                    default: 0,     null: false
+    t.integer  "age_to",                      default: 99,    null: false
     t.boolean  "age_visible",                 default: false
     t.datetime "created_at"
     t.datetime "updated_at"

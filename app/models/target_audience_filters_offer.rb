@@ -12,11 +12,10 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   enumerize :residency_status, in: RESIDENCY_STATUSES
 
   # Validations
-  validate :age_from_fits_age_to
-  validate :age_from_within_bounds
-  validate :age_to_within_bounds
   validates :offer_id, presence: true
   validates :target_audience_filter_id, presence: true
+  validates :age_from, presence: true
+  validates :age_to, presence: true
   validates :offer_id, uniqueness: {
     scope: [:target_audience_filter_id, :residency_status]
   }
@@ -26,21 +25,24 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   validates :residency_status, uniqueness: {
     scope: [:offer_id, :target_audience_filter_id]
   }
+  validate :age_from_within_bounds
+  validate :age_to_within_bounds
+  validate :age_from_fits_age_to
 
   ## Custom Validation Methods ##
   # Age From has to be smaller than Age To (if both exist)
   def age_from_fits_age_to
-    return if !age_from || !age_to || age_from <= age_to
+    return if age_from && age_to && age_from <= age_to
     errors.add :age_from, I18n.t('offer.validations.age_from_be_smaller')
   end
 
   def age_from_within_bounds
-    return if !age_from || age_from >= MIN_AGE && age_from <= MAX_AGE
+    return if age_from && age_from >= MIN_AGE && age_from <= MAX_AGE
     errors.add :age_from, I18n.t('offer.validations.age_not_within_bounds')
   end
 
   def age_to_within_bounds
-    return if !age_to || age_to >= MIN_AGE && age_to <= MAX_AGE
+    return if age_to && age_to >= MIN_AGE && age_to <= MAX_AGE
     errors.add :age_to, I18n.t('offer.validations.age_not_within_bounds')
   end
 
