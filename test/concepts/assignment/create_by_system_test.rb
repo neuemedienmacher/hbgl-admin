@@ -26,6 +26,15 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     assignment.message.must_equal 'Managed by system'
   end
 
+  it 'must create assignments with correct messages when called two times' do
+    basic_options[:assignable] = FactoryGirl.create(:division)
+    operation_must_work ::Assignment::CreateBySystem, {}, basic_options
+    basic_options[:assignable].done = true
+    result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
+    assignment = result['model']
+    assignment.message.must_equal 'Managed by system'
+  end
+
   it 'must correctly use default logic for faked assignable' do
     result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
     assignment = result['model']
