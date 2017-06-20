@@ -16,7 +16,7 @@ class TargetAudienceFiltersOfferStamp
 
     if %w(family_children family_parents family_nuclear_family refugees_general
           family_parents_to_be refugees_children refugees_parents_to_be
-          refugees_umf refugees_parents refugees_families ).include?(ta)
+          refugees_uf refugees_parents refugees_families ).include?(ta)
       locale_entry += send("stamp_#{ta}", filters_offer)
     end
     # build separate parts of stamp and join them with locale-specific format
@@ -134,17 +134,21 @@ class TargetAudienceFiltersOfferStamp
     end
   end
 
-  def self.stamp_refugees_umf filters_offer
-    if filters_offer.gender_first_part_of_stamp.nil?
+  def self.stamp_refugees_uf filters_offer
+    if filters_offer.age_to > 17
       '.neutral'
     else
-      '.' + filters_offer.gender_first_part_of_stamp
+      '.minor.neutral'
     end
   end
 
   # follows the same logic as self.stamp_refugees_umf
   def self.stamp_refugees_parents_to_be filters_offer
-    stamp_refugees_umf(filters_offer)
+    if filters_offer.gender_first_part_of_stamp.nil?
+      '.neutral'
+    else
+      '.' + filters_offer.gender_first_part_of_stamp
+    end
   end
 
   def self.stamp_refugees_parents filters_offer
