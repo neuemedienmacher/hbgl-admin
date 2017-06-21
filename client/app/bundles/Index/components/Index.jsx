@@ -16,15 +16,15 @@ export default class Index extends Component {
 
   render() {
     const {
-      location, model, heading, query, lockedParams, params, optionalParams
+      location, model, heading, query, lockedParams, params, optionalParams, identifier, uiKey
     } = this.props
 
     return (
       <div className='content Index table-header'>
         <h2 className="page-title">{heading}</h2>
         <IndexHeader model={model} params={query} lockedParams={lockedParams} />
-        <IndexTable model={model} params={query} />
-        <Pagination model={model} params={query} />
+        <IndexTable model={model} params={query} identifier={identifier} uiKey={uiKey} />
+        <Pagination model={model} params={query} identifier={identifier} uiKey={uiKey} />
       </div>
     )
   }

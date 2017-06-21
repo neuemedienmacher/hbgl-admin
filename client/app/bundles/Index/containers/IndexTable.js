@@ -8,7 +8,11 @@ const mapStateToProps = (state, ownProps) => {
   if (!settings.index[ownProps.model])
     throw new Error(`Add settings for ${ownProps.model}`)
 
-  const { model } = ownProps
+  const { model, identifier } = ownProps
+  // specific inline_fields or fallback to normal index fields
+  let settings_fields = settings.index[model].inline_fields ||
+    settings.index[model].fields
+
   const fields = analyzeFields(settings.index[model].fields, model)
   const rows = denormalizeIndexResults(state.ajax.indexResults)
 

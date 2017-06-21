@@ -8,18 +8,25 @@ import forIn from 'lodash/forIn'
 
 const mapStateToProps = (state, ownProps) => {
   const pathname = window.location.pathname
-  let model = 'assignments'
+  let model = ownProps.model
   let query = ownProps.params
+  let optional =
+    ownProps.identifier_addition ? '_' + ownProps.identifier_addition : ''
+  const identifier = 'indexResults_' + model + optional
+  const uiKey = 'index_' + model + optional
+  // const count
 
   if(pathname.length > 1 && ownProps.location) {
     model = pathname.substr(1, pathname.length)
     query = ownProps.location.query
   }
-  
+
   return {
     model,
     heading: headingFor(model),
-    query
+    query,
+    identifier,
+    uiKey
   }
 }
 
