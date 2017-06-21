@@ -22,7 +22,7 @@ export default class Index extends Component {
     return (
       <div className='content Index table-header'>
         <h2 className="page-title">{heading}</h2>
-        <IndexHeader model={model} params={query} lockedParams={this.props.lockedParams} />
+        <IndexHeader model={model} params={query} lockedParams={lockedParams} />
         <IndexTable model={model} params={query} />
         <Pagination model={model} params={query} />
       </div>
