@@ -108,8 +108,8 @@ function filterStatistics(chart, transitions) {
         stat['field-end-value'] == transition['end-value']
     })
     return(
-      stat['time-frame'] == 'daily' && stat['trackable-type'] == 'UserTeam' &&
-        stat['trackable-id'] == chart['team-id'] && matchingTransitions.length
+      stat['time-frame'] == 'daily' && stat['trackable-type'] == 'User' &&
+        stat['trackable-id'] == chart['user-id'] && matchingTransitions.length
     )
   }
 }

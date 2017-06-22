@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => {
       state.entities['user-teams'], team => { return team['lead-id'] == user.id }
     ).map(ledTeam => {
       let children = filter(
-        entities['user-teams'],
+        state.entities['user-teams'],
         otherTeam => { return otherTeam['parent-id'] == ledTeam.id }
       )
       return children.map(childTeam => {

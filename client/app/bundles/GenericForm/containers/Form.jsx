@@ -40,7 +40,6 @@ const mapStateToProps = (state, ownProps) => {
       seedData.fields[property] = denormalizedEntity[property]
     }
   }
-  console.log(state)
 
   return {
     seedData,
@@ -106,12 +105,18 @@ function buildActionButtonData(state, model, editId) {
   }]
   // iterate additional actions (e.g. state-changes) only for editing
   if (state.settings.actions[model] && editId) {
-    state.settings.actions[model].map(action => {
-      buttonData.push({
-        className: model == 'divisions' ? 'btn btn-warning' : 'btn btn-default',
-        buttonLabel: 'Speichern & ' + textForActionName(action, model),
-        actionName: action
-      })
+    state.settings.actions[model].forEach(action => {
+      if(state.entities['possible-events'] &&
+         state.entities['possible-events'][model] &&
+         state.entities['possible-events'][model][editId] &&
+         state.entities['possible-events'][model][editId].data.includes(action)
+       ){
+        buttonData.push({
+          className: model == 'divisions' ? 'btn btn-warning' : 'btn btn-default',
+          buttonLabel: 'Speichern & ' + textForActionName(action, model),
+          actionName: action
+        })
+      }
     })
   }
   return buttonData

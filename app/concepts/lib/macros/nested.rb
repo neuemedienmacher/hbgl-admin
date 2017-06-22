@@ -4,6 +4,7 @@ module Lib
     module Nested
       def self.Find(field, klass)
         step = ->(_input, options) do
+          # binding.pry if field == :federal_state
           reset_contract_field(options, field)
           each_nested_paramset(field, options) do |params|
             if params[:id]
@@ -31,8 +32,7 @@ module Lib
               results.push(result)
             end
           end
-          set_contract_errors(options, field, results)
-          puts field, results.map { |r| r.inspect[0,16] }, options['contract.default'].errors.messages, '---'
+          set_contract_errors(options, field, results.select { |r| r != true })
           results.all? { |r| r == true || r.success? }
         end
         [step, name: "nested.create.#{operation}"]
@@ -55,7 +55,8 @@ module Lib
 
           yield operation.(
             params,
-            'current_user' => options['current_user'], 'document' => document
+            'current_user' => options['current_user'], 'document' => document,
+            'nesting_operation' => options
           )
         end
       end
@@ -63,7 +64,8 @@ module Lib
       def self.each_nested_document(options, field_name)
         parsed_document = JSON.parse(options['document'])
         document = # assuming JSONAPI
-          parsed_document['data']['relationships'][field_name.to_s]
+          parsed_document['data']['relationships'] &&
+          parsed_document['data']['relationships'][field_name.to_s.dasherize]
 
         return unless document
         if document['data'].is_a? Array
@@ -82,9 +84,10 @@ module Lib
 
         if relationship.is_a? Array
           relationship.each do |single_relationship|
+            next unless single_relationship
             yield single_relationship
           end
-        else
+        elsif relationship
           yield relationship
         end
       end
@@ -130,15 +133,35 @@ module Lib
       end
 
       def self.set_contract_errors(options, field_name, results)
-        error = {}
-        results.each_with_index do |result, index|
-          next if result == true
-          current_errors = result['contract.default'].errors.to_h
-          next if current_errors.none?
-          error[index] = current_errors
+        if is_iterable?(options['contract.default'].send(field_name))
+          error = {}
+          results.each_with_index do |result, index|
+            current_error = error_from_result(result)
+            error[index] = current_error if current_error
+          end
+          add_contract_error options, field_name, error
+        else
+          add_contract_error options, field_name, error_from_result(results[0])
         end
-        return if error.none?
+      end
+
+      def self.add_contract_error(options, field_name, error)
+        return if !error || error.none?
         options['contract.default'].errors.add(field_name, error)
+      end
+
+      def self.error_from_result(result)
+        return unless result
+        error = result['contract.default'].errors.to_h
+        if error.none?
+          if result.success?
+            nil
+          else
+            'Operation Failure'
+          end
+        else
+          error
+        end
       end
 
       # def self.relevant_contract_errors parent_contract, field, nested_contract

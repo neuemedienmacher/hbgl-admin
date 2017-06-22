@@ -5,7 +5,7 @@ module Location::Contracts
     property :street
     property :addition
     property :zip
-    property :display_name
+    # property :display_name
     property :city
     property :organization
     property :federal_state
@@ -22,11 +22,11 @@ module Location::Contracts
     # validates :display_name, presence: true
 
     validates :city, presence: true
-    validates :organization, presence: true
+    validate ::Lib::Validators::UnnestedPresence :organization
     validates :federal_state, presence: true
   end
 
   class Update < Create
-    validates :display_name, presence: true
+    # validates :display_name, presence: true
   end
 end

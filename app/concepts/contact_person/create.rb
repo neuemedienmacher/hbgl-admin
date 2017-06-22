@@ -5,5 +5,8 @@ class ContactPerson::Create < Trailblazer::Operation
 
   step Contract::Build(constant: ContactPerson::Contracts::Create)
   step Contract::Validate()
+  step Wrap(::Lib::Transaction) {
+    step ::Lib::Macros::Nested::Create(:email, Email::Create)
+  }
   step Contract::Persist()
 end

@@ -10,7 +10,7 @@ module Website::Contracts
     #   required(:host).filled
     # end
 
-    validates :host, presence: true
+    validates :host, presence: true, inclusion: { in: ::Website::HOSTS }
     validates :url, format: %r{\Ahttps?://\S+\.\S+\z}, presence: true
     validates_uniqueness_of :url
     validates :unreachable_count, presence: true

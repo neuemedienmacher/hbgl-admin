@@ -13,7 +13,6 @@ class Organization::Create < Trailblazer::Operation
     step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
     step ::Lib::Macros::Nested::Create :locations, Location::Create
   }
-  # success ::Lib::Macros::Debug::Breakpoint()
   step :set_creating_user
   step Contract::Persist()
   step :create_initial_assignment!

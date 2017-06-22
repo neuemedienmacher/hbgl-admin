@@ -34,5 +34,15 @@ module ReformedValidationHack
       @@before_hacks[self.name] << function
       # rubocop:enable Style/ClassVars
     end
+
+    # Epic Hax: don't use model validations for operation persisting
+    def save(options = {})
+      # maybe 'macros/nested.rb' to only hax nesting operations
+      if caller.select { |s| s.include?('trailblazer/operation/persist') }.any?
+        super options.merge(validate: false)
+      else
+        super options
+      end
+    end
   end
 end

@@ -3,10 +3,10 @@ module Lib
   module Validators
     def self.UnnestedPresence(field)
       ->() {
-        field_value = send(field)
-        if (field_value.nil? || field_value.empty?)
+        value = send(field)
+        if !value || value.respond_to?(:empty) && value.empty?
           errors.add field, I18n.t('errors.messages.empty')
-        elsif field_value == 'nested'
+        elsif value == 'nested'
           send("#{field}=", nil)
         end
       }

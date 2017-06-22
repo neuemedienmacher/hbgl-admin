@@ -13,7 +13,7 @@ class ContactPerson < ActiveRecord::Base
 
   # Admin specific methods
 
-  include Translations, ReformedValidationHack, PgSearch
+  include Translations, PgSearch, ReformedValidationHack
 
   # Search
   pg_search_scope :search_everything,
