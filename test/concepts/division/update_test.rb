@@ -38,6 +38,14 @@ class DivisionUpdateTest < ActiveSupport::TestCase
         division.assignments.count.must_equal 2
       end
 
+      it 'set done to false and resets orga to approved for mark_as_not_done' do
+        basic_params['meta'] = { 'commit' => 'mark_as_not_done' }
+        orga.aasm_state.must_equal 'all_done'
+        operation_must_work ::Division::Update, basic_params, current_user: user
+        division.reload.done.must_equal false
+        orga.reload.aasm_state.must_equal 'approved'
+      end
+
       it 're-assigns the organization to system when all divisions are done' do
         basic_params['meta'] = { 'commit' => 'mark_as_done' }
         # remove organization-connection from all other divisions

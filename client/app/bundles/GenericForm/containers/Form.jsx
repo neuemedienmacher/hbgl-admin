@@ -145,6 +145,8 @@ function textForActionName(action, model){
     return 'Webseite im Aufbau'
   case 'mark_as_done':
     return model == 'divisions' ? 'als erledigt markieren' : 'Orga ist fertig (all done)'
+  case 'mark_as_not_done':
+    return 'als unvollständig markieren'
   default:
     return action
   }

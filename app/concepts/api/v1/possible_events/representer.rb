@@ -10,8 +10,8 @@ module API::V1
           events = r[:represented].aasm.events.select do |event|
             r[:represented].send("may_#{event.name}?")
           end.map(&:name)
-        elsif r[:represented].is_a?(::Division) && r[:represented].done == false
-          events = [:mark_as_done]
+        elsif r[:represented].is_a?(::Division)
+          events = r[:represented].done ? [:mark_as_not_done] : [:mark_as_done]
         end
         events
       end
