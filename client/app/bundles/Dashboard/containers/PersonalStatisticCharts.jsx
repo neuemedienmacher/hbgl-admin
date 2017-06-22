@@ -10,15 +10,18 @@ const mapStateToProps = (state, ownProps) => {
   const trackableId =
     state.ui[selectIdentifier] || state.entities['current-user-id']
   const dataKey = 'personalStatistics#' + trackableId
-  const statisticCharts = valuesIn(state.entities.statistic_charts).filter(
-    chart => chart.user_id == trackableId
+  const statisticCharts = valuesIn(state.entities['statistic-charts']).filter(
+    chart => chart['user-id'] == trackableId
   )
   let currentUser = state.entities.users[state.entities['current-user-id']]
   let selectableData = [[currentUser.id, currentUser.name]]
-  // append user_ids of users in led_teams
+  // append user_ids of users in ledTeams
+  let ledTeams = valuesIn(state.entities['user-teams']).filter(
+    t => currentUser['led-team-ids'] && currentUser['led-team-ids'].includes(t.id)
+  )
   selectableData = selectableData.concat(
-    currentUser.led_teams ?
-    flatten(currentUser['led_teams'].map(team => {
+    ledTeams ?
+    flatten(ledTeams.map(team => {
       return team['user-ids'].map(userId => {
         return [userId, `${state.entities.users[userId].name} (${team.name})`]
       })

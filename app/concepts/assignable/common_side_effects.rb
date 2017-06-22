@@ -47,11 +47,11 @@ module Assignable
         _options, model:, current_user:, **
       )
         return true unless model.class == Assignment &&
-                           model.assignable_type == 'Division'
+                           model.assignable_type == 'Division' &&
+                           model.assignable.organization
         organization = model.assignable.organization
-        orga_assignable_twin =
-          ::Assignable::Twin.new(organization)
-        if organization.aasm_state == 'initialized' &&
+        orga_assignable_twin = ::Assignable::Twin.new(organization)
+        if organization.initialized? &&
            orga_assignable_twin.current_assignment.receiver_id.nil?
           ::Assignment::CreateBySystem.(
             {}, assignable: organization, last_acting_user: current_user

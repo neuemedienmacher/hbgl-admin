@@ -13,7 +13,7 @@ module API::V1
           property :user_ids
         end
 
-        has_one :parent do
+        has_one :parent, class: ::UserTeam do
           type :user_teams
 
           attributes do
@@ -21,19 +21,26 @@ module API::V1
           end
         end
 
-        has_many :children, class: ::UserTeam do
-          type :user_teams
+        has_one :lead, class: ::User do
+          type :users
 
           attributes do
             property :name, as: :label
           end
         end
+
+        # has_many :children, class: ::UserTeam do
+        #   type :user_teams
+        #
+        #   attributes do
+        #     property :name, as: :label
+        #   end
+        # end
 
         has_many :users, class: ::User, populator: Lib::Populators::Find do
           type :users
 
           attributes do
-            property :name
             property :name, as: :label
           end
         end

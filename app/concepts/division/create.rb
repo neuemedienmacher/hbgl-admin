@@ -12,10 +12,10 @@ class Division::Create < Trailblazer::Operation
   step :reset_organization_to_approved_when_it_is_done
 
   # new Division are (per definition) not done, so we reset the organization
-  # to approved if it is all_done (all divisions are done)
+  # to approved if it is already existing & all_done (all divisions are done)
   def reset_organization_to_approved_when_it_is_done(_options, model:, **)
-    organization = ::Organization.find(model.organization_id)
-    if organization.all_done?
+    organization = ::Organization.where(id: model.organization_id).first
+    if organization && organization.all_done?
       organization.update_columns(aasm_state: 'approved')
     end
     true

@@ -115,6 +115,8 @@ Rails.application.routes.draw do
                                                    action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
       get 'field_set/:model', controller: :field_set, action: :show
+      get 'possible_events/:model/:id', controller: :possible_events,
+                                        action: :show
       get 'states/:model', controller: :states, action: :show
     end
   end
