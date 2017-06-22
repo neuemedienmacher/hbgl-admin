@@ -1,4 +1,5 @@
 #!/bin/bash
+# You should have a clean DB before this (rake db:drop db:create)
 
 echo 'Downloading dump of production database...'
 dumpfile="$(pwd)/tmp/latest.dump"

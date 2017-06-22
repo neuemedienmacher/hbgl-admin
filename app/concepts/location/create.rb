@@ -5,5 +5,9 @@ class Location::Create < Trailblazer::Operation
 
   step Contract::Build(constant: Location::Contracts::Create)
   step Contract::Validate()
+  step Wrap(::Lib::Transaction) {
+    step ::Lib::Macros::Nested::Find(:city, ::City)
+    step ::Lib::Macros::Nested::Find(:federal_state, ::FederalState)
+  }
   step Contract::Persist()
 end

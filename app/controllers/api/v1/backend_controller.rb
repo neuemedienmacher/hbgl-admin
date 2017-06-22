@@ -25,11 +25,12 @@ module API::V1
 
     def create
       endpoint create_operation, { args: api_args }, &default_endpoints
-      true
+      raise 'No Endpoint used!' unless performed?
     end
 
     def update
       endpoint update_operation, { args: api_args }, &default_endpoints
+      raise 'No Endpoint used!' unless performed?
     end
 
     # --- Non-Action Helper methods --- #

@@ -20,9 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
 
-  let seedData = {
-    fields: {}
-  }
+  let seedData = { fields: {} }
 
   const formObjectClass = formObjectSelect(model)
 
@@ -63,6 +61,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
 
+  const resetForm = () => {
+    dispatch(
+      setupAction(stateProps.formId, stateProps.seedData.fields)
+    )
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -74,7 +78,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         if (ownProps.onSuccessfulSubmit)
           return ownProps.onSuccessfulSubmit(response)
 
-        dispatch(setupAction(stateProps.formId, {})) // reset form
+        resetForm()
         // browserHistory.push(`/${ownProps.model}/${response.data.id}`)
       } else if (response.errors && response.errors.length) {
         const message =

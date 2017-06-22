@@ -7,6 +7,13 @@ class Organization::Create < Trailblazer::Operation
 
   step Contract::Build(constant: Organization::Contracts::Create)
   step Contract::Validate()
+  step Wrap(::Lib::Transaction) {
+    step ::Lib::Macros::Nested::Create :website, Website::Create
+    step ::Lib::Macros::Nested::Create :divisions, Division::Create
+    step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
+    step ::Lib::Macros::Nested::Create :locations, Location::Create
+  }
+  # success ::Lib::Macros::Debug::Breakpoint()
   step :set_creating_user
   step Contract::Persist()
   step :create_initial_assignment!

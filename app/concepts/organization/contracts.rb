@@ -13,12 +13,6 @@ module Organization::Contracts
     validates_uniqueness_of :name
     validates :website, presence: true
 
-    include ::NestedValidation
-    validate_nested :website, Website::Contracts::Create
-    validate_nested_collection :divisions, Division::Contracts::Create
-    validate_nested_collection :locations, Location::Contracts::Create
-    validate_nested_collection :contact_people, ContactPerson::Contracts::Create
-
     # TODO: ausschliesslich own erlauben in Auswahl und nested create
     # validate :validate_websites_hosts
     # def validate_websites_hosts

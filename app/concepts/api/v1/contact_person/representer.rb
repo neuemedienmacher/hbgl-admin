@@ -39,7 +39,7 @@ module API::V1
         end
 
         has_one :email, decorator: API::V1::Email::Representer::Show,
-                        populator: Lib::Populators::FindOrInstantiate,
+                        populator: API::V1::Lib::Populators::FindOrInstantiate,
                         class: ::Email
       end
     end

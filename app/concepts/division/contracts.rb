@@ -11,11 +11,8 @@ module Division::Contracts
     property :size
 
     validates :name, presence: true
-    validates :organization, presence: true
+    validate ::Lib::Validators::UnnestedPresence :organization
     validates :section, presence: true
-
-    include ::NestedValidation
-    validate_nested_collection :websites, Website::Contracts::Create
   end
 
   class Update < Create

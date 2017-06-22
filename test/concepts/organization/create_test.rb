@@ -106,8 +106,9 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     params = {
       data: {
         type: 'organizations',
-        attributes: {},
+        attributes: { name: 'valid' },
         relationships: {
+          website: { data: { type: 'websites', id: '1' } },
           divisions: {
             data: [
               {
@@ -133,11 +134,22 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     result =
       api_operation_wont_work API::V1::Organization::Create, params.to_json
     result['contract.default'].errors.to_h[:divisions].must_equal(
-      0 => {
-        websites: { 0 => { url: 'ist nicht gültig' } },
-        name: 'muss ausgefüllt werden'
-      },
+      0 => { name: 'muss ausgefüllt werden' },
       1 => { section: 'muss ausgefüllt werden' }
+    )
+
+    # fix one error, the deeper submodels are validated
+    params[:data][:relationships][:divisions][:data].first[:attributes] =
+      { name: 'valid' }
+    params[:data][:relationships][:divisions][:data].last[:relationships] =
+      { section: { data: { type: 'sections', id: '2' } } }
+
+    result =
+      api_operation_wont_work API::V1::Organization::Create, params.to_json
+    result['contract.default'].errors.to_h[:divisions].must_equal(
+      0 => {
+        websites: { 0 => { url: 'ist nicht gültig' } }
+      }
     )
   end
 end

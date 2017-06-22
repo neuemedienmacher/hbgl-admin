@@ -53,7 +53,7 @@ module API::V1
           end
         end
 
-        has_many :websites, class: ::Website,
+        has_many :websites, class: ::Website, populator: FindOrInstantiate,
                             decorator: API::V1::Website::Representer::Show
       end
     end
