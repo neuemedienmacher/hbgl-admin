@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative '../test_helper'
 
-# rubocop:disable Metrics/ClassLength
 class NestedSideEffectTest < ActiveSupport::TestCase
   class InnerContract < Reform::Form
     property :url
@@ -173,6 +172,7 @@ class NestedSideEffectTest < ActiveSupport::TestCase
     assert_test_model(result['model'])
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def assert_test_model(model)
     model.must_be :persisted?
     model.name.must_equal 'valid1'
@@ -198,9 +198,9 @@ class NestedSideEffectTest < ActiveSupport::TestCase
     model.divisions.last.websites.first.host.must_equal 'own' # side effect
     model.divisions.last.websites.last.url.must_equal 'http://basic.com'
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   it 'should work for update' do
-    # CONTINUE HERE
+    # TODO: Write update tests
   end
 end
-# rubocop:enable Metrics/ClassLength

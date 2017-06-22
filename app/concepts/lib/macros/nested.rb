@@ -103,7 +103,7 @@ module Lib
           end
           document['relationships']&.each do |relation_name, data|
             symbolized_name = relation_name.underscore.to_sym
-            if is_iterable?(data['data'])
+            if iterable?(data['data'])
               params[relation_name.underscore.to_sym] = []
               data['data'].each do |datum|
                 params[symbolized_name].push(params_from_document(datum))
@@ -118,7 +118,7 @@ module Lib
 
       def self.reset_contract_field(options, field_name)
         field_value = options['contract.default'].send(field_name)
-        if is_iterable?(field_value)
+        if iterable?(field_value)
           options['contract.default'].send(:"#{field_name}=", [])
         elsif !field_value.is_a? Hash
           options['contract.default'].send(:"#{field_name}=", nil)
@@ -126,7 +126,7 @@ module Lib
       end
 
       def self.set_contract_field(options, field_name, field_value)
-        if is_iterable?(options['contract.default'].send(field_name))
+        if iterable?(options['contract.default'].send(field_name))
           options['contract.default'].send(field_name).push(field_value)
         else
           options['contract.default'].send(:"#{field_name}=", field_value)
@@ -134,7 +134,7 @@ module Lib
       end
 
       def self.set_contract_errors(options, field_name, results)
-        if is_iterable?(options['contract.default'].send(field_name))
+        if iterable?(options['contract.default'].send(field_name))
           error = {}
           results.each_with_index do |result, index|
             current_error = error_from_result(result)
@@ -174,7 +174,7 @@ module Lib
         model.association(field).reflection.inverse_of.name
       end
 
-      def self.is_iterable?(instance)
+      def self.iterable?(instance)
         instance.is_a?(Array) ||
           instance.is_a?(ActiveRecord::Associations::CollectionProxy)
       end

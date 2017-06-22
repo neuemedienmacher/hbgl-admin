@@ -12,6 +12,7 @@ module API::V1
           property :name
           property :email
           property :role
+          property :active
           property :user_team_ids
           property :led_team_ids
         end

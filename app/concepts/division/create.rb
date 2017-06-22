@@ -10,6 +10,7 @@ class Division::Create < Trailblazer::Operation
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create(:websites, Website::Create)
     step ::Lib::Macros::Nested::Find(:section, ::Section)
+    step ::Lib::Macros::Nested::Find(:organization, ::Organization)
     step ::Lib::Macros::Nested::Find(:presumed_categories, ::Category)
     step ::Lib::Macros::Nested::Find(
       :presumed_solution_categories, ::SolutionCategory

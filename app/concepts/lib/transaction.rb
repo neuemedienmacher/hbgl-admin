@@ -4,7 +4,7 @@ module Lib
     extend Uber::Callable
 
     def self.call(options, *)
-      pipe, _ = ActiveRecord::Base.transaction { yield }
+      pipe, _result = ActiveRecord::Base.transaction { yield }
       pipe
     end
   end

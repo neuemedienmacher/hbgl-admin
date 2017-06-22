@@ -80,11 +80,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         resetForm()
         // browserHistory.push(`/${ownProps.model}/${response.data.id}`)
       } else if (response.errors && response.errors.length) {
-        const message =
-          'Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese' +
-          ' und versuche es erneut.'
-        dispatch(addFlashMessage('error', message))
+        dispatch(addFlashMessage('error', errorFlashMessage))
       }
+    },
+
+    afterRequireValid(result) {
+      if (result.valid) return
+      dispatch(addFlashMessage('error', errorFlashMessage))
+      console.log(result)
     },
 
     loadData(model = ownProps.model, id = ownProps.editId) {
@@ -96,6 +99,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     }
   }
 }
+const errorFlashMessage =
+  'Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese' +
+  ' und versuche es erneut.'
 
 function buildActionButtonData(state, model, editId) {
   // start with default save button (might be extended)

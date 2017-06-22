@@ -8,7 +8,9 @@ module Lib
         end
 
         step = ->(operation, options) do
+          # rubocop:disable Lint/Debugger
           binding.pry
+          # rubocop:disable Lint/Debugger
           true
         end
 
