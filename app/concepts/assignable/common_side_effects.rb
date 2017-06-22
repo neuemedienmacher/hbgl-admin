@@ -50,15 +50,20 @@ module Assignable
                            model.assignable_type == 'Division' &&
                            model.assignable.organization
         organization = model.assignable.organization
-        orga_assignable_twin = ::Assignable::Twin.new(organization)
-        if organization.initialized? &&
-           orga_assignable_twin.current_assignment.receiver_id.nil?
+        if should_create_automated_organization_assignment?(model, organization)
           ::Assignment::CreateBySystem.(
             {}, assignable: organization, last_acting_user: current_user
           ).success?
         else
           true
         end
+      end
+
+      def should_create_automated_organization_assignment?(model, organization)
+        orga_twin = ::Assignable::Twin.new(organization)
+        !model.receiver_id.nil? && model.receiver_id != ::User.system_user.id &&
+          orga_twin.current_assignment.receiver_id == ::User.system_user.id &&
+          organization.initialized?
       end
     end
   end

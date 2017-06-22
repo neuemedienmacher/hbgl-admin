@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
 require_relative '../../support/utils/jsonapi_test_utils'
@@ -101,6 +102,43 @@ class AssignmentCreateTest < ActiveSupport::TestCase
           t.reload.possibly_outdated.must_equal true
         end
       end
+
+      describe 'side-effects' do
+        it 'wont create a new orga-assignment when the conditions dont match' do
+          division = FactoryGirl.create(:division)
+          basic_params[:assignable_id] = division.id
+          basic_params[:assignable_type] = 'Division'
+          orga = division.organization
+          orga.update_columns aasm_state: 'approved'
+          orga.assignments.count.must_equal 1
+          orga.assignments.first.update_columns receiver_id: User.system_user.id
+          # orga is not initialized
+          operation_must_work ::Assignment::Create, basic_params
+          orga.reload.assignments.count.must_equal 1
+          # initialized orga but wrong user is assigned to orga
+          orga.update_columns aasm_state: 'initialized'
+          orga.assignments.first.update_columns receiver_id: nil
+          operation_must_work ::Assignment::Create, basic_params
+          orga.reload.assignments.count.must_equal 1
+          # correct user assigned to orga but not to the division
+          orga.assignments.first.update_columns receiver_id: User.system_user.id
+          basic_params[:receiver_id] = User.system_user.id
+          operation_must_work ::Assignment::Create, basic_params
+          orga.reload.assignments.count.must_equal 1
+        end
+
+        it 'also creates a new organization-assignment for special division' do
+          division = FactoryGirl.create(:division)
+          basic_params[:assignable_id] = division.id
+          basic_params[:assignable_type] = 'Division'
+          orga = division.organization
+          orga.update_columns aasm_state: 'initialized'
+          orga.assignments.count.must_equal 1
+          orga.assignments.first.update_columns receiver_id: User.system_user.id
+          operation_must_work ::Assignment::Create, basic_params
+          orga.reload.assignments.count.must_equal 2
+        end
+      end
     end
   end
 
@@ -116,3 +154,4 @@ class AssignmentCreateTest < ActiveSupport::TestCase
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
