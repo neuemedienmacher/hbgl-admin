@@ -14,6 +14,7 @@ module Lib
               raise "No ID found for #{klass.name} in #{params.inspect}"
             end
           end
+          true
         end
         [step, name: "nested.find.#{klass}"]
       end

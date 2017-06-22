@@ -49,7 +49,7 @@ module API::V1
           type :solution_categories
 
           attributes do
-            property :name_de, as: :label
+            property :name, as: :label
           end
         end
 

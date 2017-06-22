@@ -7,10 +7,13 @@ class Division::Create < Trailblazer::Operation
 
   step Contract::Build(constant: Division::Contracts::Create)
   step Contract::Validate()
-  # failure Lib::Macros::Debug::Breakpoint() # !
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create(:websites, Website::Create)
     step ::Lib::Macros::Nested::Find(:section, ::Section)
+    step ::Lib::Macros::Nested::Find(:presumed_categories, ::Category)
+    step ::Lib::Macros::Nested::Find(
+      :presumed_solution_categories, ::SolutionCategory
+    )
   }
   step Contract::Persist()
   step :create_initial_assignment!
