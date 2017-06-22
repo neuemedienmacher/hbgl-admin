@@ -1,6 +1,14 @@
 #!/bin/bash
 # You should have a clean DB before this (rake db:drop db:create)
 
+read -p 'Reset your previous database? [Y/n]' -n 1 -r
+echo ''
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  rake db:drop db:create
+  echo 'Done!'
+fi
+
 echo 'Downloading dump of production database...'
 dumpfile="$(pwd)/tmp/latest.dump"
 curl -o $dumpfile `heroku pg:backups public-url --app clarat`
