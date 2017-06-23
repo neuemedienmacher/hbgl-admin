@@ -26,20 +26,20 @@ module API::V1
         end
 
         has_one :website, decorator: API::V1::Website::Representer::Show,
-                          populator: Lib::Populators::FindOrInstantiate,
+                          populator: API::V1::Lib::Populators::FindOrInstantiate,
                           class: ::Website
 
         has_many :divisions, decorator: API::V1::Division::Representer::Show,
-                             populator: Lib::Populators::FindOrInstantiate,
+                             populator: API::V1::Lib::Populators::FindOrInstantiate,
                              class: ::Division
 
         has_many :locations, decorator: API::V1::Location::Representer::Show,
-                             populator: Lib::Populators::FindOrInstantiate,
+                             populator: API::V1::Lib::Populators::FindOrInstantiate,
                              class: ::Location
 
         has_many :contact_people,
                  decorator: API::V1::ContactPerson::Representer::Show,
-                 populator: Lib::Populators::FindOrInstantiate,
+                 populator: API::V1::Lib::Populators::FindOrInstantiate,
                  class: ::ContactPerson
       end
     end

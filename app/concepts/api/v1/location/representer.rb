@@ -2,6 +2,8 @@
 module API::V1
   module Location
     module Representer
+      # NOTE for heroku deploy :|
+      require_relative '../lib/populators.rb'
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :locations
 
@@ -39,9 +41,9 @@ module API::V1
 
         has_one :federal_state,
                 decorator: API::V1::FederalState::Representer::Show,
-                populator: Lib::Populators::Find, class: ::FederalState
+                populator: API::V1::Lib::Populators::Find, class: ::FederalState
         has_one :city, decorator: API::V1::City::Representer::Show,
-                       populator: Lib::Populators::Find, class: ::City
+                       populator: API::V1::Lib::Populators::Find, class: ::City
       end
 
       # class Update < Roar::Decorator

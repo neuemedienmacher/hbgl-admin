@@ -29,7 +29,8 @@ module API::V1
           end
         end
 
-        has_one :section, class: ::Section, populator: Lib::Populators::Find do
+        has_one :section, class: ::Section,
+                          populator: API::V1::Lib::Populators::Find do
           type :sections
 
           attributes do
@@ -54,7 +55,7 @@ module API::V1
         end
 
         has_many :websites, class: ::Website,
-                            populator: Lib::Populators::FindOrInstantiate,
+                            populator: API::V1::Lib::Populators::FindOrInstantiate,
                             decorator: API::V1::Website::Representer::Show
       end
     end
