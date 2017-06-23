@@ -13,12 +13,7 @@ class ContactPerson < ActiveRecord::Base
 
   # Admin specific methods
 
-  include Translations, PgSearch, ReformedValidationHack
-
-  # Search
-  pg_search_scope :search_everything,
-                  against: [:id, :display_name],
-                  using: { tsearch: { prefix: true } }
+  include Translations, ReformedValidationHack
 
   # Customize duplication.
   def partial_dup

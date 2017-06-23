@@ -56,7 +56,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'Division'
       assignable.done == false ? nil : ::User.system_user.id
     when 'Organization'
-      assignable.all_done? ? ::User.system_user.id : last_acting_user.id # TODO: is this correct????
+      ::User.system_user.id
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -105,7 +105,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
         'Managed by system'
       end
     when 'Organization'
-      assignable.all_done? ? 'Managed by system' : 'Assigned by system'
+      'Managed by system'
     else
       'Assigned by system'
     end
