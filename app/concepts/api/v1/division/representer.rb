@@ -53,7 +53,8 @@ module API::V1
           end
         end
 
-        has_many :websites, class: ::Website, populator: FindOrInstantiate,
+        has_many :websites, class: ::Website,
+                            populator: Lib::Populators::FindOrInstantiate,
                             decorator: API::V1::Website::Representer::Show
       end
     end

@@ -26,7 +26,8 @@ module API::V1
         end
 
         has_one :website, decorator: API::V1::Website::Representer::Show,
-                          populator: FindOrInstantiate, class: ::Website
+                          populator: Lib::Populators::FindOrInstantiate,
+                          class: ::Website
 
         has_many :divisions, decorator: API::V1::Division::Representer::Show,
                              populator: Lib::Populators::FindOrInstantiate,
