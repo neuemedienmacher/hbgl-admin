@@ -9,7 +9,7 @@ class Website < ActiveRecord::Base
   # Search
   include PgSearch
   pg_search_scope :search_everything,
-                  against: [:id, :host],
+                  against: [:id, :host, :url],
                   using: { tsearch: { prefix: true } }
 
   # Validation Hack
