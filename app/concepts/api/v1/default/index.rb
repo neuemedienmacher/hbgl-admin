@@ -2,7 +2,7 @@
 module API::V1
   module Default
     class Index < Trailblazer::Operation
-      step :find_result_set
+      step :find_result_set, name: 'find_result_set'
 
       def find_result_set(options, params:, **)
         query = GenericSortFilter.transform(base_query, params)

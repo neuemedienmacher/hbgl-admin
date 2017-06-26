@@ -133,10 +133,6 @@ FactoryGirl.define do
     #   encounter %w(hotline chat forum email online-course portal).sample
     # end
 
-    trait :with_creator do
-      created_by { FactoryGirl.create(:researcher).id }
-    end
-
     trait :with_dummy_translations do
       after :create do |offer, _evaluator|
         (I18n.available_locales - [:de]).each do |locale|

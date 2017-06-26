@@ -6,7 +6,7 @@ class FederalState < ActiveRecord::Base
   include ReformedValidationHack, PgSearch
 
   # Search
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :name],
                   using: { tsearch: { prefix: true } }
 end

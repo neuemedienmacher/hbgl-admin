@@ -22,19 +22,19 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
   describe '#transform_by_searching' do
     it 'does nothing without a param' do
-      invalid_query.expects(:search_everything).never
+      invalid_query.expects(:search_pg).never
       result = subject.send(:transform_by_searching, invalid_query, nil)
       result.must_equal invalid_query
     end
 
     it 'does nothing with an empty param' do
-      invalid_query.expects(:search_everything).never
+      invalid_query.expects(:search_pg).never
       result = subject.send(:transform_by_searching, invalid_query, '')
       result.must_equal invalid_query
     end
 
     it 'searches with a filled param for offer' do
-      query.expects(:search_everything).with('foo').once
+      query.expects(:search_pg).with('foo').once
       subject.send(:transform_by_searching, query, 'foo')
     end
 
