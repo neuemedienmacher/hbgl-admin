@@ -16,7 +16,7 @@ export default class GenericFormForm extends React.Component {
     return (
       this.renderFormWithOptionalAssignableContainer(
         (<div className='form FormWrapper'>
-          <Form ajax requireValid
+          <Form ajax requireValid preventEnterSubmit
             method={method} className='form'
             formObjectClass={formObjectClass} model={model}
             action={action} id={formId} seedData={seedData}
@@ -37,7 +37,7 @@ export default class GenericFormForm extends React.Component {
     form, isAssignable, model, instance, loadData
   ){
     if (isAssignable) {
-      return (
+      return(
         <AssignableContainer
           assignable_type={model} assignable={instance}
           assignableDataLoad={loadData}

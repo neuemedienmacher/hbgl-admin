@@ -78,7 +78,7 @@ export default class FormInputs extends React.Component {
           )
         default:
           return(
-            <InputSet key={index}
+            <InputSet preventEnterSubmit key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}

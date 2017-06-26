@@ -42,7 +42,7 @@ export default class CreatingSelect extends React.Component {
       return(
         <div style={{border: '1px solid black'}} key={index}>
           <button onClick={removeClickHandler(formId)}>x</button>
-          <Form
+          <Form preventEnterSubmit
             formId={formId} model={submodelName} nestingModel={model}
             submodelPath={parentModels} submodelKey={index}
           />

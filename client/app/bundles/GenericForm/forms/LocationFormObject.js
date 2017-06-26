@@ -53,4 +53,10 @@ export default class LocationFormObject extends FormObject {
     // this.required('city').filled()
     // this.required('federal-state').filled()
   }
+
+  static get genericFormDefaults() {
+    return {
+      'in-germany': '1'
+    }
+  }
 }

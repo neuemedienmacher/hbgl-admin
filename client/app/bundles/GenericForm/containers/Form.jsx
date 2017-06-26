@@ -20,9 +20,9 @@ const mapStateToProps = (state, ownProps) => {
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
 
-  let seedData = { fields: {} }
-
   const formObjectClass = formObjectSelect(model)
+
+  let seedData = { fields: formObjectClass.genericFormDefaults || {} }
 
   let action = `/api/v1/${model}`
   let method = 'POST'
