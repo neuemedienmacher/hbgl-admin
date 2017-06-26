@@ -63,6 +63,14 @@ class Offer < ActiveRecord::Base
   # Admin specific methods
   delegate :identifier, to: :section, prefix: true
 
+  validate :validate_solution_category
+
+  def validate_solution_category
+    unless self.solution_category == self.split_base.solution_category
+      fail_validation :solution_category, 'solution category is not correct'
+    end
+  end
+
   # Customize duplication.
   # Lots of configs here, so we are OK with a longer method:
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
