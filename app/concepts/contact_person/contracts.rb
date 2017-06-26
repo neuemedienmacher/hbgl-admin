@@ -4,17 +4,21 @@ module ContactPerson::Contracts
     property :first_name
     property :last_name
     property :operational_name
-    property :local_number_1
-    property :fax_number
-    property :email
-
-    property :organization
+    property :academic_title
+    property :gender
+    property :responsibility
+    property :position
+    property :street
+    property :spoc
     property :area_code_1
     property :local_number_1
     property :area_code_2
     property :local_number_2
     property :fax_area_code
     property :fax_number
+    property :zip_and_city
+    property :email
+    property :organization
 
     validate ::Lib::Validators::UnnestedPresence :organization
     validates :area_code_1, format: /\A\d*\z/, length: { maximum: 6 }

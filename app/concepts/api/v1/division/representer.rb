@@ -8,7 +8,7 @@ module API::V1
 
         attributes do
           property :label, getter: ->(division) do
-            "#{division[:represented].name} (#{division[:represented].size})"
+            division[:represented].name
           end
 
           property :name

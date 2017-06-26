@@ -33,7 +33,7 @@ function headingFor(model) {
   case 'organizations':
     return 'Organisationen'
   case 'divisions':
-    return 'Abteilungen'
+    return 'Divisions'
   case 'offers':
     return 'Angebote'
   case 'offer-translations':

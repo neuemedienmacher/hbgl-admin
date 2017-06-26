@@ -38,7 +38,7 @@ const routes = [
   }, {
     id: 4,
     pathname: '/divisions',
-    anchor: 'Abteilungen',
+    anchor: 'Divisions',
     access: all,
   }, {
     id: 5,

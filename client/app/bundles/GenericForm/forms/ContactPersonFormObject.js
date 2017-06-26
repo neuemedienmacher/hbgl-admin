@@ -12,7 +12,7 @@ export default class CityFormObject extends FormObject {
 
   static get properties() {
     return [
-      'address', 'area-code-1', 'area-code-2', 'local-number-1',
+      'area-code-1', 'local-number-1', 'area-code-2',
       'local-number-2', 'fax-area-code', 'fax-number', 'first-name',
       'last-name', 'operational-name', 'academic-title', 'gender',
       'responsibility', 'position', 'street', 'zip-and-city', 'spoc',
@@ -22,10 +22,9 @@ export default class CityFormObject extends FormObject {
 
   static get formConfig() {
     return {
-      address: { type: 'string' },
       'area-code-1': { type: 'string' },
-      'area-code-2': { type: 'string' },
       'local-number-1': { type: 'string' },
+      'area-code-2': { type: 'string' },
       'local-number-2': { type: 'string' },
       'fax-area-code': { type: 'string' },
       'fax-number': { type: 'string' },

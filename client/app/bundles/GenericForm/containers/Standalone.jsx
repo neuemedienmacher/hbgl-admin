@@ -23,7 +23,7 @@ function headingFor(model, id) {
     heading = 'Team'
     break
   case 'divisions':
-    heading = 'Abteilung'
+    heading = 'Division'
     break
   case 'organizations':
     heading = 'Organisation'

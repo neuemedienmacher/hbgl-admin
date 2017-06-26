@@ -8,9 +8,11 @@ module API::V1
         attributes do
           property :name
           property :visible
+          property :section_ids
 
           property :label, getter: ->(category) do
-            category[:represented].name_de
+            category[:represented].name_de +
+              " (#{::Section.where(id: section_ids).pluck(:identifier).join(',')})"
           end
         end
 

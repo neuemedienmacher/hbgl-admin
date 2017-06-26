@@ -148,7 +148,8 @@ export default {
 
     divisions: {
       fields: [
-        'id', 'name', { organization: ['name'] }, 'size', 'done'
+        'id', 'name', { organization: ['name'] }, { section: ['identifier'] },
+        'size', 'done',
       ],
       general_actions: [
         'index', 'export', 'new',
