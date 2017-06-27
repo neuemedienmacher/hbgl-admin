@@ -19,13 +19,15 @@ class OrganizationCreateTest < ActiveSupport::TestCase
                 type: 'divisions',
                 attributes: { name: 'bar' },
                 relationships: {
-                  section: { data: { type: 'sections', id: '1' } }
+                  section: { data: { type: 'sections', id: '1' } },
+                  city: { data: { type: 'cities', id: '1' } }
                 }
               }, {
                 type: 'divisions',
                 attributes: { name: 'baz' },
                 relationships: {
-                  section: { data: { type: 'sections', id: '2' } }
+                  section: { data: { type: 'sections', id: '2' } },
+                  city: { data: { type: 'cities', id: '1' } }
                 }
               }
             ]
@@ -116,6 +118,7 @@ class OrganizationCreateTest < ActiveSupport::TestCase
                 attributes: {}, # no name
                 relationships: {
                   section: { data: { type: 'sections', id: '1' } },
+                  city: { data: { type: 'cities', id: '1' } },
                   websites: { data: [{
                     type: 'websites',
                     attributes: { host: 'own', url: 'invalid' }
@@ -135,14 +138,21 @@ class OrganizationCreateTest < ActiveSupport::TestCase
       api_operation_wont_work API::V1::Organization::Create, params.to_json
     result['contract.default'].errors.to_h[:divisions].must_equal(
       0 => { name: 'muss ausgefüllt werden' },
-      1 => { section: 'muss ausgefüllt werden' }
+      1 => {
+        city: 'Stadt oder Area muss ausgewählt sein',
+        area: 'Stadt oder Area muss ausgewählt sein',
+        section: 'muss ausgefüllt werden'
+      }
     )
 
     # fix one error, the deeper submodels are validated
     params[:data][:relationships][:divisions][:data].first[:attributes] =
       { name: 'valid' }
     params[:data][:relationships][:divisions][:data].last[:relationships] =
-      { section: { data: { type: 'sections', id: '2' } } }
+      {
+        section: { data: { type: 'sections', id: '2' } },
+        city: { data: { type: 'cities', id: '1' } }
+      }
 
     result =
       api_operation_wont_work API::V1::Organization::Create, params.to_json

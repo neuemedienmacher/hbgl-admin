@@ -14,7 +14,8 @@ class DivisionUpdateTest < ActiveSupport::TestCase
     {
       id: division.id,
       name: division.name,
-      section: orga.sections.first
+      section: orga.sections.first,
+      city: orga.locations.first.city
     }
   end
 

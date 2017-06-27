@@ -3,6 +3,7 @@ class UserTeam < ActiveRecord::Base
   class GeneralContract < Reform::Form
     property :name
     property :users
+    property :observing_users
 
     validates :name, presence: true
     validates :users, presence: true

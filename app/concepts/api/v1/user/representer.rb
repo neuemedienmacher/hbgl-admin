@@ -15,6 +15,7 @@ module API::V1
           property :active
           property :user_team_ids
           property :led_team_ids
+          property :observed_user_team_ids
         end
 
         has_many :user_teams, class: ::UserTeam do
@@ -32,10 +33,15 @@ module API::V1
           type :user_teams
 
           attributes do
-            property :name
-            property :label, getter: ->(led_team) do
-              led_team[:represented].name
-            end
+            property :name, as: :label
+          end
+        end
+
+        has_many :observed_user_teams, class: ::UserTeam do
+          type :user_teams
+
+          attributes do
+            property :name, as: :label
           end
         end
 

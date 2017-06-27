@@ -14,7 +14,8 @@ class DivisionCreateTest < ActiveSupport::TestCase
       name: 'DivisionName',
       description: 'DivisionDescription',
       organization: orga,
-      section: orga.sections.first
+      section: orga.sections.first,
+      city: orga.locations.first.city
     }
   end
 

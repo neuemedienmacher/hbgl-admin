@@ -14,7 +14,8 @@ const mapStateToProps = (state, ownProps) => {
   let selectableData = []
   if (scope == 'receiverTeam'){
     selectableData = valuesIn(state.entities['user-teams']).filter(
-      team => user['user-team-ids'].includes(team.id)
+      team => user['user-team-ids'].includes(team.id) ||
+              user['observed-user-team-ids'].includes(team.id)
     ).map(team => [team.id, team.name])
     let selectIdentifier = 'controlled-select-view-team-assignments'
     itemId = state.ui[selectIdentifier] !== undefined ?

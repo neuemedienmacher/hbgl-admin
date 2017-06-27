@@ -11,14 +11,15 @@ export default class UserTeamFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'user_ids'
+      'name', 'users', 'observing_users'
     ]
   }
 
   static get formConfig() {
     return {
       name: { type: 'string' },
-      user_ids: { type: 'filtering-multiselect' },
+      users: { type: 'filtering-multiselect' },
+      observing_users: { type: 'filtering-multiselect' },
     }
   }
 

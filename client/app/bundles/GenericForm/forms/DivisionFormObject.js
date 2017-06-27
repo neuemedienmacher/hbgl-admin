@@ -12,7 +12,7 @@ export default class DivisionFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'organization', 'section', 'websites',
+      'name', 'organization', 'section', 'city', 'area', 'websites',
       'presumed-categories', 'presumed-solution-categories', 'comment',
       'size'
     ]
@@ -20,8 +20,8 @@ export default class DivisionFormObject extends FormObject {
 
   static get submodels() {
     return [
-      'organization', 'websites', 'section', 'presumed-categories',
-      'presumed-solution-categories'
+      'organization', 'websites', 'section', 'city', 'area',
+      'presumed-categories', 'presumed-solution-categories'
     ]
   }
 
@@ -29,6 +29,8 @@ export default class DivisionFormObject extends FormObject {
     return {
       websites: { relationship: 'oneToMany', object: WebsiteFormObject },
       section: { relationship: 'oneToOne' },
+      city: { relationship: 'oneToOne' },
+      area: { relationship: 'oneToOne' },
       organization: { relationship: 'oneToOne' },
       'presumed-categories': { relationship: 'oneToMany' },
       'presumed-solution-categories': { relationship: 'oneToMany' },
@@ -41,6 +43,8 @@ export default class DivisionFormObject extends FormObject {
       name: { type: 'string' },
       organization: { type: 'filtering-select' },
       section: { type: 'filtering-select' },
+      city: { type: 'filtering-select' },
+      area: { type: 'filtering-select' },
       websites: { type: 'creating-multiselect' },
       'presumed-categories': {
         type: 'filtering-multiselect', resource: 'categories'
