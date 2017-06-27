@@ -34,17 +34,6 @@ describe TargetAudienceFiltersOffer do
       subject.age_to = nil
       subject.wont_be :valid?
     end
-
-    it 'should correctly validate uniqueness' do
-      new_tafo = TargetAudienceFiltersOffer.new(
-        target_audience_filter_id: subject.target_audience_filter_id,
-        offer_id: subject.offer_id,
-        residency_status: subject.residency_status
-      )
-      new_tafo.wont_be :valid?
-      new_tafo.residency_status = 'with_deportation_decision'
-      new_tafo.must_be :valid?
-    end
   end
 
   describe 'name' do
