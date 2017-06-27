@@ -31,7 +31,7 @@ class Location < ActiveRecord::Base
     self.display_name = display + " #{zip} #{city_name}"
   end
 
-  # TODO: move callsbacks to opererations!
+  # TODO: move callsbacks to operations!
   # Callbacks
   after_commit :after_commit
 

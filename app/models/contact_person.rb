@@ -40,7 +40,7 @@ class ContactPerson < ActiveRecord::Base
     end
   end
 
-  # TODO: move callsbacks to opererations!
+  # TODO: move callsbacks to operations!
   # Callbacks
   after_create :after_create
   after_commit :after_commit
