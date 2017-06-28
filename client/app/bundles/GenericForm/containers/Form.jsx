@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { setupAction } from 'rform'
+import { setupAction, updateAction } from 'rform'
 import concat from 'lodash/concat'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
-import addEntities from '../../../Backend/actions/addEntities'
+import setUiAction from '../../../Backend/actions/setUi'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Form from '../components/Form'
@@ -19,6 +19,7 @@ const mapStateToProps = (state, ownProps) => {
   const instance = state.entities[model] && state.entities[model][editId]
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
+  const afterSaveActiveKey = state.ui.afterSaveActiveKey
 
   const formObjectClass = formObjectSelect(model)
 
@@ -49,7 +50,8 @@ const mapStateToProps = (state, ownProps) => {
     formObjectClass,
     instance,
     isAssignable,
-    buttonData
+    buttonData,
+    afterSaveActiveKey
   }
 }
 
@@ -80,7 +82,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
           return ownProps.onSuccessfulSubmit(response)
 
         resetForm()
-        // browserHistory.push(`/${ownProps.model}/${response.data.id}`)
+
+        // after-save actions (redirects)
+        if (stateProps.afterSaveActiveKey == 'to_edit') {
+          browserHistory.push(`/${ownProps.model}/${response.data.id}`)
+        } else if (stateProps.afterSaveActiveKey == 'to_table') {
+          browserHistory.push(`/${ownProps.model}`)
+        }
       } else if (response.errors && response.errors.length) {
         dispatch(addFlashMessage('error', errorFlashMessage))
       }
@@ -98,6 +106,20 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
           loadAjaxData(`${model}/${id}`, '', model)
         )
       }
+    },
+
+    splitButtonMenuItemOnclick(eventKey, event) {
+      dispatch(setUiAction('afterSaveActiveKey', eventKey))
+    },
+
+    onSubmitButtonClick(e) {
+      const formId = stateProps.formId
+      if(e.target.value){
+        dispatchProps.dispatch(
+          updateAction(formId, 'commit', [], e.target.value)
+        )
+      }
+      return true
     }
   }
 }
@@ -108,11 +130,12 @@ const errorFlashMessage =
 function buildActionButtonData(state, model, editId) {
   // start with default save button (might be extended)
   let buttonData = [{
-    className: 'btn btn-default',
-    buttonLabel: 'Speichern'
+    className: 'default',
+    buttonLabel: 'Speichern',
+    actionName: ''
   }]
   // iterate additional actions (e.g. state-changes) only for editing
-  if (state.settings.actions[model] && editId) {
+  if (state.settings.actions[model]) {
     state.settings.actions[model].forEach(action => {
       if(state.entities['possible-events'] &&
          state.entities['possible-events'][model] &&
@@ -120,7 +143,7 @@ function buildActionButtonData(state, model, editId) {
          state.entities['possible-events'][model][editId].data.includes(action)
        ){
         buttonData.push({
-          className: model == 'divisions' ? 'btn btn-warning' : 'btn btn-default',
+          className: model == 'divisions' ? 'warning' : 'default',
           buttonLabel: 'Speichern & ' + textForActionName(action, model),
           actionName: action
         })

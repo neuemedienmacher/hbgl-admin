@@ -19,7 +19,7 @@ export default class UserTeamFormObject extends FormObject {
     return {
       name: { type: 'string' },
       users: { type: 'filtering-multiselect' },
-      'observing-users': { type: 'filtering-multiselect' },
+      'observing-users': { type: 'filtering-multiselect', resource: 'users' },
     }
   }
 
