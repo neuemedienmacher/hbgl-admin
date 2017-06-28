@@ -135,7 +135,7 @@ class TargetAudienceFiltersOfferStamp
   end
 
   def self.stamp_refugees_uf filters_offer
-    if filters_offer.age_to > 17
+    if filters_offer.age_to >= 18
       '.neutral'
     else
       '.minor.neutral'
@@ -244,7 +244,7 @@ class TargetAudienceFiltersOfferStamp
   def self.generate_age_for_stamp from, to, section, locale
     if from.zero?
       I18n.t('offer.stamp.age.age_to', locale: locale, count: to)
-    elsif to == 99 || section == 'family' && to > 17
+    elsif to == 99 || section == 'family' && to > 20
       I18n.t('offer.stamp.age.age_from', locale: locale, count: from)
     elsif from == to
       "#{from} #{I18n.t('offer.stamp.age.suffix', locale: locale)}"

@@ -99,7 +99,7 @@ describe TargetAudienceFiltersOffer do
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Kinder (2 Jahre)'
 
-      subject.age_to = 18
+      subject.age_to = 21
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Kinder und Jugendliche (ab 2 Jahren)'
 
@@ -344,7 +344,7 @@ describe TargetAudienceFiltersOffer do
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete Kinder'
 
-      subject.age_to = 17
+      subject.age_to = 20
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete Kinder und Jugendliche'
 
@@ -515,7 +515,7 @@ describe TargetAudienceFiltersOffer do
       subject.age_visible = true
       subject.gender_second_part_of_stamp = 'neutral' # neutral equals nil
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Familien und ihre Kinder (bis 17 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Familien und ihre Kinder (bis 20 Jahre)'
 
       subject.age_from = 0
       subject.age_to = 1
