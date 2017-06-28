@@ -44,6 +44,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 
@@ -53,6 +54,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 

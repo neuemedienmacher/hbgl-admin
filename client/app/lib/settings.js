@@ -124,7 +124,8 @@ export default {
 
     users: {
       fields: [
-        'id', 'name', 'email', { 'user-teams': ['name'] }
+        'id', 'name', 'email', { 'user-teams': ['name'] },
+        { 'observed-user-teams': ['name'] }
       ],
       general_actions: [
         'index'
@@ -162,7 +163,8 @@ export default {
 
     'user-teams': {
       fields: [
-        'id', 'name', 'classification', { users: ['name'] }
+        'id', 'name', 'classification', { users: ['name'] },
+        { 'observing-users': ['name'] }
       ],
       general_actions: [
         'index', 'new',

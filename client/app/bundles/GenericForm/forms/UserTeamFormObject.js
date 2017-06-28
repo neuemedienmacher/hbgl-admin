@@ -2,16 +2,16 @@ import { FormObject, JsonApiAdapter } from 'rform'
 
 export default class UserTeamFormObject extends FormObject {
   static get model() {
-    return 'user_team'
+    return 'user-team'
   }
 
   static get type() {
-    return 'user_teams'
+    return 'user-teams'
   }
 
   static get properties() {
     return [
-      'name', 'users', 'observing_users'
+      'name', 'users', 'observing-users'
     ]
   }
 
@@ -19,7 +19,7 @@ export default class UserTeamFormObject extends FormObject {
     return {
       name: { type: 'string' },
       users: { type: 'filtering-multiselect' },
-      observing_users: { type: 'filtering-multiselect' },
+      'observing-users': { type: 'filtering-multiselect' },
     }
   }
 

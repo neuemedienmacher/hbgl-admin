@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 function headingFor(model, id) {
   let heading
   switch(model) {
-  case 'user_teams':
+  case 'user-teams':
     heading = 'Team'
     break
   case 'divisions':
@@ -34,10 +34,10 @@ function headingFor(model, id) {
   case 'cities':
     heading = 'Stadt'
     break
-  case 'federal_states':
+  case 'federal-states':
     heading = 'Bundesland'
     break
-  case 'contact_people':
+  case 'contact-people':
     heading = 'Kontaktperson'
     break
   case 'emails':
