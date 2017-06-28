@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-require_relative '../test_helper'
+require_relative '../../test_helper'
 
-class NestedSideEffectTest < ActiveSupport::TestCase
+# rubocop:disable Metrics/ClassLength
+class NestedTest < ActiveSupport::TestCase
   class InnerContract < Reform::Form
     property :url
     validates :url, format: %r{\Ahttp://valid}
@@ -203,4 +204,32 @@ class NestedSideEffectTest < ActiveSupport::TestCase
   it 'should work for update' do
     # TODO: Write update tests
   end
+
+  describe '::Find' do
+    it 'must raise when no ID was given' do
+      class NoIdFindTest < Trailblazer::Operation
+        extend Contract::DSL
+        contract do
+          property :rels
+        end
+        step Contract::Build()
+        step Contract::Validate()
+        step Lib::Macros::Nested::Find(:rels, OpenStruct.new(name: 'Foo'))
+      end
+      assert_raises(RuntimeError) do
+        NoIdFindTest.({ rels: {} }, 'model' => OpenStruct.new(rels: nil))
+      end
+    end
+  end
+
+  describe '::error_from_result' do
+    it 'returns a generic message for a non-contract-error problem' do
+      mocked_result = { 'contract.default' => OpenStruct.new(errors: {}) }
+      mocked_result.expects(:success?).returns false
+      Lib::Macros::Nested.send(:error_from_result, mocked_result).must_equal(
+        'Operation Failure'
+      )
+    end
+  end
 end
+# rubocop:enable Metrics/ClassLength

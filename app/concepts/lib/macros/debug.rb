@@ -4,13 +4,13 @@ module Lib
     module Debug
       def self.Breakpoint(*)
         unless Rails.env.test? || Rails.env.development?
-          raise "Remove Debug Macro!"
+          raise 'Remove Debug Macro!'
         end
 
         step = ->(operation, options) do
           # rubocop:disable Lint/Debugger
           binding.pry
-          # rubocop:disable Lint/Debugger
+          # rubocop:enable Lint/Debugger
           true
         end
 

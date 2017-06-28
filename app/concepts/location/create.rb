@@ -16,11 +16,16 @@ class Location::Create < Trailblazer::Operation
     contract = options['contract.default']
     orga =
       contract.organization || options['nesting_operation']['contract.default']
-    display = orga.name.to_s
+    model.display_name = display_name(orga.name, contract)
+  end
+
+  private
+
+  def display_name(orga_name, contract)
+    display = orga_name.to_s
     display += ", #{contract.name}" unless model.name.blank?
     display += " | #{contract.street}"
     display += ", #{contract.addition}," unless contract.addition.blank?
-    model.display_name =
-      display + " #{contract.zip} #{contract.city && contract.city.name}"
+    display + " #{contract.zip} #{contract.city && contract.city.name}"
   end
 end

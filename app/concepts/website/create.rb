@@ -9,6 +9,7 @@ class Website::Create < Trailblazer::Operation
 
   # TODO: refactor to Macro
   def match_or_new(options, params:, **)
+    options['model.class'] = Website
     options['model'] =
       Website.find_by(host: params[:host], url: params[:url]) || Website.new
   end

@@ -23,11 +23,11 @@ module API::V1
     end
 
     def create
-      custom_endpoint create_operation.(*api_args)
+      custom_endpoint create_operation.(*api_args), 201
     end
 
     def update
-      custom_endpoint update_operation.(*api_args)
+      custom_endpoint update_operation.(*api_args), 200
     end
 
     # --- Non-Action Helper methods --- #
@@ -45,7 +45,7 @@ module API::V1
       }]
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     # def default_endpoints
     #   proc do |m|
     #     m.created do |result|
@@ -64,10 +64,10 @@ module API::V1
     # end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    def custom_endpoint(result)
+    def custom_endpoint(result, success_status)
       if result.success?
         render json: result['representer.default.class'].new(result['model']),
-               status: 200
+               status: success_status
       else
         render json: jsonapi_errors(result), status: 403
       end
