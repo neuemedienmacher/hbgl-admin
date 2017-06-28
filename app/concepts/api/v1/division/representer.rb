@@ -28,6 +28,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 
@@ -37,6 +38,7 @@ module API::V1
 
           attributes do
             property :identifier, as: :label
+            property :identifier
           end
         end
 
@@ -46,6 +48,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 
@@ -55,6 +58,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 
@@ -63,6 +67,7 @@ module API::V1
 
           attributes do
             property :name_de, as: :label
+            property :name_de
           end
         end
 
@@ -71,6 +76,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 

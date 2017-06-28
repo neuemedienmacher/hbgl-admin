@@ -149,8 +149,8 @@ export default {
 
     divisions: {
       fields: [
-        'id', 'name', { organization: ['label'] }, { section: ['label'] },
-        { city: ['label'] }, { area: ['label'] }, 'size', 'done',
+        'id', 'name', { organization: ['name'] }, { section: ['identifier'] },
+        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
       ],
       general_actions: [
         'index', 'export', 'new',
