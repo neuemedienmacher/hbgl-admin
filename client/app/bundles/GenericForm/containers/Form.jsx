@@ -73,7 +73,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     afterResponse(response) {
       if (response.data && response.data.id) {
-        successMessages = ['Läuft bei dir!', 'Passt!', 'War jut', 'Ging durch']
+        const successMessages =
+          ['Läuft bei dir!', 'Passt!', 'War jut', 'Ging durch']
         dispatch(addFlashMessage('success', successMessages[Math.floor(Math.random()*successMessages.length)]))
         if (ownProps.onSuccessfulSubmit)
           return ownProps.onSuccessfulSubmit(response)

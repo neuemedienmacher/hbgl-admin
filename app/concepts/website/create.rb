@@ -8,13 +8,8 @@ class Website::Create < Trailblazer::Operation
   step Contract::Persist()
 
   # TODO: refactor to Macro
-  def match_or_new(options, **)
+  def match_or_new(options, params:, **)
     options['model'] =
-      begin
-        params = options['params'].select { |key, value| value != 'nested' }
-        Website.find_by(params)
-      rescue ActiveRecord::RecordNotFound
-        Website.new
-      end
+      Website.find_by(host: params[:host], url: params[:url]) || Website.new
   end
 end

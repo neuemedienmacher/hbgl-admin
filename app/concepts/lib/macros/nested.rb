@@ -4,7 +4,6 @@ module Lib
     module Nested
       def self.Find(field, klass)
         step = ->(_input, options) do
-          # binding.pry if field == :federal_state
           reset_contract_field(options, field)
           each_nested_paramset(field, options) do |params|
             if params[:id]
@@ -153,7 +152,7 @@ module Lib
 
       def self.error_from_result(result)
         return unless result
-        error = result['contract.default'].errors.to_h
+        error = result['contract.default']&.errors.to_h
         if error.none?
           if result.success?
             nil
