@@ -56,7 +56,8 @@ export default class LocationFormObject extends FormObject {
 
   static get genericFormDefaults() {
     return {
-      'in-germany': '1'
+      'in-germany': '1',
+      visible: '1'
     }
   }
 }
