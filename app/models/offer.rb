@@ -15,15 +15,38 @@ class Offer < ActiveRecord::Base
   # Concerns
   include Translations, RailsAdminParamHack
 
+  # Callbacks
+  after_initialize :after_initialize
+  after_create :after_create
+  after_commit :after_commit
+  before_create :before_create
+
+  def after_initialize
+    if self.new_record?
+      self.expires_at ||= (Time.zone.now + 1.year)
+      self.logic_version_id = LogicVersion.last.id
+    end
+  end
+
+  def after_create
+    self.generate_translations!
+  end
+
+  def after_commit
+    fields = self.changed_translatable_fields
+    return true if fields.empty?
+    self.generate_translations! fields
+  end
+
+  def before_create
+    return if self.created_by
+    current_user = ::PaperTrail.whodunnit
+    self.created_by = current_user if current_user.is_a? Integer # so unclean
+  end
+
   # Search
   include PgSearch
-  pg_search_scope :search_by_tester, against: [:name, :description,
-                                               :aasm_state],
-                                     using: { tsearch: { prefix: true } }
-
-  pg_search_scope :search_everything,
-                  # TODO: we might have to limit this for performance
-                  # against: attribute_names.map(&:to_sym),
+  pg_search_scope :search_pg,
                   against: [
                     :name, :description, :aasm_state, :encounter,
                     :old_next_steps, :code_word

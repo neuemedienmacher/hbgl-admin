@@ -154,6 +154,11 @@ export default class Routes extends React.Component {
             <Route path='new' component={NewAssignment} />
             <Route path=':id' component={Show} />
           </Route>
+
+          <Route path='areas'>
+            <IndexRoute component={Index}/>
+            <Route path=':id' component={Show} />
+          </Route>
         </Route>
       </Router>
     )

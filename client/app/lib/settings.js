@@ -124,7 +124,8 @@ export default {
 
     users: {
       fields: [
-        'id', 'name', 'email', { 'user-teams': ['name'] }
+        'id', 'name', 'email', { 'user-teams': ['name'] },
+        { 'observed-user-teams': ['name'] }
       ],
       general_actions: [
         'index'
@@ -136,7 +137,8 @@ export default {
 
     organizations: {
       fields: [
-        'id', 'offers-count', 'name', 'aasm-state', 'locations-count'
+        'id', 'offers-count', 'name', 'aasm-state', 'pending_reason',
+        'locations-count'
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -149,7 +151,7 @@ export default {
     divisions: {
       fields: [
         'id', 'name', { organization: ['name'] }, { section: ['identifier'] },
-        'size', 'done',
+        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
       ],
       general_actions: [
         'index', 'export', 'new',
@@ -161,7 +163,8 @@ export default {
 
     'user-teams': {
       fields: [
-        'id', 'name', 'classification', { users: ['name'] }
+        'id', 'name', 'classification', { users: ['name'] },
+        { 'observing-users': ['name'] }
       ],
       general_actions: [
         'index', 'new',

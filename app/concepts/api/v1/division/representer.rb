@@ -19,6 +19,8 @@ module API::V1
 
           property :organization_id
           property :section_id
+          property :city_id
+          property :area_id
         end
 
         has_one :organization, class: ::Organization do
@@ -26,6 +28,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 
@@ -35,6 +38,27 @@ module API::V1
 
           attributes do
             property :identifier, as: :label
+            property :identifier
+          end
+        end
+
+        has_one :city, class: ::City,
+                       populator: API::V1::Lib::Populators::Find do
+          type :cities
+
+          attributes do
+            property :name, as: :label
+            property :name
+          end
+        end
+
+        has_one :area, class: ::Area,
+                       populator: API::V1::Lib::Populators::Find do
+          type :areas
+
+          attributes do
+            property :name, as: :label
+            property :name
           end
         end
 
@@ -43,6 +67,7 @@ module API::V1
 
           attributes do
             property :name_de, as: :label
+            property :name_de
           end
         end
 
@@ -51,6 +76,7 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
           end
         end
 

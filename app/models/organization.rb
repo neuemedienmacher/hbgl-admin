@@ -16,7 +16,7 @@ class Organization < ActiveRecord::Base
 
   # Search
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [
                     :id, :offers_count, :name, :aasm_state, :locations_count
                   ],

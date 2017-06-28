@@ -18,6 +18,7 @@ module API::V1
           property :offers_count
           property :aasm_state
           property :locations_count
+          property :pending_reason
 
           property :website_id
           property :location_ids

@@ -7,7 +7,7 @@ class Category < ActiveRecord::Base
 
   # Search
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :name_de],
                   using: { tsearch: { prefix: true } }
 

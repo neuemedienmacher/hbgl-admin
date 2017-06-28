@@ -8,6 +8,7 @@ module Organization::Contracts
     property :divisions
     property :locations
     property :contact_people
+    property :pending_reason
 
     validates :name, length: { maximum: 100 }, presence: true
     validates_uniqueness_of :name

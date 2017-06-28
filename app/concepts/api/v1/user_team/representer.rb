@@ -11,6 +11,7 @@ module API::V1
           property :lead_id
           property :parent_id
           property :user_ids
+          property :observing_user_ids
         end
 
         has_one :parent, class: ::UserTeam do
@@ -43,6 +44,17 @@ module API::V1
 
           attributes do
             property :name, as: :label
+            property :name
+          end
+        end
+
+        has_many :observing_users, class: ::User,
+                                   populator: API::V1::Lib::Populators::Find do
+          type :users
+
+          attributes do
+            property :name, as: :label
+            property :name
           end
         end
 

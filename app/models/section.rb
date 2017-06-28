@@ -4,7 +4,7 @@ require ClaratBase::Engine.root.join('app', 'models', 'section')
 
 class Section < ActiveRecord::Base
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :name, :identifier],
                   using: { tsearch: { prefix: true } }
 end

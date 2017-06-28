@@ -12,9 +12,12 @@ class Email < ActiveRecord::Base
 
   # Search
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :address],
-                  using: { tsearch: { prefix: true } }
+                  using: {
+                    tsearch: { only: [:id], prefix: true },
+                    trigram: { only: [:address], threshold: 0.3 }
+                  }
 
   # State Machine
   aasm do

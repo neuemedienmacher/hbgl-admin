@@ -8,9 +8,12 @@ class Website < ActiveRecord::Base
 
   # Search
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :host, :url],
-                  using: { tsearch: { prefix: true } }
+                  using: {
+                    tsearch: { only: [:id, :host], prefix: true },
+                    trigram: { only: [:url], threshold: 0.3 }
+                  }
 
   # Validation Hack
   include ReformedValidationHack

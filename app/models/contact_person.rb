@@ -5,7 +5,7 @@ require ClaratBase::Engine.root.join('app', 'models', 'contact_person')
 class ContactPerson < ActiveRecord::Base
   # Search
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [
                     :id, :position, :operational_name, :first_name, :last_name
                   ],
@@ -38,5 +38,20 @@ class ContactPerson < ActiveRecord::Base
     else
       ''
     end
+  end
+
+  # TODO: move callsbacks to operations!
+  # Callbacks
+  after_create :after_create
+  after_commit :after_commit
+
+  def after_create
+    self.generate_translations!
+  end
+
+  def after_commit
+    fields = self.changed_translatable_fields
+    return true if fields.empty?
+    self.generate_translations! fields
   end
 end

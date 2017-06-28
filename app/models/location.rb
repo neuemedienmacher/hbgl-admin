@@ -7,7 +7,7 @@ class Location < ActiveRecord::Base
   include PgSearch, ReformedValidationHack
 
   # Search
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :display_name],
                   using: { tsearch: { prefix: true } }
 
@@ -29,5 +29,24 @@ class Location < ActiveRecord::Base
     display += " | #{street}"
     display += ", #{addition}," unless addition.blank?
     self.display_name = display + " #{zip} #{city_name}"
+  end
+
+  # TODO: move callsbacks to operations!
+  # Callbacks
+  after_commit :after_commit
+
+  def after_commit
+    # queue geocoding
+
+    if self.previous_changes.key?(:street) || self.previous_changes.key?(:zip) ||
+       self.previous_changes.key?(:city_id) ||
+       self.previous_changes.key?(:federal_state_id)
+      GeocodingWorker.perform_async self.id
+    end
+
+    # update algolia indices of offers (for location_visible) if changed
+    if self.previous_changes.key?(:visible)
+      self.offers.visible_in_frontend.find_each(&:index!)
+    end
   end
 end

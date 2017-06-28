@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :division do
     name 'default division name'
     section { Section.all.sample }
+    city { City.all.sample }
     organization
 
     after :create do |division, _evaluator|

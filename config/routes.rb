@@ -107,6 +107,7 @@ Rails.application.routes.draw do
       api_resources :user_teams
       api_resources :sections, only: [:index]
       api_resources :cities, only: [:index, :show]
+      api_resources :areas, only: [:index, :show]
       api_resources :federal_states, only: [:index, :show]
       api_resources :contact_people, only: [:index, :show]
       api_resources :emails, only: [:index, :show]

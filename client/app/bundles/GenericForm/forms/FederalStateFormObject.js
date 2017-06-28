@@ -2,7 +2,11 @@ import { FormObject, JsonApiAdapter } from 'rform'
 
 export default class FederalStateFormObject extends FormObject {
   static get model() {
-    return 'federal_state'
+    return 'federal-state'
+  }
+
+  static get type() {
+    return 'federal-states'
   }
 
   static get properties() {
