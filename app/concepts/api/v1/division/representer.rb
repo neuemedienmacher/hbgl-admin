@@ -14,6 +14,7 @@ module API::V1
           property :name
           property :comment
           property :size
+          property :done
 
           property :website_ids
 
