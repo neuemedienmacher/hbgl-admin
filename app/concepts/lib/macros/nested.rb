@@ -1,53 +1,58 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ModuleLength
 module Lib
   module Macros
     module Nested
       def self.Find(field, klass)
         step = ->(_input, options) do
-          reset_contract_field(options, field)
-          each_nested_paramset(field, options) do |params|
+          each_nested(:paramset, field, options) do |params|
             if params[:id]
-              model = klass.find(params[:id])
-              set_contract_field(options, field, model)
+              [klass.find(params[:id]), true]
             else
               raise "No ID found for #{klass.name} in #{params.inspect}"
             end
           end
-          true
         end
         [step, name: "nested.find.#{klass}"]
       end
 
       def self.Create(field, operation)
         step = ->(_input, options) do
-          results = []
-          reset_contract_field(options, field)
-          each_nested_operation(operation, field, options) do |result|
+          each_nested(:operation, field, options, [operation]) do |result|
             if result['params'][:id]
-              model = result['model.class'].find(result['params'][:id]) # breaks on update?
-              set_contract_field(options, field, model)
-              results.push(true)
+              [result['model.class'].find(result['params'][:id]), true] # breaks on update?
             else
-              set_contract_field(options, field, result['model'])
-              results.push(result)
+              [result['model'], result]
             end
           end
-          set_contract_errors(options, field, results.select { |r| r != true })
-          results.all? { |r| r == true || r.success? }
         end
         [step, name: "nested.create.#{operation}"]
       end
 
       private_class_method
 
+      def self.each_nested iterator_suffix, field, options, iterator_attrs = []
+        results = []
+        reset_contract_field(options, field)
+        send(
+          "each_nested_#{iterator_suffix}", field, options, *iterator_attrs
+        ) do |response|
+          settable, pushable = yield response
+          set_contract_field(options, field, settable)
+          results.push pushable
+        end
+        set_contract_errors(options, field, results.select { |r| r != true })
+        results.all? { |r| r == true || r.success? }
+      end
+
       def self.each_nested_paramset(field, options, &block)
         iterator =
           options['document'] ? :each_nested_document : :each_nested_params
 
-        send(iterator, options, field, &block)
+        send(iterator, field, options, &block)
       end
 
-      def self.each_nested_operation(operation, field, options)
+      def self.each_nested_operation(field, options, operation)
         each_nested_paramset(field, options) do |params, document = nil|
           unless params[:id]
             params[inverse_association(options['model'], field)] = 'nested'
@@ -61,12 +66,8 @@ module Lib
         end
       end
 
-      def self.each_nested_document(options, field_name)
-        parsed_document = JSON.parse(options['document'])
-        document = # assuming JSONAPI
-          parsed_document['data']['relationships'] &&
-          parsed_document['data']['relationships'][field_name.to_s.dasherize]
-
+      def self.each_nested_document(field_name, options)
+        document = parsed_document(options['document'], field_name)
         return unless document
         if document['data'].is_a? Array
           document['data'].each do |single_document|
@@ -79,7 +80,15 @@ module Lib
         end
       end
 
-      def self.each_nested_params(options, field_name)
+      def self.parsed_document(json_document, field_name)
+        parsed = JSON.parse(json_document)
+
+        # assuming JSONAPI
+        parsed['data']['relationships'] &&
+          parsed['data']['relationships'][field_name.to_s.dasherize]
+      end
+
+      def self.each_nested_params(field_name, options)
         relationship = options['params'][field_name]
 
         if relationship.is_a? Array
@@ -92,27 +101,31 @@ module Lib
         end
       end
 
-      def self.params_from_document(document)
+      def self.params_from_document(doc)
         params = {}
-        if document['id']
-          params[:id] = document['id']
+        if doc['id']
+          params[:id] = doc['id']
         else
-          document['attributes'].each do |field, value|
+          doc['attributes'].each do |field, value|
             params[field.underscore.to_sym] = value
           end
-          document['relationships']&.each do |relation_name, data|
-            symbolized_name = relation_name.underscore.to_sym
-            if iterable?(data['data'])
-              params[relation_name.underscore.to_sym] = []
-              data['data'].each do |datum|
-                params[symbolized_name].push(params_from_document(datum))
-              end
-            else
-              params[symbolized_name] = params_from_document(data['data'])
-            end
-          end
+          params.merge!(doc['relationships']&.map(
+            &method(:params_from_document_relationships)
+          ).to_h || {})
         end
         params
+      end
+
+      def self.params_from_document_relationships(relationship)
+        relation_name, data = relationship
+        symbolized_name = relation_name.underscore.to_sym
+        value = []
+        if iterable?(data['data'])
+          data['data'].each { |datum| value.push(params_from_document(datum)) }
+        else
+          value = params_from_document(data['data'])
+        end
+        [symbolized_name, value]
       end
 
       def self.reset_contract_field(options, field_name)
@@ -180,3 +193,4 @@ module Lib
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength

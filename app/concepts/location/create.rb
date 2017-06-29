@@ -23,7 +23,7 @@ class Location::Create < Trailblazer::Operation
 
   def display_name(orga_name, contract)
     display = orga_name.to_s
-    display += ", #{contract.name}" unless model.name.blank?
+    display += ", #{contract.name}" unless contract.name.blank?
     display += " | #{contract.street}"
     display += ", #{contract.addition}," unless contract.addition.blank?
     display + " #{contract.zip} #{contract.city && contract.city.name}"
