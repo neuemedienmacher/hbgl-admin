@@ -6,6 +6,7 @@ test:
   section_teams:
     family: 1
     refugees: 1
+  screening_team:  1
 
 development:
   translator_teams:
@@ -15,6 +16,7 @@ development:
   section_teams:
     family: 1
     refugees: 1
+  screening_team:  1
 
 production:
   translator_teams:
@@ -24,6 +26,7 @@ production:
   section_teams:
     family: <%= ENV['SECTION_TEAM_FAM'] %>
     refugees: <%= ENV['SECTION_TEAM_REF'] %>
+  screening_team:  <%= ENV['SCREENING_TEAM'] %>
 
 staging:
   translator_teams:
@@ -33,3 +36,4 @@ staging:
   section_teams:
     family: <%= ENV['SECTION_TEAM_FAM'] %>
     refugees: <%= ENV['SECTION_TEAM_REF'] %>
+  screening_team:  <%= ENV['SCREENING_TEAM'] %>
