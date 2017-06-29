@@ -34,7 +34,6 @@ export default class DivisionFormObject extends FormObject {
       organization: { relationship: 'oneToOne' },
       'presumed-categories': { relationship: 'oneToMany' },
       'presumed-solution-categories': { relationship: 'oneToMany' },
-      organization: { relationship: 'oneToOne' }
     }
   }
 

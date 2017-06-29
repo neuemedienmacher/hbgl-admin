@@ -35,7 +35,7 @@ export default class CityFormObject extends FormObject {
       gender: { type: 'select', options: ['', 'male', 'female'] },
       responsibility: { type: 'string' },
       position: {
-        type: 'select', options: ['', 'superior', 'public-relations', 'other']
+        type: 'select', options: ['', 'superior', 'public_relations', 'other']
       },
       street: { type: 'string' },
       'zip-and-city': { type: 'string' },

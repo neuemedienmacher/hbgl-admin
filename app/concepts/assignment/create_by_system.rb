@@ -71,7 +71,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       end
     when 'Division'
       if assignable.done == false
-        AssignmentDefaults.section_teams[assignable.section.identifier]
+        AssignmentDefaults.screening_team
       end
     end
   end
