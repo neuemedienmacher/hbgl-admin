@@ -23,7 +23,8 @@ export default class FilteringSelect extends React.Component {
     return (
       <div className={wrapperClassName}>
         <Label
-          formId={formId} model={model} attribute={attribute} content={label}
+          formId={formId} model={model || 'generic'} attribute={attribute}
+          content={label}
         />
 
         {showSelect && this._renderSelect(
