@@ -16,7 +16,7 @@ export default class OrganizationFormObject extends FormObject {
   static get properties() {
     return [
       'name', 'website', 'locations', 'contact-people',
-      'comment', 'priority', 'pending_reason', 'divisions'
+      'comment', 'priority', 'pending-reason', 'divisions'
     ]
   }
 
@@ -54,7 +54,9 @@ export default class OrganizationFormObject extends FormObject {
       comment: { type: 'textarea' },
       priority: { type: 'checkbox' },
       divisions: { type: 'creating-multiselect' },
-      pending_reason: { type: 'select', options: ['unstable', 'on_hold', 'foreign'] },
+      'pending-reason': {
+        type: 'select', options: ['', 'unstable', 'on_hold', 'foreign']
+      },
     }
   }
 
