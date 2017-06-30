@@ -11,7 +11,7 @@ export default class GenericFormForm extends React.Component {
     const {
       seedData, action, method, formId, formObjectClass, submodelPath,
       afterResponse, handleResponse, model, nestingModel, instance, loadData,
-      isAssignable, buttonData, afterRequireValid, afterSaveActiveKey
+      isAssignable, buttonData, afterRequireValid, afterSaveActions
     } = this.props
 
     return (
@@ -28,7 +28,7 @@ export default class GenericFormForm extends React.Component {
             model={model} formObjectClass={formObjectClass} formId={formId}
             nestingModel={nestingModel} submodelPath={submodelPath}
           />
-          {this.renderButtons(formId, nestingModel, buttonData, afterSaveActiveKey)}
+          {this.renderButtons(formId, nestingModel, buttonData, afterSaveActions)}
         </div>), isAssignable, model, instance, loadData
       )
     )
@@ -51,7 +51,7 @@ export default class GenericFormForm extends React.Component {
     }
   }
 
-  renderButtons(formId, nestingModel, buttonData, afterSaveActiveKey) {
+  renderButtons(formId, nestingModel, buttonData, afterSaveActions) {
     if (nestingModel) return
 
     return(
@@ -64,9 +64,11 @@ export default class GenericFormForm extends React.Component {
               onSelect={this.props.splitButtonMenuItemOnclick}
               onClick={this.props.onSubmitButtonClick}
             >
-              <MenuItem eventKey='to_edit' active={'to_edit' == afterSaveActiveKey}>Bei dieser Instanz bleiben</MenuItem>
-              <MenuItem eventKey='to_table' active={'to_table' == afterSaveActiveKey}>Zurück zur Tabelle</MenuItem>
-              <MenuItem eventKey='to_new' active={'to_new' == afterSaveActiveKey}>Neues Objekt anlegen (default)</MenuItem>
+              {afterSaveActions.map( i => { return (
+                <MenuItem key={i.action} eventKey={i.action} active={i.active}>
+                  {i.name}
+                </MenuItem>
+              )})}
             </SplitButton>
           )
         })}

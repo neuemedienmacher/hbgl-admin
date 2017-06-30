@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { setupAction, updateAction } from 'rform'
-import concat from 'lodash/concat'
+import mapCollection from 'lodash/map'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
 import setUiAction from '../../../Backend/actions/setUi'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Form from '../components/Form'
+import settings from '../../../lib/settings'
 import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 
 const mapStateToProps = (state, ownProps) => {
@@ -19,8 +20,11 @@ const mapStateToProps = (state, ownProps) => {
   const instance = state.entities[model] && state.entities[model][editId]
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
-  const afterSaveActiveKey = state.ui.afterSaveActiveKey
-
+  let afterSaveActiveKey = state.ui.afterSaveActiveKey
+  const afterSaveActions =
+    mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => {
+      return {action: key, name: value, active: afterSaveActiveKey == key}
+    })
   const formObjectClass = formObjectSelect(model)
 
   let seedData = { fields: formObjectClass.genericFormDefaults || {} }
@@ -51,7 +55,7 @@ const mapStateToProps = (state, ownProps) => {
     instance,
     isAssignable,
     buttonData,
-    afterSaveActiveKey
+    afterSaveActions
   }
 }
 
