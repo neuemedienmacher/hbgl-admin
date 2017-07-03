@@ -36,7 +36,7 @@ export default class GenericFormForm extends React.Component {
 
   renderFormWithOptionalAssignableContainer(
     form, isAssignable, model, instance, loadData
-  ){
+  ) {
     if (isAssignable) {
       return(
         <AssignableContainer
@@ -56,22 +56,20 @@ export default class GenericFormForm extends React.Component {
 
     return(
       <div className='form button-container'>
-        {buttonData.map((action, index) => {
-          return (
-            <SplitButton bsStyle={action.className} title={action.buttonLabel}
-              key={index} id={`split-button-basic-${index}`} form={formId}
-              value={action.actionName} type='submit' dropup
-              onSelect={this.props.splitButtonMenuItemOnclick}
-              onClick={this.props.onSubmitButtonClick}
-            >
-              {afterSaveActions.map( i => { return (
-                <MenuItem key={i.action} eventKey={i.action} active={i.active}>
-                  {i.name}
-                </MenuItem>
-              )})}
-            </SplitButton>
-          )
-        })}
+        {buttonData.map((action, index) => (
+          <SplitButton bsStyle={action.className} title={action.buttonLabel}
+            key={index} id={`split-button-basic-${index}`} form={formId}
+            value={action.actionName} type='submit' dropup
+            onSelect={this.props.splitButtonMenuItemOnclick}
+            onClick={this.props.onSubmitButtonClick}
+          >
+            {afterSaveActions.map(i => (
+              <MenuItem key={i.action} eventKey={i.action} active={i.active}>
+                {i.name}
+              </MenuItem>
+            ))}
+          </SplitButton>
+        ))}
       </div>
     )
   }

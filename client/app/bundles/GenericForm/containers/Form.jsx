@@ -22,9 +22,9 @@ const mapStateToProps = (state, ownProps) => {
     instance && instance['current-assignment-id'] !== undefined
   let afterSaveActiveKey = state.ui.afterSaveActiveKey
   const afterSaveActions =
-    mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => {
-      return {action: key, name: value, active: afterSaveActiveKey == key}
-    })
+    mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => ({
+      action: key, name: value, active: afterSaveActiveKey == key
+    }))
   const formObjectClass = formObjectSelect(model)
 
   let seedData = { fields: formObjectClass.genericFormDefaults || {} }
