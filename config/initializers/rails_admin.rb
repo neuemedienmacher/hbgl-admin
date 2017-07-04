@@ -180,6 +180,7 @@ RailsAdmin.config do |config|
   config.model 'Website' do
     field :host
     field :url
+    field :ignored_by_crawler
     field :unreachable_count do
       read_only true
     end
