@@ -7,7 +7,7 @@ class CheckUnreachableOffersWorker
   def perform
     Offer.where(aasm_state: 'website_unreachable').find_each do |offer|
       # ignore invalid offers and those with an unreachable website
-      next unless offer.valid? && offer.websites.unreachable.empty? &&
+      next unless offer.valid? && offer.websites.unreachableAndNotIgnored.empty? &&
                   !offer.websites.empty?
       # otherwise => re-activate offer (valid and all websites reachable)
       offer.update_columns aasm_state: 'approved'

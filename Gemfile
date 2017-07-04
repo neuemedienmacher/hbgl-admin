@@ -16,7 +16,7 @@ gem 'clarat_base', github: 'clarat-org/clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
-gem 'rails-observers' # observers got extracted since rails 4
+gem 'rails-observers', '= 0.1.2' # observers got extracted since rails 4
 
 # Translations
 gem 'rails-i18n'

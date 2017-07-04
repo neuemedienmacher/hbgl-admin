@@ -16,15 +16,6 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   validates :target_audience_filter_id, presence: true
   validates :age_from, presence: true
   validates :age_to, presence: true
-  validates :offer_id, uniqueness: {
-    scope: [:target_audience_filter_id, :residency_status]
-  }
-  validates :target_audience_filter_id, uniqueness: {
-    scope: [:offer_id, :residency_status]
-  }
-  validates :residency_status, uniqueness: {
-    scope: [:offer_id, :target_audience_filter_id]
-  }
   validate :age_from_within_bounds
   validate :age_to_within_bounds
   validate :age_from_fits_age_to
