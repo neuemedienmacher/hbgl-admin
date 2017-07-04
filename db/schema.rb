@@ -374,8 +374,8 @@ ActiveRecord::Schema.define(version: 20170628153424) do
   add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id", using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                        limit: 120,                 null: false
-    t.text     "description",                                             null: false
+    t.string   "name",                       limit: 120,                 null: false
+    t.text     "description",                                            null: false
     t.text     "old_next_steps"
     t.string   "encounter"
     t.string   "slug"
@@ -386,28 +386,22 @@ ActiveRecord::Schema.define(version: 20170628153424) do
     t.datetime "approved_at"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.date     "expires_at",                                              null: false
+    t.date     "expires_at",                                             null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
-    t.integer  "age_from",                                default: 0
-    t.integer  "age_to",                                  default: 99
     t.string   "target_audience"
-    t.string   "aasm_state",                  limit: 32
-    t.boolean  "hide_contact_people",                     default: false
-    t.boolean  "age_visible",                             default: false
-    t.string   "code_word",                   limit: 140
+    t.string   "aasm_state",                 limit: 32
+    t.boolean  "hide_contact_people",                    default: false
+    t.string   "code_word",                  limit: 140
     t.integer  "solution_category_id"
-    t.string   "gender_first_part_of_stamp"
-    t.string   "gender_second_part_of_stamp"
     t.integer  "logic_version_id"
     t.integer  "split_base_id"
-    t.boolean  "all_inclusive",                           default: false
+    t.boolean  "all_inclusive",                          default: false
     t.date     "starts_at"
     t.datetime "completed_at"
     t.integer  "completed_by"
-    t.string   "residency_status"
     t.integer  "section_id"
   end
 

@@ -403,12 +403,6 @@ RailsAdmin.config do |config|
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
       end
     end
-    # field :residency_status
-    # field :gender_first_part_of_stamp
-    # field :gender_second_part_of_stamp
-    # field :age_from
-    # field :age_to
-    # field :age_visible
     field :openings
     field :opening_specification do
       help do
