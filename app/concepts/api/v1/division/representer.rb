@@ -17,6 +17,8 @@ module API::V1
           property :done
 
           property :website_ids
+          property :presumed_category_ids
+          property :presumed_solution_category_ids
 
           property :organization_id
           property :section_id
@@ -28,7 +30,7 @@ module API::V1
           type :organizations
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -38,7 +40,7 @@ module API::V1
           type :sections
 
           attributes do
-            property :identifier, as: :label
+            property :label, getter: ->(o) { o[:represented].identifier }
             property :identifier
           end
         end
@@ -48,7 +50,7 @@ module API::V1
           type :cities
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -58,7 +60,7 @@ module API::V1
           type :areas
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -67,7 +69,7 @@ module API::V1
           type :categories
 
           attributes do
-            property :name_de, as: :label
+            property :label, getter: ->(o) { o[:represented].name_de }
             property :name_de
           end
         end
@@ -76,7 +78,7 @@ module API::V1
           type :solution_categories
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end

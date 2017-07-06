@@ -4,12 +4,13 @@ import { setupAction, updateAction } from 'rform'
 import mapCollection from 'lodash/map'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
-import setUiAction from '../../../Backend/actions/setUi'
+import  { setUi, setUiLoaded } from '../../../Backend/actions/setUi'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
+import addEntities from '../../../Backend/actions/addEntities'
 import Form from '../components/Form'
+import { singularize } from '../../../lib/inflection'
 import settings from '../../../lib/settings'
-import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId, submodelKey } = ownProps
@@ -26,24 +27,17 @@ const mapStateToProps = (state, ownProps) => {
       action: key, name: value, active: afterSaveActiveKey == key
     }))
   const formObjectClass = formObjectSelect(model)
-
-  let seedData = { fields: formObjectClass.genericFormDefaults || {} }
+  const entity = state.entities[model][editId]
+  const seedData = { fields: seedDataFromEntity(entity, formObjectClass) }
 
   let action = `/api/v1/${model}`
   let method = 'POST'
-  let buttonData = buildActionButtonData(state, model, editId)
+  const buttonData = buildActionButtonData(state, model, editId)
 
   // Changes in case the form updates instead of creating
   if (editId) {
     action += '/' + editId
     method = 'PUT'
-
-    const stateEntity = state.entities[model][editId]
-    let denormalizedEntity =
-      denormalizeStateEntity(state.entities, model, editId)
-    for (let property of formObjectClass.properties) {
-      seedData.fields[property] = denormalizedEntity[property]
-    }
   }
 
   return {
@@ -55,8 +49,34 @@ const mapStateToProps = (state, ownProps) => {
     instance,
     isAssignable,
     buttonData,
-    afterSaveActions
+    afterSaveActions,
   }
+}
+
+function seedDataFromEntity(entity, formObjectClass) {
+  let fields = formObjectClass.genericFormDefaults || {}
+  if (!entity) return fields
+
+  for (let property of formObjectClass.properties) {
+    fields[property] = entity[property]
+  }
+
+  for (let submodel of formObjectClass.submodels) {
+    let submodelKey
+    if (
+      formObjectClass.submodelConfig[submodel].relationship == 'oneToOne'
+    ) {
+      submodelKey = submodel + '-id'
+      if (!entity[submodelKey]) continue
+      fields[submodel] = String(entity[submodelKey])
+    } else {
+      submodelKey = singularize(submodel) + '-ids'
+      if (!entity[submodelKey]) continue
+      fields[submodel] = entity[submodelKey].map(e => String(e))
+    }
+  }
+
+  return fields
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -65,11 +85,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
+  const { model, editId, onSuccessfulSubmit } = ownProps
 
-  const resetForm = () => {
-    dispatch(
-      setupAction(stateProps.formId, stateProps.seedData.fields)
-    )
+  const resetForm = (changes, response) => {
+    const entity = changes[model][editId]
+    const desiredFormData =
+      seedDataFromEntity(entity, stateProps.formObjectClass)
+    dispatch(setupAction(stateProps.formId, desiredFormData))
+    dispatch(setUiLoaded(true, 'GenericForm', model, editId))
   }
 
   return {
@@ -77,23 +100,24 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    afterResponse(response) {
+    afterResponse(_formId, changes, errors, _meta, response) {
       if (response.data && response.data.id) {
         const successMessages =
           ['Läuft bei dir!', 'Passt!', 'War jut', 'Ging durch']
         dispatch(addFlashMessage('success', successMessages[Math.floor(Math.random()*successMessages.length)]))
-        if (ownProps.onSuccessfulSubmit)
-          return ownProps.onSuccessfulSubmit(response)
+        if (onSuccessfulSubmit)
+          return onSuccessfulSubmit(response)
 
-        resetForm()
+        dispatch(addEntities(changes))
+        resetForm(changes, response)
 
         // after-save actions (redirects)
         if (stateProps.afterSaveActiveKey == 'to_edit') {
-          browserHistory.push(`/${ownProps.model}/${response.data.id}`)
+          browserHistory.push(`/${model}/${response.data.id}`)
         } else if (stateProps.afterSaveActiveKey == 'to_table') {
-          browserHistory.push(`/${ownProps.model}`)
+          browserHistory.push(`/${model}`)
         }
-      } else if (response.errors && response.errors.length) {
+      } else if (errors && errors.length) {
         dispatch(addFlashMessage('error', errorFlashMessage))
       }
     },
@@ -101,29 +125,26 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     afterRequireValid(result) {
       if (result.valid) return
       dispatch(addFlashMessage('error', errorFlashMessage))
-      console.log(result)
     },
 
-    loadData(model = ownProps.model, id = ownProps.editId) {
-      if (model && id) {
-        dispatchProps.dispatch(
-          loadAjaxData(`${model}/${id}`, '', model)
-        )
-      }
+    loadData(model = model, id = editId) {
+      if (model && id) dispatch(loadAjaxData(`${model}/${id}`, '', model))
     },
 
     splitButtonMenuItemOnclick(eventKey, event) {
-      dispatch(setUiAction('afterSaveActiveKey', eventKey))
+      dispatch(setUi('afterSaveActiveKey', eventKey))
     },
 
     onSubmitButtonClick(e) {
       const formId = stateProps.formId
       if(e.target.value){
-        dispatchProps.dispatch(
-          updateAction(formId, 'commit', [], e.target.value)
-        )
+        dispatch(updateAction(formId, 'commit', [], e.target.value))
       }
       return true
+    },
+
+    beforeSubmit() {
+      dispatch(setUiLoaded(false, 'GenericForm', model, editId))
     }
   }
 }

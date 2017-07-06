@@ -7,10 +7,8 @@ export function denormalizeStateEntity(
   entities, model, id, denormalizedModels = []
 ) {
   let denormalizedEntity = {}
-  // console.log(model)
+
   if (entities[model] && entities[model][id]) {
-    let entity = entities[model][id]
-    // console.log(entity)
     denormalizedModels.push(model)
     forEach(entity, (value, key) => {
       if (isArray(value) && key.substr(-4) == '-ids' ) {
@@ -18,15 +16,15 @@ export function denormalizeStateEntity(
         let entityModel =
           entityModelForAssociation(entity, newModel, newModel)
         if (!denormalizedModels.includes(entityModel)){
-          denormalizedEntity[newModel] = value.map(
-            id => denormalizeStateEntity(entities, entityModel, id, denormalizedModels)
+          denormalizedEntity[newModel] = value.map(id =>
+            denormalizeStateEntity(entities, entityModel, id, denormalizedModels)
           )
         }
       } else if (key.substr(-3) == '-id') {
         let newModel = key.substr(0, key.length - 3)
         let entityModel =
           entityModelForAssociation(entity, newModel, pluralize(newModel))
-        if (!denormalizedModels.includes(entityModel)){
+        if (!denormalizedModels.includes(entityModel)) {
           denormalizedEntity[newModel] =
             denormalizeStateEntity(entities, entityModel, value, denormalizedModels)
         }

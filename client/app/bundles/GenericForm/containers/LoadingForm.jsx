@@ -1,16 +1,15 @@
 import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
-import setUi from '../../../Backend/actions/setUi'
+import { setUiLoaded } from '../../../Backend/actions/setUi'
 import LoadingForm from '../components/LoadingForm'
 import { singularize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId } = ownProps
-  const uiDataLoadedFlag = `GenericForm-edit-loaded-${model}-${editId}`
-  const loadedOriginalData = state.ui[uiDataLoadedFlag] || false
+  const loadedOriginalData =
+    state.ui[`loaded-GenericForm-${model}-${editId}`] || false
 
   return {
-    uiDataLoadedFlag,
     loadedOriginalData,
   }
 }
@@ -43,7 +42,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatch(
         loadAjaxData(
           `${model}/${editId}`, '', model, undefined, undefined, () => {
-            dispatch(setUi(stateProps.uiDataLoadedFlag, true))
+            dispatch(setUiLoaded(true, 'GenericForm', model, editId))
           }
         )
       ),

@@ -5,6 +5,10 @@ import VirtualizedSelect from 'react-virtualized-select'
 export default class FilteringSelect extends React.Component {
   componentDidMount() {
     this.props.onMount()
+
+    if (!!this.props.value) {
+      this.props.onFirstValue(this.props.value)
+    }
   }
 
   componentWillReceiveProps(nextProps) {

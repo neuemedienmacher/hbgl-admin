@@ -6,16 +6,14 @@ export default class StatisticChartForm extends React.Component {
   render() {
     const {
       seedData, userTeams, targetModels, targetFieldNames, targetFieldValues,
-      formId, afterInputChange, afterResponse, handleResponse
+      formId, afterInputChange, afterResponse
     } = this.props
 
     return (
       <Form ajax requireValid
         action='/api/v1/statistic_charts/' method='POST'
-        className='form-inline'
-        id={formId} seedData={seedData}
-        formObjectClass={StatisticChartFormObject}
-        afterResponse={afterResponse} handleResponse={handleResponse}
+        className='form-inline' formObjectClass={StatisticChartFormObject}
+        id={formId} seedData={seedData} afterResponse={afterResponse}
       >
         <InputSet
           wrapperClassName='form-group' className='form-control'

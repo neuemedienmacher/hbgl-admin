@@ -10,8 +10,9 @@ export default class GenericFormForm extends React.Component {
   render() {
     const {
       seedData, action, method, formId, formObjectClass, submodelPath,
-      afterResponse, handleResponse, model, nestingModel, instance, loadData,
-      isAssignable, buttonData, afterRequireValid, afterSaveActions
+      afterResponse, model, nestingModel, instance, loadData,
+      isAssignable, buttonData, afterRequireValid, afterSaveActions,
+      beforeSubmit
     } = this.props
 
     return (
@@ -21,8 +22,8 @@ export default class GenericFormForm extends React.Component {
             method={method} className='form'
             formObjectClass={formObjectClass} model={model}
             action={action} id={formId} seedData={seedData}
-            handleResponse={handleResponse} afterResponse={afterResponse}
-            afterRequireValid={afterRequireValid}
+            afterResponse={afterResponse}
+            afterRequireValid={afterRequireValid} beforeSubmit={beforeSubmit}
           />
           <FormInputs
             model={model} formObjectClass={formObjectClass} formId={formId}

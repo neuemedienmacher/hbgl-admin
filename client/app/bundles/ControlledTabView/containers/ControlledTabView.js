@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import ControlledTabView from '../components/ControlledTabView'
 
 const mapStateToProps = (state, ownProps) => {
@@ -26,9 +26,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   handleSelect(e){
     if (stateProps.selectedTab != e) {
-      dispatchProps.dispatch(
-        setUiAction(stateProps.uniqIdentifier, e)
-      )
+      dispatchProps.dispatch(setUi(stateProps.uniqIdentifier, e))
     }
   }
 })

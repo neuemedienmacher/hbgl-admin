@@ -20,9 +20,11 @@ export const addForFilteringSelect = (key, options) => ({
 
 // INFO: optional nextModel is required for different transformer (field_sets)
 export function loadForFilteringSelect(
-  input, associatedModel
+  input, associatedModel, id = null
 ) {
-  const path = `/api/v1/${associatedModel}?query=${input}`
+  let path = `/api/v1/${associatedModel}`
+  if (id) path += `/${id}`
+  if (input) path += `?query=${input}`
 
   return function(dispatch) {
     dispatch(loadForFilteringSelectRequest(associatedModel, input))
@@ -35,7 +37,9 @@ export function loadForFilteringSelect(
         const { status, statusText } = response
         if (status >= 400) {
           dispatch(loadForFilteringSelectFailure(response, associatedModel))
-          throw new Error(`Load for FilteringSelect Error ${status}: ${statusText}`)
+          throw new Error(
+            `Load for FilteringSelect Error ${status}: ${statusText}`
+          )
         }
         return response.json()
       }

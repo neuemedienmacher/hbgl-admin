@@ -6,7 +6,7 @@ export default class NewAssignmentForm extends React.Component {
   render() {
     const {
       formId, seedData, assignableModels, creatorUsers,
-      creatorTeams, receiverUsers, receiverTeams, afterResponse, handleResponse
+      creatorTeams, receiverUsers, receiverTeams, afterResponse
     } = this.props
 
     return (
@@ -17,7 +17,7 @@ export default class NewAssignmentForm extends React.Component {
           className='form-inline'
           id={formId} seedData={seedData}
           formObjectClass={AssignmentFormObject}
-          afterResponse={afterResponse} handleResponse={handleResponse}
+          afterResponse={afterResponse}
         >
         <InputSet
           wrapperClassName='form-group' className='form-control'
