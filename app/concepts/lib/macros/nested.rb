@@ -33,10 +33,10 @@ module Lib
 
       def self.each_nested iterator_suffix, field, options, iterator_attrs = []
         results = []
-        reset_contract_field(options, field)
         send(
           "each_nested_#{iterator_suffix}", field, options, *iterator_attrs
         ) do |response|
+          reset_contract_field(options, field) if results.empty?
           settable, pushable = yield response
           set_contract_field(options, field, settable)
           results.push pushable
