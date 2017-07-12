@@ -8,7 +8,7 @@ export default class CreatingSelect extends React.Component {
     const {
       multi, input, additionalSubmodelForms, onAddSubmodelFormClick,
       onRemoveSubmodelFormClick, submodelName, formId, model, showSelect,
-      showButton, parentModels
+      showButton, parentModels, disabled
     } = this.props
 
     return (
@@ -17,10 +17,10 @@ export default class CreatingSelect extends React.Component {
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
           formId={formId} type={input.type} resource={input.resource}
-          showSelect={showSelect} model={model}
+          showSelect={showSelect} model={model} disabled={disabled}
         >
           {showButton &&
-            this._renderAdditionalObjectButton(onAddSubmodelFormClick)}
+            this._renderAdditionalObjectButton(onAddSubmodelFormClick, disabled)}
 
           {additionalSubmodelForms.map(this._renderSubmodelForms(
             model, submodelName, parentModels, onRemoveSubmodelFormClick))}
@@ -29,9 +29,9 @@ export default class CreatingSelect extends React.Component {
     )
   }
 
-  _renderAdditionalObjectButton(addHandler) {
+  _renderAdditionalObjectButton(addHandler, disabled) {
     return(
-      <button onClick={addHandler}>
+      <button disabled={disabled} onClick={addHandler}>
         ein neues Objekt hinzufügen
       </button>
     )

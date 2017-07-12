@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   const instance = state.entities[model] && state.entities[model][editId]
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
-  let afterSaveActiveKey = state.ui.afterSaveActiveKey
+  const afterSaveActiveKey = state.ui.afterSaveActiveKey
   const afterSaveActions =
     mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => ({
       action: key, name: value, active: afterSaveActiveKey == key
@@ -50,6 +50,7 @@ const mapStateToProps = (state, ownProps) => {
     isAssignable,
     buttonData,
     afterSaveActions,
+    afterSaveActiveKey,
   }
 }
 
@@ -85,14 +86,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
-  const { model, editId, onSuccessfulSubmit } = ownProps
+  const { model, editId } = ownProps // , onSuccessfulSubmit
 
   const resetForm = (changes, response) => {
     const entity = changes[model][editId]
     const desiredFormData =
       seedDataFromEntity(entity, stateProps.formObjectClass)
     dispatch(setupAction(stateProps.formId, desiredFormData))
-    dispatch(setUiLoaded(true, 'GenericForm', model, editId))
   }
 
   return {
@@ -101,12 +101,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     afterResponse(_formId, changes, errors, _meta, response) {
+      dispatch(setUiLoaded(true, 'GenericForm', model, editId))
       if (response.data && response.data.id) {
         const successMessages =
           ['Läuft bei dir!', 'Passt!', 'War jut', 'Ging durch']
         dispatch(addFlashMessage('success', successMessages[Math.floor(Math.random()*successMessages.length)]))
-        if (onSuccessfulSubmit)
-          return onSuccessfulSubmit(response)
+        // if (onSuccessfulSubmit)
+        //   return onSuccessfulSubmit(response)
 
         dispatch(addEntities(changes))
         resetForm(changes, response)
@@ -127,8 +128,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatch(addFlashMessage('error', errorFlashMessage))
     },
 
-    loadData(model = model, id = editId) {
-      if (model && id) dispatch(loadAjaxData(`${model}/${id}`, '', model))
+    loadData(modelToLoad = model, id = editId) {
+      if (modelToLoad && id)
+        dispatch(loadAjaxData(`${modelToLoad}/${id}`, '', modelToLoad))
     },
 
     splitButtonMenuItemOnclick(eventKey, event) {

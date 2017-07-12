@@ -29,8 +29,8 @@ export default class FormInputs extends React.Component {
   }
 
   _renderInput(formId, blockedInputs, model, formObjectClass, submodelPath) {
-    const disabled = this.context.disableUiElements !== undefined ?
-                      this.context.disableUiElements : false
+    const disabled = this.context.disableUiElements === undefined ?
+                       false : this.context.disableUiElements
 
     return (input, index) => {
       // Skip rendering blocked inputs

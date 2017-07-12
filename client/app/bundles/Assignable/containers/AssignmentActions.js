@@ -59,11 +59,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  afterResponse(response) {
+  afterResponse(_) {
     // call dataLoad-Function of the assignable to update current_assignment
-    if(ownProps.assignableDataLoad){
-      ownProps.assignableDataLoad()
-    }
+    if(ownProps.assignableDataLoad) ownProps.assignableDataLoad()
   }
 })
 

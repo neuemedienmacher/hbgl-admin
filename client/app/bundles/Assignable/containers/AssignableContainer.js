@@ -20,10 +20,14 @@ const mapStateToProps = (state, ownProps) => {
   const heading =
     id ? `Aktuelle Zuweisung: ${model}#${id}` : 'Keine Zuweisung gefunden!'
   const involvedEntities = loaded ? {
-    creator: assignment['creator-id'] ? state.entities.users[assignment['creator-id']].name : '',
-    creatorTeam: assignment['creator-team-id'] ? state.entities['user-teams'][assignment['creator-team-id']].name : '',
-    receiver: assignment['receiver-id'] ? state.entities.users[assignment['receiver-id']].name : '',
-    receiverTeam: assignment['receiver-team-id'] ? state.entities['user-teams'][assignment['receiver-team-id']].name : ''
+    creator: assignment['creator-id'] ?
+      state.entities.users[assignment['creator-id']].name : '',
+    creatorTeam: assignment['creator-team-id'] ?
+      state.entities['user-teams'][assignment['creator-team-id']].name : '',
+    receiver: assignment['receiver-id'] ?
+      state.entities.users[assignment['receiver-id']].name : '',
+    receiverTeam: assignment['receiver-team-id'] ?
+      state.entities['user-teams'][assignment['receiver-team-id']].name : ''
   } : {creator: '', creatorTeam: '', receiver: '' , receiverTeam: ''}
   const assignments = ownProps.assignable ? filter(state.entities[model],
     a => { return ownProps.assignable['assignment-ids'].includes(a.id) }

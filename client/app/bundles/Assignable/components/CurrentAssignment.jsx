@@ -18,9 +18,11 @@ export default class CurrentAssignment extends Component {
     if (loaded) {
       return(
         <div className="assignment-head">
-          <b>von:</b> {involvedEntities.creator}, Team: {involvedEntities.creatorTeam}
+          <b>von:</b> {involvedEntities.creator},
+          Team: {involvedEntities.creatorTeam}
           <br />
-          <b>für:</b> {involvedEntities.receiver}, Team: {involvedEntities.receiverTeam}
+          <b>für:</b> {involvedEntities.receiver},
+          Team: {involvedEntities.receiverTeam}
           <br />
           <b>Nachricht:</b> {assignment.message}
         </div>
