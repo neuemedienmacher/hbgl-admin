@@ -7,7 +7,7 @@ module GenericSortFilter
     query = transform_by_searching(query, adjusted_params[:query])
     query = transform_by_joining(query, adjusted_params)
     query = transform_by_ordering(query, adjusted_params)
-    transform_by_filtering(query, adjusted_params)
+    transform_by_filtering(query, adjusted_params).uniq
   end
 
   private_class_method
@@ -43,14 +43,14 @@ module GenericSortFilter
 
   def self.transform_by_joining(query, params)
     if params[:sort_model]
-      query = query.eager_load(params[:sort_model].split('.').first)
+      query = query.joins(params[:sort_model].split('.').first)
     end
 
     params[:filters]&.each do |filter, _value|
       next unless filter['.']
       association_name = filter.split('.').first
       next if referring_to_own_table?(query, association_name) # dont join self
-      query = query.eager_load(association_name.to_sym)
+      query = query.joins(association_name.to_sym)
     end
 
     query
@@ -118,6 +118,14 @@ module GenericSortFilter
     end
   end
 
+  def self.check_if_reflection(query, filter)
+    if referring_to_own_table?(query, filter.split('.').first)
+      filter.split('.').first.classify.constantize
+    else
+      query.model.reflections[filter.split('.').first].table_name.classify.constantize
+    end
+  end
+
   def self.table_name_for(query, filter)
     return filter if referring_to_own_table?(query, filter)
     association_for(query, filter).table_name
@@ -139,7 +147,7 @@ module GenericSortFilter
   def self.transform_value(value, filter, query)
     model_name =
       if filter.include?('.')
-        filter.split('.').first.classify.constantize
+        check_if_reflection(query, filter)
       else
         query.model
       end

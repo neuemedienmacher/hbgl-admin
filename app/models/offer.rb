@@ -51,16 +51,17 @@ class Offer < ActiveRecord::Base
                     :name, :description, :aasm_state, :encounter,
                     :old_next_steps, :code_word
                   ],
-                  associated_against: {
-                    section: :name,
-                    organizations: :name,
-                    location: :display_name,
-                    categories: :name_de,
-                    solution_category: :name,
-                    target_audience_filters: :name,
-                    trait_filters: :name,
-                    logic_version: :name
-                  },
+                  # NOTE: this does not work with our filtered search queries
+                  # associated_against: {
+                  #   section: :name,
+                  #   organizations: :name,
+                  #   location: :display_name,
+                  #   categories: :name_de,
+                  #   solution_category: :name,
+                  #   target_audience_filters: :name,
+                  #   trait_filters: :name,
+                  #   logic_version: :name
+                  # },
                   using: { tsearch: { prefix: true } }
 
   # TODO? This works in console but raises ArgumentError otherwise...

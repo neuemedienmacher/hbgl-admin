@@ -20,6 +20,12 @@ module API::V1
           end
         end
       end
+
+      class Index < Show
+      end
+
+      class Create < Show
+      end
     end
   end
 end

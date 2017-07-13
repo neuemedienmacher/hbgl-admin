@@ -8,5 +8,8 @@ module API::V1
         r[:represented].aasm.states_for_select.map(&:last)
       end
     end
+
+    class Index < Show
+    end
   end
 end

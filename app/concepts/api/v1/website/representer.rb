@@ -13,6 +13,9 @@ module API::V1
           property :url
         end
       end
+
+      class Index < Show
+      end
     end
   end
 end

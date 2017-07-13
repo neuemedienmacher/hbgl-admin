@@ -2,7 +2,7 @@
 require_relative '../../test_helper'
 
 class API::V1::Division::RepresenterTest < ActiveSupport::TestCase
-  let(:subject) { API::V1::Division::Representer::Show }
+  let(:subject) { API::V1::Division::Representer::Create }
 
   it 'should provide its fields' do
     record = FactoryGirl.create :division,

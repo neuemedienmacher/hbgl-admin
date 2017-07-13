@@ -21,6 +21,7 @@ module OperationTestUtils
   end
 
   def run_api_operation(operation, params, options = {})
+    # binding.pry
     operation.(*with_document(params, options))
   end
 

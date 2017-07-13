@@ -4,8 +4,9 @@ module API::V1
     class Index < API::V1::Default::Index
       def base_query
         ::OfferTranslation
-          .where(locale: [:en, :ar, :fa])
-          .joins(:section).where('sections.identifier = ?', 'refugees')
+        # NOTE: this must be manually filtered from now on!
+        # .where(locale: ['en', 'ar', 'fa'])
+        # .joins(:section).where('sections.identifier = ?', 'refugees')
       end
     end
   end

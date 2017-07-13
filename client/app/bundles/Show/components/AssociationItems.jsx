@@ -2,50 +2,49 @@ import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
 import isArray from 'lodash/isArray'
 import InlineIndex from '../../InlineIndex/containers/InlineIndex'
+import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
 export default class AssociationItems extends React.Component {
   render() {
-    const {
-      modelInstance, associations
-    } = this.props
+    const { associations, model, modelInstance } = this.props
 
     return (
       <div className="panel-group">
         <h5 className="section-title">Verknüpfte Modelle</h5>
-        {associations.map(([name, className, filter, href]) =>
-          this.renderAssociation(
-            name, className, modelInstance[name], href, filter
+        {associations.map(([name, className, filter, href, items]) =>
+          this.renderSwitch(
+            name, className, items, href, filter, model, modelInstance
           )
         )}
       </div>
     )
   }
 
-  renderAssociation(name, className, items, href, filter){
-    return(
-      <div key={name} className="panel panel-default">
-        <div key={`${name}-heading`} className="panel-heading show--panel">
-          <h3 className="panel-title">{name}</h3>
-        </div>
-        {this.renderSwitch(name, className, items, href, filter)}
-      </div>
-    )
-  }
-
-  renderSwitch(name, className, items, href, filter){
+  renderSwitch(name, className, items, href, filter, model, modelInstance){
     if(filter) {
       return(
-        <div key={name} className="panel-body show--panel">
-          <InlineIndex
-            model={className} baseQuery={filter} identifierAddition={name}
-          />
-        </div>
+        <CollapsiblePanel
+          title={name} identifier={`${model}-${modelInstance.id}-${name}`}
+          key={`${model}-${modelInstance.id}-${name}`} visible={false}
+        >
+          <div key={name} className="panel-body show--panel">
+            <InlineIndex
+              model={className} lockedParams={filter}
+              identifierAddition={`${model}-${modelInstance.id}-${name}`}
+            />
+          </div>
+        </CollapsiblePanel>
       )
     }
     else {
       return(
-        <div key={name} className="panel-body show--panel">
-          {items.map(item => this.renderAssociationItem(name, item, href))}
+        <div key={name} className="panel panel-default">
+          <div key={`${name}-heading`} className="panel-heading show--panel">
+            <h3 className="panel-title">{name}</h3>
+          </div>
+            <div key={`${name}-item`} className="panel-body show--panel">
+              {items.map(item => this.renderAssociationItem(name, item, href))}
+            </div>
         </div>
       )
     }

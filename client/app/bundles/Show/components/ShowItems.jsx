@@ -7,7 +7,7 @@ import ShowFieldItem from '../containers/ShowFieldItem'
 export default class ShowItems extends React.Component {
   render() {
     const {
-      modelInstance, associations, columnNames, loaded
+      modelInstance, associations, columnNames, loaded, model
     } = this.props
 
     if(loaded){
@@ -23,6 +23,7 @@ export default class ShowItems extends React.Component {
           </div>
           <AssociationItems
             modelInstance={modelInstance} associations={associations}
+            model={model}
           />
         </div>
       )

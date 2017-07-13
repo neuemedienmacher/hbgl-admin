@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import merge from 'lodash/merge'
 import clone from 'lodash/clone'
 import forEach from 'lodash/forEach'
-import setUi from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import InlineTableHeadCell from '../components/InlineTableHeadCell'
 
 const mapStateToProps = (state, ownProps) => {

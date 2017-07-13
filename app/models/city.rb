@@ -8,7 +8,7 @@ class City < ActiveRecord::Base
   ORGANIZATION_THRESHOLD = Integer(ENV['THRESHOLDS_ORGA_COUNT'] || 1)
 
   # Associations
-  has_many :sections, -> { uniq }, through: :offers
+  has_many :sections, -> { uniq }, through: :offers, inverse_of: :cities
 
   include ReformedValidationHack
 

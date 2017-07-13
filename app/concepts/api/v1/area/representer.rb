@@ -14,6 +14,9 @@ module API::V1
           property :updated_at
         end
       end
+
+      class Index < Show
+      end
     end
   end
 end

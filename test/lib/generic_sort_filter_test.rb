@@ -48,33 +48,33 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#transform_by_joining' do
     it 'eager_loads with a sort_model' do
       params = { sort_model: 'contact_people.fooooo' }
-      query.expects(:eager_load).with('contact_people')
+      query.expects(:joins).with('contact_people')
       subject.send(:transform_by_joining, query, params)
     end
 
     it 'eager_loads with a filter' do
       params = { filters: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
-      query.expects(:eager_load).with(:split_base).returns(query)
-      query.expects(:eager_load).with(:logic_version).returns(query)
+      query.expects(:joins).with(:split_base).returns(query)
+      query.expects(:joins).with(:logic_version).returns(query)
       result = subject.send(:transform_by_joining, query, params)
       result.must_equal query
     end
 
     it 'wont eager_load without a sort_model or filter' do
-      invalid_query.expects(:eager_load).never
+      invalid_query.expects(:joins).never
       result = subject.send(:transform_by_joining, invalid_query, {})
       result.must_equal invalid_query
     end
 
     it 'wont eager_load with a filter that references itself' do
       params = { filters: ['offer.baz'] }
-      query.expects(:eager_load).never
+      query.expects(:joins).never
       subject.send(:transform_by_joining, query, params)
     end
 
     it 'wont eager_load with a filter that uses no submodel' do
       params = { filters: ['fuz'] }
-      query.expects(:eager_load).never
+      query.expects(:joins).never
       subject.send(:transform_by_joining, query, params)
     end
   end
@@ -97,6 +97,12 @@ class GenericSortFilterTest < ActiveSupport::TestCase
         { sort_field: 'bar', sort_model: 'split_base', sort_direction: 'ASC' }
       query.expects(:order).with('split_bases.bar ASC')
       subject.send(:transform_by_ordering, query, params)
+    end
+  end
+
+  describe '#check_if_reflection' do
+    it 'should classifiy and constantize for self-referring query' do
+      subject.send(:check_if_reflection, query, 'offer.name').must_equal Offer
     end
   end
 

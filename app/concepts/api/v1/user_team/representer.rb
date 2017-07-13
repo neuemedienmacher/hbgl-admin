@@ -29,7 +29,12 @@ module API::V1
             property :name, as: :label
           end
         end
+      end
 
+      class Index < Show
+      end
+
+      class Create < Show
         # has_many :children, class: ::UserTeam do
         #   type :user_teams
         #

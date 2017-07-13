@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 39085d10b08a80276f60af9d57b5bc442b9d7f21
+  revision: ecc9f825c16ece28aa20e27f8e601ac63f6cede4
   branch: feature/944-945-orga-division-2
   specs:
     clarat_base (0.1.4)
@@ -148,7 +148,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
-    closure_tree (6.5.0)
+    closure_tree (6.6.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     code_analyzer (0.4.7)
@@ -304,7 +304,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (0.8.4)
+    i18n (0.8.6)
     i18n-js (2.1.2)
       i18n
     inflecto (0.0.2)
@@ -385,7 +385,7 @@ GEM
     nokogumbo (1.4.13)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (7.0.3)
+    paper_trail (7.1.0)
       activerecord (>= 4.0, < 5.2)
       request_store (~> 1.1)
     parser (2.3.3.1)

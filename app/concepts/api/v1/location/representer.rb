@@ -29,20 +29,40 @@ module API::V1
           property :organization_id
           property :city_id
           property :federal_state_id
+
           property :offer_ids
         end
 
         has_one :organization do
           type :organizations
           attributes do
-            property :name, as: :label
+            property :name
           end
         end
 
+        has_one :federal_state do
+          type :federal_states
+          attributes do
+            property :name
+          end
+        end
+
+        has_one :city do
+          type :cities
+          attributes do
+            property :name
+          end
+        end
+      end
+
+      class Index < Show
+      end
+
+      class Create < Show
         has_one :federal_state,
                 decorator: API::V1::FederalState::Representer::Show,
                 populator: API::V1::Lib::Populators::Find, class: ::FederalState
-        has_one :city, decorator: API::V1::City::Representer::Show,
+        has_one :city, decorator: API::V1::City::Representer::Create,
                        populator: API::V1::Lib::Populators::Find, class: ::City
       end
 

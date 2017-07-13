@@ -4,6 +4,7 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :contact_person_translations
+        include API::V1::Assignable::Representer
 
         attributes do
           property :label, getter: ->(ot) do
@@ -25,6 +26,9 @@ module API::V1
             property :responsibility
           end
         end
+      end
+
+      class Index < Show
       end
     end
   end

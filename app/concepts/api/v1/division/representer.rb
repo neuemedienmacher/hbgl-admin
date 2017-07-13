@@ -16,14 +16,15 @@ module API::V1
           property :size
           property :done
 
-          property :website_ids
-          property :presumed_category_ids
-          property :presumed_solution_category_ids
-
           property :organization_id
           property :section_id
           property :city_id
           property :area_id
+
+          # NOTE: do we need this here? or only for create/update or not at all?
+          property :website_ids
+          property :presumed_category_ids
+          property :presumed_solution_category_ids
         end
 
         has_one :organization, class: ::Organization do
@@ -64,7 +65,12 @@ module API::V1
             property :name
           end
         end
+      end
 
+      class Index < Show
+      end
+
+      class Create < Index
         has_many :presumed_categories, class: ::Category do
           type :categories
 

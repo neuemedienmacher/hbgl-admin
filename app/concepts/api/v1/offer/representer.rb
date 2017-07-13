@@ -7,22 +7,29 @@ module API::V1
 
         attributes do
           property :label, getter: ->(offer) do
-            offer[:represented].name
+            offer[:represented].untranslated_name
           end
-          property :name
-          property :description
-          property :old_next_steps
+          property :name, getter: ->(offer) do
+            offer[:represented].untranslated_name
+          end
+          property :description, getter: ->(offer) do
+            offer[:represented].untranslated_description
+          end
+          property :old_next_steps, getter: ->(offer) do
+            offer[:represented].untranslated_old_next_steps
+          end
+          property :opening_specification, getter: ->(offer) do
+            offer[:represented].untranslated_opening_specification
+          end
+
           property :encounter
           property :slug
-          property :location_id
           property :created_at
           property :updated_at
-          property :opening_specification
           property :approved_at
           property :created_by
           property :approved_by
           property :expires_at
-          property :area_id
           property :description_html
           property :next_steps_html
           property :opening_specification_html
@@ -33,16 +40,41 @@ module API::V1
           property :hide_contact_people
           property :age_visible
           property :code_word
-          property :solution_category_id
           property :gender_first_part_of_stamp
           property :gender_second_part_of_stamp
-          property :logic_version_id
-          property :split_base_id
           property :all_inclusive
           property :starts_at
           property :completed_at
           property :completed_by
+
           property :section_id
+          property :logic_version_id
+          property :split_base_id
+          property :solution_category_id
+          property :location_id
+          property :area_id
+        end
+
+        has_one :section do
+          type :sections
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].identifier }
+            property :name
+            property :identifier
+          end
+        end
+      end
+
+      class Index < Show
+      end
+
+      class Create < Show
+        attributes do
+          property :name
+          property :description
+          property :old_next_steps
+          property :opening_specification
         end
 
         has_many :organizations do
@@ -58,15 +90,6 @@ module API::V1
 
           attributes do
             property :name, as: :label
-          end
-        end
-
-        has_one :section do
-          type :sections
-
-          attributes do
-            property :name
-            property :identifier
           end
         end
       end

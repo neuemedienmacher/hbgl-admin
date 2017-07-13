@@ -30,6 +30,9 @@ module API::V1::BackendTest
         property :foo
       end
     end
+
+    class Index < Show
+    end
   end
 end
 

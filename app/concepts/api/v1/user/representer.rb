@@ -13,9 +13,23 @@ module API::V1
           property :email
           property :role
           property :active
+
           property :user_team_ids
           property :led_team_ids
           property :observed_user_team_ids
+        end
+      end
+
+      class Index < Show
+      end
+
+      class Update < Roar::Decorator
+        include Roar::JSON::JSONAPI.resource :users
+
+        attributes do
+          property :name
+          property :email
+          property :role
         end
 
         has_many :user_teams, class: ::UserTeam do
@@ -54,16 +68,6 @@ module API::V1
         #   property :id
         #   property :message, as: :label
         # end
-      end
-
-      class Update < Roar::Decorator
-        include Roar::JSON::JSONAPI.resource :users
-
-        attributes do
-          property :name
-          property :email
-          property :role
-        end
       end
     end
   end

@@ -32,6 +32,9 @@ module API::V1
         #   ot[:represented].organization.sections.pluck(:identifier)
         # end
       end
+
+      class Index < Show
+      end
     end
   end
 end

@@ -77,12 +77,12 @@ const routes = [
     access: all,
   }, {
     id: 12,
-    pathname: '/federal_states',
+    pathname: '/federal-states',
     anchor: 'Bundesländer',
     access: all,
   }, {
     id: 13,
-    pathname: '/contact_people',
+    pathname: '/contact-people',
     anchor: 'Kontaktpersonen',
     access: all,
   }, {

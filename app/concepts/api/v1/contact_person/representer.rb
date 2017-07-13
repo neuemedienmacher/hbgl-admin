@@ -6,6 +6,10 @@ module API::V1
         include Roar::JSON::JSONAPI.resource :contact_people
 
         attributes do
+          property :responsibility, getter: ->(contact_person) do
+            contact_person[:represented].untranslated_responsibility
+          end
+
           property :area_code_1
           property :local_number_1
           property :area_code_2
@@ -17,7 +21,6 @@ module API::V1
           property :operational_name
           property :academic_title
           property :gender
-          property :responsibility
           property :position
           property :street
           property :zip_and_city
@@ -34,8 +37,26 @@ module API::V1
         has_one :organization do
           type :organizations
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
           end
+        end
+
+        has_one :email do
+          type :emails
+          attributes do
+            property :label, getter: ->(o) { o[:represented].address }
+            property :address
+          end
+        end
+      end
+
+      class Index < Show
+      end
+
+      class Create < Show
+        attributes do
+          property :responsibility
         end
 
         has_one :email, decorator: API::V1::Email::Representer::Show,

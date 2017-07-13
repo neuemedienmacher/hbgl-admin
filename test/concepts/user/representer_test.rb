@@ -2,7 +2,7 @@
 require_relative '../../test_helper'
 
 class API::V1::User::RepresenterTest < ActiveSupport::TestCase
-  let(:subject) { API::V1::User::Representer::Show }
+  let(:subject) { API::V1::User::Representer::Update }
 
   it 'should generate a generic label for a model without a name' do
     record = User.create!(

@@ -39,6 +39,9 @@ module API::V1
           end
         end
       end
+
+      class Index < Show
+      end
     end
   end
 end

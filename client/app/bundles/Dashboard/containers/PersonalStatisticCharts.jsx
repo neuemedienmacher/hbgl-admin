@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   )
   let currentUser = state.entities.users[state.entities['current-user-id']]
   let selectableData = [[currentUser.id, currentUser.name]]
-  // append user_ids of users in ledTeams
+  // append userIds of users in ledTeams
   let ledTeams = valuesIn(state.entities['user-teams']).filter(
     t => currentUser['led-team-ids'] && currentUser['led-team-ids'].includes(t.id)
   )

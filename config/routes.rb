@@ -105,7 +105,7 @@ Rails.application.routes.draw do
       api_resources :statistic_charts, except: [:destroy]
       api_resources :time_allocations, only: [:create, :update]
       api_resources :user_teams
-      api_resources :sections, only: [:index]
+      api_resources :sections, only: [:index, :show]
       api_resources :cities, only: [:index, :show]
       api_resources :areas, only: [:index, :show]
       api_resources :federal_states, only: [:index, :show]

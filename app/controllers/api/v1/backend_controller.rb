@@ -11,7 +11,7 @@ module API::V1
       result = index_operation.(params)
       if result.success?
         json = API::V1::Lib::JsonifyCollection.(
-          show_representer, result['collection'], params
+          index_representer, result['collection'], params
         )
         return render(json: json, status: 200)
       end
@@ -83,6 +83,10 @@ module API::V1
 
     def show_representer
       "#{base_module}::Representer::Show".constantize
+    end
+
+    def index_representer
+      "#{base_module}::Representer::Index".constantize
     end
 
     def index_operation

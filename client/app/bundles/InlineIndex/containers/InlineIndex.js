@@ -18,6 +18,11 @@ const mapStateToProps = (state, ownProps) => {
       merge(clone(state.ui[uiKey]), ownProps.lockedParams)
     )
   const count = state.ajax[identifier] ? state.ajax[identifier].meta.total_entries : 0
+  const loaded = state.ajax[identifier] != undefined &&
+                 state.ajax.isLoading[identifier] == false &&
+                 (params.page == undefined ||
+                   params.page ==
+                   state.ajax[identifier].meta.current_page)
 
   return {
     params,
@@ -25,7 +30,8 @@ const mapStateToProps = (state, ownProps) => {
     model,
     identifier,
     uiKey,
-    count
+    count,
+    loaded
   }
 }
 
@@ -38,19 +44,25 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
 
-  loadData(query = merge(clone(ownProps.optionalParams), ownProps.lockedParams), nextModel = ownProps.model) {
+  loadData(query = merge(clone(ownProps.optionalParams), ownProps.lockedParams), nextModel = ownProps.model, loaded = stateProps.loaded) {
     let optional =
       ownProps.identifierAddition ? '_' + ownProps.identifierAddition : ''
-    dispatchProps.dispatch(
-      loadAjaxData(nextModel, query, 'indexResults_' + nextModel + optional)
-    )
+    // console.log('loadData')
+    // console.log(nextModel)
+    // console.log(query)
+    if (!loaded) {
+      // console.log('LOAD!')
+      dispatchProps.dispatch(
+        loadAjaxData(nextModel, query, 'indexResults_' + nextModel + optional)
+      )
+    }
   },
 
   equalParams(params1, params2) {
     if (size(params1) != size(params2)) return false
     let isSame = true
     forIn(params1, (value, key) => {
-      if(!isSame || params2[key] != value) {
+      if(!isSame || params2[key] == undefined || params2[key].toString() != value.toString()) {
         isSame = false
       }
     })

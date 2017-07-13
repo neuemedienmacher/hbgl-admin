@@ -52,9 +52,9 @@ function headingFor(model) {
     return 'Standorte'
   case 'cities':
     return 'Städte'
-  case 'federal_states':
+  case 'federal-states':
     return 'Bundesländer'
-  case 'contact_people':
+  case 'contact-people':
     return 'Kontaktpersonen'
   case 'emails':
     return 'Emails'

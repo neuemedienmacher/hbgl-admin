@@ -22,7 +22,7 @@ export default {
 
     'organization-translations': {
       fields: [
-        'id', 'organization_id', 'locale', 'source', 'description',
+        'id', 'organization-id', 'locale', 'source', 'description',
         'possibly-outdated', {organization: ['approved-at']}
       ],
       general_actions: [
@@ -60,9 +60,9 @@ export default {
 
     locations: {
       fields: [
-        'id', 'name', 'street', 'addition', 'zip', 'hq', 'visible', 'in_germany',
-        { federal_state: ['label'] }, { organization: ['label'] },
-        { city: ['label'] }
+        'id', 'name', 'street', 'addition', 'zip', 'hq', 'visible', 'in-germany',
+        { 'federal-state': ['name'] }, { organization: ['name'] },
+        { city: ['name'] }
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -98,9 +98,9 @@ export default {
 
     'contact-people': {
       fields: [
-        'id', 'first_name', 'last_name', { organization: ['label'] },
-        { email: ['label'] }, 'area_code_1', 'local_number_1', 'area_code_2',
-        'local_number_2'
+        'id', 'first-name', 'last-name', { organization: ['name'] },
+        { email: ['address'] }, 'area-code-1', 'local-number-1', 'area-code-2',
+        'local-number-2'
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -137,7 +137,7 @@ export default {
 
     organizations: {
       fields: [
-        'id', 'offers-count', 'name', 'aasm-state', 'pending_reason',
+        'id', 'offers-count', 'name', 'aasm-state', 'pending-reason',
         'locations-count'
       ],
       general_actions: [
@@ -192,6 +192,42 @@ export default {
         'edit_assignable'
       ]
     },
+
+    sections: {
+      fields: [
+        'id', 'name', 'identifier'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ],
+    },
+
+    categories: {
+      fields: [
+        'id', 'name-de', 'sort-order', 'visible', 'parent-id'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'solution-categories': {
+      fields: [
+        'id', 'name', 'parent-id'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    }
   },
 
   OPERATORS: ['=', '!=', '<', '>'],
