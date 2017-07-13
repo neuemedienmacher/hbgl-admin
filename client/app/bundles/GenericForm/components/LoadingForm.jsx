@@ -4,6 +4,14 @@ import Form from '../containers/Form'
 export default class LoadingForm extends React.Component {
   componentDidMount() {
     this.props.loadData()
+    this.props.loadPossibleEvents()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.model != this.props.model || nextProps.editId != this.props.editId ||
+        nextProps.loadedOriginalData == false) {
+      this.props.loadPossibleEvents(nextProps.model, nextProps.editId)
+    }
   }
 
   render() {

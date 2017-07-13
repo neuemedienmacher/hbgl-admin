@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import isEqual from 'lodash/isEqual'
 import InlineIndexTable from '../containers/InlineIndexTable'
 import InlinePagination from '../containers/InlinePagination'
 import InlineIndexHeader from '../containers/InlineIndexHeader'
@@ -8,8 +9,8 @@ export default class InlineIndex extends Component {
     // console.log('componentWillReceiveProps!')
     // console.log(this.props)
     // console.log(nextProps)
-    if (this.props.equalParams(nextProps.params, this.props.params) == false &&
-        this.props.model == nextProps.model) {
+    if (isEqual(nextProps.params, this.props.params) == false ||
+        this.props.model != nextProps.model) {
       this.props.loadData(nextProps.params, nextProps.model, false)
     }
   }

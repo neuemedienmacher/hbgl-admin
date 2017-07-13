@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import merge from 'lodash/merge'
 import clone from 'lodash/clone'
-import setUi from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import Pagination from '../../Index/components/Pagination'
 
 const mapStateToProps = (state, ownProps) => {

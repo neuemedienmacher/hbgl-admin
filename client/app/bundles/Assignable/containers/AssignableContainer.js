@@ -29,9 +29,6 @@ const mapStateToProps = (state, ownProps) => {
     receiverTeam: assignment['receiver-team-id'] ?
       state.entities['user-teams'][assignment['receiver-team-id']].name : ''
   } : {creator: '', creatorTeam: '', receiver: '' , receiverTeam: ''}
-  const assignments = ownProps.assignable ? filter(state.entities[model],
-    a => { return ownProps.assignable['assignment-ids'].includes(a.id) }
-  ) : []
 
   return {
     id,
@@ -41,8 +38,7 @@ const mapStateToProps = (state, ownProps) => {
     heading,
     involvedEntities,
     assignableDataLoad,
-    disableUiElements,
-    assignments
+    disableUiElements
   }
 }
 

@@ -47,26 +47,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   loadData(query = merge(clone(ownProps.optionalParams), ownProps.lockedParams), nextModel = ownProps.model, loaded = stateProps.loaded) {
     let optional =
       ownProps.identifierAddition ? '_' + ownProps.identifierAddition : ''
-    // console.log('loadData')
-    // console.log(nextModel)
-    // console.log(query)
     if (!loaded) {
-      // console.log('LOAD!')
       dispatchProps.dispatch(
         loadAjaxData(nextModel, query, 'indexResults_' + nextModel + optional)
       )
     }
-  },
-
-  equalParams(params1, params2) {
-    if (size(params1) != size(params2)) return false
-    let isSame = true
-    forIn(params1, (value, key) => {
-      if(!isSame || params2[key] == undefined || params2[key].toString() != value.toString()) {
-        isSame = false
-      }
-    })
-    return isSame
   }
 })
 

@@ -114,9 +114,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
         // after-save actions (redirects)
         if (stateProps.afterSaveActiveKey == 'to_edit') {
-          browserHistory.push(`/${model}/${response.data.id}`)
+          browserHistory.push(`/${model}/${response.data.id}/edit`)
         } else if (stateProps.afterSaveActiveKey == 'to_table') {
           browserHistory.push(`/${model}`)
+        } else if (stateProps.afterSaveActiveKey == 'to_new') {
+          browserHistory.push(`/${model}/new`)
         }
       } else if (errors && errors.length) {
         dispatch(addFlashMessage('error', errorFlashMessage))

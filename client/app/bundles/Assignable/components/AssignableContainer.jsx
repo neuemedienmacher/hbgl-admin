@@ -26,8 +26,8 @@ export default class AssignableContainer extends Component {
   }
 
   render() {
-    const { model, heading, disableUiElements, assignments, assignment,
-            involvedEntities, loaded, assignableDataLoad } = this.props
+    const { model, heading, disableUiElements, assignment, involvedEntities,
+            loaded, assignableDataLoad } = this.props
     const panelClass = disableUiElements ? 'panel panel-warning' : 'panel panel-info'
 
     return (
@@ -46,7 +46,9 @@ export default class AssignableContainer extends Component {
               />
               <InlineIndex
                 model={model} tabTitle='Zuweisungsverlauf'
-                identifierAddition={'assignment-history'}
+                identifierAddition={
+                  `${assignment['assignable-id']}-assignment-history`
+                }
                 lockedParams={{
                   'filters[assignable-id]': assignment['assignable-id'],
                   'filters[assignable-type]': assignment['assignable-type'],

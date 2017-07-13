@@ -235,6 +235,6 @@ export default {
   AFTER_SAVE_ACTIONS: {
     'to_edit': 'Bei dieser Instanz bleiben',
     'to_table': 'Zurück zur Tabelle',
-    'to_new': 'Neues Objekt anlegen (default)'
+    'to_new': 'Neues Objekt anlegen'
   }
 }

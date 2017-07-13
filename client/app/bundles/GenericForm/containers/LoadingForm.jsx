@@ -37,7 +37,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       const { model, editId } = ownProps
       if (!editId) return
       const { dispatch } = dispatchProps
-      const singularModel = singularize(model)
 
       dispatch(
         loadAjaxData(
@@ -45,15 +44,20 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
             dispatch(setUiLoaded(true, 'GenericForm', model, editId))
           }
         )
-      ),
+      )
+    },
 
-      dispatch(
+    loadPossibleEvents(model = ownProps.model, editId = ownProps.editId) {
+      if (!editId) return
+      const singularModel = singularize(model)
+
+      dispatchProps.dispatch(
         loadAjaxData(
           `possible_events/${singularModel}/${editId}`, {}, 'possible-events',
           transformResponse, model
         )
       )
-    },
+    }
   }
 }
 
