@@ -23,23 +23,27 @@ module API::V1
           end
         end
 
-        def filter_for assoc
-          is_plural = name.to_s == name.to_s.pluralize
-          prefix = prefix_for(assoc)
-          [is_plural ? "#{name}.id" : "#{prefix}#{name.to_s.singularize}_id"]
+        def polymorphic_filter_for assoc
+          polymorphic_name = assoc.options[:inverse_of]
+          ["#{polymorphic_name}_id", "#{polymorphic_name}_type"]
         end
 
-        def prefix_for assoc
-          if assoc.options[:through] && !is_plural
+        def filter_for assoc
+          name = assoc.options[:inverse_of]
+          prefix = prefix_for(assoc, name)
+          [plural?(name) ? "#{name}.id" : "#{prefix}#{name.to_s.singularize}_id"]
+        end
+
+        def prefix_for assoc, name
+          if assoc.options[:through] && plural?(name) == false
             assoc.options[:through].to_s.singularize + '.'
           else
             ''
           end
         end
 
-        def polymorphic_filter_for assoc
-          polymorphic_name = assoc.options[:inverse_of]
-          ["#{polymorphic_name}_id", "#{polymorphic_name}_type"]
+        def plural? input
+          input.to_s == input.to_s.pluralize
         end
 
         assocs = {}
