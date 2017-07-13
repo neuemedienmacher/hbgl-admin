@@ -27,8 +27,7 @@ const mapStateToProps = (state, ownProps) => {
       action: key, name: value, active: afterSaveActiveKey == key
     }))
   const formObjectClass = formObjectSelect(model)
-  const entity = state.entities[model][editId]
-  const seedData = { fields: seedDataFromEntity(entity, formObjectClass) }
+  const seedData = { fields: seedDataFromEntity(instance, formObjectClass) }
 
   let action = `/api/v1/${model}`
   let method = 'POST'
