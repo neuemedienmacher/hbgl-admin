@@ -5,5 +5,10 @@ module API::V1
       extend Trailblazer::Operation::Representer::DSL
       representer API::V1::ContactPerson::Representer::Create
     end
+
+    class Update < ::ContactPerson::Update
+      extend Trailblazer::Operation::Representer::DSL
+      representer API::V1::ContactPerson::Representer::Create
+    end
   end
 end

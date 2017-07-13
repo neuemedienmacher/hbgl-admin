@@ -5,5 +5,10 @@ module API::V1
       extend Trailblazer::Operation::Representer::DSL
       representer API::V1::Location::Representer::Create
     end
+
+    class Update < ::Location::Update
+      extend Trailblazer::Operation::Representer::DSL
+      representer API::V1::Location::Representer::Create
+    end
   end
 end

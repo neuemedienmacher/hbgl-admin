@@ -4,7 +4,7 @@
   "description": "Built using the react_on_rails generator.",
   "main": "server.js",
   "engines": {
-    "node": "5.0.0",
+    "node": "^6",
     "npm": "3.5.0"
   },
   "repository": {
