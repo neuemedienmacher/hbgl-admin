@@ -60,7 +60,7 @@ export default class CityFormObject extends FormObject {
   }
 
   validation() {
-    this.required('address').filled()
+    // this.required('address').filled()
     // this.required('organization').filled()
   }
 }

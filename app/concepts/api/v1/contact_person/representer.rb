@@ -62,6 +62,9 @@ module API::V1
         has_one :email, decorator: API::V1::Email::Representer::Show,
                         populator: API::V1::Lib::Populators::FindOrInstantiate,
                         class: ::Email
+
+        has_one :organization, class: ::Organization, decorator:
+                               API::V1::Organization::Representer::Show
       end
     end
   end

@@ -7,6 +7,7 @@ class ContactPerson < ActiveRecord::Base
     step Contract::Build(constant: ContactPerson::Contracts::Create)
     step Contract::Validate()
     step Wrap(::Lib::Transaction) {
+      step ::Lib::Macros::Nested::Find(:organization, ::Organization)
       step ::Lib::Macros::Nested::Create(:email, Email::Create)
     }
     step Contract::Persist()

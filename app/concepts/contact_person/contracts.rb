@@ -30,12 +30,12 @@ module ContactPerson::Contracts
 
     validate :at_least_one_field_present
     def at_least_one_field_present
-      one_field_blank = %w(first_name last_name operational_name local_number_1
-                           fax_number email).all? do |field|
+      all_blank = %w(first_name last_name operational_name local_number_1
+                     fax_number email).all? do |field|
         self.send(field).blank?
       end
 
-      if one_field_blank
+      if all_blank
         errors.add :base, I18n.t('contact_person.validations.incomplete')
       end
     end

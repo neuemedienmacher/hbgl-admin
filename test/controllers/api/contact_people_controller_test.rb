@@ -5,11 +5,14 @@ require_relative '../../support/utils/api_controller_test_utils'
 describe API::V1::ContactPeopleController do
   include API::ControllerTestUtils
   before { sign_in users(:researcher) }
+  let(:contact_person) { FactoryGirl.create(:contact_person) }
 
   it { api_get_works_for :index }
+  it { api_get_works_for :show, id: contact_person.id }
 
-  it { has_no_route_for :get, :show }
-  it { has_no_route_for :post, :create }
-  it { has_no_route_for :patch, :update }
+  let(:create_params) { { first_name: 'foo', rel: { organization: 1 } } }
+  it { create_works_with ::ContactPerson, create_params }
+  it { update_works_with ::ContactPerson, contact_person.id, first_name: 'Ed' }
+
   it { has_no_route_for :delete, :destroy }
 end
