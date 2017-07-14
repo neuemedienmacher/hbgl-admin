@@ -18,16 +18,21 @@ export const addForFilteringSelect = (key, options) => ({
   options,
 })
 
-// INFO: optional nextModel is required for different transformer (field_sets)
 export function loadForFilteringSelect(
-  input, associatedModel, id = null
+  input, associatedModel, ids = ''
 ) {
-  let path = `/api/v1/${associatedModel}`
-  if (id) path += `/${id}`
-  if (input) path += `?query=${input}`
+  let path = `/api/v1/${associatedModel}?`
+  if (input) path += `&query=${input}`
+  if (ids) {
+    for (let id of ids.split(',')){
+      let arrayEntryParameter = {}
+      arrayEntryParameter[`filters[id][]`] = id
+      path += ('&' + encode(arrayEntryParameter))
+    }
+  }
 
   return function(dispatch) {
-    dispatch(loadForFilteringSelectRequest(associatedModel, input))
+    dispatch(loadForFilteringSelectRequest(associatedModel, `${input},${ids}`))
 
     return fetch(path, {
       method: 'GET',

@@ -67,9 +67,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onFirstValue(value) {
-      for (let id of value.split(',')) {
-        dispatch(loadForFilteringSelect(id, stateProps.resource))
-      }
+      let filter_values = value.split(',').filter(
+        value => stateProps.alreadyLoadedInputs.includes(value) == false
+      ).join(',')
+      dispatch(loadForFilteringSelect('', stateProps.resource, filter_values))
     },
 
     onInputChange(input) {

@@ -12,7 +12,7 @@ export default class FilteringSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.value === undefined && !!nextProps.value) {
+    if (!!nextProps.value && nextProps.value != this.props.value) {
       this.props.onFirstValue(nextProps.value)
     }
   }

@@ -17,7 +17,10 @@ export default function filteringSelectReducer(state = initialState, action) {
     if (!newState.options[key]) newState.options[key] = []
     if (!newState.alreadyLoadedInputs[key])
       newState.alreadyLoadedInputs[key] = []
-    newState.alreadyLoadedInputs[key].push(action.input)
+    for (let id of action.input.split(',')){
+      if (!newState.alreadyLoadedInputs[key].includes(id))
+        newState.alreadyLoadedInputs[key].push(id)
+    }
     return newState
 
   case 'LOAD_FOR_FILTERING_SELECT_FAILURE':
