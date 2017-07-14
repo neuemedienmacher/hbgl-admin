@@ -132,6 +132,12 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
+    it 'filters with referring_to_own_table' do
+      params = { filters: { 'offers.foobar' => 'bazfuz' } }
+      query.expects(:where).with("offers.foobar = 'bazfuz'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
     it 'filters with a nullable value' do
       params = { filters: { 'split_base.baz' => 'nil' } }
       query.expects(:where).with('split_bases.baz IS NULL')
