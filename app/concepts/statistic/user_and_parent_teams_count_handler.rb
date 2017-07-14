@@ -22,7 +22,7 @@ class Statistic::UserAndParentTeamsCountHandler
     end
   end
 
-  # returns an array of all parent_teams of the given ream
+  # returns an array of all parent_teams of the given team
   def self.recursive_parent_teams team
     [team] + (team.parent_id ? recursive_parent_teams(team.parent) : [])
   end
