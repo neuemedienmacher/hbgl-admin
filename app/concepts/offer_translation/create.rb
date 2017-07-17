@@ -4,23 +4,11 @@ class OfferTranslation::Create < Trailblazer::Operation
 
   step Model(::OfferTranslation, :new)
 
-  step Contract::Build()
+  step Contract::Build(constant: OfferTranslation::Contracts::Update)
   step Contract::Validate()
   step Contract::Persist()
   step :create_initial_assignment!
   step :reindex_offer
-
-  extend Contract::DSL
-  contract do
-    property :name
-    property :description
-    property :opening_specification
-    property :old_next_steps
-    property :source
-    property :locale
-    property :possibly_outdated
-    property :offer_id
-  end
 
   def reindex_offer(*, model:, **)
     model.offer.reload.algolia_index!

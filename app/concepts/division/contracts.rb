@@ -31,6 +31,7 @@ module Division::Contracts
   end
 
   class Update < Create
+    property :id, writeable: false
     # update-specific validations?
   end
 end

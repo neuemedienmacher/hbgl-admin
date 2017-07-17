@@ -7,23 +7,13 @@ class OfferTranslation::Update < Trailblazer::Operation
   # TODO: Either make policy more useful or remove
   step Policy::Pundit(OfferTranslationPolicy, :update?)
 
-  step Contract::Build()
+  step Contract::Build(constant: OfferTranslation::Contracts::Update)
   step Contract::Validate()
   step :reset_source_and_possibly_outdated_if_changes_by_human
   step Contract::Persist()
   step :reindex_offer
   step :create_new_assignment_if_assignable_should_be_reassigned!
   step :create_optional_assignment_for_organization_translation!
-
-  extend Contract::DSL
-  contract do
-    property :name
-    property :description
-    property :opening_specification
-    property :old_next_steps
-    property :source
-    property :possibly_outdated
-  end
 
   def reindex_offer(*, model:, **)
     model.offer.reload.algolia_index!
