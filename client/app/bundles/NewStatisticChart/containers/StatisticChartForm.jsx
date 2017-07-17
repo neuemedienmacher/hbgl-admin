@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   const formSettings = state.settings.statistic_charts
   const formData = state.rform[formId] || {}
 
-  const userTeams = valuesIn(state.entities.user_teams).map((team) => ({
+  const userTeams = valuesIn(state.entities['user-teams']).map((team) => ({
     name: team.name, value: team.id
   }))
   const targetModels = formSettings.target_models.map(transformOptions)
@@ -58,9 +58,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  handleResponse: (_formId, data) => dispatch(addEntities(data)),
+  afterResponse(_formId, data, _errors, _meta, response) {
+    dispatch(addEntities(data))
 
-  afterResponse(response) {
     if (response.data && response.data.id) {
       browserHistory.push(`/statistic_charts/${response.data.id}`)
     }

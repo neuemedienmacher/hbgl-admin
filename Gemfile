@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby '2.3.3'
 
 gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
-gem 'nokogumbo', '1.4.11' # 1.4.12 causes problems on heroku (see https://github.com/rubys/nokogumbo/issues/61)
 
 ###########
 # General #
@@ -12,7 +11,8 @@ gem 'nokogumbo', '1.4.11' # 1.4.12 causes problems on heroku (see https://github
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base'
+gem 'clarat_base', github: 'clarat-org/clarat_base',
+                   branch: 'feature/944-945-orga-division-2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -140,7 +140,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-nestable2'
 end
 
-gem 'react_on_rails'
+gem 'react_on_rails', '< 7.0.0'
 
 #####################
 # Dev/Test Specific #

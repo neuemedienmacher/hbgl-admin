@@ -6,7 +6,7 @@ require_relative 'organization'
 
 class StatisticChart < ActiveRecord::Base
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [
                     :id, :title
                   ],

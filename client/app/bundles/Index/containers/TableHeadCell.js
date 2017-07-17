@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   let href = `/${ownProps.model}?${encode(pickBy(linkParams))}`
 
-  const displayName = field.name.split('_').join(' ')
+  const displayName = field.name.split('-').join(' ')
 
   return {
     href,

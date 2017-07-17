@@ -34,6 +34,9 @@ RedundantSelf:
 LineLength:
   Enabled: false
 
+Style/MethodName:
+  Enabled: false
+
 Style/SignalException:
   Enabled: false
 

@@ -23,7 +23,7 @@ export default class PersonalOrTeamStatisticCharts extends Component {
       <div className="select-set">
         <span className="select-set__label">Zeige Statistiken von:</span>
         <ControlledSelectView identifier={this.props.chartType + 'Statistics'}>
-          {this.props.selectable_data}
+          {this.props.selectableData}
         </ControlledSelectView>
         {this.existingChartsOrLoading(
           this.props.statisticCharts, this.props.dataLoaded, this.props.chartType

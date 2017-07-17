@@ -6,7 +6,7 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      afterResponse, may_edit, editLink, previewLink, stamp
+      afterResponse, editLink, previewLink, stamp
     } = this.props
 
     return (
@@ -32,7 +32,7 @@ export default class EditTranslationForm extends Component {
                 return(
                   <EditTranslationRow
                     key={property} property={property} formId={formId}
-                    source={source} may_edit={may_edit}
+                    source={source}
                   />
                 )
               })}

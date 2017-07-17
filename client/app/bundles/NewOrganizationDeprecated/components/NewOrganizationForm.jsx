@@ -62,7 +62,7 @@ export default class NewOrganizationForm extends React.Component {
           <InlineForm
             model='divisions' idOrNew='new' edit={null}
             wrapperClassName='form-group' className='form-control'
-            label='Abteilungen' attribute='divisions'
+            label='Divisions' attribute='divisions'
           />
           <button className='btn btn-default' type='submit' disabled='disabled'>
             Erstellen

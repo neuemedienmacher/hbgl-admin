@@ -5,7 +5,7 @@ for_offer_translation_1:
   creator_id: 1
   receiver_id: 2
   message: 'InitialFixtureAssignmentMessage'
-  aasm_state: 'open'
+  topic: 'translation'
 
 for_orga_translation_1:
   id: 2
@@ -14,4 +14,31 @@ for_orga_translation_1:
   creator_id: 2
   receiver_id: 1
   message: 'InitialFixtureAssignmentMessage'
-  aasm_state: 'open'
+  topic: 'translation'
+
+for_organization_1:
+  id: 3
+  assignable_type: Organization
+  assignable_id: 1
+  creator_id: 2
+  receiver_id: 1
+  message: 'InitialFixtureAssignmentMessage'
+  topic: 'new'
+
+for_offer_translation_2:
+  id: 4
+  assignable_type: OfferTranslation
+  assignable_id: 2
+  creator_id: 1
+  receiver_id: 2
+  message: 'InitialFixtureAssignmentMessage'
+  topic: 'translation'
+
+for_orga_translation_2:
+  id: 5
+  assignable_type: OrganizationTranslation
+  assignable_id: 2
+  creator_id: 2
+  receiver_id: 1
+  message: 'InitialFixtureAssignmentMessage'
+  topic: 'translation'

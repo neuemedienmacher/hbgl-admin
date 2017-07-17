@@ -18,7 +18,7 @@ describe API::V1::TimeAllocationsController do
     it 'fails with incomplete data' do
       sign_in users(:super)
       create_fails_with TimeAllocation, year: 2000
-      response.body.must_include 'User muss ausgefüllt werden'
+      response.body.must_include 'muss ausgefüllt werden'
     end
 
     it 'successfully responds to a valid request' do
@@ -27,7 +27,7 @@ describe API::V1::TimeAllocationsController do
     end
   end
 
-  describe '#create' do
+  describe '#update' do
     it 'unauthenticates a regular user' do
       TimeAllocation.create valid_params
       sign_in users(:researcher)
@@ -48,7 +48,8 @@ describe API::V1::TimeAllocationsController do
     set_jsonapi_raw_post({ actual_wa_hours: 1 }, TimeAllocation)
     post :report_actual, year: 2000, week_number: 1
     assert_response 200
-    response.body.must_include '{"data":{"type":"time_allocations","id":"2"'
+    response.body.must_include '"type":"time-allocations"'
+    response.body.must_include '"id":"2"'
     TimeAllocation.last.actual_wa_hours.must_equal 1
   end
 

@@ -8,7 +8,7 @@ class City < ActiveRecord::Base
   ORGANIZATION_THRESHOLD = Integer(ENV['THRESHOLDS_ORGA_COUNT'] || 1)
 
   # Associations
-  has_many :sections, -> { uniq }, through: :offers
+  has_many :sections, -> { uniq }, through: :offers, inverse_of: :cities
 
   include ReformedValidationHack
 
@@ -20,7 +20,7 @@ class City < ActiveRecord::Base
 
   # Search
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [:id, :name],
                   using: { tsearch: { prefix: true } }
 end

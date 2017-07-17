@@ -1,16 +1,22 @@
 import React, { PropTypes, Component } from 'react'
+import isEqual from 'lodash/isEqual'
 import InlineIndexTable from '../containers/InlineIndexTable'
 import InlinePagination from '../containers/InlinePagination'
 import InlineIndexHeader from '../containers/InlineIndexHeader'
 
 export default class InlineIndex extends Component {
   componentWillReceiveProps(nextProps) {
-    if (this.props.equalParams(nextProps.params, this.props.params) == false) {
-      this.props.loadData(nextProps.params, nextProps.model)
+    // console.log('componentWillReceiveProps!')
+    // console.log(this.props)
+    // console.log(nextProps)
+    if (isEqual(nextProps.params, this.props.params) == false ||
+        this.props.model != nextProps.model) {
+      this.props.loadData(nextProps.params, nextProps.model, false)
     }
   }
 
   componentDidMount() {
+    // console.log('componentDidMount!')
     this.props.loadData()
   }
 

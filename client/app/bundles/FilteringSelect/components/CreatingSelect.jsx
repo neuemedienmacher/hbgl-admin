@@ -6,8 +6,9 @@ import Form from '../../GenericForm/containers/Form'
 export default class CreatingSelect extends React.Component {
   render() {
     const {
-      multi, input, hasSubmodelForm, onAddSubmodelFormClick,
-      onRemoveSubmodelFormClick, submodelName, formId
+      multi, input, additionalSubmodelForms, onAddSubmodelFormClick,
+      onRemoveSubmodelFormClick, submodelName, formId, model, showSelect,
+      showButton, parentModels, disabled
     } = this.props
 
     return (
@@ -15,36 +16,39 @@ export default class CreatingSelect extends React.Component {
         <FilteringSelect multi={multi}
           wrapperClassName='form-group' className='form-control'
           label={input.attribute} attribute={input.attribute}
-          formId={formId} type={input.type}
+          formId={formId} type={input.type} resource={input.resource}
+          filters={input.filters} showSelect={showSelect} model={model}
+          disabled={disabled}
         >
-          {this._renderAdditionalObjectButton(
-            hasSubmodelForm, onAddSubmodelFormClick
-          )}
+          {showButton &&
+            this._renderAdditionalObjectButton(onAddSubmodelFormClick, disabled)}
 
-          {this._renderSubmodelForm(
-            hasSubmodelForm, submodelName, onRemoveSubmodelFormClick
-          )}
+          {additionalSubmodelForms.map(this._renderSubmodelForms(
+            model, submodelName, parentModels, onRemoveSubmodelFormClick))}
         </FilteringSelect>
       </div>
     )
   }
 
-  _renderAdditionalObjectButton(hasSubmodelForm, clickHandler) {
-    if (hasSubmodelForm) return
+  _renderAdditionalObjectButton(addHandler, disabled) {
     return(
-      <button onClick={clickHandler}>
+      <button disabled={disabled} onClick={addHandler}>
         ein neues Objekt hinzufügen
       </button>
     )
   }
 
-  _renderSubmodelForm(hasSubmodelForm, submodelName, clickHandler) {
-    if (!hasSubmodelForm) return
-    return(
-      <div style={{border: '1px solid black'}}>
-        <button onClick={clickHandler}>x</button>
-        <Form model={submodelName} />
-      </div>
-    )
+  _renderSubmodelForms(model, submodelName, parentModels, removeClickHandler) {
+    return (formId, index) => {
+      return(
+        <div style={{border: '1px solid black'}} key={index}>
+          <button onClick={removeClickHandler(formId)}>x</button>
+          <Form preventEnterSubmit
+            formId={formId} model={submodelName} nestingModel={model}
+            submodelPath={parentModels} submodelKey={index}
+          />
+        </div>
+      )
+    }
   }
 }

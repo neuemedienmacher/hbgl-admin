@@ -13,7 +13,7 @@ class OfferTranslation::Update < Trailblazer::Operation
   step Contract::Persist()
   step :reindex_offer
   step :create_new_assignment_if_assignable_should_be_reassigned!
-  step :create_assignment_for_organization_if_it_should_be_assigned!
+  step :create_optional_assignment_for_organization_translation!
 
   extend Contract::DSL
   contract do

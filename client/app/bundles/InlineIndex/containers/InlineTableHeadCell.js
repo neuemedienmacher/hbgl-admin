@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import merge from 'lodash/merge'
 import clone from 'lodash/clone'
 import forEach from 'lodash/forEach'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import InlineTableHeadCell from '../components/InlineTableHeadCell'
 
 const mapStateToProps = (state, ownProps) => {
@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     forEach(tempParams, function(value, key) {
       if(value != null) { finalParams[key] = value }
     });
-    dispatch(setUiAction(ownProps.uiKey, finalParams))
+    dispatch(setUi(ownProps.uiKey, finalParams))
   }
 })
 

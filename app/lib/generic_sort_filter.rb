@@ -2,14 +2,30 @@
 # rubocop:disable Metrics/ModuleLength
 module GenericSortFilter
   def self.transform(base_query, params)
+    adjusted_params = snake_case_contents(params)
     query = ensure_query(base_query)
-    query = transform_by_searching(query, params[:query])
-    query = transform_by_joining(query, params)
-    query = transform_by_ordering(query, params)
-    transform_by_filtering(query, params)
+    query = transform_by_searching(query, adjusted_params[:query])
+    query = transform_by_joining(query, adjusted_params)
+    query = transform_by_ordering(query, adjusted_params)
+    transform_by_filtering(query, adjusted_params).uniq
   end
 
   private_class_method
+
+  UNDERSCORABLE_PARAMS = [:sort_field, :sort_model, :filters, :operators].freeze
+  def self.snake_case_contents(original_params)
+    original_params.map do |key, value|
+      if UNDERSCORABLE_PARAMS.include?(key.to_sym)
+        if value.is_a?(Hash)
+          [key.to_sym, value.map { |k, v| [k.underscore, v] }.to_h]
+        else
+          [key.to_sym, value.underscore]
+        end
+      else
+        [key.to_sym, value]
+      end
+    end.to_h
+  end
 
   # In case only a model was passed in, to unify object handling, turn it into
   # a query
@@ -18,23 +34,23 @@ module GenericSortFilter
   end
 
   def self.transform_by_searching(query, param)
-    if !param || param.empty? || query.search_everything(param).nil?
+    if !param || param.empty? || query.search_pg(param).nil?
       query
     else
-      query.search_everything(param).with_pg_search_rank
+      query.search_pg(param).with_pg_search_rank
     end
   end
 
   def self.transform_by_joining(query, params)
     if params[:sort_model]
-      query = query.eager_load(params[:sort_model].split('.').first)
+      query = query.joins(params[:sort_model].split('.').first)
     end
 
     params[:filters]&.each do |filter, _value|
       next unless filter['.']
       association_name = filter.split('.').first
       next if referring_to_own_table?(query, association_name) # dont join self
-      query = query.eager_load(association_name.to_sym)
+      query = query.joins(association_name.to_sym)
     end
 
     query
@@ -62,7 +78,6 @@ module GenericSortFilter
       filter_strings = singular_or_multiple_values.map do |singular_value|
         build_singular_filter_query(query, params, filter, singular_value)
       end
-
       query = query.where(filter_strings.join(join_operator(params, filter)))
     end
     query

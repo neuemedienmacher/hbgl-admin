@@ -20,14 +20,6 @@ function evaluateContentType(content, name) {
   if (contentType == 'string' && timeStringRegex.test(content)) {
     contentType = 'time'
   }
-  // else if (contentType == 'number'){
-  //   let splitted_name = name.split('_')
-  //   if (splitted_name.length > 1 && splitted_name[splitted_name.length-1] == 'id'){
-  //     console.log(splitted_name)
-  //   }
-  // }
-  // console.log(contentType)
-  // console.log(name)
   return contentType
 }
 

@@ -1,4 +1,5 @@
 import { encode } from 'querystring'
+import keys from 'lodash/keys'
 
 const loadForFilteringSelectRequest = (key, input) => ({
   type: 'LOAD_FOR_FILTERING_SELECT_REQUEST',
@@ -12,20 +13,25 @@ const loadForFilteringSelectFailure = (error, key) => ({
   key
 })
 
-const loadForFilteringSelectSuccess = (key, options) => ({
+export const addForFilteringSelect = (key, options) => ({
   type: 'LOAD_FOR_FILTERING_SELECT_SUCCESS',
   key,
   options,
 })
 
-// INFO: optional nextModel is required for different transformer (field_sets)
-export default function loadForFilteringSelect(
-  input, associatedModel
+export function loadForFilteringSelect(
+  input, associatedModel, filters = {}, ids = ''
 ) {
-  const path = `/api/v1/${associatedModel}?query=${input}`
+  let path = `/api/v1/${associatedModel}`
+  let paramHash = {}
+
+  if (ids) filters.id = ids.split(',')
+  if (input) paramHash.query = input
+  if (keys(filters).length) paramHash.filters = filters
+  if (keys(paramHash).length) path += '?' + $.param(paramHash)
 
   return function(dispatch) {
-    dispatch(loadForFilteringSelectRequest(associatedModel, input))
+    dispatch(loadForFilteringSelectRequest(associatedModel, `${input},${ids}`))
 
     return fetch(path, {
       method: 'GET',
@@ -35,13 +41,15 @@ export default function loadForFilteringSelect(
         const { status, statusText } = response
         if (status >= 400) {
           dispatch(loadForFilteringSelectFailure(response, associatedModel))
-          throw new Error(`Load for FilteringSelect Error ${status}: ${statusText}`)
+          throw new Error(
+            `Load for FilteringSelect Error ${status}: ${statusText}`
+          )
         }
         return response.json()
       }
     ).then(json => {
       dispatch(
-        loadForFilteringSelectSuccess(associatedModel, json.data.map(datum => (
+        addForFilteringSelect(associatedModel, json.data.map(datum => (
           { value: datum.id, label: datum.attributes.label }
         )))
       )

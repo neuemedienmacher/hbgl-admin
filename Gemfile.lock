@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/apotonick/roar.git
-  revision: 020beef5a19a96feda8626fb5e0581b305f384d5
+  revision: edcd8efa0181d689b0b1cfc950acb1108a2efa82
   branch: master
   specs:
     roar (1.1.0)
@@ -8,7 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 0c9b8d8b7c8664317cc2bc419852c3edbaac8ef5
+  revision: e4c08ce530cec438dfe7ccb9fc8d8dd1cfbab3bf
+  branch: feature/944-945-orga-division-2
   specs:
     clarat_base (0.1.4)
       aasm
@@ -39,9 +40,10 @@ GIT
 
 GIT
   remote: git://github.com/trailblazer/roar-jsonapi.git
-  revision: 9b5abb18f8681babefe0b71039bcf67608efeefa
+  revision: 3ca7fa8e0f5af83faa6d188fd1916d490776f084
   specs:
-    roar-jsonapi (0.0.1)
+    roar-jsonapi (0.0.3)
+      representable (~> 3.0, >= 3.0.3)
       roar (~> 1.1)
 
 GIT
@@ -177,18 +179,22 @@ GEM
     dalli (2.7.6)
     database_cleaner (1.5.3)
     debug_inspector (0.0.3)
-    declarative (0.0.8)
-      uber (>= 0.0.15)
+    declarative (0.0.9)
+    declarative-builder (0.1.0)
+      declarative-option (< 0.2.0)
+    declarative-option (0.1.0)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
-    disposable (0.3.2)
-      declarative (>= 0.0.8, < 1.0.0)
+    disposable (0.4.3)
+      declarative (>= 0.0.9, < 1.0.0)
+      declarative-builder (< 0.2.0)
+      declarative-option (< 0.2.0)
       representable (>= 2.4.0, <= 3.1.0)
-      uber
+      uber (< 0.2.0)
     docile (1.1.5)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
@@ -376,7 +382,7 @@ GEM
     newrelic_rpm (3.17.2.327)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    nokogumbo (1.4.11)
+    nokogumbo (1.4.13)
       nokogiri
     orm_adapter (0.5.0)
     paper_trail (7.1.0)
@@ -389,8 +395,7 @@ GEM
       activerecord (>= 4.2)
       activesupport (>= 4.2)
       arel (>= 6)
-    pipetree (0.0.5)
-      uber
+    pipetree (0.1.1)
     powerpack (0.1.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -528,17 +533,17 @@ GEM
     redis-namespace (1.5.3)
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
-    reform (2.2.3)
-      disposable (>= 0.3.0, < 0.4.0)
+    reform (2.2.4)
+      disposable (>= 0.4.1)
       representable (>= 2.4.0, < 3.1.0)
-      uber (>= 0.0.15, < 0.2.0)
     reform-rails (0.1.7)
       activemodel (>= 3.2)
       reform (>= 2.2.0)
     remotipart (1.3.1)
-    representable (3.0.2)
-      declarative (~> 0.0.5)
-      uber (>= 0.0.15, < 0.2.0)
+    representable (3.0.4)
+      declarative (< 0.1.0)
+      declarative-option (< 0.2.0)
+      uber (< 0.2.0)
     request_store (1.3.2)
     require_all (1.3.3)
     responders (2.3.0)
@@ -638,18 +643,17 @@ GEM
     tilt (2.0.7)
     timecop (0.8.1)
     tins (1.13.0)
-    trailblazer (2.0.0)
+    trailblazer (2.0.6)
       declarative
       reform (>= 2.2.0, < 3.0.0)
-      trailblazer-operation (>= 0.0.9)
-      uber (>= 0.1.0, < 0.2.0)
+      trailblazer-operation (>= 0.0.12, < 0.1.0)
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-loader (0.1.0)
-    trailblazer-operation (0.0.9)
+    trailblazer-operation (0.0.13)
       declarative
-      pipetree (>= 0.0.5, < 0.1.0)
-      uber (>= 0.1.0, < 0.2.0)
+      pipetree (>= 0.1.1, < 0.2.0)
+      uber
     trailblazer-rails (1.0.0)
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0.beta1, < 2.1.0)
@@ -741,7 +745,6 @@ DEPENDENCIES
   multi_json
   newrelic_rpm
   nokogiri (= 1.6.7.2)
-  nokogumbo (= 1.4.11)
   pg
   pg_search
   pry-byebug
@@ -772,7 +775,7 @@ DEPENDENCIES
   rails_admin_nestable
   rails_best_practices
   rake
-  react_on_rails
+  react_on_rails (< 7.0.0)
   reform
   roar!
   roar-jsonapi!

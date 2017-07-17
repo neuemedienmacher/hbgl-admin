@@ -19,13 +19,22 @@ export default class AssignmentActions extends Component {
   }
 
   renderForm(action) {
-    const { afterResponse, users } = this.props
+    const { afterResponse, users, topics, assignment } = this.props
 
     const optionalUserSelection = action.userChoice ?
       <div className="select-wrapper">
         <InputSet
           wrapperClassName='form-group' className='form-control'
-          label='an' type='select' attribute='receiver_id' options={users}
+          label='an' type='select' attribute='receiver-id' options={users}
+        />
+      </div> : null
+
+    const optionalTopicSelection = action.topicChoice ?
+      <div className="select-wrapper">
+        <InputSet
+          wrapperClassName='form-group' className='form-control'
+          label='zum Thema' type='select' attribute='topic' options={topics}
+          selected={assignment.topic}
         />
       </div> : null
 
@@ -46,6 +55,7 @@ export default class AssignmentActions extends Component {
       >
         {optionalMessage}
         {optionalUserSelection}
+        {optionalTopicSelection}
         <button type='submit' className='btn btn-default'>
           {action.buttonText}
         </button>

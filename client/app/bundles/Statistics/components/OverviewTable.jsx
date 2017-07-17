@@ -24,7 +24,7 @@ export default class OverviewTable extends React.Component {
       <div>
         <Form id={stateKey}>
           <FilteringSelect
-            attribute='city' associatedModel='city' placeholder='Stadt…'
+            attribute='city' resource='city' placeholder='Stadt…'
             onChange={onCityChange}
           />
         </Form>

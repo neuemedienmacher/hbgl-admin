@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Export from '../components/Export'
+import { singularize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
   const pathname = ownProps.location.pathname
@@ -19,8 +20,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
   // manually
   const transformResponse = function(apiResponse, nextModel) {
-    let object = { field_sets: {} }
-    object.field_sets[nextModel] = apiResponse
+    let object = { 'field-sets': {} }
+    object['field-sets'][nextModel] = apiResponse
     return object
   }
 
@@ -30,12 +31,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     loadData() {
-      const singularModel =
-        stateProps.model.substr(0, stateProps.model.length - 1)
+      const singularModel = singularize(stateProps.model)
 
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field_set',
+          'field_set/' + singularModel, {}, 'field-set',
           transformResponse, stateProps.model
         )
       )

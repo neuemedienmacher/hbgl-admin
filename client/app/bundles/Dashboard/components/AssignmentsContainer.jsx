@@ -11,10 +11,10 @@ export default class AssignmentsContainer extends Component {
 
     return (
       <div className="panel-group">
-        {this.teamSelectOrNull(this.props.selectable_data)}
+        {this.teamSelectOrNull(this.props.selectableData)}
         <b>{heading}</b>
         <InlineIndex
-          model={model} identifier_addition={scope}
+          model={model} identifierAddition={scope}
           lockedParams={lockedParams} optionalParams={optionalParams}
         />
       </div>

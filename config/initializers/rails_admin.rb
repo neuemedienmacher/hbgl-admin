@@ -96,7 +96,7 @@ RailsAdmin.config do |config|
     field :description do
       css_class 'js-count-character'
     end
-    field :notes
+    field :comment
     field :locations
     field :legal_form
     field :charitable
@@ -112,7 +112,7 @@ RailsAdmin.config do |config|
       read_only true
     end
 
-    field :websites
+    field :website
     field :contact_people
     field :mailings do
       help do

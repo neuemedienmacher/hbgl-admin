@@ -25,6 +25,7 @@ export function singularize(string) {
     [ /((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)(sis|ses)$/i, '$1sis' ],
     [ /([ti])a$/i, '$1um' ],
     [ /(n)ews$/i, '$1ews' ],
+    [ /(pe)ople$/i, '$1rson' ],
     [ /(ss)$/i, '$1' ],
     [ /s$/i, '' ],
   ]
@@ -52,6 +53,8 @@ export function pluralize(string) {
     [ /(octop|vir)i$/i, '$1i' ],
     [ /(octop|vir)us$/i, '$1i' ],
     [ /^(ax|test)is$/i, '$1es' ],
+    [ /(people)$/i, '$1' ],
+    [ /(pe)rson$/i, '$1ople' ],
     [ /s$/, 's' ],
     [ /$/, 's' ],
   ]

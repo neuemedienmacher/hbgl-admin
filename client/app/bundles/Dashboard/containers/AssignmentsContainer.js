@@ -6,24 +6,25 @@ import AssignmentsContainer from '../components/AssignmentsContainer'
 const mapStateToProps = (state, ownProps) => {
   const scope = ownProps.scope
   const model = 'assignments'
-  const user = state.entities.users[state.entities.current_user.id]
-  let system_user =
+  const user = state.entities.users[state.entities['current-user-id']]
+  let systemUser =
     filter(state.entities.users, {'name': 'System'} )[0]
 
   let itemId = user.id
-  let selectable_data = []
-  if (scope == 'receiver_team'){
-    selectable_data = valuesIn(state.entities.user_teams).filter(
-      team => user.user_team_ids.includes(team.id)
+  let selectableData = []
+  if (scope == 'receiverTeam'){
+    selectableData = valuesIn(state.entities['user-teams']).filter(
+      team => user['user-team-ids'].includes(team.id) ||
+              user['observed-user-team-ids'].includes(team.id)
     ).map(team => [team.id, team.name])
     let selectIdentifier = 'controlled-select-view-team-assignments'
     itemId = state.ui[selectIdentifier] !== undefined ?
              state.ui[selectIdentifier] :
-             selectable_data[0][0]
+             selectableData[0][0]
   }
-  const lockedParams = lockedParamsFor(scope, itemId, system_user.id)
+  const lockedParams = lockedParamsFor(scope, itemId, systemUser.id)
   const optionalParams =
-    { 'sort_field': 'updated_at', 'sort_direction': 'DESC' }
+    { 'sort_field': 'updated-at', 'sort_direction': 'DESC' }
   const heading = headingFor(scope)
 
   return {
@@ -32,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
     lockedParams,
     optionalParams,
     scope,
-    selectable_data
+    selectableData
   }
 }
 
@@ -42,38 +43,38 @@ function headingFor(scope) {
   switch(scope) {
   case 'receiver':
     return 'Dir zugewiesene, offene Aufgaben:'
-  case 'creator_open':
+  case 'creatorOpen':
     return 'Von dir erstellte, offene Aufgaben:'
-  case 'receiver_closed':
+  case 'receiverClosed':
     return 'Von dir empfangene, abgeschlossene Aufgaben:'
-  case 'receiver_team':
+  case 'receiverTeam':
     return 'Diesem Team zugewiesene, offene Aufgaben: '
   default:
     return ''
   }
 }
 
-function lockedParamsFor(scope, id, sys_id) {
+function lockedParamsFor(scope, id, systemId) {
   switch(scope) {
   case 'receiver':
     return {
-      'filters[receiver_id]': id, 'per_page': 10, 'filters[aasm_state]': 'open'
+      'filters[receiver-id]': id, 'per_page': 10, 'filters[aasm-state]': 'open'
     }
-  case 'creator_open':
+  case 'creatorOpen':
     return {
-      'filters[creator_id]': id, 'filters[aasm_state]': 'open', 'per_page': 10,
-      'filters[receiver_id]': sys_id, 'operators[receiver_id]': '!=',
-      'filters[created_by_system]': 'false'
+      'filters[creator-id]': id, 'filters[aasm-state]': 'open', 'per_page': 10,
+      'filters[receiver-id]': systemId, 'operators[receiver-id]': '!=',
+      'filters[created-by-system]': 'false'
     }
-  case 'receiver_closed':
+  case 'receiverClosed':
     return {
-      'filters[receiver_id]': id, 'per_page': 10, 'filters[aasm_state]': 'closed'
+      'filters[receiver-id]': id, 'per_page': 10, 'filters[aasm-state]': 'closed'
     }
-  case 'receiver_team':
+  case 'receiverTeam':
     return {
-      'filters[receiver_team_id]': id, 'filters[receiver_id]': 'nil',
-      'operators[receiver_id]': '=', 'per_page': 10,
-      'filters[aasm_state]': 'open'
+      'filters[receiver-team-id]': id, 'filters[receiver-id]': 'nil',
+      'operators[receiver-id]': '=', 'per_page': 10,
+      'filters[aasm-state]': 'open'
     }
   default:
     return {}

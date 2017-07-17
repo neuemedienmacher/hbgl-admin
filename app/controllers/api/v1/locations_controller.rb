@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 module API::V1
-  class LocationsController < BackendController
-    respond_to :json
+  class LocationsController < API::V1::BackendController
   end
 end

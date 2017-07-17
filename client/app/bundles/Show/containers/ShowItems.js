@@ -1,40 +1,36 @@
 import { connect } from 'react-redux'
 import toPairs from 'lodash/toPairs'
+import kebabCase from 'lodash/kebabCase'
 import ShowItems from '../components/ShowItems'
+import { pluralize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
   // read model instance
-  const model_instance = state.entities[ownProps.model] &&
+  const modelInstance = state.entities[ownProps.model] &&
     state.entities[ownProps.model][ownProps.id]
-  const loaded = !!model_instance
+  const loaded = !!modelInstance
   // read own fields and associations of current model from the state
-  const field_set =  state.entities.field_sets &&
-    state.entities.field_sets[ownProps.model]
-  const column_names = filterFields(
-    field_set && field_set.column_names || [],
-    model_instance || {}
+  const fieldSet =  state.entities['field-sets'] &&
+    state.entities['field-sets'][ownProps.model]
+  const columnNames = filterFields(
+    fieldSet && fieldSet['column-names'] || [],
+    modelInstance || {}
   )
-  const associations = filterAssociations(
-    toPairs(field_set && field_set.associations || {}),
-    model_instance || {}
-  )
-
+  const associations = toPairs(fieldSet && fieldSet.associations || {})
+  // console.log('filtered:', associations)
   return {
-    model_instance,
+    modelInstance,
     associations,
-    column_names,
-    loaded
+    columnNames,
+    loaded,
+    model: ownProps.model
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
-function filterFields(fields, model_instance) {
-  return fields.filter(field => model_instance[field] != undefined)
-}
-
-function filterAssociations(assocs, model_instance) {
-  return assocs.filter(assoc => model_instance[assoc[0]] != undefined)
+function filterFields(fields, modelInstance) {
+  return fields.filter(field => modelInstance[field] != undefined )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowItems)

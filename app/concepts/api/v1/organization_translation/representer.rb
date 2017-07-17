@@ -2,25 +2,30 @@
 module API::V1
   module OrganizationTranslation
     module Representer
-      class Show < API::V1::Assignable::Representer::Show
-        type :organization_translations
+      class Show < Roar::Decorator
+        include Roar::JSON::JSONAPI.resource :organization_translations
+        include API::V1::Assignable::Representer
 
-        property :label, getter: ->(ot) do
-          "##{ot[:represented].id} (#{ot[:represented].locale})"
+        attributes do
+          property :label, getter: ->(ot) do
+            "##{ot[:represented].id} (#{ot[:represented].locale})"
+          end
+          property :locale
+          property :source
+          property :description
+          property :possibly_outdated
+          property :created_at
+          property :updated_at
+
+          property :organization_id
         end
-        property :organization_id
-        property :locale
-        property :source
-        property :description
-        property :possibly_outdated
-        property :created_at
-        property :updated_at
 
-        has_one :organization do
+        has_one :organization, class: ::Organization do
           type :organizations
 
-          property :id
-          property :description
+          attributes do
+            property :description
+          end
         end
 
         # property :organization_section, getter: ->(ot) do

@@ -60,7 +60,7 @@ describe Offer do
 
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
-        offer = FactoryGirl.create :offer, :approved
+        offer = FactoryGirl.create :offer, :approved, :with_location
         duplicate = offer.partial_dup
         assert_nil duplicate.created_by
         duplicate.location.must_equal offer.location
@@ -72,32 +72,8 @@ describe Offer do
         duplicate.websites.must_equal offer.websites
         duplicate.contact_people.must_equal offer.contact_people
         duplicate.tags.must_equal offer.tags
-        duplicate.area.must_equal offer.area
+        assert_nil duplicate.area
         duplicate.aasm_state.must_equal 'initialized'
-      end
-    end
-
-    describe 'validations' do
-      it 'should validate that section filters of offer and categories match '\
-         'and that the correct error messages are generated' do
-        category = FactoryGirl.create(:category)
-        category.sections = [sections(:family)]
-        basicOffer.categories = [category]
-        basicOffer.section = sections(:refugees)
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_include(
-          "benötigt mindestens eine 'Refugees' Kategorie\n"
-        )
-        basicOffer.errors.messages[:categories].wont_include(
-          "benötigt mindestens eine 'Family' Kategorie\n"
-        )
-        basicOffer.section = sections(:refugees)
-        category.sections = [sections(:refugees)]
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_be :nil?
-        category.sections = [sections(:refugees), sections(:family)]
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_be :nil?
       end
     end
 

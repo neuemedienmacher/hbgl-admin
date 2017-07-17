@@ -2,7 +2,7 @@ import { FormObject, JsonApiAdapter } from 'rform'
 
 export default class OrganizationTranslationFormObject extends FormObject {
   static get model() {
-    return 'organization_translation'
+    return 'organization-translation'
   }
 
   static get properties() {

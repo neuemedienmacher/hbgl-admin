@@ -6,7 +6,7 @@ import filter from 'lodash/filter'
 import { encode } from 'querystring'
 import { browserHistory } from 'react-router'
 import settings from '../../../lib/settings'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import { analyzeFields } from '../../../lib/settingUtils'
 import IndexHeaderFilter from '../components/IndexHeaderFilter'
 
@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     const params = omit(clone(ownProps.params),
                   [ownProps.filter[0], 'operators[' + filterId[1]])
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      dispatch(setUi(ownProps.uiKey, params))
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     newParam[`filters[${event.target.value}]`] = ''
     params = merge(params, newParam)
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      dispatch(setUi(ownProps.uiKey, params))
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     params = merge(params, newParam)
 
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      dispatch(setUi(ownProps.uiKey, params))
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       params[ownProps.filter[0]] = ''
     }
     if (ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      dispatch(setUi(ownProps.uiKey, params))
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
@@ -104,7 +104,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let params = clone(ownProps.params)
     params[ownProps.filter[0]] = event.target.value
     if(ownProps.uiKey){
-      dispatch(setUiAction(ownProps.uiKey, params))
+      dispatch(setUi(ownProps.uiKey, params))
     }
     else{
       browserHistory.replace(`/${ownProps.model}?${encode(params)}`)

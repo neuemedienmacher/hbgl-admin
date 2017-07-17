@@ -1,17 +1,19 @@
 import { connect } from 'react-redux'
-import setUiAction from '../actions/setUi'
+import { setUi } from '../actions/setUi'
 import TopNav from '../components/TopNav'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    routes: routesForRole(state.entities.current_user.role),
+    routes: routesForRole(
+      state.entities.users[state.entities['current-user-id']].role
+    ),
     activeKey: state.ui.activeKey,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSelect(eventKey) {
-    dispatch(setUiAction('activeKey', eventKey))
+    dispatch(setUi('activeKey', eventKey))
   }
 })
 
@@ -20,12 +22,12 @@ const superuser = ['super']
 const routes = [
   {
     id: 1,
-    pathname: '/offer_translations',
+    pathname: '/offer-translations',
     anchor: 'Offer Translations',
     access: all,
   }, {
     id: 2,
-    pathname: '/organization_translations',
+    pathname: '/organization-translations',
     anchor: 'Orga Translations',
     access: all,
   }, {
@@ -36,7 +38,7 @@ const routes = [
   }, {
     id: 4,
     pathname: '/divisions',
-    anchor: 'Abteilungen',
+    anchor: 'Divisions',
     access: all,
   }, {
     id: 5,
@@ -50,7 +52,7 @@ const routes = [
     access: all,
   }, {
     id: 7,
-    pathname: '/user_teams',
+    pathname: '/user-teams',
     anchor: 'Teams',
     access: superuser,
   }, {
@@ -63,15 +65,40 @@ const routes = [
     pathname: '/assignments',
     anchor: 'Zuweisungen',
     access: superuser,
+  }, {
+    id: 10,
+    pathname: '/locations',
+    anchor: 'Standorte',
+    access: all,
+  }, {
+    id: 11,
+    pathname: '/cities',
+    anchor: 'Städte',
+    access: all,
+  }, {
+    id: 12,
+    pathname: '/federal-states',
+    anchor: 'Bundesländer',
+    access: all,
+  }, {
+    id: 13,
+    pathname: '/contact-people',
+    anchor: 'Kontaktpersonen',
+    access: all,
+  }, {
+    id: 14,
+    pathname: '/emails',
+    anchor: 'Emails',
+    access: all,
   }/*,
   {
     id: 10,
-    pathname: '/statistic_charts',
+    pathname: '/statistic-charts',
     anchor: 'Produktivitätsziele',
     access: superuser,
   }, {
     id: 11,
-    pathname: '/time_allocations',
+    pathname: '/time-allocations',
     anchor: 'Ressourcenplanung',
     access: superuser,
   }

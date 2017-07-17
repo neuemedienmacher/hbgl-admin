@@ -11,11 +11,9 @@ class ReactCell < Cell::ViewModel
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def props
     {
-      user_teams: UserTeam.all.map { |team| UserTeam::Representer.new(team) },
-      users: User.all.map { |user| User::Representer.new(user) },
-      current_user: User::Representer.new(options[:current_user]),
-
-      filters: Filter.all.map(&:attributes),
+      'user-teams': API::V1::UserTeam::Representer::Show.for_collection.new(UserTeam.all).to_hash,
+      users: API::V1::User::Representer::Show.for_collection.new(User.all).to_hash,
+      'current-user-id': options[:current_user].id,
 
       authToken: options[:form_authenticity_token],
       settings: {
@@ -28,7 +26,13 @@ class ReactCell < Cell::ViewModel
           target_field_values: StatisticChart::TARGET_FIELD_VALUES
         },
         assignments: {
-          assignable_models: Assignment::ASSIGNABLE_MODELS
+          assignable_models: Assignment::ASSIGNABLE_MODELS,
+          topics: Assignment::TOPICS
+        },
+        actions: {
+          organizations: Organization.aasm.events.map(&:name),
+          offers: Organization.aasm.events.map(&:name),
+          divisions: %w(mark_as_done mark_as_not_done)
         }
       }
     }

@@ -13,7 +13,7 @@ export default class ActualWaForm extends React.Component {
   render() {
     const {
       time_allocation, startDate, endDate, action, formId,
-      buttonDisabled, handleResponse,
+      buttonDisabled, afterResponse,
     } = this.props
 
     return (
@@ -37,7 +37,7 @@ export default class ActualWaForm extends React.Component {
               className='form-inline'
               formObjectClass={ActualWaFormObject}
               id={formId}
-              handleResponse={handleResponse}
+              afterResponse={afterResponse}
             >
               <div className='form-group'>
                 <InputSet

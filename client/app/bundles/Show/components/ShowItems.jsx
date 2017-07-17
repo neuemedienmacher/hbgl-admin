@@ -7,7 +7,7 @@ import ShowFieldItem from '../containers/ShowFieldItem'
 export default class ShowItems extends React.Component {
   render() {
     const {
-      model_instance, associations, column_names, loaded
+      modelInstance, associations, columnNames, loaded, model
     } = this.props
 
     if(loaded){
@@ -15,11 +15,16 @@ export default class ShowItems extends React.Component {
         <div className="content ShowList">
           <div className="panel-group">
             <h5 className="section-title">Eigene Felder</h5>
-            {column_names.map(name =>
-              <ShowFieldItem key={name} name={name} content={model_instance[name]}/>
+            {columnNames.map(name =>
+              <ShowFieldItem
+                key={name} name={name} content={modelInstance[name]}
+              />
             )}
           </div>
-          <AssociationItems model_instance={model_instance} associations={associations}/>
+          <AssociationItems
+            modelInstance={modelInstance} associations={associations}
+            model={model}
+          />
         </div>
       )
     }

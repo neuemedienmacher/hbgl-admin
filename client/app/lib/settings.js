@@ -1,16 +1,16 @@
 export default {
   index: {
     assignable: {
-      assignment_actions: [
-        'assign_someone_else', 'retrieve_assignment', 'assign_to_system',
-        'assign_to_current_user'
+      'assignment-actions': [
+        'assign-someone-else', 'retrieve-assignment', 'assign-to-system',
+        'assign-to-current-user'
       ]
     },
 
-    offer_translations: {
+    'offer-translations': {
       fields: [
-        'id', 'offer_id', 'locale', 'source', 'name', 'offer_stamp',
-        'possibly_outdated', {offer: ['approved_at', 'created_by']}
+        'id', 'offer-id', 'locale', 'source', 'name', 'offer_stamp',
+        'possibly-outdated', {offer: ['approved-at', 'created-by']}
       ],
       general_actions: [
         'index', 'export'
@@ -20,10 +20,10 @@ export default {
       ]
     },
 
-    organization_translations: {
+    'organization-translations': {
       fields: [
-        'id', 'organization_id', 'locale', 'source', 'description',
-        'possibly_outdated', {organization: ['approved_at']}
+        'id', 'organization-id', 'locale', 'source', 'description',
+        'possibly-outdated', {organization: ['approved-at']}
       ],
       general_actions: [
         'index', 'export'
@@ -33,9 +33,9 @@ export default {
       ]
     },
 
-    statistic_charts: {
+    'statistic-charts': {
       fields: [
-        'id', 'title', 'ends_at', 'target_model', 'target_field_name'
+        'id', 'title', 'ends-at', 'target-model', 'target-field-name'
       ],
       general_actions: [
         'index', 'new'
@@ -47,8 +47,8 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', 'aasm_state', 'created_by', 'expires_at',
-        'logic_version_id', { section: ['name'] }
+        'id', 'name', 'aasm-state', 'created-by', 'expires-at',
+        'logic-version-id', { section: ['name'] }
       ],
       general_actions: [
         'index', 'export'
@@ -58,9 +58,74 @@ export default {
       ]
     },
 
+    locations: {
+      fields: [
+        'id', 'name', 'street', 'addition', 'zip', 'hq', 'visible', 'in-germany',
+        { 'federal-state': ['name'] }, { organization: ['name'] },
+        { city: ['name'] }
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit'
+      ]
+    },
+
+    cities: {
+      fields: [
+        'id', 'name'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'federal-states': {
+      fields: [
+        'id', 'name'
+      ],
+      general_actions: [
+        'index', 'export',
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'contact-people': {
+      fields: [
+        'id', 'first-name', 'last-name', { organization: ['name'] },
+        { email: ['address'] }, 'area-code-1', 'local-number-1', 'area-code-2',
+        'local-number-2'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit'
+      ]
+    },
+
+    emails: {
+      fields: [
+        'id', 'address'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
     users: {
       fields: [
-        'id', 'name', 'email', { user_teams: ['name'] }
+        'id', 'name', 'email', { 'user-teams': ['name'] },
+        { 'observed-user-teams': ['name'] }
       ],
       general_actions: [
         'index'
@@ -72,31 +137,34 @@ export default {
 
     organizations: {
       fields: [
-        'id', 'offers_count', 'name', 'aasm_state', 'locations_count'
+        'id', 'offers-count', 'name', 'aasm-state', 'pending-reason',
+        'locations-count'
       ],
       general_actions: [
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show'
+        'show', 'edit'
       ]
     },
 
     divisions: {
       fields: [
-        'id', 'name', { organization: ['name'] }
+        'id', 'name', { organization: ['name'] }, { section: ['identifier'] },
+        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
       ],
       general_actions: [
-        'index', 'export', 'new'
+        'index', 'export', 'new',
       ],
       member_actions: [
-        'show'
+        'show', 'edit'
       ]
     },
 
-    user_teams: {
+    'user-teams': {
       fields: [
-        'id', 'name', 'classification', { users: ['name'] }
+        'id', 'name', 'classification', { users: ['name'] },
+        { 'observing-users': ['name'] }
       ],
       general_actions: [
         'index', 'new',
@@ -108,14 +176,14 @@ export default {
 
     assignments: {
       fields: [
-        'id', 'assignable_id', 'assignable_type', 'creator_id', 'creator_team_id',
-        'receiver_id', 'receiver_team_id', 'message', 'topic', 'aasm_state',
-        'created_at', 'updated_at'
+        'id', 'assignable-id', 'assignable-type', 'creator-id', 'creator-team-id',
+        'receiver-id', 'receiver-team-id', 'message', 'topic', 'aasm-state',
+        'created-at', 'updated-at'
       ],
       inline_fields: [
-        'assignable_type', 'assignable_id', 'topic',
-        {assignable: ['label', 'created_at']},
-        {creator: ['name']}, 'message', 'updated_at'
+        'assignable-type', 'assignable-id', 'topic',
+        {assignable: ['label', 'created-at']},
+        {creator: ['name']}, 'message', 'updated-at'
       ],
       general_actions: [
         'index'
@@ -124,9 +192,49 @@ export default {
         'edit_assignable'
       ]
     },
+
+    sections: {
+      fields: [
+        'id', 'name', 'identifier'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ],
+    },
+
+    categories: {
+      fields: [
+        'id', 'name-de', 'sort-order', 'visible', 'parent-id'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'solution-categories': {
+      fields: [
+        'id', 'name', 'parent-id'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    }
   },
 
   OPERATORS: ['=', '!=', '<', '>'],
-
   SECTIONS: ['family', 'refugees'],
+  AFTER_SAVE_ACTIONS: {
+    'to_edit': 'Bei dieser Instanz bleiben',
+    'to_table': 'Zurück zur Tabelle',
+    'to_new': 'Neues Objekt anlegen'
+  }
 }

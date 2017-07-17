@@ -2,40 +2,40 @@ import { connect } from 'react-redux'
 import isArray from 'lodash/isArray'
 import { updateAction, navigateThroughSubmodels } from 'rform'
 import { pluralize } from '../../../lib/inflection'
-import loadForFilteringSelect from '../actions/loadForFilteringSelect'
+import { loadForFilteringSelect } from '../actions/loadForFilteringSelect'
 import FilteringSelect from '../components/FilteringSelect'
 
 const mapStateToProps = (state, ownProps) => {
-  const { attribute, submodel, submodelIndex } = ownProps
-  // remove last "_id" from attribute
-  let associatedModel = ownProps.associatedModel ||
-    ownProps.attribute.replace(/_id([^_id]*)$/, '$1')
+  const { attribute, submodelPath } = ownProps
+  // remove last "-id(s)" from attribute
+  let resource = ownProps.resource || attribute.replace(/(-id|-ids)$/, '')
   // pluralize
-  associatedModel = pluralize(associatedModel)
+  resource = pluralize(resource)
 
   const formState = state.rform[ownProps.formId]
-  const statePath =
-    navigateThroughSubmodels(formState, submodel, submodelIndex)
+  const statePath = navigateThroughSubmodels(formState, submodelPath)
 
   let value = statePath && statePath[attribute]
 
   // Server gives array elements as list of ids. Transform it to simpleValue
   if (isArray(value)) value = value.join(',')
 
-  const options = state.filteringSelect.options[associatedModel] || []
-  const isLoading = state.filteringSelect.isLoading[associatedModel] || false
+  const options = state.filteringSelect.options[resource] || []
+  const isLoading = state.filteringSelect.isLoading[resource] || false
   const alreadyLoadedInputs =
-    state.filteringSelect.alreadyLoadedInputs[associatedModel] || []
+    state.filteringSelect.alreadyLoadedInputs[resource] || []
 
-  const errors = [] // TODO: Implement errors!
+  const errors =
+    (statePath && statePath._errors && statePath._errors[attribute]) || []
 
   return {
     value,
     errors,
     options,
     isLoading,
-    associatedModel,
+    resource,
     alreadyLoadedInputs,
+    showSelect: ownProps.showSelect || true,
   }
 }
 
@@ -43,6 +43,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ dispatch })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
+  const { alreadyLoadedInputs, resource } = stateProps
+  const { filters } = ownProps
 
   return {
     ...stateProps,
@@ -55,8 +57,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       dispatch(
         updateAction(
-          ownProps.formId, ownProps.attribute, ownProps.submodel,
-          ownProps.submodelIndex, newValue
+          ownProps.formId, ownProps.attribute, ownProps.submodelPath, newValue
         )
       )
 
@@ -64,18 +65,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onMount() {
-      dispatch(loadForFilteringSelect('', stateProps.associatedModel))
+      dispatch(loadForFilteringSelect('', resource, filters))
     },
 
     onFirstValue(value) {
-      for (let id of value.split(',')) {
-        dispatch(loadForFilteringSelect(id, stateProps.associatedModel))
-      }
+      let filter_ids = value.split(',').filter(
+        value => alreadyLoadedInputs.includes(value) == false
+      ).join(',')
+      dispatch(loadForFilteringSelect('', resource, filters, filter_ids))
     },
 
     onInputChange(input) {
-      if (stateProps.alreadyLoadedInputs.includes(input)) return
-      dispatch(loadForFilteringSelect(input, stateProps.associatedModel))
+      if (alreadyLoadedInputs.includes(input)) return
+      dispatch(loadForFilteringSelect(input, resource, filters))
     },
   }
 }

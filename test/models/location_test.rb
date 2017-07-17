@@ -2,7 +2,7 @@
 require_relative '../test_helper'
 
 describe Location do
-  subject { location }
+  subject { Location.new }
 
   describe 'partial_dup' do
     it 'should correctly duplicate an location' do
@@ -36,7 +36,7 @@ describe Location do
       Offer.any_instance.expects(:index!).times(loc.offers.visible_in_frontend.count)
       loc.visible = !loc.visible
       loc.save!
-      LocationObserver.send(:new).after_commit(loc)
+      loc.after_commit
     end
 
     it 'should not update on irrelevant location change but on zip' do
@@ -49,13 +49,13 @@ describe Location do
       end
       another_offer.location_id = loc.id
       another_offer.save!
-      LocationObserver.send(:new).after_commit(loc)
+      loc.after_commit
       loc.reload
       another_offer.reload
       another_offer._geoloc.must_equal('lat' => 5, 'lng' => 5)
       loc.assign_attributes(zip: 100_05)
       loc.save!
-      LocationObserver.send(:new).after_commit(loc)
+      loc.after_commit
       loc.reload
       another_offer.reload
       another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
@@ -72,7 +72,7 @@ describe Location do
       another_offer.save!
       loc.assign_attributes(street: '10005')
       loc.save!
-      LocationObserver.send(:new).after_commit(loc)
+      loc.after_commit
       loc.reload
       another_offer.reload
       another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
@@ -87,9 +87,9 @@ describe Location do
       end
       another_offer.location_id = loc.id
       another_offer.save!
-      loc.assign_attributes(federal_state_id: '2')
+      loc.federal_state = FederalState.create(name: 'Malle')
       loc.save!
-      LocationObserver.send(:new).after_commit(loc)
+      loc.after_commit
       loc.reload
       another_offer.reload
       another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)
@@ -104,9 +104,9 @@ describe Location do
       end
       another_offer.location_id = loc.id
       another_offer.save!
-      loc.assign_attributes(city_id: '2')
+      loc.city = City.create(name: 'Metropolis')
       loc.save!
-      LocationObserver.send(:new).after_commit(loc)
+      loc.after_commit
       loc.reload
       another_offer.reload
       another_offer._geoloc.must_equal('lat' => 10, 'lng' => 20)

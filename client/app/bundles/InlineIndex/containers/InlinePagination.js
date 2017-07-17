@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import merge from 'lodash/merge'
 import clone from 'lodash/clone'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import Pagination from '../../Index/components/Pagination'
 
 const mapStateToProps = (state, ownProps) => {
@@ -43,7 +43,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
 function gotoPage(page, ownProps, dispatchProps) {
   let linkParams = merge(clone(ownProps.params), {page})
-  dispatchProps.dispatch(setUiAction(ownProps.uiKey, linkParams))
+  dispatchProps.dispatch(setUi(ownProps.uiKey, linkParams))
 }
 
 export default connect(

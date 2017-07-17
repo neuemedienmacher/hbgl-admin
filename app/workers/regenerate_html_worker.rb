@@ -49,14 +49,14 @@ class RegenerateHtmlWorker
 
   def update_organizations organizations
     organizations.each do |organization|
-      old_infused_description = OrganizationTranslation.where(
+      translation = OrganizationTranslation.where(
         organization_id: organization.id, locale: 'de'
-      ).first.description.to_s
+      ).first
+      next unless translation
+      old_infused_description = translation.description.to_s
       infused_description = link_and_infuse_description(organization)
       next unless infused_description != old_infused_description
-      OrganizationTranslation.where(
-        organization_id: organization.id, locale: 'de'
-      ).first.update_attribute(:description, infused_description)
+      translation.update_attribute(:description, infused_description)
     end
   end
 

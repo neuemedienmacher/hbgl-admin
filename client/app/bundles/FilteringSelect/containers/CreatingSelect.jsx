@@ -1,21 +1,35 @@
 import { connect } from 'react-redux'
+import { updateAction } from 'rform'
+import concat from 'lodash/concat'
+import { registerSubmodelForm, unregisterSubmodelForm } from 'rform'
+import generateFormId from '../../GenericForm/lib/generateFormId'
 import { pluralize } from '../../../lib/inflection'
-import { addSubmodelForm, removeSubmodelForm } from
-  '../../../Backend/actions/changeFormData'
+import { addForFilteringSelect } from '../actions/loadForFilteringSelect'
 import CreatingSelect from '../components/CreatingSelect'
 
 const mapStateToProps = (state, ownProps) => {
-  const additionalSubmodelForms = (state.form[ownProps.formId] &&
-    state.form[ownProps.formId].additionalSubmodelForms) || []
   const attribute = ownProps.input.attribute
-  const hasSubmodelForm = additionalSubmodelForms.includes(attribute)
-  const attributeWithoutId = attribute.replace(/_id(s?)/, '')
-  const submodelName =
-    attribute.match(/s$/) ? pluralize(attributeWithoutId) : attributeWithoutId
+  let additionalSubmodelForms = (state.rform[ownProps.formId] &&
+    state.rform[ownProps.formId]._registeredSubmodelForms &&
+    state.rform[ownProps.formId]._registeredSubmodelForms[attribute]) || []
+  const hasSubmodelForm = !!additionalSubmodelForms.length
+  const attributeWithoutId = attribute.replace(/-id(s?)/, '')
+  const submodelName = pluralize(attributeWithoutId)
+  const parentModels = concat(ownProps.submodelPath || [], ownProps.model)
+
+  const formState = state.rform[ownProps.formId]
+  const currentSelectValue = formState && formState[attribute]
+
+  const showSelect = ownProps.multi || !hasSubmodelForm
+  const showButton = ownProps.multi || !hasSubmodelForm && !currentSelectValue
 
   return {
-    hasSubmodelForm,
+    additionalSubmodelForms,
     submodelName,
+    currentSelectValue,
+    showSelect,
+    showButton,
+    parentModels,
   }
 }
 
@@ -24,19 +38,29 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ dispatch })
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
   const { formId, input } = ownProps
+  const { submodelName, parentModels, additionalSubmodelForms } = stateProps
 
   return {
     ...stateProps,
     ...ownProps,
 
     onAddSubmodelFormClick() {
-      dispatch(addSubmodelForm(formId, input.attribute))
+      const nextSubFormId = generateFormId(submodelName, parentModels, uid())
+      dispatch(registerSubmodelForm(formId, input.attribute, nextSubFormId))
     },
 
-    onRemoveSubmodelFormClick() {
-      dispatch(removeSubmodelForm(formId, input.attribute))
+    onRemoveSubmodelFormClick(removedFormId) {
+      return () => {
+        dispatch(
+          unregisterSubmodelForm(formId, input.attribute, removedFormId)
+        )
+      }
     },
   }
+}
+
+function uid() {
+  return Math.random().toString(36).substring(2)
 }
 
 export default connect(

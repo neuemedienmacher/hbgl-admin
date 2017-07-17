@@ -1,28 +1,23 @@
 # frozen_string_literal: true
 class Organization::Create < Trailblazer::Operation
+  include Assignable::CommonSideEffects::CreateNewAssignment
+
   step Model(::Organization, :new)
+  step Policy::Pundit(OrganizationPolicy, :create?)
 
-  step Contract::Build()
+  step Contract::Build(constant: Organization::Contracts::Create)
   step Contract::Validate()
+  step Wrap(::Lib::Transaction) {
+    step ::Lib::Macros::Nested::Create :website, Website::Create
+    step ::Lib::Macros::Nested::Create :divisions, Division::Create
+    step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
+    step ::Lib::Macros::Nested::Create :locations, Location::Create
+  }
+  step :set_creating_user
   step Contract::Persist()
+  step :create_initial_assignment!
 
-  # policy ::OrganizationPolicy, :create?
-
-  extend Contract::DSL
-  contract do
-    property :name
-    # property :description
-    # property :legal_form
-    property :priority
-
-    # property :division_ids
-    collection :divisions, populate_if_empty: Division do
-      property :name
-      property :section_id
-    end
-
-    # def divisions!(options)
-    #   options[:collection].append(::Division.new)
-    # end
+  def set_creating_user(_, current_user:, model:, **)
+    model.created_by = current_user.id
   end
 end

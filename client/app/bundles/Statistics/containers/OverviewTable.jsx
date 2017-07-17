@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
   const modelKey = ownProps.modelKey || 'noKey'
   const stateKey = `statisticsOverview_${ownProps.model}_${modelKey}`
   const states =
-    (state.ajax[stateKey] && state.ajax[stateKey].data.attributes.states) || []
+    (state.ajax[stateKey] && state.ajax[stateKey].states) || []
   const selectedCity = state.rform[stateKey] && state.rform[stateKey].city
   const data =
     (state.entities.count && state.entities.count[ownProps.model] &&
@@ -70,10 +70,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         {params[`filters[${cityAssociationName}.id]`] = 0
         params[`operators[${cityAssociationName}.id]`] = '>'}
     if (aasm_state)
-      params[`filters[${pluralize(model)}.aasm_state]`] = aasm_state
+      params[`filters[${pluralize(model)}.aasm-state]`] = aasm_state
     if (typeof section == 'object') {
       let sectionName =
-        model == 'offer' ? 'section_id' : 'sections.id'
+        model == 'offer' ? 'section-id' : 'sections.id'
       params[`filters[${sectionName}]`] = section.id
     }
     return params

@@ -4,8 +4,8 @@ module API::V1
     class Index < API::V1::Default::Index
       def base_query
         ::OrganizationTranslation
-          .where(locale: [:en, :ar, :fa]).uniq
-          .joins(:sections).where('sections.identifier = ?', 'refugees')
+        # .where(locale: [:en, :ar, :fa]).uniq
+        # .joins(:sections).where('sections.identifier = ?', 'refugees')
       end
     end
   end
