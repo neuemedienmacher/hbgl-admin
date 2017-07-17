@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
       state.entities.count[ownProps.model][modelKey][selectedCity || ALL]) || {}
   const sections = values(state.entities.sections)
   const loadedCities =
-    (state.entities.count &&
+    (state.entities.count && state.entities.count[ownProps.model] &&
       keys(state.entities.count[ownProps.model][modelKey])
     ) || []
 
