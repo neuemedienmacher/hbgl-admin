@@ -21,12 +21,15 @@ module API::V1
           property :aasm_state
           property :locations_count
           property :pending_reason
+          property :legal_form
+          property :charitable
 
           property :website_id
           # NOTE: do we need this here? or only for create/update or not at all?
           property :location_ids
           property :contact_person_ids
           property :division_ids
+          property :umbrella_filter_ids
         end
 
         # has_one :website do
@@ -41,10 +44,6 @@ module API::V1
       end
 
       class Create < Show
-        attributes do
-          property :description
-        end
-
         has_one :website,
                 decorator: API::V1::Website::Representer::Show,
                 populator: API::V1::Lib::Populators::FindOrInstantiate,
@@ -64,6 +63,12 @@ module API::V1
                  decorator: API::V1::ContactPerson::Representer::Create,
                  populator: API::V1::Lib::Populators::FindOrInstantiate,
                  class: ::ContactPerson
+      end
+
+      class Update < Create
+        has_many :umbrella_filters,
+                 decorator: API::V1::Filter::Representer::Show,
+                 class: ::UmbrellaFilter
       end
     end
   end

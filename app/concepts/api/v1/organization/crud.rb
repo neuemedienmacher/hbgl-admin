@@ -8,7 +8,7 @@ module API::V1
 
     class Update < ::Organization::Update
       extend Trailblazer::Operation::Representer::DSL
-      representer API::V1::Organization::Representer::Create
+      representer API::V1::Organization::Representer::Update
     end
   end
 end
