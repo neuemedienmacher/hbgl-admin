@@ -31,7 +31,7 @@ module Organization::Contracts
     property :description
     property :legal_form
     property :charitable
-    property :umbrella_filter_ids
+    property :umbrella_filters
     property :mailings
   end
 

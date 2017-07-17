@@ -1,5 +1,6 @@
 import { FormObject, JsonApiAdapter } from 'rform'
 import merge from 'lodash/merge'
+import concat from 'lodash/concat'
 import WebsiteFormObject from './WebsiteFormObject'
 import DivisionFormObject from './DivisionFormObject'
 import LocationFormObject from './LocationFormObject'
@@ -73,7 +74,7 @@ class OrgaCreateFormObject extends FormObject {
 
 class OrgaUpdateFormObject extends OrgaCreateFormObject {
   static get properties() {
-    return merge(
+    return concat(
       OrgaCreateFormObject.properties,
       ['description', 'legal-form', 'charitable', 'umbrella-filters']
     )
@@ -84,12 +85,33 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
       OrgaCreateFormObject.formConfig,
       {
         description: { type: 'textarea' },
-        'legal-form': { type: 'string' },
         charitable: { type: 'checkbox' },
+        'legal-form': {
+          type: 'select',
+          options: [
+            'ev', 'ggmbh', 'gag', 'foundation', 'gug', 'gmbh', 'ag', 'ug',
+            'kfm', 'gbr', 'ohg', 'kg', 'eg', 'sonstige', 'state_entity'
+          ]
+        },
         'umbrella-filters': {
           type: 'filtering-select',
           resource: 'filters',
           filters: { 'type': 'UmbrellaFilter' }
+        }
+      }
+    )
+  }
+
+  static get submodels() {
+    return concat(OrgaCreateFormObject.submodels, 'umbrella-filters')
+  }
+
+  static get submodelConfig() {
+    return merge(
+      OrgaCreateFormObject.formConfig, {
+        'umbrella-filters': {
+          type: 'filters',
+          relationship: 'oneToMany'
         }
       }
     )
