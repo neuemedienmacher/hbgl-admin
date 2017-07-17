@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
   const { id, model, translation } = ownProps
   const formId = `${model}Translation${id}`
 
-  const action = `/api/v1/${model}_translations/${id}`
+  const action = `/api/v1/${model}-translations/${id}`
   const seedData = {
     fields: translation
   }
