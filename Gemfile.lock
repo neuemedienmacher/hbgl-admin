@@ -9,7 +9,7 @@ GIT
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
   revision: e4c08ce530cec438dfe7ccb9fc8d8dd1cfbab3bf
-  branch: feature/944-945-orga-division-2
+  branch: develop
   specs:
     clarat_base (0.1.4)
       aasm
