@@ -1,4 +1,5 @@
 import { encode } from 'querystring'
+import keys from 'lodash/keys'
 
 const loadForFilteringSelectRequest = (key, input) => ({
   type: 'LOAD_FOR_FILTERING_SELECT_REQUEST',
@@ -19,17 +20,15 @@ export const addForFilteringSelect = (key, options) => ({
 })
 
 export function loadForFilteringSelect(
-  input, associatedModel, ids = ''
+  input, associatedModel, filters = {}, ids = ''
 ) {
-  let path = `/api/v1/${associatedModel}?`
-  if (input) path += `&query=${input}`
-  if (ids) {
-    for (let id of ids.split(',')){
-      let arrayEntryParameter = {}
-      arrayEntryParameter[`filters[id][]`] = id
-      path += ('&' + encode(arrayEntryParameter))
-    }
-  }
+  let path = `/api/v1/${associatedModel}`
+  let paramHash = {}
+
+  if (ids) filters.id = ids.split(',')
+  if (input) paramHash.query = input
+  if (keys(filters).length) paramHash.filters = filters
+  if (keys(paramHash).length) path += '?' + $.param(paramHash)
 
   return function(dispatch) {
     dispatch(loadForFilteringSelectRequest(associatedModel, `${input},${ids}`))

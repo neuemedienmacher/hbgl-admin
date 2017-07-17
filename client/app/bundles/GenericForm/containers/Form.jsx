@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps) => {
     mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => ({
       action: key, name: value, active: afterSaveActiveKey == key
     }))
-  const formObjectClass = formObjectSelect(model)
+  const formObjectClass = formObjectSelect(model, !!editId)
   const seedData = { fields: seedDataFromEntity(instance, formObjectClass) }
 
   let action = `/api/v1/${model}`

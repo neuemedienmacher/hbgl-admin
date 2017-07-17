@@ -6,14 +6,15 @@ class Organization::ChangeState < Trailblazer::Operation
   step Contract::Build(constant: Organization::Contracts::ChangeState)
   step Contract::Validate()
   step :send_event!
-
-  step :generate_translations!
+  # Attention: This does not translate!
 
   def send_event!(_, model:, event:, **)
-    model.send :"#{event}!"
-  end
-
-  def generate_translations!(_, model:, **)
-    model.generate_translations!
+    if model.send("may_#{event}?")
+      model.send :"#{event}!"
+    else
+      options['contract.default'].errors.add(
+        :base, "Event `#{event}` couldn't be processed"
+      )
+    end
   end
 end

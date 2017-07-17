@@ -1,10 +1,11 @@
 import { FormObject, JsonApiAdapter } from 'rform'
+import merge from 'lodash/merge'
 import WebsiteFormObject from './WebsiteFormObject'
 import DivisionFormObject from './DivisionFormObject'
 import LocationFormObject from './LocationFormObject'
 import ContactPersonFormObject from './ContactPersonFormObject'
 
-export default class OrganizationFormObject extends FormObject {
+class OrgaCreateFormObject extends FormObject {
   static get model() {
     return 'organization'
   }
@@ -68,4 +69,33 @@ export default class OrganizationFormObject extends FormObject {
     this.required('name').filled()
     this.required('website').filled()
   }
+}
+
+class OrgaUpdateFormObject extends OrgaCreateFormObject {
+  static get properties() {
+    return merge(
+      OrgaCreateFormObject.properties,
+      ['description', 'legal-form', 'charitable', 'umbrella-filters']
+    )
+  }
+
+  static get formConfig() {
+    return merge(
+      OrgaCreateFormObject.formConfig,
+      {
+        description: { type: 'textarea' },
+        'legal-form': { type: 'string' },
+        charitable: { type: 'checkbox' },
+        'umbrella-filters': {
+          type: 'filtering-select',
+          resource: 'filters',
+          filters: { 'type': 'UmbrellaFilter' }
+        }
+      }
+    )
+  }
+}
+
+export {
+  OrgaCreateFormObject, OrgaUpdateFormObject
 }

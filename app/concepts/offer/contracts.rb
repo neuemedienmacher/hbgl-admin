@@ -171,8 +171,9 @@ module Offer::Contracts
       if categories.any?
         categories.each do |category|
           next if category.sections.include?(section)
-          errors.add(:categories, I18n.t('offer.validations.category_for_section_needed',
-                                         world: section.name))
+          errors.add(:categories,
+                     I18n.t('offer.validations.category_for_section_needed',
+                            world: section.name))
         end
       end
     end
@@ -181,8 +182,9 @@ module Offer::Contracts
       if categories.any?
         categories.each do |offer_category|
           next if offer_category.sections.include?(section)
-          errors.add(:categories, I18n.t('offer.validations.section_for_category_needed',
-                                         category: offer_category.name))
+          errors.add(:categories,
+                     I18n.t('offer.validations.section_for_category_needed',
+                            category: offer_category.name))
         end
       end
     end

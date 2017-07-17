@@ -17,7 +17,8 @@ const mapStateToProps = (state, ownProps) => {
     type: config[property].type,
     options: config[property].options &&
       config[property].options.map(option => ({value: option, name: option})),
-    resource: config[property].resource
+    resource: config[property].resource,
+    filters: config[property].filters
   }))
   const blockedInputs = collectBlockedInputs(inputs, nestingModel)
 

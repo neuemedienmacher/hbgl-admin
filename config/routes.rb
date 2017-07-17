@@ -111,6 +111,7 @@ Rails.application.routes.draw do
       api_resources :federal_states, only: [:index, :show]
       api_resources :contact_people
       api_resources :emails, only: [:index, :show]
+      api_resources :filters, only: [:index, :show]
       api_resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual

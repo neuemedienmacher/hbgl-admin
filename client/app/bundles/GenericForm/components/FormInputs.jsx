@@ -51,6 +51,7 @@ export default class FormInputs extends React.Component {
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}
               type={input.type} resource={input.resource} disabled={disabled}
+              filters={input.filters}
             />
           )
         case 'filtering-select':
@@ -60,6 +61,7 @@ export default class FormInputs extends React.Component {
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}
               type={input.type} resource={input.resource} disabled={disabled}
+              filters={input.filters}
             />
           )
         case 'creating-multiselect':
@@ -67,6 +69,7 @@ export default class FormInputs extends React.Component {
             <CreatingSelect multi key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               input={input} submodelPath={submodelPath} disabled={disabled}
+              filters={input.filters}
             />
           )
         case 'creating-select':
@@ -74,6 +77,7 @@ export default class FormInputs extends React.Component {
             <CreatingSelect key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               input={input} submodelPath={submodelPath} disabled={disabled}
+              filters={input.filters}
             />
           )
         default:
