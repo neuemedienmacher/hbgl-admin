@@ -26,16 +26,6 @@ class OfferContractTest < ActiveSupport::TestCase
         subject.must_be :valid?
       end
 
-      it 'should fail when age_from > age_to' do
-        subject.validate(age_from: 9, age_to: 1)
-        subject.wont_be :valid?
-      end
-
-      it 'should ensure that age_from < age_to' do
-        subject.validate(age_from: 9, age_to: 10)
-        subject.must_be :valid?
-      end
-
       it 'should fails if personal offer has no location' do
         subject.encounter = 'personal'
         subject.location = nil
@@ -156,51 +146,6 @@ class OfferContractTest < ActiveSupport::TestCase
       it 'should validate start date is before expires_at' do
         subject.expires_at = Time.zone.now + 1.day
         subject.starts_at = Time.zone.now
-        subject.valid?.must_equal true
-      end
-
-      it 'age_from should be int' do
-        subject.age_from = 'abc'
-        subject.valid?.must_equal false
-      end
-
-      it 'age_from should be < 100' do
-        subject.age_from = 100
-        subject.valid?.must_equal false
-      end
-
-      it 'age_from should be int' do
-        subject.age_from = 0.1
-        subject.valid?.must_equal false
-      end
-
-      it 'age_from should be => 0' do
-        subject.age_from = 0
-        subject.valid?.must_equal true
-      end
-
-      it 'age_to should be int and not string' do
-        subject.age_to = 'abc'
-        subject.valid?.must_equal false
-      end
-
-      it 'age_to should be < 100' do
-        subject.age_to = 100
-        subject.valid?.must_equal false
-      end
-
-      it 'age_to should be > 0' do
-        subject.age_to = 0
-        subject.valid?.must_equal false
-      end
-
-      it 'age_to should be int and not float' do
-        subject.age_to = 0.1
-        subject.valid?.must_equal false
-      end
-
-      it 'age_to should be > 0' do
-        subject.age_to = 1
         subject.valid?.must_equal true
       end
 

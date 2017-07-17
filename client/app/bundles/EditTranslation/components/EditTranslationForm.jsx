@@ -6,7 +6,7 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      afterResponse, editLink, previewLink
+      afterResponse, editLink, previewLink, stamp
     } = this.props
 
     return (
@@ -15,6 +15,7 @@ export default class EditTranslationForm extends Component {
         id={formId} seedData={seedData} formObjectClass={formObjectClass}
         afterResponse={afterResponse}
       >
+        <h4><strong>Zielgruppen:</strong> {stamp}</h4>
         <fieldset>
           <table className="table table-condensed offer-translations--form-table">
             <tbody>

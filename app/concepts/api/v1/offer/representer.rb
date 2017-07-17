@@ -33,15 +33,10 @@ module API::V1
           property :description_html
           property :next_steps_html
           property :opening_specification_html
-          property :age_from
-          property :age_to
           property :target_audience
           property :aasm_state
           property :hide_contact_people
-          property :age_visible
           property :code_word
-          property :gender_first_part_of_stamp
-          property :gender_second_part_of_stamp
           property :all_inclusive
           property :starts_at
           property :completed_at

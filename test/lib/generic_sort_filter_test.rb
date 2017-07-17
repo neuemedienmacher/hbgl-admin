@@ -100,9 +100,9 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
   end
 
-  describe '#check_if_reflection' do
+  describe '#model_for_filter' do
     it 'should classifiy and constantize for self-referring query' do
-      subject.send(:check_if_reflection, query, 'offer.name').must_equal Offer
+      subject.send(:model_for_filter, query, 'offer.name').must_equal Offer
     end
   end
 
@@ -150,6 +150,12 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     it 'filters with a mismatching association/table name' do
       params = { filters: { 'language_filters.foobar' => 'bazfuz' } }
       query.expects(:where).with("filters.foobar = 'bazfuz'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters with referring_to_own_table' do
+      params = { filters: { 'offers.foobar' => 'bazfuz' } }
+      query.expects(:where).with("offers.foobar = 'bazfuz'")
       subject.send(:transform_by_filtering, query, params)
     end
 

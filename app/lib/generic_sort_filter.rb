@@ -118,14 +118,6 @@ module GenericSortFilter
     end
   end
 
-  def self.check_if_reflection(query, filter)
-    if referring_to_own_table?(query, filter.split('.').first)
-      filter.split('.').first.classify.constantize
-    else
-      query.model.reflections[filter.split('.').first].table_name.classify.constantize
-    end
-  end
-
   def self.table_name_for(query, filter)
     return filter if referring_to_own_table?(query, filter)
     association_for(query, filter).table_name
@@ -147,13 +139,22 @@ module GenericSortFilter
   def self.transform_value(value, filter, query)
     model_name =
       if filter.include?('.')
-        check_if_reflection(query, filter)
+        model_for_filter(query, filter)
       else
         query.model
       end
     value = parse_value_by_type(value, filter, model_name)
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
+  end
+
+  def self.model_for_filter(query, filter)
+    if referring_to_own_table?(query, filter.split('.').first)
+      filter.split('.').first.classify.constantize
+    else
+      query.model.reflections[filter.split('.').first].table_name.classify
+           .constantize
+    end
   end
 
   def self.parse_value_by_type(value, filter, model_name)

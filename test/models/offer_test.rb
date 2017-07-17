@@ -260,7 +260,7 @@ describe Offer do
           new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
           # changing untranslated field => translations must stay the same
-          new_offer.age_from = 0
+          new_offer.expires_at = Date.tomorrow
           new_offer.save!
           new_offer.run_callbacks(:commit) # Hotfix: force commit callback
           new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'

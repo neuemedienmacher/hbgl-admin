@@ -9,7 +9,7 @@ export default {
 
     'offer-translations': {
       fields: [
-        'id', 'offer-id', 'locale', 'source', 'name',
+        'id', 'offer-id', 'locale', 'source', 'name', 'offer_stamp',
         'possibly-outdated', {offer: ['approved-at', 'created-by']}
       ],
       general_actions: [

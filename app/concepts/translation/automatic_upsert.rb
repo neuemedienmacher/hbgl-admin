@@ -33,7 +33,9 @@ module Translation
     end
 
     def assign_to_creator_or_approver(options)
-      if options['object_to_translate'].created_by && User.find(options['object_to_translate'].created_by).active
+      if (options['object_to_translate'].created_by &&
+         User.find(options['object_to_translate'].created_by).active) ||
+         options['object_to_translate'].approved_by.nil? # for de-translations (generated post-approve!)
         options['object_to_translate'].created_by
       else
         options['object_to_translate'].approved_by

@@ -18,11 +18,17 @@ import NewAssignment
 //   from '../../bundles/NewOrganization/containers/NewOrganizationForm'
 import TimeAllocationTableContainer
   from '../../bundles/TimeAllocationTable/containers/TimeAllocationTableContainer'
-import StatisticsLayout from '../../bundles/Statistics/components/StatisticsLayout'
+import StatisticsLayout
+  from '../../bundles/Statistics/components/StatisticsLayout'
 import Overview from '../../bundles/Statistics/components/Overview'
-import OfferOverviewPage from '../../bundles/Statistics/components/OfferOverviewPage'
-import OrgaOverviewPage from '../../bundles/Statistics/components/OrgaOverviewPage'
-import RatioOverviewPage from '../../bundles/Statistics/containers/RatioOverviewPage'
+import OfferOverviewPage
+  from '../../bundles/Statistics/components/OfferOverviewPage'
+import OrgaOverviewPage
+  from '../../bundles/Statistics/components/OrgaOverviewPage'
+import OrgaOfferCitiesOverview
+  from '../../bundles/Statistics/components/OrgaOfferCitiesOverviewPage'
+import RatioOverviewPage
+  from '../../bundles/Statistics/containers/RatioOverviewPage'
 // import OfferCreatedPage from '../../bundles/Statistics/components/OfferCreatedPage'
 // import OfferApprovedPage from '../../bundles/Statistics/components/OfferApprovedPage'
 // import OrgaCreatedPage from '../../bundles/Statistics/components/OrgaCreatedPage'
@@ -114,9 +120,12 @@ export default class Routes extends React.Component {
 
           <Route path='statistics' component={StatisticsLayout}>
             <IndexRoute component={Overview}/>
-            <Route path='offer-overview' component={OfferOverviewPage} />
-            <Route path='organization-overview' component={OrgaOverviewPage} />
-            <Route path='ratio-overview' component={RatioOverviewPage} />
+            <Route path='offer_overview' component={OfferOverviewPage} />
+            <Route path='organization_overview' component={OrgaOverviewPage} />
+            <Route path='orga_offer_cities_overview'
+              component={OrgaOfferCitiesOverview}
+            />
+            <Route path='ratio_overview' component={RatioOverviewPage} />
             {/*
             <Route path='offer-created' component={OfferCreatedPage} />
             <Route path='offer-approved' component={OfferApprovedPage} />
@@ -136,7 +145,9 @@ export default class Routes extends React.Component {
             <IndexRoute component={Index} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
-            <Route path=':id/edit' component={EditTranslation} model='organization' />
+            <Route path=':id/edit' component={EditTranslation}
+              model='organization'
+            />
           </Route>
 
           <Route path='user-teams'>

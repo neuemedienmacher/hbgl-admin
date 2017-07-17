@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: ecc9f825c16ece28aa20e27f8e601ac63f6cede4
+  revision: e4c08ce530cec438dfe7ccb9fc8d8dd1cfbab3bf
   branch: feature/944-945-orga-division-2
   specs:
     clarat_base (0.1.4)
@@ -478,8 +478,8 @@ GEM
     rails-i18n (4.0.9)
       i18n (~> 0.7)
       railties (~> 4.0)
-    rails-observers (0.1.4)
-      activemodel (>= 4.0)
+    rails-observers (0.1.2)
+      activemodel (~> 4.0)
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -768,7 +768,7 @@ DEPENDENCIES
   rails-assets-shariff!
   rails-erd
   rails-i18n
-  rails-observers
+  rails-observers (= 0.1.2)
   rails_12factor
   rails_admin
   rails_admin_clone

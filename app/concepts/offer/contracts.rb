@@ -10,8 +10,6 @@ module Offer::Contracts
     property :code_word
     property :section_id
     property :slug
-    property :age_from
-    property :age_to
     property :organizations
     property :language_filters
     property :target_audience_filters
@@ -39,23 +37,6 @@ module Offer::Contracts
     validates :section_id, presence: true
     validates_uniqueness_of :slug, scope: :section_id
 
-    MIN_AGE = 0
-    MAX_AGE = 99
-    # Age validation by section
-    validates :age_from,
-              numericality: { greater_than_or_equal_to: MIN_AGE,
-                              only_integer: true,
-                              less_than: MAX_AGE,
-                              allow_blank: false },
-              presence: true
-
-    validates :age_to,
-              numericality: { greater_than: MIN_AGE,
-                              less_than_or_equal_to: MAX_AGE,
-                              only_integer: true,
-                              allow_blank: false },
-              presence: true
-
     # Needs to be true before approval possible. Called in custom validation.
     # def before_approve
     #   TODO: Refactor age validations lead to simple HTML 5 checks which are
@@ -65,7 +46,6 @@ module Offer::Contracts
     # end
     validate :validate_associated_fields
     validate :only_visible_organizations
-    validate :age_from_fits_age_to
     validate :location_and_area_fit_encounter
     validate :contact_people_are_choosable
     validate :no_more_than_10_next_steps
@@ -86,12 +66,6 @@ module Offer::Contracts
     end
 
     ## Custom Validation Methods ##
-
-    # Age From has to be smaller than Age To
-    def age_from_fits_age_to
-      return if !age_from || !age_to || age_from.to_i <= age_to.to_i
-      custom_error :age_from, 'age_from_be_smaller'
-    end
 
     # Location is only allowed when encounter is personal, but if it is, it
     # HAS to be present. A remote offer needs an area.

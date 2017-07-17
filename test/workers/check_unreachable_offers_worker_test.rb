@@ -28,13 +28,25 @@ class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtu
   end
 
   it 'should NOT re-activate valid offer if website is unreachable' do
-    website = FactoryGirl.create :website, :own, unreachable_count: 1
+    website = FactoryGirl.create :website, :own,
+                                 unreachable_count: 1, ignored_by_crawler: false
     offer = FactoryGirl.create :offer, :approved
     offer.update_columns aasm_state: 'website_unreachable'
     website.offers << offer
     Offer.any_instance.expects(:index!).never
     worker.perform
     offer.reload.must_be :website_unreachable?
+  end
+
+  it 'should re-activate valid offer if website should be ignored by crawler' do
+    website = FactoryGirl.create :website, :own,
+                                 unreachable_count: 1, ignored_by_crawler: true
+    offer = FactoryGirl.create :offer, :approved
+    offer.update_columns aasm_state: 'website_unreachable'
+    website.offers << offer
+    Offer.any_instance.expects(:index!).once
+    worker.perform
+    offer.reload.wont_equal :website_unreachable?
   end
 
   it 'should NOT re-activate valid offer if it has no website' do

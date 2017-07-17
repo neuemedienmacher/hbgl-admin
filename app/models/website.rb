@@ -5,6 +5,9 @@ require ClaratBase::Engine.root.join('app', 'models', 'website')
 class Website < ActiveRecord::Base
   # Scopes
   scope :unreachable, -> { where('unreachable_count > ?', 0) }
+  scope :unreachableAndNotIgnored, -> {
+    unreachable.where('ignored_by_crawler != ?', true)
+  }
 
   # Search
   include PgSearch
