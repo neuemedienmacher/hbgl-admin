@@ -5,6 +5,10 @@ export default class CityFormObject extends FormObject {
     return 'city'
   }
 
+  static get type() {
+    return 'cities'
+  }
+
   static get properties() {
     return [
       'name'

@@ -120,12 +120,12 @@ export default class Routes extends React.Component {
 
           <Route path='statistics' component={StatisticsLayout}>
             <IndexRoute component={Overview}/>
-            <Route path='offer_overview' component={OfferOverviewPage} />
-            <Route path='organization_overview' component={OrgaOverviewPage} />
-            <Route path='orga_offer_cities_overview'
+            <Route path='offer-overview' component={OfferOverviewPage} />
+            <Route path='organization-overview' component={OrgaOverviewPage} />
+            <Route path='orga-offer-cities-overview'
               component={OrgaOfferCitiesOverview}
             />
-            <Route path='ratio_overview' component={RatioOverviewPage} />
+            <Route path='ratio-overview' component={RatioOverviewPage} />
             {/*
             <Route path='offer-created' component={OfferCreatedPage} />
             <Route path='offer-approved' component={OfferApprovedPage} />

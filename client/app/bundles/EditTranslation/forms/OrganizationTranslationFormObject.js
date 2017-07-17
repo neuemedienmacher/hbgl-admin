@@ -5,6 +5,10 @@ export default class OrganizationTranslationFormObject extends FormObject {
     return 'organization-translation'
   }
 
+  static get type() {
+    return 'organization-translations'
+  }
+
   static get properties() {
     return [
       'description'
