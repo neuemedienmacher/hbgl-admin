@@ -81,11 +81,12 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
     it 'should update an existing translation only when the field changed' do
       # Setup
       new_orga = FactoryGirl.create(:organization)
+      update_description new_orga, 'New description'
       change_state new_orga, :complete
       new_orga.translations.reload.count.must_equal 1
       change_state new_orga, :start_approval_process
       change_state new_orga, :approve
-      new_orga.translations.count.must_equal I18n.available_locales.count
+      new_orga.translations.reload.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields
       EasyTranslate.translated_with 'CHANGED' do

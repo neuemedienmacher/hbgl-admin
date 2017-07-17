@@ -4,6 +4,8 @@ import OfferTranslationFormObject from '../forms/OfferTranslationFormObject'
 import OrganizationTranslationFormObject from
   '../forms/OrganizationTranslationFormObject'
 import EditTranslationForm from '../components/EditTranslationForm'
+import addFlashMessage from '../../../Backend/actions/addFlashMessage'
+import addEntities from '../../../Backend/actions/addEntities'
 
 const mapStateToProps = (state, ownProps) => {
   const { id, model, translation } = ownProps
@@ -37,10 +39,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  afterResponse(response) {
-    // if (response.data && response.data.id) {
-    //   browserHistory.push(`/${ownProps.model}-translations`)
-    // }
+  afterResponse(_formId, changes, errors, _meta, response) {
+    if (response.data && response.data.id) {
+      dispatch(addFlashMessage('success', 'Erfolgreich gespeichert!'))
+      dispatch(addEntities(changes))
+    } else if (errors && errors.length) {
+      dispatch(addFlashMessage('error', 'Fehler beim speichern'))
+    }
   }
 })
 

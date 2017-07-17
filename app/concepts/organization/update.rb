@@ -33,10 +33,11 @@ class Organization::Update < Trailblazer::Operation
     result.success?
   end
 
-  def generate_translations!(options, changed_state: false, model:, **)
+  def generate_translations!(options, changed_state: false, model:, params:, **)
     changes = options['contract.default'].changed
     fields = model.translated_fields.select { |f| changes[f.to_s] }
-    return true if fields.empty? && !changed_state
+    meta = params['meta'] && params['meta']['commit']
+    return true if fields.empty? || (!changed_state && meta == 'approve')
     model.generate_translations! fields
   end
 end
