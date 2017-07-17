@@ -28,6 +28,10 @@ module API::V1
           property :description
           property :opening_specification
         end
+
+        property :offer_stamp, getter: ->(ot) do
+          ot[:represented].offer.target_audience_filters.pluck(:stamp_de)
+        end
       end
 
       class Index < Show

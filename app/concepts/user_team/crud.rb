@@ -24,5 +24,13 @@ class UserTeam < ActiveRecord::Base
     step Contract::Build(constant: UserTeam::GeneralContract)
     step Contract::Validate()
     step Contract::Persist()
+    step :update_team_statistic_on_user_change
+
+    def update_team_statistic_on_user_change options
+      if options['contract.default'].changed?('user_ids')
+        Statistic::DailyTeamStatisticSynchronizer.new(options['contract.default'].model.id, Time.zone.now.year).record!
+      end
+      true
+    end
   end
 end

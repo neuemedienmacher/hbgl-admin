@@ -7,7 +7,7 @@ export default class OfferTranslationFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'description', 'opening_specification'
+      'name', 'description', 'opening_specification' 
     ]
   }
 
