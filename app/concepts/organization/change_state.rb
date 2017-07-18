@@ -8,13 +8,14 @@ class Organization::ChangeState < Trailblazer::Operation
   step :send_event!
   # Attention: This does not translate!
 
-  def send_event!(_, model:, event:, **)
-    if model.send("may_#{event}?")
+  def send_event!(options, model:, event:, **)
+    if model.respond_to?("may_#{event}?") && model.send("may_#{event}?")
       model.send :"#{event}!"
     else
       options['contract.default'].errors.add(
         :base, "Event `#{event}` couldn't be processed"
       )
+      false
     end
   end
 end

@@ -100,5 +100,28 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
         new_orga.reload.description_ar.must_equal 'CHANGED'
       end
     end
+
+    describe 'side-effects' do
+      it 'wont do anything without the correct meta commit action' do
+        new_orga = FactoryGirl.create(:organization)
+        new_orga.aasm_state.must_equal 'initialized'
+        operation_wont_work(
+          ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
+                                  'meta' => { 'commit' => 'doesntexist' }
+        )
+        new_orga.reload.aasm_state.must_equal 'initialized'
+      end
+
+      it 'changes to complete state with the correct meta action' do
+        new_orga = FactoryGirl.create(:organization)
+        new_orga.aasm_state.must_equal 'initialized'
+        new_orga.valid?.must_equal true
+        operation_must_work(
+          ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
+                                  'meta' => { 'commit' => 'complete' }
+        )
+        new_orga.reload.aasm_state.must_equal 'completed'
+      end
+    end
   end
 end

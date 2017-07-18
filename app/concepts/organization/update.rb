@@ -26,7 +26,7 @@ class Organization::Update < Trailblazer::Operation
     if result.success?
       options['changed_state'] = true
     else
-      result['contract.default'].errors.each_pair do |key, message|
+      result['contract.default'].errors.each do |key, message|
         options['contract.default'].errors.add(key, message)
       end
     end
