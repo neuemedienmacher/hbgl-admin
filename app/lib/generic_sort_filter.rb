@@ -4,9 +4,9 @@ module GenericSortFilter
   def self.transform(base_query, params)
     adjusted_params = snake_case_contents(params)
     query = ensure_query(base_query)
-    query = transform_by_searching(query, adjusted_params[:query])
     query = transform_by_joining(query, adjusted_params)
     query = transform_by_ordering(query, adjusted_params)
+    query = transform_by_searching(query, adjusted_params[:query])
     transform_by_filtering(query, adjusted_params).uniq
   end
 
