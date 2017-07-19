@@ -3,7 +3,11 @@ class Organization::Update < Trailblazer::Operation
   step Model(::Organization, :find_by)
   step Policy::Pundit(OrganizationPolicy, :update?)
 
-  step Contract::Build(constant: Organization::Contracts::Update)
+  step ::Lib::Macros::State::Contract(
+    approve: Organization::Contracts::Approve,
+    else: Organization::Contracts::Update
+  )
+  step Contract::Build()
   step Contract::Validate()
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create :website, Website::Create
@@ -12,7 +16,7 @@ class Organization::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Create :locations, Location::Create
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
   }
-  step :change_state_side_effect
+  step :change_state_side_effect # prevents persist on faulty state change
   # step ::Lib::Macros::Debug::Breakpoint()
   step Contract::Persist()
   step :generate_translations!
@@ -25,10 +29,9 @@ class Organization::Update < Trailblazer::Operation
     # add errors of side-effect operation to the errors of this operation
     if result.success?
       options['changed_state'] = true
+      options['model'] = result['model']
     else
-      result['contract.default'].errors.each do |key, message|
-        options['contract.default'].errors.add(key, message)
-      end
+      add_all_errors(result['contract.default'], options['contract_default'])
     end
     result.success?
   end
@@ -37,7 +40,17 @@ class Organization::Update < Trailblazer::Operation
     changes = options['contract.default'].changed
     fields = model.translated_fields.select { |f| changes[f.to_s] }
     meta = params['meta'] && params['meta']['commit']
-    return true if fields.empty? || (!changed_state && meta == 'approve')
-    model.generate_translations! fields
+    if (meta.to_s == 'approve' && changed_state) || fields.any?
+      model.generate_translations! fields.any? ? fields : :all
+    end
+    true
+  end
+
+  ### non-step functions ###
+
+  def add_all_errors(from_contract, to_contract)
+    from_contract.errors.each do |key, message|
+      to_contract.errors.add(key, message)
+    end
   end
 end

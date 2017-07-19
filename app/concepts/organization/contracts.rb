@@ -38,7 +38,7 @@ module Organization::Contracts
   # validates :slug, uniqueness: true
   # validates :mailings, presence: true
 
-  class ChangeState < Update
+  class Approve < Update # before: ChangeState
     validates :description, presence: true
     validates :legal_form, presence: true
 
@@ -48,5 +48,9 @@ module Organization::Contracts
         errors.add(:base, I18n.t('organization.validations.hq_location'))
       end
     end
+  end
+
+  class ChangeState < Approve
+    # TODO: Remove this! This is ONLY meant for rails_admin_state_change
   end
 end

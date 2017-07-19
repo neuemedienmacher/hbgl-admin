@@ -36,6 +36,9 @@ module RailsAdmin
               )
             elsif object_valid_for_state_change && @object.send("#{params[:event]}!")
               flash[:success] = t('.success')
+              if @object.respond_to?(:generate_translations!) && params[:event] == 'approve'
+                @object.generate_translations!
+              end
               Statistic::UserAndParentTeamsCountHandler.record(
                 current_user, @object.class.name, 'aasm_state',
                 old_state, @object.aasm_state
