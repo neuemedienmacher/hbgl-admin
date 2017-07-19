@@ -44,7 +44,7 @@ module Organization::Contracts
 
     validate :one_hq_location?
     def one_hq_location?
-      if locations.where(hq: true).count != 1
+      if locations.to_a.select { |l| l.hq == true }.count != 1
         errors.add(:base, I18n.t('organization.validations.hq_location'))
       end
     end
