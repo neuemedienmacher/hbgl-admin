@@ -1,26 +1,18 @@
 import React, { PropTypes, Component } from 'react'
-import { Link } from 'react-router'
 import TableCell from '../containers/TableCell'
+import ActionList from '../../ActionList/containers/ActionList'
 
 export default class TableRow extends Component {
   render() {
-    const {
-      fields, row, actions, content
-    } = this.props
+    const { fields, row, content, model } = this.props
 
-    return (
+    return(
       <tr>
         {fields.map((field, index) =>
           <TableCell key={index} row={row} field={field} />
         )}
         <td>
-          {actions.map(action => {
-            return(
-              <Link key={action.href} to={action.href}>
-                <span className={action.icon} />
-              </Link>
-            )
-          })}
+          <ActionList model={model} id={row.id} />
         </td>
       </tr>
     )

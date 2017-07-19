@@ -45,12 +45,12 @@ module Organization::Contracts
     validate :one_hq_location?
     def one_hq_location?
       if locations.to_a.select { |l| l.hq == true }.count != 1
-        errors.add(:base, I18n.t('organization.validations.hq_location'))
+        errors.add(:locations, I18n.t('organization.validations.hq_location'))
       end
     end
   end
 
   class ChangeState < Approve
-    # TODO: Remove this! This is ONLY meant for rails_admin_state_change
+    # TODO: Remove this! This is ONLY meant for rails_admin_change_state
   end
 end
