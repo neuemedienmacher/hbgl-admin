@@ -33,8 +33,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    loadData() {
-      const { model, editId } = ownProps
+    loadData(model = ownProps.model, editId = ownProps.editId) {
       if (!editId) return
       const { dispatch } = dispatchProps
 

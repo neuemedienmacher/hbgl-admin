@@ -10,6 +10,7 @@ export default class LoadingForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.model != this.props.model || nextProps.editId != this.props.editId ||
         nextProps.loadedOriginalData == false) {
+      this.props.loadData(nextProps.model, nextProps.editId)
       this.props.loadPossibleEvents(nextProps.model, nextProps.editId)
     }
   }

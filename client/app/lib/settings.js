@@ -176,8 +176,8 @@ export default {
 
     assignments: {
       fields: [
-        'id', 'assignable-id', 'assignable-type', {creator: ['name']},
-        {'creator-team': ['name']}, {receiver: ['name']},
+        'id', 'assignable-id', 'assignable-type', {assignable: ['label']},
+        {creator: ['name']}, {'creator-team': ['name']}, {receiver: ['name']},
         {'receiver-team': ['name']}, 'message', 'topic', 'aasm-state',
         'created-at', 'updated-at'
       ],

@@ -108,7 +108,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
 
   static get submodelConfig() {
     return merge(
-      OrgaCreateFormObject.formConfig, {
+      OrgaCreateFormObject.submodelConfig, {
         'umbrella-filters': {
           type: 'filters',
           relationship: 'oneToMany'

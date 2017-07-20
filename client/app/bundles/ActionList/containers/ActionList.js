@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { actionsFromSettings } from '../../../lib/resourceActions'
+import { pluralize } from '../../../lib/inflection'
 // import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
 //   from '../../../lib/restrictionUtils'
 import ActionList from '../components/ActionList'
@@ -12,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     ownProps.entity || state.entities[model] && state.entities[model][id]
 
   return {
-    actions: actionsFromSettings(model, id, entity)
+    actions: actionsFromSettings(pluralize(model), id, entity)
   }
 }
 
