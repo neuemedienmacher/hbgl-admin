@@ -3,7 +3,7 @@ import settings from './settings'
 import { pluralize } from './inflection'
 
 export function actionsFromSettings(model, id, entity) {
-  const modelSettings = settings.index[pluralize(model)]
+  const modelSettings = settings.index[model]
   if (!modelSettings) return []
 
   return modelSettings.member_actions.filter(
