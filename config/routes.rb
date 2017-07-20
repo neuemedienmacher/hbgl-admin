@@ -99,7 +99,7 @@ Rails.application.routes.draw do
       api_resources :divisions, only: [:show, :index, :create, :update]
       api_resources :statistics, only: [:index]
       api_resources :users, only: [:index, :show, :update]
-      api_resources :websites, only: [:index, :create]
+      api_resources :websites, only: [:index, :show, :create]
       api_resources :offer_translations, only: [:index, :show, :update]
       api_resources :organization_translations, only: [:index, :show, :update]
       api_resources :statistic_charts, except: [:destroy]

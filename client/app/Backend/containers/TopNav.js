@@ -64,7 +64,7 @@ const routes = [
     id: 9,
     pathname: '/assignments',
     anchor: 'Zuweisungen',
-    access: superuser,
+    access: all,
   }, {
     id: 10,
     pathname: '/locations',

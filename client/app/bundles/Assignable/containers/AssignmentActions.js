@@ -115,18 +115,21 @@ function seedDataFor(action, entities, assignment, systemUser, users) {
   case 'assign-someone-else':
     assignment_copy['creator-id'] = entities['current-user-id']
     assignment_copy['receiver-id'] = users[0].value
+    assignment_copy['creator-team-id'] = undefined
     assignment_copy['receiver-team-id'] = undefined
     assignment_copy.message = ''
     break
   case 'retrieve-assignment':
     assignment_copy['creator-id'] = entities['current-user-id']
     assignment_copy['creator-team-id'] = undefined
+    assignment_copy['receiver-team-id'] = undefined
     assignment_copy['receiver-id'] = entities['current-user-id']
     assignment_copy.message = ''
     break
   case 'assign-to-system':
     assignment_copy['creator-id'] = entities['current-user-id']
     assignment_copy['receiver-id'] = systemUser.id
+    assignment_copy['creator-team-id'] = undefined
     assignment_copy['receiver-team-id'] = undefined
     assignment_copy.message = 'Erledigt!'
     break

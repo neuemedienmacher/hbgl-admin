@@ -30,6 +30,30 @@ module API::V1
           end
         end
 
+        has_one :receiver, class: ::User do
+          type :users
+
+          attributes do
+            property :name
+          end
+        end
+
+        has_one :creator_team, class: ::UserTeam do
+          type :user_teams
+
+          attributes do
+            property :name
+          end
+        end
+
+        has_one :receiver_team, class: ::UserTeam do
+          type :user_teams
+
+          attributes do
+            property :name
+          end
+        end
+
         has_one :assignable do
           type :assignables
           # Above is technically incorrect. Wish the following would work ...

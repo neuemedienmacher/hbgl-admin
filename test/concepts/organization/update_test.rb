@@ -45,7 +45,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
       )
     end
 
-    it 'should always get de translation, others only on completion and change' do
+    it 'should always get de translation, others only on approval and change' do
       new_orga = FactoryGirl.create(:organization)
       new_orga.translations.count.must_equal 0
       new_orga.aasm_state.must_equal 'initialized'

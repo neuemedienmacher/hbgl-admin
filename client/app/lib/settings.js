@@ -176,20 +176,21 @@ export default {
 
     assignments: {
       fields: [
-        'id', 'assignable-id', 'assignable-type', 'creator-id', 'creator-team-id',
-        'receiver-id', 'receiver-team-id', 'message', 'topic', 'aasm-state',
+        'id', 'assignable-id', 'assignable-type', {creator: ['name']},
+        {'creator-team': ['name']}, {receiver: ['name']},
+        {'receiver-team': ['name']}, 'message', 'topic', 'aasm-state',
         'created-at', 'updated-at'
       ],
       inline_fields: [
         'assignable-type', 'assignable-id', 'topic',
-        {assignable: ['label', 'created-at']},
-        {creator: ['name']}, 'message', 'updated-at'
+        {assignable: ['label']}, {creator: ['name']},  {receiver: ['name']},
+        'message', 'updated-at'
       ],
       general_actions: [
         'index'
       ],
       member_actions: [
-        'edit_assignable'
+        'show', 'edit_assignable'
       ]
     },
 
