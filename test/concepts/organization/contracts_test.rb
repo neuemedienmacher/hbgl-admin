@@ -21,12 +21,14 @@ class OrganizationContractsTest < ActiveSupport::TestCase
     it 'must validate that only one hq location is given' do
       message = I18n.t('organization.validations.hq_location')
 
-      subject.locations = [OpenStruct.new(hq?: true), OpenStruct.new(hq?: false)]
+      subject.locations =
+        [OpenStruct.new(hq?: true), OpenStruct.new(hq?: false)]
       subject.valid?
       subject.errors.messages[:locations].must_equal nil
 
       # fails when more than one are hq
-      subject.locations = [OpenStruct.new(hq?: true), OpenStruct.new(hq?: true)]
+      subject.locations =
+        [OpenStruct.new(id: 1, hq?: true), OpenStruct.new(id: 2, hq?: true)]
       subject.valid?
       subject.errors.messages[:locations].must_include message
 
