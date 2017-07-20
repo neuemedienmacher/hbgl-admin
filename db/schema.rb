@@ -96,6 +96,13 @@ ActiveRecord::Schema.define(version: 20170628153424) do
   add_index "categories_offers", ["category_id"], name: "index_categories_offers_on_category_id", using: :btree
   add_index "categories_offers", ["offer_id"], name: "index_categories_offers_on_offer_id", using: :btree
 
+  create_table "categories_section_filters", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "section_filter_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
   create_table "categories_sections", id: false, force: :cascade do |t|
     t.integer "section_id",  null: false
     t.integer "category_id", null: false

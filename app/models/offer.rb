@@ -18,7 +18,7 @@ class Offer < ActiveRecord::Base
   # Callbacks
   after_initialize :after_initialize
   after_create :after_create
-  after_commit :after_commit
+  after_commit :after_commit, on: :update
   before_create :before_create
 
   def after_initialize
@@ -29,11 +29,13 @@ class Offer < ActiveRecord::Base
   end
 
   def after_create
+    binding.pry
     self.generate_translations!
   end
 
   def after_commit
-    fields = self.changed_translatable_fields
+    binding.pry
+    fields = self.changed_translatable_fields.select {|f| f.eql?(:description) || f.eql?(:name) }
     return true if fields.empty?
     self.generate_translations! fields
   end

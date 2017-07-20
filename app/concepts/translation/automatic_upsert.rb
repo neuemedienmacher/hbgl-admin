@@ -9,7 +9,7 @@ module Translation
 
     def generate_translation_params(options)
       found_model = query_for_existing_model(options).first
-
+      binding.pry
       new_params =
         if found_model && found_model.manually_edited?
           # Translation was already edited by a human, so it is not updated

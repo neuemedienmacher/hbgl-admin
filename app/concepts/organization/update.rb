@@ -37,6 +37,7 @@ class Organization::Update < Trailblazer::Operation
   end
 
   def generate_translations!(options, changed_state: false, model:, params:, **)
+    binding.pry
     changes = options['contract.default'].changed
     fields = model.translated_fields.select { |f| changes[f.to_s] }
     meta = params['meta'] && params['meta']['commit']

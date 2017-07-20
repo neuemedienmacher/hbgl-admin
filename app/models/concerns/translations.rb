@@ -4,6 +4,7 @@ module Translations
   included do
     # handled in observer after update and called on complete
     def generate_translations! fields = :all
+      binding.pry
       I18n.available_locales.each do |locale|
         if locale == :de # German translation is needed and thus done right away
           TranslationGenerationWorker.new.perform(locale, self.class.name, id)

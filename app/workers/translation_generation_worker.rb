@@ -3,6 +3,7 @@ class TranslationGenerationWorker
   include Sidekiq::Worker
 
   def perform locale, object_type, object_id, fields = :all
+    binding.pry
     object_to_translate = object_type.constantize.find(object_id)
     Translation::AutomaticUpsert.(
       {},
