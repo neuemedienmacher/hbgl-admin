@@ -48,33 +48,33 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#transform_by_joining' do
     it 'eager_loads with a sort_model' do
       params = { sort_model: 'contact_people.fooooo' }
-      query.expects(:joins).with('contact_people')
+      query.expects(:eager_load).with(:contact_people)
       subject.send(:transform_by_joining, query, params)
     end
 
     it 'eager_loads with a filter' do
       params = { filters: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
-      query.expects(:joins).with(:split_base).returns(query)
-      query.expects(:joins).with(:logic_version).returns(query)
+      query.expects(:eager_load).with(:split_base).returns(query)
+      query.expects(:eager_load).with(:logic_version).returns(query)
       result = subject.send(:transform_by_joining, query, params)
       result.must_equal query
     end
 
     it 'wont eager_load without a sort_model or filter' do
-      invalid_query.expects(:joins).never
+      invalid_query.expects(:eager_load).never
       result = subject.send(:transform_by_joining, invalid_query, {})
       result.must_equal invalid_query
     end
 
     it 'wont eager_load with a filter that references itself' do
       params = { filters: ['offer.baz'] }
-      query.expects(:joins).never
+      query.expects(:eager_load).never
       subject.send(:transform_by_joining, query, params)
     end
 
     it 'wont eager_load with a filter that uses no submodel' do
       params = { filters: ['fuz'] }
-      query.expects(:joins).never
+      query.expects(:eager_load).never
       subject.send(:transform_by_joining, query, params)
     end
   end
@@ -86,9 +86,9 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       result.must_equal invalid_query
     end
 
-    it 'will order with a sort_field but without sort_model' do
+    it 'will order with a sort_field but without sort_model (query model)' do
       params = { sort_field: 'foo' }
-      query.expects(:order).with('foo DESC')
+      query.expects(:order).with('offers.foo DESC')
       subject.send(:transform_by_ordering, query, params)
     end
 

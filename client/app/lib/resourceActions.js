@@ -33,6 +33,7 @@ function routeForAction(action, model, id, entity) {
 function visibleFor(action, model, id, entity) {
   switch(action) {
     case 'edit_assignable':
+    case 'open_url':
       return !!entity
     default:
       return true

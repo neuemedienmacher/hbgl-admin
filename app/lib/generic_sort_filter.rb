@@ -7,7 +7,7 @@ module GenericSortFilter
     query = transform_by_joining(query, adjusted_params)
     query = transform_by_ordering(query, adjusted_params)
     query = transform_by_searching(query, adjusted_params[:query])
-    transform_by_filtering(query, adjusted_params).uniq
+    transform_by_filtering(query, adjusted_params)
   end
 
   private_class_method
@@ -43,27 +43,29 @@ module GenericSortFilter
 
   def self.transform_by_joining(query, params)
     if params[:sort_model]
-      query = query.joins(params[:sort_model].split('.').first)
+      query = query.eager_load(params[:sort_model].split('.').first.to_sym)
     end
 
     params[:filters]&.each do |filter, _value|
       next unless filter['.']
       association_name = filter.split('.').first
       next if referring_to_own_table?(query, association_name) # dont join self
-      query = query.joins(association_name.to_sym)
+      query = query.eager_load(association_name.to_sym)
     end
-
     query
   end
 
   def self.transform_by_ordering(query, params)
     return query unless params[:sort_field]
     sort_string = params[:sort_field]
-    if params[:sort_model]
-      association_name = table_name_for(query, params[:sort_model])
-      sort_string = "#{association_name}.#{sort_string}"
-    end
-    sort_string += ' ' + (params[:sort_direction] || 'DESC')
+    sort_model =
+      if params[:sort_model]
+        table_name_for(query, params[:sort_model])
+      else
+        query.model.name.pluralize.underscore
+      end
+    sort_string =
+      "#{sort_model}.#{sort_string} #{params[:sort_direction] || 'DESC'}"
     query.order(sort_string)
   end
 
