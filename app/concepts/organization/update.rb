@@ -31,7 +31,7 @@ class Organization::Update < Trailblazer::Operation
       options['changed_state'] = true
       options['model'] = result['model']
     else
-      add_all_errors(result['contract.default'], options['contract_default'])
+      add_all_errors(result['contract.default'], options['contract.default'])
     end
     result.success?
   end
