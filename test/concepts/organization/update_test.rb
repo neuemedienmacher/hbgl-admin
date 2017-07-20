@@ -2,8 +2,11 @@
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
 
+# rubocop:disable Metrics/ClassLength
 class OrganizationUpdateTest < ActiveSupport::TestCase
   include OperationTestUtils
+
+  let(:new_orga) { FactoryGirl.create(:organization) }
 
   it 'gets updated with a submodel' do
     params = {
@@ -41,7 +44,8 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
 
     def change_state orga, event
       operation_must_work(
-        ::Organization::ChangeState, { id: orga.id }, 'event' => event
+        ::Organization::Update,
+        id: orga.id, 'meta' => { 'commit' => event.to_s }
       )
     end
 
@@ -68,7 +72,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
       # Approval generates all translations initially
       change_state new_orga, :start_approval_process
       change_state new_orga, :approve
-      new_orga.translations.count.must_equal I18n.available_locales.count
+      new_orga.reload.translations.count.must_equal I18n.available_locales.count
 
       # Now changes to the model change the corresponding translated fields
       EasyTranslate.translated_with 'CHANGED' do
@@ -80,7 +84,6 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
 
     it 'should update an existing translation only when the field changed' do
       # Setup
-      new_orga = FactoryGirl.create(:organization)
       update_description new_orga, 'New description'
       change_state new_orga, :complete
       new_orga.translations.reload.count.must_equal 1
@@ -100,28 +103,57 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
         new_orga.reload.description_ar.must_equal 'CHANGED'
       end
     end
+  end
 
-    describe 'side-effects' do
-      it 'wont do anything without the correct meta commit action' do
-        new_orga = FactoryGirl.create(:organization)
-        new_orga.aasm_state.must_equal 'initialized'
-        operation_wont_work(
-          ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
-                                  'meta' => { 'commit' => 'doesntexist' }
-        )
-        new_orga.reload.aasm_state.must_equal 'initialized'
-      end
+  describe 'state change side-effects' do
+    it 'wont do anything without the correct meta commit action' do
+      new_orga.aasm_state.must_equal 'initialized'
+      operation_wont_work(
+        ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
+                                'meta' => { 'commit' => 'doesntexist' }
+      )
+      new_orga.reload.aasm_state.must_equal 'initialized'
+    end
 
-      it 'changes to complete state with the correct meta action' do
-        new_orga = FactoryGirl.create(:organization)
-        new_orga.aasm_state.must_equal 'initialized'
-        new_orga.valid?.must_equal true
-        operation_must_work(
-          ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
-                                  'meta' => { 'commit' => 'complete' }
-        )
-        new_orga.reload.aasm_state.must_equal 'completed'
-      end
+    it 'changes to complete state with the correct meta action' do
+      new_orga.aasm_state.must_equal 'initialized'
+      new_orga.valid?.must_equal true
+      operation_must_work(
+        ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
+                                'meta' => { 'commit' => 'complete' }
+      )
+      new_orga.reload.aasm_state.must_equal 'completed'
+    end
+
+    it 'validates description and legal_form with approve state change param' do
+      # complete & start_approval_process work without data
+      orga =
+        FactoryGirl.create(:organization, description: nil, legal_form: nil)
+      operation_must_work(
+        ::Organization::Update,
+        id: orga.id, 'meta' => { 'commit' => 'complete' }
+      )
+      operation_must_work(
+        ::Organization::Update,
+        id: orga.id, 'meta' => { 'commit' => 'start_approval_process' }
+      )
+
+      # approve wont work right away
+      result = operation_wont_work(
+        ::Organization::Update, id: orga.id, 'meta' => { 'commit' => 'approve' }
+      )
+      result['result.contract.default'].errors.messages.must_equal(
+        description: ['muss ausgefüllt werden'],
+        legal_form: ['muss ausgefüllt werden']
+      )
+
+      # works with description and legal_form
+      operation_must_work(
+        ::Organization::Update,
+        id: orga.id, description: 'foo', legal_form: 'ev',
+        'meta' => { 'commit' => 'approve' }
+      )
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

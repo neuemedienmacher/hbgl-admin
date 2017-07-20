@@ -228,7 +228,19 @@ export default {
       member_actions: [
         'show'
       ]
-    }
+    },
+
+    websites: {
+      fields: [
+        'id', 'host', 'url'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show', 'open_url'
+      ]
+    },
   },
 
   OPERATORS: ['=', '!=', '<', '>'],

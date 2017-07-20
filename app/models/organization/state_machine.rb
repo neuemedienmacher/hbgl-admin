@@ -42,8 +42,7 @@ module Organization::StateMachine
         transitions from: :completed, to: :approval_process # , guard: :different_actor?
       end
 
-      event :approve, before: :set_approved_information,
-                      success: :generate_translations! do
+      event :approve, before: :set_approved_information do # , success: :generate_translations!
         # TODO: reactivate guard!!!
         transitions from: :approval_process, to: :approved # , guard: :different_actor?
         transitions from: :internal_feedback, to: :approved

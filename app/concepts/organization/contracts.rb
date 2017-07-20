@@ -38,15 +38,19 @@ module Organization::Contracts
   # validates :slug, uniqueness: true
   # validates :mailings, presence: true
 
-  class ChangeState < Update
+  class Approve < Update # before: ChangeState
     validates :description, presence: true
     validates :legal_form, presence: true
 
     validate :one_hq_location?
     def one_hq_location?
-      if locations.where(hq: true).count != 1
-        errors.add(:base, I18n.t('organization.validations.hq_location'))
+      if locations.to_a.select { |l| l.hq == true }.count != 1
+        errors.add(:locations, I18n.t('organization.validations.hq_location'))
       end
     end
+  end
+
+  class ChangeState < Approve
+    # TODO: Remove this! This is ONLY meant for rails_admin_change_state
   end
 end
