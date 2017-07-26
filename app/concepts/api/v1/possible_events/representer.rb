@@ -8,7 +8,8 @@ module API::V1
         events = []
         if r[:represented].respond_to?(:aasm)
           events = r[:represented].aasm.events.select do |event|
-            r[:represented].send("may_#{event.name}?")
+            r[:represented].send("may_#{event.name}?") &&
+              event.name != :mark_as_done
           end.map(&:name)
         elsif r[:represented].is_a?(::Division)
           events = r[:represented].done ? [:mark_as_not_done] : [:mark_as_done]

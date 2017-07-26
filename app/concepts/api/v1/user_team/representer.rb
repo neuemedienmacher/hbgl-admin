@@ -6,6 +6,9 @@ module API::V1
         include Roar::JSON::JSONAPI.resource :user_teams
 
         attributes do
+          property :label, getter: ->(user) do
+            user[:represented].name
+          end
           property :name
           property :classification
           property :lead_id
@@ -18,7 +21,8 @@ module API::V1
           type :user_teams
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
           end
         end
 
@@ -26,7 +30,8 @@ module API::V1
           type :users
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
           end
         end
       end
@@ -48,7 +53,7 @@ module API::V1
           type :users
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -58,7 +63,7 @@ module API::V1
           type :users
 
           attributes do
-            property :name, as: :label
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end

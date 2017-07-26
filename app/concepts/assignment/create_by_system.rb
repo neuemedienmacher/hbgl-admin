@@ -28,7 +28,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
   end
 
   # --- Utils describing default logic --- #
-
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def creator(assignable, last_acting_user)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
@@ -36,12 +36,13 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       assignable_twin.should_be_created_by_system? ? ::User.system_user : last_acting_user
     when 'ContactPersonTranslation'
       ::User.system_user
+    when 'Organization'
+      assignable.initialized? && assignable.assignments.any? ? ::User.system_user : last_acting_user
     else
       last_acting_user # NOTE: this is not used yet - rethink when other models become assignable!
     end
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
   def receiver_id(assignable, last_acting_user)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
@@ -56,7 +57,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'Division'
       assignable.done == false ? nil : ::User.system_user.id
     when 'Organization'
-      ::User.system_user.id
+      assignable.initialized? && assignable.assignments.any? ? last_acting_user.id : ::User.system_user.id
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -105,10 +106,10 @@ class Assignment::CreateBySystem < Trailblazer::Operation
         'Managed by system'
       end
     when 'Organization'
-      'Managed by system'
+      assignable.initialized? && assignable.assignments.any? ? 'Bitte den Orga Datensatz vervollständigen' : 'Managed by system'
     else
       'Assigned by system'
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170628153424) do
+ActiveRecord::Schema.define(version: 20170721123055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,11 @@ ActiveRecord::Schema.define(version: 20170628153424) do
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de", using: :btree
 
+  create_table "categories_filters", id: false, force: :cascade do |t|
+    t.integer "filter_id",   null: false
+    t.integer "category_id", null: false
+  end
+
   create_table "categories_offers", id: false, force: :cascade do |t|
     t.integer "offer_id",    null: false
     t.integer "category_id", null: false
@@ -95,6 +100,13 @@ ActiveRecord::Schema.define(version: 20170628153424) do
 
   add_index "categories_offers", ["category_id"], name: "index_categories_offers_on_category_id", using: :btree
   add_index "categories_offers", ["offer_id"], name: "index_categories_offers_on_offer_id", using: :btree
+
+  create_table "categories_section_filters", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "section_filter_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "categories_sections", id: false, force: :cascade do |t|
     t.integer "section_id",  null: false
@@ -543,11 +555,21 @@ ActiveRecord::Schema.define(version: 20170628153424) do
   add_index "solution_category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "solution_category_anc_desc_idx", unique: true, using: :btree
   add_index "solution_category_hierarchies", ["descendant_id"], name: "solution_category_desc_idx", using: :btree
 
+  create_table "split_base_divisions", force: :cascade do |t|
+    t.integer  "split_base_id", null: false
+    t.integer  "division_id",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "split_base_divisions", ["division_id"], name: "index_split_base_divisions_on_division_id", using: :btree
+  add_index "split_base_divisions", ["split_base_id"], name: "index_split_base_divisions_on_split_base_id", using: :btree
+
   create_table "split_bases", force: :cascade do |t|
     t.string   "title",                null: false
     t.string   "clarat_addition"
     t.text     "comments"
-    t.integer  "organization_id",      null: false
+    t.integer  "organization_id"
     t.integer  "solution_category_id", null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false

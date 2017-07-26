@@ -62,7 +62,7 @@ module API::V1
         has_one :federal_state,
                 decorator: API::V1::FederalState::Representer::Show,
                 populator: API::V1::Lib::Populators::Find, class: ::FederalState
-        has_one :city, decorator: API::V1::City::Representer::Create,
+        has_one :city, decorator: API::V1::City::Representer::Show,
                        populator: API::V1::Lib::Populators::Find, class: ::City
       end
 

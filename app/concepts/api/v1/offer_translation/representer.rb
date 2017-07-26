@@ -20,6 +20,10 @@ module API::V1
           property :updated_at
 
           property :offer_id
+
+          property :offer_stamp, getter: ->(ot) do
+            ot[:represented].offer.target_audience_filters.pluck(:stamp_de)
+          end
         end
 
         has_one :offer, class: ::Offer do
@@ -32,10 +36,6 @@ module API::V1
             property :untranslated_description
             property :untranslated_opening_specification
           end
-        end
-
-        property :offer_stamp, getter: ->(ot) do
-          ot[:represented].offer.target_audience_filters.pluck(:stamp_de)
         end
       end
 

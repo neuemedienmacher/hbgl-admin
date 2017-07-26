@@ -23,7 +23,7 @@ feature 'Admin Backend' do
         select 'basicNextStep', from: 'offer_next_step_ids'
         select 'Personal', from: 'offer_encounter'
         select 'basicLocation', from: 'offer_location_id'
-        select 'foobar', from: 'offer_organization_ids'
+        # select 'foobar', from: 'offer_organization_ids'
         select 'English', from: 'offer_language_filter_ids'
         select 'basicSplitBaseTitle', from: 'offer_split_base_id'
         select 'basicSolutionCategoryName', from: 'offer_solution_category_id'
@@ -112,10 +112,9 @@ feature 'Admin Backend' do
 
     scenario 'Deactivate Organization' do
       orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      FactoryGirl.create :offer, organization: orga, split_base: split_base,
-                                 aasm_state: :completed
-      FactoryGirl.create :offer, organization: orga, split_base: split_base,
+      split_base = split_bases(:basic)
+      FactoryGirl.create :offer, split_base: split_base, aasm_state: :completed
+      FactoryGirl.create :offer, split_base: split_base,
                                  aasm_state: :internal_feedback
 
       visit rails_admin_path
@@ -149,10 +148,8 @@ feature 'Admin Backend' do
     end
 
     scenario 'Set offer completed, then edit and back to completed' do
-      orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, organization: orga,
-                                         split_base: split_base
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, split_base: split_base
 
       visit rails_admin_path
       click_link 'Angebote', match: :first
@@ -174,10 +171,8 @@ feature 'Admin Backend' do
     end
 
     scenario 'disapprove offer then edit and approve it again' do
-      orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, organization: orga,
-                                         split_base: split_base
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, split_base: split_base
 
       visit rails_admin_path
       click_link 'Angebote', match: :first
@@ -215,10 +210,8 @@ feature 'Admin Backend' do
     end
 
     scenario 'under_construction state should work correctly on offer' do
-      orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, :approved, organization: orga,
-                                                    split_base: split_base
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, :approved, split_base: split_base
 
       visit rails_admin_path
       click_link 'Angebote', match: :first
@@ -240,10 +233,8 @@ feature 'Admin Backend' do
     end
 
     scenario 'create a seasonal pending offer' do
-      orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, organization: orga,
-                                         split_base: split_base,
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, split_base: split_base,
                                          starts_at: (Time.zone.now + 1.day)
 
       visit rails_admin_path
@@ -271,11 +262,9 @@ feature 'Admin Backend' do
     end
 
     scenario 'checkup_process must be possible for invalid offers' do
-      orga = organizations(:basic)
       researcher.user_teams = [UserTeam.first]
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, :approved, organization: orga,
-                                                    split_base: split_base
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, :approved, split_base: split_base
 
       offer.valid?.must_equal true
       visit rails_admin_path
@@ -306,10 +295,8 @@ feature 'Admin Backend' do
     end
 
     scenario 'edit-state must be possible for invalid offers' do
-      orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, :approved, organization: orga,
-                                                    split_base: split_base
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, :approved, split_base: split_base
 
       offer.valid?.must_equal true
       visit rails_admin_path
@@ -340,10 +327,8 @@ feature 'Admin Backend' do
     end
 
     scenario 'deactivate seasonal_pending offer and reactivate it afterwards' do
-      orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      offer = FactoryGirl.create :offer, :approved, organization: orga,
-                                                    split_base: split_base,
+      split_base = split_bases(:basic)
+      offer = FactoryGirl.create :offer, :approved, split_base: split_base,
                                                     starts_at: (Time.zone.now - 1.day)
 
       offer.aasm_state = 'paused'
@@ -364,10 +349,10 @@ feature 'Admin Backend' do
 
     scenario 'Deactivate Organization and then set to under_construction' do
       orga = organizations(:basic)
-      split_base = FactoryGirl.create(:split_base, organization: orga)
-      FactoryGirl.create :offer, organization: orga, split_base: split_base,
+      split_base = split_bases(:basic)
+      FactoryGirl.create :offer, split_base: split_base,
                                  aasm_state: :completed
-      FactoryGirl.create :offer, organization: orga, split_base: split_base,
+      FactoryGirl.create :offer, split_base: split_base,
                                  aasm_state: :internal_feedback
 
       visit rails_admin_path
@@ -424,7 +409,7 @@ feature 'Admin Backend' do
       select 'basicNextStep', from: 'offer_next_step_ids'
       select 'Personal', from: 'offer_encounter'
       select location.name, from: 'offer_location_id'
-      select 'foobar', from: 'offer_organization_ids'
+      # select 'foobar', from: 'offer_organization_ids'
       select 'basicSplitBaseTitle', from: 'offer_split_base_id'
 
       click_button 'Speichern und bearbeiten'
@@ -540,18 +525,12 @@ feature 'Admin Backend' do
       select 'Hotline', from: 'offer_encounter'
       select 'basicLocation', from: 'offer_location_id'
       select 'main1', from: 'offer_category_ids'
-      select 'basicSplitBaseTitle', from: 'offer_split_base_id'
       select 'basicSolutionCategoryName', from: 'offer_solution_category_id'
 
       ## Test general validations
 
-      # Doesnt save, needs organization
-      click_button 'Speichern und bearbeiten'
-      page.must_have_content 'Organizations benötigt mindestens eine'\
-                             ' Organisation'
-
-      # Organization given, needs an area and no location when remote
-      select 'foobar', from: 'offer_organization_ids'
+      # SplitBase given, needs an area and no location when remote
+      select 'basicSplitBaseTitle', from: 'offer_split_base_id'
       click_button 'Speichern und bearbeiten'
       page.wont_have_content 'Organizations benötigt mindestens eine'\
                              ' Organisation'

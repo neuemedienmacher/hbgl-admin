@@ -9,13 +9,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#snake_case_contents' do
     it 'should transform kebab-case contents to snake_case' do
       params = {
-        sort_field: 'foo-bar', sort_model: ['split-base', 'baz-fuz'],
+        sort_field: 'foo-bar', sort_model: %w(split-base baz-fuz),
         sort_direction: 'ASC',
         filters: { 'split-base.foo-bar' => 'dont-touch' }
       }
       result = subject.send(:snake_case_contents, params)
       result.must_equal(
-        sort_field: 'foo_bar', sort_model: ['split_base', 'baz_fuz'],
+        sort_field: 'foo_bar', sort_model: %w(split_base baz_fuz),
         sort_direction: 'ASC',
         filters: { 'split_base.foo_bar' => 'dont-touch' }
       )

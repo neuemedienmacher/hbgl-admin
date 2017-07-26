@@ -55,7 +55,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 1
 
     # add a refugees offer to the organization and start Operation again
-    orga.offers << refugees_section_offer
+    refugees_section_offer.split_base.divisions.first
+                          .update_columns organization_id: orga.id
     orga.in_section?('refugees').must_equal true
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -67,7 +68,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
 
   it 'should assign to approver if creator is inactive' do
     orga = family_section_offer.organizations.first
-    orga.offers << refugees_section_offer
+    refugees_section_offer.split_base.divisions.first
+                          .update_columns organization_id: orga.id
     User.find(orga.created_by).update_attributes(active: false)
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -87,7 +89,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
 
     # add a refugeesoffer to the organization and start Operation again
-    orga.offers << refugees_section_offer
+    refugees_section_offer.split_base.divisions.first
+                          .update_columns organization_id: orga.id
     refugees_section_offer.update_columns aasm_state: 'initialized'
     orga.sections.pluck(:identifier).include?('refugees').must_equal true
     operation.({}, 'locale' => :en, 'fields' => :all,

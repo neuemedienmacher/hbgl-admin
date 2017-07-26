@@ -9,3 +9,4 @@ basic:
   approved_by: 2
   mailings: enabled
   website_id: 1
+  slug: basicOrgaSlug

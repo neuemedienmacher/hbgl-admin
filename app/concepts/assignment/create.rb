@@ -43,8 +43,13 @@ class Assignment::Create < Trailblazer::Operation
     # validates :creator_id, presence: true
     # validates :creator_team_id, presence: true, unless: :creator_id
     # receiver or receiver_team must be present
-    validates :receiver_id, presence: true, unless: :receiver_team_id
-    validates :receiver_team_id, presence: true, unless: :receiver_id
+    validate :receiver_or_receiver_team_id_must_be_present
+
+    def receiver_or_receiver_team_id_must_be_present
+      return if !receiver_id.blank? || !receiver_team_id.blank?
+      errors.add :receiver_id, 'Nutzer oder Team muss gesetzt sein'
+      errors.add :receiver_team_id, 'Nutzer oder Team muss gesetzt sein'
+    end
   end
 
   # def decorate_assignable(options, model:, **)

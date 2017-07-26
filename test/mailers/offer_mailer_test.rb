@@ -49,7 +49,8 @@ describe OfferMailer do
       offer3 = FactoryGirl.create :offer, :approved,
                                   name: 'By mailings=disabled organization'
       offer3.contact_people.first.update_column :email_id, email.id
-      offer3.organizations.first.update_column :mailings, 'force_disabled'
+      offer3.organizations.update_all mailings: 'force_disabled'
+      # binding.pry
 
       assert_difference 'OfferMailing.count', 2 do # lists offer and offer2
         subject.must have_body_text offer.name

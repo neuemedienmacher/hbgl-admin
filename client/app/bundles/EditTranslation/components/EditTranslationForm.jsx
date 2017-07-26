@@ -53,7 +53,7 @@ export default class EditTranslationForm extends Component {
     if (this.props.translation.source == 'GoogleTranslate') {
       return <span className='text-danger translation-marker'>GoogleTranslate</span>
     }
-    else if (this.props.translation.possibly_outdated) {
+    else if (this.props.translation['possibly-outdated']) {
       return(
         <span className='text-warning translation-marker'>
           Menschenhand
