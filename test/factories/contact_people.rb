@@ -25,6 +25,7 @@ FactoryGirl.define do
     after :create do |contact_person, evaluator|
       if evaluator.offers.any?
         contact_person.offers = evaluator.offers
+        contact_person.organization = evaluator.offers.first.organizations.first
       end
     end
 

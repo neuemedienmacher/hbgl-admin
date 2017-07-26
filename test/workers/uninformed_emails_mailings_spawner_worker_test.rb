@@ -61,7 +61,9 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     email.organizations.update_all mailings: 'enabled', aasm_state: 'all_done'
     email.contact_people.update_all position: 'superior'
     # .. but one orga has an approved offer
-    email.organizations.first.offers << FactoryGirl.create(:offer, :approved)
+    approved_offer = FactoryGirl.create(:offer, :approved)
+    approved_offer.split_base.divisions.first
+                  .update_columns organization_id: email.organizations.first.id
     UninformedEmailMailingWorker.expects(:perform_async).with(email.id)
     worker.perform
   end
@@ -73,8 +75,9 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     email.organizations.update_all mailings: 'enabled', aasm_state: 'all_done'
     email.contact_people.update_all position: 'superior'
     # .. but one orga has an expired offer
-    email.organizations.first.offers << FactoryGirl.create(:offer, :approved)
-    email.organizations.first.offers.update_all aasm_state: 'expired'
+    expired_offer = FactoryGirl.create(:offer, aasm_state: 'expired')
+    expired_offer.split_base.divisions.first
+                 .update_columns organization_id: email.organizations.first.id
     UninformedEmailMailingWorker.expects(:perform_async).with(email.id)
     worker.perform
   end

@@ -24,7 +24,7 @@ class OrganizationContractsTest < ActiveSupport::TestCase
       subject.locations =
         [OpenStruct.new(hq?: true), OpenStruct.new(hq?: false)]
       subject.valid?
-      subject.errors.messages[:locations].must_equal nil
+      assert_nil subject.errors.messages[:locations]
 
       # fails when more than one are hq
       subject.locations =

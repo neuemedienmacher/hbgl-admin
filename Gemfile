@@ -11,7 +11,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 4.2'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'develop'
+gem 'clarat_base', github: 'clarat-org/clarat_base', branch: 'feature/945-refactored-associations'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'

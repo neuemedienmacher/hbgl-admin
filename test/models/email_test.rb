@@ -146,8 +146,6 @@ describe Email do
          ', when orga is mailings=enabled and has approved offers' do
         email = FactoryGirl.create :email, :with_approved_offer
         email.organizations.first.update_column :mailings, 'enabled'
-        email.organizations.first.update_column :aasm_state, 'all_done'
-        email.organizations.first.offers = email.offers
         superior_mail = FactoryGirl.create :email
         superior_mail.contact_people <<
           FactoryGirl.create(
@@ -166,9 +164,8 @@ describe Email do
         mail = FactoryGirl.create :email, :with_approved_offer
         mail.contact_people.first.update_column :position, 'superior'
         mail.organizations.first.update_column :mailings, 'enabled'
-        mail.organizations.first.update_column :aasm_state, 'all_done'
-        mail.contact_people.first.organization = mail.organizations.first
-        mail.organizations.first.offers = mail.offers
+        # mail.contact_people.first.organization = mail.organizations.first
+        # # mail.organizations.first.offers = mail.offers
 
         mail.belongs_to_unique_orga_with_orga_contact?.must_equal true
         OfferMailer.expect_chain(:inform_offer_context, :deliver_now)

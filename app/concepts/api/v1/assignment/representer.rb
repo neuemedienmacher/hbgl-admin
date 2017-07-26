@@ -26,6 +26,7 @@ module API::V1
           type :users
 
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -34,6 +35,7 @@ module API::V1
           type :users
 
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -42,6 +44,7 @@ module API::V1
           type :user_teams
 
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -50,6 +53,7 @@ module API::V1
           type :user_teams
 
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end

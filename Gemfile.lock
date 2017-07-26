@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: e4c08ce530cec438dfe7ccb9fc8d8dd1cfbab3bf
-  branch: develop
+  revision: 55d1b3a1108bc1c994afef9d844366e2db054b2d
+  branch: feature/945-refactored-associations
   specs:
     clarat_base (0.1.4)
       aasm
@@ -57,7 +57,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.12.0)
+    aasm (4.12.1)
       concurrent-ruby (~> 1.0)
     actionmailer (4.2.9)
       actionpack (= 4.2.9)
@@ -640,7 +640,7 @@ GEM
     thor (0.19.4)
     thread (0.2.2)
     thread_safe (0.3.6)
-    tilt (2.0.7)
+    tilt (2.0.8)
     timecop (0.8.1)
     tins (1.13.0)
     trailblazer (2.0.6)

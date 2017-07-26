@@ -17,6 +17,7 @@ class Organization::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
   }
   step :change_state_side_effect # prevents persist on faulty state change
+  step :assign_to_system_on_approve
   # step ::Lib::Macros::Debug::Breakpoint()
   step Contract::Persist()
   step :generate_translations!
@@ -34,6 +35,19 @@ class Organization::Update < Trailblazer::Operation
       add_all_errors(result['contract.default'], options['contract.default'])
     end
     result.success?
+  end
+
+  def assign_to_system_on_approve(
+    options, changed_state: false, model:, params:, **
+  )
+    meta = params['meta'] && params['meta']['commit']
+    current_user = options['current_user']
+    if meta.to_s == 'approve' && changed_state
+      ::Assignment::CreateBySystem.(
+        {}, assignable: model, last_acting_user: current_user
+      ).success?
+    end
+    true
   end
 
   def generate_translations!(options, changed_state: false, model:, params:, **)
