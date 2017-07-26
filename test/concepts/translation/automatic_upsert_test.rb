@@ -76,7 +76,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.last.aasm_state.must_equal 'open'
   end
 
-  it 'should correctly create the second assignment as anoffer side-effect' do
+  it 'should correctly create the second assignment as an offer side-effect' do
     orga = family_section_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -110,7 +110,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 2
   end
 
-  it 'should only create system-assignment for family-en-OrganizationTranslation' do
+  it 'only creates system-assignment for family-en-OrganizationTranslation' do
     orga = family_section_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -122,7 +122,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   end
 
   it 'should create system-assignment for contact_person' do
-    cont = FactoryGirl.create :contact_person, responsibility: 'Geduld und Disziplin.'
+    cont =
+      FactoryGirl.create :contact_person, responsibility: 'Geduld und Disziplin'
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => cont)
     assignments = cont.translations.where(locale: 'en').first.assignments

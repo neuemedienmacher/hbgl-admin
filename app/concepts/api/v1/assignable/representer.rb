@@ -7,9 +7,27 @@ module API::V1
         base.attributes do
           # method (uses scopes) to get current_assignment
           property :current_assignment_id, getter: ->(item) do
-            ::Assignable::Twin.new(item[:represented]).current_assignment.id
+            item[:represented].current_assignment&.id
           end
           property :assignment_ids
+        end
+
+        base.has_one :current_assignment do
+          type :assignments
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].message }
+            property :receiver_id
+          end
+
+          has_one :receiver do
+            type :users
+
+            attributes do
+              property :name
+              property :label, getter: ->(o) { o[:represented].name }
+            end
+          end
         end
 
         base.has_many :assignments, class: ::Assignment do

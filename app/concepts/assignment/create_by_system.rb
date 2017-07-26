@@ -77,14 +77,14 @@ class Assignment::CreateBySystem < Trailblazer::Operation
   end
 
   def topic(assignable)
-    twin = ::Assignable::Twin.new(assignable)
+    assignment = assignable.current_assignment
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
     when 'Division'
-      assignable.done == false ? 'new' : twin.current_assignment.topic
+      assignable.done == false ? 'new' : assignment&.topic
     else
-      twin.current_assignment ? twin.current_assignment.topic : 'new'
+      assignment ? assignment.topic : 'new'
     end
   end
 

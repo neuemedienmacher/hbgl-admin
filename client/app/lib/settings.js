@@ -150,8 +150,10 @@ export default {
 
     divisions: {
       fields: [
-        'id', 'name', { organization: ['name'] }, { section: ['identifier'] },
-        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
+        'id', { 'current-assignment': { receiver: ['name'] } },
+        { organization: ['name'] }, { section: ['identifier'] },
+        { city: ['name'] }, { area: ['name'] },
+        'size', 'done',
       ],
       general_actions: [
         'index', 'export', 'new',

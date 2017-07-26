@@ -16,12 +16,11 @@ export default class TableCell extends Component {
 
   renderContent(content, contentType) {
     if (content == undefined) {
-      return content
-    }
-    else{
+      return <span className='fa fa-hand-spock-o' title='null' />
+    } else {
       switch(contentType) {
         case 'object':
-          if(isArray(content)){
+          if (isArray(content)){
             return(
               <p>
                 {content.map(obj =>
@@ -29,7 +28,7 @@ export default class TableCell extends Component {
                 ).join(', ')}
               </p>
             )
-          } else if(content.label) {
+          } else if (content.label) {
             return content.label
           } else {
             return content

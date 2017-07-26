@@ -9,12 +9,14 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#snake_case_contents' do
     it 'should transform kebab-case contents to snake_case' do
       params = {
-        sort_field: 'foo-bar', sort_model: 'split-base', sort_direction: 'ASC',
+        sort_field: 'foo-bar', sort_model: ['split-base', 'baz-fuz'],
+        sort_direction: 'ASC',
         filters: { 'split-base.foo-bar' => 'dont-touch' }
       }
       result = subject.send(:snake_case_contents, params)
       result.must_equal(
-        sort_field: 'foo_bar', sort_model: 'split_base', sort_direction: 'ASC',
+        sort_field: 'foo_bar', sort_model: ['split_base', 'baz_fuz'],
+        sort_direction: 'ASC',
         filters: { 'split_base.foo_bar' => 'dont-touch' }
       )
     end
@@ -46,16 +48,23 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   end
 
   describe '#transform_by_joining' do
-    it 'eager_loads with a sort_model' do
-      params = { sort_model: 'contact_people.fooooo' }
-      query.expects(:eager_load).with(:contact_people)
+    it 'eager_loads with a plain sort_model' do
+      params = { sort_model: 'contact_people' }
+      query.expects(:eager_load).with('contact_people')
+      subject.send(:transform_by_joining, query, params)
+    end
+
+    it 'eager_loads with a nested sort_model' do
+      params = { sort_model: 'contact_people.foo_bars' }
+      query.expects(:eager_load).with('contact_people' => 'foo_bars')
       subject.send(:transform_by_joining, query, params)
     end
 
     it 'eager_loads with a filter' do
-      params = { filters: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
-      query.expects(:eager_load).with(:split_base).returns(query)
-      query.expects(:eager_load).with(:logic_version).returns(query)
+      params =
+        { filters: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
+      query.expects(:eager_load).with('split_base').returns(query)
+      query.expects(:eager_load).with('logic_version').returns(query)
       result = subject.send(:transform_by_joining, query, params)
       result.must_equal query
     end
@@ -150,6 +159,12 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     it 'filters with a mismatching association/table name' do
       params = { filters: { 'language_filters.foobar' => 'bazfuz' } }
       query.expects(:where).with("filters.foobar = 'bazfuz'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters with a 2-level deep association' do
+      params = { filters: { 'section.cities.foobar' => 'bazfuz' } }
+      query.expects(:where).with("cities.foobar = 'bazfuz'")
       subject.send(:transform_by_filtering, query, params)
     end
 

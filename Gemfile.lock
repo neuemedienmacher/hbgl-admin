@@ -7,9 +7,30 @@ GIT
       representable (~> 3.0.0)
 
 GIT
-  remote: git://github.com/clarat-org/clarat_base.git
-  revision: e4c08ce530cec438dfe7ccb9fc8d8dd1cfbab3bf
-  branch: develop
+  remote: git://github.com/efqdalton/dynamic_sitemaps.git
+  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
+  branch: adds-custom-storages
+  specs:
+    dynamic_sitemaps (2.0.0)
+      aws-sdk
+
+GIT
+  remote: git://github.com/trailblazer/roar-jsonapi.git
+  revision: 45e519917419dc19265a6a301c0bdb8bb33089ff
+  specs:
+    roar-jsonapi (0.0.3)
+      representable (~> 3.0, >= 3.0.3)
+      roar (~> 1.1)
+
+GIT
+  remote: git://github.com/trailblazer/trailblazer-endpoint.git
+  revision: 9ec75c05425a5447893e67c47042a98026f3c94b
+  specs:
+    trailblazer-endpoint (0.0.1)
+      dry-matcher
+
+PATH
+  remote: ../clarat_base
   specs:
     clarat_base (0.1.4)
       aasm
@@ -30,34 +51,11 @@ GIT
       sidekiq (~> 4.1.2)
       web-console (~> 2.0)
 
-GIT
-  remote: git://github.com/efqdalton/dynamic_sitemaps.git
-  revision: f229cb40391ab3283efd2091ab58bbec68c720cf
-  branch: adds-custom-storages
-  specs:
-    dynamic_sitemaps (2.0.0)
-      aws-sdk
-
-GIT
-  remote: git://github.com/trailblazer/roar-jsonapi.git
-  revision: 3ca7fa8e0f5af83faa6d188fd1916d490776f084
-  specs:
-    roar-jsonapi (0.0.3)
-      representable (~> 3.0, >= 3.0.3)
-      roar (~> 1.1)
-
-GIT
-  remote: git://github.com/trailblazer/trailblazer-endpoint.git
-  revision: 9ec75c05425a5447893e67c47042a98026f3c94b
-  specs:
-    trailblazer-endpoint (0.0.1)
-      dry-matcher
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.12.0)
+    aasm (4.12.1)
       concurrent-ruby (~> 1.0)
     actionmailer (4.2.9)
       actionpack (= 4.2.9)
@@ -640,7 +638,7 @@ GEM
     thor (0.19.4)
     thread (0.2.2)
     thread_safe (0.3.6)
-    tilt (2.0.7)
+    tilt (2.0.8)
     timecop (0.8.1)
     tins (1.13.0)
     trailblazer (2.0.6)
