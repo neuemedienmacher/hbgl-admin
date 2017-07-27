@@ -151,6 +151,7 @@ export default {
     divisions: {
       fields: [
         'id', { 'current-assignment': { receiver: ['name'] } },
+        { 'current-assignment': { 'receiver-team': ['name'] } },
         { organization: ['name'] }, { section: ['identifier'] },
         { city: ['name'] }, { area: ['name'] },
         'size', 'done',
@@ -186,7 +187,7 @@ export default {
       inline_fields: [
         'assignable-type', 'assignable-id', 'topic',
         {assignable: ['label']}, {creator: ['name']},  {receiver: ['name']},
-        'message', 'updated-at'
+        {'receiver-team': ['name']}, 'message', 'updated-at'
       ],
       general_actions: [
         'index'

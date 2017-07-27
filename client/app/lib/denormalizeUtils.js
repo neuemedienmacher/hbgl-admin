@@ -52,6 +52,7 @@ function entityModelForAssociation(entity, newModel, entityModel){
 const associationModelMapping = {
   'current-assignment': 'assignments',
   receiver: 'users',
+  'receiver-team': 'user-teams',
   creator: 'users',
   'presumed-categories': 'categories',
   'presumed-solution-categories': 'solution-categories',

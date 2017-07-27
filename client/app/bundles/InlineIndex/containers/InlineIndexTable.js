@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import settings from '../../../lib/settings'
-import { analyzeFields, denormalizeIndexResults } from '../../../lib/settingUtils'
+import compact from 'lodash/compact'
+import { analyzeFields } from '../../../lib/settingUtils'
+import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 import InlineIndexTable from '../components/InlineIndexTable'
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,7 +16,9 @@ const mapStateToProps = (state, ownProps) => {
 
   const fields = analyzeFields(settings_fields, model)
   const rows =
-    state.ajax[identifier] ? denormalizeIndexResults(state.ajax[identifier]) : []
+    state.ajax[identifier] ? compact(state.ajax[identifier].data.map(datum =>
+      denormalizeStateEntity(state.entities, model, datum.id)
+    )) : []
 
   let tbodyClass
   if (state.ajax.isLoading[identifier]) tbodyClass = 'loading'
