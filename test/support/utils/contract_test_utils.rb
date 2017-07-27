@@ -34,6 +34,9 @@ module ContractTestUtils
 
   def assert_contract_error(property, i18n_key, i18n_options = {})
     subject.wont_be :valid?
+    subject.errors.messages.keys.must_include(
+      property, "Error messages did not include #{property}"
+    )
     subject.errors.messages[property].must_include(
       I18n.t("errors.messages.#{i18n_key}", i18n_options)
     )
