@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { Form, InputSet, Input, Button } from 'rform'
 import { MenuItem } from 'react-bootstrap'
 import FormInputs from '../containers/FormInputs'
+import ReadOnlyProperties from '../containers/ReadOnlyProperties'
 import DisableableSplitButton from '../wrappers/DisableableSplitButton'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
@@ -33,6 +34,9 @@ export default class GenericFormForm extends React.Component {
           <FormInputs
             model={model} formObjectClass={formObjectClass} formId={formId}
             nestingModel={nestingModel} submodelPath={submodelPath}
+          />
+          <ReadOnlyProperties
+            instance={instance} formObjectClass={formObjectClass}
           />
           {this.renderButtons(
             formId, nestingModel, buttonData, afterSaveActions,

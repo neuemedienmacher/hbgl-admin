@@ -9,6 +9,7 @@ class Organization::Update < Trailblazer::Operation
   )
   step Contract::Build()
   step Contract::Validate()
+  # step ::Lib::Macros::Debug::Breakpoint()
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create :website, Website::Create
     step ::Lib::Macros::Nested::Create :divisions, Division::Create
@@ -18,7 +19,6 @@ class Organization::Update < Trailblazer::Operation
   }
   step :change_state_side_effect # prevents persist on faulty state change
   step :assign_to_system_on_approve
-  # step ::Lib::Macros::Debug::Breakpoint()
   step Contract::Persist()
   step :generate_translations!
 
@@ -50,8 +50,8 @@ class Organization::Update < Trailblazer::Operation
     true
   end
 
-  def generate_translations!(options, changed_state: false, model:, params:, **)
-    changes = options['contract.default'].changed
+  def generate_translations!(opts, changed_state: false, model:, params:, **)
+    changes = opts['contract.default'].changed
     fields = model.translated_fields.select { |f| changes[f.to_s] }
     meta = params['meta'] && params['meta']['commit']
     if (meta.to_s == 'approve' && changed_state) || fields.any?

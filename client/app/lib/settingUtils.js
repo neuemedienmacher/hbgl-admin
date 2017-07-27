@@ -1,7 +1,7 @@
 import forIn from 'lodash/forIn'
 import flatten from 'lodash/flatten'
+import clone from 'lodash/clone'
 import isPlainObject from 'lodash/isPlainObject'
-// import clone from 'lodash/clone'
 // import isArray from 'lodash/isArray'
 
 export function analyzeFields(rawFields, model) {
@@ -17,15 +17,18 @@ export function analyzeFields(rawFields, model) {
 function _analyzeAssociationField(associationObject, heritage = []) {
   let associations = []
   forIn(associationObject, (associatedFields, association) => {
-    heritage.push(association)
+    let nestedHeritage = clone(heritage)
+    nestedHeritage.push(association)
     if (isPlainObject(associatedFields)) {
-      associations.push(_analyzeAssociationField(associatedFields, heritage))
+      associations.push(
+        _analyzeAssociationField(associatedFields, nestedHeritage)
+      )
     } else { // is array
       for (let associatedField of associatedFields) {
         associations.push({
-            name: `${heritage.join(' ')} ${associatedField}`,
+            name: `${nestedHeritage.join(' ')} ${associatedField}`,
           relation: 'association',
-          model: heritage.join('.'),
+          model: nestedHeritage.join('.'),
           field: associatedField
         })
       }

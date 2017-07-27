@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
   const model = 'assignments'
   const assignment =
     id ? state.entities[model] && state.entities[model][id] : false
-  const loaded = !!assignment
+  const loaded = !!assignment && assignment['assignable-type'] // has loaded more than just label
   const heading =
     id ? `Aktuelle Zuweisung: ${model}#${id}` : 'Keine Zuweisung gefunden!'
   const involvedEntities = loaded ? {

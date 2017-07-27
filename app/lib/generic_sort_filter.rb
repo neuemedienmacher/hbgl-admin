@@ -55,8 +55,7 @@ module GenericSortFilter
 
   def self.transform_by_joining_sort_model(query, params)
     return query unless params[:sort_model]
-    load_param = join_string_or_hash(params[:sort_model])
-    query.eager_load(load_param)
+    join! query, params[:sort_model].split('.')
   end
 
   def self.transform_by_joining_filter(query, params)
@@ -64,17 +63,20 @@ module GenericSortFilter
       next unless filter['.']
       split_filter = filter.split('.')
       next if referring_to_own_table?(query, split_filter.first) # dont join self
-      query = query.eager_load join_string_or_hash split_filter[0..-2].join('.')
+      query = join! query, split_filter[0..-2] # [-1] is filtered attribute
     end
     query
   end
 
-  def self.join_string_or_hash(request_string)
-    if request_string.include?('.')
-      path = request_string.split('.')
-      { path[0] => path[1] } # assuming depth of 2, can't yet handle more
+  def self.join!(query, associations)
+    query.eager_load join_string_or_hash associations
+  end
+
+  def self.join_string_or_hash(request_array)
+    if request_array.length > 1
+      { request_array[0] => request_array[1] } # assuming depth of 2, can't yet handle more
     else
-      request_string
+      request_array[0]
     end
   end
 

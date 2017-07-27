@@ -150,11 +150,12 @@ export default {
 
     divisions: {
       fields: [
-        'id', { 'current-assignment': { receiver: ['name'] } },
-        { 'current-assignment': { 'receiver-team': ['name'] } },
-        { organization: ['name'] }, { section: ['identifier'] },
-        { city: ['name'] }, { area: ['name'] },
-        'size', 'done',
+        'id', {
+          'current-assignment': {
+            receiver: ['name'], 'receiver-team': ['name']
+          }
+        }, { organization: ['name'] }, { section: ['identifier'] },
+        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
       ],
       general_actions: [
         'index', 'export', 'new',

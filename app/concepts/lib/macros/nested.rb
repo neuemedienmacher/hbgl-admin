@@ -130,19 +130,29 @@ module Lib
 
       def self.reset_contract_field(options, field_name)
         field_value = options['contract.default'].send(field_name)
-        if iterable?(field_value)
-          options['contract.default'].send(:"#{field_name}=", [])
-        elsif !field_value.is_a? Hash
-          options['contract.default'].send(:"#{field_name}=", nil)
+        without_changes(options['contract.default']) do
+          if iterable?(field_value)
+            options['contract.default'].send(:"#{field_name}=", [])
+          elsif !field_value.is_a? Hash
+            options['contract.default'].send(:"#{field_name}=", nil)
+          end
         end
       end
 
       def self.set_contract_field(options, field_name, field_value)
-        if iterable?(options['contract.default'].send(field_name))
-          options['contract.default'].send(field_name).push(field_value)
-        else
-          options['contract.default'].send(:"#{field_name}=", field_value)
+        without_changes(options['contract.default']) do
+          if iterable?(options['contract.default'].send(field_name))
+            options['contract.default'].send(field_name).push(field_value)
+          else
+            options['contract.default'].send(:"#{field_name}=", field_value)
+          end
         end
+      end
+
+      def self.without_changes(contract)
+        original_changes = contract.instance_variable_get(:"@_changes").dup
+        yield
+        contract.instance_variable_set(:"@_changes", original_changes)
       end
 
       def self.set_contract_errors(options, field_name, results)
