@@ -152,7 +152,7 @@ export default {
       fields: [
         'id', { 'current-assignment': { receiver: ['name'] } },
         { 'current-assignment': { 'receiver-team': ['name'] } },
-        { organization: ['name'] }, { section: ['identifier'] },
+        { organization: ['name'] }, 'addition', { section: ['identifier'] },
         { city: ['name'] }, { area: ['name'] },
         'size', 'done',
       ],

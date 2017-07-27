@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Division::Contracts
   class Create < Reform::Form
-    property :name
+    property :addition
     property :organization
     property :websites
     property :section
@@ -12,7 +12,6 @@ module Division::Contracts
     property :comment
     property :size
 
-    validates :name, presence: true
     validate ::Lib::Validators::UnnestedPresence :organization
     validates :section, presence: true
     validate :city_or_area_must_be_present

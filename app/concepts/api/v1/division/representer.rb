@@ -8,10 +8,10 @@ module API::V1
 
         attributes do
           property :label, getter: ->(division) do
-            division[:represented].name
+            division[:represented].display_name
           end
 
-          property :name
+          property :addition
           property :comment
           property :size
           property :done

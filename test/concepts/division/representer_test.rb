@@ -6,9 +6,12 @@ class API::V1::Division::RepresenterTest < ActiveSupport::TestCase
 
   it 'should provide its fields' do
     record = FactoryGirl.create :division,
-                                name: 'foo', organization: Organization.find(1)
+                                addition: 'foo',
+                                organization: Organization.find(1)
     result = subject.new(record).to_hash
-    result['data']['attributes']['label'].must_equal 'foo'
+    result['data']['attributes']['label'].must_equal(
+      "foobar (#{record.section.identifier}), City: Berlin, Addition: foo"
+    )
     result['data']['relationships']['organization']['data']['id'].must_equal '1'
   end
 end

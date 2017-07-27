@@ -17,14 +17,14 @@ class OrganizationCreateTest < ActiveSupport::TestCase
             data: [
               {
                 type: 'divisions',
-                attributes: { name: 'bar' },
+                attributes: { addition: 'bar' },
                 relationships: {
                   section: { data: { type: 'sections', id: '1' } },
                   city: { data: { type: 'cities', id: '1' } }
                 }
               }, {
                 type: 'divisions',
-                attributes: { name: 'baz' },
+                attributes: { addition: 'baz' },
                 relationships: {
                   section: { data: { type: 'sections', id: '2' } },
                   city: { data: { type: 'cities', id: '1' } }
@@ -69,9 +69,9 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     result['model'].created_by.must_equal 1
     result['model'].website_id.must_equal 1
     result['model'].divisions.length.must_equal 2
-    result['model'].divisions.first.name.must_equal 'bar'
+    result['model'].divisions.first.addition.must_equal 'bar'
     result['model'].divisions.first.section_id.must_equal 1
-    result['model'].divisions.last.name.must_equal 'baz'
+    result['model'].divisions.last.addition.must_equal 'baz'
     result['model'].divisions.last.section_id.must_equal 2
     result['model'].contact_people.length.must_equal 2
     result['model'].contact_people.first.first_name.must_equal 'jane'
@@ -114,10 +114,9 @@ class OrganizationCreateTest < ActiveSupport::TestCase
           divisions: {
             data: [
               {
-                type: 'divisions',
-                attributes: {}, # no name
+                type: 'divisions', # no section and invalid website
+                attributes: {},
                 relationships: {
-                  section: { data: { type: 'sections', id: '1' } },
                   city: { data: { type: 'cities', id: '1' } },
                   websites: { data: [{
                     type: 'websites',
@@ -126,7 +125,7 @@ class OrganizationCreateTest < ActiveSupport::TestCase
                 }
               }, {
                 type: 'divisions',
-                attributes: { name: 'baz' } # no section
+                attributes: { addition: 'baz' } # no section
               }
             ]
           }
@@ -137,7 +136,7 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     result =
       api_operation_wont_work API::V1::Organization::Create, params.to_json
     result['contract.default'].errors.to_h[:divisions].must_equal(
-      0 => { name: 'muss ausgefüllt werden' },
+      0 => { section: 'muss ausgefüllt werden' },
       1 => {
         city: 'Stadt oder Area muss ausgewählt sein',
         area: 'Stadt oder Area muss ausgewählt sein',
@@ -146,8 +145,15 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     )
 
     # fix one error, the deeper submodels are validated
-    params[:data][:relationships][:divisions][:data].first[:attributes] =
-      { name: 'valid' }
+    params[:data][:relationships][:divisions][:data].first[:relationships] =
+      {
+        section: { data: { type: 'sections', id: '1' } },
+        city: { data: { type: 'cities', id: '1' } },
+        websites: { data: [{
+          type: 'websites',
+          attributes: { host: 'own', url: 'invalid' }
+        }] }
+      }
     params[:data][:relationships][:divisions][:data].last[:relationships] =
       {
         section: { data: { type: 'sections', id: '2' } },

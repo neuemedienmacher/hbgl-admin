@@ -11,7 +11,7 @@ class DivisionCreateTest < ActiveSupport::TestCase
   let(:orga) { organizations(:basic) }
   let(:basic_params) do
     {
-      name: 'DivisionName',
+      addition: 'DivisionAddition',
       description: 'DivisionDescription',
       organization: orga,
       section: orga.sections.first,
@@ -38,11 +38,6 @@ class DivisionCreateTest < ActiveSupport::TestCase
     end
 
     describe 'validations' do
-      it 'must validate name' do
-        basic_params[:name] = nil
-        operation_wont_work ::Division::Create, basic_params
-      end
-
       it 'must validate organization' do
         basic_params[:organization] = nil
         operation_wont_work ::Division::Create, basic_params
