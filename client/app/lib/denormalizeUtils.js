@@ -4,44 +4,56 @@ import kebabCase from 'lodash/kebabCase'
 import { pluralize } from '../lib/inflection'
 
 export function denormalizeStateEntity(
-  entities, model, id, denormalizedModels = []
+  entities, model, id, depth = 0
 ) {
+  if (depth >= 3) return null // recursive escape condition
   let denormalizedEntity = {}
 
-  if (entities[model] && entities[model][id]) {
-    denormalizedModels.push(model)
+  let entity = entities[model] && entities[model][id]
+  if (entity) {
     forEach(entity, (value, key) => {
       if (isArray(value) && key.substr(-4) == '-ids' ) {
         let newModel = pluralize(key.substr(0, key.length - 4))
         let entityModel =
           entityModelForAssociation(entity, newModel, newModel)
-        if (!denormalizedModels.includes(entityModel)){
-          denormalizedEntity[newModel] = value.map(id =>
-            denormalizeStateEntity(entities, entityModel, id, denormalizedModels)
-          )
-        }
+        denormalizedEntity[newModel] = value.map(id =>
+          denormalizeStateEntity(entities, entityModel, id, depth + 1)
+        )
       } else if (key.substr(-3) == '-id') {
         let newModel = key.substr(0, key.length - 3)
         let entityModel =
           entityModelForAssociation(entity, newModel, pluralize(newModel))
-        if (!denormalizedModels.includes(entityModel)) {
-          denormalizedEntity[newModel] =
-            denormalizeStateEntity(entities, entityModel, value, denormalizedModels)
-        }
-      } else {
-        denormalizedEntity[key] = value
+        denormalizedEntity[newModel] =
+          denormalizeStateEntity(entities, entityModel, value, depth + 1)
       }
+      denormalizedEntity[key] = value
     })
+    return denormalizedEntity
+  } else {
+    return null
   }
-  return denormalizedEntity
 }
 
-function entityModelForAssociation(entity, newModel, startModel){
-  // check for polymorphy (-type) and change model accordingly
+function entityModelForAssociation(entity, newModel, entityModel){
+  // check for renamed model via mapping
+  if (associationModelMapping[newModel])
+    return associationModelMapping[newModel]
+
+  // check for polymorphy (-type)
   let polymorphy = entity[`${newModel}-type`]
-  let entityModel = startModel
   if (polymorphy) {
-    entityModel = pluralize(kebabCase(polymorphy))
+    return pluralize(kebabCase(polymorphy))
   }
+
+  // else return original
   return entityModel
+}
+
+const associationModelMapping = {
+  'current-assignment': 'assignments',
+  receiver: 'users',
+  'receiver-team': 'user-teams',
+  creator: 'users',
+  'presumed-categories': 'categories',
+  'presumed-solution-categories': 'solution-categories',
 }

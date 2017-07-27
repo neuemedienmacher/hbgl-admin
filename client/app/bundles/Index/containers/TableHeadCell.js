@@ -10,7 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 
   const currentDirection = params.sort_direction
   const isCurrentSortField = (
-    params.sort_field == field.field && (field.relation == 'own' || params.sort_model == field.model)
+    params.sort_field == field.field &&
+      (field.relation == 'own' || params.sort_model == field.model)
   )
   let linkParams = merge(clone(params), {
     sort_field: field.field,

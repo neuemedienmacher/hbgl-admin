@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: e4c08ce530cec438dfe7ccb9fc8d8dd1cfbab3bf
+  revision: f8e656f23cf71a8ea62472211ef7721f1a5b6c71
   branch: develop
   specs:
     clarat_base (0.1.4)
@@ -40,7 +40,7 @@ GIT
 
 GIT
   remote: git://github.com/trailblazer/roar-jsonapi.git
-  revision: 3ca7fa8e0f5af83faa6d188fd1916d490776f084
+  revision: 45e519917419dc19265a6a301c0bdb8bb33089ff
   specs:
     roar-jsonapi (0.0.3)
       representable (~> 3.0, >= 3.0.3)
@@ -57,7 +57,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    aasm (4.12.0)
+    aasm (4.12.1)
       concurrent-ruby (~> 1.0)
     actionmailer (4.2.9)
       actionpack (= 4.2.9)
@@ -640,7 +640,7 @@ GEM
     thor (0.19.4)
     thread (0.2.2)
     thread_safe (0.3.6)
-    tilt (2.0.7)
+    tilt (2.0.8)
     timecop (0.8.1)
     tins (1.13.0)
     trailblazer (2.0.6)

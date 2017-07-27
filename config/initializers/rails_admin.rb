@@ -37,31 +37,32 @@ RailsAdmin.config do |config|
     Tag Definition Note Area SearchLocation ContactPerson
     Subscription Section NextStep SolutionCategory
     LogicVersion SplitBase City TargetAudienceFiltersOffer
+    Division
   )
 
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['User', 'FederalState', 'Section']
+      except ['User', 'FederalState', 'Section', 'Division']
     end
     export
     bulk_delete do
-      except ['User', 'FederalState', 'Section']
+      except ['User', 'FederalState', 'Section', 'Division']
     end
     show
     edit do
-      except ['Section']
+      except ['Section', 'Division']
     end
     delete do
-      except ['User', 'FederalState', 'Section']
+      except ['User', 'FederalState', 'Section', 'Division']
     end
     show_in_app do
       only ['Offer', 'Organization']
     end
 
     clone do
-      except ['Section', 'City', 'TargetAudienceFiltersOffer']
+      except ['Section', 'City', 'TargetAudienceFiltersOffer', 'Division']
     end
     # nested_set do
     #   only ['Category']
@@ -296,7 +297,7 @@ RailsAdmin.config do |config|
     field :clarat_addition do
       help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
     end
-    field :organization
+    field :divisions
     field :solution_category do
       help { 'Erforderlich ab Version 8.'}
     end
@@ -366,11 +367,11 @@ RailsAdmin.config do |config|
     end
     field :location
     field :area
-    field :organizations do
-      help do
-        'Required. Only approved organizations.'
-      end
-    end
+    # field :organizations do
+    #   help do
+    #     'Required. Only approved organizations.'
+    #   end
+    # end
     field :categories do
       label 'Problem categories'
       inline_add false
@@ -909,6 +910,13 @@ RailsAdmin.config do |config|
       read_only true
     end
     field :longitude do
+      read_only true
+    end
+  end
+
+  config.model 'Division' do
+    weight 3
+    field :name do
       read_only true
     end
   end

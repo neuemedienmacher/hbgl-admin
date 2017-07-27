@@ -42,3 +42,12 @@ for_orga_translation_2:
   receiver_id: 1
   message: 'InitialFixtureAssignmentMessage'
   topic: 'translation'
+
+for_division_1:
+  id: 6
+  assignable_type: Division
+  assignable_id: 1
+  creator_id: 2
+  receiver_id: 1
+  message: 'InitialFixtureAssignmentMessage'
+  topic: 'new'

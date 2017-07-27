@@ -4,7 +4,7 @@ FactoryGirl.define do
     name 'default division name'
     section { Section.all.sample }
     city { City.all.sample }
-    organization
+    organization { FactoryGirl.create(:organization, :approved) }
 
     after :create do |division, _evaluator|
       division.assignments << ::Assignment::CreateBySystem.(

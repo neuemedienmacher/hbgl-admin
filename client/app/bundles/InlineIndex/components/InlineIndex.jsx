@@ -11,7 +11,7 @@ export default class InlineIndex extends Component {
     // console.log(nextProps)
     if (isEqual(nextProps.params, this.props.params) == false ||
         this.props.model != nextProps.model) {
-      this.props.loadData(nextProps.params, nextProps.model, false)
+      this.props.loadData(nextProps.params, nextProps.model)
     }
   }
 

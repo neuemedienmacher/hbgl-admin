@@ -96,7 +96,7 @@ class Offer < ActiveRecord::Base
       offer.created_by = nil
       offer.expires_at = Time.zone.now + 1.year
       offer.location = self.location
-      offer.organizations = self.organizations
+      offer.split_base = self.split_base
       offer.openings = self.openings
       offer.categories = self.categories
       offer.section = self.section

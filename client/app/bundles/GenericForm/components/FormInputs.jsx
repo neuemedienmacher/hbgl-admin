@@ -86,7 +86,8 @@ export default class FormInputs extends React.Component {
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
               label={input.attribute} attribute={input.attribute}
-              type={input.type} options={input.options} disabled={disabled}
+              type={input.type} options={input.options}
+              disabled={input.disabled || disabled}
             />
           )
       }

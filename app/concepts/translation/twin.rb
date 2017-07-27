@@ -10,7 +10,7 @@ module Translation
     end
 
     def currently_assigned_to_system_user?
-      current_assignment = ::Assignable::Twin.new(model).current_assignment
+      current_assignment = model.current_assignment
       current_assignment.nil? == false && current_assignment.receiver_id ==
         ::User.system_user.id
     end

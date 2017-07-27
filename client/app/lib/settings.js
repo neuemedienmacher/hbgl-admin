@@ -150,8 +150,11 @@ export default {
 
     divisions: {
       fields: [
-        'id', 'name', { organization: ['name'] }, { section: ['identifier'] },
-        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
+        'id', { 'current-assignment': { receiver: ['name'] } },
+        { 'current-assignment': { 'receiver-team': ['name'] } },
+        { organization: ['name'] }, { section: ['identifier'] },
+        { city: ['name'] }, { area: ['name'] },
+        'size', 'done',
       ],
       general_actions: [
         'index', 'export', 'new',
@@ -184,7 +187,7 @@ export default {
       inline_fields: [
         'assignable-type', 'assignable-id', 'topic',
         {assignable: ['label']}, {creator: ['name']},  {receiver: ['name']},
-        'message', 'updated-at'
+        {'receiver-team': ['name']}, 'message', 'updated-at'
       ],
       general_actions: [
         'index'
