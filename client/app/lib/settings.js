@@ -155,7 +155,7 @@ export default {
             receiver: ['name'], 'receiver-team': ['name']
           }
         }, { organization: ['name'] }, { section: ['identifier'] },
-        { city: ['name'] }, { area: ['name'] }, 'size', 'done',
+        { city: ['name'] }, { area: ['name'] }, 'size', 'done', 'addition'
       ],
       general_actions: [
         'index', 'export', 'new',

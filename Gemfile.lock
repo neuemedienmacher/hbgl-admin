@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/apotonick/roar.git
-  revision: edcd8efa0181d689b0b1cfc950acb1108a2efa82
+  revision: 41386a1839c3774e2864b7536f1930694ad15810
   branch: master
   specs:
     roar (1.1.0)

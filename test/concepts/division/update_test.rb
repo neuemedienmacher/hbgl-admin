@@ -13,7 +13,7 @@ class DivisionUpdateTest < ActiveSupport::TestCase
   let(:basic_params) do
     {
       id: division.id,
-      name: division.name,
+      addition: division.addition,
       section: orga.sections.first,
       city: orga.locations.first.city
     }

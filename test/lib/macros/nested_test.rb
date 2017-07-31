@@ -9,8 +9,8 @@ class NestedTest < ActiveSupport::TestCase
   end
 
   class MiddleContract < Reform::Form
-    property :name
-    validates :name, format: /\Avalid/
+    property :addition
+    validates :addition, presence: true
 
     property :section_id
     validates :section_id, presence: true
@@ -37,7 +37,7 @@ class NestedTest < ActiveSupport::TestCase
   class MiddleRepresenter < Roar::Decorator
     include Roar::JSON::JSONAPI.resource :divisions
     attributes do
-      property :name
+      property :addition
       property :section_id
     end
     has_many :websites, decorator: InnerRepresenter, class: ::Website,
@@ -121,7 +121,7 @@ class NestedTest < ActiveSupport::TestCase
             data: [
               {
                 type: 'divisions',
-                attributes: { name: 'valid3', 'section-id': 1 },
+                attributes: { addition: 'valid3', 'section-id': 1 },
                 relationships: {
                   websites: {
                     data: [{
@@ -132,7 +132,7 @@ class NestedTest < ActiveSupport::TestCase
                 }
               }, {
                 type: 'divisions',
-                attributes: { name: 'valid5', 'section-id': 2 },
+                attributes: { addition: 'valid5', 'section-id': 2 },
                 relationships: {
                   websites: {
                     data: [{
@@ -159,11 +159,11 @@ class NestedTest < ActiveSupport::TestCase
       name: 'valid1',
       website: { url: 'http://valid2.com' },
       divisions: [{
-        name: 'valid3',
+        addition: 'valid3',
         section_id: 1,
         websites: [{ url: 'http://valid4.com' }]
       }, {
-        name: 'valid5',
+        addition: 'valid5',
         section_id: 2,
         websites: [{ url: 'http://valid6.com' }, { id: '1' }]
       }]
@@ -183,14 +183,14 @@ class NestedTest < ActiveSupport::TestCase
     model.website.host.must_equal 'own' # side effect
     model.divisions.count.must_equal 2
     model.divisions.first.must_be :persisted?
-    model.divisions.first.name.must_equal 'valid3'
+    model.divisions.first.addition.must_equal 'valid3'
     model.divisions.first.section_id.must_equal 1
     model.divisions.first.comment.must_equal 'middle side effect!'
     model.divisions.first.websites.first.must_be :persisted?
     model.divisions.first.websites.first.url.must_equal 'http://valid4.com'
     model.divisions.first.websites.first.host.must_equal 'own' # side effect
     model.divisions.last.must_be :persisted?
-    model.divisions.last.name.must_equal 'valid5'
+    model.divisions.last.addition.must_equal 'valid5'
     model.divisions.last.section_id.must_equal 2
     model.divisions.last.comment.must_equal 'middle side effect!'
     model.divisions.last.websites.count.must_equal 2

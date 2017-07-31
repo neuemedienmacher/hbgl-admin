@@ -12,7 +12,7 @@ export default class DivisionFormObject extends FormObject {
 
   static get properties() {
     return [
-      'name', 'organization', 'section', 'city', 'area', 'websites',
+      'addition', 'organization', 'section', 'city', 'area', 'websites',
       'presumed-categories', 'presumed-solution-categories', 'comment',
       'size'
     ]
@@ -39,7 +39,7 @@ export default class DivisionFormObject extends FormObject {
 
   static get formConfig() {
     return {
-      name: { type: 'string' },
+      addition: { type: 'string' },
       organization: { type: 'filtering-select' },
       section: { type: 'filtering-select' },
       city: { type: 'filtering-select' },
@@ -61,7 +61,6 @@ export default class DivisionFormObject extends FormObject {
   }
 
   validation() {
-    this.required('name').filled()
     this.required('section').filled()
   }
 }
