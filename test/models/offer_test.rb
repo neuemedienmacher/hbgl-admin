@@ -192,15 +192,15 @@ describe Offer do
         old_locale = I18n.locale
 
         I18n.locale = :de
-        offer.name.must_equal 'de name'
-        offer.description.must_equal 'de desc'
-        offer.old_next_steps.must_equal 'de next'
+        offer.translated_name.must_equal 'de name'
+        offer.translated_description.must_equal 'de desc'
+        offer.translated_old_next_steps.must_equal 'de next'
 
         I18n.locale = :en
         offer = Offer.find(offer.id) # clear memoization
-        offer.name.must_equal 'en name'
-        offer.description.must_equal 'en desc'
-        offer.old_next_steps.must_equal 'en next'
+        offer.translated_name.must_equal 'en name'
+        offer.translated_description.must_equal 'en desc'
+        offer.translated_old_next_steps.must_equal 'en next'
 
         I18n.locale = old_locale
       end

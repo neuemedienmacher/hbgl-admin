@@ -141,7 +141,7 @@ FactoryGirl.define do
               organization: organization,
               locale: locale,
               source: 'GoogleTranslate',
-              description: "#{locale}(#{organization.untranslated_description})"
+              description: "#{locale}(#{organization.description})"
             )
           end
         end

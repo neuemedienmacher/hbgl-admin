@@ -24,7 +24,7 @@ module API::V1
           type :organizations
 
           attributes do
-            property :untranslated_description
+            property :description_de
           end
         end
 

@@ -13,7 +13,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
         projects: %w(44856824806357), workspace: '41140436022602',
-        name: 'foobar,bazfuz - 9999-01-01 - fam - basischAngebotName',
+        name: 'foobar,bazfuz - 9999-01-01 - fam - basicOfferName',
         notes: 'Expired: http://claradmin.herokuapp.com/admin/offer/1/edit'
       )
 
@@ -37,7 +37,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
         projects: %w(147663824592112), workspace: '41140436022602',
-        name: '[Offer website unreachable] family | Version: 1 | foobar,bazfuz | basischAngebotName',
+        name: '[Offer website unreachable] family | Version: 1 | foobar,bazfuz | basicOfferName',
         notes: 'Deactivated: http://claradmin.herokuapp.com/admin/offer/1/edit'\
                " | Unreachable website: #{website.url}"
       )
@@ -76,7 +76,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
         '/api/1.0/tasks',
         projects: %w(147663824592112), workspace: '41140436022602',
         name: 'WV | Saisonales Angebot | Start date: 9998-01-01 | '\
-              'foobar,bazfuz | basischAngebotName',
+              'foobar,bazfuz | basicOfferName',
         notes: 'http://claradmin.herokuapp.com/admin/offer/1/edit'
       )
 
