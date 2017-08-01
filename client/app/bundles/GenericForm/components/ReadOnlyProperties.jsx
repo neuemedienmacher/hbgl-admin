@@ -4,7 +4,7 @@ export default class ReadOnlyProperties extends React.Component {
   render() {
     const { propertyData } = this.props
 
-    if (!propertyData.length) return
+    if (!propertyData.length) return null
 
     return(
       <div className='ReadOnlyProperties'>
