@@ -16,7 +16,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       Definition::LinkAndInfuse.(
         {},
         'object_to_link' => offer,
-        'string_to_infuse' => offer.untranslated_description,
+        'string_to_infuse' => offer.description,
         'definition_positions' => []
       )['infused_description'].must_equal(
         "<dfn class='JS-tooltip' data-id='1'>Little</dfn> Mary had a little"\
@@ -33,7 +33,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       Definition::LinkAndInfuse.(
         {},
         'object_to_link' => orga,
-        'string_to_infuse' => orga.untranslated_description,
+        'string_to_infuse' => orga.description,
         'definition_positions' => []
       )['infused_description'].must_equal(
         "My <dfn class='JS-tooltip' data-id='1'>sexual identity</dfn>"\
@@ -51,7 +51,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       Definition::LinkAndInfuse.(
         {},
         'object_to_link' => orga,
-        'string_to_infuse' => orga.untranslated_description,
+        'string_to_infuse' => orga.description,
         'definition_positions' => []
       )['infused_description'].must_equal(
         "The <dfn class='JS-tooltip' data-id='1'>big</dfn> brown fox jumps"\
@@ -70,7 +70,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       Definition::LinkAndInfuse.(
         {},
         'object_to_link' => orga,
-        'string_to_infuse' => orga.untranslated_description,
+        'string_to_infuse' => orga.description,
         'definition_positions' => []
       )['infused_description'].must_equal(
         "The <dfn class='JS-tooltip' data-id='1'>big</dfn> brown fox jumps"\
@@ -90,7 +90,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       Definition::LinkAndInfuse.(
         {},
         'object_to_link' => orga,
-        'string_to_infuse' => orga.untranslated_description,
+        'string_to_infuse' => orga.description,
         'definition_positions' => []
       )['infused_description'].must_equal(
         "Die <dfn class='JS-tooltip' data-id='1'>Weisungen</dfn>"

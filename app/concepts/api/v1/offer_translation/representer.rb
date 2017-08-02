@@ -30,11 +30,11 @@ module API::V1
           type :offers
 
           attributes do
-            property :untranslated_name
             property :approved_at
             property :created_by
-            property :untranslated_description
-            property :untranslated_opening_specification
+            property :name_de
+            property :description_de
+            property :opening_specification_de
           end
         end
       end

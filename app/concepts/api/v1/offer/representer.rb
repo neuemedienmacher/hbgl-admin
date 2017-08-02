@@ -7,21 +7,12 @@ module API::V1
 
         attributes do
           property :label, getter: ->(offer) do
-            offer[:represented].untranslated_name
+            offer[:represented].name
           end
-          property :name, getter: ->(offer) do
-            offer[:represented].untranslated_name
-          end
-          property :description, getter: ->(offer) do
-            offer[:represented].untranslated_description
-          end
-          property :old_next_steps, getter: ->(offer) do
-            offer[:represented].untranslated_old_next_steps
-          end
-          property :opening_specification, getter: ->(offer) do
-            offer[:represented].untranslated_opening_specification
-          end
-
+          property :name
+          property :description
+          property :old_next_steps
+          property :opening_specification
           property :encounter
           property :slug
           property :created_at
@@ -65,13 +56,6 @@ module API::V1
       end
 
       class Create < Show
-        attributes do
-          property :name
-          property :description
-          property :old_next_steps
-          property :opening_specification
-        end
-
         has_many :organizations do
           type :organizations
 

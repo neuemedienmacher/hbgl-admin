@@ -6,10 +6,7 @@ module API::V1
         include Roar::JSON::JSONAPI.resource :contact_people
 
         attributes do
-          property :responsibility, getter: ->(contact_person) do
-            contact_person[:represented].untranslated_responsibility
-          end
-
+          property :responsibility
           property :area_code_1
           property :local_number_1
           property :area_code_2

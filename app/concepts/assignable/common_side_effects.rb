@@ -51,8 +51,9 @@ module Assignable
                            model.assignable.organization
         organization = model.assignable.organization
         if should_create_automated_organization_assignment?(model, organization)
+          receiving_user = User.find(model.receiver_id)
           ::Assignment::CreateBySystem.(
-            {}, assignable: organization, last_acting_user: current_user
+            {}, assignable: organization, last_acting_user: receiving_user
           ).success?
         else
           true

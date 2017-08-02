@@ -64,9 +64,7 @@ class RegenerateHtmlWorker
     Definition::LinkAndInfuse.(
       {},
       'object_to_link' => object,
-      'string_to_infuse' => MarkdownRenderer.render(
-        object.untranslated_description
-      ),
+      'string_to_infuse' => MarkdownRenderer.render(object.description),
       'definition_positions' => []
     )['infused_description'].to_s
   end

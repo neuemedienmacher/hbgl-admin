@@ -10,15 +10,13 @@ module API::V1
           property :label, getter: ->(organization) do
             organization[:represented].name
           end
-          property :description, getter: ->(organization) do
-            organization[:represented].untranslated_description
-          end
           # TODO: make this work correctly!!
           property :offers_count, getter: ->(organization) do
             organization[:represented].offers.count
           end
           # property :offers_count
 
+          property :description
           property :name
           property :priority
           property :comment
