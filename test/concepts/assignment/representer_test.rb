@@ -13,7 +13,7 @@ class API::V1::Assignment::RepresenterTest < ActiveSupport::TestCase
     result['included'].first['type'].must_equal 'users'
     result['included'].first['id'].must_equal '1'
     result['data']['relationships']['assignable']['data']['id'].must_equal '1'
-    result['included'].last['type'].must_equal 'assignables' # TODO: fix
+    result['included'].last['type'].must_equal 'offer_translations'
     result['included'].last['id'].must_equal '1'
   end
 
@@ -36,6 +36,8 @@ class API::V1::Assignment::RepresenterTest < ActiveSupport::TestCase
                                     responsibility: 'Geduld und Disziplin'
     record = Assignment.new assignable: assignable.translations.first
     result = subject.new(record).to_hash
-    result['included'].first['attributes']['label'].must_equal 'Geduld und Disziplin'
+    result['included'].first['attributes']['label'].must_equal(
+      'Geduld und Disziplin'
+    )
   end
 end

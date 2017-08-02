@@ -4,6 +4,7 @@ module API::V1
     module Representer
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :assignments
+        include API::V1::Lib::JsonapiWithPolymorphy
 
         attributes do
           property :assignable_id
@@ -59,11 +60,11 @@ module API::V1
         end
 
         has_one :assignable do
-          type :assignables
+          type :polymorphic
           # Above is technically incorrect. Wish the following would work ...
           # as[:represented].assignable_type.tableize.to_sym
           # property :type , getter: ->(object) do
-          #   object[:represented].class.name.tableize.dasherize
+          #   object[:represented].class.table_name.dasherize
           # end
 
           attributes do
