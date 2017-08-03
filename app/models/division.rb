@@ -11,7 +11,7 @@ class Division < ActiveRecord::Base
 
   # Methods
   def display_name
-    display_name = "#{organization.name} (#{section.identifier})"
+    display_name = "#{organization&.name} (#{section.identifier})"
     display_name += ", City: #{city.name}" if city
     display_name += ", Area: #{area.name}" if area
     display_name += ", Addition: #{addition}" unless addition.blank?

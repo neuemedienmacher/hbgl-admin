@@ -11,10 +11,10 @@ class Organization::Update < Trailblazer::Operation
   )
   step Contract::Build()
   step Contract::Validate()
-  # step ::Lib::Macros::Debug::Breakpoint()
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create :website, Website::Create
     step ::Lib::Macros::Nested::Create :divisions, Division::Create
+    # step ::Lib::Macros::Debug::Breakpoint()
     step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
     step ::Lib::Macros::Nested::Create :locations, Location::Create
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
