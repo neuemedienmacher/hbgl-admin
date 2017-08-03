@@ -88,6 +88,9 @@ gem 'simpleidn'
 gem 'faraday'
 gem 'faraday_middleware'
 
+# ActiveRecord Extension
+gem 'rails_or'
+
 ########################
 # For Heroku & Add-Ons #
 ########################

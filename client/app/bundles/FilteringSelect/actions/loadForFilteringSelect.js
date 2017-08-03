@@ -1,5 +1,6 @@
 import { encode } from 'querystring'
 import keys from 'lodash/keys'
+import { singularize } from '../../../lib/inflection'
 
 const loadForFilteringSelectRequest = (key, input) => ({
   type: 'LOAD_FOR_FILTERING_SELECT_REQUEST',
@@ -20,7 +21,8 @@ export const addForFilteringSelect = (key, options) => ({
 })
 
 export function loadForFilteringSelect(
-  input, associatedModel, filters = {}, ids = ''
+  input, associatedModel, model = null, inverseRelationship = null,
+  filters = {}, ids = ''
 ) {
   let path = `/api/v1/${associatedModel}`
   let paramHash = {}
@@ -28,6 +30,12 @@ export function loadForFilteringSelect(
   if (ids) filters.id = ids.split(',')
   if (input) paramHash.query = input
   if (keys(filters).length) paramHash.filters = filters
+  if (inverseRelationship == 'belongsTo') {
+    paramHash.filters = paramHash.filters || {}
+    paramHash.filters[singularize(model) + '_id'] = 'nil'
+    paramHash.operators = paramHash.operators || {}
+    paramHash.operators.interconnect = 'OR'
+  }
   if (keys(paramHash).length) path += '?' + $.param(paramHash)
 
   return function(dispatch) {

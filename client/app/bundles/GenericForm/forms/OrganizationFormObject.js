@@ -34,15 +34,18 @@ class OrgaCreateFormObject extends FormObject {
       },
       divisions: {
         object: DivisionFormObject,
-        relationship: 'oneToMany'
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
       },
       locations: {
         object: LocationFormObject,
-        relationship: 'oneToMany'
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
       },
       'contact-people': {
         object: ContactPersonFormObject,
-        relationship: 'oneToMany'
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
       }
     }
   }

@@ -6,11 +6,8 @@ import FormInputs from '../components/FormInputs'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, submodel, formObjectClass, nestingModel } = ownProps
-  const properties = submodel ?
-    formObjectClass.submodelConfig[submodel].properties :
-    formObjectClass.properties
-  let config = formObjectClass.formConfig
-  if (submodel) config = config[submodel]
+  const { submodelConfig, properties } = formObjectClass
+  const config = formObjectClass.formConfig
 
   const inputs = properties.map(property => ({
     attribute: property,
@@ -19,6 +16,8 @@ const mapStateToProps = (state, ownProps) => {
       config[property].options.map(option => ({value: option, name: option})),
     resource: config[property].resource,
     filters: config[property].filters,
+    inverseRelationship:
+      submodelConfig[property] && submodelConfig[property].inverseRelationship
   }))
   const blockedInputs = collectBlockedInputs(inputs, nestingModel)
 

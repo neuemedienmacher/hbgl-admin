@@ -512,6 +512,8 @@ GEM
       json
       require_all
       ruby-progressbar
+    rails_or (1.1.6)
+      activerecord (>= 3)
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
     railties (4.2.9)
@@ -774,6 +776,7 @@ DEPENDENCIES
   rails_admin_clone
   rails_admin_nestable
   rails_best_practices
+  rails_or
   rake
   react_on_rails (< 7.0.0)
   reform

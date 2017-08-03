@@ -15,10 +15,8 @@ export default class CreatingSelect extends React.Component {
       <div>
         <FilteringSelect multi={multi}
           wrapperClassName='form-group' className='form-control'
-          label={input.attribute} attribute={input.attribute}
-          formId={formId} type={input.type} resource={input.resource}
-          filters={input.filters} showSelect={showSelect} model={model}
-          disabled={disabled}
+          formId={formId} showSelect={showSelect} model={model}
+          disabled={disabled} label={input.attribute} {...input}
         >
           {showButton &&
             this._renderAdditionalObjectButton(onAddSubmodelFormClick, disabled)}

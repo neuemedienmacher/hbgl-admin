@@ -198,6 +198,16 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       query.expects(:where).with("created_at = '2014-09-15T11:02:00+00:00'")
       subject.send(:transform_by_filtering, query, params)
     end
+
+    it 'filters with interconnecting OR operator' do
+      params = {
+        filters: { 'foo' => '1', 'fuz' => 'nil' },
+        operators: { 'fuz' => '=', 'interconnect' => 'OR' }
+      }
+      query.expects(:where).with("foo = '1'").returns query
+      query.expects(:or).with('fuz IS NULL')
+      subject.send(:transform_by_filtering, query, params)
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

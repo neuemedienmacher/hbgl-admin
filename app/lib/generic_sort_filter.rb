@@ -96,7 +96,8 @@ module GenericSortFilter
 
   def self.transform_by_filtering(query, params)
     return query unless params[:filters]
-    params[:filters].each do |filter, value_or_values|
+    params[:filters].each_with_index do |filter, index|
+      value_or_values = filter[1]
       next if value_or_values.empty?
 
       # convert value_or_values to array for streamlined processing
@@ -104,11 +105,22 @@ module GenericSortFilter
         value_or_values.is_a?(Array) ? value_or_values : [value_or_values]
       # build query strings to every array entry (only one for simple filters)
       filter_strings = value_array.map do |singular_value|
-        build_singular_filter_query(query, params, filter, singular_value)
+        build_singular_filter_query(query, params, filter[0], singular_value)
       end
-      query = query.where(filter_strings.join(join_operator(params, filter)))
+      query = filter!(query, filter_strings, params, filter[0], index)
     end
     query
+  end
+
+  def self.filter!(query, filter_strings, params, filter, index)
+    where_method =
+      if index.zero? || # first one whould always be 'where'
+         !params[:operators] || params[:operators]['interconnect'] != 'OR'
+        :where # AND method
+      else
+        :or
+      end
+    query.send where_method, filter_strings.join(join_operator(params, filter))
   end
 
   def self.join_operator(params, filter)
