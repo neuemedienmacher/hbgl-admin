@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Division::Update < Trailblazer::Operation
+  include SyncOrganization
+
   step Model(::Division, :find_by)
   step Policy::Pundit(DivisionPolicy, :update?)
 
@@ -18,6 +20,7 @@ class Division::Update < Trailblazer::Operation
   }
   step Contract::Persist()
   step :meta_event_side_effects
+  step :syncronize_organization_approve_or_done_state
 
   def meta_event_side_effects(_, model:, params:, current_user:, **)
     action_event = params['meta'] ? params['meta']['commit'] : nil
@@ -28,9 +31,6 @@ class Division::Update < Trailblazer::Operation
       ).success?
     elsif action_event == 'mark_as_not_done'
       model.update_columns done: false
-      if model.organization.all_done?
-        model.organization.update_columns(aasm_state: 'approved') # TODO: add and use event to do this!
-      end
     end
     true
   end

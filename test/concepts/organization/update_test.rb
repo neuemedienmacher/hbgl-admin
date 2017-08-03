@@ -177,6 +177,36 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
         'meta' => { 'commit' => 'approve' }
       )
     end
+
+    it 'changes from approved to all_done with done-only-divisions' do
+      new_orga.update_columns aasm_state: 'approved'
+      new_orga.divisions.first.update_columns done: true
+      new_orga.divisions.count.must_equal 1
+      operation_must_work(
+        ::Organization::Update, id: new_orga.id, description: 'doesntMatter'
+      )
+
+      params = {
+        data: {
+          type: 'organizations',
+          id: new_orga.id.to_s,
+          relationships: {
+            divisions: {
+              data: [
+                {
+                  type: 'divisions',
+                  id: new_orga.divisions.first.id.to_s
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      result =
+        api_operation_must_work API::V1::Organization::Update, params.to_json
+      result['model'].aasm_state.must_equal 'all_done'
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

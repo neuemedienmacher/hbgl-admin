@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Organization::Update < Trailblazer::Operation
+  include SyncWithDivisions
+
   step Model(::Organization, :find_by)
   step Policy::Pundit(OrganizationPolicy, :update?)
 
@@ -21,6 +23,7 @@ class Organization::Update < Trailblazer::Operation
   step :assign_to_section_team_via_classification_on_complete
   step :assign_to_system_on_approve
   step Contract::Persist()
+  step :syncronize_done_state
   step :generate_translations!
 
   def change_state_side_effect(options, model:, params:, **)
