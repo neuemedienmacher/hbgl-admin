@@ -13,7 +13,7 @@ export default class ActionList extends Component {
   _renderLink(action, index) {
     if (action.href[0] == '/') { // is relative url
       return(
-        <Link key={index} to={action.href}>
+        <Link key={index} to={action.href} target={action.target}>
           <span className={action.icon} />
         </Link>
       )
