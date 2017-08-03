@@ -54,7 +54,7 @@ export default {
         'index', 'export'
       ],
       member_actions: [
-        'show'
+        'show', 'old-backend-edit'
       ]
     },
 
@@ -194,7 +194,7 @@ export default {
         'index'
       ],
       member_actions: [
-        'show', 'edit_assignable'
+        'show-assignable', 'edit-assignable'
       ]
     },
 

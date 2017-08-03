@@ -1,12 +1,12 @@
 basic:
   id: 1
   name: 'basicTeam'
-  classification: 'researcher'
+  classification: 'family'
 
 super:
   id: 2
   name: 'superTeam'
-  classification: 'researcher'
+  classification: 'refugees'
 
 translator:
   id: 3

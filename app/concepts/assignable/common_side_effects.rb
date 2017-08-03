@@ -43,9 +43,7 @@ module Assignable
         end.all? # NOTE: u mad bro?
       end
 
-      def create_optional_assignment_for_organization!(
-        _options, model:, current_user:, **
-      )
+      def create_optional_assignment_for_organization!(_options, model:, **)
         return true unless model.class == Assignment &&
                            model.assignable_type == 'Division' &&
                            model.assignable.organization

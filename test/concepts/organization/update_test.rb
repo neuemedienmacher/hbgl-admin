@@ -125,6 +125,29 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
       new_orga.reload.aasm_state.must_equal 'completed'
     end
 
+    it 'works correctly with the meta complete action for section-user and '\
+       'create the correct new assignment' do
+      new_orga.aasm_state.must_equal 'initialized'
+      new_orga.valid?.must_equal true
+      assignment_count = new_orga.assignments.count
+      user = users(:researcher)
+      user.user_teams << user_teams(:basic)
+      operation_must_work(
+        ::Organization::Update, 'current_user' => user, id: new_orga.id,
+                                description: 'doesntMatter',
+                                'meta' => { 'commit' => 'complete' }
+      )
+      new_orga.reload.aasm_state.must_equal 'completed'
+      new_orga.assignments.count.must_equal assignment_count + 1
+      assert_nil new_orga.assignments.last.receiver_id
+      new_orga.assignments.last.receiver_team_id.must_equal 1
+      new_orga.assignments.last.message.must_equal(
+        'Bitte den Orga Datensatz approven'
+      )
+      new_orga.assignments.last.creator_id.must_equal user.id
+      new_orga.assignments.last.topic.must_equal 'approval'
+    end
+
     it 'validates description and legal_form with approve state change param' do
       # complete & start_approval_process work without data
       orga =

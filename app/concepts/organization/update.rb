@@ -18,6 +18,7 @@ class Organization::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
   }
   step :change_state_side_effect # prevents persist on faulty state change
+  step :assign_to_section_team_via_classification_on_complete
   step :assign_to_system_on_approve
   step Contract::Persist()
   step :generate_translations!
@@ -41,11 +42,24 @@ class Organization::Update < Trailblazer::Operation
     options, changed_state: false, model:, params:, **
   )
     meta = params['meta'] && params['meta']['commit']
-    current_user = options['current_user']
     if meta.to_s == 'approve' && changed_state
       ::Assignment::CreateBySystem.(
-        {}, assignable: model, last_acting_user: current_user
+        {}, assignable: model, last_acting_user: options['current_user']
       ).success?
+    end
+    true
+  end
+
+  def assign_to_section_team_via_classification_on_complete(
+    options, changed_state: false, model:, params:, **
+  )
+    meta = params['meta'] && params['meta']['commit']
+    if meta.to_s == 'complete' && changed_state &&
+       ::User::Twin.new(options['current_user']).presumed_section
+      result = ::Assignment::CreateBySystem.(
+        {}, assignable: model, last_acting_user: options['current_user']
+      ).success?
+      result
     end
     true
   end
