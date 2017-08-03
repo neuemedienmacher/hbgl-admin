@@ -20,7 +20,7 @@ function routeForAction(action, model, id, entity) {
     case 'old-backend-edit':
       return `/admin/${singularize(model)}/${id}/edit`
     case 'edit':
-      return `$/${model}/${id}/edit`
+      return `/${model}/${id}/edit`
     case 'show':
       return `/${model}/${id}`
     case 'show-assignable':
