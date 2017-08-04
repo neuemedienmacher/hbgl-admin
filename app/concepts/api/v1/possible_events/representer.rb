@@ -4,6 +4,10 @@ module API::V1
     class Show < Representable::Decorator
       include Representable::JSON
 
+      property :id, getter: ->(r) do
+        r[:represented].id
+      end
+
       property :data, getter: ->(r) do
         events = []
         if r[:represented].respond_to?(:aasm)

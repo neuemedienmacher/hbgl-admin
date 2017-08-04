@@ -17,6 +17,7 @@ module API::V1
 
           attributes do
             property :label, getter: ->(o) { o[:represented].message }
+            property :message
             property :assignable_id
             property :assignable_type
             property :receiver_id

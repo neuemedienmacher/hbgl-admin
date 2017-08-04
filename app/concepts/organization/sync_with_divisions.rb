@@ -10,7 +10,8 @@ module SyncWithDivisions
   private
 
   def mark_as_done_or_approved orga, current_user
-    all_divisions_done = orga.divisions.where(done: false).empty?
+    all_divisions_done =
+      orga.divisions.any? && orga.divisions.where(done: false).empty?
     if orga.approved? && all_divisions_done
       orga.mark_as_done! # trigger event for callbacks
       ::Assignment::CreateBySystem.(

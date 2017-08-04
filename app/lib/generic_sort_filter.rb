@@ -44,7 +44,7 @@ module GenericSortFilter
     if !param || param.empty? || query.search_pg(param).nil?
       query
     else
-      query.search_pg(param).with_pg_search_rank
+      query.search_pg(param).extend(EnableEagerLoading)
     end
   end
 

@@ -24,7 +24,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const transformResponse = function(apiResponse, nextModel) {
     let object = { 'possible-events': {} }
     object['possible-events'][nextModel] = {}
-    object['possible-events'][nextModel][ownProps.editId] = apiResponse
+    object['possible-events'][nextModel][apiResponse.id] = apiResponse
     return object
   }
 

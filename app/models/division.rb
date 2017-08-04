@@ -6,7 +6,7 @@ class Division < ActiveRecord::Base
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: [:id, :name],
+                  against: [:id, :addition, :size],
                   using: { tsearch: { prefix: true } }
 
   # Methods
