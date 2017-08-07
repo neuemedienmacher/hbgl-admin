@@ -19,6 +19,10 @@ export default class FilteringSelect extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.onUnmount()
+  }
+
   render() {
     const {
       wrapperClassName, attribute, errorClassName, errors, label, loadOptions,

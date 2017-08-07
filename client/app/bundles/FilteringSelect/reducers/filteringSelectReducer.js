@@ -34,7 +34,12 @@ export default function filteringSelectReducer(state = initialState, action) {
       uniqBy(newState.options[key].concat(action.options), e => e.value)
     return newState
 
-    default:
-      return state;
+  case 'RESET_FILTERING_SELECT_DATA':
+    newState.options[action.resource] = []
+    newState.alreadyLoadedInputs[action.resource] = []
+    return newState
+
+  default:
+    return state
   }
 }

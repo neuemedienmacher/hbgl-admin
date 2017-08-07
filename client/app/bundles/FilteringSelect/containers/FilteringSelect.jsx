@@ -3,6 +3,7 @@ import isArray from 'lodash/isArray'
 import { updateAction, navigateThroughSubmodels } from 'rform'
 import { pluralize } from '../../../lib/inflection'
 import { loadForFilteringSelect } from '../actions/loadForFilteringSelect'
+import { resetFilteringSelectData } from '../actions/resetFilteringSelectData'
 import FilteringSelect from '../components/FilteringSelect'
 
 const mapStateToProps = (state, ownProps) => {
@@ -68,6 +69,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatch(loadForFilteringSelect(
         '', resource, model, inverseRelationship, filters
       ))
+    },
+
+    onUnmount() {
+      if (inverseRelationship != 'belongsTo') return
+      // only filtered FilteringSelect need to be cleaned up
+
+      dispatch(resetFilteringSelectData(resource))
     },
 
     onFirstValue(value) {
