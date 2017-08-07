@@ -124,6 +124,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       }
     },
 
+    afterError(_formId, response) {
+      if (response.status < 500) return
+      dispatch(
+        addFlashMessage('error', 'Es ist ein Serverfehler aufgetreten.')
+      )
+      response.text().then((errorMessage) => console.error(errorMessage))
+    },
+
     afterRequireValid(result) {
       if (result.valid) return
       dispatch(addFlashMessage('error', errorFlashMessage))

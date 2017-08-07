@@ -80,7 +80,7 @@ module Lib
             nested_params = params_from_document(single_document)
             yield nested_params, completed_single_document
           end
-        else
+        elsif document.any?
           yield params_from_document(document['data']), document.to_json
         end
       end
