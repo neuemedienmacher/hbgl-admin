@@ -33,16 +33,21 @@ module Lib
 
       def self.each_nested iterator_suffix, field, options, iterator_attrs = []
         results = []
+        reset_contract_field(options, field) if nested_given?(field, options)
         send(
           "each_nested_#{iterator_suffix}", field, options, *iterator_attrs
         ) do |response|
-          reset_contract_field(options, field) if results.empty?
           settable, pushable = yield response
           set_contract_field(options, field, settable)
           results.push pushable
         end
         set_contract_errors(options, field, results.select { |r| r != true })
         results.all? { |r| r == true || r.success? }
+      end
+
+      def self.nested_given?(field, options)
+        (options['params'] && options['params'][field]) ||
+          (options['document'] && parsed_document(options['document'], field))
       end
 
       def self.each_nested_paramset(field, options, &block)
