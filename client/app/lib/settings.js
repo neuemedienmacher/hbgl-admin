@@ -137,7 +137,11 @@ export default {
 
     organizations: {
       fields: [
-        'id', 'offers-count', 'name', 'aasm-state', 'pending-reason',
+        'id', {
+          'current-assignment': {
+            receiver: ['name'], 'receiver-team': ['name']
+          }
+        }, 'offers-count', 'name', 'aasm-state', 'pending-reason',
         'locations-count'
       ],
       general_actions: [

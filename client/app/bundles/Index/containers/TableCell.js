@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 function getContentFromAssociation(row, field) {
   const modelPath = field.model.split('.')
   for (let step of modelPath) {
-    row = row[step]
+    row = row && row[step] ? row[step] : undefined
   }
   if (!row) return null
   if (isArray(row)) {
