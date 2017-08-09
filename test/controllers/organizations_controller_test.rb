@@ -20,12 +20,11 @@ describe OrganizationsController do
 
     it 'should redirect to frontend organization#show with first section' do
       sign_in users(:researcher)
-      orga = FactoryGirl.create :organization, slug: 'whatever'
-      FactoryGirl.create :offer, organization: orga
+      orga = organizations(:basic)
       section = orga.sections.first.identifier
       get :show, id: orga.id
       assert_redirected_to(
-        "http://test.host.com/#{section}/preview/organisationen/whatever"
+        "http://test.host.com/#{section}/preview/organisationen/basicOrgaSlug"
       )
     end
   end

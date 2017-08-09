@@ -43,6 +43,32 @@ describe Email do
     end
   end
 
+  # moved from _base - now in contracts
+  # describe 'validations' do
+  #   describe 'always' do
+  #     it { subject.must validate_presence_of :address }
+  #     it { subject.must validate_uniqueness_of :address }
+  #     it { subject.must validate_length_of(:address).is_at_most 64 }
+  #     it { subject.must validate_length_of(:address).is_at_least 3 }
+  #
+  #     it 'does not allow whitespaces in address (possible duplicates)' do
+  #       duplicate_mail = Email.new address: ' a@b.c'
+  #       duplicate_mail.valid?.must_equal false
+  #     end
+  #   end
+  #
+  #   describe 'on update' do
+  #     let(:email) { Email.create! address: 'a@b.c' }
+  #     it { subject.must validate_presence_of :security_code }
+  #
+  #     it 'does not need a security_code in blocked state' do
+  #       subject.aasm_state = 'blocked'
+  #       subject.security_code.must_be :nil?
+  #       subject.valid?.must_equal true
+  #     end
+  #   end
+  # end
+
   describe 'state machine' do
     describe '#inform' do
       subject { email.inform }
@@ -120,8 +146,6 @@ describe Email do
          ', when orga is mailings=enabled and has approved offers' do
         email = FactoryGirl.create :email, :with_approved_offer
         email.organizations.first.update_column :mailings, 'enabled'
-        email.organizations.first.update_column :aasm_state, 'all_done'
-        email.organizations.first.offers = email.offers
         superior_mail = FactoryGirl.create :email
         superior_mail.contact_people <<
           FactoryGirl.create(
@@ -140,9 +164,8 @@ describe Email do
         mail = FactoryGirl.create :email, :with_approved_offer
         mail.contact_people.first.update_column :position, 'superior'
         mail.organizations.first.update_column :mailings, 'enabled'
-        mail.organizations.first.update_column :aasm_state, 'all_done'
-        mail.contact_people.first.organization = mail.organizations.first
-        mail.organizations.first.offers = mail.offers
+        # mail.contact_people.first.organization = mail.organizations.first
+        # # mail.organizations.first.offers = mail.offers
 
         mail.belongs_to_unique_orga_with_orga_contact?.must_equal true
         OfferMailer.expect_chain(:inform_offer_context, :deliver_now)

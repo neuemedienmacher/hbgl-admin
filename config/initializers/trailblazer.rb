@@ -44,3 +44,7 @@
 
 # ----- trb 2.0 -----
 require 'trailblazer/endpoint/rails'
+
+require 'roar/decorator'
+require 'roar/json'
+require 'roar/json/json_api'

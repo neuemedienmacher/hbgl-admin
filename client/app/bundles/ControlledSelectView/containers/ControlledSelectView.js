@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import ControlledSelectView from '../components/ControlledSelectView'
 
 const mapStateToProps = (state, ownProps) => {
@@ -27,7 +27,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   handleSelect(e){
     if (stateProps.selectedValue != e.target.value) {
       dispatchProps.dispatch(
-        setUiAction(stateProps.uniqIdentifier, e.target.value)
+        setUi(stateProps.uniqIdentifier, e.target.value)
       )
     }
   }

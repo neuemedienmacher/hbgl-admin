@@ -30,11 +30,6 @@ module Claradmin
     config.autoload_paths += additional_paths
     config.eager_load_paths += additional_paths
 
-    # Activate observers that should always be running.
-    config.active_record.observers = %w(
-      location_observer offer_observer organization_observer contact_person_observer
-    )
-
     # Trailblazer config
     # config.cells.with_assets = ['backend/form_fields/filtering_select_cell']
   end

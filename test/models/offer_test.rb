@@ -60,44 +60,21 @@ describe Offer do
 
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
-        offer = FactoryGirl.create :offer, :approved
+        offer = FactoryGirl.create :offer, :approved, :with_location
         duplicate = offer.partial_dup
         assert_nil duplicate.created_by
         duplicate.location.must_equal offer.location
-        duplicate.organizations.must_equal offer.organizations
+        # duplicate.organizations.must_equal offer.organizations
         duplicate.openings.must_equal offer.openings
         duplicate.categories.must_equal offer.categories
         duplicate.section.must_equal offer.section
+        duplicate.split_base.must_equal offer.split_base
         duplicate.language_filters.must_equal offer.language_filters
         duplicate.websites.must_equal offer.websites
         duplicate.contact_people.must_equal offer.contact_people
         duplicate.tags.must_equal offer.tags
-        duplicate.area.must_equal offer.area
+        assert_nil duplicate.area
         duplicate.aasm_state.must_equal 'initialized'
-      end
-    end
-
-    describe 'validations' do
-      it 'should validate that section filters of offer and categories match '\
-         'and that the correct error messages are generated' do
-        category = FactoryGirl.create(:category)
-        category.sections = [sections(:family)]
-        basicOffer.categories = [category]
-        basicOffer.section = sections(:refugees)
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_include(
-          "benötigt mindestens eine 'Refugees' Kategorie\n"
-        )
-        basicOffer.errors.messages[:categories].wont_include(
-          "benötigt mindestens eine 'Family' Kategorie\n"
-        )
-        basicOffer.section = sections(:refugees)
-        category.sections = [sections(:refugees)]
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_be :nil?
-        category.sections = [sections(:refugees), sections(:family)]
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_be :nil?
       end
     end
 
@@ -215,15 +192,15 @@ describe Offer do
         old_locale = I18n.locale
 
         I18n.locale = :de
-        offer.name.must_equal 'de name'
-        offer.description.must_equal 'de desc'
-        offer.old_next_steps.must_equal 'de next'
+        offer.translated_name.must_equal 'de name'
+        offer.translated_description.must_equal 'de desc'
+        offer.translated_old_next_steps.must_equal 'de next'
 
         I18n.locale = :en
         offer = Offer.find(offer.id) # clear memoization
-        offer.name.must_equal 'en name'
-        offer.description.must_equal 'en desc'
-        offer.old_next_steps.must_equal 'en next'
+        offer.translated_name.must_equal 'en name'
+        offer.translated_description.must_equal 'en desc'
+        offer.translated_old_next_steps.must_equal 'en next'
 
         I18n.locale = old_locale
       end

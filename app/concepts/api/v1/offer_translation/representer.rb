@@ -2,35 +2,40 @@
 module API::V1
   module OfferTranslation
     module Representer
-      class Show < API::V1::Assignable::Representer::Show
-        type :offer_translations
+      class Show < Roar::Decorator
+        include Roar::JSON::JSONAPI.resource :offer_translations
+        include API::V1::Assignable::Representer
 
-        property :label, getter: ->(ot) do
-          "##{ot[:represented].id} (#{ot[:represented].locale})"
-        end
-        property :offer_id
-        property :locale
-        property :source
-        property :name
-        property :description
-        property :opening_specification
-        property :possibly_outdated
-        property :created_at
-        property :updated_at
-
-        has_one :offer do
-          type :offers
-
-          property :id
+        attributes do
+          property :label, getter: ->(ot) do
+            "##{ot[:represented].id} (#{ot[:represented].locale})"
+          end
+          property :locale
+          property :source
           property :name
-          property :approved_at
-          property :created_by
           property :description
           property :opening_specification
+          property :possibly_outdated
+          property :created_at
+          property :updated_at
+
+          property :offer_id
+
+          property :offer_stamp, getter: ->(ot) do
+            ot[:represented].offer.target_audience_filters.pluck(:stamp_de)
+          end
         end
 
-        property :offer_stamp, getter: ->(ot) do
-          ot[:represented].offer.target_audience_filters.pluck(:stamp_de)
+        has_one :offer, class: ::Offer do
+          type :offers
+
+          attributes do
+            property :approved_at
+            property :created_by
+            property :name_de
+            property :description_de
+            property :opening_specification_de
+          end
         end
       end
 

@@ -11,7 +11,7 @@ class FilterIndexTest < ActiveSupport::TestCase
 
   describe '::Filter::Index::General' do
     it 'base_query must be ::Filter per default' do
-      ::API::V1::Filter::Index::General.new.base_query.must_equal ::Filter
+      ::API::V1::Filter::Index.new.base_query.must_equal ::Filter
     end
   end
   # NOTE: for later use (other specific e.g. trait_filters)

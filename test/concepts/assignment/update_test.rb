@@ -9,7 +9,7 @@ class AssignmentUpdateTest < ActiveSupport::TestCase
 
   let(:user) { users(:researcher) }
   let(:basic_params) do
-    { id: 1, message: 'foo bla' }
+    { id: '1', message: 'foo bla' }
   end
 
   describe '::Assignment::Update' do

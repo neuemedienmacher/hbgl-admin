@@ -2,12 +2,16 @@
 require_relative '../../test_helper'
 
 class API::V1::Division::RepresenterTest < ActiveSupport::TestCase
-  let(:subject) { API::V1::Division::Representer::Show }
+  let(:subject) { API::V1::Division::Representer::Create }
 
   it 'should provide its fields' do
-    record = Division.new name: 'foo', organization_id: 1
+    record = FactoryGirl.create :division,
+                                addition: 'foo',
+                                organization: Organization.find(1)
     result = subject.new(record).to_hash
-    result[:data][:attributes]['label'].must_equal 'foo'
-    result[:data][:relationships]['organization'][:data][:id].must_equal '1'
+    result['data']['attributes']['label'].must_equal(
+      "foobar (#{record.section.identifier}), City: Berlin, Addition: foo"
+    )
+    result['data']['relationships']['organization']['data']['id'].must_equal '1'
   end
 end

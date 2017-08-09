@@ -4,12 +4,14 @@ import OfferTranslationFormObject from '../forms/OfferTranslationFormObject'
 import OrganizationTranslationFormObject from
   '../forms/OrganizationTranslationFormObject'
 import EditTranslationForm from '../components/EditTranslationForm'
+import addFlashMessage from '../../../Backend/actions/addFlashMessage'
+import addEntities from '../../../Backend/actions/addEntities'
 
 const mapStateToProps = (state, ownProps) => {
-  const { id, model, translation, may_edit } = ownProps
+  const { id, model, translation } = ownProps
   const formId = `${model}Translation${id}`
 
-  const action = `/api/v1/${model}_translations/${id}`
+  const action = `/api/v1/${model}-translations/${id}`
   const seedData = {
     fields: translation
   }
@@ -19,8 +21,8 @@ const mapStateToProps = (state, ownProps) => {
   const properties = formObjectClass.properties
   const editLink = `/admin/${model}/${ownProps.source.id}/edit`
   const previewLink = `/admin/${model}/${ownProps.source.id}/show_in_app`
-  const stamp = ownProps.translation.offer_stamp ?
-                ownProps.translation.offer_stamp.join(', ') : 'nicht angegeben'
+  const stamp = ownProps.translation['offer-stamp'] ?
+                ownProps.translation['offer-stamp'].join(', ') : 'nicht angegeben'
 
   return {
     action,
@@ -37,10 +39,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 
-  afterResponse(response) {
-    // if (response.data && response.data.id) {
-    //   browserHistory.push(`/${ownProps.model}_translations`)
-    // }
+  afterResponse(_formId, changes, errors, _meta, response) {
+    if (response.data && response.data.id) {
+      dispatch(addFlashMessage('success', 'Erfolgreich gespeichert!'))
+      dispatch(addEntities(changes))
+    } else if (errors && errors.length) {
+      dispatch(addFlashMessage('error', 'Fehler beim speichern'))
+    }
   }
 })
 

@@ -2,36 +2,60 @@
 module API::V1
   module User
     module Representer
-      class Show < API::V1::Default::Representer::Show
-        type :users
+      class Show < Roar::Decorator
+        include Roar::JSON::JSONAPI.resource :users
 
-        property :id
-        property :label, getter: ->(user) do
-          user[:represented].name
+        attributes do
+          property :label, getter: ->(user) do
+            user[:represented].name
+          end
+          property :name
+          property :email
+          property :role
+          property :active
+
+          property :user_team_ids
+          property :led_team_ids
+          property :observed_user_team_ids
         end
-        property :name
-        property :email
-        property :role
-        property :user_team_ids
-        property :active
+      end
 
-        has_many :user_teams do
+      class Index < Show
+      end
+
+      class Update < Roar::Decorator
+        include Roar::JSON::JSONAPI.resource :users
+
+        attributes do
+          property :name
+          property :email
+          property :role
+        end
+
+        has_many :user_teams, class: ::UserTeam do
           type :user_teams
 
-          property :id
-          property :name
-          property :label, getter: ->(user_team) do
-            user_team[:represented].name
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
           end
         end
 
-        has_many :led_teams do
+        has_many :led_teams, class: ::UserTeam do
           type :user_teams
 
-          property :id
-          property :name
-          property :label, getter: ->(led_team) do
-            led_team[:represented].name
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
+
+        has_many :observed_user_teams, class: ::UserTeam do
+          type :user_teams
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
           end
         end
 
@@ -44,19 +68,6 @@ module API::V1
         #   property :id
         #   property :message, as: :label
         # end
-      end
-
-      # class Index < API::V1::Default::Representer::Index
-      #   # items extend: Show
-      # end
-
-      class Update < Roar::Decorator
-        include Roar::JSON::JSONAPI
-        type :users
-        property :id
-        property :name
-        property :email
-        property :role
       end
     end
   end

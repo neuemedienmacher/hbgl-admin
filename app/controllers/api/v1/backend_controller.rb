@@ -8,13 +8,12 @@ module API::V1
 
     def index
       # NOTE: use api_args instead of only params??
-      endpoint index_operation, args: [params] do |m|
-        m.success do |result|
-          json = API::V1::Lib::JsonifyCollection.(
-            show_representer, result['collection'], params
-          )
-          return render(json: json, status: 200)
-        end
+      result = index_operation.(params)
+      if result.success?
+        json = API::V1::Lib::JsonifyCollection.(
+          index_representer, result['collection'], params
+        )
+        return render(json: json, status: 200)
       end
     end
 
@@ -24,11 +23,11 @@ module API::V1
     end
 
     def create
-      endpoint create_operation, { args: api_args }, &default_endpoints
+      custom_endpoint create_operation.(*api_args), 201
     end
 
     def update
-      endpoint update_operation, { args: api_args }, &default_endpoints
+      custom_endpoint update_operation.(*api_args), 200
     end
 
     # --- Non-Action Helper methods --- #
@@ -46,24 +45,33 @@ module API::V1
       }]
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    def default_endpoints
-      proc do |m|
-        m.created do |result|
-          render json: result['representer.default.class'].new(result['model']),
-                 status: 201
-        end
-        m.present { |_| raise 'Endpoint: presented' }
-        m.not_found { |_| raise 'Endpoint: not_found' }
-        m.unauthenticated { |r| render json: jsonapi_errors(r), status: 403 }
-        m.success do |result|
-          render json: result['representer.default.class'].new(result['model']),
-                 status: 200
-        end
-        m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # def default_endpoints
+    #   proc do |m|
+    #     m.created do |result|
+    #       render json: result['representer.default.class'].new(result['model']),
+    #              status: 201
+    #     end
+    #     m.present { |_| raise 'Endpoint: presented' }
+    #     m.not_found { |_| raise 'Endpoint: not_found' }
+    #     m.unauthenticated { |r| render json: jsonapi_errors(r), status: 403 }
+    #     m.success do |result|
+    #       render json: result['representer.default.class'].new(result['model']),
+    #              status: 200
+    #     end
+    #     m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
+    #   end
+    # end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+    def custom_endpoint(result, success_status)
+      if result.success?
+        render json: result['representer.default.class'].new(result['model']),
+               status: success_status
+      else
+        render json: jsonapi_errors(result), status: 403
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def model_class_name
       controller_name.classify
@@ -75,6 +83,10 @@ module API::V1
 
     def show_representer
       "#{base_module}::Representer::Show".constantize
+    end
+
+    def index_representer
+      "#{base_module}::Representer::Index".constantize
     end
 
     def index_operation

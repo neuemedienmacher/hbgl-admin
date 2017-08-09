@@ -6,7 +6,7 @@ export default class EditTranslationForm extends Component {
   render() {
     const {
       seedData, action, formObjectClass, source, properties, formId,
-      afterResponse, may_edit, editLink, previewLink, stamp
+      afterResponse, editLink, previewLink, stamp
     } = this.props
 
     return (
@@ -32,7 +32,7 @@ export default class EditTranslationForm extends Component {
                 return(
                   <EditTranslationRow
                     key={property} property={property} formId={formId}
-                    source={source} may_edit={may_edit}
+                    source={source}
                   />
                 )
               })}
@@ -53,7 +53,7 @@ export default class EditTranslationForm extends Component {
     if (this.props.translation.source == 'GoogleTranslate') {
       return <span className='text-danger translation-marker'>GoogleTranslate</span>
     }
-    else if (this.props.translation.possibly_outdated) {
+    else if (this.props.translation['possibly-outdated']) {
       return(
         <span className='text-warning translation-marker'>
           Menschenhand

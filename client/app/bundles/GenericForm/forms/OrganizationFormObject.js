@@ -1,30 +1,67 @@
 import { FormObject, JsonApiAdapter } from 'rform'
+import merge from 'lodash/merge'
+import concat from 'lodash/concat'
+import WebsiteFormObject from './WebsiteFormObject'
+import DivisionFormObject from './DivisionFormObject'
+import LocationFormObject from './LocationFormObject'
+import ContactPersonFormObject from './ContactPersonFormObject'
 
-export default class OrganizationFormObject extends FormObject {
+class OrgaCreateFormObject extends FormObject {
   static get model() {
     return 'organization'
   }
 
-  static get properties() {
-    return [ 'name', 'website_ids', 'priority', 'division_ids' ]
+  static get type() {
+    return 'organizations'
   }
 
-  // static get submodelConfig() {
-  //   return {
-  //     websites: { properties: ['url'], type: 'has_many' },
-  //     divisions: {
-  //       properties: [ 'name', 'description', 'section_ids'],
-  //       type: 'oneToMany'
-  //     }
-  //   }
-  // }
+  static get properties() {
+    return [
+      'name', 'website', 'locations', 'contact-people',
+      'comment', 'priority', 'pending-reason', 'divisions'
+    ]
+  }
+
+  static get submodels() {
+    return ['website', 'divisions', 'locations', 'contact-people']
+  }
+
+  static get submodelConfig() {
+    return {
+      website: {
+        object: WebsiteFormObject,
+        relationship: 'oneToOne'
+      },
+      divisions: {
+        object: DivisionFormObject,
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
+      },
+      locations: {
+        object: LocationFormObject,
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
+      },
+      'contact-people': {
+        object: ContactPersonFormObject,
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
+      }
+    }
+  }
 
   static get formConfig() {
     return {
       name: { type: 'string' },
+      website: { type: 'creating-select' },
+      locations: { type: 'creating-multiselect' },
+      'contact-people': { type: 'creating-multiselect' },
+      comment: { type: 'textarea' },
       priority: { type: 'checkbox' },
-      website_ids: { type: 'creating-multiselect' },
-      division_ids: { type: 'creating-multiselect' },
+      divisions: { type: 'creating-multiselect' },
+      'pending-reason': {
+        type: 'select', options: ['', 'unstable', 'on_hold', 'foreign']
+      },
     }
   }
 
@@ -34,5 +71,60 @@ export default class OrganizationFormObject extends FormObject {
 
   validation() {
     this.required('name').filled()
+    this.required('website').filled()
   }
+}
+
+class OrgaUpdateFormObject extends OrgaCreateFormObject {
+  static get properties() {
+    return concat(
+      OrgaCreateFormObject.properties,
+      [ 'description', 'legal-form', 'charitable', 'umbrella-filters' ]
+    )
+  }
+
+  static get formConfig() {
+    return merge(
+      OrgaCreateFormObject.formConfig,
+      {
+        description: { type: 'textarea' },
+        charitable: { type: 'checkbox' },
+        'legal-form': {
+          type: 'select',
+          options: [
+            'ev', 'ggmbh', 'gag', 'foundation', 'gug', 'gmbh', 'ag', 'ug',
+            'kfm', 'gbr', 'ohg', 'kg', 'eg', 'sonstige', 'state_entity'
+          ]
+        },
+        'umbrella-filters': {
+          type: 'filtering-select',
+          resource: 'filters',
+          filters: { 'type': 'UmbrellaFilter' }
+        },
+      }
+    )
+  }
+
+  static get submodels() {
+    return concat(OrgaCreateFormObject.submodels, 'umbrella-filters')
+  }
+
+  static get submodelConfig() {
+    return merge(
+      OrgaCreateFormObject.submodelConfig, {
+        'umbrella-filters': {
+          type: 'filters',
+          relationship: 'oneToMany'
+        }
+      }
+    )
+  }
+
+  static get readOnlyProperties() {
+    return ['aasm-state']
+  }
+}
+
+export {
+  OrgaCreateFormObject, OrgaUpdateFormObject
 }

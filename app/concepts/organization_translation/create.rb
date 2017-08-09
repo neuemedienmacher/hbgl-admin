@@ -4,7 +4,7 @@ class OrganizationTranslation::Create < Trailblazer::Operation
 
   step Model(::OrganizationTranslation, :new)
 
-  step Contract::Build()
+  step Contract::Build(constant: OrganizationTranslation::Contracts::Create)
   step Contract::Validate()
   step Contract::Persist()
   step :create_initial_assignment!

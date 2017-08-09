@@ -13,16 +13,13 @@ FactoryGirl.define do
     end
     area { Area.first unless encounter == 'personal' }
     approved_at nil
-    split_base
+    split_base nil
     solution_category
     # every offer should have a creator!
     created_by { User.all.sample.id || FactoryGirl.create(:researcher).id }
 
     # associations
     transient do
-      organization_count 1
-      organization nil
-      contact_person_count 1
       website_count { rand(0..3) }
       category_count { rand(1..3) }
       category nil # used to get a specific category, instead of category_count
@@ -33,16 +30,9 @@ FactoryGirl.define do
     end
 
     after :build do |offer, evaluator|
-      # organization
-      if evaluator.organization
-        offer.organizations << evaluator.organization
-      else
-        evaluator.organization_count.times do
-          offer.organizations << FactoryGirl.create(:organization, :approved)
-        end
-      end
-      organization =
-        offer.organizations[0] || FactoryGirl.create(:organization, :approved)
+      # SplitBase => Division(s) => Organization(s)
+      offer.split_base = FactoryGirl.create(:split_base) unless offer.split_base
+      organization = offer.organizations[0]
 
       # location
       if offer.personal?
@@ -70,7 +60,7 @@ FactoryGirl.define do
 
     after :create do |offer, evaluator|
       # Contact People
-      evaluator.organization_count.times do
+      offer.organizations.count.times do
         offer.contact_people << FactoryGirl.create(
           :contact_person, organization: offer.organizations.first
         )
@@ -131,10 +121,6 @@ FactoryGirl.define do
     #   encounter %w(hotline chat forum email online-course portal).sample
     # end
 
-    trait :with_creator do
-      created_by { FactoryGirl.create(:researcher).id }
-    end
-
     trait :with_dummy_translations do
       after :create do |offer, _evaluator|
         (I18n.available_locales - [:de]).each do |locale|
@@ -155,7 +141,7 @@ FactoryGirl.define do
               organization: organization,
               locale: locale,
               source: 'GoogleTranslate',
-              description: "#{locale}(#{organization.untranslated_description})"
+              description: "#{locale}(#{organization.description})"
             )
           end
         end

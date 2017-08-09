@@ -25,12 +25,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 })
 
 function getContentFromAssociation(row, field) {
-  const associationData = row[field.model]
-  if (!associationData) return null
-  if (isArray(associationData)) {
-    return associationData.map(singleObject => singleObject[field.field])
+  const modelPath = field.model.split('.')
+  for (let step of modelPath) {
+    row = row && row[step] ? row[step] : undefined
+  }
+  if (!row) return null
+  if (isArray(row)) {
+    return row.map(singleObject => singleObject[field.field])
   } else {
-    return associationData[field.field]
+    return row[field.field]
   }
 }
 

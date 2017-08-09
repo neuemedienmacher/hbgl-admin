@@ -9,6 +9,7 @@ export const initialState = {
       query: null,
     },
   },
+  afterSaveActiveKey: 'to_edit'
 }
 
 export default function uiReducer(state = initialState, action) {

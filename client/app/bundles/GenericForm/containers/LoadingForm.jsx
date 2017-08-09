@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
-import setUi from '../../../Backend/actions/setUi'
+import { setUiLoaded } from '../../../Backend/actions/setUi'
 import LoadingForm from '../components/LoadingForm'
+import { singularize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, editId } = ownProps
-  const uiDataLoadedFlag = `GenericForm-edit-loaded-${model}-${editId}`
-  const loadedOriginalData = state.ui[uiDataLoadedFlag] || false
+  const loadedOriginalData =
+    state.ui[`loaded-GenericForm-${model}-${editId}`] || false
 
   return {
-    uiDataLoadedFlag,
     loadedOriginalData,
   }
 }
@@ -18,25 +18,47 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  ...ownProps,
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  // This response does not follow JSON API format, we need to transform it
+  // manually
+  const transformResponse = function(apiResponse, nextModel) {
+    let object = { 'possible-events': {} }
+    object['possible-events'][nextModel] = {}
+    object['possible-events'][nextModel][apiResponse.id] = apiResponse
+    return object
+  }
 
-  loadData() {
-    const { model, editId } = ownProps
-    if (!editId) return
-    const { dispatch } = dispatchProps
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
 
-    dispatch(
-      loadAjaxData(
-        `${model}/${editId}`, '', model, undefined, undefined, () => {
-          dispatch(setUi(stateProps.uiDataLoadedFlag, true))
-        }
+    loadData(model = ownProps.model, editId = ownProps.editId) {
+      if (!editId) return
+      const { dispatch } = dispatchProps
+
+      dispatch(
+        loadAjaxData(
+          `${model}/${editId}`, '', model, undefined, undefined, () => {
+            dispatch(setUiLoaded(true, 'GenericForm', model, editId))
+          }
+        )
       )
-    )
-  },
-})
+    },
+
+    loadPossibleEvents(model = ownProps.model, editId = ownProps.editId) {
+      if (!editId) return
+      const singularModel = singularize(model)
+
+      dispatchProps.dispatch(
+        loadAjaxData(
+          `possible_events/${singularModel}/${editId}`, {}, 'possible-events',
+          transformResponse, model
+        )
+      )
+    }
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
   LoadingForm

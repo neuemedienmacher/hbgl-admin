@@ -4,7 +4,7 @@
   "description": "Built using the react_on_rails generator.",
   "main": "server.js",
   "engines": {
-    "node": "5.0.0",
+    "node": "^6",
     "npm": "3.5.0"
   },
   "repository": {
@@ -61,6 +61,7 @@
     "normalizr": "^2.2.1",
     "querystring": "^0.2.0",
     "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.1.0",
     "react-addons-shallow-compare": "^15.3.2",
     "react-bootstrap": "^0.30.7",
     "react-date-range": "^0.2.4",
@@ -75,7 +76,7 @@
     "redux": "^3.0.5",
     "redux-promise": "^0.5.0",
     "redux-thunk": "^1.0.2",
-    "rform": "0.2.12",
+    "rform": "0.3.9",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.8"
   },
@@ -91,7 +92,7 @@
     "file-loader": "^0.8.4",
     "jade": "^1.11.0",
     "jscs": "^2.8.0",
-    "node-sass": "^3.4.2",
+    "node-sass": "^3.7.0",
     "react-transform-hmr": "^1.0.1",
     "sass-loader": "^3.1.1",
     "source-map": "^0.5.6",

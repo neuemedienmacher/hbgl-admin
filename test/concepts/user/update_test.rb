@@ -9,7 +9,7 @@ class UserUpdateTest < ActiveSupport::TestCase
     document = {
       data: {
         type: 'users',
-        id: user.id,
+        id: user.id.to_s,
         attributes: { name: 'SomeNewName' }
       }
     }

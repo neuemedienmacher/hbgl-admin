@@ -55,7 +55,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 1
 
     # add a refugees offer to the organization and start Operation again
-    orga.offers << refugees_section_offer
+    refugees_section_offer.split_base.divisions.first
+                          .update_columns organization_id: orga.id
     orga.in_section?('refugees').must_equal true
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -67,7 +68,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
 
   it 'should assign to approver if creator is inactive' do
     orga = family_section_offer.organizations.first
-    orga.offers << refugees_section_offer
+    refugees_section_offer.split_base.divisions.first
+                          .update_columns organization_id: orga.id
     User.find(orga.created_by).update_attributes(active: false)
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -76,7 +78,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.last.aasm_state.must_equal 'open'
   end
 
-  it 'should correctly create the second assignment as anoffer side-effect' do
+  it 'should correctly create the second assignment as an offer side-effect' do
     orga = family_section_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -87,7 +89,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
 
     # add a refugeesoffer to the organization and start Operation again
-    orga.offers << refugees_section_offer
+    refugees_section_offer.split_base.divisions.first
+                          .update_columns organization_id: orga.id
     refugees_section_offer.update_columns aasm_state: 'initialized'
     orga.sections.pluck(:identifier).include?('refugees').must_equal true
     operation.({}, 'locale' => :en, 'fields' => :all,
@@ -110,7 +113,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 2
   end
 
-  it 'should only create system-assignment for family-en-OrganizationTranslation' do
+  it 'only creates system-assignment for family-en-OrganizationTranslation' do
     orga = family_section_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -122,7 +125,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   end
 
   it 'should create system-assignment for contact_person' do
-    cont = FactoryGirl.create :contact_person, responsibility: 'Geduld und Disziplin.'
+    cont =
+      FactoryGirl.create :contact_person, responsibility: 'Geduld und Disziplin'
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => cont)
     assignments = cont.translations.where(locale: 'en').first.assignments

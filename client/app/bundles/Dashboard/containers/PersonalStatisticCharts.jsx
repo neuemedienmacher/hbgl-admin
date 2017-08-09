@@ -8,19 +8,22 @@ const mapStateToProps = (state, ownProps) => {
   const chartType = 'User'
   let selectIdentifier = 'controlled-select-view-' + chartType + 'Statistics'
   const trackableId =
-    state.ui[selectIdentifier] || state.entities.current_user.id
+    state.ui[selectIdentifier] || state.entities['current-user-id']
   const dataKey = 'personalStatistics#' + trackableId
-  const statisticCharts = valuesIn(state.entities.statistic_charts).filter(
-    chart => chart.user_id == trackableId
+  const statisticCharts = valuesIn(state.entities['statistic-charts']).filter(
+    chart => chart['user-id'] == trackableId
   )
-  let selectable_data =
-    [[state.entities.current_user.id, state.entities.current_user.name]]
-  // append user_ids of users in led_teams
-  selectable_data = selectable_data.concat(
-    state.entities.current_user.led_teams ?
-    flatten(state.entities.current_user.led_teams.map(team => {
-      return team.user_ids.map(user_id => {
-        return [user_id, `${state.entities.users[user_id].name} (${team.name})`]
+  let currentUser = state.entities.users[state.entities['current-user-id']]
+  let selectableData = [[currentUser.id, currentUser.name]]
+  // append userIds of users in ledTeams
+  let ledTeams = valuesIn(state.entities['user-teams']).filter(
+    t => currentUser['led-team-ids'] && currentUser['led-team-ids'].includes(t.id)
+  )
+  selectableData = selectableData.concat(
+    ledTeams ?
+    flatten(ledTeams.map(team => {
+      return team['user-ids'].map(userId => {
+        return [userId, `${state.entities.users[userId].name} (${team.name})`]
       })
     })) : []
   )
@@ -31,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     trackableId,
     statisticCharts,
-    selectable_data,
+    selectableData,
     dataKey,
     dataLoaded,
     chartType,
@@ -58,9 +61,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       loadAjaxData(
         'statistics',
         {
-          'filters[trackable_id]': newProps.trackableId,
-          'filters[trackable_type]': 'User',
-          'filters[time_frame]': 'daily',
+          'filters[trackable-id]': newProps.trackableId,
+          'filters[trackable-type]': 'User',
+          'filters[time-frame]': 'daily',
           'filters[date]': lowest_start_date,
           'operators[date]': '>=', // TODO? allow for ranges in filters and also filter <= ends_at ?!
           'per_page': 50,

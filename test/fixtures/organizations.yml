@@ -8,3 +8,5 @@ basic:
   created_by: 1
   approved_by: 2
   mailings: enabled
+  website_id: 1
+  slug: basicOrgaSlug

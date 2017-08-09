@@ -7,9 +7,9 @@ export default class OverviewPanel extends Component {
     return (
       <ControlledTabView identifier="assignments" startIndex={1}>
         <AssignmentsContainer scope='receiver' tabTitle='Meine Aufgaben' />
-        <AssignmentsContainer scope='receiver_team' tabTitle='Team Aufgaben' />
-        <AssignmentsContainer scope='creator_open' tabTitle='Von mir abgeschickte Aufgaben' />
-        <AssignmentsContainer scope='receiver_closed' tabTitle='Abgeschlossene Aufgaben' />
+        <AssignmentsContainer scope='receiverTeam' tabTitle='Team Aufgaben' />
+        <AssignmentsContainer scope='creatorOpen' tabTitle='Von mir abgeschickte Aufgaben' />
+        <AssignmentsContainer scope='receiverClosed' tabTitle='Abgeschlossene Aufgaben' />
       </ControlledTabView>
     )
   }

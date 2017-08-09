@@ -18,7 +18,8 @@ describe API::V1::AssignmentsController do
     it 'should handle an incomplete create request' do
       sign_in user
       create_fails_with Assignment, foo: 'foo'
-      response.body.must_include 'Assignable muss ausgefüllt werden' # ie
+      response.body.must_include 'muss ausgefüllt werden' # ie
+      response.body.must_include '/data/attributes/assignable-type'
     end
 
     it 'should successfully handle a create request' do

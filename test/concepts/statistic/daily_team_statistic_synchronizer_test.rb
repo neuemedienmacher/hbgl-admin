@@ -128,7 +128,8 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
 
       UserTeam.find(1).users = User.where(id: 1)
       UserTeam.find(2).update_columns parent_id: 1
-      sub_team = UserTeam.create! classification: 'researcher', parent_id: 2, name: 'SubTeam'
+      sub_team =
+        UserTeam.create! classification: 'family', parent_id: 2, name: 'SubTeam'
       sub_team.users = User.where(id: 2)
       Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
       Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3))

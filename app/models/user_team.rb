@@ -4,7 +4,7 @@ require ClaratBase::Engine.root.join('app', 'models', 'user_team')
 
 class UserTeam < ActiveRecord::Base
   include PgSearch
-  pg_search_scope :search_everything,
+  pg_search_scope :search_pg,
                   against: [
                     :id, :name
                   ],

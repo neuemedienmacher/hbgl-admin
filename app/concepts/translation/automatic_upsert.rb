@@ -110,12 +110,12 @@ module Translation
     def direct_translate_via_strategy object, field, locale
       case field.to_sym
       when :name, :responsibility
-        object.send("untranslated_#{field}")
+        object.send(field)
       when :description
-        output = MarkdownRenderer.render(object.untranslated_description)
+        output = MarkdownRenderer.render(object.description)
         locale.to_sym == :de ? infuse_definitions(object, output) : output
       when :old_next_steps, :opening_specification
-        MarkdownRenderer.render object.send("untranslated_#{field}")
+        MarkdownRenderer.render object.send(field)
       else
         raise "Translation::AutomaticUpsert: #{field} needs translation strategy"
       end

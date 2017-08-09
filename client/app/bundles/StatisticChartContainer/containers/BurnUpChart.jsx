@@ -5,7 +5,7 @@ import { timeParse } from 'd3-time-format'
 import { scaleTime, scaleLinear } from 'd3-scale'
 import { axisBottom, axisLeft } from 'd3-axis'
 import moment from 'moment'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import BurnUpChart from '../components/BurnUpChart'
 
 const mapStateToProps = function(state, ownProps) {
@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       hasActiveCursor,
       chartId: ownProps.chartId
     }
-    dispatch(setUiAction('chartCursorData', uiObjectToSave))
+    dispatch(setUi('chartCursorData', uiObjectToSave))
   }
 })
 

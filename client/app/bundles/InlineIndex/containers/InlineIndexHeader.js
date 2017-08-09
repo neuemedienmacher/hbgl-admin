@@ -3,7 +3,7 @@ import merge from 'lodash/merge'
 import clone from 'lodash/clone'
 import pickBy from 'lodash/pickBy'
 import toPairs from 'lodash/toPairs'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import IndexHeader from '../../Index/components/IndexHeader'
 
 const mapStateToProps = (state, ownProps) => {
@@ -43,14 +43,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   onQueryChange(event) {
     let params = merge(clone(stateProps.params), { query: event.target.value })
-    dispatchProps.dispatch(setUiAction(stateProps.uiKey, params))
+    dispatchProps.dispatch(setUi(stateProps.uiKey, params))
   },
 
   onPlusClick(event) {
     let params = clone(stateProps.params)
     if (params['filters[id]']) return // ID filtered - other filters not needed
     merge(params, { 'filters[id]': '' })
-    dispatchProps.dispatch(setUiAction(stateProps.uiKey, params))
+    dispatchProps.dispatch(setUi(stateProps.uiKey, params))
   }
 })
 

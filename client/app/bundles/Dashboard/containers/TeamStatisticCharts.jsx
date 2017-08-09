@@ -1,33 +1,40 @@
 import { connect } from 'react-redux'
 import valuesIn from 'lodash/valuesIn'
 import flatten from 'lodash/flatten'
+import filter from 'lodash/filter'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import PersonalOrTeamStatisticCharts from '../components/PersonalOrTeamStatisticCharts'
 
 const mapStateToProps = (state, ownProps) => {
-  let user = state.entities.current_user
+  let user = state.entities.users[state.entities['current-user-id']]
+  let userTeams = filter(
+    state.entities['user-teams'],
+    team => { return user['user-team-ids'].includes(team.id) }
+  )
   const chartType = 'UserTeam'
   const chartNames = ['completion', 'approval']
   let selectIdentifier = 'controlled-select-view-' + chartType + 'Statistics'
-  const trackableId = state.ui[selectIdentifier] || user.user_teams[0].id
+  const trackableId = state.ui[selectIdentifier] || userTeams[0].id
   const dataKey = 'teamStatistics#' + trackableId
   const statisticCharts = buildAggregatedStatisticCharts(
-    state.entities, state.entities.user_teams[trackableId], chartNames
+    state.entities, state.entities['user-teams'][trackableId], chartNames
   )
-  let selectable_data = !user.user_teams ? [] : (
-    user.user_teams.map(team => {
-      return [team.id, team.name]
-    })
-  )
-  selectable_data = selectable_data.concat(
-    !user.led_teams ? [] : (
-      flatten(user.led_teams.map(led_team => {
-        return !led_team.children ? [] : led_team.children.map(child_team =>{
-          return [child_team.id, `${child_team.name} (SubTeam von: ${led_team.name})`]
-        })
+  let selectableData = userTeams.map(team => {
+    return [team.id, team.name]
+  })
+  selectableData = selectableData.concat(flatten(
+    filter(
+      state.entities['user-teams'], team => { return team['lead-id'] == user.id }
+    ).map(ledTeam => {
+      let children = filter(
+        state.entities['user-teams'],
+        otherTeam => { return otherTeam['parent-id'] == ledTeam.id }
+      )
+      return children.map(childTeam => {
+        return [childTeam.id, `${childTeam.name} (SubTeam von: ${ledTeam.name})`]
       })
-    ))
-  )
+    })
+  ))
 
   const dataLoaded = state.ajax.isLoading[dataKey] === false &&
                      state.ajax[dataKey]
@@ -36,7 +43,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     trackableId,
     statisticCharts,
-    selectable_data,
+    selectableData,
     dataKey,
     dataLoaded,
     chartType,
@@ -47,38 +54,42 @@ const mapStateToProps = (state, ownProps) => {
 function buildAggregatedStatisticCharts(entities, currentTeam, chartNames) {
   let aggregatedStatisticCharts = []
   for (var i = 0; i < chartNames.length; i++) {
-    let affectedUserIds = recursive_user_ids_of_team(currentTeam)
+    let affectedUserIds = recursiveUserIdsOfTeam(currentTeam, entities)
     let chartName = chartNames[i]
-    let chartsOfAffectedUsers = valuesIn(entities.statistic_charts).filter(
-      chart => chart.title == chartName && affectedUserIds.includes(chart.user_id)
+    let chartsOfAffectedUsers = valuesIn(entities['statistic-charts']).filter(
+      chart => chart.title == chartName && affectedUserIds.includes(chart['user-id'])
     )
     if (!chartsOfAffectedUsers.length) continue;
 
     let lastGoalIdsOfUserCharts = chartsOfAffectedUsers.map(chart => {
-      return chart.statistic_goal_ids[chart.statistic_goal_ids.length - 1]
+      return chart['statistic-goal-ids'][chart['statistic-goal-ids'].length - 1]
     })
     // NOTE: we assume that this is the same for all user_charts
-    let start_date = chartsOfAffectedUsers[0].starts_at
-    let end_date = chartsOfAffectedUsers[0].ends_at
+    let startDate = chartsOfAffectedUsers[0]['starts-at']
+    let endDate = chartsOfAffectedUsers[0]['ends-at']
     aggregatedStatisticCharts.push({
       id: chartsOfAffectedUsers[0].id, // NOTE: only used for key attribute - has to be uniq
-      title: `${chartName} ${start_date.substr(0,4)} (${currentTeam.name})`,
-      starts_at: start_date,
-      ends_at: end_date,
-      team_id: currentTeam.id,
-      statistic_goal_ids: lastGoalIdsOfUserCharts,
-      statistic_transition_ids: chartsOfAffectedUsers[0].statistic_transition_ids // NOTE: we assume that these are the same for all user_charts
+      title: `${chartName} ${startDate.substr(0,4)} (${currentTeam.name})`,
+      'starts-at': startDate,
+      'ends-at': endDate,
+      'team-id': currentTeam.id,
+      'statistic-goal-ids': lastGoalIdsOfUserCharts,
+      'statistic-transition-ids': chartsOfAffectedUsers[0]['statistic-transition-ids'] // NOTE: we assume that these are the same for all user_charts
     })
   }
   return aggregatedStatisticCharts
 }
 
-function recursive_user_ids_of_team(team) {
-  let ids = team.user_ids || []
+function recursiveUserIdsOfTeam(team, entities) {
+  let ids = team['user-ids'] || []
+  let children = filter(
+    entities['user-teams'],
+    otherTeam => { return otherTeam['parent-id'] == team.id }
+  )
   ids = ids.concat(
-    team.children && team.children.length != 0 ? team.children.map(s_team => {
-        return recursive_user_ids_of_team(s_team)
-      }) : []
+    children.length != 0 ? children.map(subTeam => {
+      return recursiveUserIdsOfTeam(subTeam, entities)
+    }) : []
   )
   return flatten(ids)
 }
@@ -93,8 +104,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 
   loadData(newProps = stateProps) {
-    let lowest_start_date = newProps.statisticCharts.map(chart => {
-      return chart.starts_at
+    let lowestStartDate = newProps.statisticCharts.map(chart => {
+      return chart['starts-at']
     }).sort((a, b) => +(a > b) || +(a === b) - 1)[0]
     let page = newProps.dataLoaded != undefined && newProps.dataLoaded.meta ?
       newProps.dataLoaded.meta.current_page + 1 : 1
@@ -102,10 +113,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       loadAjaxData(
         'statistics',
         {
-          'filters[trackable_id]': newProps.trackableId,
-          'filters[trackable_type]': 'UserTeam',
-          'filters[time_frame]': 'daily',
-          'filters[date]': lowest_start_date,
+          'filters[trackable-id]': newProps.trackableId,
+          'filters[trackable-type]': 'UserTeam',
+          'filters[time-frame]': 'daily',
+          'filters[date]': lowestStartDate,
           'operators[date]': '>=', // TODO? allow for ranges in filters and also filter <= ends_at ?!
           'per_page': 50,
           'page': page

@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 module OperationTestUtils
   def with_params(params, additional_options)
-    current_user = (defined?(user) && user) || users(:researcher)
     [
       params,
-      {'current_user' => current_user}.merge(additional_options)
+      {'current_user' => _default_user}.merge(additional_options)
     ]
   end
 
   def with_document(params, additional_options)
-    param_hash = params['"id":'] ? {id: params.match(/"id":(\d+)/)[1]}: {}
+    param_hash = params['"id":'] ? {id: params.match(/"id":"(\d+)"/)[1]} : {}
     [
       param_hash,
-      {'document' => params, 'current_user' => user || users(:researcher)}
+      {'document' => params, 'current_user' => _default_user}
         .merge(additional_options)
     ]
   end
@@ -22,6 +21,7 @@ module OperationTestUtils
   end
 
   def run_api_operation(operation, params, options = {})
+    # binding.pry
     operation.(*with_document(params, options))
   end
 
@@ -58,5 +58,11 @@ module OperationTestUtils
     refute_result(
       run_api_operation(operation, params, options)
     )
+  end
+
+  private
+
+  def _default_user
+    (defined?(user) && user) || users(:researcher)
   end
 end

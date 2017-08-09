@@ -2,29 +2,70 @@
 module API::V1
   module UserTeam
     module Representer
-      class Show < API::V1::Default::Representer::Show
-        type :user_teams
+      class Show < Roar::Decorator
+        include Roar::JSON::JSONAPI.resource :user_teams
 
-        property :name
-        property :classification
-        property :parent_id
-
-        has_one :parent do
-          type :user_teams
-          property :id
-          property :name, as: :label
-        end
-
-        has_many :children do
-          type :user_teams
-          property :id
-          property :name, as: :label
-        end
-
-        property :user_ids # KK: Not sure if this is the best way...
-        has_many :users do
-          property :id
+        attributes do
+          property :label, getter: ->(user) do
+            user[:represented].name
+          end
           property :name
+          property :classification
+          property :lead_id
+          property :parent_id
+          property :user_ids
+          property :observing_user_ids
+        end
+
+        has_one :parent, class: ::UserTeam do
+          type :user_teams
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
+
+        has_one :lead, class: ::User do
+          type :users
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
+      end
+
+      class Index < Show
+      end
+
+      class Create < Show
+        # has_many :children, class: ::UserTeam do
+        #   type :user_teams
+        #
+        #   attributes do
+        #     property :name, as: :label
+        #   end
+        # end
+
+        has_many :users, class: ::User,
+                         populator: API::V1::Lib::Populators::Find do
+          type :users
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
+
+        has_many :observing_users, class: ::User,
+                                   populator: API::V1::Lib::Populators::Find do
+          type :users
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
         end
 
         # collection :created_assignments do
@@ -37,10 +78,6 @@ module API::V1
         #   property :message, as: :label
         # end
       end
-
-      # class Show < API::V1::Default::Representer::Show
-      #   # items extend: Show
-      # end
     end
   end
 end

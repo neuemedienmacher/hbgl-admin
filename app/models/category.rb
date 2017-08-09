@@ -4,6 +4,13 @@ require ClaratBase::Engine.root.join('app', 'models', 'category')
 
 class Category < ActiveRecord::Base
   after_save :translate_if_name_en_changed
+
+  # Search
+  include PgSearch
+  pg_search_scope :search_pg,
+                  against: [:id, :name_de],
+                  using: { tsearch: { prefix: true } }
+
   # Methods
 
   # alias for rails_admin_nestable

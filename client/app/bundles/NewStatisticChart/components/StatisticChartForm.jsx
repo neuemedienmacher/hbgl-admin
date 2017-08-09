@@ -6,20 +6,18 @@ export default class StatisticChartForm extends React.Component {
   render() {
     const {
       seedData, userTeams, targetModels, targetFieldNames, targetFieldValues,
-      formId, afterInputChange, afterResponse, handleResponse
+      formId, afterInputChange, afterResponse
     } = this.props
 
     return (
       <Form ajax requireValid
         action='/api/v1/statistic_charts/' method='POST'
-        className='form-inline'
-        id={formId} seedData={seedData}
-        formObjectClass={StatisticChartFormObject}
-        afterResponse={afterResponse} handleResponse={handleResponse}
+        className='form-inline' formObjectClass={StatisticChartFormObject}
+        id={formId} seedData={seedData} afterResponse={afterResponse}
       >
         <InputSet
           wrapperClassName='form-group' className='form-control'
-          label='für' type='select' attribute='user_team_id'
+          label='für' type='select' attribute='user-team-id'
           options={userTeams}
         />
         <br />
@@ -31,34 +29,34 @@ export default class StatisticChartForm extends React.Component {
         <br />
         <InputSet
           wrapperClassName='form-group' className='form-control'
-          label='vom' type='date' attribute='starts_at'
+          label='vom' type='date' attribute='starts-at'
         />
         <InputSet
           wrapperClassName='form-group' className='form-control'
-          label='bis zum' type='date' attribute='ends_at'
+          label='bis zum' type='date' attribute='ends-at'
         />
         <br />
         <InputSet
           wrapperClassName='form-group' className='form-control'
           wrapperErrorClassName='has-error' errorClassName='help-block'
-          label='sollen' type='number' attribute='target_count'
+          label='sollen' type='number' attribute='target-count'
           placeholder='Anzahl'
         />
         <InputSet ariaLabelOnly
           wrapperClassName='form-group' className='form-control'
-          type='select' attribute='klass_name' options={targetModels}
+          type='select' attribute='klass-name' options={targetModels}
           afterChange={afterInputChange}
         />
         <br />
         <InputSet
           wrapperClassName='form-group' className='form-control'
-          label='auf' type='select' attribute='target_field_name'
+          label='auf' type='select' attribute='target-field-name'
           options={targetFieldNames}
           afterChange={afterInputChange}
         />
         <InputSet ariaLabelOnly
           wrapperClassName='form-group' className='form-control'
-          type='select' attribute='target_field_value'
+          type='select' attribute='target-field-value'
           options={targetFieldValues}
         />
         gebracht werden.

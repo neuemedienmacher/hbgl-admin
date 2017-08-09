@@ -22,15 +22,8 @@ describe Translation do
     describe 'translated field getter' do
       it 'should find the content of a translation' do
         subject.expect_chain(:translations, :find_by).returns(translation)
-        subject.somefield.must_equal 'some translation'
+        subject.translated_somefield.must_equal 'some translation'
       end
-    end
-  end
-
-  describe 'untranslated field getter' do
-    it 'should find the original content of a field' do
-      subject.expects(:attributes).returns(sometranslation: nil)
-      assert_nil subject.untranslated_somefield
     end
   end
 

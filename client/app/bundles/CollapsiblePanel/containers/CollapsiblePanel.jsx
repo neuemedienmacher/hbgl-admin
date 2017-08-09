@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import setUiAction from '../../../Backend/actions/setUi'
+import { setUi } from '../../../Backend/actions/setUi'
 import CollapsiblePanel from '../components/CollapsiblePanel'
 
 const mapStateToProps = (state, ownProps) => {
@@ -26,7 +26,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   onClick(e) {
     let uiSettings = stateProps.uiKey || {}
     uiSettings[ownProps.identifier] = !stateProps.open
-    dispatchProps.dispatch(setUiAction('collapsiblePanel', uiSettings))
+    dispatchProps.dispatch(setUi('collapsiblePanel', uiSettings))
   }
 })
 

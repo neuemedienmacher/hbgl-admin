@@ -4,25 +4,64 @@ module API::V1
     class Show < Representable::Decorator
       include Representable::JSON
 
-      property :column_names, getter: ->(r) do
-        r[:represented].column_names
+      property :'column-names', getter: ->(r) do
+        r[:represented].column_names.map(&:dasherize)
       end
 
       property :associations, getter: ->(r) do
+        def filter_name_for_association(assoc)
+          # puts assoc.name
+          # puts assoc.options
+          # puts '------------'
+          if !assoc.options[:inverse_of] || assoc.options[:polymorphic] ||
+             assoc.is_a?(::ActiveRecord::Reflection::BelongsToReflection)
+            ['']
+          elsif assoc.options[:inverse_of].to_s.ends_with?('able') # polymorphic associations (_type & _id)
+            polymorphic_filter_for assoc
+          else
+            filter_for assoc
+          end
+        end
+
+        def polymorphic_filter_for assoc
+          polymorphic_name = assoc.options[:inverse_of]
+          ["#{polymorphic_name}_id", "#{polymorphic_name}_type"]
+        end
+
+        def filter_for assoc
+          name = assoc.options[:inverse_of]
+          prefix = prefix_for(assoc, name)
+          [plural?(name) ? "#{name}.id" : "#{prefix}#{name.to_s.singularize}_id"]
+        end
+
+        def prefix_for assoc, name
+          if assoc.options[:through] && plural?(name) == false
+            assoc.options[:through].to_s.singularize + '.'
+          else
+            ''
+          end
+        end
+
+        def plural? input
+          input.to_s == input.to_s.pluralize
+        end
+
         assocs = {}
         r[:represented].reflect_on_all_associations.each do |assoc|
-          # INFO: Hotfixed to avoid polymorphic modules as association
+          # NOTE: Hotfixed to avoid polymorphic modules as association
           next if assoc.options[:polymorphic]
           # build association object
-          class_name = assoc.options[:class_name] ? assoc.options[:class_name].underscore.pluralize : assoc.name
-          key = ''
-          if assoc.options[:foreign_key] && !assoc.options[:through]
-            key = assoc.options[:foreign_key] ? assoc.options[:foreign_key] : assoc.active_record.to_s.underscore + '_id'
-          end
+          class_name =
+            if assoc.options[:class_name]
+              assoc.options[:class_name].underscore.pluralize
+            else
+              assoc.name
+            end
+          keys = filter_name_for_association(assoc)
           assocs[assoc.name] = {
-            'columns' => assoc.klass.column_names,
-            'class_name' => class_name,
-            'key' => key
+            'columns' => assoc.klass.column_names.map(&:dasherize),
+            'class-name' => class_name,
+            'key' => keys
           }
         end
         assocs

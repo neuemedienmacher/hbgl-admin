@@ -5,19 +5,26 @@ module ReformedValidationHack
   extend ActiveSupport::Concern
 
   included do
-    before_validation do
+    before_validation(on: :create) { _rvhack_validate(:create) }
+    before_validation(on: :update) { _rvhack_validate(:update) }
+
+    def _rvhack_validate event
       # run other callbacks before validations
       @@before_hacks[self.class.name]&.each do |func|
         self.send(func)
       end
-      contract = hacky_contract.new(self)
+      contract = _rvhacky_contract_for(event).new(self)
       result = contract.validate(attributes)
       @errors = contract.errors
       result
     end
 
-    def hacky_contract
-      self.class::Contracts::Create
+    def _rvhacky_contract_for event
+      if event == :update && defined?(self.class::Contracts::Update)
+        self.class::Contracts::Update
+      else
+        self.class::Contracts::Create
+      end
     end
 
     def self.before_hack function
@@ -26,6 +33,16 @@ module ReformedValidationHack
       @@before_hacks[self.name] ||= []
       @@before_hacks[self.name] << function
       # rubocop:enable Style/ClassVars
+    end
+
+    # Epic Hax: don't use model validations for operation persisting
+    def save(options = {})
+      # maybe 'macros/nested.rb' to only hax nesting operations
+      if caller.select { |s| s.include?('trailblazer/operation/persist') }.any?
+        super options.merge(validate: false)
+      else
+        super options
+      end
     end
   end
 end

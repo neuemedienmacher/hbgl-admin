@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 module TimeAllocation::Contracts
   class Update < Reform::Form
+    property :id, writeable: false
     property :user_id
     property :week_number
     property :year
     property :desired_wa_hours
     property :actual_wa_hours
+    property :actual_wa_comment
 
     validates :user_id, presence: true, numericality: true
     validates :week_number, presence: true, numericality: true

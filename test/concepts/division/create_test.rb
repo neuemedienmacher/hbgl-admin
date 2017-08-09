@@ -11,10 +11,11 @@ class DivisionCreateTest < ActiveSupport::TestCase
   let(:orga) { organizations(:basic) }
   let(:basic_params) do
     {
-      name: 'DivisionName',
+      addition: 'DivisionAddition',
       description: 'DivisionDescription',
-      organization_id: orga.id,
-      section_id: orga.sections.first.id
+      organization: orga,
+      section: orga.sections.first,
+      city: orga.locations.first.city
     }
   end
 
@@ -23,19 +24,27 @@ class DivisionCreateTest < ActiveSupport::TestCase
       operation_must_work ::Division::Create, basic_params
     end
 
+    it 'must create a division with presumed (solution) categories' do
+      params = basic_params.merge(
+        presumed_categories: Category.first(2),
+        presumed_solution_categories: [{ id: 1 }]
+      )
+      result = operation_must_work ::Division::Create, params
+      result['model'].presumed_categories.count.must_equal 2
+      result['model'].presumed_categories.first.id.must_equal 1
+      result['model'].presumed_categories.last.id.must_equal 2
+      result['model'].presumed_solution_categories.count.must_equal 1
+      result['model'].presumed_solution_categories.first.id.must_equal 1
+    end
+
     describe 'validations' do
-      it 'must validate name' do
-        basic_params[:name] = nil
+      it 'must validate organization' do
+        basic_params[:organization] = nil
         operation_wont_work ::Division::Create, basic_params
       end
 
-      it 'must validate organization_id' do
-        basic_params[:organization_id] = nil
-        operation_wont_work ::Division::Create, basic_params
-      end
-
-      it 'must validate section_id' do
-        basic_params[:section_id] = nil
+      it 'must validate section' do
+        basic_params[:section] = nil
         operation_wont_work ::Division::Create, basic_params
       end
     end

@@ -2,10 +2,11 @@
 class UserTeam < ActiveRecord::Base
   class GeneralContract < Reform::Form
     property :name
-    property :user_ids
+    property :users
+    property :observing_users
 
     validates :name, presence: true
-    validates :user_ids, presence: true
+    validates :users, presence: true
   end
 
   class Create < Trailblazer::Operation
@@ -27,8 +28,10 @@ class UserTeam < ActiveRecord::Base
     step :update_team_statistic_on_user_change
 
     def update_team_statistic_on_user_change options
-      if options['contract.default'].changed?('user_ids')
-        Statistic::DailyTeamStatisticSynchronizer.new(options['contract.default'].model.id, Time.zone.now.year).record!
+      if options['contract.default'].changed?('users')
+        Statistic::DailyTeamStatisticSynchronizer.new(
+          options['contract.default'].model.id, Time.zone.now.year
+        ).record!
       end
       true
     end

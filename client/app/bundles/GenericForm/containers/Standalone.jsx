@@ -19,14 +19,29 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 function headingFor(model, id) {
   let heading
   switch(model) {
-  case 'user_teams':
+  case 'user-teams':
     heading = 'Team'
     break
   case 'divisions':
-    heading = 'Abteilung'
+    heading = 'Division'
     break
   case 'organizations':
     heading = 'Organisation'
+    break
+  case 'locations':
+    heading = 'Standort'
+    break
+  case 'cities':
+    heading = 'Stadt'
+    break
+  case 'federal-states':
+    heading = 'Bundesland'
+    break
+  case 'contact-people':
+    heading = 'Kontaktperson'
+    break
+  case 'emails':
+    heading = 'Email'
     break
   default:
     throw new Error(`Please provide a GenericForm heading for ${model}`)

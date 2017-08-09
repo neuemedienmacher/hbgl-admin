@@ -10,6 +10,7 @@ FactoryGirl.define do
       Organization.enumerized_attributes.attributes['legal_form'].values.sample
     end
     charitable { FFaker::Boolean.maybe }
+    website { FactoryGirl.create(:website, host: 'own') }
 
     # optional
     founded { maybe((1980..Time.zone.now.year).to_a.sample) }
@@ -18,7 +19,6 @@ FactoryGirl.define do
 
     # associations
     transient do
-      website_count { rand(0..3) }
       location_count 1
     end
 
@@ -28,14 +28,13 @@ FactoryGirl.define do
         UmbrellaFilter.all.sample ||
           UmbrellaFilter.create(identifier: 'diakonie', name: 'Diakonie')
       )
+
+      # # Contact People
+      # create_list :contact_person, evaluator.contact_person_count,
+      #             organization: orga
     end
 
     after :create do |orga, evaluator|
-      evaluator.website_count.times do
-        website = FactoryGirl.create(:website, host: 'own')
-        website.organizations << orga
-        orga.websites << website
-      end
       # Locations
       if evaluator.location_count.positive?
         orga.locations << FactoryGirl.create(:location, :hq, organization: orga)
@@ -44,6 +43,15 @@ FactoryGirl.define do
         create_list :location, (evaluator.location_count - 1),
                     organization: orga, hq: false
       end
+      orga.assignments << ::Assignment::CreateBySystem.(
+        {},
+        assignable: orga,
+        last_acting_user: User.find(orga.created_by)
+      )['model']
+      # create default division for random section
+      orga.divisions << FactoryGirl.create(
+        :division, organization: orga, section: Section.all.sample
+      )
     end
 
     # traits
@@ -59,6 +67,12 @@ FactoryGirl.define do
 
     trait :mailings_disabled do
       mailings 'force_disabled'
+    end
+
+    trait :with_translation do
+      after :create do |orga, _evaluator|
+        orga.generate_translations!
+      end
     end
   end
 end

@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import TopNav from '../containers/TopNav'
+import FlashMessageList from '../containers/FlashMessageList'
 
 export default class Layout extends Component {
   render() {
@@ -9,7 +10,7 @@ export default class Layout extends Component {
         <div className='container'>
           <div className='container-fluid'>
             <div className='row'>
-              {/*cell(:flash, collection: flash)*/}
+              <FlashMessageList />
 
               {this.props.children}
             </div>
