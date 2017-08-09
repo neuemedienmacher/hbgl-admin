@@ -914,8 +914,15 @@ RailsAdmin.config do |config|
 
   config.model 'Division' do
     weight 3
+    field :id
     field :addition do
       read_only true
+    end
+
+    list do
+      field :id
+      field :addition
+      field :organization
     end
   end
 
