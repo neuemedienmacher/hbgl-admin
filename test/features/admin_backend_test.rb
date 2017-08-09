@@ -35,117 +35,119 @@ feature 'Admin Backend' do
       end
     end
 
-    scenario 'Administrating Organizations' do
-      visit rails_admin_path
+    # rubocop:disable Style/AsciiComments
+    # NOTE now in new Backend
+    # scenario 'Administrating Organizations' do
+    #   visit rails_admin_path
+    #
+    #   click_link 'Organisationen', match: :first
+    #   click_link 'Neu hinzufügen'
+    #
+    #   assert_difference 'Organization.count', 1 do
+    #     fill_in 'organization_name', with: 'testorganisation'
+    #     fill_in 'organization_description', with: 'testdescription'
+    #     select 'e.V.', from: 'organization_legal_form'
+    #     select 'basicLocation', from: 'organization_location_ids'
+    #     select 'Diakonie', from: 'organization_umbrella_filter_ids'
+    #     select 'http://basic.com', from: 'organization_website_id'
+    #     check 'organization_accredited_institution'
+    #
+    #     click_button 'Speichern'
+    #     page.must_have_content 'testorganisation'
+    #     page.must_have_content 'Organisation wurde erfolgreich hinzugefügt'
+    #     page.must_have_content researcher.email
+    #   end
+    # end
 
-      click_link 'Organisationen', match: :first
-      click_link 'Neu hinzufügen'
+    # scenario 'Try to create organization with/out hq-location' do
+    #   orga = organizations(:basic)
+    #   location = FactoryGirl.create :location, :hq, organization: orga
+    #   orga.update_columns aasm_state: 'initialized', created_by: researcher.id
+    #
+    #   visit rails_admin_path
+    #   click_link 'Organisationen', match: :first
+    #   click_link 'Bearbeiten', match: :first
+    #
+    #   click_link 'Als komplett markieren', match: :first
+    #   page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
+    #   page.must_have_content 'nicht valide'
+    #
+    #   # 1: With two hq locations
+    #   # click_button 'Speichern'
+    #   click_link 'Als komplett markieren', match: :first
+    #   page.must_have_content 'nicht valide'
+    #   page.must_have_content 'Es muss genau eine HQ-Location zugeordnet werden'
+    #
+    #   # 2: With non-hq locations
+    #   locations(:basic).update_column :hq, false
+    #   location.update_column :hq, false
+    #   # click_button 'Speichern'
+    #   click_link 'Als komplett markieren', match: :first
+    #   page.must_have_content 'nicht valide'
+    #   page.must_have_content 'Es muss genau eine HQ-Location zugeordnet werden'
+    #
+    #   # 3: With one hq location
+    #   location.update_column :hq, true
+    #   # click_button 'Speichern'
+    #   click_link 'Als komplett markieren', match: :first
+    #   # page.must_have_content 'Organisation wurde erfolgreich aktualisiert'
+    #
+    #   # complete works
+    #   # click_link 'Als komplett markieren', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich.'
+    #
+    #   click_link 'Approval starten', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    #
+    #   # There is no approve link as same user
+    #   # page.wont_have_link 'Freischalten'
+    #   # TODO: change this!
+    #   page.must_have_link 'Freischalten'
+    #
+    #   # Approval works as different user
+    #   login_as superuser
+    #   visit current_path
+    #   page.must_have_link 'Freischalten'
+    #   click_link 'Freischalten', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    # end
 
-      assert_difference 'Organization.count', 1 do
-        fill_in 'organization_name', with: 'testorganisation'
-        fill_in 'organization_description', with: 'testdescription'
-        select 'e.V.', from: 'organization_legal_form'
-        select 'basicLocation', from: 'organization_location_ids'
-        select 'Diakonie', from: 'organization_umbrella_filter_ids'
-        select 'http://basic.com', from: 'organization_website_id'
-        check 'organization_accredited_institution'
-
-        click_button 'Speichern'
-        page.must_have_content 'testorganisation'
-        page.must_have_content 'Organisation wurde erfolgreich hinzugefügt'
-        page.must_have_content researcher.email
-      end
-    end
-
-    scenario 'Try to create organization with/out hq-location' do
-      orga = organizations(:basic)
-      location = FactoryGirl.create :location, :hq, organization: orga
-      orga.update_columns aasm_state: 'initialized', created_by: researcher.id
-
-      visit rails_admin_path
-      click_link 'Organisationen', match: :first
-      click_link 'Bearbeiten', match: :first
-
-      click_link 'Als komplett markieren', match: :first
-      page.must_have_content 'Zustandsänderung konnte nicht erfolgen'
-      page.must_have_content 'nicht valide'
-
-      # 1: With two hq locations
-      # click_button 'Speichern'
-      click_link 'Als komplett markieren', match: :first
-      page.must_have_content 'nicht valide'
-      page.must_have_content 'Es muss genau eine HQ-Location zugeordnet werden'
-
-      # 2: With non-hq locations
-      locations(:basic).update_column :hq, false
-      location.update_column :hq, false
-      # click_button 'Speichern'
-      click_link 'Als komplett markieren', match: :first
-      page.must_have_content 'nicht valide'
-      page.must_have_content 'Es muss genau eine HQ-Location zugeordnet werden'
-
-      # 3: With one hq location
-      location.update_column :hq, true
-      # click_button 'Speichern'
-      click_link 'Als komplett markieren', match: :first
-      # page.must_have_content 'Organisation wurde erfolgreich aktualisiert'
-
-      # complete works
-      # click_link 'Als komplett markieren', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich.'
-
-      click_link 'Approval starten', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-
-      # There is no approve link as same user
-      # page.wont_have_link 'Freischalten'
-      # TODO: change this!
-      page.must_have_link 'Freischalten'
-
-      # Approval works as different user
-      login_as superuser
-      visit current_path
-      page.must_have_link 'Freischalten'
-      click_link 'Freischalten', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-    end
-
-    scenario 'Deactivate Organization' do
-      orga = organizations(:basic)
-      split_base = split_bases(:basic)
-      FactoryGirl.create :offer, split_base: split_base, aasm_state: :completed
-      FactoryGirl.create :offer, split_base: split_base,
-                                 aasm_state: :internal_feedback
-
-      visit rails_admin_path
-      click_link 'Organisationen', match: :first
-      click_link 'Bearbeiten', match: :first
-
-      # Deactivation button click: deactivates orga and all its approved offers
-
-      orga.visible_in_frontend?.must_equal true
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback)
-      )
-
-      click_link 'Deaktivieren (External Feedback)', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-
-      orga.reload.must_be :external_feedback?
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback)
-      )
-
-      # Approve button click: reactivates orga and all its approved offers
-
-      click_link 'Freischalten (Comms-Only)', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-
-      orga.reload.must_be :approved?
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback)
-      )
-    end
+    # scenario 'Deactivate Organization' do
+    #   orga = organizations(:basic)
+    #   split_base = split_bases(:basic)
+    #   FactoryGirl.create :offer, split_base: split_base, aasm_state: :completed
+    #   FactoryGirl.create :offer, split_base: split_base,
+    #                              aasm_state: :internal_feedback
+    #
+    #   visit rails_admin_path
+    #   click_link 'Organisationen', match: :first
+    #   click_link 'Bearbeiten', match: :first
+    #
+    #   # Deactivation button click: deactivates orga and all its approved offers
+    #
+    #   orga.visible_in_frontend?.must_equal true
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(approved completed internal_feedback)
+    #   )
+    #
+    #   click_link 'Deaktivieren (External Feedback)', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    #
+    #   orga.reload.must_be :external_feedback?
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(organization_deactivated completed internal_feedback)
+    #   )
+    #
+    #   # Approve button click: reactivates orga and all its approved offers
+    #
+    #   click_link 'Freischalten (Comms-Only)', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    #
+    #   orga.reload.must_be :approved?
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(approved completed internal_feedback)
+    #   )
+    # end
 
     scenario 'Set offer completed, then edit and back to completed' do
       split_base = split_bases(:basic)
@@ -347,53 +349,54 @@ feature 'Admin Backend' do
       offer.reload.must_be :approved?
     end
 
-    scenario 'Deactivate Organization and then set to under_construction' do
-      orga = organizations(:basic)
-      split_base = split_bases(:basic)
-      FactoryGirl.create :offer, split_base: split_base,
-                                 aasm_state: :completed
-      FactoryGirl.create :offer, split_base: split_base,
-                                 aasm_state: :internal_feedback
-
-      visit rails_admin_path
-      click_link 'Organisationen', match: :first
-      click_link 'Bearbeiten', match: :first
-
-      # Deactivation button click: deactivates orga and all its approved offers
-      orga.visible_in_frontend?.must_equal true
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback)
-      )
-
-      click_link 'Deaktivieren (External Feedback)', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-
-      orga.reload.must_be :external_feedback?
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback)
-      )
-
-      click_link 'Webseite im Aufbau', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-
-      orga.reload.must_be :under_construction?
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(organization_deactivated completed internal_feedback)
-      )
-
-      # make last offer invalid => should not be approved or in checkup but
-      # remain in its last deactivation-state
-      orga.offers.last.update_columns expires_at: Time.zone.now - 1.day
-
-      # Approve button click: reactivates orga and all its approved offers
-      click_link 'Freischalten (Comms-Only)', match: :first
-      page.must_have_content 'Zustandsänderung war erfolgreich'
-
-      orga.reload.must_be :approved?
-      orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
-        %w(approved completed internal_feedback)
-      )
-    end
+    # NOTE now in new Backend
+    # scenario 'Deactivate Organization and then set to under_construction' do
+    #   orga = organizations(:basic)
+    #   split_base = split_bases(:basic)
+    #   FactoryGirl.create :offer, split_base: split_base,
+    #                              aasm_state: :completed
+    #   FactoryGirl.create :offer, split_base: split_base,
+    #                              aasm_state: :internal_feedback
+    #
+    #   visit rails_admin_path
+    #   click_link 'Organisationen', match: :first
+    #   click_link 'Bearbeiten', match: :first
+    #
+    #   # Deactivation button click: deactivates orga and all its approved offers
+    #   orga.visible_in_frontend?.must_equal true
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(approved completed internal_feedback)
+    #   )
+    #
+    #   click_link 'Deaktivieren (External Feedback)', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    #
+    #   orga.reload.must_be :external_feedback?
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(organization_deactivated completed internal_feedback)
+    #   )
+    #
+    #   click_link 'Webseite im Aufbau', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    #
+    #   orga.reload.must_be :under_construction?
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(organization_deactivated completed internal_feedback)
+    #   )
+    #
+    #   # make last offer invalid => should not be approved or in checkup but
+    #   # remain in its last deactivation-state
+    #   orga.offers.last.update_columns expires_at: Time.zone.now - 1.day
+    #
+    #   # Approve button click: reactivates orga and all its approved offers
+    #   click_link 'Freischalten (Comms-Only)', match: :first
+    #   page.must_have_content 'Zustandsänderung war erfolgreich'
+    #
+    #   orga.reload.must_be :approved?
+    #   orga.offers.select(:aasm_state).map(&:aasm_state).must_equal(
+    #     %w(approved completed internal_feedback)
+    #   )
+    # end
 
     scenario 'Try to create offer with errors' do
       location = FactoryGirl.create(:location, name: 'testname')
@@ -624,17 +627,18 @@ feature 'Admin Backend' do
     #   page.must_have_content 'Angebot wurde nicht hinzugefuegt' # TODO: ue => &uuml
     # end
 
-    scenario 'Duplicate organization' do
-      visit rails_admin_path
-
-      click_link 'Organisationen', match: :first
-      click_link 'Duplizieren'
-      fill_in 'organization_name', with: 'kopietestname'
-
-      click_button 'Speichern'
-
-      page.must_have_content 'kopietestname'
-    end
+    # scenario 'Duplicate organization' do
+    #   visit rails_admin_path
+    #
+    #   click_link 'Organisationen', match: :first
+    #   click_link 'Duplizieren'
+    #   fill_in 'organization_name', with: 'kopietestname'
+    #
+    #   click_button 'Speichern'
+    #
+    #   page.must_have_content 'kopietestname'
+    # end
+    # rubocop:enable Style/AsciiComments
 
     scenario 'Duplicate contact_person' do
       FactoryGirl.create :contact_person, spoc: true, offers: [offers(:basic)]

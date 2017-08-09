@@ -16,7 +16,14 @@ module API::V1
               event.name != :mark_as_done
           end.map(&:name)
         elsif r[:represented].is_a?(::Division)
-          events = r[:represented].done ? [:mark_as_not_done] : [:mark_as_done]
+          events =
+            if r[:represented].done
+              [:mark_as_not_done]
+            elsif !r[:represented].done && r[:represented].organization.approved?
+              [:mark_as_done]
+            else
+              []
+            end
         end
         events
       end

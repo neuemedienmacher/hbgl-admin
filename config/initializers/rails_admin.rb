@@ -44,7 +44,7 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['User', 'FederalState', 'Section', 'Division']
+      except ['User', 'FederalState', 'Section', 'Division', 'Organization']
     end
     export
     bulk_delete do
@@ -52,7 +52,7 @@ RailsAdmin.config do |config|
     end
     show
     edit do
-      except ['Section', 'Division']
+      except ['Section', 'Division', 'Organization']
     end
     delete do
       except ['User', 'FederalState', 'Section', 'Division']
@@ -62,7 +62,10 @@ RailsAdmin.config do |config|
     end
 
     clone do
-      except ['Section', 'City', 'TargetAudienceFiltersOffer', 'Division']
+      except [
+        'Section', 'City', 'TargetAudienceFiltersOffer', 'Division',
+        'Organization'
+      ]
     end
     # nested_set do
     #   only ['Category']
@@ -367,11 +370,6 @@ RailsAdmin.config do |config|
     end
     field :location
     field :area
-    # field :organizations do
-    #   help do
-    #     'Required. Only approved organizations.'
-    #   end
-    # end
     field :categories do
       label 'Problem categories'
       inline_add false
@@ -916,7 +914,7 @@ RailsAdmin.config do |config|
 
   config.model 'Division' do
     weight 3
-    field :name do
+    field :addition do
       read_only true
     end
   end
