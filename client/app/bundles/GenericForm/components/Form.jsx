@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Form, InputSet, Input, Button } from 'rform'
+import { Form, InputSet, Input, Button, Errors } from 'rform'
 import { MenuItem } from 'react-bootstrap'
 import FormInputs from '../containers/FormInputs'
 import ReadOnlyProperties from '../containers/ReadOnlyProperties'
@@ -25,6 +25,7 @@ export default class GenericFormForm extends React.Component {
     return(
       this.renderFormWithOptionalAssignableContainer(
         (<div className='form FormWrapper'>
+          <Errors model={model} formId={formId} attribute='base' />
           <Form ajax requireValid preventEnterSubmit
             method={method} className='form'
             formObjectClass={formObjectClass} model={model}
