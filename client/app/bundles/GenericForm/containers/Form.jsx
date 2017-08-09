@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { setupAction, updateAction } from 'rform'
 import mapCollection from 'lodash/map'
+import some from 'lodash/some'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
 import  { setUi, setUiLoaded } from '../../../Backend/actions/setUi'
@@ -119,7 +120,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         } else if (stateProps.afterSaveActiveKey == 'to_new') {
           browserHistory.push(`/${model}/new`)
         }
-      } else if (errors && errors.length) {
+      } else if (some(errors)) {
         dispatch(addFlashMessage('error', errorFlashMessage))
       }
     },
