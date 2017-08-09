@@ -55,7 +55,7 @@ RailsAdmin.config do |config|
       except ['Section', 'Division', 'Organization']
     end
     delete do
-      except ['User', 'FederalState', 'Section', 'Division']
+      except ['User', 'FederalState', 'Section']
     end
     show_in_app do
       only ['Offer', 'Organization']
