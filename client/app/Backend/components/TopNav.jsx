@@ -27,16 +27,16 @@ export default class TopNav extends Component {
               )
             })}
           </NavDropdown>
-          <IndexLinkContainer to={{ pathname:'/admin'}}>
-            <NavItem>
+          <li>
+            <a href='/admin'>
               Altes Backend
-            </NavItem>
-          </IndexLinkContainer>
-          <IndexLinkContainer to={{ pathname:'/users/sign_out'}} data-method='delete'>
-            <NavItem>
+            </a>
+          </li>
+          <li>
+            <a href='/users/sign_out' data-method='delete'>
               <span className='label label-important'>Abmelden</span>
-            </NavItem>
-          </IndexLinkContainer>
+            </a>
+          </li>
         </Nav>
       </Navbar>
     )
