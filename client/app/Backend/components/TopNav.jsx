@@ -37,6 +37,17 @@ export default class TopNav extends Component {
               <span className='label label-important'>Abmelden</span>
             </a>
           </li>
+          // use this after removal of old Backend
+          // <IndexLinkContainer to={{ pathname:'/admin'}}>
+          //   <NavItem>
+          //     Altes Backend
+          //   </NavItem>
+          // </IndexLinkContainer>
+          // <IndexLinkContainer to={{ pathname:'/users/sign_out'}} data-method='delete'>
+          //   <NavItem>
+          //     <span className='label label-important'>Abmelden</span>
+          //   </NavItem>
+          // </IndexLinkContainer>
         </Nav>
       </Navbar>
     )
