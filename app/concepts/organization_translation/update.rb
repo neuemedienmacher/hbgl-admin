@@ -10,4 +10,5 @@ class OrganizationTranslation::Update < Trailblazer::Operation
   step :reset_source_and_possibly_outdated_if_changes_by_human
   step Contract::Persist()
   step :create_new_assignment_if_assignable_should_be_reassigned!
+  step :create_new_assignment_if_save_and_close_clicked!
 end

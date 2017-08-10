@@ -12,14 +12,31 @@ module Assignable
       def create_new_assignment_if_assignable_should_be_reassigned!(
         _options, model:, current_user:, **
       )
-        assignable_twin = ::Assignable::Twin.new(model)
-        if assignable_twin.should_create_new_assignment?
+        if assignable_twin(model).should_create_new_assignment?
           ::Assignment::CreateBySystem.(
             {}, assignable: model, last_acting_user: current_user
           ).success?
         else
           # touch current_assignment (sets updated_at to current time)
-          assignable_twin.current_assignment.touch
+          model.current_assignment.touch
+          true
+        end
+      end
+
+      def create_new_assignment_if_save_and_close_clicked!(
+        options, model:, current_user:, **
+      )
+        meta = options['params']['meta']
+        if meta && meta['commit'] == 'closeAssignment'
+          current_assignment = model.current_assignment
+          params = { assignable_id: model.id, assignable_type: model.class.name,
+                     creator_id: current_user.id,
+                     creator_team_id: current_assignment.receiver_team_id,
+                     receiver_id: User.system_user.id, receiver_team_id: nil,
+                     message: 'Erledigt!', created_by_system: true,
+                     topic: current_assignment.topic }
+          ::Assignment::Create.(params, 'current_user' => current_user).success?
+        else
           true
         end
       end
@@ -58,10 +75,13 @@ module Assignable
         end
       end
 
+      def assignable_twin(model)
+        ::Assignable::Twin.new(model)
+      end
+
       def should_create_automated_organization_assignment?(model, organization)
-        orga_twin = ::Assignable::Twin.new(organization)
         !model.receiver_id.nil? && model.receiver_id != ::User.system_user.id &&
-          orga_twin.current_assignment.receiver_id == ::User.system_user.id &&
+          organization.current_assignment.receiver_id == ::User.system_user.id &&
           organization.initialized?
       end
     end
