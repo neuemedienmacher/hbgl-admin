@@ -58,5 +58,15 @@ describe ExportsController do
         ]
       end
     end
+
+    describe 'private #snake_case_export_hash' do
+      it 'must correctly parse kebab-case to snake_case' do
+        export_hash =
+          { 'model_fields' => ['name'], 'solution-categories' => ['name-de'] }
+        adjusted_hash = @controller.send(:snake_case_export_hash, export_hash)
+        adjusted_hash['model_fields'].must_equal ['name']
+        adjusted_hash['solution_categories'].must_equal ['name_de']
+      end
+    end
   end
 end
