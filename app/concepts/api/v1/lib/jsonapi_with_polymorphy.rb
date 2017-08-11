@@ -57,7 +57,7 @@ module API::V1
         if relationship_result.is_a?(Array)
           relationship_result = relationship_result.first
         end
-        relationship_result.class.table_name
+        relationship_result.class.table_name.dasherize
       end
     end
   end
