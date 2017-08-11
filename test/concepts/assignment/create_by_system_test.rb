@@ -48,6 +48,13 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     assignment.message.must_equal 'Assigned by system'
   end
 
+  # NOTE trying to create an invalid assignment.. not yet working
+  # it 'wont work with a none-assignable model and add errors to options' do
+  #   basic_options[:assignable] = users(:researcher)
+  #   result = operation_wont_work ::Assignment::CreateBySystem, {}, basic_options
+  #   result['errors'].any?.must_equal true
+  # end
+
   # NOTE: more tests not really required because the logic is indirectly tested
   # by automatic_upsert_test
 end

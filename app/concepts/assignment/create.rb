@@ -33,6 +33,7 @@ class Assignment::Create < Trailblazer::Operation
     # TODO: check if model instance exists!! here or somewhere else?!
     validates :assignable_id, presence: true, numericality: true
     validates :assignable_type, presence: true
+    # validates :topic, presence: true
     # validates :assignable_field_type, presence: true # TODO: force empty string?!
     # uniqueness validation: make sure there is only one open assignment
     # w/o a parent (base assignment) per assignable model & field

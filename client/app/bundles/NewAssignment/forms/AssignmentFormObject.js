@@ -5,6 +5,10 @@ export default class AssignmentFormObject extends FormObject {
     return 'assignment'
   }
 
+  static get type() {
+    return 'assignments'
+  }
+
   static get properties() {
     return [
       'assignable-id', 'assignable-type', 'creator-id', 'creator-team-id',
