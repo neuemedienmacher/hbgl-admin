@@ -249,6 +249,18 @@ export default {
         'show', 'open_url'
       ]
     },
+
+    'split-bases': {
+      fields: [
+        'id', 'title', 'clarat-addition', 'comments'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show', 'old-backend-edit'
+      ]
+    },
   },
 
   OPERATORS: ['=', '!=', '<', '>'],

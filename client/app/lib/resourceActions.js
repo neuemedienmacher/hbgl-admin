@@ -1,4 +1,5 @@
 import kebabCase from 'lodash/kebabCase'
+import snakeCase from 'lodash/snakeCase'
 import settings from './settings'
 import { pluralize, singularize } from './inflection'
 
@@ -18,7 +19,7 @@ export function actionsFromSettings(model, id, entity) {
 function routeForAction(action, model, id, entity) {
   switch(action) {
     case 'old-backend-edit':
-      return `/admin/${singularize(model)}/${id}/edit`
+      return `/admin/${snakeCase(singularize(model))}/${id}/edit`
     case 'edit':
       return `/${model}/${id}/edit`
     case 'show':

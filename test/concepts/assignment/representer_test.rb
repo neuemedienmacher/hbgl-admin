@@ -13,7 +13,7 @@ class API::V1::Assignment::RepresenterTest < ActiveSupport::TestCase
     result['included'].first['type'].must_equal 'users'
     result['included'].first['id'].must_equal '1'
     result['data']['relationships']['assignable']['data']['id'].must_equal '1'
-    result['included'].last['type'].must_equal 'offer_translations'
+    result['included'].last['type'].must_equal 'offer-translations'
     result['included'].last['id'].must_equal '1'
   end
 
