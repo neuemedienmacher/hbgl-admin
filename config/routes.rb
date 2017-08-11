@@ -94,6 +94,7 @@ Rails.application.routes.draw do
       end
       api_resources :solution_categories, only: [:show, :index]
       api_resources :offers, only: [:index, :show]
+      api_resources :split_bases, only: [:index, :show]
       api_resources :locations
       api_resources :organizations
       api_resources :divisions, only: [:show, :index, :create, :update]

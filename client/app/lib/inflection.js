@@ -1,6 +1,7 @@
 export function singularize(string) {
   const rules = [
     [ /(database)s$/i, '$1' ],
+    [ /(split-base)s$/i, '$1' ],
     [ /(quiz)zes$/i, '$1' ],
     [ /(matr)ices$/i, '$1ix' ],
     [ /(vert|ind)ices$/i, '$1ex' ],
