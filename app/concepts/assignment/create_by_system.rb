@@ -11,7 +11,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
   def execute_nested_create!(options, params:, last_acting_user:, **)
     result = Assignment::Create.(params, 'current_user' => last_acting_user)
     options['model'] = result['model']
-    if result['contract.default'] && result['contract.default'].errors.any?
+    if result['contract.default']&.errors.any?
       options['errors'] = result['contract.default'].errors
     end
     result.success?

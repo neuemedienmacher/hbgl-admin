@@ -7,8 +7,8 @@ module Assignable
         result = ::Assignment::CreateBySystem.(
           {}, assignable: model, last_acting_user: current_user
         )
-        unless result.success?
-          result['errors'].messages.each do |key, value|
+        if result.failure?
+          result['errors']&.each_entry do |key, value|
             options['contract.default'].errors.add(key, value)
           end
         end
