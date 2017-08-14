@@ -6,11 +6,18 @@ FactoryGirl.define do
 
     transient do
       division_count { rand(1..2) }
+      section nil
     end
 
     after :build do |split_base, evaluator|
+      division_options = {}
+      if evaluator.section
+        division_options[:section] =
+          Section.find_by identifier: evaluator.section
+      end
+
       evaluator.division_count.times do
-        split_base.divisions << FactoryGirl.create(:division)
+        split_base.divisions << FactoryGirl.create(:division, division_options)
       end
     end
   end

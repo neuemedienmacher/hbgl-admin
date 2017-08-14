@@ -116,7 +116,7 @@ module Lib
         params.merge!(
           doc['relationships']&.map(
             &method(:params_from_document_relationships)
-          ).select { |array| !array[1].nil? }.to_h || {}
+          )&.select { |array| !array[1].nil? }.to_h || {}
         )
         params
       end

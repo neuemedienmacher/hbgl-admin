@@ -4,15 +4,15 @@ require_relative '../../test_helper'
 class AutomaticUpsertTest < ActiveSupport::TestCase
   let(:operation) { Translation::AutomaticUpsert }
   let(:family_section_offer) do
-    offer = FactoryGirl.create :offer, :approved
-    offer.section = FactoryGirl.create(:section, :family)
+    offer = FactoryGirl.create :offer, :approved, section: :family
+    # offer.section = FactoryGirl.create(:section, :family)
     offer.categories = [FactoryGirl.create(:category, sections: [offer.section])]
     offer.save
     offer
   end
   let(:refugees_section_offer) do
-    offer = FactoryGirl.create :offer, :approved
-    offer.section = FactoryGirl.create(:section, :refugees)
+    offer = FactoryGirl.create :offer, :approved, section: :refugees
+    # offer.section = FactoryGirl.create(:section, :refugees)
     offer.categories = [FactoryGirl.create(:category, sections: [offer.section])]
     offer.save
     offer
