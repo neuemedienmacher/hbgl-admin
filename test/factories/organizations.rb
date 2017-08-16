@@ -50,8 +50,11 @@ FactoryGirl.define do
         last_acting_user: User.find(orga.created_by)
       )['model']
       # create default division for random section
-      section = evaluator.section ?
-        Section.find_by(identifier: evaluator.section) : Section.all.sample
+      section = if evaluator.section
+                  Section.find_by(identifier: evaluator.section)
+                else
+                  Section.all.sample
+                end
       orga.divisions << FactoryGirl.create(
         :division, organization: orga, section: section
       )
