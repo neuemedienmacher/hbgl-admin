@@ -3,10 +3,16 @@ module Assignable
   module CommonSideEffects
     module CreateNewAssignment
       # create initial Assignment from system for the creating user
-      def create_initial_assignment!(_options, model:, current_user:, **)
-        ::Assignment::CreateBySystem.(
+      def create_initial_assignment!(options, model:, current_user:, **)
+        result = ::Assignment::CreateBySystem.(
           {}, assignable: model, last_acting_user: current_user
-        ).success?
+        )
+        if result.failure?
+          result['errors']&.each_entry do |key, value|
+            options['contract.default'].errors.add(key, value)
+          end
+        end
+        result.success?
       end
 
       def create_new_assignment_if_assignable_should_be_reassigned!(

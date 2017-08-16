@@ -11,6 +11,9 @@ class Assignment::CreateBySystem < Trailblazer::Operation
   def execute_nested_create!(options, params:, last_acting_user:, **)
     result = Assignment::Create.(params, 'current_user' => last_acting_user)
     options['model'] = result['model']
+    if result['contract.default']&.errors.any?
+      options['errors'] = result['contract.default'].errors
+    end
     result.success?
   end
 
@@ -56,7 +59,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'ContactPersonTranslation'
       ::User.system_user.id
     when 'Division'
-      assignable.done == false ? nil : ::User.system_user.id
+      assignable.done ? ::User.system_user.id : nil
     when 'Organization'
       if assignable.initialized? && assignable.assignments.any?
         last_acting_user.id
@@ -93,8 +96,6 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
-    when 'Division'
-      assignable.done == false ? 'new' : assignment&.topic
     when 'Organization'
       if assignable.aasm_state == 'completed'
         'approval'

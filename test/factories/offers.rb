@@ -27,29 +27,38 @@ FactoryGirl.define do
       audience_count 1
       opening_count { rand(1..5) }
       fake_address false
+      section nil
+      organizations []
     end
 
     after :build do |offer, evaluator|
       # SplitBase => Division(s) => Organization(s)
-      offer.split_base = FactoryGirl.create(:split_base) unless offer.split_base
+      unless offer.split_base
+        offer.split_base =
+          FactoryGirl.create :split_base, section: evaluator.section,
+                                          organizations: evaluator.organizations
+      end
       organization = offer.organizations[0]
 
       # location
       if offer.personal?
-        location =  organization.locations.sample ||
-                    if evaluator.fake_address
-                      FactoryGirl.create(:location, :fake_address,
-                                         organization: organization)
-                    else
-                      FactoryGirl.create(:location, organization: organization)
-                    end
+        location = organization.locations.sample ||
+                   if evaluator.fake_address
+                     FactoryGirl.create(:location, :fake_address,
+                                        organization: organization)
+                   else
+                     FactoryGirl.create(:location, organization: organization)
+                   end
         offer.location = location
       end
+
       # Filters
-      offer.section = (
-        Section.all.sample ||
-          FactoryGirl.create(:section)
-      )
+      if evaluator.section
+        offer.section = Section.find_by(identifier: evaluator.section)
+      else
+        offer.section_id = offer.split_base.divisions.pluck(:section_id).sample
+      end
+
       evaluator.language_count.times do
         offer.language_filters << (
           LanguageFilter.all.sample ||

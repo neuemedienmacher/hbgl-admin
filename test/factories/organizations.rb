@@ -20,6 +20,7 @@ FactoryGirl.define do
     # associations
     transient do
       location_count 1
+      section nil
     end
 
     after :build do |orga|
@@ -49,8 +50,13 @@ FactoryGirl.define do
         last_acting_user: User.find(orga.created_by)
       )['model']
       # create default division for random section
+      section = if evaluator.section
+                  Section.find_by(identifier: evaluator.section)
+                else
+                  Section.all.sample
+                end
       orga.divisions << FactoryGirl.create(
-        :division, organization: orga, section: Section.all.sample
+        :division, organization: orga, section: section
       )
     end
 

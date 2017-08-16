@@ -11,7 +11,8 @@ describe OrganizationsController do
 
     it 'should redirect to frontend organization#show even w/o sections' do
       sign_in users(:researcher)
-      orga = FactoryGirl.create :organization, slug: 'whatever'
+      orga = FactoryGirl.create :organization, slug: 'whatever',
+                                               section: :refugees
       get :show, id: orga.id
       assert_redirected_to(
         'http://test.host.com/refugees/preview/organisationen/whatever'

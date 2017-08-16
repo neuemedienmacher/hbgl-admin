@@ -20,6 +20,8 @@ module API::V1
             property :message
             property :assignable_id
             property :assignable_type
+            property :creator_id
+            property :creator_team_id
             property :receiver_id
             property :receiver_team_id
           end

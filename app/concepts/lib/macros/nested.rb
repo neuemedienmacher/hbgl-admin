@@ -107,27 +107,28 @@ module Lib
       end
 
       def self.params_from_document(doc)
+        return { id: doc['id'] } if doc['id']
+
         params = {}
-        if doc['id']
-          params[:id] = doc['id']
-        else
-          doc['attributes'].each do |field, value|
-            params[field.underscore.to_sym] = value
-          end
-          params.merge!(doc['relationships']&.map(
-            &method(:params_from_document_relationships)
-          ).to_h || {})
+        doc['attributes'].each do |field, value|
+          params[field.underscore.to_sym] = value
         end
+        params.merge!(
+          doc['relationships']&.map(
+            &method(:params_from_document_relationships)
+          )&.select { |array| !array[1].nil? }.to_h || {}
+        )
         params
       end
 
       def self.params_from_document_relationships(relationship)
         relation_name, data = relationship
         symbolized_name = relation_name.underscore.to_sym
-        value = []
+        value = nil
         if iterable?(data['data'])
+          value = []
           data['data'].each { |datum| value.push(params_from_document(datum)) }
-        else
+        elsif data['data']
           value = params_from_document(data['data'])
         end
         [symbolized_name, value]
