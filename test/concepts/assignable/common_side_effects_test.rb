@@ -38,7 +38,7 @@ class AssignableCommonSideEffectsTest < ActiveSupport::TestCase
     it 'create_new_assignment_if_save_and_close_clicked should succeed' do
       options['params'] = { 'meta' => { 'commit' => 'closeAssignment' } }
 
-      assert_change 'Assignment.count', 1 do
+      assert_difference 'Assignment.count', 1 do
         result = subject.new.create_new_assignment_if_save_and_close_clicked!(
           options, sym_options
         )
