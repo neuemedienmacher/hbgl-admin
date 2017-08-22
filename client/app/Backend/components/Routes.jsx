@@ -4,6 +4,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'
 import Show from '../../bundles/Show/containers/Show'
+import Delete from '../../bundles/Delete/containers/Delete'
 import GenericForm from '../../bundles/GenericForm/containers/Standalone'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
@@ -58,6 +59,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='offers'>
