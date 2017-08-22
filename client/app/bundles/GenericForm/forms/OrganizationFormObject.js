@@ -123,6 +123,20 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
   static get readOnlyProperties() {
     return ['aasm-state']
   }
+
+  static additionalButtons(stateInstance) {
+    let buttons = []
+    if (
+      stateInstance && stateInstance['aasm-state'] == 'all_done'
+      // stateInstance['current-assignment']['receiver']...
+    ) {
+      buttons.push({
+        className: 'default', buttonLabel: 'Speichern & Zuweisung schließen',
+        actionName: 'toSystem'
+      })
+    }
+    return buttons
+  }
 }
 
 export {

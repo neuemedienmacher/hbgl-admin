@@ -9,6 +9,19 @@ module API::V1
     class Update < ::Organization::Update
       extend Trailblazer::Operation::Representer::DSL
       representer API::V1::Organization::Representer::Update
+
+      step :assign_to_system_via_button, before: 'persist.save'
+
+      def assign_to_system_via_button(options, model:, params:, **)
+        meta = params['meta'] && params['meta']['commit']
+        if meta.to_s == 'toSystem' && model.all_done?
+          ::Assignment::CreateBySystem.(
+            {}, assignable: model, last_acting_user: options['current_user']
+          ).success?
+        else
+          true
+        end
+      end
     end
   end
 end

@@ -32,7 +32,8 @@ const mapStateToProps = (state, ownProps) => {
 
   let action = `/api/v1/${model}`
   let method = 'POST'
-  const buttonData = buildActionButtonData(state, model, editId)
+  const buttonData =
+    buildActionButtonData(state, model, editId, instance, formObjectClass)
 
   // Changes in case the form updates instead of creating
   if (editId) {
@@ -164,13 +165,14 @@ const errorFlashMessage =
   'Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese' +
   ' und versuche es erneut.'
 
-function buildActionButtonData(state, model, editId) {
+function buildActionButtonData(state, model, editId, instance, formObject) {
   // start with default save button (might be extended)
   let buttonData = [{
     className: 'default',
     buttonLabel: 'Speichern',
     actionName: ''
   }]
+
   // iterate additional actions (e.g. state-changes) only for editing
   if (state.settings.actions[model]) {
     state.settings.actions[model].forEach(action => {
@@ -178,7 +180,7 @@ function buildActionButtonData(state, model, editId) {
          state.entities['possible-events'][model] &&
          state.entities['possible-events'][model][editId] &&
          state.entities['possible-events'][model][editId].data.includes(action)
-       ){
+      ){
         buttonData.push({
           className: model == 'divisions' ? 'warning' : 'default',
           buttonLabel: 'Speichern & ' + textForActionName(action, model),
@@ -187,6 +189,12 @@ function buildActionButtonData(state, model, editId) {
       }
     })
   }
+
+  // add special form-defined buttons
+  if (formObject.additionalButtons) {
+    buttonData.push(...formObject.additionalButtons(instance))
+  }
+
   return buttonData
 }
 

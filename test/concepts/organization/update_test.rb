@@ -106,11 +106,21 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
   end
 
   describe 'state change side-effects' do
-    it 'wont do anything without the correct meta commit action' do
+    it 'wont change state without a correct meta commit action' do
       new_orga.aasm_state.must_equal 'initialized'
-      operation_wont_work(
+      operation_must_work(
         ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
                                 'meta' => { 'commit' => 'doesntexist' }
+      )
+      new_orga.reload.aasm_state.must_equal 'initialized'
+    end
+
+    it 'will abort all execution if the event is not allowed' do
+      new_orga.aasm_state.must_equal 'initialized'
+      Organization.any_instance.expects(:may_complete?).returns false
+      operation_wont_work(
+        ::Organization::Update, id: new_orga.id, description: 'doesntMatter',
+                                'meta' => { 'commit' => 'complete' }
       )
       new_orga.reload.aasm_state.must_equal 'initialized'
     end
@@ -206,6 +216,21 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
       result =
         api_operation_must_work API::V1::Organization::Update, params.to_json
       result['model'].aasm_state.must_equal 'all_done'
+    end
+  end
+
+  describe 'assignment side effects' do
+    it 'assigns system when prompted by button (api only)' do
+      new_orga.update_column(:aasm_state, 'all_done')
+      new_orga.divisions.update_all(done: true)
+      assert_nil new_orga.current_assignment
+      api_operation_must_work(
+        ::API::V1::Organization::Update,
+        '{ "data": { "id":"' + new_orga.id.to_s + '", "attributes":'\
+          ' { "description": "x" } }, "meta": { "commit": "toSystem" } }'
+      )
+      new_orga.reload.current_assignment.receiver.must_equal User.system_user
+      new_orga.aasm_state.must_equal 'all_done'
     end
   end
 end
