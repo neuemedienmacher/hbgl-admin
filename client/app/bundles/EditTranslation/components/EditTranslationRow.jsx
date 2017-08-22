@@ -25,7 +25,7 @@ export default class EditTranslationForm extends Component {
     const { property, length, source, content, type } = this.props
     const { disableUiElements } = this.context
 
-    if (disableUiElements == false && (source && source[`translated-${property}`] || content)) {
+    if (disableUiElements == false && (source && source[`${property}-de`] || content)) {
       return (
         <div>
           <InputSet
