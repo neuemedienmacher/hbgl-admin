@@ -1,7 +1,7 @@
-import { FormObject, JsonApiAdapter } from 'rform'
+import GenericFormObject from '../lib/GenericFormObject'
 import EmailFormObject from './EmailFormObject'
 
-export default class CityFormObject extends FormObject {
+export default class CityFormObject extends GenericFormObject {
   static get model() {
     return 'contact-person'
   }
@@ -53,10 +53,6 @@ export default class CityFormObject extends FormObject {
     return {
       email: { relationship: 'oneToOne', object: EmailFormObject }
     }
-  }
-
-  static get ajaxAdapter() {
-    return JsonApiAdapter
   }
 
   validation() {

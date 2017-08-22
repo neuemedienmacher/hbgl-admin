@@ -1,6 +1,6 @@
-import { FormObject, JsonApiAdapter } from 'rform'
+import GenericFormObject from '../lib/GenericFormObject'
 
-export default class CityFormObject extends FormObject {
+export default class CityFormObject extends GenericFormObject {
   static get model() {
     return 'city'
   }
@@ -21,11 +21,11 @@ export default class CityFormObject extends FormObject {
     }
   }
 
-  static get ajaxAdapter() {
-    return JsonApiAdapter
+  static get requiredInputs() {
+    return ['name']
   }
 
   validation() {
-    this.required('name').filled()
+    this.applyRequiredInputs()
   }
 }
