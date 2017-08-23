@@ -10,7 +10,7 @@ module OperationTestUtils
   def with_document(params, additional_options)
     param_hash = params['"id":'] ? {id: params.match(/"id":"(\d+)"/)[1]} : {}
     [
-      param_hash,
+      param_hash.merge(JSON.parse(params)),
       {'document' => params, 'current_user' => _default_user}
         .merge(additional_options)
     ]
@@ -21,7 +21,6 @@ module OperationTestUtils
   end
 
   def run_api_operation(operation, params, options = {})
-    # binding.pry
     operation.(*with_document(params, options))
   end
 

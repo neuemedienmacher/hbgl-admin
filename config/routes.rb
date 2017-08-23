@@ -97,7 +97,7 @@ Rails.application.routes.draw do
       api_resources :split_bases, only: [:index, :show]
       api_resources :locations
       api_resources :organizations
-      api_resources :divisions, only: [:show, :index, :create, :update]
+      api_resources :divisions
       api_resources :statistics, only: [:index]
       api_resources :users, only: [:index, :show, :update]
       api_resources :websites, only: [:index, :show, :create]

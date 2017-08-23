@@ -14,11 +14,11 @@ class Organization::Update < Trailblazer::Operation
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create :website, Website::Create
     step ::Lib::Macros::Nested::Create :divisions, Division::Create
-    # step ::Lib::Macros::Debug::Breakpoint()
     step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
     step ::Lib::Macros::Nested::Create :locations, Location::Create
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
   }
+  # step ::Lib::Macros::Debug::Breakpoint()
   step :change_state_side_effect # prevents persist on faulty state change
   step :assign_to_section_team_via_classification_on_complete
   step :assign_to_system_on_approve
@@ -27,10 +27,9 @@ class Organization::Update < Trailblazer::Operation
   step :generate_translations!
 
   def change_state_side_effect(options, model:, params:, **)
-    return true unless params['meta'] && params['meta']['commit']
-    result = ::Organization::ChangeState.(
-      { id: model.id }, 'event' => params['meta']['commit']
-    )
+    commit = params['meta'] && params['meta']['commit']
+    return true unless commit && triggerable_event?(model, commit)
+    result = ::Organization::ChangeState.({ id: model.id }, 'event' => commit)
     # add errors of side-effect operation to the errors of this operation
     if result.success?
       options['changed_state'] = true
@@ -41,6 +40,10 @@ class Organization::Update < Trailblazer::Operation
     result.success?
   end
 
+  def triggerable_event?(model, potential_event_name)
+    model.aasm.events.map(&:name).include?(potential_event_name.to_sym)
+  end
+
   def assign_to_system_on_approve(
     options, changed_state: false, model:, params:, **
   )
@@ -49,8 +52,9 @@ class Organization::Update < Trailblazer::Operation
       ::Assignment::CreateBySystem.(
         {}, assignable: model, last_acting_user: options['current_user']
       ).success?
+    else
+      true
     end
-    true
   end
 
   def assign_to_section_team_via_classification_on_complete(

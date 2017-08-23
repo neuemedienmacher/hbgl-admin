@@ -24,6 +24,8 @@ function routeForAction(action, model, id, entity) {
       return `/${model}/${id}/edit`
     case 'show':
       return `/${model}/${id}`
+    case 'delete':
+      return `/${model}/${id}/delete`
     case 'show-assignable':
     case 'edit-assignable':
       let assignableModel = pluralize(kebabCase(entity['assignable-type']))
@@ -56,6 +58,8 @@ function iconFor(action) {
       return 'fa fa-arrow-circle-o-right'
     case 'show':
       return 'fa fa-eye'
+    case 'delete':
+      return 'fa fa-trash'
     case 'edit-assignable':
       return 'fa fa-pencil-square-o'
     case 'open_url':

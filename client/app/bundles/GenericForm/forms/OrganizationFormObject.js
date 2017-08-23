@@ -1,4 +1,4 @@
-import { FormObject, JsonApiAdapter } from 'rform'
+import GenericFormObject from '../lib/GenericFormObject'
 import merge from 'lodash/merge'
 import concat from 'lodash/concat'
 import WebsiteFormObject from './WebsiteFormObject'
@@ -6,7 +6,7 @@ import DivisionFormObject from './DivisionFormObject'
 import LocationFormObject from './LocationFormObject'
 import ContactPersonFormObject from './ContactPersonFormObject'
 
-class OrgaCreateFormObject extends FormObject {
+class OrgaCreateFormObject extends GenericFormObject {
   static get model() {
     return 'organization'
   }
@@ -65,13 +65,12 @@ class OrgaCreateFormObject extends FormObject {
     }
   }
 
-  static get ajaxAdapter() {
-    return JsonApiAdapter
+  static get requiredInputs() {
+    return ['name', 'website']
   }
 
   validation() {
-    this.required('name').filled()
-    this.required('website').filled()
+    this.applyRequiredInputs()
   }
 }
 
@@ -122,6 +121,20 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
 
   static get readOnlyProperties() {
     return ['aasm-state']
+  }
+
+  static additionalButtons(stateInstance) {
+    let buttons = []
+    if (
+      stateInstance && stateInstance['aasm-state'] == 'all_done'
+      // stateInstance['current-assignment']['receiver']...
+    ) {
+      buttons.push({
+        className: 'default', buttonLabel: 'Speichern & Zuweisung schließen',
+        actionName: 'toSystem'
+      })
+    }
+    return buttons
   }
 }
 

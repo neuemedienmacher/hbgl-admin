@@ -49,7 +49,7 @@ export default class FormInputs extends React.Component {
             <FilteringSelect multi key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
-              disabled={disabled} label={input.attribute} {...input}
+              disabled={disabled} {...input}
             />
           )
         case 'filtering-select':
@@ -57,7 +57,7 @@ export default class FormInputs extends React.Component {
             <FilteringSelect key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
-              disabled={disabled} label={input.attribute} {...input}
+              disabled={disabled} {...input}
             />
           )
         case 'creating-multiselect':
@@ -81,7 +81,7 @@ export default class FormInputs extends React.Component {
             <InputSet preventEnterSubmit key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' className='form-control'
-              label={input.attribute} attribute={input.attribute}
+              attribute={input.attribute} label={input.label}
               type={input.type} options={input.options} disabled={disabled}
             />
           )

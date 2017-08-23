@@ -60,7 +60,13 @@ export default class DivisionFormObject extends FormObject {
     return JsonApiAdapter
   }
 
+  static get requiredInputs() {
+    return ['section']
+  }
+
   validation() {
-    this.required('section').filled()
+    for (let requiredInput of this.constructor.requiredInputs) {
+      this.required(requiredInput).filled()
+    }
   }
 }
