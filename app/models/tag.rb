@@ -6,6 +6,8 @@ class Tag < ActiveRecord::Base
   after_save :translate_if_name_en_changed
   # Methods
 
+  include ReformedValidationHack
+
   private
 
   def translate_if_name_en_changed

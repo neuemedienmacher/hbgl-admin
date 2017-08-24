@@ -52,6 +52,12 @@ function headingFor(model) {
     return 'Standorte'
   case 'cities':
     return 'Städte'
+  case 'openings':
+    return 'Öffnungszeiten'
+  case 'tags':
+    return 'Tags'
+  case 'definitions':
+    return 'Definitions'
   case 'federal-states':
     return 'Bundesländer'
   case 'contact-people':

@@ -84,6 +84,43 @@ export default {
       ]
     },
 
+    openings: {
+      fields: [
+        'name', 'day', 'open', 'close', 'sort-value'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    definitions: {
+      fields: [
+        'key', 'explanation'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    tags: {
+      fields: [
+        'name-de', 'keywords-de', 'explanations-de', 'name-en', 'keywords-en',
+        'explanations-en'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
     'federal-states': {
       fields: [
         'id', 'name'

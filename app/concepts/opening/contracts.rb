@@ -4,17 +4,18 @@ module Opening::Contracts
     property :day
     property :open
     property :close
-    property :sort_value
-    property :name
 
     validates :day, presence: true
-    validates_uniqueness_of :day, scope: [:open, :close]
-    validates_uniqueness_of :open, scope: [:day, :close]
+    validate :unique_day_open_close
     validates :open, presence: true, if: :close
-    validates_uniqueness_of :close, scope: [:day, :open]
     validates :close, presence: true, if: :open
 
-    validates :sort_value, presence: true
-    validates :name, presence: true
+    def unique_day_open_close
+      if Opening.where(day: day, open: open, close: close).count.positive?
+        errors.add :day, I18n.t('errors.messages.taken')
+        errors.add :open, I18n.t('errors.messages.taken')
+        errors.add :close, I18n.t('errors.messages.taken')
+      end
+    end
   end
 end
