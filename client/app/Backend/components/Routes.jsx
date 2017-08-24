@@ -64,8 +64,10 @@ export default class Routes extends React.Component {
 
           <Route path='offers'>
             <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
           </Route>
 
           <Route path='split-bases'>

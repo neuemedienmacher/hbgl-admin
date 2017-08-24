@@ -52,6 +52,9 @@ function headingFor(model, id) {
   case 'emails':
     heading = 'Email'
     break
+  case 'offers':
+    heading = 'Angebote'
+    break
   default:
     throw new Error(`Please provide a GenericForm heading for ${model}`)
   }

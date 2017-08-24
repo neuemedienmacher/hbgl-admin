@@ -298,6 +298,18 @@ export default {
         'show', 'old-backend-edit'
       ]
     },
+
+    offers: {
+      fields: [
+        'id', 'title'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit'
+      ]
+    },
   },
 
   OPERATORS: ['=', '!=', '<', '>'],

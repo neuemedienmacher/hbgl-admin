@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 module API::V1
-  module Tag
+  module NextStep
     class Index < API::V1::Default::Index
       def base_query
-        ::Tag
+        ::NextStep
       end
     end
   end

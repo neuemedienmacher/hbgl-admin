@@ -14,11 +14,12 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # General Routes
-  resources :offers, only: :show
 
   # shouldn't consider "new" to be a slug
   get 'organizations/new', controller: :pages, action: :react
   resources :organizations, only: :show
+  get 'offers/new', controller: :pages, action: :react
+  resources :offers, only: :show
 
   # resources :organizations do
   #   collection do
@@ -93,7 +94,7 @@ Rails.application.routes.draw do
         resources name, options.merge(path: name.to_s.dasherize)
       end
       api_resources :solution_categories, only: [:show, :index]
-      api_resources :offers, only: [:index, :show]
+      api_resources :offers
       api_resources :split_bases, only: [:index, :show]
       api_resources :locations
       api_resources :organizations
@@ -116,6 +117,9 @@ Rails.application.routes.draw do
       api_resources :contact_people
       api_resources :emails, only: [:index, :show]
       api_resources :filters, only: [:index, :show]
+      api_resources :next_steps, only: [:index, :show]
+      api_resources :tags, only: [:index, :show]
+      api_resources :logic_versions, only: [:index, :show]
       api_resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,
                                                    action: :report_actual
