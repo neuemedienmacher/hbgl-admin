@@ -67,8 +67,9 @@ module Assignable
       def should_create_automated_organization_assignment?(model, organization)
         orga_twin = ::Assignable::Twin.new(organization)
         !model.receiver_id.nil? && model.receiver_id != ::User.system_user.id &&
-          orga_twin.current_assignment.receiver_id == ::User.system_user.id &&
-          organization.initialized?
+          organization.initialized? && [::User.system_user.id, nil].include?(
+            orga_twin.current_assignment.receiver_id
+          )
       end
     end
   end
