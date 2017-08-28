@@ -11,10 +11,10 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    const {
-      user, hasOutstandingTimeAllocations, outstandingTimeAllocations,
-    } = this.props
 
+    const {
+      user, hasOutstandingTimeAllocations, outstandingTimeAllocations
+    } = this.props
     const actualWa = hasOutstandingTimeAllocations ? (
       <ActualWaList outstandingTimeAllocations={outstandingTimeAllocations} />
     ) : null
@@ -27,7 +27,7 @@ export default class Dashboard extends React.Component {
           title={`Willkommen, ${user.name}`} identifier='dashboard'
           visible={true}
         >
-          <OverviewPanel />
+          <OverviewPanel params={this.props.location.query}/>
         </CollapsiblePanel>
         <CollapsiblePanel
           title='W&A Statistiken' identifier='overall-statistic-charts'

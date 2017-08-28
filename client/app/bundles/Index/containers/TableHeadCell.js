@@ -4,6 +4,7 @@ import clone from 'lodash/clone'
 import pickBy from 'lodash/pickBy'
 import { encode } from 'querystring'
 import TableHeadCell from '../components/TableHeadCell'
+import { browserHistory } from 'react-router'
 
 const mapStateToProps = (state, ownProps) => {
   const { params, field } = ownProps
@@ -20,18 +21,25 @@ const mapStateToProps = (state, ownProps) => {
   if (isCurrentSortField) {
     linkParams.sort_direction = currentDirection == 'ASC' ? 'DESC' : 'ASC'
   }
-  let href = `/${ownProps.model}?${encode(pickBy(linkParams))}`
-
+  let href = buildLink(pickBy(linkParams), ownProps.model)
   const displayName = field.name.split('-').join(' ')
 
   return {
     href,
     isCurrentSortField,
     currentDirection,
-    displayName,
+    displayName
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
+
+function buildLink(params, model) {
+  if (window.location.pathname.length > 1) {
+    return `/${model}?${jQuery.param(params)}`
+  } else {
+    return `/?${jQuery.param(params)}`
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableHeadCell)

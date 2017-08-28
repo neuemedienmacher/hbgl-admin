@@ -326,7 +326,7 @@ export default {
     },
   },
 
-  OPERATORS: ['=', '!=', '<', '>'],
+  OPERATORS: ['=', '!=', '<', '>', '...'],
   SECTIONS: ['family', 'refugees'],
   AFTER_SAVE_ACTIONS: {
     'to_edit': 'Bei dieser Instanz bleiben',

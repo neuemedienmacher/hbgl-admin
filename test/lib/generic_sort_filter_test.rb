@@ -199,6 +199,36 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
+    it 'filters and sorts a range when range consists of dates' do
+      params = {
+        filters: { 'foo' => { 'first' => '2017-08-15', 'second' => '2017-08-09' } },
+        operators: { 'foo' => '...' }
+      }
+      query.expects(:where).with("foo BETWEEN '2017-08-09' AND '2017-08-15'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters and sorts a range when range consists of numbers' do
+      params = {
+        filters: { 'foo' => { 'first' => '5', 'second' => '1' } },
+        operators: { 'foo' => '...' }
+      }
+      query.expects(:where).with("foo BETWEEN '1' AND '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for a single value when no second value is given for range' do
+      params = { filters: { 'foo' => '5' }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo = '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for a single value when empty second value is given for range' do
+      params = { filters: { 'foo' => ['5', ''] }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo = '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
     it 'filters with interconnecting OR operator' do
       params = {
         filters: { 'foo' => '1', 'fuz' => 'nil' },

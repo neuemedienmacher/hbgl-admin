@@ -12,7 +12,7 @@ export default class ControlledSelectView extends Component {
         >
           {this.props.children.map( (child, index) => {
             return(
-              <option value={child[0]} key={this.props.uniqIdentifier + index}>
+              <option value={child[0]} key={this.props.uniqIdentifier + index} >
                 {child[1]}
               </option>
             )
