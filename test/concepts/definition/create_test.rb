@@ -16,7 +16,6 @@ class DefinitionCreateTest < ActiveSupport::TestCase
     end
 
     it 'must not create a Definition given invalid data' do
-      # needed because this test is randomly failing
       params = { key: 'mon', explanation: nil }
       operation_wont_work ::Definition::Create, params
     end

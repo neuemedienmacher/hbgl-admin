@@ -93,7 +93,6 @@ Rails.application.routes.draw do
       def api_resources name, options = {}
         resources name, options.merge(path: name.to_s.dasherize)
       end
-      api_resources :solution_categories, only: [:show, :index]
       api_resources :offers
       api_resources :split_bases, only: [:index, :show]
       api_resources :locations
@@ -110,6 +109,7 @@ Rails.application.routes.draw do
       api_resources :openings
       api_resources :tags
       api_resources :definitions
+      api_resources :solution_categories
       api_resources :sections, only: [:index, :show]
       api_resources :cities, only: [:index, :show]
       api_resources :areas, only: [:index, :show]

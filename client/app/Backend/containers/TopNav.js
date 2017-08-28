@@ -105,7 +105,12 @@ const routes = [
     pathname: '/tags',
     anchor: 'Tags',
     access: all,
-  }/*,
+  }, {
+    id: 18,
+    pathname: '/solution-categories',
+    anchor: 'Lösungskategorien',
+    access: all,
+    }/*,
   {
     id: 10,
     pathname: '/statistic-charts',

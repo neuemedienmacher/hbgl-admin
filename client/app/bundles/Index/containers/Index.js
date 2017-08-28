@@ -62,6 +62,8 @@ function headingFor(model) {
     return 'Bundesländer'
   case 'contact-people':
     return 'Kontaktpersonen'
+  case 'solution-categories':
+    return 'Lösungskategorien'
   case 'emails':
     return 'Emails'
   default:

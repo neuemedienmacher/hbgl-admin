@@ -10,7 +10,7 @@ export default {
     'offer-translations': {
       fields: [
         'id', 'offer-id', 'locale', 'source', 'name', 'offer_stamp',
-        'possibly-outdated', {offer: ['approved-at', 'created-by']}
+        'possibly-outdated', { offer: ['approved-at', 'created-by'] }
       ],
       general_actions: [
         'index', 'export'
@@ -23,7 +23,7 @@ export default {
     'organization-translations': {
       fields: [
         'id', 'organization-id', 'locale', 'source', 'description',
-        'possibly-outdated', {organization: ['approved-at']}
+        'possibly-outdated', { organization: ['approved-at'] }
       ],
       general_actions: [
         'index', 'export'
@@ -159,6 +159,19 @@ export default {
       ]
     },
 
+    'solution-categories': {
+      association_model_mapping: { parent: 'solution-categories' },
+      fields: [
+        'id', 'name', { parent: ['name'] }
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit'
+      ]
+    },
+
     users: {
       fields: [
         'id', 'name', 'email', { 'user-teams': ['name'] },
@@ -173,6 +186,10 @@ export default {
     },
 
     organizations: {
+      association_model_mapping: {
+        'current-assignment': 'assignments', receiver: 'users',
+        'receiver-team': 'user-teams'
+      },
       fields: [
         'id', {
           'current-assignment': {
@@ -190,6 +207,11 @@ export default {
     },
 
     divisions: {
+      association_model_mapping: {
+        'current-assignment': 'assignments', receiver: 'users',
+        'receiver-team': 'user-teams', 'presumed-categories': 'categories',
+        'presumed-solution-categories': 'solution-categories'
+      },
       fields: [
         'id', {
           'current-assignment': {
@@ -220,6 +242,10 @@ export default {
     },
 
     assignments: {
+      association_model_mapping: {
+        creator: 'users', receiver: 'users',
+        'receiver-team': 'user-teams', 'creator-team': 'user-teams'
+      },
       fields: [
         'id', 'assignable-id', 'assignable-type', {assignable: ['label']},
         {creator: ['name']}, {'creator-team': ['name']}, {receiver: ['name']},
@@ -254,18 +280,6 @@ export default {
     categories: {
       fields: [
         'id', 'name-de', 'sort-order', 'visible', 'parent-id'
-      ],
-      general_actions: [
-        'index'
-      ],
-      member_actions: [
-        'show'
-      ]
-    },
-
-    'solution-categories': {
-      fields: [
-        'id', 'name', 'parent-id'
       ],
       general_actions: [
         'index'

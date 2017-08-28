@@ -49,6 +49,9 @@ function headingFor(model, id) {
   case 'contact-people':
     heading = 'Kontaktperson'
     break
+  case 'solution-categories':
+    heading = 'Lösungskategorien'
+    break
   case 'emails':
     heading = 'Email'
     break
