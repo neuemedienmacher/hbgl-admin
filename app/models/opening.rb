@@ -3,4 +3,5 @@
 require ClaratBase::Engine.root.join('app', 'models', 'opening')
 # Opening Times of Offers
 class Opening < ActiveRecord::Base
+  include ReformedValidationHack
 end

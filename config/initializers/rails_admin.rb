@@ -32,7 +32,7 @@ RailsAdmin.config do |config|
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
   config.included_models = %w(
-    Organization Website Location FederalState Offer
+    Organization Website Location FederalState Offer Opening
     Category Email UpdateRequest LanguageFilter User Contact
     Tag Definition Note Area SearchLocation ContactPerson
     Subscription Section NextStep SolutionCategory
@@ -44,7 +44,10 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['User', 'FederalState', 'Section', 'Division', 'Organization']
+      except [
+        'User', 'FederalState', 'Section', 'Division', 'Organization',
+        'Opening', 'Tag', 'Definition'
+      ]
     end
     export
     bulk_delete do
@@ -52,7 +55,9 @@ RailsAdmin.config do |config|
     end
     show
     edit do
-      except ['Section', 'Division', 'Organization']
+      except [
+        'Section', 'Division', 'Organization', 'Opening', 'Tag', 'Definition'
+      ]
     end
     delete do
       except ['User', 'FederalState', 'Section']
@@ -64,7 +69,7 @@ RailsAdmin.config do |config|
     clone do
       except [
         'Section', 'City', 'TargetAudienceFiltersOffer', 'Division',
-        'Organization'
+        'Organization', 'Opening', 'Tag', 'Definition'
       ]
     end
     # nested_set do
@@ -403,6 +408,12 @@ RailsAdmin.config do |config|
       help do
         'Richtet sich das Angebot direkt an das Kind, oder an Erwachsene wie
         z.B. die Eltern, einen Nachbarn oder einen Lotsen'
+      end
+    end
+    field :openings
+    field :opening_specification do
+      help do
+        'Bitte achtet auf eine einheitliche Ausdrucksweise.'
       end
     end
     field :websites
@@ -886,5 +897,65 @@ RailsAdmin.config do |config|
       read_only true
     end
     field :description
+  end
+
+  config.model 'Opening' do
+    field :day do
+      help do
+        'Required. Wenn weder "Open" noch "Close" angegeben werden, bedeutet
+        das an diesem Tag "nach Absprache".'
+      end
+    end
+    field :open do
+      help do
+        'Required if "Close" given.'
+      end
+    end
+    field :close do
+      help do
+        'Required if "Open" given.'
+      end
+    end
+
+    field :name do
+      visible false
+    end
+
+    list do
+      sort_by :sort_value
+      field :sort_value do
+        sort_reverse false
+        visible false
+      end
+    end
+  end
+
+  config.model 'Definition' do
+    weight(-4)
+    field :key
+    field :explanation
+
+    object_label_method :key
+  end
+
+  config.model 'Tag' do
+    weight 1
+    field :name_de
+    field :keywords_de
+    field :explanations_de
+    field :name_en
+    field :keywords_en
+    field :explanations_en
+    field :name_ar
+    field :keywords_ar
+    field :explanations_ar
+    field :name_fa
+    field :keywords_fa
+    field :explanations_fa
+    field :name_tr
+    field :name_pl
+    field :name_ru
+
+    object_label_method :name_de
   end
 end
