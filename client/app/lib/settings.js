@@ -92,7 +92,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show'
+        'show', 'edit'
       ]
     },
 
@@ -104,7 +104,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show'
+        'show', 'edit'
       ]
     },
 
@@ -117,7 +117,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show'
+        'show', 'edit'
       ]
     },
 

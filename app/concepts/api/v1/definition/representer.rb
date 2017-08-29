@@ -21,6 +21,9 @@ module API::V1
 
       class Create < Show
       end
+
+      class Update < Show
+      end
     end
   end
 end
