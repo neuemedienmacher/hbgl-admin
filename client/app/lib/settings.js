@@ -173,6 +173,9 @@ export default {
     },
 
     users: {
+      association_model_mapping: {
+        'observed-user-teams': 'user-teams'
+      },
       fields: [
         'id', 'name', 'email', { 'user-teams': ['name'] },
         { 'observed-user-teams': ['name'] }
@@ -229,6 +232,9 @@ export default {
     },
 
     'user-teams': {
+      association_model_mapping: {
+        'observing-users': 'users', parent: 'users', lead: 'users'
+      },
       fields: [
         'id', 'name', 'classification', { users: ['name'] },
         { 'observing-users': ['name'] }

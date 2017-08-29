@@ -34,6 +34,24 @@ module API::V1
             property :name
           end
         end
+
+        has_many :users, class: ::User do
+          type :users
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
+
+        has_many :observing_users, class: ::User do
+          type :users
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
       end
 
       class Index < Show
@@ -47,26 +65,6 @@ module API::V1
         #     property :name, as: :label
         #   end
         # end
-
-        has_many :users, class: ::User,
-                         populator: API::V1::Lib::Populators::Find do
-          type :users
-
-          attributes do
-            property :label, getter: ->(o) { o[:represented].name }
-            property :name
-          end
-        end
-
-        has_many :observing_users, class: ::User,
-                                   populator: API::V1::Lib::Populators::Find do
-          type :users
-
-          attributes do
-            property :label, getter: ->(o) { o[:represented].name }
-            property :name
-          end
-        end
 
         # collection :created_assignments do
         #   property :id
