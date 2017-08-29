@@ -300,7 +300,10 @@ RailsAdmin.config do |config|
     field :clarat_addition do
       help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
     end
-    field :divisions
+    field :divisions do
+      queryable true
+      searchable [:addition, {organization: :name}, {city: :name}, {area: :name}]
+    end
     field :solution_category do
       help { 'Erforderlich ab Version 8.'}
     end
@@ -856,8 +859,21 @@ RailsAdmin.config do |config|
     list do
       field :id
       field :addition
-      field :organization
+      field :organization do
+        queryable true
+        searchable [{Organization => :name}]
+      end
+      field :city do
+        queryable true
+        searchable [{City => :name}]
+      end
+      field :area do
+        queryable true
+        searchable [{Area => :name}]
+      end
     end
+
+    object_label_method :display_name
   end
 
   config.model 'LogicVersion' do
