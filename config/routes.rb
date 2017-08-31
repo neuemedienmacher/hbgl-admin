@@ -111,6 +111,8 @@ Rails.application.routes.draw do
       api_resources :definitions
       api_resources :solution_categories
       api_resources :sections, only: [:index, :show]
+      api_resources :subscriptions, only: [:index, :show]
+      api_resources :update_requests, only: [:index, :show]
       api_resources :cities, only: [:index, :show]
       api_resources :areas, only: [:index, :show]
       api_resources :federal_states, only: [:index, :show]

@@ -110,7 +110,17 @@ const routes = [
     pathname: '/solution-categories',
     anchor: 'Lösungskategorien',
     access: all,
-    }/*,
+  }, {
+    id: 19,
+    pathname: '/subscriptions',
+    anchor: 'Newsletter Abos',
+    access: all,
+  }, {
+    id: 20,
+    pathname: '/update-requests',
+    anchor: 'Update Requests',
+    access: all,
+  }/*,
   {
     id: 10,
     pathname: '/statistic-charts',

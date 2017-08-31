@@ -319,6 +319,31 @@ export default {
       ]
     },
 
+
+    subscriptions: {
+      fields: [
+        'id', 'email', 'created-at', 'updated-at'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'update-requests': {
+      fields: [
+        'id', 'search-location', 'email', 'created-at', 'updated-at'
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
     offers: {
       fields: [
         'id', 'title'
