@@ -8,11 +8,15 @@ class GeocodingWorker
 
     # call geocoding gem (API)
     loc.geocode
-    loc.save!
 
     # ensure location now has coordinates
-    raise 'Geocoding failed' unless loc.latitude && loc.longitude
-    # update offer (_geoloc) index after coordinates changed
-    loc.offers.to_a.map(&:index!) if old_geoloc != Geolocation.new(loc)
+    if loc.latitude && loc.longitude
+      # NOTE: update_columns (enforce DB-write)
+      loc.update_columns longitude: loc.longitude, latitude: loc.latitude
+      # update offer (_geoloc) index after coordinates changed
+      loc.offers.to_a.map(&:index!) if old_geoloc != Geolocation.new(loc)
+    else
+      raise 'Geocoding failed'
+    end
   end
 end
