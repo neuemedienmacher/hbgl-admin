@@ -8,7 +8,7 @@ class GeocodingWorker
 
     # call geocoding gem (API)
     loc.geocode
-    loc.save
+    loc.save!
 
     # ensure location now has coordinates
     raise 'Geocoding failed' unless loc.latitude && loc.longitude
