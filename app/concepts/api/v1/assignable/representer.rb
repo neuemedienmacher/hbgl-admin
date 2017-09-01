@@ -24,6 +24,7 @@ module API::V1
             property :creator_team_id
             property :receiver_id
             property :receiver_team_id
+            property :topic
           end
 
           has_one :receiver do

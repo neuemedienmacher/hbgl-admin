@@ -49,6 +49,7 @@ module Assignment::Contracts
     property :receiver_team_id
     property :message
     property :aasm_state
+    property :topic
 
     validates :receiver_id, numericality: true, allow_blank: true
   end
