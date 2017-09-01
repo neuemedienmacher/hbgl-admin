@@ -6,6 +6,8 @@ class SplitBase < ActiveRecord::Base
   # delegate :name, to: :organizations, prefix: true, allow_nil: true
   delegate :name, to: :solution_category, prefix: true, allow_nil: true
 
+  include ReformedValidationHack
+
   def display_name
     "##{id} #{organizations.pluck(:name).join(', ')} || #{title} || "\
       "#{solution_category_name} || #{clarat_addition}"

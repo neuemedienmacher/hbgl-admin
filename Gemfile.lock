@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: c886cf88828bc2f97c3f0cf2e3c918c3327834cd
+  revision: 92346905902abdb639fbb8daeef0eb5a63f2dff2
   specs:
     clarat_base (0.1.4)
       aasm
@@ -325,7 +325,7 @@ GEM
     letter_opener (1.4.1)
       launchy (~> 2.2)
     libv8 (3.16.14.17)
-    localeapp (2.1.1)
+    localeapp (2.4.0)
       gli
       i18n (~> 0.4)
       json
@@ -384,7 +384,7 @@ GEM
     nokogumbo (1.4.13)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (7.1.0)
+    paper_trail (7.1.1)
       activerecord (>= 4.0, < 5.2)
       request_store (~> 1.1)
     parser (2.3.3.1)
@@ -682,7 +682,7 @@ GEM
       hashdiff
     websocket (1.2.3)
     will_paginate (3.1.5)
-    with_advisory_lock (3.1.0)
+    with_advisory_lock (3.1.1)
       activerecord (>= 3.2)
       thread_safe
     xpath (2.0.0)
