@@ -14,6 +14,7 @@ import OpeningFormObject from '../forms/OpeningFormObject'
 import DefinitionFormObject from '../forms/DefinitionFormObject'
 import TagFormObject from '../forms/TagFormObject'
 import SolutionCategoryFormObject from '../forms/SolutionCategoryFormObject'
+import SplitBaseFormObject from '../forms/SplitBaseFormObject'
 
 export default function formObjectSelect(model, editing) {
   switch(model) {
@@ -45,6 +46,8 @@ export default function formObjectSelect(model, editing) {
     return DefinitionFormObject
   case 'solution-categories':
     return SolutionCategoryFormObject
+  case 'split-bases':
+    return SplitBaseFormObject
   default:
     throw new Error(
       `Please provide a configuring FormObject for ${model} if you want to

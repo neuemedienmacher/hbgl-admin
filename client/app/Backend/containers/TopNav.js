@@ -120,6 +120,11 @@ const routes = [
     pathname: '/update-requests',
     anchor: 'Update Requests',
     access: all,
+  }, {
+    id: 21,
+    pathname: '/split-bases',
+    anchor: 'Split Base',
+    access: all,
   }/*,
   {
     id: 10,

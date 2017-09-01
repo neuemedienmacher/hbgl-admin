@@ -94,7 +94,7 @@ Rails.application.routes.draw do
         resources name, options.merge(path: name.to_s.dasherize)
       end
       api_resources :offers
-      api_resources :split_bases, only: [:index, :show]
+      api_resources :split_bases
       api_resources :locations
       api_resources :organizations
       api_resources :divisions

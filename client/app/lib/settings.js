@@ -309,13 +309,14 @@ export default {
 
     'split-bases': {
       fields: [
-        'id', 'title', 'clarat-addition', 'comments'
+        'id', 'title', 'clarat-addition', 'comments',
+        { divisions: ['display-name'] }, { 'solution-category': ['name'] }
       ],
       general_actions: [
-        'index'
+        'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'old-backend-edit'
+        'show', 'edit'
       ]
     },
 
