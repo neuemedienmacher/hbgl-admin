@@ -8,13 +8,13 @@ const mapStateToProps = (state, ownProps) => {
   const id = ownProps.params.id
   const pathname = ownProps.location.pathname
   const model = pathname.split('/')[1]
-  const heading = `${singularize(model)} #${id} löschen`
   const action = `/api/v1/${model}/${id}`
 
   return {
     action,
-    heading,
     model,
+    id,
+    location: ownProps.location
   }
 }
 

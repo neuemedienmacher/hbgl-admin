@@ -17,7 +17,6 @@ Rails.application.routes.draw do
 
   # shouldn't consider "new" to be a slug
   get 'organizations/new', controller: :pages, action: :react
-  resources :organizations, only: :show
   get 'offers/new', controller: :pages, action: :react
   resources :offers, only: :show
 

@@ -63,7 +63,7 @@ RailsAdmin.config do |config|
       except ['User', 'FederalState', 'Section']
     end
     show_in_app do
-      only ['Offer', 'Organization']
+      only ['Offer']
     end
 
     clone do

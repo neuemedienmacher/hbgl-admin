@@ -115,6 +115,18 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#sort_range' do
+    it 'should correctly sort date values' do
+      values = [DateTime.current, DateTime.current - 1.day]
+      subject.send(:sort_range, values).must_equal values.sort
+    end
+
+    it 'should correctly sort non date values via to_i' do
+      values = [12, 8]
+      subject.send(:sort_range, values).must_equal [8, 12]
+    end
+  end
+
   describe '#transform_by_filtering' do
     it 'wont transform without filters' do
       params = { filters: nil }

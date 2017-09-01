@@ -1,15 +1,17 @@
 import React, { PropTypes, Component } from 'react'
 import { FormButton, JsonApiAdapter } from 'rform'
+import MemberActionsNavBar from
+  '../../MemberActionsNavBar/containers/MemberActionsNavBar'
 
 export default class Delete extends Component {
   render() {
     const {
-      action, heading, afterSuccess, afterError,
+      action, afterSuccess, afterError, model, id, location
     } = this.props
 
     return(
       <div className='content Delete'>
-        <h3 className="page-title">{heading}</h3>
+        <MemberActionsNavBar model={model} id={id} location={location} />
         <FormButton ajax
           action={action} method='DELETE' adapter={JsonApiAdapter}
           afterSuccess={afterSuccess} afterError={afterError}

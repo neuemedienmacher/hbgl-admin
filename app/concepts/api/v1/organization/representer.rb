@@ -39,6 +39,14 @@ module API::V1
         #     property :url
         #   end
         # end
+
+        link(:preview) do
+          section = represented.sections.first
+          identifier = section.nil? ? 'refugees' : section.identifier
+          ::RemoteShow.build_preview_link(
+            :organisationen, identifier, represented
+          )
+        end
       end
 
       class Index < Show

@@ -36,6 +36,12 @@ module API::V1
             property :description_de
             property :opening_specification_de
           end
+
+          link(:preview) do
+            ::RemoteShow.build_preview_link(
+              :angebote, represented.section.identifier, represented
+            )
+          end
         end
       end
 

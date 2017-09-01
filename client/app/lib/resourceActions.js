@@ -12,7 +12,8 @@ export function actionsFromSettings(model, id, entity) {
   ).map(action => ({
     icon: iconFor(action),
     href: routeForAction(action, model, id, entity),
-    target: targetFor(action)
+    target: targetFor(action),
+    text: textFor(action)
   }))
 }
 
@@ -22,6 +23,8 @@ function routeForAction(action, model, id, entity) {
       return `/admin/${snakeCase(singularize(model))}/${id}/edit`
     case 'edit':
       return `/${model}/${id}/edit`
+    case 'preview':
+      return entity && entity.links && entity.links.preview || ''
     case 'show':
       return `/${model}/${id}`
     case 'delete':
@@ -57,6 +60,8 @@ function iconFor(action) {
     case 'show-assignable':
       return 'fa fa-arrow-circle-o-right'
     case 'show':
+      return 'fa fa-info-circle'
+    case 'preview':
       return 'fa fa-eye'
     case 'delete':
       return 'fa fa-trash'
@@ -70,9 +75,27 @@ function iconFor(action) {
 function targetFor(action) {
   switch(action) {
     case 'old-backend-edit':
+    case 'preview':
     case 'open_url':
       return '_blank'
     default:
       return ''
+  }
+}
+
+function textFor(action) {
+  switch(action) {
+    case 'edit':
+      return 'Bearbeiten'
+    case 'show':
+      return 'Anzeigen'
+    case 'preview':
+      return 'Anzeigen in App'
+    case 'delete':
+      return 'Löschen'
+    case 'duplicate':
+      return 'Duplizieren'
+    default:
+      return 'Implement me!'
   }
 }
