@@ -307,7 +307,7 @@ RailsAdmin.config do |config|
     end
     field :divisions do
       queryable true
-      searchable [:addition, {organization: :name}, {city: :name}, {area: :name}]
+      searchable [:id, :addition]
     end
     field :solution_category do
       help { 'Erforderlich ab Version 8.'}
@@ -350,6 +350,8 @@ RailsAdmin.config do |config|
     field :section
     field :split_base do
       help { 'Erforderlich ab Version 7.'}
+      queryable true
+      searchable [:id, :clarat_addition, :title]
     end
     field :all_inclusive
     field :name do
