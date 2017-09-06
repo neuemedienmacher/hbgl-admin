@@ -1,7 +1,7 @@
-import { FormObject, JsonApiAdapter } from 'rform'
+import GenericFormObject from '../lib/GenericFormObject'
 import { URL_REGEX } from '../lib/formats'
 
-export default class WebsiteFormObject extends FormObject {
+export default class WebsiteFormObject extends GenericFormObject {
   static get model() {
     return 'website'
   }
@@ -34,8 +34,17 @@ export default class WebsiteFormObject extends FormObject {
     return JsonApiAdapter
   }
 
+  static get requiredInputs() {
+    return ['host', 'url']
+  }
+
+  static get additionalValidations() {
+    return {
+      url: { 'format?': URL_REGEX }
+    }
+  }
+
   validation() {
-    this.required('host').filled()
-    this.required('url').filled({ 'format?': URL_REGEX })
+    this.applyRequiredInputs()
   }
 }

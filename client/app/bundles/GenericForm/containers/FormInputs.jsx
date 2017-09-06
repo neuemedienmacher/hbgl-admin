@@ -10,6 +10,8 @@ const mapStateToProps = (state, ownProps) => {
   const config = formObjectClass.formConfig
 
   const inputs = properties.map(property => ({
+    label:
+      property + (formObjectClass.requiredInputs.includes(property) ? '*' : ''),
     attribute: property,
     type: config[property].type,
     options: config[property].options &&

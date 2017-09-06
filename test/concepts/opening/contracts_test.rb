@@ -14,8 +14,6 @@ class OpeningContractsTest < ActiveSupport::TestCase
 
     describe 'validations' do
       describe 'always' do
-        it { must_validate_presence_of :name }
-        it { must_validate_presence_of :sort_value }
         it { must_validate_presence_of :day }
       end
 

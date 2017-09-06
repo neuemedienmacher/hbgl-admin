@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :division do
     addition 'default division addition'
-    section { Section.all.sample }
+    section
     city { City.all.sample }
     organization { FactoryGirl.create(:organization, :approved) }
 

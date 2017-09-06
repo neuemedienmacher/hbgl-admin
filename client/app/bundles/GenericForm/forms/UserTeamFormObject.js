@@ -1,6 +1,6 @@
-import { FormObject, JsonApiAdapter } from 'rform'
+import GenericFormObject from '../lib/GenericFormObject'
 
-export default class UserTeamFormObject extends FormObject {
+export default class UserTeamFormObject extends GenericFormObject {
   static get model() {
     return 'user-team'
   }
@@ -15,6 +15,19 @@ export default class UserTeamFormObject extends FormObject {
     ]
   }
 
+  static get submodels() {
+    return [
+      'users', 'observing-users'
+    ]
+  }
+
+  static get submodelConfig() {
+    return {
+      users: { relationship: 'oneToMany' },
+      'observing-users': { relationship: 'oneToMany' }
+    }
+  }
+
   static get formConfig() {
     return {
       name: { type: 'string' },
@@ -23,11 +36,11 @@ export default class UserTeamFormObject extends FormObject {
     }
   }
 
-  static get ajaxAdapter() {
-    return JsonApiAdapter
+  static get requiredInputs() {
+    return ['name']
   }
 
   validation() {
-    this.required('name').filled()
+    this.applyRequiredInputs()
   }
 }

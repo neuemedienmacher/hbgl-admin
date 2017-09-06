@@ -7,12 +7,10 @@ const mapStateToProps = (state, ownProps) => {
   const id = ownProps.params.id
   const pathname = ownProps.location.pathname
   const model = pathname.split('/')[1]
-  const heading = singularize(model) + '#' + id
 
   return {
     id,
-    model,
-    heading
+    model
   }
 }
 

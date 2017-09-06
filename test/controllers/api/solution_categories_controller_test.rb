@@ -9,7 +9,6 @@ describe API::V1::SolutionCategoriesController do
   it { api_get_works_for :index }
 
   it { has_no_route_for :get, :show }
-  it { has_no_route_for :post, :create }
   it { has_no_route_for :patch, :update }
   it { has_no_route_for :delete, :destroy }
 end

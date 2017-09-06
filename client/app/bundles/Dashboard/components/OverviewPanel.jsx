@@ -6,10 +6,21 @@ export default class OverviewPanel extends Component {
   render() {
     return (
       <ControlledTabView identifier="assignments" startIndex={1}>
-        <AssignmentsContainer scope='receiver' tabTitle='Meine Aufgaben' />
-        <AssignmentsContainer scope='receiverTeam' tabTitle='Team Aufgaben' />
-        <AssignmentsContainer scope='creatorOpen' tabTitle='Von mir abgeschickte Aufgaben' />
-        <AssignmentsContainer scope='receiverClosed' tabTitle='Abgeschlossene Aufgaben' />
+        <AssignmentsContainer
+          scope='receiver' tabTitle='Meine Aufgaben' params={this.props.params}
+        />
+        <AssignmentsContainer
+          scope='receiverTeam' tabTitle='Team Aufgaben'
+          params={this.props.params}
+        />
+        <AssignmentsContainer
+          scope='creatorOpen' tabTitle='Von mir abgeschickte Aufgaben'
+          params={this.props.params}
+        />
+        <AssignmentsContainer
+          scope='receiverClosed' tabTitle='Abgeschlossene Aufgaben'
+          params={this.props.params}
+        />
       </ControlledTabView>
     )
   }

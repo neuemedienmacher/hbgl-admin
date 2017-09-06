@@ -30,6 +30,12 @@ module API::V1
       custom_endpoint update_operation.(*api_args), 200
     end
 
+    def destroy
+      @model = model_class_name.constantize.find(params[:id])
+      @model.destroy!
+      render json: {}, status: 200
+    end
+
     # --- Non-Action Helper methods --- #
 
     def render(*attrs)

@@ -50,6 +50,12 @@ module API::V1
             property :identifier
           end
         end
+
+        link(:preview) do
+          ::RemoteShow.build_preview_link(
+            :angebote, represented.section.identifier, represented
+          )
+        end
       end
 
       class Index < Show

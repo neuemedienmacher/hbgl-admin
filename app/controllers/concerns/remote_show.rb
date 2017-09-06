@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 module RemoteShow
   def redirect_to_remote_show controller, identifier
+    instance = model_instance params
+    redirect_to RemoteShow.build_preview_link(controller, identifier, instance)
+  end
+
+  def self.build_preview_link controller, identifier, instance
     host = Rails.application.secrets.frontend_host
-    item = model_instance params
-    redirect_to "#{host}/#{identifier}/preview/#{controller}/#{item.slug}"
+    "#{host}/#{identifier}/preview/#{controller}/#{instance.slug}"
   end
 
   private

@@ -100,16 +100,30 @@ module GenericSortFilter
       value_or_values = filter[1]
       next if value_or_values.empty?
 
-      # convert value_or_values to array for streamlined processing
-      value_array =
-        value_or_values.is_a?(Array) ? value_or_values : [value_or_values]
-      # build query strings to every array entry (only one for simple filters)
-      filter_strings = value_array.map do |singular_value|
-        build_singular_filter_query(query, params, filter[0], singular_value)
-      end
-      query = filter!(query, filter_strings, params, filter[0], index)
+      query = range_or_singular_filter_query!(
+        params, query, value_or_values, filter[0], index
+      )
     end
     query
+  end
+
+  def self.range_or_singular_filter_query!(
+    params, query, value_or_values, key, index
+  )
+    value =
+      value_or_values.is_a?(Hash) ? value_or_values.values : value_or_values
+    # convert value_or_values to array for streamlined processing
+    value_array = (value.is_a?(Array) ? value : [value]).reject(&:blank?)
+
+    if range_filter_query?(params, value_array)
+      build_range_filter_query(query, params, key, value)
+    else
+      # build query strings to every array entry (only one for simple filters)
+      filter_strings = value_array.map do |singular_value|
+        build_singular_filter_query(query, params, key, singular_value)
+      end
+      filter!(query, filter_strings, params, key, index)
+    end
   end
 
   def self.filter!(query, filter_strings, params, filter, index)
@@ -123,12 +137,32 @@ module GenericSortFilter
     query.send where_method, filter_strings.join(join_operator(params, filter))
   end
 
+  def self.range_filter_query?(params, values)
+    !params[:operators].nil? && params[:operators].value?('...') &&
+      values.count > 1
+  end
+
   def self.join_operator(params, filter)
     if !params[:operators] || !params[:operators][filter] ||
        params[:operators][filter] == '='
       ' OR '
     else
       ' AND '
+    end
+  end
+
+  def self.build_range_filter_query(query, params, filter, value)
+    range = sort_range(value)
+    filter_key = joined_or_own_table_name_for(query, filter, params)
+    filter_string = filter_key.to_s
+    query.where("#{filter_string} BETWEEN '#{range[0]}' AND '#{range[1]}'")
+  end
+
+  def self.sort_range(values)
+    if values.first.respond_to?(:to_date)
+      values.sort
+    else
+      values.sort_by(&:to_i)
     end
   end
 
@@ -176,7 +210,7 @@ module GenericSortFilter
 
   # retrives the given operator or falls back to '='. Special case for 'nil'
   def self.process_operator(operators, filter, value)
-    operator = operators && operators[filter] ? operators[filter] : '='
+    operator = operators && operators[filter] && operators[filter] != '...' ? operators[filter] : '='
     if nullable_value?(value)
       operator = operator == '=' ? 'IS' : 'IS NOT'
     end

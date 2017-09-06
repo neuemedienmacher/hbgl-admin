@@ -4,6 +4,8 @@ class UserTeam < ActiveRecord::Base
     property :name
     property :users
     property :observing_users
+    property :parent
+    property :lead
 
     validates :name, presence: true
     validates :users, presence: true
@@ -15,6 +17,12 @@ class UserTeam < ActiveRecord::Base
 
     step Contract::Build(constant: UserTeam::GeneralContract)
     step Contract::Validate()
+    step Wrap(::Lib::Transaction) {
+      step ::Lib::Macros::Nested::Find(:parent, ::User)
+      step ::Lib::Macros::Nested::Find(:lead, ::User)
+      step ::Lib::Macros::Nested::Find(:observing_users, ::User)
+      step ::Lib::Macros::Nested::Find(:users, ::User)
+    }
     step Contract::Persist()
   end
 
@@ -24,6 +32,12 @@ class UserTeam < ActiveRecord::Base
 
     step Contract::Build(constant: UserTeam::GeneralContract)
     step Contract::Validate()
+    step Wrap(::Lib::Transaction) {
+      step ::Lib::Macros::Nested::Find(:parent, ::User)
+      step ::Lib::Macros::Nested::Find(:lead, ::User)
+      step ::Lib::Macros::Nested::Find(:observing_users, ::User)
+      step ::Lib::Macros::Nested::Find(:users, ::User)
+    }
     step Contract::Persist()
     step :update_team_statistic_on_user_change
 

@@ -26,6 +26,14 @@ module API::V1
           attributes do
             property :description_de
           end
+
+          link(:preview) do
+            section = represented.sections.first
+            identifier = section.nil? ? 'refugees' : section.identifier
+            ::RemoteShow.build_preview_link(
+              :organisationen, identifier, represented
+            )
+          end
         end
 
         # property :organization_section, getter: ->(ot) do

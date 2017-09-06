@@ -12,7 +12,12 @@ import orderBy from 'lodash/orderBy'
 
 const mapStateToProps = (state, ownProps) => {
   const assignment = ownProps.assignment
-  let model = pluralize(kebabCase(assignment['assignable-type']))
+  const type = kebabCase(assignment['assignable-type'])
+  const model = pluralize(type)
+  const assignableFormId = `GenericForm-${type}-${assignment['assignable-id']}`
+  const assignableFormChanges = state.rform[assignableFormId] ?
+    state.rform[assignableFormId]['_changes'] : state.rform[assignableFormId]
+  let assignableChanged = assignableFormChanges && assignableFormChanges.length
   let assignments = filter(
     state.entities.assignments,
     a => {
@@ -57,7 +62,8 @@ const mapStateToProps = (state, ownProps) => {
     actions,
     users,
     teams,
-    topics
+    topics,
+    assignableChanged,
   }
 }
 

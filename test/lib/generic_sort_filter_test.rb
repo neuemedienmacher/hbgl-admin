@@ -115,6 +115,18 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#sort_range' do
+    it 'should correctly sort date values' do
+      values = [DateTime.current, DateTime.current - 1.day]
+      subject.send(:sort_range, values).must_equal values.sort
+    end
+
+    it 'should correctly sort non date values via to_i' do
+      values = [12, 8]
+      subject.send(:sort_range, values).must_equal [8, 12]
+    end
+  end
+
   describe '#transform_by_filtering' do
     it 'wont transform without filters' do
       params = { filters: nil }
@@ -196,6 +208,36 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     it 'parses date-times and converts them from CET to UTC' do
       params = { filters: { 'created_at' => '15.09.2014, 13:02:00+0200' } }
       query.expects(:where).with("created_at = '2014-09-15T11:02:00+00:00'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters and sorts a range when range consists of dates' do
+      params = {
+        filters: { 'foo' => { 'first' => '2017-08-15', 'second' => '2017-08-09' } },
+        operators: { 'foo' => '...' }
+      }
+      query.expects(:where).with("foo BETWEEN '2017-08-09' AND '2017-08-15'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters and sorts a range when range consists of numbers' do
+      params = {
+        filters: { 'foo' => { 'first' => '5', 'second' => '1' } },
+        operators: { 'foo' => '...' }
+      }
+      query.expects(:where).with("foo BETWEEN '1' AND '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for a single value when no second value is given for range' do
+      params = { filters: { 'foo' => '5' }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo = '5'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'filters for a single value when empty second value is given for range' do
+      params = { filters: { 'foo' => ['5', ''] }, operators: { 'foo' => '...' } }
+      query.expects(:where).with("foo = '5'")
       subject.send(:transform_by_filtering, query, params)
     end
 

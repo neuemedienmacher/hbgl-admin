@@ -4,6 +4,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'
 import Show from '../../bundles/Show/containers/Show'
+import Delete from '../../bundles/Delete/containers/Delete'
 import GenericForm from '../../bundles/GenericForm/containers/Standalone'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
@@ -58,15 +59,32 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='offers'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
+          </Route>
+
+          <Route path='split-bases'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
+          </Route>
+
+          <Route path='subscriptions'>
             <IndexRoute component={Index}/>
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
           </Route>
 
-          <Route path='split-bases'>
+          <Route path='update-requests'>
             <IndexRoute component={Index}/>
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
@@ -85,6 +103,30 @@ export default class Routes extends React.Component {
             <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='openings'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
+          </Route>
+
+          <Route path='tags'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
+          </Route>
+
+          <Route path='definitions'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
           </Route>
 
           <Route path='federal-states'>
@@ -106,6 +148,14 @@ export default class Routes extends React.Component {
             <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
+          </Route>
+
+          <Route path='solution-categories'>
+            <IndexRoute component={Index}/>
+            <Route path='new' component={GenericForm} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={Show} />
+            <Route path=':id/edit' component={GenericForm} />
           </Route>
 
           <Route path='websites'>

@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 require_relative '../../test_helper'
 
-class Assignable::CommonSideEffectsTest < ActiveSupport::TestCase
+class AssignableCommonSideEffectsTest < ActiveSupport::TestCase
   describe 'CreateNewAssignment' do
     let(:subject) do
       Class.new { include Assignable::CommonSideEffects::CreateNewAssignment }
     end
+
     let(:options) do
       {
-        'model' => divisions(:basic),
+        'model' => offer_translations(:en),
         'current_user' => users(:researcher),
         'contract.default' => OpenStruct.new(
           errors: Reform::Form::ActiveModel::Errors.new(a: 'b')
@@ -32,6 +33,17 @@ class Assignable::CommonSideEffectsTest < ActiveSupport::TestCase
       options['contract.default'].errors.messages.must_equal(
         foo: ['baz']
       )
+    end
+
+    it 'create_new_assignment_if_save_and_close_clicked should succeed' do
+      options['params'] = { 'meta' => { 'commit' => 'closeAssignment' } }
+
+      assert_difference 'Assignment.count', 1 do
+        result = subject.new.create_new_assignment_if_save_and_close_clicked!(
+          options, sym_options
+        )
+        result.must_equal true
+      end
     end
   end
 end
