@@ -24,6 +24,8 @@ module Offer::Contracts
     property :starts_at
     property :categories
     property :section
+    property :tags
+    property :openings
 
     validates :name, presence: true
     # TODO: replace with complicated custom validation OR save stamp text in model

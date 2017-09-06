@@ -18,4 +18,9 @@ module Opening::Contracts
       end
     end
   end
+
+  class Update < Reform::Form
+    # NOTE only for old Backend (association with offer triggers Update contract
+    # => uniqueness fails)
+  end
 end
