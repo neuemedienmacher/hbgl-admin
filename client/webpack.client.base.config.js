@@ -65,4 +65,7 @@ module.exports = {
       { test: require.resolve('i18n-js'), loader: 'expose?I18n' },
     ],
   },
+  externals: [
+    { xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}' }
+  ]
 };
