@@ -614,6 +614,20 @@ feature 'Admin Backend' do
       offer.reload.must_be :approved?
     end
 
+    scenario 'Duplicate offer works with an associated opening' do
+      Opening::Create.(day: 'mon', open: '00:00', close: '09:00')
+      visit rails_admin_path
+
+      click_link 'Angebote', match: :first
+      click_link 'Duplizieren'
+
+      select 'Mon 00:00-09:00', from: 'offer_opening_ids'
+
+      click_button 'Speichern'
+
+      page.must_have_content 'Angebot wurde erfolgreich hinzugefügt'
+    end
+
     # TODO: resurrect this test as soon as there is a uniqueness validation in offer
     # calls partial dup that doesn't end up in an immediately valid offer
     # scenario 'Duplicate offer' do
