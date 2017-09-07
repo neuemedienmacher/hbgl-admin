@@ -48,7 +48,21 @@ class DivisionCreateTest < ActiveSupport::TestCase
         operation_wont_work ::Division::Create, basic_params
       end
     end
-  end
 
-  # TODO: Tests when final logic is done
+    describe 'side-effects' do
+      describe '#SyncOrganization' do
+        it 'created division must not be done it should reset orga to approved' do
+          orga.aasm_state.must_equal 'all_done'
+          operation_must_work ::Division::Create, basic_params, current_user: user
+          orga.reload.aasm_state.must_equal 'approved'
+        end
+
+        it 'should not change the Orga-state when it is not all_done' do
+          orga.update_columns aasm_state: 'completed'
+          operation_must_work ::Division::Create, basic_params, current_user: user
+          orga.reload.aasm_state.must_equal 'completed'
+        end
+      end
+    end
+  end
 end
