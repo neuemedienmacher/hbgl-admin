@@ -157,17 +157,17 @@ RailsAdmin.config do |config|
           fa = bindings[:object].translations.where(locale: :fa).first
           output_string = ''
           output_string += if en
-            "<a href='/organization_translations/#{en.id}/edit'>Englisch</a><br/>"
+            "<a href='/organization-translations/#{en.id}/edit'>Englisch</a><br/>"
           else
             'Englisch (wird noch erstellt)<br/>'
           end
           output_string += if ar
-            "<a href='/organization_translations/#{ar.id}/edit'>Arabisch</a><br/>"
+            "<a href='/organization-translations/#{ar.id}/edit'>Arabisch</a><br/>"
           else
             'Arabisch (wird noch erstellt)<br/>'
           end
           output_string += if fa
-            "<a href='/organization_translations/#{fa.id}/edit'>Farsi</a><br/>"
+            "<a href='/organization-translations/#{fa.id}/edit'>Farsi</a><br/>"
           else
             'Farsi (wird noch erstellt)<br/>'
           end
@@ -464,17 +464,17 @@ RailsAdmin.config do |config|
           fa = bindings[:object].translations.where(locale: :fa).first
           output_string = ''
           output_string += if en
-            "<a href='/offer_translations/#{en.id}/edit'>Englisch</a><br/>"
+            "<a href='/offer-translations/#{en.id}/edit'>Englisch</a><br/>"
           else
             'Englisch (wird noch erstellt)<br/>'
           end
           output_string += if ar
-            "<a href='/offer_translations/#{ar.id}/edit'>Arabisch</a><br/>"
+            "<a href='/offer-translations/#{ar.id}/edit'>Arabisch</a><br/>"
           else
             'Arabisch (wird noch erstellt)<br/>'
           end
           output_string += if fa
-            "<a href='/offer_translations/#{fa.id}/edit'>Farsi</a><br/>"
+            "<a href='/offer-translations/#{fa.id}/edit'>Farsi</a><br/>"
           else
             'Farsi (wird noch erstellt)<br/>'
           end
