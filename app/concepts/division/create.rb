@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+require_relative './sync_organization.rb'
 class Division::Create < Trailblazer::Operation
+  include SyncOrganization
   include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::Division, :new)
@@ -20,4 +22,5 @@ class Division::Create < Trailblazer::Operation
   }
   step Contract::Persist()
   step :create_initial_assignment!
+  step :syncronize_organization_approve_or_done_state
 end

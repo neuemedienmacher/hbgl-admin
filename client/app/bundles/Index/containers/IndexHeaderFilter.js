@@ -17,7 +17,6 @@ const mapStateToProps = (state, ownProps) => {
       substring(8, ownProps.filter[0].length -1)
   const filterType = setFilterType(filterName)
   const filterValue = getValue(ownProps.filter[1], 0)
-  console.log(filterValue)
   const secondFilterValue = getValue(ownProps.filter[1], 1)
   const nilChecked = ownProps.filter[1] == 'nil'
   // only show filters that are not locked (currently InlineIndex only)
