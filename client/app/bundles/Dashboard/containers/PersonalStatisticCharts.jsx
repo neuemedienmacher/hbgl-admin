@@ -22,9 +22,9 @@ const mapStateToProps = (state, ownProps) => {
   selectableData = selectableData.concat(
     ledTeams ?
     flatten(ledTeams.map(team => {
-      return team['user-ids'].map(userId => {
+      return team['user-ids'] ? team['user-ids'].map(userId => {
         return [userId, `${state.entities.users[userId].name} (${team.name})`]
-      })
+      }) : []
     })) : []
   )
   const dataLoaded = state.ajax.isLoading[dataKey] === false &&
