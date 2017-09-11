@@ -8,7 +8,8 @@ import ExportForm from '../components/ExportForm'
 const mapStateToProps = (state, ownProps) => {
   const fieldSet =
     state.entities['field-sets'] && state.entities['field-sets'][ownProps.model]
-  const columnNames = fieldSet && fieldSet['column-names'] || []
+  const columns = fieldSet && fieldSet['columns'] || []
+  const columnNames = columns.map(field => field.name)
   const associations = toPairs(fieldSet && fieldSet.associations || {})
 
   const action = `/exports/${ownProps.model}?${encode(ownProps.params)}`

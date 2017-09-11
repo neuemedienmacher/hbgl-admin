@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809115013) do
+ActiveRecord::Schema.define(version: 20170908124329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -685,6 +685,18 @@ ActiveRecord::Schema.define(version: 20170809115013) do
   end
 
   add_index "time_allocations", ["user_id"], name: "index_time_allocations_on_user_id", using: :btree
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "topics_organizations", force: :cascade do |t|
+    t.integer "topic_id"
+    t.integer "organization_id"
+  end
+
+  add_index "topics_organizations", ["organization_id"], name: "index_topics_organizations_on_organization_id", using: :btree
+  add_index "topics_organizations", ["topic_id"], name: "index_topics_organizations_on_topic_id", using: :btree
 
   create_table "update_requests", force: :cascade do |t|
     t.string   "search_location", limit: 255, null: false

@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
   const fieldSet =  state.entities['field-sets'] &&
     state.entities['field-sets'][ownProps.model]
   const columnNames = filterFields(
-    fieldSet && fieldSet['column-names'] || [],
+    fieldSet && fieldSet['columns'] || [],
     modelInstance || {}
   )
   const associations = toPairs(fieldSet && fieldSet.associations || {})
@@ -30,7 +30,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({ })
 
 function filterFields(fields, modelInstance) {
-  return fields.filter(field => modelInstance[field] != undefined )
+  let fieldNames = fields.map(field => field.name)
+  return fieldNames.filter(field => modelInstance[field] != undefined )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowItems)

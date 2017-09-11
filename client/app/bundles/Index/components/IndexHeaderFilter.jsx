@@ -1,14 +1,25 @@
 import React, { PropTypes, Component } from 'react'
 import IndexHeaderFilterOption from '../containers/IndexHeaderFilterOption'
+import IndexHeaderFilterValueOption from '../containers/IndexHeaderFilterValueOption'
 import IndexHeaderOperatorOption from '../containers/IndexHeaderOperatorOption'
 
 export default class IndexHeaderFilter extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.model != this.props.model) {
+      this.props.loadData(nextProps.model)
+    }
+  }
+
+  componentDidMount() {
+    this.props.loadData()
+  }
+
   render() {
     const {
       options, onTrashClick, fields, operators, filterName, operatorName,
       onFilterNameChange, onFilterValueChange, onCheckboxChange,
       onFilterOperatorChange, filterType, nilChecked, range, filterValue,
-      secondFilterValue, onSecondFilterValueChange
+      secondFilterValue, onSecondFilterValueChange, filterOptions
     } = this.props
 
     return (
@@ -42,24 +53,56 @@ export default class IndexHeaderFilter extends Component {
             leer
           </label>
           </div>
-          <div className='input-group'>
-            <input
-              className='form-control' onChange={onFilterValueChange}
-              value={filterValue} type={filterType} disabled={nilChecked}
-            />
-            <input
-              className='form-control' onChange={onSecondFilterValueChange}
-              value={secondFilterValue} type={filterType} disabled={nilChecked}
-              style={{visibility:range}}
-            />
-            <span className='input-group-btn'>
-              <button className='btn' onClick={onTrashClick}>
-                <i className="fa fa-trash" />
-              </button>
-            </span>
-          </div>
+          {this.renderFields(this.props)}
         </div>
       </div>
     )
+  }
+
+  renderFields(props) {
+    if (props.filterOptions && props.filterOptions.length > 0) {
+      return(
+        <div className='input-group'>
+          <select
+            className='form-control' onChange={props.onFilterValueChange}
+            value={props.filterValue}
+          >
+            <option value="">-</option>
+            {props.filterOptions.map(operator =>
+              <IndexHeaderFilterValueOption
+                key={operator} operator={operator}
+              />
+            )}
+          </select>
+          <span className='input-group-btn'>
+            <button className='btn' onClick={props.onTrashClick}>
+              <i className="fa fa-trash" />
+            </button>
+          </span>
+        </div>
+      )
+    }
+    else {
+      return(
+        <div className='input-group'>
+          <input
+            className='form-control' onChange={props.onFilterValueChange}
+            value={props.filterValue} type={props.filterType}
+            disabled={props.nilChecked}
+          />
+          <input
+            className='form-control' onChange={props.onSecondFilterValueChange}
+            value={props.secondFilterValue} type={props.filterType}
+            disabled={props.nilChecked}
+            style={{visibility:props.range}}
+          />
+          <span className='input-group-btn'>
+            <button className='btn' onClick={props.onTrashClick}>
+              <i className="fa fa-trash" />
+            </button>
+          </span>
+        </div>
+      )
+    }
   }
 }
