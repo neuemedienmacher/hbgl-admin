@@ -2,10 +2,13 @@ import React, { PropTypes, Component } from 'react'
 import IndexHeader from '../containers/IndexHeader'
 import IndexTable from '../containers/IndexTable'
 import Pagination from '../containers/Pagination'
+import isEqual from 'lodash/isEqual'
 
 export default class Index extends Component {
   componentWillReceiveProps(nextProps) {
-    if (this.props.equalParams(nextProps.query, this.props.query) == false) {
+    if (isEqual(nextProps.query, this.props.query) == false ||
+        nextProps.model != this.props.model
+    ) {
       this.props.loadData(nextProps.query, nextProps.model)
     }
   }

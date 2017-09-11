@@ -51,17 +51,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
         loadAjaxData(nextModel, query, 'indexResults')
       )
     }
-  },
-
-  equalParams(params1, params2) {
-    if (size(params1) != size(params2)) return false
-    let isSame = true
-    forIn(params1, (value, key) => {
-      if(!isSame || params2[key] != value) {
-        isSame = false
-      }
-    })
-    return isSame
   }
 })
 
