@@ -11,9 +11,10 @@ const mapStateToProps = (state, ownProps) => {
     throw new Error(`Add settings for ${model}`)
 
   const fields = analyzeFields(settings.index[model].fields, model)
-  const rows = compact(state.ajax.indexResults.data.map(datum =>
+  let ajaxResult = state.ajax[ownProps.identifier]
+  const rows = ajaxResult ? compact(ajaxResult.data.map(datum =>
     denormalizeStateEntity(state.entities, model, datum.id)
-  ))
+  )) : []
 
   let tbodyClass
   if (state.ajax.isLoading.indexResults) tbodyClass = 'loading'

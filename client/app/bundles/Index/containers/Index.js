@@ -48,7 +48,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
        )
     {
       dispatchProps.dispatch(
-        loadAjaxData(nextModel, query, 'indexResults')
+        loadAjaxData(nextModel, query, stateProps.identifier)
       )
     }
   }
