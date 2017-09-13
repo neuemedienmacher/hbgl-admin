@@ -83,7 +83,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
     return concat(
       OrgaCreateFormObject.properties,
       [ 'description', 'legal-form', 'charitable', 'umbrella-filters',
-        'accredited-institution' ]
+        'accredited-institution', 'mailings' ]
     )
   }
 
@@ -106,7 +106,9 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
           filters: { 'type': 'UmbrellaFilter' }
         },
         'accredited-institution': { type: 'checkbox' },
-      }
+        mailings: { type: 'select',
+                    options: ['disabled', 'enabled', 'force_disabled'] },
+      },
     )
   }
 

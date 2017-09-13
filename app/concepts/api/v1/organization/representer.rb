@@ -26,6 +26,7 @@ module API::V1
           property :legal_form
           property :charitable
           property :website_id
+          property :mailings
           property :accredited_institution
           # NOTE: do we need this here? or only for create/update or not at all?
           property :location_ids
