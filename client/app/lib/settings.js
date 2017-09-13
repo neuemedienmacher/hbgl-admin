@@ -199,7 +199,7 @@ export default {
             receiver: ['name'], 'receiver-team': ['name']
           }
         }, 'offers-count', 'name', 'aasm-state', 'pending-reason',
-        'locations-count'
+        'locations-count', { topics: ['name'] }
       ],
       general_actions: [
         'index', 'export', 'new'

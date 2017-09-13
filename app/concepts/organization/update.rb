@@ -17,6 +17,7 @@ class Organization::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
     step ::Lib::Macros::Nested::Create :locations, Location::Create
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
+    step ::Lib::Macros::Nested::Find :topics, ::Topic
   }
   # step ::Lib::Macros::Debug::Breakpoint()
   step :change_state_side_effect # prevents persist on faulty state change
