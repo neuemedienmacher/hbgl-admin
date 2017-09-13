@@ -2,6 +2,8 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { setupAction, updateAction } from 'rform'
 import mapCollection from 'lodash/map'
+import isEqual from 'lodash/isEqual'
+import isArray from 'lodash/isArray'
 import some from 'lodash/some'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
@@ -32,8 +34,9 @@ const mapStateToProps = (state, ownProps) => {
 
   let action = `/api/v1/${model}`
   let method = 'POST'
-  const buttonData =
-    buildActionButtonData(state, model, editId, instance, formObjectClass)
+  const buttonData = buildActionButtonData(
+    state, model, editId, instance, formObjectClass, formData
+  )
 
   // Changes in case the form updates instead of creating
   if (editId) {
@@ -52,6 +55,7 @@ const mapStateToProps = (state, ownProps) => {
     buttonData,
     afterSaveActions,
     afterSaveActiveKey,
+    editId
   }
 }
 
@@ -165,16 +169,20 @@ const errorFlashMessage =
   'Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese' +
   ' und versuche es erneut.'
 
-function buildActionButtonData(state, model, editId, instance, formObject) {
+function buildActionButtonData(
+  state, model, editId, instance, formObject, formData
+) {
+  let changes = formData && formData._changes && formData._changes.length
   // start with default save button (might be extended)
-  let buttonData = [{
+  let buttonData = changes ? [{
     className: 'default',
     buttonLabel: 'Speichern',
     actionName: ''
-  }]
+  }] : []
 
   // iterate additional actions (e.g. state-changes) only for editing
   if (state.settings.actions[model]) {
+    let textPrefix = (changes ? 'Speichern & ' : '')
     state.settings.actions[model].forEach(action => {
       if(state.entities['possible-events'] &&
          state.entities['possible-events'][model] &&
@@ -183,7 +191,7 @@ function buildActionButtonData(state, model, editId, instance, formObject) {
       ){
         buttonData.push({
           className: model == 'divisions' ? 'warning' : 'default',
-          buttonLabel: 'Speichern & ' + textForActionName(action, model),
+          buttonLabel: textPrefix + textForActionName(action, model),
           actionName: action
         })
       }

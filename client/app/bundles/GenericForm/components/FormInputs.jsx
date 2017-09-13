@@ -14,23 +14,27 @@ export default class FormInputs extends React.Component {
 
   render() {
     const {
-      inputs, formId, blockedInputs, model, formObjectClass, submodelPath
+      inputs, formId, blockedInputs, model, formObjectClass, submodelPath,
+      nonEditableState
     } = this.props
 
     return (
       <div className='FormInputs'>
         {
           inputs.map(this._renderInput.bind(this)(
-            formId, blockedInputs, model, formObjectClass, submodelPath
+            formId, blockedInputs, model, formObjectClass, submodelPath,
+            nonEditableState
           ))
         }
       </div>
     )
   }
 
-  _renderInput(formId, blockedInputs, model, formObjectClass, submodelPath) {
+  _renderInput(
+    formId, blockedInputs, model, formObjectClass, submodelPath, nonEditableState
+  ) {
     const disabled = this.context.disableUiElements === undefined ?
-                       false : this.context.disableUiElements
+                       false : this.context.disableUiElements || nonEditableState
 
     return (input, index) => {
       // Skip rendering blocked inputs

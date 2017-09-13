@@ -101,7 +101,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
           ]
         },
         'umbrella-filters': {
-          type: 'filtering-select',
+          type: 'filtering-multiselect',
           resource: 'filters',
           filters: { 'type': 'UmbrellaFilter' }
         },
