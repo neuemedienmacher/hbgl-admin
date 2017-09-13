@@ -6,9 +6,9 @@ import merge from 'lodash/merge'
 import Pagination from '../components/Pagination'
 
 const mapStateToProps = (state, ownProps) => {
-  const resultData = state.ajax.indexResults
-  const totalPages = resultData.meta.total_pages
-  const currentPage = resultData.meta.current_page
+  const resultData = state.ajax[ownProps.identifier]
+  const totalPages = resultData ? resultData.meta.total_pages : 0
+  const currentPage = resultData ? resultData.meta.current_page : 1
 
   return {
     totalPages,

@@ -7,6 +7,7 @@ import isEqual from 'lodash/isEqual'
 export default class Index extends Component {
   componentWillReceiveProps(nextProps) {
     if (isEqual(nextProps.query, this.props.query) == false ||
+        isEqual(nextProps.lockedParams, this.props.lockedParams) == false || // NOTE: Hotfix!!
         nextProps.model != this.props.model
     ) {
       this.props.loadData(nextProps.query, nextProps.model)

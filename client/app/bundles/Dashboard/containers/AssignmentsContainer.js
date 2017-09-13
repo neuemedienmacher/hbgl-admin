@@ -11,7 +11,6 @@ import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 const mapStateToProps = (state, ownProps) => {
   const scope = ownProps.scope
   const model = 'assignments'
-  let newParams = clone(ownProps.params)
   const user = state.entities.users[state.entities['current-user-id']]
   let systemUser =
     filter(state.entities.users, {'name': 'System'} )[0]
@@ -32,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
   const lockedParams = lockedParamsFor(scope, itemId, systemUser.id)
   const optionalParams =
     { 'sort_field': 'updated-at', 'sort_direction': 'DESC' }
-  merge(newParams, merge(clone(optionalParams), newParams, lockedParams))
+  merge(ownProps.params, merge(clone(optionalParams), ownProps.params, lockedParams))
   const defaultParams = merge({}, merge(clone(optionalParams), lockedParams))
   const heading = headingFor(scope)
   return {
@@ -42,8 +41,7 @@ const mapStateToProps = (state, ownProps) => {
     optionalParams,
     scope,
     selectableData,
-    defaultParams,
-    newParams
+    defaultParams
   }
 }
 
@@ -57,8 +55,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 
   setParams() {
+    let identifier = 'indexResults_assignments_' + stateProps.scope
     dispatchProps.dispatch(
-      loadAjaxData('assignments', this.defaultParams, 'indexResults')
+      loadAjaxData('assignments', this.defaultParams, identifier)
     )
     browserHistory.replace(`/?${jQuery.param(this.defaultParams)}`)
   }
