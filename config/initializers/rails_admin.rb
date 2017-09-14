@@ -69,7 +69,7 @@ RailsAdmin.config do |config|
     clone do
       except [
         'Section', 'City', 'TargetAudienceFiltersOffer', 'Division',
-        'Organization', 'Opening', 'Tag', 'Definition'
+        'Organization', 'Opening', 'Tag', 'Definition', 'SplitBase'
       ]
     end
     # nested_set do
