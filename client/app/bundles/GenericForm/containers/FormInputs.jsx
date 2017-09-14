@@ -23,8 +23,8 @@ const mapStateToProps = (state, ownProps) => {
   }))
   const blockedInputs = collectBlockedInputs(inputs, nestingModel)
   let editableState =
-    state.settings.editable_states[model] && state.entities[model][id] &&
-    state.entities[model][id]['aasm-state'] &&
+    state.settings.editable_states[model] && state.entities[model] &&
+    state.entities[model][id] && state.entities[model][id]['aasm-state'] &&
     state.settings.editable_states[model].includes(
       state.entities[model][id]['aasm-state']
     )

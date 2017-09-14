@@ -10,13 +10,15 @@ class Website < ActiveRecord::Base
   }
 
   # Search
-  include PgSearch
-  pg_search_scope :search_pg,
-                  against: [:id, :host, :url],
-                  using: {
-                    tsearch: { only: [:id, :host], prefix: true },
-                    trigram: { only: [:url], threshold: 0.3 }
-                  }
+  # include PgSearch
+  # pg_search_scope :search_pg,
+  #                 against: [:id, :host, :url],
+  #                 using: {
+  #                   tsearch: { only: [:id, :host], prefix: true },
+  #                   trigram: { only: [:url], threshold: 0.3 }
+  #                 }
+  # NOTE Hack: use manual scope with LIKE query for containing search
+  scope :search_pg, ->(input) { where('url LIKE ?', "%#{input}%").limit(30) }
 
   # Validation Hack
   include ReformedValidationHack

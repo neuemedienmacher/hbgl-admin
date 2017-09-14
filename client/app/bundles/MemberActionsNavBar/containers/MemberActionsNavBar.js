@@ -26,6 +26,8 @@ function headingFor(model, id, action) {
     return `${singularModelName}#${id} bearbeiten`
   } else if ( action == 'delete') {
     return  `${singularModelName}#${id} löschen`
+  } else if ( action == 'new') {
+    return  `Neue ${singularModelName} anlegen`
   } else {
     return `Details für ${singularModelName}#${id}`
   }
