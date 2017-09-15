@@ -95,7 +95,9 @@ function textFor(action) {
       return 'Löschen'
     case 'duplicate':
       return 'Duplizieren'
+    case 'old-backend-edit':
+      return 'Im alten Backend editieren'
     default:
-      return 'Implement me!'
+      return action
   }
 }
