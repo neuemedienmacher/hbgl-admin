@@ -25,13 +25,13 @@ export default class FilteringSelect extends React.Component {
 
   render() {
     const {
-      wrapperClassName, attribute, errorClassName, errors, label, loadOptions,
+      classNameWithChanged, attribute, errorClassName, errors, label, loadOptions,
       onChange, value, multi, placeholder, children, disabled,
       options, isLoading, onInputChange, showSelect, formId, model,
     } = this.props
 
     return (
-      <div className={wrapperClassName}>
+      <div className={classNameWithChanged}>
         <Label
           formId={formId} model={model || 'generic'} attribute={attribute}
           content={label}
@@ -39,7 +39,7 @@ export default class FilteringSelect extends React.Component {
 
         {showSelect && this._renderSelect(
           multi, options, isLoading, onChange, onInputChange, value,
-          placeholder, disabled, attribute
+          placeholder, disabled, attribute, classNameWithChanged
         )}
 
         {children}
@@ -53,10 +53,10 @@ export default class FilteringSelect extends React.Component {
 
   _renderSelect(
     multi, options, isLoading, onChange, onInputChange, value, placeholder,
-    disabled, attribute
+    disabled, attribute, classNameWithChanged
   ) {
     return(
-      <VirtualizedSelect multi={multi}
+      <VirtualizedSelect multi={multi} className={classNameWithChanged}
         options={options} isLoading={isLoading} onChange={onChange}
         onInputChange={onInputChange} value={value}
         placeholder={placeholder} disabled={disabled}

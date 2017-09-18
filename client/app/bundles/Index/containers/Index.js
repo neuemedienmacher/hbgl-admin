@@ -20,14 +20,22 @@ const mapStateToProps = (state, ownProps) => {
     model = pathname.substr(1, pathname.length)
     query = ownProps.location.query
   }
-
+  let metaText = 'Waiting for meta information...'
+  if (state.ajax[identifier]) {
+    let perPage = state.ajax[identifier].meta.per_page
+    let startValue = (state.ajax[identifier].meta.current_page - 1) * perPage
+    let totalEntries = state.ajax[identifier].meta.total_entries
+    let toValue = Math.min(startValue + perPage, totalEntries)
+    metaText = `Zeige Ergebnisse ${startValue + 1} bis ${toValue} von insgesamt ${totalEntries}`
+  }
   return {
     model,
     heading: headingFor(model),
     query,
     identifier,
     uiKey,
-    defaultParams
+    defaultParams,
+    metaText
   }
 }
 

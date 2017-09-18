@@ -5,7 +5,7 @@ import { singularize } from '../../../lib/inflection'
 import FormInputs from '../components/FormInputs'
 
 const mapStateToProps = (state, ownProps) => {
-  const { model, submodel, formObjectClass, nestingModel } = ownProps
+  const { model, submodel, formObjectClass, nestingModel, id } = ownProps
   const { submodelConfig, properties } = formObjectClass
   const config = formObjectClass.formConfig
 
@@ -22,10 +22,19 @@ const mapStateToProps = (state, ownProps) => {
       submodelConfig[property] && submodelConfig[property].inverseRelationship
   }))
   const blockedInputs = collectBlockedInputs(inputs, nestingModel)
+  let editableState =
+    state.settings.editable_states[model] && state.entities[model] &&
+    state.entities[model][id] && state.entities[model][id]['aasm-state'] &&
+    state.settings.editable_states[model].includes(
+      state.entities[model][id]['aasm-state']
+    )
+  const nonEditableState =
+    editableState == undefined ? false : editableState == false
 
   return {
     inputs,
     blockedInputs,
+    nonEditableState
   }
 }
 

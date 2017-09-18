@@ -4,8 +4,26 @@ module API::V1
     class Show < Representable::Decorator
       include Representable::JSON
 
-      property :'column-names', getter: ->(r) do
-        r[:represented].column_names.map(&:dasherize)
+      property :columns, getter: ->(r) do
+        columns = []
+        r[:represented].columns.each do |col|
+          options =
+            if col.type == :boolean
+              %w(true false)
+            elsif col.name == 'aasm_state'
+              r[:represented].aasm.states.map(&:name)
+            elsif r[:represented].methods.include?(:enumerized_attributes)
+              r[:represented].enumerized_attributes[col.name]&.values
+            else
+              []
+            end
+          columns << {
+            'name' => col.name.dasherize,
+            'type' => col.type,
+            'options' => options
+          }
+        end
+        columns
       end
 
       property :associations, getter: ->(r) do

@@ -114,6 +114,7 @@ Rails.application.routes.draw do
       api_resources :update_requests, only: [:index, :show]
       api_resources :cities, only: [:index, :show]
       api_resources :areas, only: [:index, :show]
+      api_resources :topics, only: [:index, :show]
       api_resources :federal_states, only: [:index, :show]
       api_resources :contact_people
       api_resources :emails, only: [:index, :show]

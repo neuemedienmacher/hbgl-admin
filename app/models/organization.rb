@@ -5,6 +5,11 @@ require ClaratBase::Engine.root.join('app', 'models', 'organization')
 class Organization < ActiveRecord::Base
   # Admin specific methods
 
+  EDITABLE_IN_STATES = %(
+    initialized approval_process approved all_done internal_feedback
+    external_feedback under_construction
+  )
+
   # Modules
   include StateMachine
 

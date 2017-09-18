@@ -17,7 +17,8 @@ const mapStateToProps = (state, ownProps) => {
       clone(ownProps.optionalParams),
       merge(clone(state.ui[uiKey]), ownProps.lockedParams)
     )
-  const count = state.ajax[identifier] ? state.ajax[identifier].meta.total_entries : 0
+  const count =
+    state.ajax[identifier] ? state.ajax[identifier].meta.total_entries : 0
 
   return {
     params,
