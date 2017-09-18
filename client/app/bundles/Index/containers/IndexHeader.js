@@ -36,9 +36,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onQueryChange(event) {
     const params = merge(clone(ownProps.params), { query: event.target.value })
     if (window.location.pathname.length > 1) {
-      browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+      // browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+      browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
     } else {
-      browserHistory.replace(`/?${encode(params)}`)
+      // browserHistory.replace(`/?${encode(params)}`)
+      browserHistory.replace(`/?${jQuery.param(params)}`)
     }
   },
 
@@ -85,9 +87,11 @@ function lockedParamsHaveKey(key, lockedParams) {
 
 function searchString(model, params) {
   if(window.location.href.includes(model)) {
-    return `${model}?${encode(params)}`
+    return `${model}?${jQuery.param(params)}`
+    // return `${model}?${encode(params)}`
   } else {
-    return `?${encode(params)}`
+    return `?${jQuery.param(params)}`
+    // return `?${encode(params)}`
   }
 }
 
