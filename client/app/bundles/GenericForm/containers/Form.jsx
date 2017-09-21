@@ -199,26 +199,26 @@ function buildActionButtonData(
     })
   }
 
-  function hasAtLeastOneSubmodelForm(formData){
-    if (formData && formData._registeredSubmodelForms) {
-      for (var key in formData._registeredSubmodelForms) {
-          if (
-            formData._registeredSubmodelForms.hasOwnProperty(key) &&
-            formData._registeredSubmodelForms[key].length
-          ) {
-            return true
-          }
-      }
-    }
-    return false
-  }
-
   // add special form-defined buttons
   if (formObject.additionalButtons) {
     buttonData.push(...formObject.additionalButtons(instance))
   }
 
   return buttonData
+}
+
+function hasAtLeastOneSubmodelForm(formData){
+  if (formData && formData._registeredSubmodelForms) {
+    for (var key in formData._registeredSubmodelForms) {
+        if (
+          formData._registeredSubmodelForms.hasOwnProperty(key) &&
+          formData._registeredSubmodelForms[key].length
+        ) {
+          return true
+        }
+    }
+  }
+  return false
 }
 
 // TODO: use translations
