@@ -96,7 +96,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
         'legal-form': {
           type: 'select',
           options: [
-            'ev', 'ggmbh', 'gag', 'foundation', 'gug', 'gmbh', 'ag', 'ug',
+            '', 'ev', 'ggmbh', 'gag', 'foundation', 'gug', 'gmbh', 'ag', 'ug',
             'kfm', 'gbr', 'ohg', 'kg', 'eg', 'sonstige', 'state_entity'
           ]
         },
@@ -109,6 +109,12 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
         mailings: { type: 'select',
                     options: ['disabled', 'enabled', 'force_disabled'] },
       },
+    )
+  }
+
+  static get requiredInputs() {
+    return concat(
+      OrgaCreateFormObject.requiredInputs, ['description', 'legal-form']
     )
   }
 
