@@ -15,7 +15,7 @@ module SplitBase::Contracts
       same_split_bases = SplitBase.where(
         title: title, clarat_addition: clarat_addition,
         solution_category_id: solution_category&.id
-      )
+      ).where.not(id: id)
       if same_split_bases.any?
         own_divisions = divisions.map(&:id)
         check_for_divisions same_split_bases, own_divisions
