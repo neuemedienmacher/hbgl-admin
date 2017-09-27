@@ -3,7 +3,7 @@ class Organization::Update < Trailblazer::Operation
   include SyncWithDivisions
 
   step Model(::Organization, :find_by)
-  step Policy::Pundit(OrganizationPolicy, :update?)
+  step Policy::Pundit(PermissivePolicy, :update?)
 
   step ::Lib::Macros::State::Contract(
     approve: Organization::Contracts::Approve,

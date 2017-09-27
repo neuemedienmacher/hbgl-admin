@@ -72,7 +72,7 @@ module API::V1
 
     def custom_endpoint(result, success_status)
       if result.success?
-        render json: result['representer.default.class'].new(result['model']),
+        render json: show_representer.new(result['model']),
                status: success_status
       else
         render json: jsonapi_errors(result), status: 403

@@ -6,9 +6,12 @@ class OpeningContractsTest < ActiveSupport::TestCase
   include ContractTestUtils
 
   describe 'Create' do
-    let opening = Opening.create!(name: 'mon 00:00-01:00', day: 'mon',
-                                  open: Time.zone.now,
-                                  close: Time.zone.now + 1.hour)
+    let(:opening) do
+      Opening.create!(
+        name: 'mon 00:00-01:00', day: 'mon', open: Time.zone.now,
+        close: Time.zone.now + 1.hour
+      )
+    end
     let(:subject_opening) { Opening.new }
     subject { Opening::Contracts::Create.new(subject_opening) }
 
@@ -35,11 +38,15 @@ class OpeningContractsTest < ActiveSupport::TestCase
       end
 
       describe 'unique day no open/close' do
-        let opening_day = Opening.create!(name: 'mon 00:00-01:00', day: 'mon')
+        let(:opening_day) do
+          Opening.create!(name: 'mon 00:00-01:00', day: 'mon')
+        end
+
         before do
           subject_opening.open = nil
           subject_opening.close = nil
         end
+
         it { must_validate_uniqueness_of :day, opening_day.day }
       end
 

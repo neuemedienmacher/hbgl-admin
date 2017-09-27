@@ -31,11 +31,11 @@ class SeasonalOffersWorker
   # no AsanaTask, no mailing, just pause the offers
   def process_approved_offers_to_paused today
     Offer.seasonal.where(aasm_state: 'approved')
-         .where('expires_at <= ?', today).find_each do |offer|
+         .where('ends_at <= ?', today).find_each do |offer|
       # set paused instead of expired and advance dates
       offer.update_columns aasm_state: 'paused',
                            starts_at: offer.starts_at + 1.year,
-                           expires_at: offer.expires_at + 1.year
+                           ends_at: offer.ends_at + 1.year
       offer.index!
     end
   end

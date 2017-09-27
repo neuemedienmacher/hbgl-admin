@@ -6,8 +6,6 @@ export default class MemberActionsNavBar extends React.Component {
   render() {
     const { actions, heading } = this.props
 
-    if (!actions.length) return null
-
     return(
       <div className='MemberActionsNavBar'>
         <h3>{heading}</h3>
@@ -25,8 +23,7 @@ export default class MemberActionsNavBar extends React.Component {
           <span className={action.icon} /> {action.text}
         </NavItem>
       )
-    }
-    else{
+    } else {
       return(
         <IndexLinkContainer key={action.text} to={action.href}>
           <NavItem>

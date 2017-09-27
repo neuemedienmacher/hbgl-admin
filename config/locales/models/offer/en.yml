@@ -2,10 +2,7 @@ en:
   offer:
     validations:
       location_fits_organization:
-        organization_error: |
-          must be the same as the chosen location's organization.
-        location_error: |
-          must belong to the same organization as chosen below.
+        must belong to one of the organizations that belong to the split base
       needs_main_tag: "needs at least one main tag"
       needs_organizations: "needs at least one organization"
       needs_encounter_filters: "needs at least one encounter filter"

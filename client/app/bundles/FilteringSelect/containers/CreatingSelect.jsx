@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { updateAction } from 'rform'
 import concat from 'lodash/concat'
 import { registerSubmodelForm, unregisterSubmodelForm } from 'rform'
-import generateFormId from '../../GenericForm/lib/generateFormId'
+import generateFormId, { uid } from '../../GenericForm/lib/generateFormId'
 import { pluralize } from '../../../lib/inflection'
 import { addForFilteringSelect } from '../actions/loadForFilteringSelect'
 import CreatingSelect from '../components/CreatingSelect'
@@ -57,10 +57,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       }
     },
   }
-}
-
-function uid() {
-  return Math.random().toString(36).substring(2)
 }
 
 export default connect(

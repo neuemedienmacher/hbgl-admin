@@ -4,6 +4,7 @@ class OrganizationTranslation::Update < Trailblazer::Operation
   include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::OrganizationTranslation, :find_by)
+  step Policy::Pundit(PermissivePolicy, :update?)
 
   step Contract::Build(constant: OrganizationTranslation::Contracts::Update)
   step Contract::Validate()

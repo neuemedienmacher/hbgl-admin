@@ -5,7 +5,7 @@ class OfferTranslation::Update < Trailblazer::Operation
 
   step Model(::OfferTranslation, :find_by)
   # TODO: Either make policy more useful or remove
-  step Policy::Pundit(OfferTranslationPolicy, :update?)
+  step Policy::Pundit(PermissivePolicy, :update?)
 
   step Contract::Build(constant: OfferTranslation::Contracts::Update)
   step Contract::Validate()
