@@ -11,7 +11,7 @@ class Offer::Create < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find :section, ::Section
     step ::Lib::Macros::Nested::Find :split_base, ::SplitBase
     step ::Lib::Macros::Nested::Find :next_steps, ::NextStep
-    step ::Lib::Macros::Nested::Create :contact_people, ContactPerson::Create
+    step ::Lib::Macros::Nested::Create :contact_people, ::ContactPerson::Create
     step ::Lib::Macros::Nested::Create :location, ::Location::Create
     step ::Lib::Macros::Nested::Find :area, ::Area
     step ::Lib::Macros::Nested::Find :categories, ::Category
