@@ -95,8 +95,6 @@ class Offer < ActiveRecord::Base
     (updated_at || created_at || Time.zone.today) + 1.year
   end
 
-  delegate :code_word, to: :split_base, prefix: false
-
   # Admin specific methods
   delegate :identifier, to: :section, prefix: true
 
