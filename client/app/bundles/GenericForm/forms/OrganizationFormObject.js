@@ -103,7 +103,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
         'umbrella-filters': {
           type: 'filtering-multiselect',
           resource: 'filters',
-          filters: { 'type': 'UmbrellaFilter' }
+          params: { filters: { 'type': 'UmbrellaFilter' } }
         },
         'accredited-institution': { type: 'checkbox' },
         mailings: { type: 'select',

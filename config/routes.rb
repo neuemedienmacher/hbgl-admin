@@ -119,6 +119,7 @@ Rails.application.routes.draw do
       api_resources :contact_people
       api_resources :emails, only: [:index, :show]
       api_resources :filters, only: [:index, :show]
+      api_resources :target_audience_filters_offers, only: [:index, :show]
       api_resources :next_steps, only: [:index, :show]
       api_resources :tags, only: [:index, :show]
       api_resources :logic_versions, only: [:index, :show]

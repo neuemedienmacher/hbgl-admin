@@ -3,7 +3,7 @@ class Organization::Create < Trailblazer::Operation
   include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::Organization, :new)
-  step Policy::Pundit(OrganizationPolicy, :create?)
+  step Policy::Pundit(PermissivePolicy, :create?)
 
   step Contract::Build(constant: Organization::Contracts::Create)
   step Contract::Validate()

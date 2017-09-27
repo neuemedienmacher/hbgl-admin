@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class EmailPolicy < ApplicationPolicy
+class PermissivePolicy < ApplicationPolicy
   def create?
     true
   end

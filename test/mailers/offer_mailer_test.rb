@@ -42,20 +42,23 @@ describe OfferMailer do
     end
 
     it 'only informs about offers by mailings=enabled organizations' do
+      orga2 = FactoryGirl.create :organization, :approved
       offer2 = FactoryGirl.create :offer, :approved,
+                                  organizations: [orga2],
                                   name: 'By mailings=enabled organization'
       offer2.contact_people.first.update_column :email_id, email.id
 
+      orga3 =
+        FactoryGirl.create :organization, :approved, mailings: 'force_disabled'
       offer3 = FactoryGirl.create :offer, :approved,
+                                  organizations: [orga3],
                                   name: 'By mailings=disabled organization'
       offer3.contact_people.first.update_column :email_id, email.id
-      offer3.organizations.update_all mailings: 'force_disabled'
-      # binding.pry
 
       assert_difference 'OfferMailing.count', 2 do # lists offer and offer2
-        subject.must have_body_text offer.name
         subject.must have_body_text 'By mailings=enabled organization'
         subject.wont have_body_text 'By mailings=disabled organization'
+        subject.must have_body_text offer.name
       end
     end
 
@@ -222,6 +225,24 @@ describe OfferMailer do
         subject.must have_subject "clarat #{section_name_array.join(' und clarat ')} – Ihre neuen Angebote"
         subject.must have_body_text 'neue Angebote'
         subject.must have_body_text 'Ihre Angebote'
+      end
+    end
+  end
+
+  describe 'support functions' do
+    describe '#get_section_names_sorted_by_offer_count' do
+      it 'should list family first if it has fewer offers' do
+        OfferMailer.send(:new).send(
+          :get_section_names_sorted_by_offer_count,
+          'family' => [1], 'refugees' => [2, 2]
+        ).must_equal %w(family refugees)
+      end
+
+      it 'should list refugees first if it has fewer offers' do
+        OfferMailer.send(:new).send(
+          :get_section_names_sorted_by_offer_count,
+          'family' => [2, 2], 'refugees' => [1]
+        ).must_equal %w(refugees family)
       end
     end
   end

@@ -10,20 +10,16 @@ module Area::Contracts
     validates :name, presence: true
     validates_uniqueness_of :name
     validates :minlat, presence: true, numericality: {
-      only_float: true,
-      less_than: ->(area) { area.maxlat }
+      only_float: true, less_than: ->(area) { area.maxlat }
     }
     validates :maxlat, presence: true, numericality: {
-      only_float: true,
-      greater_than: ->(area) { area.minlat }
+      only_float: true, greater_than: ->(area) { area.minlat }
     }
     validates :minlong, presence: true, numericality: {
-      only_float: true,
-      less_than: ->(area) { area.maxlong }
+      only_float: true, less_than: ->(area) { area.maxlong }
     }
     validates :maxlong, presence: true, numericality: {
-      only_float: true,
-      greater_than: ->(area) { area.minlong }
+      only_float: true, greater_than: ->(area) { area.minlong }
     }
   end
 end

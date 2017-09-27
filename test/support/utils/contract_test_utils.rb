@@ -33,6 +33,7 @@ module ContractTestUtils
   end
 
   def assert_contract_error(property, i18n_key, i18n_options = {})
+    subject.errors.delete property
     subject.wont_be :valid?
     subject.errors.messages.keys.must_include(
       property, "Error messages did not include #{property}"
@@ -43,6 +44,7 @@ module ContractTestUtils
   end
 
   def refute_contract_error(property, i18n_key, i18n_options = {})
+    subject.errors.delete property
     subject.valid?
     !subject.errors.messages[property] ||
       subject.errors.messages[property].wont_include(

@@ -14,17 +14,7 @@ class OfferContractTest < ActiveSupport::TestCase
       it { subject.must validate_presence_of :name }
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :encounter }
-      it { subject.must validate_presence_of :section_id }
-
-      it 'should fails if code_word is more than 140 characters' do
-        subject.code_word = Array.new(141) { rand(36).to_s(36) }.join
-        subject.wont_be :valid?
-      end
-
-      it 'should ensure that code_word < 141 characters' do
-        subject.code_word = Array.new(140) { rand(36).to_s(36) }.join
-        subject.must_be :valid?
-      end
+      it { subject.must validate_presence_of :section }
 
       it 'should fails if personal offer has no location' do
         subject.encounter = 'personal'
@@ -69,7 +59,7 @@ class OfferContractTest < ActiveSupport::TestCase
 
       it 'should fail if locations and organizations do not match (personal)' do
         subject = Offer::Contracts::Update.new(offers(:basic))
-        location = Location.create(organization: Organization.new.id)
+        location = Location.create(organization: Organization.new)
         subject.location = location
         subject.wont_be :valid?
       end
@@ -80,15 +70,15 @@ class OfferContractTest < ActiveSupport::TestCase
         subject.must_be :valid?
       end
 
-      it 'should ensure all chosen organizations are expired' do
-        subject.organizations.update_all aasm_state: 'expired'
-        subject.wont_be :valid?
-      end
-
-      it 'should ensure all chosen organizations are approved' do
-        subject.organizations.update_all aasm_state: 'approved'
-        subject.must_be :valid?
-      end
+      # it 'should ensure not all chosen organizations are expired' do
+      #   subject.organizations.update_all aasm_state: 'expired'
+      #   subject.wont_be :valid?
+      # end
+      #
+      # it 'should ensure all chosen organizations are approved' do
+      #   subject.organizations.update_all aasm_state: 'approved'
+      #   subject.must_be :valid?
+      # end
 
       it 'should fail when chosen contact people not SPoC nor belong to orga' do
         cp = FactoryGirl.create :contact_person, spoc: false,
@@ -105,10 +95,9 @@ class OfferContractTest < ActiveSupport::TestCase
       end
 
       it 'should ensure chosen contact people belong to orga' do
-        cp = FactoryGirl.create :contact_person, spoc: false,
-                                                 offers: [subject.model],
-                                                 organization_id:
-                                                 organizations(:basic).id
+        cp = FactoryGirl.create :contact_person,
+                                spoc: false, offers: [subject.model],
+                                organization: organizations(:basic)
         subject.contact_people << cp
         subject.must_be :valid?
       end
@@ -127,27 +116,27 @@ class OfferContractTest < ActiveSupport::TestCase
         subject.must_be :valid?
       end
 
-      it 'should validate presence of expiration date' do
-        subject.expires_at = nil
-        subject.valid?.must_equal false
-      end
-
-      it 'should validate if expires_at is in future and starts_at not set' do
-        subject.expires_at = Time.zone.now + 1.day
-        subject.valid?.must_equal true
-      end
-
-      it 'should fail if start_date > expires_at' do
-        subject.expires_at = Time.zone.now + 1.day
-        subject.starts_at = Time.zone.now + 2.days
-        subject.valid?.must_equal false
-      end
-
-      it 'should validate start date is before expires_at' do
-        subject.expires_at = Time.zone.now + 1.day
-        subject.starts_at = Time.zone.now
-        subject.valid?.must_equal true
-      end
+      # it 'should validate presence of expiration date' do
+      #   subject.expires_at = nil
+      #   subject.valid?.must_equal false
+      # end
+      #
+      # it 'should validate if expires_at is in future and starts_at not set' do
+      #   subject.expires_at = Time.zone.now + 1.day
+      #   subject.valid?.must_equal true
+      # end
+      #
+      # it 'should fail if start_date > expires_at' do
+      #   subject.expires_at = Time.zone.now + 1.day
+      #   subject.starts_at = Time.zone.now + 2.days
+      #   subject.valid?.must_equal false
+      # end
+      #
+      # it 'should validate start date is before expires_at' do
+      #   subject.expires_at = Time.zone.now + 1.day
+      #   subject.starts_at = Time.zone.now
+      #   subject.valid?.must_equal true
+      # end
 
       it 'should fail if sections of offer and both categories dont match' do
         subject = Offer::Contracts::Update.new(offers(:basic))
@@ -207,21 +196,21 @@ class OfferContractTest < ActiveSupport::TestCase
 
       it 'should fail when version < 7' do
         subject.logic_version = LogicVersion.create(name: 'chunky', version: 6)
-        subject.split_base_id = nil
+        subject.split_base = nil
         subject.valid?
         subject.errors.messages[:split_base].must_be :nil?
       end
 
       it 'should fail when split_base is nil with version >= 7' do
         subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
-        subject.split_base_id = nil
+        subject.split_base = nil
         subject.valid?
         subject.errors.messages[:split_base].wont_be :nil?
       end
 
       it 'should validate that split_base is assigned with version >= 7' do
         subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
-        subject.split_base_id = 1
+        subject.split_base = split_bases(:basic)
         subject.valid?
         subject.errors.messages[:split_base].must_be :nil?
       end
@@ -230,6 +219,11 @@ class OfferContractTest < ActiveSupport::TestCase
       #   subject.reload.wont_be :valid?
       #   subject.reload.must_be :valid?
       # end
+    end
+
+    describe 'on update' do
+      subject { offers(:basic) }
+      it { subject.must validate_presence_of :target_audience_filters_offers }
     end
   end
 end

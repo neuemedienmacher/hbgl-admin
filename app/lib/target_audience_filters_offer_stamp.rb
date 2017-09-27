@@ -5,7 +5,8 @@ class TargetAudienceFiltersOfferStamp
   def self.generate_stamp filters_offer, section, locale
     # generate stamp
     generate_filters_offer_stamp(
-      section, filters_offer, filters_offer.target_audience_filter.identifier, locale
+      section, filters_offer, filters_offer.target_audience_filter.identifier,
+      locale
     )
   end
 

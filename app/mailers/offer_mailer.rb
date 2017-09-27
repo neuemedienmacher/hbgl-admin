@@ -23,8 +23,10 @@ class OfferMailer < ActionMailer::Base
   def inform_offer_context email, offers = nil
     # Loads of variables in preparation for view models
     @contact_person = email.contact_people.first
-    usable_offers = offers || email.offers.visible_in_frontend.by_mailings_enabled_organization
-                                   .select(&:remote_or_belongs_to_informable_city?)
+    usable_offers =
+      offers || email.offers.visible_in_frontend
+                     .by_mailings_enabled_organization
+                     .select(&:remote_or_belongs_to_informable_city?)
     offers_per_section = get_offers_per_section usable_offers
     @offers = get_offer_teaser offers_per_section
     @offers_teaser = are_offers_teaser? offers_per_section
@@ -126,11 +128,14 @@ class OfferMailer < ActionMailer::Base
   end
 
   def get_section_names_sorted_by_offer_count offers_hash
-    offers_hash['family'].count < offers_hash['refugees'].count ? %w(family refugees) : %w(refugees family)
+    if offers_hash['family'].count < offers_hash['refugees'].count
+      %w(family refugees)
+    else
+      %w(refugees family)
+    end
   end
 
   def get_offers_per_section offers
-    return [] unless offers && !offers.empty?
     offers_per_section = {}
     Section.pluck(:identifier).each do |filter|
       section_offers = offers.map { |o| o if o.in_section? filter }.compact

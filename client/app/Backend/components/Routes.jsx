@@ -5,6 +5,7 @@ import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'
 import Show from '../../bundles/Show/containers/Show'
 import Delete from '../../bundles/Delete/containers/Delete'
+import Duplicate from '../../bundles/Duplicate/containers/Duplicate'
 import GenericForm from '../../bundles/GenericForm/containers/Standalone'
 import Export from '../../bundles/Export/containers/Export'
 import DashboardContainer
@@ -26,6 +27,10 @@ import OfferOverviewPage
   from '../../bundles/Statistics/components/OfferOverviewPage'
 import OrgaOverviewPage
   from '../../bundles/Statistics/components/OrgaOverviewPage'
+import OrgaTopicOverviewPage
+  from '../../bundles/Statistics/components/OrgaTopicOverviewPage'
+import OrgaScreeningOverviewPage
+  from '../../bundles/Statistics/components/OrgaScreeningOverviewPage'
 import OrgaOfferCitiesOverview
   from '../../bundles/Statistics/components/OrgaOfferCitiesOverviewPage'
 import RatioOverviewPage
@@ -68,6 +73,8 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
+            <Route path=':id/duplicate' component={Duplicate} />
           </Route>
 
           <Route path='split-bases'>
@@ -185,6 +192,8 @@ export default class Routes extends React.Component {
             <IndexRoute component={Overview}/>
             <Route path='offer-overview' component={OfferOverviewPage} />
             <Route path='organization-overview' component={OrgaOverviewPage} />
+            <Route path='screening-overview' component={OrgaScreeningOverviewPage} />
+            <Route path='topic-overview' component={OrgaTopicOverviewPage} />
             <Route path='orga-offer-cities-overview'
               component={OrgaOfferCitiesOverview}
             />

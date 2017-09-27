@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     options: config[property].options &&
       config[property].options.map(option => ({value: option, name: option})),
     resource: config[property].resource,
-    filters: config[property].filters,
+    params: config[property].params,
     inverseRelationship:
       submodelConfig[property] && submodelConfig[property].inverseRelationship
   }))

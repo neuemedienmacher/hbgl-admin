@@ -5,38 +5,14 @@ describe TargetAudienceFiltersOffer do
   let(:subject) { target_audience_filters_offer(:basicAudience) }
 
   describe 'validations' do
-    it 'should ensure that age_from fits age_to' do
-      subject.age_from = 9
-      subject.age_to = 1
-      subject.wont_be :valid?
-      subject.age_to = 10
-      subject.must_be :valid?
-    end
-
-    it 'should validate age_from' do
-      subject.age_from = -1
-      subject.wont_be :valid?
-      subject.age_from = 100
-      subject.wont_be :valid?
-      subject.age_from = 10
-      subject.must_be :valid?
-      subject.age_from = nil
-      subject.wont_be :valid?
-    end
-
-    it 'should validate age_to' do
-      subject.age_to = -1
-      subject.wont_be :valid?
-      subject.age_to = 100
-      subject.wont_be :valid?
-      subject.age_to = 10
-      subject.must_be :valid?
-      subject.age_to = nil
-      subject.wont_be :valid?
-    end
   end
 
   describe 'name' do
+    it 'should mirror the saved german stamp if one is present' do
+      subject.stamp_de = 'foobar'
+      subject.name.must_equal 'foobar'
+    end
+
     it 'should generate the name correctly' do
       subject.target_audience_filter_id =
         TargetAudienceFilter.first.id

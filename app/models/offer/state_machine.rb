@@ -41,13 +41,12 @@ module Offer::StateMachine
         transitions from: :edit, to: :completed
       end
 
-      event :start_approval_process do
+      event :start_approval_process, guard: :approvable? do
         # TODO: reactivate guard!!!
         transitions from: :completed, to: :approval_process # , guard: :different_actor?
       end
 
-      event :approve, before: :set_approved_information,
-                      guards: :expiration_date_in_future?,
+      event :approve, before: :set_approved_information, guards: :approvable?,
                       success: :generate_translations! do
         transitions from: :approval_process, to: :seasonal_pending,
                     guard: :seasonal_offer_not_yet_to_be_approved?
@@ -116,12 +115,20 @@ module Offer::StateMachine
 
     private
 
+    def approvable?
+      expiration_date_in_future? && all_organizations_visible?
+    end
+
     def at_least_one_organization_not_visible?
       organizations.where.not(aasm_state: %w(approved all_done)).any?
     end
 
     def expiration_date_in_future?
       self.expires_at > Time.zone.now
+    end
+
+    def all_organizations_visible?
+      organizations.visible_in_frontend.count == organizations.count
     end
 
     def set_approved_information

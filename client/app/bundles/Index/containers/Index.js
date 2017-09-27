@@ -106,6 +106,8 @@ function headingFor(model) {
     return 'Newsletter Abos'
   case 'update-requests':
     return 'Update Requests'
+  case 'websites':
+    return 'Webseiten'
   default:
     throw new Error(`Please provide a heading for ${model}`)
   }

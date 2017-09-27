@@ -40,9 +40,9 @@ describe Offer do
 
       describe 'seasonal' do
         it 'should correctly retrieve only seasonal offers with seasonal scope' do
-          seasonal_offer = FactoryGirl.create :offer,
-                                              starts_at: Time.zone.now - 30.days,
-                                              expires_at: Time.zone.now + 30.days
+          seasonal_offer =
+            FactoryGirl.create :offer, starts_at: Time.zone.now - 30.days,
+                                       ends_at: Time.zone.now + 30.days
           FactoryGirl.create :offer # additional normal offer
           Offer.seasonal.must_equal [seasonal_offer]
         end
@@ -78,6 +78,36 @@ describe Offer do
       end
     end
 
+    describe '_residency_status_filters' do
+      it 'should correctly return all residence_status identifiers' do
+        offer = FactoryGirl.create :offer, :approved, section_id: 2
+        TargetAudienceFiltersOffer.create!(
+          offer_id: offer.id, target_audience_filter_id: 4,
+          residency_status: 'with_deportation_decision',
+          age_from: 14, age_to: 21
+        )
+        offer._residency_status_filters.must_equal %w(with_deportation_decision)
+        # add another one => both must be returned
+        TargetAudienceFiltersOffer.create!(
+          offer_id: offer.id, target_audience_filter_id: 4,
+          residency_status: 'with_a_residence_permit',
+          age_from: 14, age_to: 21
+        )
+        offer._residency_status_filters.must_equal %w(
+          with_deportation_decision with_a_residence_permit
+        )
+        # add same residence_status again => result must be uniq
+        TargetAudienceFiltersOffer.create!(
+          offer_id: offer.id, target_audience_filter_id: 3,
+          residency_status: 'with_a_residence_permit',
+          age_from: 14, age_to: 22
+        )
+        offer._residency_status_filters.must_equal %w(
+          with_deportation_decision with_a_residence_permit
+        )
+      end
+    end
+
     describe '#remote_or_belongs_to_informable_city?' do
       it 'must be true for a personal offer with all_done organization' do
         location_offer = FactoryGirl.create :offer, :approved, :with_location
@@ -104,6 +134,16 @@ describe Offer do
         remote_offer.area = FactoryGirl.create :area, name: 'NotACity'
         remote_offer.organizations.first.update_columns aasm_state: 'approved'
         remote_offer.remote_or_belongs_to_informable_city?.must_equal true
+      end
+    end
+
+    describe '#editable?' do
+      it 'must return true for EDITABLE_IN_STATES states' do
+        states = Offer.aasm.states.map(&:name)
+        states_returning_true = states.select do |state|
+          Offer.new(aasm_state: state).editable?
+        end.map(&:to_s).sort
+        Offer::EDITABLE_IN_STATES.sort.must_equal states_returning_true
       end
     end
 
@@ -143,7 +183,7 @@ describe Offer do
         it 'should transition to seasonal_pending for a future start_date' do
           basicOffer.update_columns aasm_state: 'approval_process',
                                     starts_at: Time.zone.now + 1.day,
-                                    expires_at: Time.zone.now + 30.days
+                                    ends_at: Time.zone.now + 30.days
           basicOffer.must_be :valid?
           basicOffer.send(:approve)
           basicOffer.must_be :seasonal_pending?
@@ -152,7 +192,7 @@ describe Offer do
         it 'should transition to approved for a past start_date' do
           basicOffer.update_columns aasm_state: 'approval_process',
                                     starts_at: Time.zone.now - 1.day,
-                                    expires_at: Time.zone.now + 30.days
+                                    ends_at: Time.zone.now + 30.days
           basicOffer.must_be :valid?
           basicOffer.send(:approve)
           basicOffer.must_be :approved?
@@ -261,7 +301,7 @@ describe Offer do
           new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
           # changing untranslated field => translations must stay the same
-          new_offer.expires_at = Date.tomorrow
+          new_offer.comment = 'foobar'
           new_offer.save!
           new_offer.run_callbacks(:commit) # Hotfix: force commit callback
           new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'

@@ -6,10 +6,12 @@ module SplitBase::Contracts
     property :solution_category
     property :divisions
     property :comments
+    property :code_word
 
     validates :title, presence: true
     validate :unique_with_divisions
     validates :solution_category, presence: true
+    validates :code_word, length: { maximum: 140 }
 
     def unique_with_divisions
       same_split_bases = SplitBase.where(
@@ -32,6 +34,12 @@ module SplitBase::Contracts
         errors.add :solution_category, message
       end
     end
+
+    # def categories_is_not_empty_if_version_greater_8
+    #   return if !logic_version || logic_version.version < 8 || solution_category
+    #   errors.add :solution_category,
+    #              I18n.t('offer.validations.needs_solution_category')
+    # end
   end
 
   class Update < Create

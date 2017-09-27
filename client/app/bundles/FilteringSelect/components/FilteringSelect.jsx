@@ -25,13 +25,14 @@ export default class FilteringSelect extends React.Component {
 
   render() {
     const {
-      classNameWithChanged, attribute, errorClassName, errors, label, loadOptions,
+      classNameWithChanged, wrapperClassNameWithChanged, attribute,
+      errorClassName, errors, label, loadOptions,
       onChange, value, multi, placeholder, children, disabled,
       options, isLoading, onInputChange, showSelect, formId, model,
     } = this.props
 
     return (
-      <div className={classNameWithChanged}>
+      <div className={wrapperClassNameWithChanged}>
         <Label
           formId={formId} model={model || 'generic'} attribute={attribute}
           content={label}
