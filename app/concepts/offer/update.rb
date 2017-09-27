@@ -43,6 +43,10 @@ class Offer::Update < Trailblazer::Operation
     result.success?
   end
 
+  def triggerable_event?(model, potential_event_name)
+    model.aasm.events.map(&:name).include?(potential_event_name.to_sym)
+  end
+
   def generate_translations!(opts, changed_state: false, model:, params:, **)
     changes = opts['contract.default'].changed
     fields = model.translated_fields.select { |f| changes[f.to_s] }
@@ -51,5 +55,13 @@ class Offer::Update < Trailblazer::Operation
       model.generate_translations! fields.any? ? fields : :all
     end
     true
+  end
+
+  ### non-step functions ###
+
+  def add_all_errors(from_contract, to_contract)
+    from_contract.errors.each do |key, message|
+      to_contract.errors.add(key, message)
+    end
   end
 end
