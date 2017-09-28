@@ -2,15 +2,17 @@
 module Lib
   module Macros
     module State
-      def self.Contract(settings)
+      def self.Contract(options_or_contract)
         step = ->(operation, params:, **) do
           requested_event = state_change_param(params)
 
           operation['contract.default.class'] =
-            if requested_event && settings[requested_event.to_sym]
-              settings[requested_event.to_sym]
+            if requested_event && options_or_contract[requested_event.to_sym]
+              options_or_contract[requested_event.to_sym]
+            elsif options_or_contract.is_a?(Hash) && options_or_contract[:else]
+              options_or_contract[:else]
             else
-              settings[:else]
+              options_or_contract
             end
 
           true

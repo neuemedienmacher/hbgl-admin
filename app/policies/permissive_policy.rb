@@ -7,4 +7,8 @@ class PermissivePolicy < ApplicationPolicy
   def update?
     true
   end
+
+  def change_state?
+    true
+  end
 end

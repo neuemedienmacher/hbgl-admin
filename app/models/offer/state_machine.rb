@@ -46,8 +46,7 @@ module Offer::StateMachine
         transitions from: :completed, to: :approval_process # , guard: :different_actor?
       end
 
-      event :approve, before: :set_approved_information, guards: :approvable?,
-                      success: :generate_translations! do
+      event :approve, before: :set_approved_information, guards: :approvable? do
         transitions from: :approval_process, to: :seasonal_pending,
                     guard: :seasonal_offer_not_yet_to_be_approved?
         transitions from: :checkup_process, to: :seasonal_pending,

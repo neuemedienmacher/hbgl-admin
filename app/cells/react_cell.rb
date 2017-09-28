@@ -35,7 +35,7 @@ class ReactCell < Cell::ViewModel
         },
         actions: {
           organizations: Organization.aasm.events.map(&:name),
-          offers: Organization.aasm.events.map(&:name),
+          offers: Offer.aasm.events.map(&:name),
           divisions: %w(mark_as_done mark_as_not_done)
         }
       }

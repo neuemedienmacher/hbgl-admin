@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 class ExportsController < ApplicationController
-  include RemoteShow
-
   def create
     params['export'] = snake_case_export_hash(params['export'])
     result = Export::Create.(params, 'current_user' => current_user)
