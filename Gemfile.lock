@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: e69c1f060f21e5db6bdd7177ba639addaed1d1b1
+  revision: f700bc944228fab62ef95072cc85f3940293ff6d
   specs:
     clarat_base (0.1.4)
       aasm
@@ -531,7 +531,7 @@ GEM
       rails (>= 3.2)
       rainbow (~> 2.1)
     redcarpet (3.4.0)
-    redis (3.3.3)
+    redis (3.3.5)
     redis-namespace (1.5.3)
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
