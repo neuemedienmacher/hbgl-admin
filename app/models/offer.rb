@@ -32,7 +32,7 @@ class Offer < ActiveRecord::Base
     self.generate_translations!
   end
 
-# NOTE remove this when offer creation in old backend is removed
+  # NOTE remove this when offer creation in old backend is removed
   def after_commit
     fields = self.changed_translatable_fields
     return true if fields.empty?
