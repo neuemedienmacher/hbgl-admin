@@ -56,13 +56,17 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:tags) { tag_string(locale) }
+          attribute(:tags) { tag_names(locale) }
           attribute(:definitions) { definitions_string(locale) }
           attribute(:_tags) { _categories(locale) }
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:category_names) { category_names(locale) }
-          attribute(:category_keywords) { category_keywords(locale) }
+          attribute(:tag_keywords) { tag_keywords(locale) }
+          attribute(:tag_explanations) { tag_explanations(locale) }
+          attribute(:solution_category) { solution_category.name }
+          attribute(:trait_filter) { trait_filters.map(&:name) }
+          attribute(:language_filter) { language_filters.map(&:name) }
           add_attribute(*attributes)
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
