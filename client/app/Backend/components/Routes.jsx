@@ -56,6 +56,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='divisions'>
@@ -83,12 +84,14 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='subscriptions'>
             <IndexRoute component={Index}/>
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='update-requests'>
@@ -118,6 +121,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='tags'>
@@ -126,6 +130,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='definitions'>
@@ -134,6 +139,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='federal-states'>
@@ -148,6 +154,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='emails'>
@@ -155,6 +162,7 @@ export default class Routes extends React.Component {
             <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='solution-categories'>
@@ -163,6 +171,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
             <Route path=':id/edit' component={GenericForm} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           <Route path='websites'>
@@ -170,6 +179,7 @@ export default class Routes extends React.Component {
             <Route path='new' component={GenericForm} />
             <Route path='export' component={Export} />
             <Route path=':id' component={Show} />
+            <Route path=':id/delete' component={Delete} />
           </Route>
 
           /*

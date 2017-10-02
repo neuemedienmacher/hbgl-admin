@@ -7,14 +7,16 @@ describe API::V1::NextStepsController do
   let(:user) { users(:researcher) }
   before { sign_in users(:researcher) }
 
-  it '#index should respond to jsonapi requests' do
-    sign_in user
-    api_get_works_for :index
+  it 'deletes' do
+    sign_in users(:researcher)
+    delete_works_for ::NextStep, 1
   end
+  # it 'creates' do
+  #   sign_in users(:researcher)
+  #   create_works_with ::NextStep, text_de: 'de', text_en: 'en'
+  # end
   it { api_get_works_for :index }
 
   it { has_no_route_for :get, :show }
-  it { has_no_route_for :post, :create }
   it { has_no_route_for :patch, :update }
-  it { has_no_route_for :delete, :destroy }
 end
