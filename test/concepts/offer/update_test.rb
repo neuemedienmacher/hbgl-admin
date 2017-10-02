@@ -140,30 +140,36 @@ class OfferUpdateTest < ActiveSupport::TestCase
   describe 'state change side-effects' do
     it 'wont change state without a correct meta commit action' do
       new_offer.aasm_state.must_equal 'initialized'
-      operation_must_work(
-        ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
-                         'meta' => { 'commit' => 'doesntexist' }
-      )
+      assert_no_difference 'Statistic.count' do
+        operation_must_work(
+          ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
+                           'meta' => { 'commit' => 'doesntexist' }
+        )
+      end
       new_offer.reload.aasm_state.must_equal 'initialized'
     end
 
     it 'will abort all execution if the event is not allowed' do
       new_offer.aasm_state.must_equal 'initialized'
       Offer.any_instance.expects(:may_complete?).returns false
-      operation_wont_work(
-        ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
-                         'meta' => { 'commit' => 'complete' }
-      )
+      assert_no_difference 'Statistic.count' do
+        operation_wont_work(
+          ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
+                           'meta' => { 'commit' => 'complete' }
+        )
+      end
       new_offer.reload.aasm_state.must_equal 'initialized'
     end
 
     it 'changes to complete state with the correct meta action' do
       new_offer.aasm_state.must_equal 'initialized'
       new_offer.valid?.must_equal true
-      operation_must_work(
-        ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
-                         'meta' => { 'commit' => 'complete' }
-      )
+      assert_difference 'Statistic.count', 1 do
+        operation_must_work(
+          ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
+                           'meta' => { 'commit' => 'complete' }
+        )
+      end
       new_offer.reload.aasm_state.must_equal 'completed'
     end
   end

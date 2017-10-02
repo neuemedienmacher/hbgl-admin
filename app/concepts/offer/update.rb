@@ -29,10 +29,12 @@ class Offer::Update < Trailblazer::Operation
   step :set_next_steps_sort_value
   step :generate_translations!
 
-  def change_state_side_effect(options, model:, params:, **)
+  def change_state_side_effect(options, model:, params:, current_user:, **)
     commit = params['meta'] && params['meta']['commit']
     return true unless commit && triggerable_event?(model, commit)
-    result = ::Offer::ChangeState.({ id: model.id }, 'event' => commit)
+    result = ::Offer::ChangeState.(
+      { id: model.id }, 'event' => commit, 'current_user' => current_user
+    )
     # add errors of side-effect operation to the errors of this operation
     if result.success?
       options['changed_state'] = true
