@@ -114,7 +114,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
 
   static get requiredInputs() {
     return concat(
-      OrgaCreateFormObject.requiredInputs, ['description', 'legal-form']
+      OrgaCreateFormObject.requiredInputs, ['legal-form']
     )
   }
 

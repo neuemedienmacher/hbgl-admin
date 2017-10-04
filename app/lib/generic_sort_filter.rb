@@ -36,7 +36,7 @@ module GenericSortFilter
   end
 
   def self.fill_param_defaults(params)
-    params[:sort_field] = 'id' if (!params[:sort_field]) # TODO: handle models that don't have 'id' field
+    params[:sort_field] = 'id' unless params[:sort_field] # TODO: handle models that don't have 'id' field
     params
   end
 

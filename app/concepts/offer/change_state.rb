@@ -22,7 +22,7 @@ class Offer::ChangeState < Trailblazer::Operation
   end
 
   def save_statistic_for_transition(
-    options, model:, current_user:, before_state:, **
+    _, model:, current_user:, before_state:, **
   )
     Statistic::UserAndParentTeamsCountHandler.record(
       current_user, model.class.name, 'aasm_state',
