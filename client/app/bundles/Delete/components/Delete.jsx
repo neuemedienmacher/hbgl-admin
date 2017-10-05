@@ -16,8 +16,8 @@ export default class Delete extends Component {
           <hr />
           <p>
             Hinweis: Du bist im Begriff, ein Objekt fast unwiederbringlich zu
-            löschen. Wenn du dir nicht sicher bist, ob den nachfolgenden Button
-            wirklich drücken solltest, dann tue das besser nicht.
+            löschen. Wenn du dir nicht sicher bist, ob du den nachfolgenden
+            Button wirklich drücken solltest, dann tue das besser nicht.
           </p>
           <hr />
           <FormButton ajax
