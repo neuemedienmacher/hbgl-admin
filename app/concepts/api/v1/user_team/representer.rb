@@ -23,6 +23,11 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :classification
+            property :lead_id
+            property :parent_id
+            property :user_ids
+            property :observing_user_ids
           end
         end
 
@@ -32,6 +37,12 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :email
+            property :role
+            property :active
+            property :user_team_ids
+            property :led_team_ids
+            property :observed_user_team_ids
           end
         end
 
@@ -41,6 +52,12 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :email
+            property :role
+            property :active
+            property :user_team_ids
+            property :led_team_ids
+            property :observed_user_team_ids
           end
         end
 
@@ -50,6 +67,12 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :email
+            property :role
+            property :active
+            property :user_team_ids
+            property :led_team_ids
+            property :observed_user_team_ids
           end
         end
       end
