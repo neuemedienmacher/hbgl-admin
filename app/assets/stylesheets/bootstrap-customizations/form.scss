@@ -84,4 +84,9 @@
     background-color: var(--main-orange);
     color: #fff;
   }
+
+  &.btn-danger,
+  &.btn-danger:hover {
+    background-color: #c9302c;
+  }
 }
