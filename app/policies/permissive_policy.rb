@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class OrganizationPolicy < ApplicationPolicy
+class PermissivePolicy < ApplicationPolicy
   def create?
     true
   end

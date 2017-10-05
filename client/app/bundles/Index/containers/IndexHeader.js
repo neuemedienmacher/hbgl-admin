@@ -16,14 +16,13 @@ const mapStateToProps = (state, ownProps) => {
   )
   const filters = toObject(filterArray)
   const plusButtonDisabled = ownProps.params.hasOwnProperty('filters[id]')
+  const filterKeys = filterArray.map(function(key) { return key[0] })
+  filterParams(ownProps.params)
   const generalActions = settings.index[ownProps.model].general_actions
   const routes = generalRoutes(ownProps.model, ownProps.params).filter(route =>
     generalActions.includes(route.action)
   )
-  const filterKeys = filterArray.map(function(key) { return key[0] })
-  filterParams(ownProps.params)
   const params = ownProps.params
-
   return {
     params,
     filters,
@@ -68,7 +67,7 @@ const generalRoutes = (model, params) => [
     id: 3,
     action: 'export',
     pathname: `/${model}/export`,
-    query: params,
+    hash: `?${jQuery.param(params)}`,
     anchor: 'Export'
   }
 ]

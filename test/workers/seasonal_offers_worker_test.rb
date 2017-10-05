@@ -9,10 +9,10 @@ class SeasonalOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     today = Time.zone.today
     starts_today = FactoryGirl.create :offer, aasm_state: 'seasonal_pending',
                                               starts_at: today,
-                                              expires_at: today + 90.days
+                                              ends_at: today + 90.days
     starts_later = FactoryGirl.create :offer, aasm_state: 'seasonal_pending',
                                               starts_at: today + 30.days,
-                                              expires_at: today + 90.days
+                                              ends_at: today + 90.days
     worker.perform
     starts_today.reload.must_be :approved?
     starts_later.reload.must_be :seasonal_pending?
@@ -23,10 +23,10 @@ class SeasonalOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     today = Time.zone.today
     starts_soon = FactoryGirl.create :offer, aasm_state: 'paused',
                                              starts_at: today + 30.days,
-                                             expires_at: today + 90.days
+                                             ends_at: today + 90.days
     starts_later = FactoryGirl.create :offer, aasm_state: 'paused',
                                               starts_at: today + 60.days,
-                                              expires_at: today + 90.days
+                                              ends_at: today + 90.days
     Offer.any_instance.expects(:index!).never
     AsanaCommunicator.any_instance.expects(
       :create_seasonal_offer_ready_for_checkup_task
@@ -41,16 +41,16 @@ class SeasonalOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
     today = Time.zone.today
     Timecop.freeze(today - 1.day)
     normal_offer = FactoryGirl.create :offer, aasm_state: 'approved',
-                                              expires_at: today
+                                              ends_at: today
     seasonal_offer = FactoryGirl.create :offer, aasm_state: 'approved',
                                                 starts_at: today - 30.days,
-                                                expires_at: today
+                                                ends_at: today
     Timecop.return
     Offer.any_instance.expects(:index!).once
     worker.perform
     normal_offer.reload.must_be :approved?
     seasonal_offer.reload.must_be :paused?
     seasonal_offer.reload.starts_at.must_equal(today - 30.days + 1.year)
-    seasonal_offer.reload.expires_at.must_equal(today + 1.year)
+    seasonal_offer.reload.ends_at.must_equal(today + 1.year)
   end
 end

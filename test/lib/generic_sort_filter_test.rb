@@ -89,12 +89,6 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   end
 
   describe '#transform_by_ordering' do
-    it 'wont transform without a sort_field' do
-      invalid_query.expects(:order).never
-      result = subject.send(:transform_by_ordering, invalid_query, {})
-      result.must_equal invalid_query
-    end
-
     it 'will order with a sort_field but without sort_model (query model)' do
       params = { sort_field: 'foo' }
       query.expects(:order).with('offers.foo DESC')

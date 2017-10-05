@@ -52,16 +52,14 @@ export default class FormInputs extends React.Component {
           return(
             <FilteringSelect multi key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
-              wrapperClassName='form-group' className='form-control'
-              disabled={disabled} {...input}
+              wrapperClassName='form-group' disabled={disabled} {...input}
             />
           )
         case 'filtering-select':
           return(
             <FilteringSelect key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
-              wrapperClassName='form-group' className='form-control'
-              disabled={disabled} {...input}
+              wrapperClassName='form-group' disabled={disabled} {...input}
             />
           )
         case 'creating-multiselect':

@@ -29,6 +29,8 @@ function routeForAction(action, model, id, entity) {
       return `/${model}/${id}`
     case 'delete':
       return `/${model}/${id}/delete`
+    case 'duplicate':
+      return `/${model}/${id}/duplicate`
     case 'show-assignable':
     case 'edit-assignable':
       let assignableModel = pluralize(kebabCase(entity['assignable-type']))
@@ -48,7 +50,7 @@ function visibleFor(action, model, id, entity) {
     case 'open_url':
       return !!entity
     default:
-      return true
+      return !!id
   }
 }
 
@@ -69,6 +71,8 @@ function iconFor(action) {
       return 'fa fa-pencil-square-o'
     case 'open_url':
       return 'fa fa-external-link'
+    case 'duplicate':
+      return 'fa fa-files-o'
   }
 }
 

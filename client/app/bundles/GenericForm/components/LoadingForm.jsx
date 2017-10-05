@@ -19,7 +19,7 @@ export default class LoadingForm extends React.Component {
     const { model, editId, loadedOriginalData } = this.props
 
     if (!editId || loadedOriginalData) {
-      return <Form model={model} editId={editId} />
+      return <Form {...this.props} />
     } else {
       return <p>Loading...</p>
     }

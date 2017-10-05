@@ -13,8 +13,6 @@ describe API::V1::DivisionsController do
 
   it 'deletes an object' do
     sign_in user
-    delete :destroy, id: 1
-    assert_response 200
-    assert_nil Division.where(id: 1).first
+    delete_works_for ::Division, 1
   end
 end

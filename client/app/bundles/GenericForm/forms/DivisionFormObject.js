@@ -1,7 +1,7 @@
-import { FormObject, JsonApiAdapter } from 'rform'
+import GenericFormObject from '../lib/GenericFormObject'
 import WebsiteFormObject from './WebsiteFormObject'
 
-export default class DivisionFormObject extends FormObject {
+export default class DivisionFormObject extends GenericFormObject {
   static get model() {
     return 'division'
   }
@@ -54,10 +54,6 @@ export default class DivisionFormObject extends FormObject {
       comment: { type: 'textarea' },
       size: { type: 'select', options: ['small', 'medium', 'large'] },
     }
-  }
-
-  static get ajaxAdapter() {
-    return JsonApiAdapter
   }
 
   static get requiredInputs() {

@@ -3,7 +3,7 @@
 # Expects params like {model_fields: [:foo], users: [:name, :bar], comments: []}
 class Export::Create < Trailblazer::Operation
   step :instantiate_model
-  step Policy::Pundit(ExportPolicy, :create?)
+  step Policy::Pundit(PermissivePolicy, :create?)
   step :validate_and_sanitize_params
   step :set_requested_fields
 

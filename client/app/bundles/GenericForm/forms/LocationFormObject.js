@@ -32,11 +32,12 @@ export default class LocationFormObject extends GenericFormObject {
   }
 
   static get submodels() {
-    return ['city', 'federal-state']
+    return ['city', 'federal-state', 'organization']
   }
 
   static get submodelConfig() {
     return {
+      organization: { relationship: 'oneToOne' },
       city: { relationship: 'oneToOne' },
       'federal-state': { relationship: 'oneToOne' },
     }

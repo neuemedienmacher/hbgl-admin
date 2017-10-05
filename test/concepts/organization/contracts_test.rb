@@ -29,12 +29,13 @@ class OrganizationContractsTest < ActiveSupport::TestCase
       # fails when more than one are hq
       subject.locations =
         [OpenStruct.new(id: 1, hq?: true), OpenStruct.new(id: 2, hq?: true)]
+      subject.errors.delete :locations
       subject.valid?
       subject.errors.messages[:locations].must_include message
 
       # fails when none are hq
-      subject.errors.delete :locations
       subject.locations = [OpenStruct.new(hq?: false)]
+      subject.errors.delete :locations
       subject.valid?
       subject.errors.messages[:locations].must_include message
     end

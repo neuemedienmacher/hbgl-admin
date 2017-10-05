@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   # shouldn't consider "new" to be a slug
   get 'organizations/new', controller: :pages, action: :react
   get 'offers/new', controller: :pages, action: :react
-  resources :offers, only: :show
 
   # resources :organizations do
   #   collection do
@@ -99,7 +98,7 @@ Rails.application.routes.draw do
       api_resources :divisions
       api_resources :statistics, only: [:index]
       api_resources :users, only: [:index, :show, :update]
-      api_resources :websites, only: [:index, :show, :create]
+      api_resources :websites
       api_resources :offer_translations, only: [:index, :show, :update]
       api_resources :organization_translations, only: [:index, :show, :update]
       api_resources :statistic_charts, except: [:destroy]
@@ -110,17 +109,18 @@ Rails.application.routes.draw do
       api_resources :definitions
       api_resources :solution_categories
       api_resources :sections, only: [:index, :show]
-      api_resources :subscriptions, only: [:index, :show]
+      api_resources :subscriptions, only: [:index, :show, :destroy]
       api_resources :update_requests, only: [:index, :show]
       api_resources :cities, only: [:index, :show]
       api_resources :areas, only: [:index, :show]
       api_resources :topics, only: [:index, :show]
       api_resources :federal_states, only: [:index, :show]
       api_resources :contact_people
-      api_resources :emails, only: [:index, :show]
+      api_resources :emails
       api_resources :filters, only: [:index, :show]
-      api_resources :next_steps, only: [:index, :show]
-      api_resources :tags, only: [:index, :show]
+      api_resources :target_audience_filters_offers, only: [:index, :show]
+      api_resources :next_steps
+      api_resources :tags
       api_resources :logic_versions, only: [:index, :show]
       api_resources :assignments, only: [:index, :show, :create, :update]
       post 'time_allocations/:year/:week_number',  controller: :time_allocations,

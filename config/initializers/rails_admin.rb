@@ -69,7 +69,7 @@ RailsAdmin.config do |config|
     clone do
       except [
         'Section', 'City', 'TargetAudienceFiltersOffer', 'Division',
-        'Organization', 'Opening', 'Tag', 'Definition', 'SplitBase'
+        'Organization', 'Opening', 'Tag', 'Definition', 'SplitBase', 'Offer'
       ]
     end
     # nested_set do
@@ -296,23 +296,24 @@ RailsAdmin.config do |config|
 
   config.model 'SplitBase' do
     weight(-4)
-    field(:id) { read_only true }
-    field :title do
-      help do
-        'Erforderlich. Anbieterwording. Direkt von der Anbieterseite kopieren.'
-      end
-    end
-    field :clarat_addition do
-      help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
-    end
-    field :divisions do
-      queryable true
-      searchable [:id, :addition]
-    end
-    field :solution_category do
-      help { 'Erforderlich ab Version 8.'}
-    end
-    field :comments
+    # field(:id) { read_only true }
+    # field :title do
+    #   help do
+    #     'Erforderlich. Anbieterwording. Direkt von der Anbieterseite kopieren.'
+    #   end
+    # end
+    # field :clarat_addition do
+    #   help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
+    # end
+    # field :divisions do
+    #   queryable true
+    #   searchable [:id, :addition]
+    # end
+    # field :solution_category do
+    #   help { 'Erforderlich ab Version 8.'}
+    # end
+    # field :comments
+    # field :code_word
 
     list do
       field :offers
@@ -337,7 +338,6 @@ RailsAdmin.config do |config|
           Creator::Twin.new(bindings[:object]).creator
         end
       end
-      field :expires_at
       field :logic_version
       field :location
       field :approved_at
@@ -347,102 +347,101 @@ RailsAdmin.config do |config|
       field :created_by
     end
 
-    field :section
-    field :split_base do
-      help { 'Erforderlich ab Version 7.'}
-      queryable true
-      searchable [:id, :clarat_addition, :title]
-    end
-    field :all_inclusive
-    field :name do
-      css_class 'js-category-suggestions__trigger'
-    end
-    field :description do
-      css_class 'js-count-character'
-    end
-    field :notes
-    field :next_steps do
-      css_class 'js-next-steps-offers'
-    end
-    field :old_next_steps do
-      read_only false # set to true once deprecated
-    end
-    field :code_word
-    field :contact_people
-    field :hide_contact_people do
-      help do
-        "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
-      end
-    end
-    field :encounter
-    field :slug do
-      read_only true
-    end
-    field :location
-    field :area
-    field :categories do
-      label 'Problem categories'
-      inline_add false
-      css_class 'js-category-suggestions'
-    end
-    field :tags do
-      inverse_of :offers
-    end
-    field :solution_category do
-      inline_add false
-      inline_edit false
-      help { 'Erforderlich ab Version 8.'}
-    end
-    field :trait_filters
-    field :language_filters do
-      inline_add false
-    end
-    # field :target_audience_filters do
+    # field :section
+    # field :split_base do
+    #   help { 'Erforderlich ab Version 7.'}
+    #   queryable true
+    #   searchable [:id, :clarat_addition, :title]
+    # end
+    # field :all_inclusive
+    # field :name do
+    #   css_class 'js-category-suggestions__trigger'
+    # end
+    # field :description do
+    #   css_class 'js-count-character'
+    # end
+    # field :notes
+    # field :next_steps do
+    #   css_class 'js-next-steps-offers'
+    # end
+    # field :old_next_steps do
+    #   read_only false # set to true once deprecated
+    # end
+    # field :contact_people
+    # field :hide_contact_people do
+    #   help do
+    #     "Versteckt alle nicht-SPoC Kontaktpersonen in der Angebotsübersicht."
+    #   end
+    # end
+    # field :encounter
+    # field :slug do
+    #   read_only true
+    # end
+    # field :location
+    # field :area
+    # field :categories do
+    #   label 'Problem categories'
+    #   inline_add false
+    #   css_class 'js-category-suggestions'
+    # end
+    # field :tags do
+    #   inverse_of :offers
+    # end
+    # field :solution_category do
+    #   inline_add false
+    #   inline_edit false
+    #   help { 'Erforderlich ab Version 8.'}
+    # end
+    # field :trait_filters
+    # field :language_filters do
+    #   inline_add false
+    # end
+    # # field :target_audience_filters do
+    # #   help do
+    # #     'Richtet sich das Angebot direkt an das Kind, oder an Erwachsene wie
+    # #     z.B. die Eltern, einen Nachbarn oder einen Lotsen'
+    # #   end
+    # # end
+    # field :target_audience_filters_offers do
+    #   visible do
+    #     !bindings[:object].new_record?
+    #   end
     #   help do
     #     'Richtet sich das Angebot direkt an das Kind, oder an Erwachsene wie
     #     z.B. die Eltern, einen Nachbarn oder einen Lotsen'
     #   end
     # end
-    field :target_audience_filters_offers do
-      visible do
-        !bindings[:object].new_record?
-      end
-      help do
-        'Richtet sich das Angebot direkt an das Kind, oder an Erwachsene wie
-        z.B. die Eltern, einen Nachbarn oder einen Lotsen'
-      end
-    end
-    field :openings
-    field :opening_specification do
-      help do
-        'Bitte achtet auf eine einheitliche Ausdrucksweise.'
-      end
-    end
-    field :websites
-    field :starts_at do
-      help do
-        'Optional. Nur für saisonale Angebote ausfüllen!'
-      end
-    end
-    field :expires_at
-    field :logic_version
-    field :aasm_state do
-      read_only true
-      help false
-    end
-
-
-    # Hidden fields
-    edit do
-      field :created_by, :hidden do
-        visible do
-          bindings[:object].new_record?
-        end
-        default_value do
-          bindings[:view]._current_user.id
-        end
-      end
-    end
+    # field :openings
+    # field :opening_specification do
+    #   help do
+    #     'Bitte achtet auf eine einheitliche Ausdrucksweise.'
+    #   end
+    # end
+    # field :websites
+    # field :starts_at do
+    #   help do
+    #     'Optional. Nur für saisonale Angebote ausfüllen!'
+    #   end
+    # end
+    # field :expires_at
+    # field :logic_version
+    # field :aasm_state do
+    #   read_only true
+    #   help false
+    # end
+    #
+    #
+    # # Hidden fields
+    # edit do
+    #   field :created_by, :hidden do
+    #     visible do
+    #       bindings[:object].new_record?
+    #     end
+    #     default_value do
+    #       bindings[:view]._current_user.id
+    #     end
+    #   end
+    # end
 
     show do
       field :created_at do
@@ -483,13 +482,13 @@ RailsAdmin.config do |config|
       end
     end
 
-    clone_config do
-      custom_method :partial_dup
-    end
-
-    export do
-      field :id
-    end
+    # clone_config do
+    #   custom_method :partial_dup
+    # end
+    #
+    # export do
+    #   field :id
+    # end
   end
 
   config.model 'TargetAudienceFiltersOffer' do

@@ -27,6 +27,12 @@ export default class Navigation extends React.Component {
         <Link to='/statistics/ratio-overview' className='list-group-item'>
           Angebote pro Orgas
         </Link>
+        <Link to='/statistics/screening-overview' className='list-group-item'>
+          Screening Orgas
+        </Link>
+        <Link to='/statistics/topic-overview' className='list-group-item'>
+          Orga Topics
+        </Link>
         {/*
         <Link to='/statistics/offer-created' className='list-group-item'>
           Angebote Erstellt

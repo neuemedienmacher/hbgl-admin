@@ -14,7 +14,7 @@ export default class CreatingSelect extends React.Component {
     return (
       <div>
         <FilteringSelect multi={multi}
-          wrapperClassName='form-group' className='form-control'
+          wrapperClassName='form-group'
           formId={formId} showSelect={showSelect} model={model}
           disabled={disabled} label={input.attribute} {...input}
         >
