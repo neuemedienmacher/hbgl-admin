@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, Input, InputSet } from 'rform'
+import Counter from '../addons/containers/Counter'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 
@@ -53,7 +54,11 @@ export default class FormInputs extends React.Component {
             <FilteringSelect multi key={index}
               formId={formId} model={model} formObjectClass={formObjectClass}
               wrapperClassName='form-group' disabled={disabled} {...input}
-            />
+            >
+              {input.addons.map(
+                this.renderAddon(input, formId, formObjectClass)
+              )}
+            </FilteringSelect>
           )
         case 'filtering-select':
           return(
@@ -68,7 +73,11 @@ export default class FormInputs extends React.Component {
               formId={formId} model={model} formObjectClass={formObjectClass}
               input={input} submodelPath={submodelPath} disabled={disabled}
               filters={input.filters}
-            />
+            >
+              {input.addons.map(
+                this.renderAddon(input, formId, formObjectClass)
+              )}
+            </CreatingSelect>
           )
         case 'creating-select':
           return(
@@ -85,8 +94,28 @@ export default class FormInputs extends React.Component {
               wrapperClassName='form-group' className='form-control'
               attribute={input.attribute} label={input.label}
               type={input.type} options={input.options} disabled={disabled}
+            >
+              {input.addons.map(
+                this.renderAddon(input, formId, formObjectClass)
+              )}
+            </InputSet>
+          )
+      }
+    }
+  }
+
+  renderAddon(input, formId, formObjectClass) {
+    return (addon) => {
+      switch(addon) {
+        case 'counter':
+          return(
+            <Counter
+              key={addon} input={input} formId={formId}
+              formObjectClass={formObjectClass}
             />
           )
+        default:
+          throw new Error(`Unknown FormInput Addon requested: ${addon}`)
       }
     }
   }

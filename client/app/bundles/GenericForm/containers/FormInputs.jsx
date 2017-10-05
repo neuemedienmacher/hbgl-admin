@@ -13,11 +13,13 @@ const mapStateToProps = (state, ownProps) => {
     label:
       property + (formObjectClass.requiredInputs.includes(property) ? '*' : ''),
     attribute: property,
+    config: config[property],
     type: config[property].type,
     options: config[property].options &&
       config[property].options.map(option => ({value: option, name: option})),
     resource: config[property].resource,
     params: config[property].params,
+    addons: config[property].addons || [],
     inverseRelationship:
       submodelConfig[property] && submodelConfig[property].inverseRelationship
   }))

@@ -17,3 +17,13 @@
 .form-group.changed label {
   padding-left: 5px;
 }
+
+.GenericFormAddon-Counter--under {
+  color: green;
+}
+.GenericFormAddon-Counter--equal {
+  color: darkorange;
+}
+.GenericFormAddon-Counter--over {
+  color: red;
+}
