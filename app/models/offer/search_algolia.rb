@@ -10,9 +10,8 @@ module Offer::SearchAlgolia
     algoliasearch do
       I18n.available_locales.each do |locale|
         index = %w(
-          name description code_word next_steps tag_keywords definitions
-          organization_names category_names stamps_string tags
-          tag_explanations solution_category trait_filter language_filter
+          name code_word tags tag_keywords tag_explanations description definitions
+          organization_names solution_category trait_filter language_filter
         )
         attributes = [:organization_count, :location_address, :location_name,
                       :slug, :encounter, :organization_names, :location_visible,
