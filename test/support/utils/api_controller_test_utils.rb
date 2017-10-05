@@ -57,6 +57,12 @@ module API
       response.body.must_include '{"errors":[{"title":'
     end
 
+    def delete_works_for klass, id
+      delete :destroy, id: id
+      assert_response 200
+      assert_nil klass.find_by(id: id)
+    end
+
     def has_no_route_for method, action
       assert_raises(ActionController::UrlGenerationError) do # No route matches
         send(method, action) # If this raises another error, the route exists

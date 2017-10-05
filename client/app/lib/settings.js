@@ -92,7 +92,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -104,7 +104,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -117,7 +117,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -143,7 +143,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -155,7 +155,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show'
+        'show', 'delete'
       ]
     },
 
@@ -168,7 +168,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -205,7 +205,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit', 'preview'
+        'show', 'edit', 'preview', 'delete'
       ]
     },
 
@@ -291,7 +291,7 @@ export default {
         'index'
       ],
       member_actions: [
-        'show'
+        'show', 'delete'
       ]
     },
 
@@ -303,7 +303,7 @@ export default {
         'index'
       ],
       member_actions: [
-        'show', 'open_url'
+        'show', 'open_url', 'delete'
       ]
     },
 
@@ -316,7 +316,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -329,7 +329,7 @@ export default {
         'index'
       ],
       member_actions: [
-        'show'
+        'show', 'delete'
       ]
     },
 

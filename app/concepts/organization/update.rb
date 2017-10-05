@@ -19,11 +19,11 @@ class Organization::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find :umbrella_filters, ::UmbrellaFilter
     step ::Lib::Macros::Nested::Find :topics, ::Topic
   }
+  step Contract::Persist()
   # step ::Lib::Macros::Debug::Breakpoint()
   step :change_state_side_effect # prevents persist on faulty state change
   step :assign_to_section_team_via_classification_on_complete
   step :assign_to_system_on_approve
-  step Contract::Persist()
   step :syncronize_done_state
   step :generate_translations!
 

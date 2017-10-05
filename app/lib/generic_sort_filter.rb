@@ -3,6 +3,7 @@
 module GenericSortFilter
   def self.transform(base_query, params)
     adjusted_params = snake_case_contents(params)
+    adjusted_params = fill_param_defaults(adjusted_params)
     query = ensure_query(base_query)
     query = transform_by_joining(query, adjusted_params)
     query = transform_by_ordering(query, adjusted_params)
@@ -32,6 +33,11 @@ module GenericSortFilter
     else
       value.underscore
     end
+  end
+
+  def self.fill_param_defaults(params)
+    params[:sort_field] = 'id' unless params[:sort_field] # TODO: handle models that don't have 'id' field
+    params
   end
 
   # In case only a model was passed in, to unify object handling, turn it into
@@ -81,7 +87,7 @@ module GenericSortFilter
   end
 
   def self.transform_by_ordering(query, params)
-    return query unless params[:sort_field]
+    # return query unless params[:sort_field]
     sort_string = params[:sort_field]
     sort_model =
       if params[:sort_model]

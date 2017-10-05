@@ -15,14 +15,14 @@ export default class Export extends Component {
 
   render() {
     const {
-      location, model
+      location, model, filterParams
     } = this.props
 
     return (
       <div className='content Export table-header'>
         <h2 className="page-title">{`Export: ${model}`}</h2>
-        <IndexHeader model={model} params={location.query} />
-        <ExportForm model={model} params={location.query} />
+        <IndexHeader model={model} params={filterParams} />
+        <ExportForm model={model} params={filterParams} />
       </div>
     )
   }
