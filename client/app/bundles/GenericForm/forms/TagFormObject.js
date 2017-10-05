@@ -13,8 +13,8 @@ export default class TagFormObject extends GenericFormObject {
     return [
       'name-de', 'keywords-de', 'explanations-de', 'name-en', 'keywords-en',
       'explanations-en', 'name-ar', 'keywords-ar', 'explanations-ar',
-      'name-fa', 'keywords-fa', 'explanations-fa', 'name-tr', 'name-pl',
-      'name-ru'
+      'name-fa', 'keywords-fa', 'explanations-fa', 'name-fr', 'name-tr',
+      'name-pl', 'name-ru'
     ]
   }
 
@@ -32,6 +32,7 @@ export default class TagFormObject extends GenericFormObject {
        'name-fa': { type: 'string' },
        'keywords-fa': { type: 'textarea' },
        'explanations-fa': { type: 'textarea' },
+       'name-fr': { type: 'string' },
        'name-tr': { type: 'string' },
        'name-pl': { type: 'string' },
        'name-ru': { type: 'string' }
