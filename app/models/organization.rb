@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base Organization
 require ClaratBase::Engine.root.join('app', 'models', 'organization')
 
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   # Admin specific methods
 
   EDITABLE_IN_STATES = %(
@@ -14,7 +15,8 @@ class Organization < ActiveRecord::Base
   include StateMachine
 
   # Concerns
-  include Translations, RailsAdminParamHack
+  include RailsAdminParamHack
+  include Translations
 
   # Validation Hack
   include ReformedValidationHack
@@ -22,8 +24,8 @@ class Organization < ActiveRecord::Base
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: [
-                    :id, :offers_count, :name, :aasm_state, :locations_count
+                  against: %i[
+                    id offers_count name aasm_state locations_count
                   ],
                   using: { tsearch: { prefix: true } }
 

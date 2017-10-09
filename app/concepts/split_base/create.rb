@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SplitBase::Create < Trailblazer::Operation
   step Model(::SplitBase, :new)
   step Policy::Pundit(SplitBasePolicy, :create?)

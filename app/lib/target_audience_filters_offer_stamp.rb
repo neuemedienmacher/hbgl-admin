@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This represents the entire stamp-generation and should stay together
 # rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/PerceivedComplexity
 class TargetAudienceFiltersOfferStamp
@@ -15,9 +16,9 @@ class TargetAudienceFiltersOfferStamp
   def self.generate_filters_offer_stamp section, filters_offer, ta, locale
     locale_entry = 'offer.stamp.target_audience.' + ta.to_s
 
-    if %w(family_children family_parents family_nuclear_family refugees_general
+    if %w[family_children family_parents family_nuclear_family refugees_general
           family_parents_to_be refugees_children refugees_parents_to_be
-          refugees_uf refugees_parents refugees_families ).include?(ta)
+          refugees_uf refugees_parents refugees_families ].include?(ta)
       locale_entry += send("stamp_#{ta}", filters_offer)
     end
     # build separate parts of stamp and join them with locale-specific format
@@ -237,7 +238,7 @@ class TargetAudienceFiltersOfferStamp
   end
 
   def self.stamp_child_age? filters_offer, ta
-    %w(family_parents family_relatives refugees_parents).include?(ta) &&
+    %w[family_parents family_relatives refugees_parents].include?(ta) &&
       !filters_offer.gender_second_part_of_stamp.nil? &&
       filters_offer.gender_second_part_of_stamp == 'neutral'
   end

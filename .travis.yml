@@ -9,7 +9,7 @@ before_script:
   - "npm install"
   - "cd client && npm run build:client"
 script:
-  - RAILS_ENV=test bundle exec rake test:all
+  - RAILS_ENV=test bundle exec rake test
 before_install:
   - "npm install -g npm@latest"
   - "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash"

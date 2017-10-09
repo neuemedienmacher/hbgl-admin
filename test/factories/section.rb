@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 FactoryGirl.define do
   factory :section do
     transient do
       _random do
-        [%w(family Family), %w(refugees Refugees)].sample
+        [%w[family Family], %w[refugees Refugees]].sample
       end
     end
     identifier { _random[0] }

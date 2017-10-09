@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require ClaratBase::Engine.root.join('app', 'models', 'organization')
 
 module Organization::StateMachine
@@ -101,8 +102,8 @@ module Organization::StateMachine
     # also try to approve all it's associated organization_deactivated,
     # expired and under_construction offers
     def reactivate_offers!
-      offers.where(aasm_state: %w(organization_deactivated expired
-                                  under_construction)).find_each do |o|
+      offers.where(aasm_state: %w[organization_deactivated expired
+                                  under_construction]).find_each do |o|
         # set checkup state on local offer instance (don't save this)
         o.aasm_state = 'checkup_process'
         # approve is possible (saves the instance). If approve is not possible

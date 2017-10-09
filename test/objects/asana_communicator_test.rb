@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 # Be quite, rubocop - this is a test class!
 class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
@@ -12,7 +13,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
     it 'should call #post_to_api with apropriate data' do
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
-        projects: %w(44856824806357), workspace: '41140436022602',
+        projects: %w[44856824806357], workspace: '41140436022602',
         name: 'foobar,bazfuz - 10000-01-01 01:00:00 +0100 - fam - basicOfferName',
         notes: 'Expired: http://claradmin.herokuapp.com/admin/offer/1/edit'
       )
@@ -36,7 +37,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       website = FactoryGirl.create :website, :own
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
-        projects: %w(147663824592112), workspace: '41140436022602',
+        projects: %w[147663824592112], workspace: '41140436022602',
         name: '[Offer website unreachable] family | Version: 1 | foobar,bazfuz | basicOfferName',
         notes: 'Deactivated: http://claradmin.herokuapp.com/admin/offer/1/edit'\
                " | Unreachable website: #{website.url}"
@@ -58,7 +59,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       website.offers = []
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
-        projects: %w(147663824592112), workspace: '41140436022602',
+        projects: %w[147663824592112], workspace: '41140436022602',
         name: '[Orga-website unreachable] bazfuz',
         notes: "Unreachable website: #{website.url}"
       )
@@ -74,7 +75,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
     it 'should call #post_to_api with apropriate data' do
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
-        projects: %w(147663824592112), workspace: '41140436022602',
+        projects: %w[147663824592112], workspace: '41140436022602',
         name: 'WV | Saisonales Angebot | Start date: 9999-01-01 | '\
               'foobar,bazfuz | basicOfferName',
         notes: 'http://claradmin.herokuapp.com/admin/offer/1/edit'

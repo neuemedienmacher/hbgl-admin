@@ -35,9 +35,6 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # Raise errors in after_rollback/after_commit callbacks
-  config.active_record.raise_in_transactional_callbacks = true
-
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 

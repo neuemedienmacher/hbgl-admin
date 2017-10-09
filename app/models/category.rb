@@ -1,14 +1,16 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base Category
 require ClaratBase::Engine.root.join('app', 'models', 'category')
 
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
   after_save :translate_if_name_en_changed
+  after_create :translate_if_name_en_changed
 
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: [:id, :name_de],
+                  against: %i[id name_de],
                   using: { tsearch: { prefix: true } }
 
   # Methods
@@ -27,7 +29,7 @@ class Category < ActiveRecord::Base
   private
 
   def translate_if_name_en_changed
-    return if !name_en_changed? && !@new_record_before_save
+    return if !saved_change_to_name_en? && !@new_record_before_save
     GengoCommunicator.new.create_translation_jobs(self, 'name')
   end
 end

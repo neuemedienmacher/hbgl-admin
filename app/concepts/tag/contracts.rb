@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Tag::Contracts
   class Create < Reform::Form
     property :name_de

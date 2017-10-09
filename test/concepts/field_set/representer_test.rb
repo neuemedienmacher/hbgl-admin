@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 
 class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
@@ -16,7 +17,7 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
 
   it 'should provide the correct associations for User class' do
     result = subject.new(User).to_hash
-    result['associations'][:statistics]['key'].must_equal %w(trackable_id trackable_type)
+    result['associations'][:statistics]['key'].must_equal %w[trackable_id trackable_type]
     result['associations'][:authored_notes]['key'].must_equal ['user_id']
     result['associations'][:user_team_users]['key'].must_equal ['user_id']
     result['associations'][:user_teams]['key'].must_equal ['users.id']
@@ -31,9 +32,9 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
 
   it 'should provide the correct associations for Organization class' do
     result = subject.new(Organization).to_hash
-    result['associations'][:assignments]['key'].must_equal %w(assignable_id assignable_type)
+    result['associations'][:assignments]['key'].must_equal %w[assignable_id assignable_type]
     result['associations'][:translations]['key'].must_equal ['organization_id']
-    result['associations'][:notes]['key'].must_equal %w(notable_id notable_type)
+    result['associations'][:notes]['key'].must_equal %w[notable_id notable_type]
     result['associations'][:locations]['key'].must_equal ['organization_id']
     result['associations'][:divisions]['key'].must_equal ['organization_id']
     result['associations'][:website]['key'].must_equal [''] # ignores belongs_to to associations
@@ -48,7 +49,7 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
 
   it 'should provide the correct associations for Division class' do
     result = subject.new(Division).to_hash
-    result['associations'][:assignments]['key'].must_equal %w(assignable_id assignable_type)
+    result['associations'][:assignments]['key'].must_equal %w[assignable_id assignable_type]
     result['associations'][:organization]['key'].must_equal [''] # ignores belongs_to to associations
     result['associations'][:section]['key'].must_equal [''] # ignores belongs_to to associations
     result['associations'][:city]['key'].must_equal [''] # ignores belongs_to to associations

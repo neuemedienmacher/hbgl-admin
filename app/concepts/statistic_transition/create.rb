@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StatisticTransition::Create < Trailblazer::Operation
   step Model(::StatisticTransition, :new)
   # policy ::StatisticTransitionPolicy, :create?

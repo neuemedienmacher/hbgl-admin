@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Offer::CommonSideEffects
   def set_next_steps_sort_value(options, model:, **)
     options['contract.default'].next_steps.map(&:id).each_with_index do |id, i|

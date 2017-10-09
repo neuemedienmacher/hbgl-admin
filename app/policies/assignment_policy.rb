@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AssignmentPolicy < ApplicationPolicy
   def create?
     user && (user.role == 'super' || user.role == 'researcher')

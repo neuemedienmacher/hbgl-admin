@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 
 describe Offer do
@@ -86,25 +87,25 @@ describe Offer do
           residency_status: 'with_deportation_decision',
           age_from: 14, age_to: 21
         )
-        offer._residency_status_filters.must_equal %w(with_deportation_decision)
+        offer._residency_status_filters.must_equal %w[with_deportation_decision]
         # add another one => both must be returned
         TargetAudienceFiltersOffer.create!(
           offer_id: offer.id, target_audience_filter_id: 4,
           residency_status: 'with_a_residence_permit',
           age_from: 14, age_to: 21
         )
-        offer._residency_status_filters.must_equal %w(
+        offer._residency_status_filters.must_equal %w[
           with_deportation_decision with_a_residence_permit
-        )
+        ]
         # add same residence_status again => result must be uniq
         TargetAudienceFiltersOffer.create!(
           offer_id: offer.id, target_audience_filter_id: 3,
           residency_status: 'with_a_residence_permit',
           age_from: 14, age_to: 22
         )
-        offer._residency_status_filters.must_equal %w(
+        offer._residency_status_filters.must_equal %w[
           with_deportation_decision with_a_residence_permit
-        )
+        ]
       end
     end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Website::Create < Trailblazer::Operation
   step :match_or_new
   step Policy::Pundit(PermissivePolicy, :create?)

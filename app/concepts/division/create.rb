@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative './sync_organization.rb'
 class Division::Create < Trailblazer::Operation
   include SyncOrganization

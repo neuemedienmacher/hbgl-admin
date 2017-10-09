@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'ffaker'
 
 FactoryGirl.define do
@@ -51,7 +52,7 @@ FactoryGirl.define do
     end
 
     trait :with_gender do
-      gender { %w(male female).sample }
+      gender { %w[male female].sample }
     end
 
     trait :with_name do

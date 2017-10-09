@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # PORO that handles counting up of all affected statistics (including all
 # weekly statistics of all parent_teams)
 class Statistic::UserAndParentTeamsCountHandler

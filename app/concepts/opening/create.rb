@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Opening::Create < Trailblazer::Operation
   step Model(::Opening, :new)
   step Policy::Pundit(PermissivePolicy, :create?)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ContactPersonTranslation::Update < Trailblazer::Operation
   step Model(::ContactPersonTranslation, :find_by)
 

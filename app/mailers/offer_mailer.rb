@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
 class OfferMailer < ActionMailer::Base
   add_template_helper(EmailHelper)
@@ -129,9 +130,9 @@ class OfferMailer < ActionMailer::Base
 
   def get_section_names_sorted_by_offer_count offers_hash
     if offers_hash['family'].count < offers_hash['refugees'].count
-      %w(family refugees)
+      %w[family refugees]
     else
-      %w(refugees family)
+      %w[refugees family]
     end
   end
 

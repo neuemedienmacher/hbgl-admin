@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # PORO for finding an exact matching TA or one that's historically closest
 class TimeAllocation::DynamicFind
   def initialize(user_id, year, week_number)

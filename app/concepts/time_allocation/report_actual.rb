@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TimeAllocation::ReportActual < Trailblazer::Operation
   step :dynamic_find_model
   step Policy::Pundit(TimeAllocationPolicy, :report_actual?)

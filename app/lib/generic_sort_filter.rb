@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ModuleLength
 module GenericSortFilter
   def self.transform(base_query, params)
@@ -13,9 +14,10 @@ module GenericSortFilter
 
   private_class_method
 
-  UNDERSCORABLE_PARAMS = [:sort_field, :sort_model, :filters, :operators].freeze
-  def self.snake_case_contents(original_params)
-    original_params.map do |string_key, value|
+  UNDERSCORABLE_PARAMS = %i[sort_field sort_model filters operators].freeze
+  def self.snake_case_contents(params)
+    new_hash = params.is_a?(Hash) ? params : params.to_unsafe_h
+    new_hash.map do |string_key, value|
       key = string_key.to_sym
       if UNDERSCORABLE_PARAMS.include?(key)
         [key, snake_case_value(value)]
@@ -47,7 +49,7 @@ module GenericSortFilter
   end
 
   def self.transform_by_searching(query, param)
-    if !param || param.empty? || query.search_pg(param).nil?
+    if param.blank? || query.search_pg(param).nil?
       query
     else
       query.search_pg(param).extend(EnableEagerLoading)

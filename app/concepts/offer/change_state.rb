@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Offer::ChangeState < Trailblazer::Operation
   step Model(::Offer, :find_by)
   step Policy::Pundit(PermissivePolicy, :change_state?)

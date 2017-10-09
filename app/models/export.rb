@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Non-Active-Record object to provide helper methods for exports
 # TODO: This isn't actually a model. Put this somewhere else.
 class Export
@@ -29,8 +30,6 @@ class Export
       yield object_instance
     end
   end
-
-  private
 
   # rubocop:disable Style/TrivialAccessors
   def object_query # TODO: joins for faster query & possibly search filter
@@ -99,6 +98,15 @@ class Export
       ' - '
     else
       dash_or associated_object[field]
+    end
+  end
+
+  def self.snake_case_export_hash(value)
+    if value.class.eql? ActionController::Parameters
+      value.to_unsafe_h
+           .map { |k, v| [k.underscore, snake_case_export_hash(v)] }.to_h
+    else
+      value.map(&:underscore) # our Export Hashes only include hashes & arrays
     end
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Division::MarkAsDone < Trailblazer::Operation
   # Expected options: divison, last_acting_user
   step :mark_as_done_and_assign_system!

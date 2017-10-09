@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 # rubocop:disable Metrics/ClassLength
 class GenericSortFilterTest < ActiveSupport::TestCase
@@ -9,13 +10,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#snake_case_contents' do
     it 'should transform kebab-case contents to snake_case' do
       params = {
-        sort_field: 'foo-bar', sort_model: %w(split-base baz-fuz),
+        sort_field: 'foo-bar', sort_model: %w[split-base baz-fuz],
         sort_direction: 'ASC',
         filters: { 'split-base.foo-bar' => 'dont-touch' }
       }
       result = subject.send(:snake_case_contents, params)
       result.must_equal(
-        sort_field: 'foo_bar', sort_model: %w(split_base baz_fuz),
+        sort_field: 'foo_bar', sort_model: %w[split_base baz_fuz],
         sort_direction: 'ASC',
         filters: { 'split_base.foo_bar' => 'dont-touch' }
       )
@@ -150,13 +151,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'filters for an array of owned field with default OR-joining' do
-      params = { filters: { 'foo' => %w(bar fuz) } }
+      params = { filters: { 'foo' => %w[bar fuz] } }
       query.expects(:where).with("foo = 'bar' OR foo = 'fuz'")
       subject.send(:transform_by_filtering, query, params)
     end
 
     it 'filters for an array of owned field with !=-operator and AND-joining' do
-      params = { filters: { 'x' => %w(bar fuz) }, operators: { 'x' => '!=' } }
+      params = { filters: { 'x' => %w[bar fuz] }, operators: { 'x' => '!=' } }
       query.expects(:where)
            .with("x != 'bar' OR x IS NULL AND x != 'fuz' OR x IS NULL")
       subject.send(:transform_by_filtering, query, params)
@@ -201,7 +202,7 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
     it 'parses date-times and converts them from CET to UTC' do
       params = { filters: { 'created_at' => '15.09.2014, 13:02:00+0200' } }
-      query.expects(:where).with("created_at = '2014-09-15T11:02:00+00:00'")
+      query.expects(:where).with("created_at = '2014-09-15 11:02:00 UTC'")
       subject.send(:transform_by_filtering, query, params)
     end
 

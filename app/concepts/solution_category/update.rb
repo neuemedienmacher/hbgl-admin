@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SolutionCategory::Update < Trailblazer::Operation
   step Model(::SolutionCategory, :find_by)
   step Policy::Pundit(SolutionCategoryPolicy, :update?)

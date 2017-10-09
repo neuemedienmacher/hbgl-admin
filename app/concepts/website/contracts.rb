@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Website::Contracts
   class Create < Reform::Form
     property :host

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Offer::Contracts
   class Create < Reform::Form
     # fill me!

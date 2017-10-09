@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 
 module API::V1::BackendTest
-  # rubocop:disable Style/EmptyLineBetweenDefs
+  # rubocop:disable Layout/EmptyLineBetweenDefs
   class PaginatedTestResult < Array
     def total_entries; 2; end
     def total_pages; 1; end
@@ -11,7 +12,7 @@ module API::V1::BackendTest
     def previous_page; nil; end
     def next_page; nil; end
   end
-  # rubocop:enable Style/EmptyLineBetweenDefs
+  # rubocop:enable Layout/EmptyLineBetweenDefs
 
   class Index < API::V1::Default::Index
     def find_result_set(options, *)

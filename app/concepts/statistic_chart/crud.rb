@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class StatisticChart < ActiveRecord::Base
+
+class StatisticChart < ApplicationRecord
   class Create < Trailblazer::Operation
     step Model(::StatisticChart, :new)
 

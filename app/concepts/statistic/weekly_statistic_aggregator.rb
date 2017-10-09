@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # PORO that aggregates daily statistic for a given week and comp them into
 # weekly ones
 class Statistic::WeeklyStatisticAggregator

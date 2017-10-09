@@ -1,14 +1,16 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base Location
 require ClaratBase::Engine.root.join('app', 'models', 'location')
 
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   # Admin specific methods
-  include PgSearch, ReformedValidationHack
+  include ReformedValidationHack
+  include PgSearch
 
   # Search
   pg_search_scope :search_pg,
-                  against: [:id, :display_name],
+                  against: %i[id display_name],
                   using: { tsearch: { prefix: true } }
 
   # Customize duplication.
@@ -25,9 +27,9 @@ class Location < ActiveRecord::Base
   before_hack :generate_display_name_for_rails_admin_too
   def generate_display_name_for_rails_admin_too
     display = organization_name.to_s
-    display += ", #{name}" unless name.blank?
+    display += ", #{name}" if name.present?
     display += " | #{street}"
-    display += ", #{addition}," unless addition.blank?
+    display += ", #{addition}," if addition.present?
     self.display_name = display + " #{zip} #{city_name}"
   end
 

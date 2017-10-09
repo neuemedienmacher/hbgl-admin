@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # class Export::Cell < Cell::Concept
 #   def show
 #     render :new

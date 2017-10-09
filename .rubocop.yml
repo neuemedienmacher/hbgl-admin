@@ -70,3 +70,6 @@ HttpPositionalArguments:
 # only alphabetical sort
 Bundler/OrderedGems:
   Enabled: false
+
+SkipsModelValidations:
+  Enabled: false

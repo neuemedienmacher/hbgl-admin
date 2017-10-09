@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Creator
   class Twin < Disposable::Twin
     property :created_by

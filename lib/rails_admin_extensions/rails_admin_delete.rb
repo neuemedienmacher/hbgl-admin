@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_admin/config/actions'
 require 'rails_admin/config/actions/base'
 
@@ -17,7 +18,7 @@ module RailsAdmin
         end
 
         register_instance_option :http_methods do
-          [:get, :delete]
+          %i[get delete]
         end
 
         register_instance_option :authorization_key do
@@ -41,7 +42,7 @@ module RailsAdmin
               @auditing_adapter && @auditing_adapter.delete_object(@object, @abstract_model, _current_user)
               if @object.destroy
                 flash[:success] = t('admin.flash.successful', name: @model_config.label, action: t('admin.actions.delete.done'))
-                redirect_path = redirect_to_special_path && !@object.offer_id.blank? ? "/admin/offer/#{@object.offer_id}/edit" : index_path
+                redirect_path = redirect_to_special_path && @object.offer_id.present? ? "/admin/offer/#{@object.offer_id}/edit" : index_path
               else
                 flash[:error] = t('admin.flash.error', name: @model_config.label, action: t('admin.actions.delete.done'))
                 redirect_path = back_or_index

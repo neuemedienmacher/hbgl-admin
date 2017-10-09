@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module FieldSet
     class Show < Representable::Decorator
@@ -9,7 +10,7 @@ module API::V1
         r[:represented].columns.each do |col|
           options =
             if col.type == :boolean
-              %w(true false)
+              %w[true false]
             elsif col.name == 'aasm_state'
               r[:represented].aasm.states.map(&:name)
             elsif r[:represented].methods.include?(:enumerized_attributes)

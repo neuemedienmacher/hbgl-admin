@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ContactPerson::Contracts
   class Create < Reform::Form
     property :first_name
@@ -30,8 +31,8 @@ module ContactPerson::Contracts
 
     validate :at_least_one_field_present
     def at_least_one_field_present
-      all_blank = %w(first_name last_name operational_name local_number_1
-                     fax_number email).all? do |field|
+      all_blank = %w[first_name last_name operational_name local_number_1
+                     fax_number email].all? do |field|
         self.send(field).blank?
       end
 

@@ -1,13 +1,14 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base CotactPerson
 require ClaratBase::Engine.root.join('app', 'models', 'contact_person')
 
-class ContactPerson < ActiveRecord::Base
+class ContactPerson < ApplicationRecord
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: [
-                    :id, :position, :operational_name, :first_name, :last_name
+                  against: %i[
+                    id position operational_name first_name last_name
                   ],
                   using: { tsearch: { prefix: true } }
 
@@ -20,7 +21,8 @@ class ContactPerson < ActiveRecord::Base
 
   # Admin specific methods
 
-  include Translations, ReformedValidationHack
+  include ReformedValidationHack
+  include Translations
 
   # Customize duplication.
   def partial_dup
@@ -40,7 +42,7 @@ class ContactPerson < ActiveRecord::Base
   end
 
   def position_display_name
-    if position && !position.empty?
+    if position.present?
       I18n.t("enumerize.contact_person.position.#{position}") + ': '
     else
       ''

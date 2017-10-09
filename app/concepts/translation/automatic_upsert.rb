@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Translation
   # rubocop:disable Metrics/ClassLength
   class AutomaticUpsert < Trailblazer::Operation

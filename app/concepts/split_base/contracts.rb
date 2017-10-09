@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SplitBase::Contracts
   class Create < Reform::Form
     property :title

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require ClaratBase::Engine.root.join('app', 'models', 'offer')
 
 module Offer::SearchAlgolia
@@ -9,22 +10,22 @@ module Offer::SearchAlgolia
 
     algoliasearch do
       I18n.available_locales.each do |locale|
-        index = %w(
+        index = %w[
           name code_word tags tag_keywords tag_explanations description definitions
           organization_names solution_category trait_filter language_filter
-        )
-        attributes = [:organization_count, :location_address, :location_name,
-                      :slug, :encounter, :organization_names, :location_visible,
-                      :code_word]
-        facets = [:_age_filters, :_language_filters, :_target_audience_filters,
-                  :_exclusive_gender_filters, :section_identifier,
-                  :_residency_status_filters]
+        ]
+        attributes = %i[organization_count location_address location_name
+                        slug encounter organization_names location_visible
+                        code_word]
+        facets = %i[_age_filters _language_filters _target_audience_filters
+                    _exclusive_gender_filters section_identifier
+                    _residency_status_filters]
 
         add_index Offer.personal_index_name(locale),
                   disable_indexing: Rails.env.test?,
                   if: :personal_indexable? do
           attributesToIndex index
-          ranking %w(typo geo words proximity attribute exact custom)
+          ranking %w[typo geo words proximity attribute exact custom]
           attribute(:name) { send("name_#{locale}") }
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
@@ -70,11 +71,11 @@ module Offer::SearchAlgolia
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
           add_attribute(*facets)
-          attributesForFaceting facets + [:_tags, :encounter]
+          attributesForFaceting facets + %i[_tags encounter]
           optionalWords STOPWORDS
 
           # no geo necessary
-          ranking %w(typo words proximity attribute exact custom)
+          ranking %w[typo words proximity attribute exact custom]
         end
       end
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # KK: Do we really need this separately from Update?
 class Organization::ChangeState < Trailblazer::Operation
   step Model(::Organization, :find_by)

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
+
 require 'hawk'
 
 class AbsenceCommunicator < NetCommunicator
 
   def initialize
     super 'https://app.absence.io'
-    @hawk_id = Rails.application.secrets.absence['hawk_id']
-    @hawk_key = Rails.application.secrets.absence['hawk_key']
+    @hawk_id = Rails.application.secrets.absence[:hawk_id]
+    @hawk_key = Rails.application.secrets.absence[:hawk_key]
   end
 
   def get_all_vacations_and_sickness_absences

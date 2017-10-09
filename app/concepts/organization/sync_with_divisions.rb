@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SyncWithDivisions
   def syncronize_done_state(_, model:, current_user:, **)
     if model.approved? || model.all_done?

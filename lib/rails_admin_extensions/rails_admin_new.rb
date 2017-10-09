@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_admin/config/actions'
 require 'rails_admin/config/actions/base'
 
@@ -13,7 +14,7 @@ module RailsAdmin
         end
 
         register_instance_option :http_methods do
-          [:get, :post] # NEW / CREATE
+          %i[get post] # NEW / CREATE
         end
 
         register_instance_option :controller do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module RemoteShow
   # def redirect_to_remote_show controller, identifier
   #   instance = model_instance params

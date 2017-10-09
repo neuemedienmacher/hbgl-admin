@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 require_relative '../../support/utils/api_controller_test_utils'
 
@@ -15,7 +16,7 @@ describe API::V1::CategoriesController do
 
   describe '#sort' do
     it '#sort should respond to api requests' do
-      put :sort, categories: { 1 => { id: 1, children: {} } }
+      put :sort, params: { categories: { 1 => { id: 1, children: {} } } }
       assert_response 200
       response.body.must_include '{"status":"success"'
       response.body.must_include '"update_count":1'

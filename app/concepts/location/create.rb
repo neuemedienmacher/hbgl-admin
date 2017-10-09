@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Location::Create < Trailblazer::Operation
   step Model(::Location, :new)
   step Policy::Pundit(PermissivePolicy, :create?)
@@ -24,9 +25,9 @@ class Location::Create < Trailblazer::Operation
 
   def display_name(orga_name, contract)
     display = orga_name.to_s
-    display += ", #{contract.name}" unless contract.name.blank?
+    display += ", #{contract.name}" if contract.name.present?
     display += " | #{contract.street}"
-    display += ", #{contract.addition}," unless contract.addition.blank?
+    display += ", #{contract.addition}," if contract.addition.present?
     display + " #{contract.zip} #{contract.city && contract.city.name}"
   end
 end

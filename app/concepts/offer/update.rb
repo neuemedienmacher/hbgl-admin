@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Offer::Update < Trailblazer::Operation
   include Offer::CommonSideEffects
 

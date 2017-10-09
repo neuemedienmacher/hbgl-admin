@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 require_relative '../../support/utils/contract_test_utils'
 
@@ -40,7 +41,7 @@ class SplitBaseContractsTest < ActiveSupport::TestCase
         sub_sb.divisions = [FactoryGirl.create(:division)]
         sb_contract = SplitBase::Contracts::Create.new(sub_sb)
         sb_contract.valid?
-        assert_nil sb_contract.errors.messages[:title]
+        assert_empty sb_contract.errors.messages[:title]
       end
     end
   end

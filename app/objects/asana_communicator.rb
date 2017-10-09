@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class AsanaCommunicator < NetCommunicator
   WORKSPACE = '41140436022602'
-  PROJECTS = { expired: %w(44856824806357), ricochet: %w(147663824592112),
-               big_orga_without_mailing: %w(85803884880432) }.freeze
+  PROJECTS = { expired: %w[44856824806357], ricochet: %w[147663824592112],
+               big_orga_without_mailing: %w[85803884880432] }.freeze
 
   def initialize
     super 'https://app.asana.com'

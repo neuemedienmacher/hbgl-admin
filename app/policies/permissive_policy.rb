@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PermissivePolicy < ApplicationPolicy
   def create?
     true

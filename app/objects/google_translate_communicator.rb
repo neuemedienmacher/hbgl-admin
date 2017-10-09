@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # EasyTranslate wrapper, using the Google Translate API
 class GoogleTranslateCommunicator
   def self.get_translations original_texts_hash, to_locale, from_locale = 'de'

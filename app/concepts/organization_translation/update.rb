@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OrganizationTranslation::Update < Trailblazer::Operation
   include Translation::CommonSideEffects::HumanChangeFields
   include Assignable::CommonSideEffects::CreateNewAssignment

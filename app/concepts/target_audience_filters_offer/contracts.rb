@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'reform/form/coercion'
 
 module TargetAudienceFiltersOffer::Contracts

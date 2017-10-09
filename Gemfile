@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 source 'https://rubygems.org'
 ruby '2.3.3'
 
@@ -8,14 +9,14 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 # General #
 ###########
 
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 5.1'
 gem 'bundler', '>= 1.8.4'
 
 gem 'clarat_base', github: 'clarat-org/clarat_base'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
-gem 'rails-observers', '= 0.1.2' # observers got extracted since rails 4
+gem 'rails-observers', '= 0.1.5' # observers got extracted since rails 4
 
 # Translations
 gem 'rails-i18n'
@@ -29,7 +30,7 @@ gem 'dynamic_sitemaps', github: 'efqdalton/dynamic_sitemaps',
 platforms :ruby do
   gem 'sqlite3', group: :test # sqlite3 for inmemory testing db
   gem 'therubyracer' # js runtime
-  gem 'pg', group: [:production, :staging, :development] # postgres
+  gem 'pg', group: %i[production staging development] # postgres
 end
 
 # Templating with slim
@@ -81,7 +82,7 @@ gem 'sidekiq-cron', '~> 0.4.0'
 gem 'rufus-scheduler', '3.2.2'
 
 # 3rd Party APIs
-gem 'gengo'
+gem 'gengo', '0.2.0'
 
 # converting between unicode and ascii urls
 gem 'simpleidn'
@@ -124,7 +125,7 @@ gem 'puma'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.2.0'
 
 gem 'hogan_assets' # TODO: deprecated!
 group :assets do # TODO: deprecated!
@@ -160,9 +161,6 @@ group :development do
   # debugging in chrome with RailsPanel
   gem 'meta_request'
 
-  # Quiet Assets to disable asset pipeline in log
-  gem 'quiet_assets'
-
   # requires graphviz to generate
   # entity relationship diagrams
   gem 'rails-erd', require: false
@@ -195,6 +193,7 @@ group :development, :test do
   gem 'pry-doc' # read ruby docs in console
 
   # test suite
+  gem 'rails-controller-testing'
   gem 'minitest', '5.10.1' # Testing using Minitest
   gem 'minitest-matchers'
   gem 'minitest-line'
@@ -206,7 +205,7 @@ group :development, :test do
   # test suite additions
   gem 'rails_best_practices'
   gem 'brakeman' # security test: execute with 'brakeman'
-  gem 'rubocop' # style enforcement
+  gem 'rubocop', '0.49.1' # style enforcement
   gem 'colorize' # output coloring
 
   # Code Coverage

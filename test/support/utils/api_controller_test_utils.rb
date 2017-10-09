@@ -9,7 +9,7 @@ module API
     end
 
     def api_get_works_for action, additional_params = {}
-      get action, jsonapi_params(additional_params)
+      get action, params: jsonapi_params(additional_params)
       assert_response :success
     end
 
@@ -37,7 +37,7 @@ module API
       set_jsonapi_raw_post(params, klass)
       model = klass.find(id)
       original_attributes = collect_attributes(model, params)
-      patch :update, jsonapi_params(id: id)
+      patch :update, params: jsonapi_params(id: id)
       original_attributes.wont_equal collect_attributes(model.reload, params)
 
       # Validate JSONAPI spec implementation: returns 200 + resource document
@@ -49,7 +49,7 @@ module API
       set_jsonapi_raw_post(params, klass)
       model = klass.find(id)
       original_attributes = collect_attributes(model, params)
-      patch :update, jsonapi_params(id: id)
+      patch :update, params: jsonapi_params(id: id)
       original_attributes.must_equal collect_attributes(model.reload, params)
 
       # Validate JSONAPI spec implementation: returns Forbidden, error hash
@@ -58,7 +58,7 @@ module API
     end
 
     def delete_works_for klass, id
-      delete :destroy, id: id
+      delete :destroy, params: { id: id }
       assert_response 200
       assert_nil klass.find_by(id: id)
     end

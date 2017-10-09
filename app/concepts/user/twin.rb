@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class User::Twin < Disposable::Twin
   collection :user_teams
 

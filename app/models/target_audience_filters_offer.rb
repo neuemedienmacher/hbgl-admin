@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base FiltersOffer
 # NOTE only required for old backend - do this differently in new backend!
 require ClaratBase::Engine.root.join('app', 'models', 'target_audience_filters_offer')
 
-class TargetAudienceFiltersOffer < ActiveRecord::Base
+class TargetAudienceFiltersOffer < ApplicationRecord
   # Enumerization
   extend Enumerize
 
@@ -14,7 +15,7 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: [:id, :stamp_de],
+                  against: %i[id stamp_de],
                   using: { tsearch: { prefix: true } }
 
   # Callbacks
@@ -33,7 +34,7 @@ class TargetAudienceFiltersOffer < ActiveRecord::Base
 
   # For rails_admin display
   def name
-    if !stamp_de.blank?
+    if stamp_de.present?
       stamp_de
     elsif target_audience_filter && offer
       "#{target_audience_filter.name} (Offer##{offer.id})"

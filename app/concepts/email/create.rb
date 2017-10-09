@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Email::Create < Trailblazer::Operation
   step Model(::Email, :new)
   step Policy::Pundit(PermissivePolicy, :create?)

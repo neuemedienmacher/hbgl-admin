@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module Division
     class Create < ::Division::Create

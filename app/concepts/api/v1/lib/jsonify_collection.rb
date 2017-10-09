@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module Lib
     module JsonifyCollection
@@ -29,16 +30,20 @@ module API::V1
       end
 
       def self.nonstandard_params(params)
-        params.select do |key, _value|
-          !%w(controller action format).include? key
+        new_params = params.reject do |key, _value|
+          %w[controller action format].include? key
         end
+        sanitize_params(new_params)
+      end
+
+      def self.sanitize_params(params)
+        params.class.eql?(Hash) ? params : params.to_unsafe_h
       end
 
       def self.previous_href(collection, params)
         return nil unless collection.previous_page
         '/' + params['controller'] + '?' +
-          nonstandard_params(params).merge(page: collection.previous_page)
-          .to_query
+          nonstandard_params(params).merge(page: collection.previous_page).to_query
       end
 
       def self.next_href(collection, params)

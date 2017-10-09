@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base Website
 require ClaratBase::Engine.root.join('app', 'models', 'website')
 
-class Website < ActiveRecord::Base
+class Website < ApplicationRecord
   # Scopes
   scope :unreachable, -> { where('unreachable_count > ?', 0) }
   scope :unreachable_and_not_ignored, -> {
@@ -10,6 +11,7 @@ class Website < ActiveRecord::Base
   }
 
   # Search
+
   # include PgSearch
   # pg_search_scope :search_pg,
   #                 against: [:id, :host, :url],

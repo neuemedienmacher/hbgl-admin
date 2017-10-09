@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Location::Contracts
   class Create < Reform::Form
     property :name

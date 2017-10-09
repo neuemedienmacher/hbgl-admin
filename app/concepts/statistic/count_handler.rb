@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # PORO that handles counting up statistics when record-worthy things happen
 class Statistic::CountHandler
   # Increase the counter for a specific statistic by 1

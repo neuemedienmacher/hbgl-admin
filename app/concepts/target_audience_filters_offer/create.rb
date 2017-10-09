@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TargetAudienceFiltersOffer::Create < Trailblazer::Operation
   step Model(::TargetAudienceFiltersOffer, :new)
   step Policy::Pundit(PermissivePolicy, :create?)

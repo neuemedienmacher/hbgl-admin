@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Assignable
   class Twin < Disposable::Twin
     collection :assignments

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module NextStep::Contracts
   class Create < Reform::Form
     property :text_de
