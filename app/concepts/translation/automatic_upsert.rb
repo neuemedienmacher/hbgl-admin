@@ -101,8 +101,10 @@ module Translation
         fields.to_s == 'all' ? object.translated_fields : fields
 
       fields_to_translate.each do |field|
-        params_hash[field] =
-          direct_translate_via_strategy(object, field, options['locale'])
+        if object.send(field).present?
+          params_hash[field] =
+            direct_translate_via_strategy(object, field, options['locale'])
+        end
       end
 
       params_hash

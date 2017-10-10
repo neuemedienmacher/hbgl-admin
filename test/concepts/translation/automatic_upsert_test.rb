@@ -190,7 +190,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
 
   it 'should raise an error for unknown translation-strategies' do
     assert_raises(RuntimeError) do
-      operation.({}, 'locale' => :en, 'fields' => [:unknown],
+      operation.({}, 'locale' => :en, 'fields' => [:encounter],
                      'object_to_translate' => family_offer)
     end
   end
