@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 20170921090532) do
   end
 
   create_table "areas", force: :cascade do |t|
-    t.string "name", null: false
-    t.float "minlat", null: false
-    t.float "maxlat", null: false
-    t.float "minlong", null: false
-    t.float "maxlong", null: false
+    t.string   "name",       null: false
+    t.float    "minlat",     null: false
+    t.float    "maxlat",     null: false
+    t.float    "minlong",    null: false
+    t.float    "maxlong",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

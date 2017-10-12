@@ -353,7 +353,7 @@ export default {
     },
   },
 
-  OPERATORS: ['=', '!=', '<', '>', '...'],
+  OPERATORS: ['=', '!=', '<', '>', '...', 'LIKE', 'NOT LIKE'],
   SECTIONS: ['family', 'refugees'],
   AFTER_SAVE_ACTIONS: {
     'to_edit': 'Bei dieser Instanz bleiben',
