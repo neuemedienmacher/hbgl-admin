@@ -9,7 +9,7 @@ class Export::Create < Trailblazer::Operation
   step :set_requested_fields
 
   def instantiate_model(options, params:, **)
-    object = params[:object_name].classify.constantize
+    object = params[:object_name].underscore.classify.constantize
     options['model'] =
       Export.new(
         object,

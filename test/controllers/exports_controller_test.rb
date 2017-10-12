@@ -26,6 +26,13 @@ describe ExportsController do
       response.body.must_equal 'error'
     end
 
+    it 'should render an error when there was nothing to export' do
+      sign_in user
+      post :create, params: { object_name: 'cities' }
+      assert_response 403
+      response.body.must_equal 'error'
+    end
+
     describe 'private #csv_line' do # because tests don't stream
       it 'should include a header and the correct body' do
         result = Export::Create.(

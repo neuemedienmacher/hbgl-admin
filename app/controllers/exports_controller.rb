@@ -2,6 +2,7 @@
 
 class ExportsController < ApplicationController
   def create
+    return render_error unless params['export']
     params['export'] = Export.snake_case_export_hash(params['export'])
     result = Export::Create.(params, 'current_user' => current_user)
     if result.success?
