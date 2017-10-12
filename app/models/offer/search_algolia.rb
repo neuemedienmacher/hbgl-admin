@@ -30,12 +30,11 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:tags) { tag_names(locale) }
           attribute(:definitions) { definitions_string(locale) }
-          attribute(:_tags) { _categories(locale) }
+          attribute(:tags) { tag_names(locale) }
+          attribute(:_tags) { tag_names(locale) } # NOTE _tags is algolia-intern (not redundant with tags)
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
-          attribute(:category_names) { category_names(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
           attribute(:tag_explanations) { tag_explanations(locale) }
           attribute(:solution_category) { solution_category.name }
@@ -56,12 +55,10 @@ module Offer::SearchAlgolia
           attribute(:description) { send("description_#{locale}") }
           attribute(:next_steps)  { _next_steps locale }
           attribute(:lang) { lang(locale) }
-          attribute(:tags) { tag_names(locale) }
           attribute(:definitions) { definitions_string(locale) }
-          attribute(:_tags) { _categories(locale) }
+          attribute(:_tags) { tag_names(locale) }
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
-          attribute(:category_names) { category_names(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
           attribute(:tag_explanations) { tag_explanations(locale) }
           attribute(:solution_category) { solution_category.name }
