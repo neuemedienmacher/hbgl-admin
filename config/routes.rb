@@ -131,6 +131,7 @@ Rails.application.routes.draw do
       get 'possible_events/:model/:id', controller: :possible_events,
                                         action: :show
       get 'states/:model', controller: :states, action: :show
+      get ':item_type/:item_id/versions', controller: :versions, action: :index
     end
   end
 

@@ -359,5 +359,7 @@ export default {
     'to_edit': 'Bei dieser Instanz bleiben',
     'to_table': 'Zurück zur Tabelle',
     'to_new': 'Neues Objekt anlegen'
-  }
+  },
+
+  HISTORY_ENABLED: ['organizations', 'offers']
 }
