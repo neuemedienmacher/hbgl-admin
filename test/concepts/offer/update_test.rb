@@ -33,7 +33,7 @@ class OfferUpdateTest < ActiveSupport::TestCase
       api_operation_must_work API::V1::Offer::Update, params.to_json
     result['model'].description.must_equal 'changed'
     result['model'].contact_people.count.must_equal 1
-    result['model'].contact_people.last.display_name
+    result['model'].contact_people.last.label
                    .must_equal('#1 New Guy (foobar)')
   end
 

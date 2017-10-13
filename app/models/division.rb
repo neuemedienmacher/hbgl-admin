@@ -7,15 +7,6 @@ class Division < ApplicationRecord
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: %i[id addition size],
+                  against: %i[id addition size label],
                   using: { tsearch: { prefix: true } }
-
-  # Methods
-  def display_name
-    display_name = "#{organization&.name} (#{section.identifier})"
-    display_name += ", City: #{city.name}" if city
-    display_name += ", Area: #{area.name}" if area
-    display_name += ", Addition: #{addition}" if addition.present?
-    display_name
-  end
 end

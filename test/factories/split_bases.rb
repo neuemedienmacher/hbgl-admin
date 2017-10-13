@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :split_base do
     title 'my_split_base'
+    label 'default split_base label'
     solution_category
 
     transient do

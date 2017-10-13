@@ -3,5 +3,6 @@ basic:
   title: basicSplitBaseTitle
   clarat_addition: basicSplitBaseClaratAddition
   solution_category_id: 1
+  label: 'basicSplitBaseLabel'
   created_at: <%= Time.zone.now %>
   updated_at: <%= Time.zone.now %>

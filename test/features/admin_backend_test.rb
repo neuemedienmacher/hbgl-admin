@@ -426,7 +426,7 @@ feature 'Admin Backend' do
     #     'Organizations muss die des angegebenen Standorts beinhalten.'
     #   )
     #
-    #   select contact_person.display_name, from: 'offer_contact_person_ids'
+    #   select contact_person.label, from: 'offer_contact_person_ids'
     #   click_button 'Speichern und bearbeiten'
     #   page.wont_have_content 'Age from darf nicht größer sein als Age to'
     #   page.must_have_content 'Contact people müssen alle zu einer der'\

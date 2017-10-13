@@ -13,8 +13,11 @@ class SplitBaseCreateTest < ActiveSupport::TestCase
   end
 
   describe '::SplitBase::Create' do
-    it 'must create a SplitBase given valid data' do
-      operation_must_work ::SplitBase::Create, basic_params
+    it 'must create a SplitBase given valid data and build correct label' do
+      result = operation_must_work ::SplitBase::Create, basic_params
+      result['model'].label.must_equal(
+        'title (id: not yet available, SC: basicSolutionCategoryName)'
+      )
     end
 
     it 'must not create a SplitBase given invalid data' do

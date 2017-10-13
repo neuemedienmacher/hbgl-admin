@@ -10,9 +10,6 @@ class API::V1::SplitBase::RepresenterTest < ActiveSupport::TestCase
     record.divisions << FactoryGirl.create(:division)
     result = subject.new(record).to_hash
     label = result['data']['attributes']['label']
-    label.must_equal 'basicSplitBaseTitle' \
-                     ' (id: ' + record.id.to_s + ', D: ' +
-                     record.divisions.map(&:display_name).to_s + ', SC: ' +
-                     record.solution_category.name.to_s + ')'
+    label.must_equal 'basicSplitBaseLabel'
   end
 end

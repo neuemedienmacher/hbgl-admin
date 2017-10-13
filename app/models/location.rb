@@ -10,7 +10,7 @@ class Location < ApplicationRecord
 
   # Search
   pg_search_scope :search_pg,
-                  against: %i[id display_name],
+                  against: %i[id label],
                   using: { tsearch: { prefix: true } }
 
   # Customize duplication.
@@ -24,13 +24,14 @@ class Location < ApplicationRecord
     end
   end
 
-  before_hack :generate_display_name_for_rails_admin_too
-  def generate_display_name_for_rails_admin_too
-    display = organization_name.to_s
-    display += ", #{name}" if name.present?
-    display += " | #{street}"
-    display += ", #{addition}," if addition.present?
-    self.display_name = display + " #{zip} #{city_name}"
+  # NOTE: still needed??
+  before_hack :generate_label_for_rails_admin_too
+  def generate_label_for_rails_admin_too
+    label = organization_name.to_s
+    label += ", #{name}" if name.present?
+    label += " | #{street}"
+    label += ", #{addition}," if addition.present?
+    self.label = label + " #{zip} #{city_name}"
   end
 
   # TODO: move callsbacks to operations!

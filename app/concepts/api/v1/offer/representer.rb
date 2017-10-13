@@ -59,6 +59,14 @@ module API::V1
           end
         end
 
+        has_one :split_base do
+          type :split_bases
+
+          attributes do
+            property :label
+          end
+        end
+
         has_many :target_audience_filters_offers, # sent in show for duplication
                  decorator:
                    API::V1::TargetAudienceFiltersOffer::Representer::Show,
