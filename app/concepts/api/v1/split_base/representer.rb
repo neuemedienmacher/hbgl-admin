@@ -8,16 +8,15 @@ module API::V1
 
         attributes do
           property :title
-          property :label, getter: ->(split_base) {
-            split_base[:represented].title
-          }
-          property :division_ids
+          property :id
+          property :label
           property :solution_category_id
           property :clarat_addition
           property :comments
           property :code_word
           property :created_at
           property :updated_at
+          property :division_ids
         end
       end
 
@@ -35,8 +34,7 @@ module API::V1
           type :divisions
 
           attributes do
-            property :label, getter: ->(o) { o[:represented].display_name }
-            property :display_name
+            property :label
           end
         end
       end

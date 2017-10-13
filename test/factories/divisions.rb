@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :division do
     addition 'default division addition'
+    label 'default division label'
     section { Section.first || FactoryGirl.create(:section) }
     city { City.all.sample }
     organization { FactoryGirl.create(:organization, :approved) }

@@ -11,23 +11,24 @@ class Location::Create < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find(:city, ::City)
     step ::Lib::Macros::Nested::Find(:federal_state, ::FederalState)
   }
-  step :generate_display_name
+  step :generate_label
   step Contract::Persist()
 
-  def generate_display_name(options, model:, **)
+  def generate_label(options, model:, **)
     contract = options['contract.default']
-    orga =
+    # NOTE: only works of inline creation of location in organization
+    orga_or_contract =
       contract.organization || options['nesting_operation']['contract.default']
-    model.display_name = display_name(orga.name, contract)
+    model.label = build_label(orga_or_contract.name, contract)
   end
 
   private
 
-  def display_name(orga_name, contract)
-    display = orga_name.to_s
-    display += ", #{contract.name}" if contract.name.present?
-    display += " | #{contract.street}"
-    display += ", #{contract.addition}," if contract.addition.present?
-    display + " #{contract.zip} #{contract.city && contract.city.name}"
+  def build_label(orga_name, contract)
+    label = orga_name.to_s
+    label += ", #{contract.name}" if contract.name.present?
+    label += " | #{contract.street}"
+    label += ", #{contract.addition}," if contract.addition.present?
+    label + " #{contract.zip} #{contract.city && contract.city.name}"
   end
 end

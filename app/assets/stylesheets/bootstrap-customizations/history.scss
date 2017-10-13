@@ -1,0 +1,89 @@
+.History-Eventtype {
+  font-size: 160%;
+  font-weight: 900;
+  margin-right: .25ch;
+}
+
+.History-Headline {
+  font-size: 120%;
+  font-weight: 700;
+}
+
+.History-What {
+  .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
+  .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 0 !important;
+  }
+}
+
+.History-What.table  {
+  margin-top: 1.5em;
+
+  > tbody > tr:nth-child(odd) td {
+    background: rgba(#8BBE87, 0.1);
+  }
+
+  > tbody > tr:nth-child(even) td {
+    background:rgba(#8BBE87, 0.22);
+  }
+
+  > thead {
+    color: #fff;
+  }
+}
+
+.History_Tablehead--fieldname {
+  width: 20%;
+}
+
+.History_Tablehead--valuebefore,
+.History_Tablehead--valueafter {
+  width: 40%;
+}
+
+.History-Item {
+  padding: 1em 2em 2em 50px;
+  margin-left: 15px;
+  position: relative;
+  color: rgba(black, .7);
+  border: none;
+  border-left: 2px solid #666666 !important;
+  margin-bottom: 0 !important;
+
+  p {
+    font-size: 1rem;
+  }
+
+  &::before {
+    content: attr(date-is);
+    position: absolute;
+    left: 2em;
+    font-weight: bold;
+    top: 1em;
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: .785rem;
+  }
+
+  &::after {
+    width: 15px;
+    height: 15px;
+    display: block;
+    top: 2.5em;
+    position: absolute;
+    left: -9px;
+    border-radius: 20px;
+    content: '';
+    border: 2px solid #666;
+    background: white;
+  }
+
+  &:last-child {
+    border-image: linear-gradient(
+                    to bottom,
+                    #666 60%,
+                    rgba(100,100,100, 0)) 1 100%
+  ;
+  }
+}

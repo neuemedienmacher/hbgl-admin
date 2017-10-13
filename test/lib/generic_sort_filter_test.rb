@@ -200,6 +200,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
+    it 'includes NULL values for a "!=" string search' do
+      params =
+        { filters: { 'title' => 'smth' }, operators: { 'title' => 'LIKE' } }
+      query.expects(:where).with("CAST(title AS TEXT) LIKE '%smth%'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
     it 'parses date-times and converts them from CET to UTC' do
       params = { filters: { 'created_at' => '15.09.2014, 13:02:00+0200' } }
       query.expects(:where).with("created_at = '2014-09-15 11:02:00 UTC'")

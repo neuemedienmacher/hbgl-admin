@@ -32,16 +32,16 @@ class ContactPerson < ApplicationRecord
   end
 
   # For rails_admin display
-  def display_name
+  def label
     if first_name.blank? && last_name.blank?
-      "#{position_display_name}##{id} #{operational_name} (#{organization_name})"
+      "#{position_label}##{id} #{operational_name} (#{organization_name})"
     else
-      "#{position_display_name}##{id} #{first_name} #{last_name} "\
+      "#{position_label}##{id} #{first_name} #{last_name} "\
       "(#{organization_name})".squeeze(' ')
     end
   end
 
-  def position_display_name
+  def position_label
     if position.present?
       I18n.t("enumerize.contact_person.position.#{position}") + ': '
     else
