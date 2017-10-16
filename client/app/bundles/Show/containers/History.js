@@ -33,7 +33,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 function transformHistoryItem(entities) {
   return (item) => {
-    item.user = entities.users && entities.users[item.whodunnit]
+    item.user =
+      entities.users && entities.users[item.whodunnit] || { label: 'Unknown' }
     item.changes = []
     const getChange =
       (_, field, before, after) => item.changes.push({field, before, after})

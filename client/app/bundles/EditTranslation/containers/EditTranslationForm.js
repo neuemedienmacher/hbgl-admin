@@ -7,6 +7,7 @@ import EditTranslationForm from '../components/EditTranslationForm'
 import generateFormId from '../../GenericForm/lib/generateFormId'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import addEntities from '../../../Backend/actions/addEntities'
+import { pluralize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
   const { id, model, translation } = ownProps
@@ -20,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
     (model == 'offer') ? OfferTranslationFormObject
                        : OrganizationTranslationFormObject
   const properties = formObjectClass.properties
-  const editLink = `/admin/${model}/${ownProps.source.id}/edit`
+  const editLink = `/${pluralize(model)}/${ownProps.source.id}/edit`
   const previewLink = ownProps.source.links && ownProps.source.links.preview
   const stamp = ownProps.translation['offer-stamp'] ?
                 ownProps.translation['offer-stamp'].join(', ') : 'nicht angegeben'

@@ -41,6 +41,12 @@ class DivisionCreateTest < ActiveSupport::TestCase
       )
     end
 
+    it 'must create a division without an addition' do
+      basic_params[:addition] = nil
+      result = operation_must_work ::Division::Create, basic_params
+      result['model'].label.must_equal('foobar (family), City: Berlin')
+    end
+
     describe 'validations' do
       it 'must validate organization' do
         basic_params[:organization] = nil
