@@ -27,7 +27,7 @@ class OpeningContractsTest < ActiveSupport::TestCase
       end
 
       describe 'when close is not set' do
-        it { wont_validate_presence_of :open }
+        it { wont_validate_presence_of :open, Time.zone.now }
       end
 
       describe 'unique day' do

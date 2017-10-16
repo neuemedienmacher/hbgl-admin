@@ -11,7 +11,7 @@ class AsanaCommunicator < NetCommunicator
   end
 
   def create_expire_task offer
-    organization_names = offer.organizations.pluck(:name).join(',')
+    organization_names = offer.organizations.order(:id).pluck(:name).join(',')
     section_name =
       offer.section.identifier.first(3)
     create_task(

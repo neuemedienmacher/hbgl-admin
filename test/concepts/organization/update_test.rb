@@ -32,7 +32,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
     result =
       api_operation_must_work API::V1::Organization::Update, params.to_json
     result['model'].description.must_equal 'changed'
-    result['model'].website_id.must_equal 2
+    assert result['model'].website_id
     result['model'].website.url.must_equal 'http://new.org'
   end
 

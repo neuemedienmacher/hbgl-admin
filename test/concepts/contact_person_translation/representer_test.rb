@@ -7,7 +7,8 @@ class API::V1::ContactPersonTranslation::RepresenterTest < ActiveSupport::TestCa
 
   it 'contact person Representer label test' do
     object = FactoryGirl.create :contact_person
-    result = subject.new(object.translations.first).to_hash
-    result['data']['attributes']['label'].must_equal '#1 (de)'
+    translation = object.translations.first
+    result = subject.new(translation).to_hash
+    result['data']['attributes']['label'].must_equal "##{translation.id} (de)"
   end
 end

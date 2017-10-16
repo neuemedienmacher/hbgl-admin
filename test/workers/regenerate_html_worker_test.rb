@@ -15,15 +15,15 @@ class RegenerateHtmlWorkerTest < ActiveSupport::TestCase
       Offer.stub_chain(:visible_in_frontend, :where).returns([offer])
       Organization.stub_chain(:visible_in_frontend, :where).returns([orga])
 
-      FactoryGirl.create :definition, key: 'foo', explanation: 'xy'
+      df = FactoryGirl.create :definition, key: 'foo', explanation: 'x'
 
       worker.perform
 
       offer.translations.first.reload.description.must_include(
-        "<p>xy <dfn class='JS-tooltip' data-id='1'>foo</dfn> bar</p>"
+        "<p>xy <dfn class='JS-tooltip' data-id='#{df.id}'>foo</dfn> bar</p>"
       )
       orga.translations.first.reload.description.must_include(
-        "<p>xy <dfn class='JS-tooltip' data-id='1'>foo</dfn> bar</p>"
+        "<p>xy <dfn class='JS-tooltip' data-id='#{df.id}'>foo</dfn> bar</p>"
       )
     end
   end

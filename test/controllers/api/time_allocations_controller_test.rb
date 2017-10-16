@@ -50,7 +50,6 @@ describe API::V1::TimeAllocationsController do
     post :report_actual, params: { year: 2000, week_number: 1 }
     assert_response 200
     response.body.must_include '"type":"time-allocations"'
-    response.body.must_include '"id":"2"'
     TimeAllocation.last.actual_wa_hours.must_equal 1
   end
 
