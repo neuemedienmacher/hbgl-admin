@@ -5,7 +5,7 @@ notifications:
   email:
     - dev@clarat.org
 before_script:
-  - "RAILS_ENV=test bundle exec rake db:migrate"
+  - "RAILS_ENV=test bundle exec rake db:create db:migrate"
   - "npm install"
   - "cd client && npm run build:client"
 script:
