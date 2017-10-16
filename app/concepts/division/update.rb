@@ -48,6 +48,7 @@ class Division::Update < Trailblazer::Operation
     label = "#{contract.organization.name} (#{contract.section.identifier})"
     label += ", City: #{contract.city.name}" if contract.city
     label += ", Area: #{contract.area.name}" if contract.area
-    label + ", Addition: #{contract.addition}" if contract.addition.present?
+    label += ", Addition: #{contract.addition}" if contract.addition.present?
+    label
   end
 end
