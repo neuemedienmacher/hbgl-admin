@@ -35,8 +35,7 @@ export default class AssociationItems extends React.Component {
           </div>
         </CollapsiblePanel>
       )
-    }
-    else {
+    } else {
       return(
         <div key={name} className="panel panel-default">
           <div key={`${name}-heading`} className="panel-heading show--panel">

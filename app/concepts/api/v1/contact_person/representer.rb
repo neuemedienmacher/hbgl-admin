@@ -23,11 +23,7 @@ module API::V1
           # property :street
           # property :zip_and_city
           property :spoc
-
-          property :label, getter: ->(contact_person) do
-            contact_person[:represented].display_name
-          end
-
+          property :label
           property :email_id
           property :organization_id
         end

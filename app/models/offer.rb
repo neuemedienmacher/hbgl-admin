@@ -51,7 +51,7 @@ class Offer < ApplicationRecord
                   # associated_against: {
                   #   section: :name,
                   #   organizations: :name,
-                  #   location: :display_name,
+                  #   location: :label,
                   #   categories: :name_de,
                   #   solution_category: :name,
                   #   target_audience_filters: :name,

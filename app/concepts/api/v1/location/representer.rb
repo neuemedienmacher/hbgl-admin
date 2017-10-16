@@ -9,10 +9,7 @@ module API::V1
         include Roar::JSON::JSONAPI.resource :locations
 
         attributes do
-          property :label, getter: ->(location) {
-            location[:represented].display_name
-          }
-          property :display_name
+          property :label
           property :name
           property :street
           property :addition
@@ -25,7 +22,6 @@ module API::V1
           property :longitude
           property :created_at
           property :updated_at
-          property :display_name
 
           property :organization_id
           property :city_id
@@ -75,7 +71,7 @@ module API::V1
       #   include Roar::JSON::JSONAPI.resource :locations
       #
       #   attributes do
-      #     property :display_name, as: :label
+      #     property :label
       #     property :name
       #     property :street
       #     property :addition

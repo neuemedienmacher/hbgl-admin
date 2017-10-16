@@ -8,10 +8,7 @@ module API::V1
         include API::V1::Assignable::Representer
 
         attributes do
-          property :label, getter: ->(division) do
-            division[:represented].display_name
-          end
-
+          property :label
           property :addition
           property :comment
           property :size
