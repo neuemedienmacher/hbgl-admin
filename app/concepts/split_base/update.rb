@@ -10,7 +10,7 @@ class SplitBase::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find(:divisions, ::Division)
     step ::Lib::Macros::Nested::Find(:solution_category, ::SolutionCategory)
   }
-  step :generate_label # TODO: write tests for this!!
+  step :generate_label
   step Contract::Persist()
 
   def generate_label(options, model:, **)
