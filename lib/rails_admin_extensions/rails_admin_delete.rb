@@ -42,7 +42,7 @@ module RailsAdmin
               @auditing_adapter && @auditing_adapter.delete_object(@object, @abstract_model, _current_user)
               if @object.destroy
                 flash[:success] = t('admin.flash.successful', name: @model_config.label, action: t('admin.actions.delete.done'))
-                redirect_path = redirect_to_special_path && @object.offer_id.present? ? "/admin/offer/#{@object.offer_id}/edit" : index_path
+                redirect_path = redirect_to_special_path && @object.offer_id.present? ? "/offers/#{@object.offer_id}/edit" : index_path
               else
                 flash[:error] = t('admin.flash.error', name: @model_config.label, action: t('admin.actions.delete.done'))
                 redirect_path = back_or_index

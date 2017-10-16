@@ -16,7 +16,7 @@ class SplitBaseCreateTest < ActiveSupport::TestCase
     it 'must create a SplitBase given valid data and build correct label' do
       result = operation_must_work ::SplitBase::Create, basic_params
       result['model'].label.must_equal(
-        'title (id: not yet available, SC: basicSolutionCategoryName)'
+        "title (id: #{result['model'].id}, SC: basicSolutionCategoryName)"
       )
     end
 

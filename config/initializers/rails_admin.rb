@@ -46,7 +46,7 @@ RailsAdmin.config do |config|
     new do
       except [
         'User', 'FederalState', 'Section', 'Division', 'Organization',
-        'Opening', 'Tag', 'Definition'
+        'Opening', 'Tag', 'Definition', 'Offer', 'SplitBase'
       ]
     end
     export
@@ -56,7 +56,8 @@ RailsAdmin.config do |config|
     show
     edit do
       except [
-        'Section', 'Division', 'Organization', 'Opening', 'Tag', 'Definition'
+        'Section', 'Division', 'Organization', 'Opening', 'Tag', 'Definition',
+        'Offer', 'SplitBase'
       ]
     end
     delete do
