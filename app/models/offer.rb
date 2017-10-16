@@ -132,6 +132,7 @@ class Offer < ApplicationRecord
   end
 
   def _residency_status_filters
-    target_audience_filters_offers.pluck(:residency_status).uniq.compact
+    target_audience_filters_offers
+      .order(:id).pluck(:residency_status).uniq.compact
   end
 end
