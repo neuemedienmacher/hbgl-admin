@@ -48,8 +48,7 @@ const mapStateToProps = (state, ownProps) => {
     href: '/api/v1/assignments/',
     formId: `Assignment${assignment.id}:${action}`,
     seedData: seedDataFor(action, state.entities, assignment, systemUser, users),
-    userAndTeamChoice: action == 'assign-someone-else',
-    topicChoice: model == 'divisions' && action == 'assign-someone-else',
+    additionalChoices: action == 'assign-someone-else',
     messageField: action != 'assign-to-system' && action != 'assign-to-current-user'
   }))
   const topics = state.settings.assignments.topics.map(topic => ({
