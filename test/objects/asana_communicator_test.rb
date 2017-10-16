@@ -41,7 +41,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
         name:
           '[Offer website unreachable] family | Version: 1 | foobar,bazfuz'\
           ' | basicOfferName',
-          notes: 'Deactivated: http://claradmin.herokuapp.com/offers/1/edit'\
+        notes: 'Deactivated: http://claradmin.herokuapp.com/offers/1/edit'\
                " | Unreachable website: #{website.url}"
       )
 
