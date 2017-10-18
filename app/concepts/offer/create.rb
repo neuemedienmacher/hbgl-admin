@@ -27,7 +27,12 @@ class Offer::Create < Trailblazer::Operation
   }
   step :set_creating_user
   step Contract::Persist()
+  step :generate_slug
   step :set_next_steps_sort_value
+
+  def generate_slug(_, model:, **)
+    model.update_column :slug, model.send(:set_slug)
+  end
 
   def set_creating_user(_, current_user:, model:, **)
     model.created_by = current_user.id
