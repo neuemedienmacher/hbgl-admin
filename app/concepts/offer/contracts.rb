@@ -8,7 +8,6 @@ module Offer::Contracts
     property :comment
     property :encounter
     property :section
-    property :slug
     property :language_filters
     property :target_audience_filters_offers
     property :trait_filters

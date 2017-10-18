@@ -255,8 +255,8 @@ export default {
       fields: [
         'id', 'assignable-id', 'assignable-type', {assignable: ['label']},
         {creator: ['name']}, {'creator-team': ['name']}, {receiver: ['name']},
-        {'receiver-team': ['name']}, 'message', 'topic', 'aasm-state',
-        'created-at', 'updated-at'
+        {'receiver-team': ['name']}, 'message', 'topic', 'created-at',
+        'updated-at'
       ],
       inline_fields: [
         'assignable-type', 'assignable-id', 'topic',

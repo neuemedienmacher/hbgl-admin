@@ -23,7 +23,7 @@ export default class AssignmentActions extends Component {
       afterResponse, users, teams, topics, assignment, assignableChanged
     } = this.props
 
-    const optionalUserAndTeamSelection = action.userAndTeamChoice ?
+    const optionalUserAndTeamSelection = action.additionalChoices ?
       <span>
         <div className="select-wrapper">
           <InputSet
@@ -39,7 +39,7 @@ export default class AssignmentActions extends Component {
         </div>
       </span> : null
 
-    const optionalTopicSelection = action.topicChoice ?
+    const optionalTopicSelection = action.additionalChoices ?
       <div className="select-wrapper">
         <InputSet
           wrapperClassName='form-group' className='form-control'
