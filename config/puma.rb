@@ -15,3 +15,7 @@ on_worker_boot do
   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
   ActiveRecord::Base.establish_connection
 end
+
+if ENV['RAILS_ENV'] == 'development'
+  worker_timeout 99999999999 # I challenge you to reach this timeout
+end
