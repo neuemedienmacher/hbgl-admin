@@ -30,7 +30,12 @@ class Opening::Create < Trailblazer::Operation
 
   private
 
-  def concat_day_and_times(day, open, close); if day && open && close; "#{day.titleize} #{open.strftime('%H:%M')}-#{close.strftime('%H:%M')}"; elsif day; "#{day.titleize} (appointment)"; end
+  def concat_day_and_times(day, open, close)
+    if day && open && close
+      "#{day.titleize} #{open.strftime('%H:%M')}-#{close.strftime('%H:%M')}"
+    elsif day
+      "#{day.titleize} (appointment)"
+    end
   end
 
   # generate imaginary timestamp for a specific day

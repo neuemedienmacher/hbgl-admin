@@ -233,13 +233,13 @@ module GenericSortFilter
   end
 
   def self.transform_value(value, filter, query)
-    model_name =
+    model, filter =
       if filter.include?('.')
-        model_for_filter(query, filter)
+        [model_for_filter(query, filter), filter.split('.').last]
       else
-        query.model
+        [query.model, filter]
       end
-    value = parse_value_by_type(value, filter, model_name)
+    value = parse_value_by_type(value, filter, model)
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
   end
@@ -253,14 +253,27 @@ module GenericSortFilter
     end
   end
 
-  def self.parse_value_by_type(value, filter, model_name)
-    # convert datetime strings to specific format for query
-    if model_name.columns_hash[filter] && !nullable_value?(value) &&
-       model_name.columns_hash[filter].type == :datetime && !value.empty?
-      DateTime.parse(value + ' CET').utc.to_s
-    else
-      value
+  def self.parse_value_by_type(value, filter, model)
+    # convert (date)time strings to specific format for query
+    column_data = model.columns_hash[filter]
+
+    if column_data && !nullable_value?(value) && !value.empty?
+      if column_data.type == :datetime
+        return parse_datetime(value)
+      elsif column_data.type == :time
+        return parse_time(value)
+      end
     end
+    value
+  end
+
+  def self.parse_datetime(value)
+    # TODO: does this work in DST?
+    Time.zone.parse(value).to_datetime.to_s
+  end
+
+  def self.parse_time(value)
+    Time.zone.parse('01.01.2000 ' + value).to_s(:db)
   end
 
   def self.optional_query_addition(operator, value, filter_key)

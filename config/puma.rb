@@ -17,5 +17,5 @@ on_worker_boot do
 end
 
 if ENV['RAILS_ENV'] == 'development'
-  worker_timeout 99999999999 # I challenge you to reach this timeout
+  worker_timeout 999_999_999_999 # I challenge you to reach this timeout
 end

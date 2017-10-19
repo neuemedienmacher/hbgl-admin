@@ -21,11 +21,14 @@ export default class Index extends Component {
   render() {
     const {
       location, model, heading, query, lockedParams, optionalParams, identifier,
-      uiKey, metaText
+      uiKey, metaText, isLoading
     } = this.props
 
+    let className = 'content Index table-header'
+    if (isLoading) className += ' Index--loading'
+
     return (
-      <div className='content Index table-header'>
+      <div className={className}>
         <p className="page-title">{heading}</p>
         <p className="index-title">{metaText}</p>
         <IndexHeader model={model} params={query} lockedParams={lockedParams} />
