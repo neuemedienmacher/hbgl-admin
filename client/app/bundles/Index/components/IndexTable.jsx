@@ -6,7 +6,7 @@ import TableRow from '../containers/TableRow'
 export default class IndexTable extends Component {
   render() {
     const {
-      fields, rows, model, params, tbodyClass
+      fields, rows, model, params
     } = this.props
 
     return (
@@ -24,7 +24,7 @@ export default class IndexTable extends Component {
             })}
           </tr>
         </thead>
-        <tbody className={tbodyClass}>
+        <tbody>
           {rows.map(row =>
             <TableRow key={row.id} row={row} fields={fields} model={model} />
           )}

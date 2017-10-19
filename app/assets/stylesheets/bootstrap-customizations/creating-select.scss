@@ -1,0 +1,30 @@
+.CreatingSelect_ReferenceCreation {
+  margin-top: 20px;
+  margin-left: 34px;
+  position: relative;
+
+  &::before {
+    content: '\21B3';
+    font-size: 140%;
+    position: absolute;
+    left: -30px;
+    top: -3px;
+    color: #737373;
+  }
+
+  & + & {
+    border-top: 2px solid #989898;
+    padding-top: 0.5em;
+    margin-top: 2em;
+
+    &::before {
+      top: 13px;
+    }
+  }
+}
+
+.CreatingSelect_ReferenceCreation__close-btn {
+  float: right;
+  margin-top: -20px;
+  text-transform: uppercase;
+}
