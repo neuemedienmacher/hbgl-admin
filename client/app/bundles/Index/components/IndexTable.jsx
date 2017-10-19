@@ -13,6 +13,8 @@ export default class IndexTable extends Component {
       <Table condensed striped>
         <thead>
           <tr>
+            <th title='actions' />
+
             {fields.map((field, index) => {
               return(
                 <TableHeadCell
@@ -20,7 +22,6 @@ export default class IndexTable extends Component {
                 />
               )
             })}
-            <th title='actions' />
           </tr>
         </thead>
         <tbody className={tbodyClass}>

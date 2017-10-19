@@ -90,3 +90,36 @@
     background-color: #c9302c;
   }
 }
+
+.table {
+  display: block;
+  overflow-x: auto !important;
+  position: relative;
+
+  &.table-indicates-scrolling-left,
+  &.table-indicates-scrolling-right {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 14px;
+      pointer-events: none;
+    }
+  }
+
+  &.table-indicates-scrolling-right {
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+  }
+
+  &.table-indicates-scrolling-left {
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+  }
+}

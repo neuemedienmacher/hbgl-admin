@@ -8,12 +8,12 @@ export default class TableRow extends Component {
 
     return(
       <tr>
-        {fields.map((field, index) =>
-          <TableCell key={index} row={row} field={field} />
-        )}
         <td>
           <ActionList model={model} id={row.id} />
         </td>
+        {fields.map((field, index) =>
+          <TableCell key={index} row={row} field={field} />
+        )}
       </tr>
     )
   }
