@@ -72,7 +72,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     end
   end
 
-  def receiver_team_id(assignable, last_acting_user)
+  def receiver_team_id(assignable, _last_acting_user)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       translation_twin = ::Translation::Twin.new(assignable)
@@ -83,12 +83,12 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       if assignable.done == false
         AssignmentDefaults.screening_team
       end
-    when 'Organization'
-      if assignable.completed?
-        AssignmentDefaults.section_teams[
-          ::User::Twin.new(last_acting_user).presumed_section
-        ]
-      end
+      # when 'Organization'
+      #   if assignable.completed?
+      #     AssignmentDefaults.section_teams[
+      #       ::User::Twin.new(last_acting_user).presumed_section
+      #     ]
+      #   end
     end
   end
 
@@ -97,12 +97,12 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
-    when 'Organization'
-      if assignable.aasm_state == 'completed'
-        'approval'
-      else
-        assignment ? assignment.topic : 'new'
-      end
+    # when 'Organization'
+    #   if assignable.aasm_state == 'completed'
+    #     'approval'
+    #   else
+    #     assignment ? assignment.topic : 'new'
+    #   end
     else
       assignment ? assignment.topic : 'new'
     end
@@ -127,8 +127,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'Organization'
       if assignable.initialized? && assignable.assignments.any?
         'Bitte den Orga Datensatz vervollständigen'
-      elsif assignable.completed?
-        'Bitte den Orga Datensatz approven'
+      # elsif assignable.completed?
+      #   'Bitte den Orga Datensatz approven'
       else
         'Managed by system'
       end

@@ -23,7 +23,7 @@ class Organization::Update < Trailblazer::Operation
   step Contract::Persist()
   # step ::Lib::Macros::Debug::Breakpoint()
   step :change_state_side_effect # prevents persist on faulty state change
-  step :assign_to_section_team_via_classification_on_complete
+  # step :assign_to_section_team_via_classification_on_complete
   step :assign_to_system_on_approve
   step :syncronize_done_state
   step :generate_translations!
@@ -59,19 +59,20 @@ class Organization::Update < Trailblazer::Operation
     end
   end
 
-  def assign_to_section_team_via_classification_on_complete(
-    options, changed_state: false, model:, params:, **
-  )
-    meta = params['meta'] && params['meta']['commit']
-    if meta.to_s == 'complete' && changed_state &&
-       ::User::Twin.new(options['current_user']).presumed_section
-      result = ::Assignment::CreateBySystem.(
-        {}, assignable: model, last_acting_user: options['current_user']
-      ).success?
-      result
-    end
-    true
-  end
+  # NOTE currently deactivated in non-approve test phase
+  # def assign_to_section_team_via_classification_on_complete(
+  #   options, changed_state: false, model:, params:, **
+  # )
+  #   meta = params['meta'] && params['meta']['commit']
+  #   if meta.to_s == 'complete' && changed_state &&
+  #      ::User::Twin.new(options['current_user']).presumed_section
+  #     result = ::Assignment::CreateBySystem.(
+  #       {}, assignable: model, last_acting_user: options['current_user']
+  #     ).success?
+  #     result
+  #   end
+  #   true
+  # end
 
   def generate_translations!(opts, changed_state: false, model:, params:, **)
     changes = opts['contract.default'].changed
