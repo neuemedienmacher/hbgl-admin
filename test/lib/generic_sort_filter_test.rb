@@ -207,9 +207,19 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
-    it 'parses date-times and converts them from CET to UTC' do
-      params = { filters: { 'created_at' => '15.09.2014, 13:02:00+0200' } }
-      query.expects(:where).with("created_at = '2014-09-15 11:02:00 UTC'")
+    it 'parses times and converts them correctly' do
+      query = Opening.where('1 = 1')
+      params = { filters: { 'open' => '13:00' } }
+      query.expects(:where)
+           .with("open = '#{Time.zone.parse('01.01.2000 13:00').to_s(:db)}'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'parses datetimes and converts them correctly' do
+      value = '15.09.2014, 13:00'
+      params = { filters: { 'created_at' => value } }
+      query.expects(:where)
+           .with("created_at = '#{Time.zone.parse(value).to_datetime}'")
       subject.send(:transform_by_filtering, query, params)
     end
 
