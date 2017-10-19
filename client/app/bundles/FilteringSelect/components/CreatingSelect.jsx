@@ -30,7 +30,7 @@ export default class CreatingSelect extends React.Component {
 
   _renderAdditionalObjectButton(addHandler, disabled) {
     return(
-      <button disabled={disabled} onClick={addHandler}>
+      <button disabled={disabled} onClick={addHandler} className="btn btn-secondary">
         ein neues Objekt hinzufügen
       </button>
     )
@@ -40,7 +40,8 @@ export default class CreatingSelect extends React.Component {
     return (formId, index) => {
       return(
         <div className="CreatingSelect_ReferenceCreation" key={index}>
-          <button className="CreatingSelect_ReferenceCreation__close-btn" onClick={removeClickHandler(formId)}>x</button>
+          <h4>Neues Objekt:</h4>
+          <button className="CreatingSelect_ReferenceCreation__close-btn btn btn-secondary" onClick={removeClickHandler(formId)}>x</button>
           <Form preventEnterSubmit
             formId={formId} model={submodelName} nestingModel={model}
             submodelPath={parentModels} submodelKey={index}
