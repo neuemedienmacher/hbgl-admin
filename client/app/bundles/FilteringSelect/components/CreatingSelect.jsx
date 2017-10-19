@@ -39,8 +39,8 @@ export default class CreatingSelect extends React.Component {
   _renderSubmodelForms(model, submodelName, parentModels, removeClickHandler) {
     return (formId, index) => {
       return(
-        <div style={{border: '1px solid black'}} key={index}>
-          <button onClick={removeClickHandler(formId)}>x</button>
+        <div className="CreatingSelect_ReferenceCreation" key={index}>
+          <button className="CreatingSelect_ReferenceCreation__close-btn" onClick={removeClickHandler(formId)}>x</button>
           <Form preventEnterSubmit
             formId={formId} model={submodelName} nestingModel={model}
             submodelPath={parentModels} submodelKey={index}
