@@ -19,7 +19,7 @@ class Location::Create < Trailblazer::Operation
     # NOTE: only works of inline creation of location in organization
     orga_or_contract =
       contract.organization || options['nesting_operation']['contract.default']
-    model.label = build_label(orga_or_contract.name, contract)
+    model.label = build_label(orga_or_contract.name, contract).first(255)
   end
 
   private
