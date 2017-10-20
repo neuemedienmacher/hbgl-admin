@@ -31,8 +31,11 @@ const mapStateToProps = (state, ownProps) => {
   const lockedParams = lockedParamsFor(scope, itemId, systemUser.id)
   const optionalParams =
     { 'sort_field': 'updated-at', 'sort_direction': 'DESC' }
-  merge(ownProps.params, merge(clone(optionalParams), ownProps.params, lockedParams))
-  const defaultParams = merge({}, merge(clone(optionalParams), lockedParams))
+  // console.log('ownProps.params before', ownProps.params)
+  // merge(ownProps.params, merge(clone(optionalParams), ownProps.params, lockedParams))
+  // console.log('ownProps.params after', ownProps.params)
+  // const defaultParams = merge({}, merge(clone(optionalParams), lockedParams))
+  // console.log('defaultParams', defaultParams)
   const heading = headingFor(scope)
   return {
     heading,
@@ -41,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
     optionalParams,
     scope,
     selectableData,
-    defaultParams
+    // defaultParams
   }
 }
 
@@ -54,13 +57,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
 
-  setParams() {
-    let identifier = 'indexResults_assignments_' + stateProps.scope
-    dispatchProps.dispatch(
-      loadAjaxData('assignments', this.defaultParams, identifier)
-    )
-    browserHistory.replace(`/?${jQuery.param(this.defaultParams)}`)
-  }
+  // setParams() {
+    // let identifier = 'indexResults_assignments_' + stateProps.scope
+    // dispatchProps.dispatch(
+    //   loadAjaxData('assignments', this.defaultParams, identifier)
+    // )
+    // browserHistory.replace(`/?${jQuery.param(this.defaultParams)}`)
+  // }
 })
 
 function headingFor(scope) {

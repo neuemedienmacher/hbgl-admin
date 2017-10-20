@@ -3,6 +3,7 @@ import omit from 'lodash/omit'
 import clone from 'lodash/clone'
 import merge from 'lodash/merge'
 import filter from 'lodash/filter'
+import isArray from 'lodash/isArray'
 import { encode } from 'querystring'
 import { browserHistory } from 'react-router'
 import settings from '../../../lib/settings'
@@ -15,9 +16,7 @@ import IndexHeaderFilter from '../components/IndexHeaderFilter'
 
 const mapStateToProps = (state, ownProps) => {
   const model = ownProps.model
-  const filterName =
-    ownProps.filter[0].split('][first]').join('').split('][second]').join('').
-      substring(8, ownProps.filter[0].length -1)
+  const filterName = /\[(\w+)\]/.exec(ownProps.filter[0])[1]
   const filterAttributes = state.entities['field-sets'] && state.entities['field-sets'][model] ?
     state.entities['field-sets'][model]['columns'].find(field =>
       field.name == filterName) : undefined
@@ -27,8 +26,8 @@ const mapStateToProps = (state, ownProps) => {
     filterAttributes ? setFilterType(filterAttributes.type) : ''
   const filterValue = getValue(ownProps.filter[1], 0)
   const secondFilterValue = getValue(ownProps.filter[1], 1)
-  const nilChecked = ownProps.filter[1] == 'nil'
-  // only show filters that are not locked (currently InlineIndex only)
+  const nilChecked = filterValue == 'nil'
+  // only show filters that are not locked
   const fields =
     analyzeFields(settings.index[model].fields, model).filter(value =>
       !ownProps.lockedParams ||
@@ -83,9 +82,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onTrashClick(event) {
-    let filterId = ownProps.filter[0].split('[')
+    let filterName = /\[(\w+)\]/.exec(ownProps.filter[0])[1]
     const params = omit(clone(ownProps.params),
-                  [ownProps.filter[0], 'operators[' + filterId[1]])
+                  [ownProps.filter[0], 'operators[' + filterName])
     let query = searchString(ownProps.model, params)
     browserHistory.replace(`/${query}`)
   },
@@ -103,8 +102,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let params = clone(ownProps.params)
     let newParam = {}
     let operator = event.target.value
-    let filterName =
-        ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
+    let filterName = /\[(\w+)\]/.exec(ownProps.filter[0])[1]
     newParam[`operators[${filterName}]`] = operator
     params = merge(params, newParam)
     let query = searchString(ownProps.model, params)
@@ -123,27 +121,49 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 
   onFilterValueChange(event) {
+    console.log('onFilterValueChange!', event.target.value)
     let params = clone(ownProps.params)
-    if(params[ownProps.filter[0]]['second'] != undefined) {
-      params[ownProps.filter[0]]['first'] = event.target.value
+    // if(params[ownProps.filter[0]]['second'] != undefined) {
+    //   params[ownProps.filter[0]]['first'] = event.target.value
+    // } else {
+    //   params[ownProps.filter[0]] = { 'first': event.target.value }
+    // }
+    if (ownProps.range){
+      if (isArray(params[ownProps.filter[0]])){
+        params[ownProps.filter[0]][0] = event.target.value
+      } else {
+        params[ownProps.filter[0]] = [event.target.value]
+      }
     } else {
-      params[ownProps.filter[0]] = { 'first': event.target.value }
+      params[ownProps.filter[0]] = event.target.value
     }
 
     let query = searchString(ownProps.model, params)
+    console.log('new query:', query)
     browserHistory.replace(`/${query}`)
   },
 
   onSecondFilterValueChange(event) {
+    console.log('onSecondFilterValueChange!', event.target.value)
     let params = clone(ownProps.params)
-
-    if(params[ownProps.filter[0]]['first'] != undefined) {
-      params[ownProps.filter[0]]['second'] = event.target.value
-    } else {
-      alert('Bitte gib einen Anfangswert ein');
+    // if(params[ownProps.filter[0]]['first'] != undefined) {
+    //   params[ownProps.filter[0]]['second'] = event.target.value
+    // } else {
+    //   alert('Bitte gib einen Anfangswert ein');
+    // }
+    if (ownProps.range){
+      if (isArray(params[ownProps.filter[0]])){
+        params[ownProps.filter[0]][1] = event.target.value
+      } else {
+        params[ownProps.filter[0]] = [event.target.value, event.target.value]
+      }
     }
+    // else {
+    //   params[ownProps.filter[0]] = event.target.value
+    // }
 
     let query = searchString(ownProps.model, params)
+    console.log('new query:', query)
     browserHistory.replace(`/${query}`)
   },
 
@@ -161,16 +181,17 @@ function setFilterType (filterType) {
   }
 }
 
-function getValue(props, index) {
-  if(props == Object(props)) {
-    return Object.values(props)[index]
-  } else {
-    if(props == 'nil') {
-      return ''
-    } else {
-      return [props]
-    }
-  }
+function getValue(filterValue, index) {
+  return isArray(filterValue) ? filterValue[index] : filterValue
+  // if(props == Object(props)) {
+  //   return Object.values(props)[index]
+  // } else {
+  //   if(props == 'nil') {
+  //     return ''
+  //   } else {
+  //     return [props]
+  //   }
+  // }
 }
 
 
@@ -213,9 +234,11 @@ function filterOpperators(settings, filterType) {
 
 function searchString(model, params) {
   if(window.location.href.includes(model)) {
-    return `${model}?${jQuery.param(params)}`
+    // return `${model}?${jQuery.param(params)}`
+    return `${model}?${encode(params)}`
   } else {
-    return `?${jQuery.param(params)}`
+    // return `?${jQuery.param(params)}`
+    return `?${encode(params)}`
   }
 }
 

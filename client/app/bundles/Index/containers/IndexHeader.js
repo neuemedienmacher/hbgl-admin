@@ -14,14 +14,18 @@ const mapStateToProps = (state, ownProps) => {
       key.substr(0, 7) == 'filters' &&
         lockedParamsHaveKey(key, ownProps.lockedParams) == false)
   )
-  const filters = toObject(filterArray)
-  const plusButtonDisabled = ownProps.params.hasOwnProperty('filters[id]')
+  console.log(filterArray)
+  const filters = filterArray // toObject(filterArray)
+  // console.log(filters)
+  const plusButtonDisabled = ownProps.params.hasOwnProperty('filters[id][]')
   const generalActions = settings.index[ownProps.model].general_actions
   const routes = generalRoutes(ownProps.model, ownProps.params).filter(route =>
     generalActions.includes(route.action)
   )
-  const filterKeys = filterArray.map(function(key) { return key[0] })
-  filterParams(ownProps.params)
+  // const filterKeys = filterArray.map(function(key) { return key[0] })
+  console.log('before', ownProps.params)
+  // filterParams(ownProps.params)
+  // console.log('after', ownProps.params)
   const params = ownProps.params
 
   return {
@@ -36,17 +40,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onQueryChange(event) {
     const params = merge(clone(ownProps.params), { query: event.target.value })
     if (window.location.pathname.length > 1) {
-      // browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
-      browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
+      browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+      // browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
     } else {
-      // browserHistory.replace(`/?${encode(params)}`)
-      browserHistory.replace(`/?${jQuery.param(params)}`)
+      browserHistory.replace(`/?${encode(params)}`)
+      // browserHistory.replace(`/?${jQuery.param(params)}`)
     }
   },
 
   onPlusClick(event) {
     let params = clone(ownProps.params)
-    merge(params, { 'filters[id]': '' })
+    merge(params, { 'filters[id][]': [''] })
 
     let query = searchString(ownProps.model, params)
     browserHistory.replace(`/${query}`)
@@ -74,28 +78,36 @@ const generalRoutes = (model, params) => [
 ]
 
 function lockedParamsHaveKey(key, lockedParams) {
-  if(lockedParams) {
-    if(lockedParams.hasOwnProperty(key)) {
-      return true
-    } else {
-      return false
-    }
-  } else {
-    return false
+  return lockedParams != undefined ? lockedParams.hasOwnProperty(key) : false
+}
+
+function filterName(key) {
+  if (key.lastIndexOf('[]') == key.length - 2){
+    return ''
   }
 }
 
 function searchString(model, params) {
+  // let bla = merge({}, clone(params), { 'filters[id]': ['1', '2']})
+  // let bla2 = merge({}, clone(params), { 'filters[id]': {'first': '1', 'second': '2'}})
+  // let test = encode(bla)
+  // let test2 = encode(bla2)
+  // console.log(test)
+  // console.log(test2)
+  // debugger;
   if(window.location.href.includes(model)) {
-    return `${model}?${jQuery.param(params)}`
-    // return `${model}?${encode(params)}`
+    // return `${model}?${jQuery.param(params)}`
+    return `${model}?${encode(params)}`
   } else {
-    return `?${jQuery.param(params)}`
-    // return `?${encode(params)}`
+    // return `?${jQuery.param(params)}`
+    return `?${encode(params)}`
   }
 }
 
 function toObject(filters) {
+  // if (filters && filters.length){
+  //   debugger;
+  // }
   var filterArray = filters.map(function(filter) {
     if (filter[0].includes("first")) {
       const newKey = filter[0].replace("[first]", "")

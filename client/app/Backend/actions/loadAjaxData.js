@@ -36,7 +36,7 @@ function parseUrlParams(params) {
       value.map(filter_value => {
         // railsify query-syntax for arrays
         let arrayEntryParameter = {}
-        arrayEntryParameter[`${key}[]`] = filter_value
+        arrayEntryParameter[`${key}`] = filter_value
         manualParams += '&' + encode(arrayEntryParameter)
       })
     } else {
@@ -52,8 +52,9 @@ export default function loadAjaxData(
   basePath, params, key, transformer = transformJsonApi, nextModel = undefined,
   callback = ()=>{}
 ) {
+  console.log('loadAjaxData params:', params)
   const path = `/api/v1/${basePath}?${parseUrlParams(params)}`
-
+  console.log('loadAjaxData path:', path)
   return function(dispatch) {
     dispatch(loadAjaxDataRequest(key))
 

@@ -3,9 +3,9 @@ import Index from '../../Index/containers/Index'
 import ControlledSelectView from '../../ControlledSelectView/containers/ControlledSelectView'
 
 export default class AssignmentsContainer extends Component {
-  componentDidMount() {
-    this.props.setParams()
-  }
+  // componentDidMount() {
+  //   this.props.setParams()
+  // }
 
   render() {
     const {
@@ -19,7 +19,6 @@ export default class AssignmentsContainer extends Component {
         <Index
           model={model} identifierAddition={scope} params={params}
           lockedParams={lockedParams} optionalParams={optionalParams}
-          defaultParams={defaultParams}
         />
       </div>
     )
@@ -30,7 +29,7 @@ export default class AssignmentsContainer extends Component {
       return (
         <div className="select-set">
           <span className="select-set__label">Zeige Zuweisungen für:</span>
-          <ControlledSelectView identifier={'team-assignments'} params={params}>
+          <ControlledSelectView identifier={'team-assignments'}>
             {teamData}
           </ControlledSelectView>
         </div>

@@ -65,7 +65,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       loadAjaxData(
         'statistic-charts',
         {
-          'filters[user-id]': stateProps.affectedUserIds,
+          'filters[user-id][]': stateProps.affectedUserIds,
           // NOTE: this loads the correct amount of data for now (every user has two charts at max)
           'per_page': stateProps.affectedUserIds.length * 2
         },
