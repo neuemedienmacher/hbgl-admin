@@ -4,6 +4,8 @@ import merge from 'lodash/merge'
 import ContactPersonFormObject from './ContactPersonFormObject'
 import WebsiteFormObject from './WebsiteFormObject'
 import LocationFormObject from './LocationFormObject'
+import TargetAudienceFiltersOfferFormObject
+  from './TargetAudienceFiltersOfferFormObject'
 
 class OfferCreateFormObject extends GenericFormObject {
   static get model() {
@@ -16,20 +18,21 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'section', 'split-base', 'all-inclusive', 'name', 'description',
-      'comment', 'next-steps', 'code-word', 'contact-people',
+      'section', 'split-base', 'name', 'description',
+      'comment', 'next-steps', 'contact-people',
       'hide-contact-people', 'encounter', 'location', 'area', 'categories',
-      'tags', 'solution-category', 'trait-filters', 'language-filters',
-      'openings', 'opening-specification', 'websites', 'starts-at',
-      'expires-at', 'logic-version'
+      'tags', 'trait-filters', 'language-filters',
+      'target-audience-filters-offers', 'openings', 'opening-specification',
+      'websites', 'starts-at', 'ends-at', 'logic-version'
     ]
   }
 
   static get submodels() {
     return [
       'section', 'split-base', 'next-steps', 'contact-people', 'location',
-      'area', 'categories', 'tags', 'solution-category', 'trait-filters',
-      'language-filters', 'openings', 'websites', 'logic-version'
+      'area', 'categories', 'tags', 'trait-filters',
+      'language-filters', 'target-audience-filters-offers', 'openings',
+      'websites', 'logic-version'
     ]
   }
 
@@ -55,20 +58,22 @@ class OfferCreateFormObject extends GenericFormObject {
       area: {
         relationship: 'oneToOne',
       },
-      cateories: {
+      categories: {
         relationship: 'oneToMany',
       },
       tags: {
         relationship: 'oneToMany',
-      },
-      'solution-category': {
-        relationship: 'oneToOne',
       },
       'trait-filters': {
         relationship: 'oneToMany',
       },
       'language-filters': {
         relationship: 'oneToMany',
+      },
+      'target-audience-filters-offers': {
+        object: TargetAudienceFiltersOfferFormObject,
+        relationship: 'oneToMany',
+        inverseRelationship: 'belongsTo'
       },
       openings: {
         relationship: 'oneToMany',
@@ -87,12 +92,10 @@ class OfferCreateFormObject extends GenericFormObject {
     return {
       section: { type: 'filtering-select' },
       'split-base': { type: 'filtering-select' },
-      'all-inclusive': { type: 'checkbox' },
-      name: { type: 'string' },
-      description: { type: 'textarea' },
+      name: { type: 'string', addons: ['counter'] },
+      description: { type: 'textarea', addons: ['counter'] },
       comment: { type: 'textarea' },
-      'next-steps': { type: 'filtering-multiselect' },
-      'code-word': { type: 'string' },
+      'next-steps': { type: 'filtering-multiselect', addons: ['counter'] },
       'contact-people': { type: 'creating-multiselect' },
       'hide-contact-people': { type: 'checkbox' },
       encounter: {
@@ -105,48 +108,70 @@ class OfferCreateFormObject extends GenericFormObject {
       area: { type: 'filtering-select' },
       categories: { type: 'filtering-multiselect' },
       tags: { type: 'filtering-multiselect' },
-      'solution-category': { type: 'filtering-select' },
       'trait-filters': {
         type: 'filtering-multiselect',
-        resource: 'filters', filters: { type: 'TraitFilter' }
+        resource: 'filters',
+        params: { filters: { type: 'TraitFilter' } }
       },
       'language-filters': {
         type: 'filtering-multiselect',
-        resource: 'filters', filters: { type: 'LanguageFilter' }
+        resource: 'filters',
+        params: { filters: { type: 'LanguageFilter' } }
       },
-      openings: { type: 'filtering-multiselect' },
+      'target-audience-filters-offers': {
+        type: 'creating-multiselect'
+      },
+      openings: {
+        type: 'filtering-multiselect',
+        params: { sort_field: 'sort_value', sort_direction: 'ASC' }
+      },
       'opening-specification': { type: 'textarea' },
       'starts-at': { type: 'date' },
-      'expires-at': { type: 'date' },
+      'ends-at': { type: 'date' },
       websites: { type: 'creating-multiselect' },
       'logic-version': { type: 'filtering-select' },
     }
   }
 
   static get requiredInputs() {
-    return ['name']
+    return [
+      'section', 'split-base', 'name', 'target-audience-filters-offers',
+      'language-filters', 'description'
+    ]
+  }
+
+  static get inputMaxLengths() {
+    return {
+      name: 80,
+      description: 450,
+      // NOTE: title and description max vals are only recommendations
+      'next-steps': 10
+    }
   }
 
   validation() {
     this.applyRequiredInputs()
+    this.maybe('next-steps').filled({
+      'max_size?': this.constructor.inputMaxLengths['next-steps']
+    })
   }
 }
 
 class OfferUpdateFormObject extends OfferCreateFormObject {
-  static get properties() {
-    return concat(
-      OrgaCreateFormObject.properties,
-      ['old-next-steps']
-    )
-  }
-
-  static get formConfig() {
-    return merge(
-      OrgaCreateFormObject.formConfig, {
-        'old-next-steps': { type: 'textarea' },
-      }
-    )
-  }
+  // static get properties() {
+  //   return concat(
+  //     OfferCreateFormObject.properties,
+  //     ['old-next-steps']
+  //   )
+  // }
+  //
+  // static get formConfig() {
+  //   return merge(
+  //     OfferCreateFormObject.formConfig, {
+  //       'old-next-steps': { type: 'textarea' },
+  //     }
+  //   )
+  // }
 
   static get readOnlyProperties() {
     return ['aasm-state']

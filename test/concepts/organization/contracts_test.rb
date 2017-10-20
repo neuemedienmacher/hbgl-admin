@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 require_relative '../../support/utils/contract_test_utils'
 
@@ -24,17 +25,18 @@ class OrganizationContractsTest < ActiveSupport::TestCase
       subject.locations =
         [OpenStruct.new(hq?: true), OpenStruct.new(hq?: false)]
       subject.valid?
-      assert_nil subject.errors.messages[:locations]
+      assert_empty subject.errors.messages[:locations]
 
       # fails when more than one are hq
       subject.locations =
         [OpenStruct.new(id: 1, hq?: true), OpenStruct.new(id: 2, hq?: true)]
+      subject.errors.delete :locations
       subject.valid?
       subject.errors.messages[:locations].must_include message
 
       # fails when none are hq
-      subject.errors.delete :locations
       subject.locations = [OpenStruct.new(hq?: false)]
+      subject.errors.delete :locations
       subject.valid?
       subject.errors.messages[:locations].must_include message
     end

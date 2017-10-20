@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # NON-JSON-API getter for all column names of and associated with a model.
 # Used for Exports.
 module API::V1

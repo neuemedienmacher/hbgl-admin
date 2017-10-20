@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 
 describe ContactMailer do
@@ -10,7 +11,7 @@ describe ContactMailer do
   describe '#admin_notification' do
     it 'must deliver' do
       mail = ContactMailer.admin_notification contact.id
-      mail.must deliver_from Rails.application.secrets.emails['admin']
+      mail.must deliver_from Rails.application.secrets.emails[:admin]
 
       mail.must have_body_text contact.name
       mail.must have_body_text contact.email

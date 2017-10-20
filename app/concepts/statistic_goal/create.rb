@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StatisticGoal::Create < Trailblazer::Operation
   step Model(::StatisticGoal, :new)
   # policy ::StatisticGoalPolicy, :create?

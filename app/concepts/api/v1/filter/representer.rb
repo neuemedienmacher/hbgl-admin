@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module Filter
     module Representer
@@ -7,7 +8,7 @@ module API::V1
 
         attributes do
           property :label, getter: ->(filter) do
-            filter[:represented].identifier
+            filter[:represented].name
           end
 
           property :identifier

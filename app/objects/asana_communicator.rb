@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class AsanaCommunicator < NetCommunicator
   WORKSPACE = '41140436022602'
-  PROJECTS = { expired: %w(44856824806357), ricochet: %w(147663824592112),
-               big_orga_without_mailing: %w(85803884880432) }.freeze
+  PROJECTS = { expired: %w[44856824806357], ricochet: %w[147663824592112],
+               big_orga_without_mailing: %w[85803884880432] }.freeze
 
   def initialize
     super 'https://app.asana.com'
@@ -10,13 +11,13 @@ class AsanaCommunicator < NetCommunicator
   end
 
   def create_expire_task offer
-    organization_names = offer.organizations.pluck(:name).join(',')
+    organization_names = offer.organizations.order(:id).pluck(:name).join(',')
     section_name =
       offer.section.identifier.first(3)
     create_task(
       "#{organization_names} - #{offer.expires_at} - #{section_name}"\
       " - #{offer.name}",
-      "Expired: http://claradmin.herokuapp.com/admin/offer/#{offer.id}/edit"
+      "Expired: http://claradmin.herokuapp.com/offers/#{offer.id}/edit"
     )
   end
 
@@ -26,7 +27,7 @@ class AsanaCommunicator < NetCommunicator
     create_task(
       "[Offer website unreachable] #{world} | Version:"\
       " #{offer.logic_version.version} | #{orgas} | #{offer.name}",
-      'Deactivated: http://claradmin.herokuapp.com/admin/offer/'\
+      'Deactivated: http://claradmin.herokuapp.com/offers/'\
       "#{offer.id}/edit | Unreachable website: #{website.url}",
       :ricochet
     )
@@ -43,7 +44,7 @@ class AsanaCommunicator < NetCommunicator
     organization_names = offer.organizations.pluck(:name).join(',')
     create_task "WV | Saisonales Angebot | Start date: #{offer.starts_at} | "\
                 "#{organization_names} | #{offer.name}",
-                "http://claradmin.herokuapp.com/admin/offer/#{offer.id}/edit",
+                "http://claradmin.herokuapp.com/offers/#{offer.id}/edit",
                 :ricochet
   end
 

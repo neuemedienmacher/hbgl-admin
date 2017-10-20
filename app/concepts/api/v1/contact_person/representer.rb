@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module ContactPerson
     module Representer
@@ -19,14 +20,10 @@ module API::V1
           property :academic_title
           property :gender
           property :position
-          property :street
-          property :zip_and_city
+          # property :street
+          # property :zip_and_city
           property :spoc
-
-          property :label, getter: ->(contact_person) do
-            contact_person[:represented].display_name
-          end
-
+          property :label
           property :email_id
           property :organization_id
         end
@@ -52,16 +49,14 @@ module API::V1
       end
 
       class Create < Show
-        attributes do
-          property :responsibility
-        end
-
         has_one :email, decorator: API::V1::Email::Representer::Show,
                         populator: API::V1::Lib::Populators::FindOrInstantiate,
                         class: ::Email
 
-        has_one :organization, class: ::Organization, decorator:
-                               API::V1::Organization::Representer::Show
+        has_one :organization,
+                decorator: API::V1::Organization::Representer::Show,
+                populator: API::V1::Lib::Populators::Find,
+                class: ::Organization
       end
     end
   end

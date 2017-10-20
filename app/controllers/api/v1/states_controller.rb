@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # NON-JSON-API getter for all states of a model. Used for statistics.
 module API::V1
   class StatesController < API::V1::BackendController

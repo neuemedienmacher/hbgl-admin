@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
@@ -117,7 +118,7 @@ class AssignmentCreateTest < ActiveSupport::TestCase
           orga.reload.assignments.count.must_equal 1
           # initialized orga but wrong user is assigned to orga
           orga.update_columns aasm_state: 'initialized'
-          orga.assignments.first.update_columns receiver_id: User.first
+          orga.assignments.first.update_columns receiver_id: User.first.id
           operation_must_work ::Assignment::Create, basic_params
           orga.reload.assignments.count.must_equal 1
           # correct user assigned to orga but not to the division

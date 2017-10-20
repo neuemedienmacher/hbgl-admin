@@ -27,35 +27,45 @@ const mapStateToProps = (state, ownProps) => {
   // filterParams(ownProps.params)
   // console.log('after', ownProps.params)
   const params = ownProps.params
-
   return {
     params,
     filters,
     plusButtonDisabled,
-    routes
+    routes,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onQueryChange(event) {
-    const params = merge(clone(ownProps.params), { query: event.target.value })
-    if (window.location.pathname.length > 1) {
-      browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
-      // browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
-    } else {
-      browserHistory.replace(`/?${encode(params)}`)
-      // browserHistory.replace(`/?${jQuery.param(params)}`)
+let lastQueryChangeTimer = null
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onQueryChange(event) {
+      const value = event.target.value
+
+      if (lastQueryChangeTimer) clearTimeout(lastQueryChangeTimer)
+      lastQueryChangeTimer = setTimeout(function() {
+        lastQueryChangeTimer = null
+
+        const params = merge(clone(ownProps.params), { query: value })
+        if (window.location.pathname.length > 1) {
+          browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+          // browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
+        } else {
+          browserHistory.replace(`/?${encode(params)}`)
+          // browserHistory.replace(`/?${jQuery.param(params)}`)
+        }
+      }, 400)
+    },
+
+    onPlusClick(event) {
+      let params = clone(ownProps.params)
+      merge(params, { 'filters[id][]': [''] })
+
+      let query = searchString(ownProps.model, params)
+      browserHistory.replace(`/${query}`)
     }
-  },
-
-  onPlusClick(event) {
-    let params = clone(ownProps.params)
-    merge(params, { 'filters[id][]': [''] })
-
-    let query = searchString(ownProps.model, params)
-    browserHistory.replace(`/${query}`)
   }
-})
+}
 
 const generalRoutes = (model, params) => [
   {
@@ -72,7 +82,7 @@ const generalRoutes = (model, params) => [
     id: 3,
     action: 'export',
     pathname: `/${model}/export`,
-    query: params,
+    hash: `?${jQuery.param(params)}`,
     anchor: 'Export'
   }
 ]

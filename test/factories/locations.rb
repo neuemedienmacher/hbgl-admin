@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'ffaker'
 
 FactoryGirl.define do
@@ -11,7 +12,7 @@ FactoryGirl.define do
     latitude { rand 52.4..52.6 } # somewhere within approximate bounds of Berlin
     longitude { rand 13.25..13.6 }
 
-    display_name { "… #{name} | #{street} …" }
+    label { "… #{name} | #{street} …" }
 
     # optional
     sequence(:name) { |n| maybe(FFaker::NameDE.name + n.to_s) }

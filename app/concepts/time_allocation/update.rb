@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TimeAllocation::Update < Trailblazer::Operation
   step Model(::TimeAllocation, :find_by)
   step Policy::Pundit(TimeAllocationPolicy, :update?)

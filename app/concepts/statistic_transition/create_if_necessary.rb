@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StatisticTransition::CreateIfNecessary < Trailblazer::Operation
   step :create_if_necessary
 

@@ -67,9 +67,6 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  # Raise errors in after_rollback/after_commit callbacks
-  config.active_record.raise_in_transactional_callbacks = true
-
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 

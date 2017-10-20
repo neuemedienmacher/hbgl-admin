@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'ffaker'
 
 FactoryGirl.define do
@@ -9,12 +10,11 @@ FactoryGirl.define do
     old_next_steps { FFaker::Lorem.paragraph(rand(1..3))[0..399] }
     encounter do
       # weighted
-      %w(personal personal personal personal hotline chat forum email online-course portal).sample
+      %w[personal personal personal personal hotline chat forum email online-course portal].sample
     end
     area { Area.first unless encounter == 'personal' }
     approved_at nil
     split_base nil
-    solution_category
     # every offer should have a creator!
     created_by { User.all.sample.id || FactoryGirl.create(:researcher).id }
 
@@ -28,15 +28,16 @@ FactoryGirl.define do
       opening_count { rand(1..5) }
       fake_address false
       section nil
-      organizations []
+      organizations nil
     end
 
     after :build do |offer, evaluator|
       # SplitBase => Division(s) => Organization(s)
+      organizations = evaluator.organizations || [Organization.all.sample]
       unless offer.split_base
         offer.split_base =
           FactoryGirl.create :split_base, section: evaluator.section,
-                                          organizations: evaluator.organizations
+                                          organizations: organizations
       end
       organization = offer.organizations[0]
 

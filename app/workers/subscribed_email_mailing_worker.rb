@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Send an email address a compound email about new offers.
 class SubscribedEmailMailingWorker
   include Sidekiq::Worker

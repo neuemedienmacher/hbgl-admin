@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 
 describe Location do
@@ -32,11 +33,9 @@ describe Location do
       end
       initialized_offer.location = loc
       initialized_offer.save!
-      initialized_offer.expects(:index!).never
       Offer.any_instance.expects(:index!).times(loc.offers.visible_in_frontend.count)
       loc.visible = !loc.visible
       loc.save!
-      loc.after_commit
     end
 
     it 'should not update on irrelevant location change but on zip' do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class User::Update < Trailblazer::Operation
   step Model(::User, :find_by)
   step Policy::Pundit(UserPolicy, :update?)

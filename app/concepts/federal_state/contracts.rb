@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module FederalState::Contracts
   class Create < Reform::Form
     property :name

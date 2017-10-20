@@ -2,11 +2,8 @@ de:
   offer:
     validations:
       location_fits_organization:
-        organization_error: |
-          muss die des angegebenen Standorts beinhalten.
-        location_error: |
-          muss zu der unten angegebenen Organisation gehören.
-      needs_solution_category: "benötigt mindestens eine Lösungskategorie"    
+        muss zu einer der Organisationen der Split Base gehören
+      needs_solution_category: "benötigt mindestens eine Lösungskategorie"
       needs_organizations: "benötigt mindestens eine Organisation"
       needs_age_filters: "benötigt mindestens einen Altersfilter"
       needs_language_filters: "benötigt mindestens einen Sprachfilter"

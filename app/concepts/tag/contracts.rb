@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Tag::Contracts
   class Create < Reform::Form
     property :name_de
@@ -13,6 +14,7 @@ module Tag::Contracts
     property :name_fa
     property :keywords_fa
     property :explanations_fa
+    property :name_fr
     property :name_tr
     property :name_pl
     property :name_ru

@@ -21,9 +21,6 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
-  # Raise errors in after_rollback/after_commit callbacks
-  config.active_record.raise_in_transactional_callbacks = true
-
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 

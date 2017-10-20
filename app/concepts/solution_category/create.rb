@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SolutionCategory::Create < Trailblazer::Operation
   step Model(::SolutionCategory, :new)
   step Policy::Pundit(SolutionCategoryPolicy, :create?)

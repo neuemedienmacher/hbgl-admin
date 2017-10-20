@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
 # require_relative '../../support/utils/jsonapi_test_utils'
@@ -12,7 +13,7 @@ class ExportCreateTest < ActiveSupport::TestCase
     {
       object_name: 'offers',
       export: {
-        model_fields: %w(id name),
+        model_fields: %w[id name],
         trait_filters: ['id']
       }
     }
@@ -50,7 +51,7 @@ class ExportCreateTest < ActiveSupport::TestCase
       it 'should not change anything for a valid input' do
         options = {}
         operation.new.clean_empty_field_sets(options, basic_params)
-        options['params'][:export].must_equal(model_fields: %w(id name),
+        options['params'][:export].must_equal(model_fields: %w[id name],
                                               trait_filters: ['id'])
       end
 
@@ -58,7 +59,7 @@ class ExportCreateTest < ActiveSupport::TestCase
         basic_params[:export][:mustBeRejected] = []
         options = {}
         operation.new.clean_empty_field_sets(options, basic_params)
-        options['params'][:export].must_equal(model_fields: %w(id name),
+        options['params'][:export].must_equal(model_fields: %w[id name],
                                               trait_filters: ['id'])
       end
     end

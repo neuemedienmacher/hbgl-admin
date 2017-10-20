@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
   const columnNames = columns.map(field => field.name)
   const associations = toPairs(fieldSet && fieldSet.associations || {})
 
-  const action = `/exports/${ownProps.model}?${encode(ownProps.params)}`
+  const action = `/exports/${ownProps.model}?${jQuery.param(ownProps.params)}`
+  console.log(action)
 
   return {
     associations,

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 class OfferTranslation::Update < Trailblazer::Operation
   include Translation::CommonSideEffects::HumanChangeFields
   include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::OfferTranslation, :find_by)
   # TODO: Either make policy more useful or remove
-  step Policy::Pundit(OfferTranslationPolicy, :update?)
+  step Policy::Pundit(PermissivePolicy, :update?)
 
   step Contract::Build(constant: OfferTranslation::Contracts::Update)
   step Contract::Validate()

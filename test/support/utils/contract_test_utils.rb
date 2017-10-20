@@ -5,8 +5,8 @@ module ContractTestUtils
     assert_contract_error(property, 'blank')
   end
 
-  def wont_validate_presence_of(property)
-    set property, 'a'
+  def wont_validate_presence_of(property, decoy_value = 'a')
+    set property, decoy_value
     refute_contract_error(property, 'blank')
   end
 
@@ -20,8 +20,10 @@ module ContractTestUtils
   end
 
   def must_validate_uniqueness_of property, existing_property_value
-    set property, SecureRandom.base64
-    refute_contract_error(property, 'taken')
+    if existing_property_value.is_a? String
+      set property, SecureRandom.base64
+      refute_contract_error(property, 'taken')
+    end # non-string fields are not yet counter checked
     set property, existing_property_value
     assert_contract_error(property, 'taken')
   end
@@ -33,6 +35,7 @@ module ContractTestUtils
   end
 
   def assert_contract_error(property, i18n_key, i18n_options = {})
+    subject.errors.delete property
     subject.wont_be :valid?
     subject.errors.messages.keys.must_include(
       property, "Error messages did not include #{property}"
@@ -43,6 +46,7 @@ module ContractTestUtils
   end
 
   def refute_contract_error(property, i18n_key, i18n_options = {})
+    subject.errors.delete property
     subject.valid?
     !subject.errors.messages[property] ||
       subject.errors.messages[property].wont_include(

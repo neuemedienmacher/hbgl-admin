@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
 
@@ -31,7 +32,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
     result =
       api_operation_must_work API::V1::Organization::Update, params.to_json
     result['model'].description.must_equal 'changed'
-    result['model'].website_id.must_equal 2
+    assert result['model'].website_id
     result['model'].website.url.must_equal 'http://new.org'
   end
 
@@ -148,14 +149,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
                                 'meta' => { 'commit' => 'complete' }
       )
       new_orga.reload.aasm_state.must_equal 'completed'
-      new_orga.assignments.count.must_equal assignment_count + 1
-      assert_nil new_orga.assignments.last.receiver_id
-      new_orga.assignments.last.receiver_team_id.must_equal 1
-      new_orga.assignments.last.message.must_equal(
-        'Bitte den Orga Datensatz approven'
-      )
-      new_orga.assignments.last.creator_id.must_equal user.id
-      new_orga.assignments.last.topic.must_equal 'approval'
+      new_orga.assignments.count.must_equal assignment_count # no new assignment
     end
 
     it 'validates description and legal_form with approve state change param' do

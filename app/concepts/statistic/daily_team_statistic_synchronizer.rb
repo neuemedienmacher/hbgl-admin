@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # PORO that aggregates daily user-statistics of a year to daily team-statistics
 class Statistic::DailyTeamStatisticSynchronizer
   def initialize(team_id, year)

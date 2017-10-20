@@ -1,12 +1,11 @@
 # frozen_string_literal: true
+
 class ExpiringOffersWorker
   include Sidekiq::Worker
 
   def perform
     # Find expiring offers (ignore seasonal offers - another worker handles these)
-    expiring =
-      Offer.where(aasm_state: 'approved')
-           .where('expires_at <= ? AND starts_at IS null', Time.zone.today)
+    expiring = Offer.should_be_expired.where(aasm_state: 'approved')
     return if expiring.count < 1
 
     # Create Asana Tasks

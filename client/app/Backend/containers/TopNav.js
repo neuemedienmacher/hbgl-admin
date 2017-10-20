@@ -125,6 +125,11 @@ const routes = [
     pathname: '/split-bases',
     anchor: 'Split Base',
     access: all,
+  }, {
+    id: 22,
+    pathname: '/websites',
+    anchor: 'Webseiten',
+    access: all,
   }/*,
   {
     id: 10,

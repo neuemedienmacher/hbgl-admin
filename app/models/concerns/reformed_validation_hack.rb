@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Polyfill to use Reform validations with old backend
 # TODO: Remove every include of this with the model's usage in rails_admin
 module ReformedValidationHack

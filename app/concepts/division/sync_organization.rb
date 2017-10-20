@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SyncOrganization
   def syncronize_organization_approve_or_done_state(
     _, model:, current_user:, **

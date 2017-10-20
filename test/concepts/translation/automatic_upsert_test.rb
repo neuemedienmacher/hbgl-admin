@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 # rubocop:disable Metrics/ClassLength
 class AutomaticUpsertTest < ActiveSupport::TestCase
@@ -98,9 +99,10 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
                    'object_to_translate' => orga)
     assignments = orga.translations.where(locale: 'en').first.assignments
     assignments.count.must_equal 1
-    assignments.first.creator_id.must_equal User.system_user.id
-    assignments.first.receiver_id.must_equal User.system_user.id
-    assignments.first.aasm_state.must_equal 'open'
+    first_assignment = assignments.first
+    first_assignment.creator_id.must_equal User.system_user.id
+    first_assignment.receiver_id.must_equal User.system_user.id
+    first_assignment.aasm_state.must_equal 'open'
 
     # add a refugees offer to the organization and start Operation again
     refugees_offer.split_base.divisions.first
@@ -116,10 +118,11 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => refugees_offer)
     assignments.count.must_equal 2
-    assignments.first.aasm_state.must_equal 'closed'
-    assignments.last.creator_id.must_equal refugees_offer.created_by
-    assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
-    assignments.last.aasm_state.must_equal 'open'
+    first_assignment.reload.aasm_state.must_equal 'closed'
+    second_assignment = assignments.where.not(id: first_assignment.id).first
+    second_assignment.creator_id.must_equal refugees_offer.created_by
+    second_assignment.receiver_team_id.must_equal 1 # test default for translator teams
+    second_assignment.aasm_state.must_equal 'open'
 
     # running again does not generate a new orga-assignment (already existing)
     operation.({}, 'locale' => :en, 'fields' => :all,
@@ -189,7 +192,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
 
   it 'should raise an error for unknown translation-strategies' do
     assert_raises(RuntimeError) do
-      operation.({}, 'locale' => :en, 'fields' => [:unknown],
+      operation.({}, 'locale' => :en, 'fields' => [:encounter],
                      'object_to_translate' => family_offer)
     end
   end

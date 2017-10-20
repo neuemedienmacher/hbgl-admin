@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_admin/config/actions'
 require 'rails_admin/config/actions/base'
 
@@ -27,7 +28,7 @@ module RailsAdmin
             contract = @object.class::Contracts::ChangeState.new(@object)
             object_valid_for_state_change = contract.valid?
             # NOTE Hacky hack hack: allow forced state-change to checkup and edit for invalid objects (e.g. expired offers are invalid)
-            if !object_valid_for_state_change && %w(start_checkup_process return_to_editing).include?(params[:event])
+            if !object_valid_for_state_change && %w[start_checkup_process return_to_editing].include?(params[:event])
               @object.update_columns(aasm_state: params[:event] == 'return_to_editing' ? 'edit' : 'checkup_process')
               flash[:success] = t('.success')
               Statistic::UserAndParentTeamsCountHandler.record(
@@ -53,8 +54,7 @@ module RailsAdmin
               flash[:error] = error_message.html_safe
               # rubocop:enable OutputSafety
             end
-
-            redirect_to :back
+            redirect_to request.referer
           end
         end
       end

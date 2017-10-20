@@ -6,5 +6,5 @@ basic:
   city_id: 1
   organization_id: 1
   federal_state_id: 1
-  display_name: basicLocation
+  label: basicLocation
   visible: t

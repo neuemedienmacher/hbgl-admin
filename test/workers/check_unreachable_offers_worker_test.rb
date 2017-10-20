@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
   let(:worker) { CheckUnreachableOffersWorker.new }
@@ -18,8 +19,7 @@ class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtu
     invalid_offer = FactoryGirl.create :offer, :approved
     invalid_offer.update_columns(
       aasm_state: 'website_unreachable',
-      starts_at: Time.zone.now,
-      expires_at: Time.zone.now - 1.day
+      encounter: nil
     )
     website.offers << invalid_offer
     Offer.any_instance.expects(:index!).never

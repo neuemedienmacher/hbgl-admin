@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module Location
     module Representer
@@ -8,10 +9,7 @@ module API::V1
         include Roar::JSON::JSONAPI.resource :locations
 
         attributes do
-          property :label, getter: ->(location) {
-            location[:represented].display_name
-          }
-          property :display_name
+          property :label
           property :name
           property :street
           property :addition
@@ -24,7 +22,6 @@ module API::V1
           property :longitude
           property :created_at
           property :updated_at
-          property :display_name
 
           property :organization_id
           property :city_id
@@ -59,6 +56,10 @@ module API::V1
       end
 
       class Create < Show
+        has_one :organization,
+                decorator: API::V1::Organization::Representer::Show,
+                populator: API::V1::Lib::Populators::Find,
+                class: ::Organization
         has_one :federal_state,
                 decorator: API::V1::FederalState::Representer::Show,
                 populator: API::V1::Lib::Populators::Find, class: ::FederalState
@@ -70,7 +71,7 @@ module API::V1
       #   include Roar::JSON::JSONAPI.resource :locations
       #
       #   attributes do
-      #     property :display_name, as: :label
+      #     property :label
       #     property :name
       #     property :street
       #     property :addition

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 
 class GetAndApplyNewTranslationWorkerTest < ActiveSupport::TestCase
@@ -7,7 +8,7 @@ class GetAndApplyNewTranslationWorkerTest < ActiveSupport::TestCase
   it 'should fetch from the GengoCommunicator and apply the changes' do
     order = GengoOrder.create order_id: 123, expected_slug: 'Category:1:name'
     GengoCommunicator.any_instance.expects(:fetch_order).with(123).returns(
-      'total_jobs' => '2', 'jobs_approved' => %w(1 2)
+      'total_jobs' => '2', 'jobs_approved' => %w[1 2]
     )
     GengoCommunicator.any_instance.expects(:fetch_job).with(1).returns(
       'body_tgt' => 'fr(GET READY FOR CANADA)', 'slug' => 'Category:1:name_fr',
@@ -48,7 +49,7 @@ class GetAndApplyNewTranslationWorkerTest < ActiveSupport::TestCase
   it 'should process completed order but ignore its jobs with wrong slug' do
     order = GengoOrder.create order_id: 123, expected_slug: 'Category:1:name'
     GengoCommunicator.any_instance.expects(:fetch_order).with(123).returns(
-      'total_jobs' => '2', 'jobs_approved' => %w(1 2)
+      'total_jobs' => '2', 'jobs_approved' => %w[1 2]
     )
     GengoCommunicator.any_instance.expects(:fetch_job).with(1).returns(
       'body_tgt' => 'ar(GET READY FOR CANADA)', 'slug' => 'Category:1:name_ar',
@@ -68,7 +69,7 @@ class GetAndApplyNewTranslationWorkerTest < ActiveSupport::TestCase
   it 'should call reindex on affected offers if a category was updated' do
     order = GengoOrder.create order_id: 123, expected_slug: 'Category:1:name'
     GengoCommunicator.any_instance.expects(:fetch_order).with(123).returns(
-      'total_jobs' => '2', 'jobs_approved' => %w(1 2)
+      'total_jobs' => '2', 'jobs_approved' => %w[1 2]
     )
     GengoCommunicator.any_instance.expects(:fetch_job).with(1).returns(
       'body_tgt' => 'fr(GET READY FOR CANADA)', 'slug' => 'Category:1:name_fr',

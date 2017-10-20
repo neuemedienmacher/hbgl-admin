@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ModuleLength
 module Lib
   module Macros
@@ -41,7 +42,7 @@ module Lib
           set_contract_field(options, field, settable)
           results.push pushable
         end
-        set_contract_errors(options, field, results.select { |r| r != true })
+        set_contract_errors(options, field, results.reject { |r| r == true })
         results.all? { |r| r == true || r.success? }
       end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 
 describe ContactPerson do
@@ -7,18 +8,18 @@ describe ContactPerson do
   subject { contact_person }
 
   describe 'methods' do
-    describe '#display_name' do
+    describe '#label' do
       it 'should show ID, name and organization name' do
         contact_person.assign_attributes id: 1, first_name: 'John'
         contact_person.assign_attributes id: 1, last_name: 'Doe'
         contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.display_name.must_equal '#1 John Doe (ABC)'
+        contact_person.label.must_equal '#1 John Doe (ABC)'
       end
 
       it 'should show ID, name and organization name' do
         contact_person.assign_attributes id: 1, operational_name: 'Headquarters'
         contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.display_name.must_equal '#1 Headquarters (ABC)'
+        contact_person.label.must_equal '#1 Headquarters (ABC)'
       end
 
       it 'should show ID, name, position and organization name' do
@@ -26,7 +27,7 @@ describe ContactPerson do
         contact_person.assign_attributes id: 1, last_name: 'Doe'
         contact_person.assign_attributes id: 1, position: 'superior'
         contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.display_name.must_equal 'Chef: #1 John Doe (ABC)'
+        contact_person.label.must_equal 'Chef: #1 John Doe (ABC)'
       end
     end
   end
@@ -112,8 +113,9 @@ describe ContactPerson do
 
   describe 'translation' do
     it 'should create initial translatins' do
-      new_cont = FactoryGirl.create(:contact_person)
-      new_cont.responsibility = 'responsibility text'
+      new_cont = FactoryGirl.create(
+        :contact_person, responsibility: 'responsibility text'
+      )
       new_cont.translations.count.must_equal I18n.available_locales.count
       new_cont.responsibility.must_equal 'responsibility text'
       new_cont.reload.responsibility_ar.must_equal 'GET READY FOR CANADA'
@@ -121,7 +123,7 @@ describe ContactPerson do
 
     it 'should update an existing translation only when the field changed' do
       # Setup
-      new_cont = FactoryGirl.create(:contact_person)
+      new_cont = FactoryGirl.create(:contact_person, responsibility: 'whatever')
       new_cont.run_callbacks(:commit) # Hotfix: force commit callback
       new_cont.translations.count.must_equal I18n.available_locales.count
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 # rubocop:disable Metrics/ClassLength
 class GenericSortFilterTest < ActiveSupport::TestCase
@@ -9,13 +10,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#snake_case_contents' do
     it 'should transform kebab-case contents to snake_case' do
       params = {
-        sort_field: 'foo-bar', sort_model: %w(split-base baz-fuz),
+        sort_field: 'foo-bar', sort_model: %w[split-base baz-fuz],
         sort_direction: 'ASC',
         filters: { 'split-base.foo-bar' => 'dont-touch' }
       }
       result = subject.send(:snake_case_contents, params)
       result.must_equal(
-        sort_field: 'foo_bar', sort_model: %w(split_base baz_fuz),
+        sort_field: 'foo_bar', sort_model: %w[split_base baz_fuz],
         sort_direction: 'ASC',
         filters: { 'split_base.foo_bar' => 'dont-touch' }
       )
@@ -89,12 +90,6 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   end
 
   describe '#transform_by_ordering' do
-    it 'wont transform without a sort_field' do
-      invalid_query.expects(:order).never
-      result = subject.send(:transform_by_ordering, invalid_query, {})
-      result.must_equal invalid_query
-    end
-
     it 'will order with a sort_field but without sort_model (query model)' do
       params = { sort_field: 'foo' }
       query.expects(:order).with('offers.foo DESC')
@@ -156,13 +151,13 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'filters for an array of owned field with default OR-joining' do
-      params = { filters: { 'foo' => %w(bar fuz) } }
+      params = { filters: { 'foo' => %w[bar fuz] } }
       query.expects(:where).with("foo = 'bar' OR foo = 'fuz'")
       subject.send(:transform_by_filtering, query, params)
     end
 
     it 'filters for an array of owned field with !=-operator and AND-joining' do
-      params = { filters: { 'x' => %w(bar fuz) }, operators: { 'x' => '!=' } }
+      params = { filters: { 'x' => %w[bar fuz] }, operators: { 'x' => '!=' } }
       query.expects(:where)
            .with("x != 'bar' OR x IS NULL AND x != 'fuz' OR x IS NULL")
       subject.send(:transform_by_filtering, query, params)
@@ -205,9 +200,26 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
-    it 'parses date-times and converts them from CET to UTC' do
-      params = { filters: { 'created_at' => '15.09.2014, 13:02:00+0200' } }
-      query.expects(:where).with("created_at = '2014-09-15T11:02:00+00:00'")
+    it 'includes NULL values for a "!=" string search' do
+      params =
+        { filters: { 'title' => 'smth' }, operators: { 'title' => 'LIKE' } }
+      query.expects(:where).with("CAST(title AS TEXT) LIKE '%smth%'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'parses times and converts them correctly' do
+      query = Opening.where('1 = 1')
+      params = { filters: { 'open' => '13:00' } }
+      query.expects(:where)
+           .with("open = '#{Time.zone.parse('01.01.2000 13:00').to_s(:db)}'")
+      subject.send(:transform_by_filtering, query, params)
+    end
+
+    it 'parses datetimes and converts them correctly' do
+      value = '15.09.2014, 13:00'
+      params = { filters: { 'created_at' => value } }
+      query.expects(:where)
+           .with("created_at = '#{Time.zone.parse(value).to_datetime}'")
       subject.send(:transform_by_filtering, query, params)
     end
 

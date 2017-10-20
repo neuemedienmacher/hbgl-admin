@@ -6,23 +6,19 @@ import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 import IndexTable from '../components/IndexTable'
 
 const mapStateToProps = (state, ownProps) => {
-  const { model } = ownProps
+  const { model, identifier } = ownProps
   if (!settings.index[model])
     throw new Error(`Add settings for ${model}`)
 
   const fields = analyzeFields(settings.index[model].fields, model)
-  let ajaxResult = state.ajax[ownProps.identifier]
+  let ajaxResult = state.ajax[identifier]
   const rows = ajaxResult ? compact(ajaxResult.data.map(datum =>
     denormalizeStateEntity(state.entities, model, datum.id)
   )) : []
 
-  let tbodyClass
-  if (state.ajax.isLoading.indexResults) tbodyClass = 'loading'
-
   return {
     rows,
-    fields,
-    tbodyClass
+    fields
   }
 }
 

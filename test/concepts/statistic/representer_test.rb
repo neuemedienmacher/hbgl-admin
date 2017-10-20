@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 
 class API::V1::Statistic::RepresenterTest < ActiveSupport::TestCase
@@ -10,7 +11,7 @@ class API::V1::Statistic::RepresenterTest < ActiveSupport::TestCase
       time_frame: 'daily', date: Date.current
     )
     result = subject.new(record).to_hash
-    result['data']['id'].must_equal '1'
+    result['data']['id'].class.must_equal String
     result['data']['attributes']['trackable-id'].must_equal 1
     result['data']['relationships']['trackable']['data']['id'].must_equal '1'
     result['included'].first['type'].must_equal 'trackable-type' # TODO: fix

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class Organization::Create < Trailblazer::Operation
   include Assignable::CommonSideEffects::CreateNewAssignment
 
   step Model(::Organization, :new)
-  step Policy::Pundit(OrganizationPolicy, :create?)
+  step Policy::Pundit(PermissivePolicy, :create?)
 
   step Contract::Build(constant: Organization::Contracts::Create)
   step Contract::Validate()
@@ -16,9 +17,14 @@ class Organization::Create < Trailblazer::Operation
   }
   step :set_creating_user
   step Contract::Persist()
+  step :generate_slug
   step :create_initial_assignment!
 
   def set_creating_user(_, current_user:, model:, **)
     model.created_by = current_user.id
+  end
+
+  def generate_slug(_, model:, **)
+    model.update_column :slug, model.send(:set_slug)
   end
 end

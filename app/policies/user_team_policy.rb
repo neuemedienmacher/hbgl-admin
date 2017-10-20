@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UserTeamPolicy < ApplicationPolicy
   def create?
     user.role == 'super'

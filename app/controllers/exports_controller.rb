@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class ExportsController < ApplicationController
-  include RemoteShow
 
+class ExportsController < ApplicationController
   def create
-    params['export'] = snake_case_export_hash(params['export'])
+    return render_error unless params['export']
+    params['export'] = Export.snake_case_export_hash(params['export'])
     result = Export::Create.(params, 'current_user' => current_user)
     if result.success?
       stream_data(result)
@@ -48,14 +48,6 @@ class ExportsController < ApplicationController
       export.csv_lines do |object_instance|
         enum << export.csv_row(object_instance).to_s
       end
-    end
-  end
-
-  def snake_case_export_hash(value)
-    if value.is_a?(Hash)
-      value.map { |k, v| [k.underscore, snake_case_export_hash(v)] }.to_h
-    else
-      value.map(&:underscore) # our Export Hashes only include hashes & arrays
     end
   end
 end

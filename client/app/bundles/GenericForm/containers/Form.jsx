@@ -7,21 +7,26 @@ import isArray from 'lodash/isArray'
 import some from 'lodash/some'
 import formObjectSelect from '../lib/formObjectSelect'
 import generateFormId from '../lib/generateFormId'
+import seedDataFromEntity from '../lib/seedDataFromEntity'
 import  { setUi, setUiLoaded } from '../../../Backend/actions/setUi'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import addEntities from '../../../Backend/actions/addEntities'
 import Form from '../components/Form'
-import { singularize } from '../../../lib/inflection'
 import settings from '../../../lib/settings'
+import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 
 const mapStateToProps = (state, ownProps) => {
-  const { model, editId, submodelKey } = ownProps
+  const {
+    model, editId, submodelKey, modifySeedData, formIdSpecification
+  } = ownProps
   const submodelPath = ownProps.submodelPath || []
-  const formId = generateFormId(model, submodelPath, submodelKey, editId)
+  const formId = generateFormId(
+    model, submodelPath, submodelKey, editId, formIdSpecification
+  )
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
-  const instance = state.entities[model] && state.entities[model][editId]
+  const instance = denormalizeStateEntity(state.entities, model, editId)
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
   const afterSaveActiveKey = state.ui.afterSaveActiveKey
@@ -30,7 +35,9 @@ const mapStateToProps = (state, ownProps) => {
       action: key, name: value, active: afterSaveActiveKey == key
     }))
   const formObjectClass = formObjectSelect(model, !!editId)
-  const seedData = { fields: seedDataFromEntity(instance, formObjectClass) }
+  const seedData = {
+    fields: seedDataFromEntity(instance, formObjectClass, modifySeedData)
+  }
 
   let action = `/api/v1/${model}`
   let method = 'POST'
@@ -39,7 +46,7 @@ const mapStateToProps = (state, ownProps) => {
   )
 
   // Changes in case the form updates instead of creating
-  if (editId) {
+  if (editId && !ownProps.forceCreate) {
     action += '/' + editId
     method = 'PUT'
   }
@@ -59,32 +66,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-function seedDataFromEntity(entity, formObjectClass) {
-  let fields = formObjectClass.genericFormDefaults || {}
-  if (!entity) return fields
-
-  for (let property of formObjectClass.properties) {
-    fields[property] = entity[property]
-  }
-
-  for (let submodel of formObjectClass.submodels) {
-    let submodelKey
-    if (
-      formObjectClass.submodelConfig[submodel].relationship == 'oneToOne'
-    ) {
-      submodelKey = submodel + '-id'
-      if (!entity[submodelKey]) continue
-      fields[submodel] = String(entity[submodelKey])
-    } else {
-      submodelKey = singularize(submodel) + '-ids'
-      if (!entity[submodelKey]) continue
-      fields[submodel] = entity[submodelKey].map(e => String(e))
-    }
-  }
-
-  return fields
-}
-
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch,
 })
@@ -95,8 +76,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const resetForm = (changes, response) => {
     const entity = changes[model][editId]
-    const desiredFormData =
-      seedDataFromEntity(entity, stateProps.formObjectClass)
+    const desiredFormData = seedDataFromEntity(
+      entity, stateProps.formObjectClass, ownProps.modifySeedData
+    )
     dispatch(setupAction(stateProps.formId, desiredFormData))
   }
 
@@ -135,7 +117,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatch(
         addFlashMessage('error', 'Es ist ein Serverfehler aufgetreten.')
       )
-      response.text().then((errorMessage) => console.error(errorMessage))
+      response.text().then((errorMessage) =>
+        console.error(errorMessage.split("\n").splice(0, 30).join("\n"))
+      )
     },
 
     afterRequireValid(result) {

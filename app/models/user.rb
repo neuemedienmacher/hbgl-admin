@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 # Monkeypatch clarat_base User
 require ClaratBase::Engine.root.join('app', 'models', 'user')
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_paper_trail
 
   devise :database_authenticatable, :validatable, :lockable, :timeoutable
@@ -19,6 +20,6 @@ class User < ActiveRecord::Base
   # Search
   include PgSearch
   pg_search_scope :search_pg,
-                  against: [:id, :name],
+                  against: %i[id name],
                   using: { tsearch: { prefix: true } }
 end

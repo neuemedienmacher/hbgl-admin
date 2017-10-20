@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ModuleLength
 module GenericSortFilter
   def self.transform(base_query, params)
     adjusted_params = snake_case_contents(params)
+    adjusted_params = fill_param_defaults(adjusted_params)
     query = ensure_query(base_query)
     query = transform_by_joining(query, adjusted_params)
     query = transform_by_ordering(query, adjusted_params)
@@ -12,9 +14,10 @@ module GenericSortFilter
 
   private_class_method
 
-  UNDERSCORABLE_PARAMS = [:sort_field, :sort_model, :filters, :operators].freeze
-  def self.snake_case_contents(original_params)
-    original_params.map do |string_key, value|
+  UNDERSCORABLE_PARAMS = %i[sort_field sort_model filters operators].freeze
+  def self.snake_case_contents(params)
+    new_hash = params.is_a?(Hash) ? params : params.to_unsafe_h
+    new_hash.map do |string_key, value|
       key = string_key.to_sym
       if UNDERSCORABLE_PARAMS.include?(key)
         [key, snake_case_value(value)]
@@ -34,6 +37,12 @@ module GenericSortFilter
     end
   end
 
+  def self.fill_param_defaults(params)
+    # TODO: handle models that don't have 'id' field
+    params[:sort_field] = 'id' if !params[:sort_field] && !params[:query]
+    params
+  end
+
   # In case only a model was passed in, to unify object handling, turn it into
   # a query
   def self.ensure_query(query)
@@ -41,7 +50,7 @@ module GenericSortFilter
   end
 
   def self.transform_by_searching(query, param)
-    if !param || param.empty? || query.search_pg(param).nil?
+    if param.blank? || query.search_pg(param).nil?
       query
     else
       query.search_pg(param).extend(EnableEagerLoading)
@@ -170,14 +179,20 @@ module GenericSortFilter
     # transform table names (before a .) in case of association name mismatch
     filter_key = joined_or_own_table_name_for(query, filter, params)
     filter_string = filter_key.to_s
-    # append operator
     operator = process_operator(params[:operators], filter, value)
-    filter_string += ' ' + operator
     # append value
     new_value = transform_value(value, filter, query)
-    filter_string += ' ' + new_value
+    filter_string = cast_if_needed(filter_string, operator, value, new_value)
     # append optional addition
     filter_string + optional_query_addition(operator, new_value, filter_key)
+  end
+
+  def self.cast_if_needed(filter_string, operator, value, new_value)
+    if ['LIKE', 'NOT LIKE'].include?(operator)
+      'CAST(' + filter_string + ' AS TEXT) ' + operator + " '%" + value + "%'"
+    else
+      filter_string + ' ' + operator + ' ' + new_value
+    end
   end
 
   def self.joined_or_own_table_name_for(query, filter, params)
@@ -218,13 +233,13 @@ module GenericSortFilter
   end
 
   def self.transform_value(value, filter, query)
-    model_name =
+    model, filter =
       if filter.include?('.')
-        model_for_filter(query, filter)
+        [model_for_filter(query, filter), filter.split('.').last]
       else
-        query.model
+        [query.model, filter]
       end
-    value = parse_value_by_type(value, filter, model_name)
+    value = parse_value_by_type(value, filter, model)
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
   end
@@ -238,14 +253,27 @@ module GenericSortFilter
     end
   end
 
-  def self.parse_value_by_type(value, filter, model_name)
-    # convert datetime strings to specific format for query
-    if model_name.columns_hash[filter] && !nullable_value?(value) &&
-       model_name.columns_hash[filter].type == :datetime && !value.empty?
-      DateTime.parse(value + ' CET').utc.to_s
-    else
-      value
+  def self.parse_value_by_type(value, filter, model)
+    # convert (date)time strings to specific format for query
+    column_data = model.columns_hash[filter]
+
+    if column_data && !nullable_value?(value) && !value.empty?
+      if column_data.type == :datetime
+        return parse_datetime(value)
+      elsif column_data.type == :time
+        return parse_time(value)
+      end
     end
+    value
+  end
+
+  def self.parse_datetime(value)
+    # TODO: does this work in DST?
+    Time.zone.parse(value).to_datetime.to_s
+  end
+
+  def self.parse_time(value)
+    Time.zone.parse('01.01.2000 ' + value).to_s(:db)
   end
 
   def self.optional_query_addition(operator, value, filter_key)

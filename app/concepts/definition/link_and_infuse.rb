@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Definition::LinkAndInfuse < Trailblazer::Operation
   step :link_definition_to_object
   step :infuse_object_description

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../test_helper'
 
 describe Organization do
@@ -253,7 +254,7 @@ describe Organization do
         orga.reload.must_be :approved?
       end
 
-      it 'wont approve offers, that have another deactivated orga' do
+      it 'wont approve offers that have another deactivated orga' do
         offer.update_column :aasm_state, :organization_deactivated
         division = FactoryGirl.create(:division) # new division with orga
         offer.split_base.divisions << division

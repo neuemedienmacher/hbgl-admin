@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CategoriesController < ApplicationController
   respond_to :json
 

@@ -1,9 +1,13 @@
 # frozen_string_literal: true
+
+require 'reform/form/coercion'
+
 module Opening::Contracts
   class Create < Reform::Form
+    feature Coercion
     property :day
-    property :open
-    property :close
+    property :open, type: Types::Form::Time
+    property :close, type: Types::Form::Time
 
     validates :day, presence: true
     validate :unique_day_open_close

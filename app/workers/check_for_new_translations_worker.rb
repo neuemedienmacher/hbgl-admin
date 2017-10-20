@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CheckForNewTranslationsWorker
   include Sidekiq::Worker
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
+
 require_relative '../../test_helper'
 
 class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase

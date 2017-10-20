@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module User
     module Representer
@@ -38,6 +39,11 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :classification
+            property :lead_id
+            property :parent_id
+            property :user_ids
+            property :observing_user_ids
           end
         end
 
@@ -47,6 +53,11 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :classification
+            property :lead_id
+            property :parent_id
+            property :user_ids
+            property :observing_user_ids
           end
         end
 
@@ -56,6 +67,11 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].name }
             property :name
+            property :classification
+            property :lead_id
+            property :parent_id
+            property :user_ids
+            property :observing_user_ids
           end
         end
 

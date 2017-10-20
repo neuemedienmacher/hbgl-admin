@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 # KK: Do we really need this separately from Update?
 class Organization::ChangeState < Trailblazer::Operation
   step Model(::Organization, :find_by)
-  step Policy::Pundit(OrganizationPolicy, :change_state?)
+  step Policy::Pundit(PermissivePolicy, :change_state?)
 
   step ::Lib::Macros::State::Contract(
     approve: Organization::Contracts::Approve,

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Assignment::Update < Trailblazer::Operation
   step Model(::Assignment, :find_by)
 

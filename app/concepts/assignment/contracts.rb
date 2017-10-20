@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Assignment::Contracts
   class Create < Reform::Form
     property :assignable_id
@@ -33,7 +34,7 @@ module Assignment::Contracts
     validate :receiver_or_receiver_team_id_must_be_present
 
     def receiver_or_receiver_team_id_must_be_present
-      return if !receiver_id.blank? || !receiver_team_id.blank?
+      return if receiver_id.present? || receiver_team_id.present?
       errors.add :receiver_id, 'Nutzer oder Team muss gesetzt sein'
       errors.add :receiver_team_id, 'Nutzer oder Team muss gesetzt sein'
     end

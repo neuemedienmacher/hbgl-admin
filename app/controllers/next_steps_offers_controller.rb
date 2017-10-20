@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NextStepsOffersController < ApplicationController
   respond_to :json
 

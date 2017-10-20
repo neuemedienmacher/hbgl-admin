@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 module Location::Contracts
   class Create < Reform::Form
     property :name
     property :street
     property :addition
     property :zip
-    # property :display_name
+    # property :label
     property :city
     property :organization
     property :federal_state
@@ -19,7 +20,7 @@ module Location::Contracts
     validates :addition, length: { maximum: 255 }
     validates :zip, presence: true, length: { is: 5 },
                     if: ->(location) { location.in_germany }
-    # validates :display_name, presence: true
+    # validates :label, presence: true
 
     validates :city, presence: true
     validate ::Lib::Validators::UnnestedPresence :organization
@@ -27,6 +28,6 @@ module Location::Contracts
   end
 
   class Update < Create
-    # validates :display_name, presence: true
+    # validates :label, presence: true
   end
 end

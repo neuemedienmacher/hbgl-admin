@@ -207,6 +207,10 @@ function textForOperator(operator) {
       return 'nicht gleich'
     case '...':
       return 'zwischen'
+    case 'LIKE':
+      return 'enthält'
+    case 'NOT LIKE':
+      return 'enthält nicht'
     default:
       return '???'
   }
@@ -215,7 +219,8 @@ function textForOperator(operator) {
 function filterOpperators(settings, filterType) {
   if (filterType == 'text') {
     return settings.OPERATORS.filter(operator =>
-      operator == '=' || operator == '!='
+      operator == '=' || operator == '!=' || operator == 'LIKE' ||
+      operator == 'NOT LIKE'
     ).map(operator => {
       return {
         value: operator,

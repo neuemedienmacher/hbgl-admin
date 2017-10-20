@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module JsonapiErrors
   def self.generate operation_result
     error_hash = { errors: [] }

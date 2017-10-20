@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Division::Contracts
   class Create < Reform::Form
     property :addition

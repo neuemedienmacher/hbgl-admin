@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Lib
   module Validators
     def self.UnnestedPresence(field)

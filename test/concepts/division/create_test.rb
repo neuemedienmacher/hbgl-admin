@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
 # require_relative '../../support/utils/jsonapi_test_utils'
@@ -24,7 +25,7 @@ class DivisionCreateTest < ActiveSupport::TestCase
       operation_must_work ::Division::Create, basic_params
     end
 
-    it 'must create a division with presumed (solution) categories' do
+    it 'must create a division with presumed (solution) categories and label' do
       params = basic_params.merge(
         presumed_categories: Category.first(2),
         presumed_solution_categories: [{ id: 1 }]
@@ -35,6 +36,15 @@ class DivisionCreateTest < ActiveSupport::TestCase
       result['model'].presumed_categories.last.id.must_equal 2
       result['model'].presumed_solution_categories.count.must_equal 1
       result['model'].presumed_solution_categories.first.id.must_equal 1
+      result['model'].label.must_equal(
+        'foobar (family), City: Berlin, Addition: DivisionAddition'
+      )
+    end
+
+    it 'must create a division without an addition' do
+      basic_params[:addition] = nil
+      result = operation_must_work ::Division::Create, basic_params
+      result['model'].label.must_equal('foobar (family), City: Berlin')
     end
 
     describe 'validations' do

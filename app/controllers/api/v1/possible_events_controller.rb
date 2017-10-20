@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # NON-JSON-API getter for all currently possible events of a model
 module API::V1
   class PossibleEventsController < API::V1::BackendController

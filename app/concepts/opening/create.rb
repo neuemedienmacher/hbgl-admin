@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class Opening::Create < Trailblazer::Operation
   step Model(::Opening, :new)
-  step Policy::Pundit(OpeningPolicy, :create?)
+  step Policy::Pundit(PermissivePolicy, :create?)
 
   step Contract::Build(constant: Opening::Contracts::Create)
   step Contract::Validate()
@@ -29,9 +30,9 @@ class Opening::Create < Trailblazer::Operation
 
   private
 
-  def concat_day_and_times day, open, close
+  def concat_day_and_times(day, open, close)
     if day && open && close
-      "#{day.titleize} #{open}-#{close}"
+      "#{day.titleize} #{open.strftime('%H:%M')}-#{close.strftime('%H:%M')}"
     elsif day
       "#{day.titleize} (appointment)"
     end
@@ -40,10 +41,9 @@ class Opening::Create < Trailblazer::Operation
   # generate imaginary timestamp for a specific day
   def dummy_time_for_day day_nr, open, close
     if open && close
-      parsed_open = Time.zone.parse(open)
-      hour = parsed_open.hour
-      min = parsed_open.min
-      sec = Time.zone.parse(close).hour + Time.zone.parse(close).min / 100.0
+      hour = open.hour
+      min = open.min
+      sec = close.hour + close.min / 100.0
     else
       hour = min = sec = 0
     end

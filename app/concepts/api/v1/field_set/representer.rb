@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module FieldSet
     class Show < Representable::Decorator
@@ -9,7 +10,7 @@ module API::V1
         r[:represented].columns.each do |col|
           options =
             if col.type == :boolean
-              %w(true false)
+              %w[true false]
             elsif col.name == 'aasm_state'
               r[:represented].aasm.states.map(&:name)
             elsif r[:represented].methods.include?(:enumerized_attributes)
@@ -28,21 +29,34 @@ module API::V1
 
       property :associations, getter: ->(r) do
         def filter_name_for_association(assoc)
-          # puts assoc.name
-          # puts assoc.options
-          # puts '------------'
-          if !assoc.options[:inverse_of] || assoc.options[:polymorphic] ||
-             assoc.is_a?(::ActiveRecord::Reflection::BelongsToReflection)
+          if ignored_association?(assoc)
             ['']
-          elsif assoc.options[:inverse_of].to_s.ends_with?('able') # polymorphic associations (_type & _id)
+          elsif inverse_is_polymorphic?(assoc)
             polymorphic_filter_for assoc
           else
             filter_for assoc
           end
         end
 
+        def ignored_association?(assoc)
+          (!assoc.options[:inverse_of] && !assoc.options[:as]) ||
+            assoc.options[:polymorphic] ||
+            assoc.is_a?(::ActiveRecord::Reflection::BelongsToReflection)
+        end
+
+        def polymorphic_inverse_assoc(assoc)
+          assoc.options[:as] &&
+            assoc.class_name.constantize.reflect_on_all_associations
+                 .find { |a| a.name == assoc.options[:as] }
+        end
+
+        def inverse_is_polymorphic?(assoc)
+          # old: assoc.options[:inverse_of].to_s.ends_with?('able')
+          polymorphic_inverse_assoc(assoc)&.polymorphic? || false
+        end
+
         def polymorphic_filter_for assoc
-          polymorphic_name = assoc.options[:inverse_of]
+          polymorphic_name = polymorphic_inverse_assoc(assoc).name
           ["#{polymorphic_name}_id", "#{polymorphic_name}_type"]
         end
 

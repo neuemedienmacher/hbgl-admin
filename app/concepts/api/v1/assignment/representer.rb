@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module API::V1
   module Assignment
     module Representer
@@ -79,8 +80,8 @@ module API::V1
                 else
                   object[:represented].offer.name
                 end
-              elsif object[:represented].respond_to?(:display_name)
-                object[:represented].display_name
+              elsif object[:represented].respond_to?(:label)
+                object[:represented].label
               elsif object[:represented].respond_to?(:name)
                 object[:represented].name
               else # create a generic label that works for any model
