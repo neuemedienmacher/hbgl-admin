@@ -12,12 +12,8 @@ module API::V1
             opening[:represented].name
           }
           property :day
-          property :open, getter: ->(opening) {
-            opening[:represented].open&.strftime('%H:%M')
-          }
-          property :close, getter: ->(opening) {
-            opening[:represented].close&.strftime('%H:%M')
-          }
+          property :open
+          property :close
           property :sort_value
           property :created_at
           property :updated_at

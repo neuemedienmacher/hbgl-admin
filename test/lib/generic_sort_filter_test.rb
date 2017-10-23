@@ -210,8 +210,7 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     it 'parses times and converts them correctly' do
       query = Opening.where('1 = 1')
       params = { filters: { 'open' => '13:00' } }
-      query.expects(:where)
-           .with("open = '#{Time.zone.parse('01.01.2000 13:00').to_s(:db)}'")
+      query.expects(:where).with("open = '13:00'")
       subject.send(:transform_by_filtering, query, params)
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012135856) do
+ActiveRecord::Schema.define(version: 20171023093225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -422,12 +422,12 @@ ActiveRecord::Schema.define(version: 20171012135856) do
 
   create_table "openings", id: :serial, force: :cascade do |t|
     t.string "day", limit: 3, null: false
-    t.time "open"
-    t.time "close"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "sort_value"
     t.string "name", limit: 255, null: false
+    t.string "open"
+    t.string "close"
     t.index ["day"], name: "index_openings_on_day"
     t.index ["name"], name: "index_openings_on_name"
   end

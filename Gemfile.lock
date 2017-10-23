@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 13476483177acf62b30f9a78ca5d0c99d75de434
+  revision: 5cede83d5b27419962d7e2acdb30f70cf101830c
   specs:
     clarat_base (0.1.4)
       aasm
@@ -541,7 +541,7 @@ GEM
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
-    binding_of_caller (0.7.2)
+    binding_of_caller (0.7.3)
       debug_inspector (>= 0.0.1)
     brakeman (4.0.1)
     builder (3.2.3)
@@ -699,7 +699,7 @@ GEM
     gibbon (1.2.1)
       httparty
       multi_json (>= 1.9.0)
-    gli (2.16.1)
+    gli (2.17.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     haml (5.0.3)
@@ -731,7 +731,8 @@ GEM
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (0.8.6)
+    i18n (0.9.0)
+      concurrent-ruby (~> 1.0)
     i18n-js (3.0.1)
       i18n (~> 0.6, >= 0.6.6)
     inflecto (0.0.2)

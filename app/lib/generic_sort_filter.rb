@@ -260,8 +260,6 @@ module GenericSortFilter
     if column_data && !nullable_value?(value) && !value.empty?
       if column_data.type == :datetime
         return parse_datetime(value)
-      elsif column_data.type == :time
-        return parse_time(value)
       end
     end
     value
@@ -270,10 +268,6 @@ module GenericSortFilter
   def self.parse_datetime(value)
     # TODO: does this work in DST?
     Time.zone.parse(value).to_datetime.to_s
-  end
-
-  def self.parse_time(value)
-    Time.zone.parse('01.01.2000 ' + value).to_s(:db)
   end
 
   def self.optional_query_addition(operator, value, filter_key)
