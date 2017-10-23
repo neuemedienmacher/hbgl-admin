@@ -49,7 +49,7 @@ RailsAdmin.config do |config|
         'Opening', 'Tag', 'Definition', 'Offer', 'SplitBase'
       ]
     end
-    export
+    # export
     bulk_delete do
       except ['User', 'FederalState', 'Section', 'Division']
     end
@@ -181,9 +181,9 @@ RailsAdmin.config do |config|
       custom_method :partial_dup
     end
 
-    export do
-      field :id
-    end
+    # export do
+    #   field :id
+    # end
   end
 
   config.label_methods << :url
@@ -252,9 +252,9 @@ RailsAdmin.config do |config|
       field :offers
       field :label
     end
-    export do
-      field :id
-    end
+    # export do
+    #   field :id
+    # end
     clone_config do
       custom_method :partial_dup
     end
@@ -602,9 +602,9 @@ RailsAdmin.config do |config|
         "Single Point of Contact / Zentrale Anlaufstelle."
       end
     end
-    export do
-      field :id
-    end
+    # export do
+    #   field :id
+    # end
     clone_config do
       custom_method :partial_dup
     end
