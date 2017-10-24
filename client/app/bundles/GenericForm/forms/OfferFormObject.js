@@ -18,7 +18,7 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'section', 'split-base', 'name', 'description',
+      'section', 'split-base', 'name', 'code-word', 'description',
       'comment', 'next-steps', 'contact-people',
       'hide-contact-people', 'encounter', 'location', 'area', 'categories',
       'tags', 'trait-filters', 'language-filters',
@@ -98,6 +98,7 @@ class OfferCreateFormObject extends GenericFormObject {
       'next-steps': { type: 'filtering-multiselect', addons: ['counter'] },
       'contact-people': { type: 'creating-multiselect' },
       'hide-contact-people': { type: 'checkbox' },
+      'code-word': { type: 'string' },
       encounter: {
         type: 'select', options: [
           'personal', 'hotline', 'email', 'chat', 'online-course', 'forum',
