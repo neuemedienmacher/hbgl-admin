@@ -13,7 +13,6 @@ module API::V1
           property :solution_category_id
           property :clarat_addition
           property :comments
-          property :code_word
           property :created_at
           property :updated_at
           property :division_ids

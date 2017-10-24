@@ -11,7 +11,7 @@ export default class SplitBaseFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'title', 'clarat-addition', 'code-word', 'comments', 'divisions',
+      'title', 'clarat-addition', 'comments', 'divisions',
       'solution-category',
     ]
   }
@@ -33,7 +33,6 @@ export default class SplitBaseFormObject extends GenericFormObject {
     return {
       title: { type: 'string' },
       'clarat-addition': { type: 'string' },
-      'code-word': { type: 'string' },
       divisions: { type: 'filtering-multiselect' },
       'solution-category': { type: 'filtering-select' },
       comments: { type: 'textarea' }

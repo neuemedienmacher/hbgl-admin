@@ -7,12 +7,10 @@ module SplitBase::Contracts
     property :solution_category
     property :divisions
     property :comments
-    property :code_word
 
     validates :title, presence: true
     validate :unique_with_divisions
     validates :solution_category, presence: true
-    validates :code_word, length: { maximum: 140 }
 
     def unique_with_divisions
       same_split_bases = SplitBase.where(
