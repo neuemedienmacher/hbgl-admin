@@ -8,7 +8,7 @@ module Offer::SearchAlgolia
   included do
     include AlgoliaSearch
 
-    algoliasearch do
+    algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
       I18n.available_locales.each do |locale|
         index = %w[
           name code_word tags tag_keywords tag_explanations description definitions
