@@ -11,7 +11,7 @@ module Offer::SearchAlgolia
     algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
       I18n.available_locales.each do |locale|
         index = %w[
-          name code_word tags tag_keywords tag_explanations description definitions
+          name code_word tags tag_keywords description definitions
           organization_names solution_category trait_filter language_filter
         ]
         attributes = %i[organization_count location_address location_name
@@ -36,7 +36,6 @@ module Offer::SearchAlgolia
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
-          attribute(:tag_explanations) { tag_explanations(locale) }
           attribute(:solution_category) { solution_category.name }
           attribute(:trait_filter) { trait_filters.map(&:name) }
           attribute(:language_filter) { language_filters.map(&:name) }
@@ -60,7 +59,6 @@ module Offer::SearchAlgolia
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
-          attribute(:tag_explanations) { tag_explanations(locale) }
           attribute(:solution_category) { solution_category.name }
           attribute(:trait_filter) { trait_filters.map(&:name) }
           attribute(:language_filter) { language_filters.map(&:name) }
