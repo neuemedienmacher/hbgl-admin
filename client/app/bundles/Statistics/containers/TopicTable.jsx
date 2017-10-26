@@ -98,7 +98,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         pluralize(model),
         entryCountGrabberParams(columnName, team, element, cityId),
         'lastData',
-        entryCountGrabberTransformer(columnName, team, element, cityId)
+        { transformer:
+          entryCountGrabberTransformer(columnName, team, element, cityId)
+        }
       )
     )
   }
