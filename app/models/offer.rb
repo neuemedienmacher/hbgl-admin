@@ -51,7 +51,7 @@ class Offer < ApplicationRecord
                   # associated_against: {
                   #   section: :name,
                   #   organizations: :name,
-                  #   location: :display_name,
+                  #   location: :label,
                   #   categories: :name_de,
                   #   solution_category: :name,
                   #   target_audience_filters: :name,
@@ -132,6 +132,7 @@ class Offer < ApplicationRecord
   end
 
   def _residency_status_filters
-    target_audience_filters_offers.pluck(:residency_status).uniq.compact
+    target_audience_filters_offers
+      .order(:id).pluck(:residency_status).uniq.compact
   end
 end

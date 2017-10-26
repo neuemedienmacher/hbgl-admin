@@ -4,6 +4,11 @@ import MemberActionsNavBar from
   '../../MemberActionsNavBar/containers/MemberActionsNavBar'
 
 export default class Delete extends Component {
+
+  componentDidMount() {
+    this.props.loadData()
+  }
+
   render() {
     const {
       action, afterSuccess, afterError, model, id, location

@@ -27,7 +27,7 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
     result['associations'][:statistic_charts]['key'].must_equal ['user_id']
     result['associations'][:created_assignments]['key'].must_equal ['creator_id']
     result['associations'][:received_assignments]['key'].must_equal ['receiver_id']
-    result['associations'][:versions]['key'].must_equal ['']
+    result['associations'][:versions]['key'].must_equal %w[item_id item_type]
   end
 
   it 'should provide the correct associations for Organization class' do

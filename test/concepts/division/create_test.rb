@@ -25,9 +25,7 @@ class DivisionCreateTest < ActiveSupport::TestCase
       operation_must_work ::Division::Create, basic_params
     end
 
-    it 'must create a division with presumed (solution) categories' do
-      tag1 = FactoryGirl.create(:tag)
-      tag2 = FactoryGirl.create(:tag)
+    it 'must create a division with presumed (solution) categories and label' do
       params = basic_params.merge(
         presumed_tags: tag1, tag2
         presumed_solution_categories: [{ id: 1 }]
@@ -38,6 +36,15 @@ class DivisionCreateTest < ActiveSupport::TestCase
       result['model'].presumed_tags.last.id.must_equal tag2.id.to_s
       result['model'].presumed_solution_categories.count.must_equal 1
       result['model'].presumed_solution_categories.first.id.must_equal 1
+      result['model'].label.must_equal(
+        'foobar (family), City: Berlin, Addition: DivisionAddition'
+      )
+    end
+
+    it 'must create a division without an addition' do
+      basic_params[:addition] = nil
+      result = operation_must_work ::Division::Create, basic_params
+      result['model'].label.must_equal('foobar (family), City: Berlin')
     end
 
     describe 'validations' do

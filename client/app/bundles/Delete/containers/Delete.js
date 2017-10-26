@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { singularize } from '../../../lib/inflection'
+import { handleError } from '../../../lib/ajaxRedirectHandler'
+import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
 import Delete from '../components/Delete'
 
@@ -30,9 +32,29 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
+    loadData(nextModel = stateProps.model, nextID = stateProps.id) {
+      const singularModel = singularize(nextModel)
+
+      // load field_set (all fields and associations of current model)
+      dispatchProps.dispatch(
+        loadAjaxData(
+          'field_set/' + singularModel, {}, 'field-set', {
+            transformer: undefined, nextModel
+          }
+        )
+      )
+      // load data of current model_instance
+      dispatchProps.dispatch(
+        loadAjaxData(
+          `${nextModel}/${nextID}`, '', nextModel,
+          { onError: handleError(nextModel, dispatchProps.dispatch) }
+        )
+      )
+    },
+
     afterSuccess() {
       dispatch(addFlashMessage('success', 'Target Exterminated'))
-      browserHistory.push(`/${stateProps.model}`)
+      browserHistory.goBack()
     },
 
     afterError(response) {

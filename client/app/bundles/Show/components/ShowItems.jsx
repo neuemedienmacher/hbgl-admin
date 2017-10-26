@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import isArray from 'lodash/isArray'
 import AssociationItems from '../containers/AssociationItems'
 import ShowFieldItem from '../containers/ShowFieldItem'
+import History from '../containers/History'
 
 export default class ShowItems extends React.Component {
   render() {
@@ -10,8 +11,8 @@ export default class ShowItems extends React.Component {
       modelInstance, associations, columnNames, loaded, model
     } = this.props
 
-    if(loaded){
-      return (
+    if (loaded) {
+      return(
         <div className="content ShowList">
           <div className="panel-group">
             <h5 className="section-title">Eigene Felder</h5>
@@ -25,10 +26,10 @@ export default class ShowItems extends React.Component {
             modelInstance={modelInstance} associations={associations}
             model={model}
           />
+          <History model={model} parent={modelInstance} />
         </div>
       )
-    }
-    else{
+    } else{
       return <div className='text-center'>Lade...</div>
     }
   }

@@ -1,6 +1,13 @@
-tbody.loading {
-  opacity: 0.3;
-}
 thead th {
   font-size: 14px;
+}
+
+tbody, thead {
+  transition: opacity 0.1s;
+}
+
+.Index--loading {
+  tbody, thead {
+    opacity: 0.3;
+  }
 }

@@ -47,8 +47,8 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', 'aasm-state', 'created-by', 'expires-at',
-        'logic-version-id', { section: ['name'] }
+        'id', 'name', { 'split-base': ['label'] }, 'aasm-state', 'created-by',
+        'expires-at', 'logic-version-id', { section: ['name'] }
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -68,7 +68,7 @@ export default {
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'edit'
+        'show', 'edit', 'delete'
       ]
     },
 
@@ -255,8 +255,8 @@ export default {
       fields: [
         'id', 'assignable-id', 'assignable-type', {assignable: ['label']},
         {creator: ['name']}, {'creator-team': ['name']}, {receiver: ['name']},
-        {'receiver-team': ['name']}, 'message', 'topic', 'aasm-state',
-        'created-at', 'updated-at'
+        {'receiver-team': ['name']}, 'message', 'topic', 'created-at',
+        'updated-at'
       ],
       inline_fields: [
         'assignable-type', 'assignable-id', 'topic',
@@ -310,7 +310,7 @@ export default {
     'split-bases': {
       fields: [
         'id', 'title', 'clarat-addition', 'comments',
-        { divisions: ['display-name'] }, { 'solution-category': ['name'] }
+        { divisions: ['label'] }, { 'solution-category': ['name'] }
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -353,11 +353,13 @@ export default {
     },
   },
 
-  OPERATORS: ['=', '!=', '<', '>', '...'],
+  OPERATORS: ['=', '!=', '<', '>', '...', 'LIKE', 'NOT LIKE'],
   SECTIONS: ['family', 'refugees'],
   AFTER_SAVE_ACTIONS: {
     'to_edit': 'Bei dieser Instanz bleiben',
     'to_table': 'Zurück zur Tabelle',
     'to_new': 'Neues Objekt anlegen'
-  }
+  },
+
+  HISTORY_ENABLED: ['organizations', 'offers']
 }

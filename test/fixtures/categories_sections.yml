@@ -15,7 +15,3 @@ three:
 four:
   category_id: 4
   section_id: 1
-
-five:
-  category_id: 5
-  section_id: 2

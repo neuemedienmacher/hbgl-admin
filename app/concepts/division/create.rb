@@ -21,7 +21,26 @@ class Division::Create < Trailblazer::Operation
       :presumed_solution_categories, ::SolutionCategory
     )
   }
+  step :generate_label # TODO: write tests for this!!
   step Contract::Persist()
   step :create_initial_assignment!
   step :syncronize_organization_approve_or_done_state
+
+  def generate_label(options, model:, **)
+    contract = options['contract.default']
+    # NOTE: only works of inline creation of division in organization
+    orga_or_contract =
+      contract.organization || options['nesting_operation']['contract.default']
+    model.label = build_label(orga_or_contract.name, contract)
+  end
+
+  private
+
+  def build_label(orga_name, contract)
+    label = "#{orga_name} (#{contract.section.identifier})"
+    label += ", City: #{contract.city.name}" if contract.city
+    label += ", Area: #{contract.area.name}" if contract.area
+    label += ", Addition: #{contract.addition}" if contract.addition.present?
+    label
+  end
 end

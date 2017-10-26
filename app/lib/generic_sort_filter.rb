@@ -38,7 +38,8 @@ module GenericSortFilter
   end
 
   def self.fill_param_defaults(params)
-    params[:sort_field] = 'id' unless params[:sort_field] # TODO: handle models that don't have 'id' field
+    # TODO: handle models that don't have 'id' field
+    params[:sort_field] = 'id' if !params[:sort_field] && !params[:query]
     params
   end
 
@@ -89,7 +90,7 @@ module GenericSortFilter
   end
 
   def self.transform_by_ordering(query, params)
-    # return query unless params[:sort_field]
+    return query unless params[:sort_field]
     sort_string = params[:sort_field]
     sort_model =
       if params[:sort_model]
@@ -178,14 +179,20 @@ module GenericSortFilter
     # transform table names (before a .) in case of association name mismatch
     filter_key = joined_or_own_table_name_for(query, filter, params)
     filter_string = filter_key.to_s
-    # append operator
     operator = process_operator(params[:operators], filter, value)
-    filter_string += ' ' + operator
     # append value
     new_value = transform_value(value, filter, query)
-    filter_string += ' ' + new_value
+    filter_string = cast_if_needed(filter_string, operator, value, new_value)
     # append optional addition
     filter_string + optional_query_addition(operator, new_value, filter_key)
+  end
+
+  def self.cast_if_needed(filter_string, operator, value, new_value)
+    if ['LIKE', 'NOT LIKE'].include?(operator)
+      'CAST(' + filter_string + ' AS TEXT) ' + operator + " '%" + value + "%'"
+    else
+      filter_string + ' ' + operator + ' ' + new_value
+    end
   end
 
   def self.joined_or_own_table_name_for(query, filter, params)
@@ -226,13 +233,13 @@ module GenericSortFilter
   end
 
   def self.transform_value(value, filter, query)
-    model_name =
+    model, filter =
       if filter.include?('.')
-        model_for_filter(query, filter)
+        [model_for_filter(query, filter), filter.split('.').last]
       else
-        query.model
+        [query.model, filter]
       end
-    value = parse_value_by_type(value, filter, model_name)
+    value = parse_value_by_type(value, filter, model)
     # NULL-filters are not allowed to stand within ''
     nullable_value?(value) ? 'NULL' : "'#{value}'"
   end
@@ -246,14 +253,21 @@ module GenericSortFilter
     end
   end
 
-  def self.parse_value_by_type(value, filter, model_name)
-    # convert datetime strings to specific format for query
-    if model_name.columns_hash[filter] && !nullable_value?(value) &&
-       model_name.columns_hash[filter].type == :datetime && !value.empty?
-      DateTime.parse(value + ' CET').utc.to_s
-    else
-      value
+  def self.parse_value_by_type(value, filter, model)
+    # convert (date)time strings to specific format for query
+    column_data = model.columns_hash[filter]
+
+    if column_data && !nullable_value?(value) && !value.empty?
+      if column_data.type == :datetime
+        return parse_datetime(value)
+      end
     end
+    value
+  end
+
+  def self.parse_datetime(value)
+    # TODO: does this work in DST?
+    Time.zone.parse(value).to_datetime.to_s
   end
 
   def self.optional_query_addition(operator, value, filter_key)

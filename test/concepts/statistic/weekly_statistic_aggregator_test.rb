@@ -24,7 +24,7 @@ class WeeklyStatisticAggregatorTest < ActiveSupport::TestCase # to get fixtures
       Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 5, field_name: 'other'))
       Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 7, model: 'foo'))
       subject.new(1, now.year, now.cweek, 10).record!
-      weeklies = Statistic.where(time_frame: 'weekly')
+      weeklies = Statistic.where(time_frame: 'weekly').order(:count)
       weeklies.count.must_equal 3
       weeklies[0].count.must_equal 0.4
       weeklies[1].count.must_equal 0.5

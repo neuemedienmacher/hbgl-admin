@@ -8,7 +8,6 @@ module Offer::Contracts
     property :comment
     property :encounter
     property :section
-    property :slug
     property :language_filters
     property :target_audience_filters_offers
     property :trait_filters
@@ -28,6 +27,7 @@ module Offer::Contracts
     property :opening_specification
     property :websites
     property :hide_contact_people
+    property :code_word
 
     validates :name, presence: true
     # TODO: replace with complicated custom validation OR save stamp text in model
@@ -37,6 +37,7 @@ module Offer::Contracts
     validates :description, presence: true
     validates :encounter, presence: true
     validates :section, presence: true
+    validates :code_word, length: { maximum: 140 }
 
     # Needs to be true before approval possible. Called in custom validation.
     # def before_approve
@@ -119,7 +120,7 @@ module Offer::Contracts
     end
 
     def no_more_than_10_next_steps
-      return if next_steps.to_a.size <= 10
+      return if next_steps.to_a.uniq.size <= 10
       custom_error :next_steps, 'no_more_than_10_next_steps'
     end
 

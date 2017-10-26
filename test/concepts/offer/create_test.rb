@@ -57,4 +57,23 @@ class OfferCreateTest < ActiveSupport::TestCase
     result['model'].split_base.id.must_equal 1
     result['model'].section.id.must_equal 1
   end
+
+  it 'must generate unique slugs' do
+    params = {
+      name: 'Kaperfahrt',
+      description: 'yarr',
+      encounter: 'online',
+      language_filters: [LanguageFilter.first],
+      section: Section.first,
+      split_base: SplitBase.first,
+      area: Area.first
+    }
+    result = operation_must_work ::Offer::Create, params
+    first_slug = result['model'].slug
+    first_slug.must_equal 'kaperfahrt'
+    # running again with same params must generate another slug
+    result = operation_must_work ::Offer::Create, params
+    result['model'].slug.wont_equal nil
+    result['model'].slug.wont_equal first_slug
+  end
 end

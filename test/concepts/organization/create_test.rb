@@ -167,5 +167,14 @@ class OrganizationCreateTest < ActiveSupport::TestCase
       0 => { websites: { 0 => { url: 'ist nicht gültig' } } }
     )
   end
+
+  it 'must generate unique slugs' do
+    params = {
+      name: 'Best Orga Name Ever',
+      website: { id: Website.first.id }
+    }
+    result = operation_must_work ::Organization::Create, params
+    result['model'].slug.must_equal 'best-orga-name-ever'
+  end
 end
 # rubocop:enable Metrics/ClassLength

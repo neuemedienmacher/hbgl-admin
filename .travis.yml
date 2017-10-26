@@ -4,8 +4,10 @@ rvm:
 notifications:
   email:
     - dev@clarat.org
+services:
+  - redis-server
 before_script:
-  - "RAILS_ENV=test bundle exec rake db:migrate"
+  - "RAILS_ENV=test bundle exec rake db:setup db:test:prepare"
   - "npm install"
   - "cd client && npm run build:client"
 script:

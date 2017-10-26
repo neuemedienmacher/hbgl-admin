@@ -15,9 +15,7 @@ FactoryGirl.define do
 
     after :build do |category, evaluator|
       # Filters
-      evaluator.sections.each do |section|
-        category.sections << section
-      end
+      category.sections = evaluator.sections
     end
 
     trait :main do

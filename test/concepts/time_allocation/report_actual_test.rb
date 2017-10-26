@@ -21,20 +21,23 @@ class ReportActualCreateTest < ActiveSupport::TestCase
 
   describe '::TimeAllocation::ReportActual' do
     it 'must update a TimeAllocation given valid data' do
-      operation_must_work ::TimeAllocation::ReportActual, basic_params, current_user: user
+      operation_must_work ::TimeAllocation::ReportActual, basic_params,
+                          current_user: user
     end
 
     describe '#dynamic_find_model' do
       it 'must find existing TimeAllocation' do
-        result = run_operation ::TimeAllocation::ReportActual, basic_params, current_user: user
+        result = run_operation ::TimeAllocation::ReportActual, basic_params,
+                               current_user: user
         result['model'].class.to_s.must_equal 'TimeAllocation'
       end
 
       it 'must create a new TimeAllocation' do
         basic_params[:week_number] = 42
-        result = run_operation ::TimeAllocation::ReportActual, basic_params, current_user: user
+        result = run_operation ::TimeAllocation::ReportActual, basic_params,
+                               current_user: user
         result['model'].class.to_s.must_equal 'TimeAllocation'
-        result['model'].id.must_equal 2
+        assert result['model'].persisted?
         result['model'].week_number.must_equal 42
       end
     end

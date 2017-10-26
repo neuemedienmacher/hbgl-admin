@@ -102,12 +102,20 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     onInputChange(input) {
       if (alreadyLoadedInputs.includes(input)) return
-      dispatch(loadForFilteringSelect(
-        input, resource, resourceKey, model, inverseRelationship, params
-      ))
+
+      if (lastInputChangeTimer) clearTimeout(lastInputChangeTimer)
+      lastInputChangeTimer = setTimeout(function() {
+        lastInputChangeTimer = null
+
+        dispatch(loadForFilteringSelect(
+          input, resource, resourceKey, model, inverseRelationship, params
+        ))
+      }, 400)
     },
   }
 }
+
+let lastInputChangeTimer = null
 
 export default connect(
   mapStateToProps,

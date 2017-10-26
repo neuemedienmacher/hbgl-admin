@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Form, InputSet, Button } from 'rform'
 import EditTranslationRow from '../containers/EditTranslationRow'
+import { Link } from 'react-router'
 
 export default class EditTranslationForm extends Component {
   render() {
@@ -26,9 +27,9 @@ export default class EditTranslationForm extends Component {
                   Übersetzung von {this.renderTranslationSource()}
                 </th>
                 <th className='original'>
-                  <a href={editLink} target='_blank'>
+                  <Link to={editLink}>
                     <i className="fa fa-file-text" /> Original
-                  </a>
+                  </Link>
                   <a href={previewLink} target='_blank'>
                     <i className="fa fa-eye" /> Preview
                   </a>

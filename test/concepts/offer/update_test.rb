@@ -33,8 +33,8 @@ class OfferUpdateTest < ActiveSupport::TestCase
       api_operation_must_work API::V1::Offer::Update, params.to_json
     result['model'].description.must_equal 'changed'
     result['model'].contact_people.count.must_equal 1
-    result['model'].contact_people.last.display_name
-                   .must_equal('#1 New Guy (foobar)')
+    contact_person = result['model'].contact_people.last
+    contact_person.label.must_equal("##{contact_person.id} New Guy (foobar)")
   end
 
   describe 'translation side effect' do

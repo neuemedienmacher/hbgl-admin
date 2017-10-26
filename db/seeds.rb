@@ -58,70 +58,40 @@ SearchLocation.create query: 'Berlin', latitude: 52.520007,
                                        longitude: 13.404954,
                                        geoloc: '52.520007,13.404954'
 
-fam = FactoryGirl.create :category, :with_dummy_translations,
-                         name_de: 'Familie', icon: 'b-family'
-fam.sections = [family, refugees]
-legal = FactoryGirl.create :category, :with_dummy_translations,
-                           name_de: 'Asyl und Recht', icon: 'a-legal'
-legal.sections = [refugees]
-health = FactoryGirl.create :category, :with_dummy_translations,
-                            name_de: 'Gesundheit', icon: 'c-health'
-health.sections = [family, refugees]
-learn = FactoryGirl.create :category, :with_dummy_translations,
-                           name_de: 'Lernen und Arbeiten', icon: 'd-learn'
-learn.sections = [family, refugees]
-miscf = FactoryGirl.create :category, :with_dummy_translations,
-                          name_de: 'Sorgen im Alltag', icon: 'e-misc'
-miscf.sections = [family]
-miscr = FactoryGirl.create :category, :with_dummy_translations,
-                          name_de: 'Leben in Deutschland', icon: 'e-misc'
-miscr.sections = [refugees]
-violence = FactoryGirl.create :category, :with_dummy_translations,
-                              name_de: 'Gewalt', icon: 'f-violence'
-violence.sections = [family, refugees]
-crisis = FactoryGirl.create :category, :with_dummy_translations,
-                            name_de: 'Notfall', icon: 'g-crisis'
-crisis.sections = [family, refugees]
+FactoryGirl.create :tag, :with_dummy_translations,
+                         name_de: 'Familie'
+FactoryGirl.create :tag, :with_dummy_translations,
+                           name_de: 'Asyl und Recht'
+FactoryGirl.create :tag, :with_dummy_translations,
+                            name_de: 'Gesundheit'
+FactoryGirl.create :tag, :with_dummy_translations,
+                           name_de: 'Lernen und Arbeiten'
+FactoryGirl.create :tag, :with_dummy_translations,
+                          name_de: 'Sorgen im Alltag'
+FactoryGirl.create :tag, :with_dummy_translations,
+                          name_de: 'Leben in Deutschland'
+FactoryGirl.create :tag, :with_dummy_translations,
+                              name_de: 'Gewalt'
+FactoryGirl.create :tag, :with_dummy_translations,
+                            name_de: 'Notfall'
 
-refugee_mains = Category.mains.in_section(:refugees).all
-subcategories = []
-
-10.times do
-  subcategories.push(
-    FactoryGirl.create :category, :with_dummy_translations,
-                       sections: [refugees],
-                       parent: refugee_mains.sample
-  )
-end
-
-10.times do
+20.times do
     FactoryGirl.create :tag, :with_dummy_translations
 end
 
-20.times do
-  FactoryGirl.create :category, :with_dummy_translations,
-                     sections: [refugees],
-                     parent: subcategories.sample
-end
-
-categories = Category.all
 tags = Tag.all
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokales Angebot',
-                   encounter: 'personal', categories: [categories.sample],
-                   tags: [tags.sample]
+                   encounter: 'personal', tags: [tags.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokale Hotline',
-                   encounter: 'hotline', area: berlin,
-                   categories: [categories.sample], tags: [tags.sample]
+                   encounter: 'hotline', area: berlin, tags: [tags.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweiter Chat',
-                   encounter: 'chat', area: schland,
-                   categories: [categories.sample], tags: [tags.sample]
+                   encounter: 'chat', area: schland, tags: [tags.sample]
 FactoryGirl.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweite Hotline',
-                   encounter: 'hotline', area: schland,
-                   categories: [categories.sample], tags: [tags.sample]
+                   encounter: 'hotline', area: schland, tags: [tags.sample]
 
 stic = StatisticTransition::CreateIfNecessary.({klass_name: 'Offer',
                                                 field_name: 'aasm_state',

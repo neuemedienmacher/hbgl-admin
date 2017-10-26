@@ -13,12 +13,13 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
         name: '*foo*', description: '*foo*', old_next_steps: '*foo*',
         opening_specification: '*foo*'
       )
-      FactoryGirl.create :definition, key: 'foo'
+      definition = FactoryGirl.create :definition, key: 'foo'
       worker.perform :de, 'Offer', offer.id
       translation = offer.translations.where(locale: 'de').first
       translation.name.must_equal '*foo*'
       translation.description.must_equal(
-        "<p><em><dfn class='JS-tooltip' data-id='1'>foo</dfn></em></p>\n"
+        "<p><em><dfn class='JS-tooltip' data-id='#{definition.id}'>foo</dfn>"\
+          "</em></p>\n"
       )
       translation.old_next_steps.must_equal "<p><em>foo</em></p>\n"
       translation.opening_specification.must_equal "<p><em>foo</em></p>\n"
