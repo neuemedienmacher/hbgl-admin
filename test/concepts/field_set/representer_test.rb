@@ -54,8 +54,8 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
     result['associations'][:section]['key'].must_equal [''] # ignores belongs_to to associations
     result['associations'][:city]['key'].must_equal [''] # ignores belongs_to to associations
     result['associations'][:area]['key'].must_equal [''] # ignores belongs_to to associations
-    result['associations'][:divisions_presumed_categories]['key'].must_equal ['division_id']
-    result['associations'][:presumed_categories]['key'].must_equal ['presuming_divisions.id'] # TODO?!
+    result['associations'][:divisions_presumed_tags]['key'].must_equal ['division_id']
+    result['associations'][:presumed_tags]['key'].must_equal ['presuming_divisions.id'] # TODO?!
     result['associations'][:divisions_presumed_solution_categories]['key'].must_equal ['division_id']
     result['associations'][:presumed_solution_categories]['key'].must_equal ['presuming_divisions.id']
     result['associations'][:websites]['key'].must_equal ['divisions.id']
