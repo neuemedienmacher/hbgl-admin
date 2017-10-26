@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import { setUiLoaded } from '../../../Backend/actions/setUi'
 import LoadingForm from '../components/LoadingForm'
+import { handleError } from '../../../lib/ajaxRedirectHandler'
 import { singularize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
@@ -39,8 +40,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       dispatch(
         loadAjaxData(
-          `${model}/${editId}`, '', model, undefined, undefined, () => {
-            dispatch(setUiLoaded(true, 'GenericForm', model, editId))
+          `${model}/${editId}`, '', model, { onSuccess:
+            () => { dispatch(setUiLoaded(true, 'GenericForm', model, editId)) },
+            onError: handleError(model, dispatchProps.dispatch)
           }
         )
       )
@@ -53,7 +55,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatchProps.dispatch(
         loadAjaxData(
           `possible_events/${singularModel}/${editId}`, {}, 'possible-events',
-          transformResponse, model
+          {
+            transformer: transformResponse, nextModel: model
+          }
         )
       )
     }

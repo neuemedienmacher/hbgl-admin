@@ -2,10 +2,12 @@
 
 require_relative '../../test_helper'
 require_relative '../../support/utils/operation_test_utils'
+require_relative '../../support/utils/contract_test_utils'
 # rubocop:disable ClassLength
 class OfferContractTest < ActiveSupport::TestCase
   # include JsonapiTestUtils
   include OperationTestUtils
+  include ContractTestUtils
   let(:offer) { Offer::Contracts::Create.new(offers(:basic)) }
 
   subject { offer }
@@ -16,6 +18,7 @@ class OfferContractTest < ActiveSupport::TestCase
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :encounter }
       it { subject.must validate_presence_of :section }
+      it { must_validate_length_of :code_word, maximum: 140 }
 
       it 'should fails if personal offer has no location' do
         subject.encounter = 'personal'

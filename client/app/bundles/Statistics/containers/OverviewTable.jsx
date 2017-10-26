@@ -109,7 +109,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     loadStatesAndSections() {
       dispatch(
         loadAjaxData(
-          `states/${model}`, {}, stateProps.stateKey, () => ({})
+          `states/${model}`, {}, stateProps.stateKey,
+          {
+            transformer: () => ({})
+          }
         )
       ),
       dispatch(

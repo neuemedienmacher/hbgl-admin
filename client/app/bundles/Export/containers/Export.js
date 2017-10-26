@@ -43,7 +43,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatchProps.dispatch(
         loadAjaxData(
           'field_set/' + singularModel, {}, 'field-set',
-          transformResponse, stateProps.model
+          {
+            transformer: transformResponse, nextModel: stateProps.model
+          }
         )
       )
     }

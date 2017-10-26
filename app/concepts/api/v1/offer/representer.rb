@@ -32,6 +32,7 @@ module API::V1
           property :completed_at
           property :completed_by
           property :comment
+          property :code_word
 
           property :section_id
           property :logic_version_id

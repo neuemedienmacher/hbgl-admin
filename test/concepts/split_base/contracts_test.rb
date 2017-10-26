@@ -15,7 +15,6 @@ class SplitBaseContractsTest < ActiveSupport::TestCase
       describe 'always' do
         it { must_validate_presence_of :title }
         it { must_validate_presence_of :solution_category }
-        it { must_validate_length_of :code_word, maximum: 140 }
       end
 
       it 'uniqueness if divison same' do

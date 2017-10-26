@@ -27,6 +27,7 @@ module Offer::Contracts
     property :opening_specification
     property :websites
     property :hide_contact_people
+    property :code_word
 
     validates :name, presence: true
     # TODO: replace with complicated custom validation OR save stamp text in model
@@ -36,6 +37,7 @@ module Offer::Contracts
     validates :description, presence: true
     validates :encounter, presence: true
     validates :section, presence: true
+    validates :code_word, length: { maximum: 140 }
 
     # Needs to be true before approval possible. Called in custom validation.
     # def before_approve
