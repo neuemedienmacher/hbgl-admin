@@ -3,8 +3,11 @@
   .form-control {
     border-radius: 0;
     -webkit-border-radius: 0;
-    -webkit-appearance: none;
     padding: 6px 8px;
+  }
+
+  select.form-control {
+    -webkit-appearance: none;
   }
 
    textarea.form-control {
