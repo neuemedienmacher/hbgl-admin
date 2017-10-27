@@ -63,14 +63,14 @@ class OfferContractTest < ActiveSupport::TestCase
 
       it 'should fail if locations and organizations do not match (personal)' do
         subject = Offer::Contracts::Update.new(offers(:basic))
-        location = Location.create(organization: Organization.new)
+        location = Location.new(organization: Organization.new)
         subject.location = location
         subject.wont_be :valid?
       end
 
       it 'should ensure locations and organizations match (personal)' do
         subject = Offer::Contracts::Update.new(offers(:basic))
-        subject.location = Location.create(organization: organizations(:basic))
+        subject.location = Location.new(organization: organizations(:basic))
         subject.must_be :valid?
       end
 
