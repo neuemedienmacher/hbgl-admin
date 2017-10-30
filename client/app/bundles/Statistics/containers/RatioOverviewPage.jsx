@@ -76,7 +76,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     dispatch(
       loadAjaxData(
         `${model}s`, entryCountGrabberParams(model, section),
-        'lastData', entryCountGrabberTransformer(model, section)
+        'lastData',
+        { transformer: entryCountGrabberTransformer(model, section) }
       )
     )
   }

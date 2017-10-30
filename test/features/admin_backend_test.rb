@@ -670,15 +670,6 @@ feature 'Admin Backend' do
       page.must_have_content 'Kontaktperson wurde erfolgreich hinzugefügt'
     end
 
-    scenario 'Duplicate location' do
-      visit rails_admin_path
-      click_link 'Standorte', match: :first
-      click_link 'Duplizieren', match: :first
-      click_button 'Speichern'
-      page.wont_have_content 'Standort wurde nicht hinzugefügt'
-      page.must_have_content 'Standort wurde erfolgreich hinzugefügt'
-    end
-
     scenario 'New category missing section filter' do
       visit rails_admin_path
       click_link 'Problem-Kategorien', match: :first

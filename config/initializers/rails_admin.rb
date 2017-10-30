@@ -46,7 +46,7 @@ RailsAdmin.config do |config|
     new do
       except [
         'User', 'FederalState', 'Section', 'Division', 'Organization',
-        'Opening', 'Tag', 'Definition', 'Offer', 'SplitBase'
+        'Opening', 'Tag', 'Definition', 'Offer', 'SplitBase', 'Location'
       ]
     end
     # export
@@ -57,25 +57,20 @@ RailsAdmin.config do |config|
     edit do
       except [
         'Section', 'Division', 'Organization', 'Opening', 'Tag', 'Definition',
-        'Offer', 'SplitBase'
+        'Offer', 'SplitBase', 'Location'
       ]
     end
     delete do
       except ['User', 'FederalState', 'Section']
     end
-    show_in_app do
-      only ['Offer']
-    end
 
     clone do
       except [
         'Section', 'City', 'TargetAudienceFiltersOffer', 'Division',
-        'Organization', 'Opening', 'Tag', 'Definition', 'SplitBase', 'Offer'
+        'Organization', 'Opening', 'Tag', 'Definition', 'SplitBase', 'Offer',
+        'Location'
       ]
     end
-    # nested_set do
-    #   only ['Category']
-    # end
     nestable do
       only ['Category', 'SolutionCategory']
     end
@@ -255,9 +250,6 @@ RailsAdmin.config do |config|
     # export do
     #   field :id
     # end
-    clone_config do
-      custom_method :partial_dup
-    end
     object_label_method :label
   end
 
