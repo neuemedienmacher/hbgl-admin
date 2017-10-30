@@ -26,7 +26,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   jumpToPage(event) {
     var page = null
-    while(typeof page != 'number' || page < 1 || page > stateProps.totalPages) {
+    while(typeof page != 'number' || page > stateProps.totalPages) {
       page = Number(
         prompt(
           "Springe zu 1-"+stateProps.totalPages+":", stateProps.currentPage
