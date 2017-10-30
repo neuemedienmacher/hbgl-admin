@@ -8,7 +8,7 @@ module Division::Contracts
     property :section
     property :city
     property :area
-    property :presumed_categories
+    property :presumed_tags
     property :presumed_solution_categories
     property :comment
     property :size

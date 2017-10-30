@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/clarat-org/clarat_base.git
-  revision: 048d7c4e8a56a6b5eac82b88a950bdf4b97aa42c
+  revision: 7a4102a926cb57113a1adbcda1ab90fcbae156bf
   specs:
     clarat_base (0.1.4)
       aasm
@@ -700,7 +700,7 @@ GEM
       httparty
       multi_json (>= 1.9.0)
     gli (2.17.0)
-    globalid (0.4.0)
+    globalid (0.4.1)
       activesupport (>= 4.2.0)
     haml (5.0.3)
       temple (>= 0.8.0)
@@ -827,7 +827,7 @@ GEM
     nokogumbo (1.4.13)
       nokogiri
     orm_adapter (0.5.0)
-    paper_trail (8.0.0)
+    paper_trail (8.0.1)
       activerecord (>= 4.2, < 5.2)
       request_store (~> 1.1)
     parallel (1.12.0)
@@ -964,7 +964,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.2.2)
       rake
-    rake (12.1.0)
+    rake (12.2.1)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
@@ -1109,7 +1109,7 @@ GEM
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0, < 2.1.0)
       trailblazer-loader (>= 0.1.0)
-    tzinfo (1.2.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
     uber (0.1.0)
     uglifier (3.2.0)

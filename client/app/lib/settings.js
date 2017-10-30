@@ -212,7 +212,7 @@ export default {
     divisions: {
       association_model_mapping: {
         'current-assignment': 'assignments', receiver: 'users',
-        'receiver-team': 'user-teams', 'presumed-categories': 'categories',
+        'receiver-team': 'user-teams', 'presumed-tags': 'tags',
         'presumed-solution-categories': 'solution-categories'
       },
       fields: [

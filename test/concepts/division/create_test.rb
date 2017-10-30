@@ -26,14 +26,17 @@ class DivisionCreateTest < ActiveSupport::TestCase
     end
 
     it 'must create a division with presumed (solution) categories and label' do
+      tag1 = FactoryGirl.create(:tag)
+      tag2 = FactoryGirl.create(:tag)
+
       params = basic_params.merge(
-        presumed_categories: Category.first(2),
+        presumed_tags: [{ id: tag1.id }, { id: tag2.id }],
         presumed_solution_categories: [{ id: 1 }]
       )
       result = operation_must_work ::Division::Create, params
-      result['model'].presumed_categories.count.must_equal 2
-      result['model'].presumed_categories.first.id.must_equal 1
-      result['model'].presumed_categories.last.id.must_equal 2
+      result['model'].presumed_tags.count.must_equal 2
+      result['model'].presumed_tags.first.id.must_equal tag1.id
+      result['model'].presumed_tags.last.id.must_equal tag2.id
       result['model'].presumed_solution_categories.count.must_equal 1
       result['model'].presumed_solution_categories.first.id.must_equal 1
       result['model'].label.must_equal(
