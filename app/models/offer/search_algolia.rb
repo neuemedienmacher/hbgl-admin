@@ -37,7 +37,7 @@ module Offer::SearchAlgolia
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
           attribute(:tag_explanations) { tag_explanations(locale) }
-          attribute(:solution_category) { solution_category.name }
+          attribute(:solution_category) { solution_category&.name }
           attribute(:trait_filter) { trait_filters.map(&:name) }
           attribute(:language_filter) { language_filters.map(&:name) }
           add_attribute(*attributes)
