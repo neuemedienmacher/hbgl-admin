@@ -37,7 +37,7 @@ class CheckSingleWebsiteWorker
 
   def create_assignment website, model
     message = "[#{model}-website unreachable] | #{website.url}"
-    ::Assignment::CreateBySystem.({}, assignable: website, last_acting_user: User.system_user, message: message, topic: 'crawler')
+    ::Assignment::CreateBySystem.({}, assignable: website, last_acting_user: User.system_user, message: message)
   end
 
   def check_website_unreachable? website

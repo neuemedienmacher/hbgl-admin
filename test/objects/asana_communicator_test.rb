@@ -32,47 +32,6 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
     end
   end
 
-  describe '#create_website_unreachable_task_offer' do
-    it 'should call #post_to_api with apropriate data and perform HTTP req' do
-      website = FactoryGirl.create :website, :own
-      object.expects(:post_to_api).with(
-        '/api/1.0/tasks',
-        projects: %w[147663824592112], workspace: '41140436022602',
-        name:
-          '[Offer website unreachable] family | Version: 1 | foobar,bazfuz'\
-          ' | basicOfferName',
-        notes: 'Deactivated: http://claradmin.herokuapp.com/offers/1/edit'\
-               " | Unreachable website: #{website.url}"
-      )
-
-      offer = offers(:basic)
-      website.offers << offer
-      division = FactoryGirl.create :division
-      division.organization.update_columns name: 'bazfuz'
-      offer.split_base.divisions << division
-
-      object.create_website_unreachable_task_offer website, offer
-    end
-  end
-
-  describe '#create_website_unreachable_task_orgas' do
-    it 'should call #post_to_api with apropriate data and perform HTTP req' do
-      website = FactoryGirl.create :website, :own
-      website.offers = []
-      object.expects(:post_to_api).with(
-        '/api/1.0/tasks',
-        projects: %w[147663824592112], workspace: '41140436022602',
-        name: '[Orga-website unreachable] bazfuz',
-        notes: "Unreachable website: #{website.url}"
-      )
-
-      orga = FactoryGirl.create :organization, :approved, name: 'bazfuz'
-      website.organizations << orga
-
-      object.create_website_unreachable_task_orgas website
-    end
-  end
-
   describe '#create_seasonal_offer_ready_for_checkup_task' do
     it 'should call #post_to_api with apropriate data' do
       object.expects(:post_to_api).with(
