@@ -98,6 +98,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
   end
 
   def topic(assignable)
+    assignment = assignable.current_assignment rescue nil
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
