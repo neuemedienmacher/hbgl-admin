@@ -21,23 +21,25 @@ class CheckSingleWebsiteWorker
   private
 
   def expire_and_create_assignments website
-    if website.offers.visible_in_frontend.any?
-      create_assignment website, 'Offer'
-      website.offers.visible_in_frontend.find_each do |offer|
-        # Force-Set state change to avoid (rare) problems with invalid offers
-        offer.update_columns(aasm_state: 'website_unreachable')
-        offer.index!
-      end
-    end
-    # approved organizations => only create one task for all organizations
-    unless website.organizations.visible_in_frontend.empty?
+    if website.organizations.visible_in_frontend.any?
       create_assignment website, 'Orga'
+    elsif website.offers.visible_in_frontend.any?
+      create_assignment website, 'Offer'
     end
   end
 
   def create_assignment website, model
     message = "[#{model}-website unreachable] | #{website.url}"
     ::Assignment::CreateBySystem.({}, assignable: website, last_acting_user: User.system_user, message: message)
+    update_offers(website.offers.visible_in_frontend) if website.offers.visible_in_frontend.any?
+  end
+
+  def update_offers online_offers
+    online_offers.find_each do |offer|
+      # Force-Set state change to avoid (rare) problems with invalid offers
+      offer.update_columns(aasm_state: 'website_unreachable')
+      offer.index!
+    end
   end
 
   def check_website_unreachable? website
