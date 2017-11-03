@@ -22,6 +22,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
+    Assignment.last.message == "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should create an assignment, expire and index offer with timeout '\
@@ -34,6 +35,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
+    Assignment.last.message == "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should increment unreachable_count but not create an assignment for the second time' do
@@ -41,6 +43,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     offer = FactoryGirl.create :offer, :approved
     website.offers << offer
     Offer.any_instance.expects(:index!).never
+    single_worker.expects(:expire_and_create_assignments).never
     WebMock.stub_request(:head, 'www.example.com').to_timeout
     single_worker.perform website.id
     website.reload.unreachable_count.must_equal 3
@@ -57,6 +60,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
+    Assignment.last.message == "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should ignore offers with reachable website and reset unreachable flag' do
@@ -64,6 +68,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     offer = FactoryGirl.create :offer, :approved
     website.offers << offer
     Offer.any_instance.expects(:index!).never
+    single_worker.expects(:expire_and_create_assignments).never
     WebMock.stub_request(:head, 'www.example.com') # stub request to return success
     single_worker.perform website.id
     offer.reload.must_be :approved?
@@ -80,6 +85,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
            .to_return(status: 404, body: '', headers: {}) # 404 stub
     single_worker.perform website.id
     orga.must_be :approved?
+    Assignment.last.message == "[Orga-website unreachable] | #{website.url}"
   end
 
   describe '#url_unreachable_with_httparty?' do
