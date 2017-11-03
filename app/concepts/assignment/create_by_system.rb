@@ -18,7 +18,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     result.success?
   end
 
-  def collect_initial_params(options, assignable:, last_acting_user:, message: nil, **)
+  def collect_initial_params(options, assignable:, last_acting_user:,
+                             message: nil, **)
     options['params'] = {
       assignable_id: assignable.id,
       assignable_type: assignable.class.name,
@@ -26,7 +27,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       creator_team_id: nil,
       receiver_id: receiver_id(assignable, last_acting_user),
       receiver_team_id: receiver_team_id(assignable, last_acting_user),
-      message: message || message_for_new_assignment(assignable, last_acting_user),
+      message: message || message_for_new_assignment(assignable,
+                                                     last_acting_user),
       created_by_system: true,
       topic: topic(assignable)
     }
