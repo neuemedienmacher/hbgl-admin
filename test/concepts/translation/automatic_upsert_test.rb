@@ -17,7 +17,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     offer = FactoryGirl.create :offer, :approved,
                                organizations: [family_section_orga]
     # offer.section = FactoryGirl.create(:section, :family)
-    offer.categories = [FactoryGirl.create(:category, sections: [offer.section])]
+    offer.tags = [FactoryGirl.create(:tag)]
     offer.save
     offer
   end
@@ -26,7 +26,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     offer = FactoryGirl.create :offer, :approved,
                                organizations: [refugees_section_orga]
     # offer.section = FactoryGirl.create(:section, :refugees)
-    offer.categories = [FactoryGirl.create(:category, sections: [offer.section])]
+    offer.tags = [FactoryGirl.create(:tag)]
     offer.save
     offer
   end

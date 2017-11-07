@@ -32,13 +32,6 @@ Rails.application.routes.draw do
   #   end
   # end
 
-  resources :categories do
-    collection do
-      get :sort
-      get :mindmap
-    end
-  end
-
   # resources :offer_translations, only: [:index, :edit, :update] do
   #   collection do
   #     get 'export', controller: :pages, action: :react

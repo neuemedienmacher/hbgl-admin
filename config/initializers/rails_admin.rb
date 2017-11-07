@@ -33,7 +33,7 @@ RailsAdmin.config do |config|
 
   config.included_models = %w(
     Organization Website Location FederalState Offer Opening
-    Category Email UpdateRequest LanguageFilter User Contact
+     Email UpdateRequest LanguageFilter User Contact
     Tag Definition Note Area SearchLocation ContactPerson
     Subscription Section NextStep SolutionCategory
     LogicVersion SplitBase City TargetAudienceFiltersOffer
@@ -72,7 +72,7 @@ RailsAdmin.config do |config|
       ]
     end
     nestable do
-      only ['Category', 'SolutionCategory']
+      only ['SolutionCategory']
     end
     change_state
 
@@ -600,45 +600,6 @@ RailsAdmin.config do |config|
     clone_config do
       custom_method :partial_dup
     end
-  end
-
-  config.model 'Category' do
-    weight(-3)
-    field :name_de
-    field :keywords_de
-    field :explanations_de
-    field :sections
-    field :parent
-    field :sort_order
-    field :visible
-    field :name_en
-    field :keywords_en
-    field :explanations_en
-    field :name_ar
-    field :keywords_ar
-    field :explanations_ar
-    field :name_fa
-    field :keywords_fa
-    field :explanations_fa
-    field :name_tr
-    field :name_pl
-    field :name_ru
-    field :name_fr
-    field(:id) { read_only true }
-
-    object_label_method :name_with_world_suffix_and_optional_asterisk
-
-    list do
-      sort_by :name_de
-    end
-
-    show do
-      field :offers
-      field :icon
-    end
-
-    # nested_set(max_depth: 5)
-    nestable_tree(max_depth: 5)
   end
 
   config.model 'NextStep' do

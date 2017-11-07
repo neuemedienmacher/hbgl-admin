@@ -14,6 +14,7 @@ SimpleCov.start 'rails' do
   # add_filter "/app/workers/uninformed_emails_mailings_spawner_worker.rb"
   minimum_coverage 100
 end
+
 # require 'codeclimate-test-reporter'
 # CodeClimate::TestReporter.start
 
@@ -78,6 +79,7 @@ Minitest.after_run do
     brakeman
     rubocop
     rails_best_practices
+    # SimpleCov.result.format!
   end
 end
 

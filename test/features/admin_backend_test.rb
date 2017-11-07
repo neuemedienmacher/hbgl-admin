@@ -670,30 +670,6 @@ feature 'Admin Backend' do
       page.must_have_content 'Kontaktperson wurde erfolgreich hinzugefügt'
     end
 
-    scenario 'New category missing section filter' do
-      visit rails_admin_path
-      click_link 'Problem-Kategorien', match: :first
-      click_link 'Neu hinzufügen', match: :first
-      fill_in 'category_name_de', with: 'testkategorie'
-      click_button 'Speichern'
-      page.must_have_content 'benötigt mindestens eine clarat-Welt'
-    end
-
-    scenario 'Try to edit existing category and remove sections' do
-      visit rails_admin_path
-      click_link 'Problem-Kategorien', match: :first
-      click_link 'Bearbeiten', match: :first
-      unselect 'Family', from: 'category_section_ids'
-      unselect 'Refugees', from: 'category_section_ids'
-      click_button 'Speichern und bearbeiten'
-      page.must_have_content 'Kategorie wurde nicht aktualisiert'
-      page.must_have_content 'benötigt mindestens eine clarat-Welt'
-
-      select 'Family', from: 'category_section_ids'
-      click_button 'Speichern'
-      page.must_have_content 'Kategorie wurde erfolgreich aktualisiert'
-    end
-
     # describe 'Dependent Tags' do
     #   before do
     #     @tag = FactoryGirl.create :tag, dependent_tag_count: 1

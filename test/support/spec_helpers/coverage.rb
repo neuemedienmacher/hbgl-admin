@@ -1,9 +1,14 @@
 ### SimpleCOV ###
 require 'coveralls'
+require 'simplecov'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
+class SimpleCov::Formatter::MergedFormatter
+  def format(result)
+     SimpleCov::Formatter::HTMLFormatter.new.format(result)
+     Coveralls::SimpleCov::Formatter.new.format(result)
+  end
+end
 
-Coveralls.wear!('rails')
+SimpleCov.formatter = SimpleCov::Formatter::MergedFormatter
+
+# Coveralls.wear!('rails')

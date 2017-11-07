@@ -20,7 +20,6 @@ module Offer::Contracts
     property :split_base
     property :starts_at
     property :ends_at
-    property :categories
     property :section
     property :tags
     property :openings
@@ -60,9 +59,7 @@ module Offer::Contracts
 
     private
 
-    # Uses method from CustomValidatable concern.
     def validate_associated_fields
-      # validate_associated_presence :organizations
       validate_associated_presence :language_filters
     end
 
@@ -144,8 +141,6 @@ module Offer::Contracts
     property :id, virtual: true
 
     # fill me!
-    validate :sections_must_match_categories_sections
-    validate :at_least_one_section_of_each_category_must_be_present
     validate :location_fits_organization
     validates :target_audience_filters_offers, presence: true
     # validate :validate_target_audience_filters_offers
@@ -162,28 +157,6 @@ module Offer::Contracts
       end
     end
 
-    # The offers sections must match the categories sections
-    def sections_must_match_categories_sections
-      if categories.any?
-        categories.each do |category|
-          next if category.reload.sections.include?(section)
-          errors.add(:categories,
-                     I18n.t('offer.validations.category_for_section_needed',
-                            world: section.name))
-        end
-      end
-    end
-
-    def at_least_one_section_of_each_category_must_be_present
-      if categories.any?
-        categories.each do |offer_category|
-          next if offer_category.reload.sections.include?(section)
-          errors.add(:categories,
-                     I18n.t('offer.validations.section_for_category_needed',
-                            category: offer_category.name))
-        end
-      end
-    end
     #
     # def validate_target_audience_filters_offers
     #   unless target_audience_filters_offers.any?
