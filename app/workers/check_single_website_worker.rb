@@ -31,8 +31,9 @@ class CheckSingleWebsiteWorker
   def create_assignment website, model
     message = "[#{model}-website unreachable] | #{website.url}"
     ::Assignment::CreateBySystem.({}, assignable: website,
-                                      last_acting_user: User.system_user, message: message)
-    update_offers(website.offers.visible_in_frontend) if website.offers.visible_in_frontend.any?
+                                      last_acting_user: User.system_user,
+                                      message: message)
+    update_offers(website.offers.visible_in_frontend)
   end
 
   def update_offers online_offers

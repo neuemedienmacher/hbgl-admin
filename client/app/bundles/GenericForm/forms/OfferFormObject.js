@@ -20,7 +20,7 @@ class OfferCreateFormObject extends GenericFormObject {
     return [
       'section', 'split-base', 'name', 'code-word', 'description',
       'comment', 'next-steps', 'contact-people',
-      'hide-contact-people', 'encounter', 'location', 'area', 'categories',
+      'hide-contact-people', 'encounter', 'location', 'area',
       'tags', 'trait-filters', 'language-filters',
       'target-audience-filters-offers', 'openings', 'opening-specification',
       'websites', 'starts-at', 'ends-at', 'logic-version'
@@ -30,7 +30,7 @@ class OfferCreateFormObject extends GenericFormObject {
   static get submodels() {
     return [
       'section', 'split-base', 'next-steps', 'contact-people', 'location',
-      'area', 'categories', 'tags', 'trait-filters',
+      'area', 'tags', 'trait-filters',
       'language-filters', 'target-audience-filters-offers', 'openings',
       'websites', 'logic-version'
     ]
@@ -57,9 +57,6 @@ class OfferCreateFormObject extends GenericFormObject {
       },
       area: {
         relationship: 'oneToOne',
-      },
-      categories: {
-        relationship: 'oneToMany',
       },
       tags: {
         relationship: 'oneToMany',
@@ -107,7 +104,6 @@ class OfferCreateFormObject extends GenericFormObject {
       },
       location: { type: 'creating-select' },
       area: { type: 'filtering-select' },
-      categories: { type: 'filtering-multiselect' },
       tags: { type: 'filtering-multiselect' },
       'trait-filters': {
         type: 'filtering-multiselect',

@@ -3,10 +3,10 @@
 require_relative '../test_helper'
 require_relative '../support/utils/policy_test_utils'
 
-class CategoryPolicyTest < ActiveSupport::TestCase
+class ApplicationPolicyTest < ActiveSupport::TestCase
   include PolicyTestUtils
 
-  subject { CategoryPolicy.new(User.new, Category.new) }
+  subject { ApplicationPolicy.new(User.first, User.first) }
 
   it { denies_everything }
 end

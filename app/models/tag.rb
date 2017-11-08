@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Monkeypatch clarat_base Category
+# Monkeypatch clarat_base tag
 require ClaratBase::Engine.root.join('app', 'models', 'tag')
 
 class Tag < ApplicationRecord

@@ -15,7 +15,6 @@ class Offer::Update < Trailblazer::Operation
     step ::Lib::Macros::Nested::Create :contact_people, ::ContactPerson::Create
     step ::Lib::Macros::Nested::Create :location, ::Location::Create
     step ::Lib::Macros::Nested::Find :area, ::Area
-    step ::Lib::Macros::Nested::Find :categories, ::Category
     step ::Lib::Macros::Nested::Find :tags, ::Tag
     step ::Lib::Macros::Nested::Find :trait_filters, ::TraitFilter
     step ::Lib::Macros::Nested::Find :language_filters, ::LanguageFilter
