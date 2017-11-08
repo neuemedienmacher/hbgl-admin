@@ -5,12 +5,11 @@ require_relative '../test_helper'
 class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
   let(:single_worker) { CheckSingleWebsiteWorker.new }
 
-  it 'should create asana task, expire and index offer with 404 website' do
+  it 'should create an assignment, expire and index offer with 404 website' do
     website = FactoryGirl.create :website, :own
     offer = FactoryGirl.create :offer, :approved
     website.offers << offer
     Offer.any_instance.expects(:index!)
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
     WebMock.stub_request(:head, 'www.example.com')
            .to_return(status: 404, body: '', headers: {}) # 404 stub
     WebMock.stub_request(:get, 'www.example.com')
@@ -23,28 +22,28 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
+    Assignment.last.message.must_equal "[Offer-website unreachable] | #{website.url}"
   end
 
-  it 'should create asana task, expire and index offer with timeout '\
+  it 'should create an assignment, expire and index offer with timeout '\
      'website' do
     website = FactoryGirl.create :website, :own, unreachable_count: 1
     offer = FactoryGirl.create :offer, :approved
     website.offers << offer
     Offer.any_instance.expects(:index!)
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
     WebMock.stub_request(:head, 'www.example.com').to_timeout
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
+    Assignment.last.message.must_equal "[Offer-website unreachable] | #{website.url}"
   end
 
-  it 'should increment unreachable_count but not create tasks a second time' do
+  it 'should increment unreachable_count but not create an assignment for the second time' do
     website = FactoryGirl.create :website, :own, unreachable_count: 2
     offer = FactoryGirl.create :offer, :approved
     website.offers << offer
     Offer.any_instance.expects(:index!).never
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer).never
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_orgas).never
+    single_worker.expects(:expire_and_create_assignments).never
     WebMock.stub_request(:head, 'www.example.com').to_timeout
     single_worker.perform website.id
     website.reload.unreachable_count.must_equal 3
@@ -57,11 +56,11 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     website.offers << offer
     # expectations
     Offer.any_instance.expects(:index!)
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer)
     WebMock.stub_request(:head, 'www.example.com').to_timeout
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
+    Assignment.last.message.must_equal "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should ignore offers with reachable website and reset unreachable flag' do
@@ -69,25 +68,24 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     offer = FactoryGirl.create :offer, :approved
     website.offers << offer
     Offer.any_instance.expects(:index!).never
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer).never
+    single_worker.expects(:expire_and_create_assignments).never
     WebMock.stub_request(:head, 'www.example.com') # stub request to return success
     single_worker.perform website.id
     offer.reload.must_be :approved?
     website.reload.unreachable_count.must_equal 0
   end
 
-  it 'should create AsanaTask for orga with 404 website and not change state' do
+  it 'should create an assignment for orga with 404 website and not change state' do
     website = FactoryGirl.create :website, :own, unreachable_count: 1
     orga = FactoryGirl.create :organization, :approved, name: 'bazfuz'
     website.organizations << orga
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_offer).never
-    AsanaCommunicator.any_instance.expects(:create_website_unreachable_task_orgas)
     WebMock.stub_request(:head, 'www.example.com')
            .to_return(status: 404, body: '', headers: {}) # 404 stub
     WebMock.stub_request(:get, 'www.example.com')
            .to_return(status: 404, body: '', headers: {}) # 404 stub
     single_worker.perform website.id
     orga.must_be :approved?
+    Assignment.last.message.must_equal "[Orga-website unreachable] | #{website.url}"
   end
 
   describe '#url_unreachable_with_httparty?' do

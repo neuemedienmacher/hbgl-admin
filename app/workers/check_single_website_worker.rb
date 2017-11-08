@@ -10,7 +10,7 @@ class CheckSingleWebsiteWorker
     if check_website_unreachable? website
       website.unreachable_count += 1
       # expire if counts as unreachable now (only once)
-      expire_and_create_asana_tasks website if website.unreachable_count == 2
+      expire_and_create_assignments website if website.unreachable_count == 2
     else
       # reset count if website was reachable again
       website.unreachable_count = 0
@@ -20,18 +20,27 @@ class CheckSingleWebsiteWorker
 
   private
 
-  def expire_and_create_asana_tasks website
-    asana = AsanaCommunicator.new
-    # Create Asana Tasks, set state to expired and manually reindex for algolia
-    website.offers.visible_in_frontend.find_each do |broken_link_offer|
-      asana.create_website_unreachable_task_offer website, broken_link_offer
-      # Force-Set state change to avoid (rare) problems with invalid offers
-      broken_link_offer.update_columns(aasm_state: 'website_unreachable')
-      broken_link_offer.index!
+  def expire_and_create_assignments website
+    if website.organizations.visible_in_frontend.any?
+      create_assignment website, 'Orga'
+    elsif website.offers.visible_in_frontend.any?
+      create_assignment website, 'Offer'
     end
-    # approved organizations => only create one task for all organizations
-    unless website.organizations.visible_in_frontend.empty?
-      asana.create_website_unreachable_task_orgas website
+  end
+
+  def create_assignment website, model
+    message = "[#{model}-website unreachable] | #{website.url}"
+    ::Assignment::CreateBySystem.({}, assignable: website,
+                                      last_acting_user: User.system_user,
+                                      message: message)
+    update_offers(website.offers.visible_in_frontend)
+  end
+
+  def update_offers online_offers
+    online_offers.find_each do |offer|
+      # Force-Set state change to avoid (rare) problems with invalid offers
+      offer.update_columns(aasm_state: 'website_unreachable')
+      offer.index!
     end
   end
 

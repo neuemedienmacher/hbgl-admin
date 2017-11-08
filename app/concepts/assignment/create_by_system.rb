@@ -18,7 +18,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     result.success?
   end
 
-  def collect_initial_params(options, assignable:, last_acting_user:, **)
+  def collect_initial_params(options, assignable:, last_acting_user:,
+                             message: nil, **)
     options['params'] = {
       assignable_id: assignable.id,
       assignable_type: assignable.class.name,
@@ -26,7 +27,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       creator_team_id: nil,
       receiver_id: receiver_id(assignable, last_acting_user),
       receiver_team_id: receiver_team_id(assignable, last_acting_user),
-      message: message_for_new_assignment(assignable, last_acting_user),
+      message: message || message_for_new_assignment(assignable,
+                                                     last_acting_user),
       created_by_system: true,
       topic: topic(assignable)
     }
@@ -67,6 +69,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       else
         assignable.aasm_state != 'completed' ? ::User.system_user.id : nil
       end
+    when 'Website' # crawler
+      nil
     else
       last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
     end
@@ -83,6 +87,9 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       if assignable.done == false
         AssignmentDefaults.screening_team
       end
+    when 'Website' # website crawler errors
+      AssignmentDefaults.screening_team
+
       # when 'Organization'
       #   if assignable.completed?
       #     AssignmentDefaults.section_teams[
@@ -97,6 +104,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
+    when 'Website'
+      'crawler'
     # when 'Organization'
     #   if assignable.aasm_state == 'completed'
     #     'approval'
