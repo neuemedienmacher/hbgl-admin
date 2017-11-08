@@ -146,23 +146,23 @@ class OfferContractTest < ActiveSupport::TestCase
 
       it 'should fail when version < 7' do
         subject.logic_version = LogicVersion.create(name: 'chunky', version: 6)
-        subject.split_base = nil
+        subject.divisions = []
         subject.valid?
-        subject.errors.messages[:split_base].must_be :empty?
+        subject.errors.messages[:divisions].must_be :empty?
       end
 
-      it 'should fail when split_base is nil with version >= 7' do
+      it 'should fail when divisions is nil with version >= 7' do
         subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
-        subject.split_base = nil
+        subject.divisions = []
         subject.valid?
-        subject.errors.messages[:split_base].wont_be :empty?
+        subject.errors.messages[:divisions].wont_be :empty?
       end
 
-      it 'should validate that split_base is assigned with version >= 7' do
+      it 'should validate that division is assigned with version >= 7' do
         subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
-        subject.split_base = split_bases(:basic)
+        subject.divisions << divisions(:basic)
         subject.valid?
-        subject.errors.messages[:split_base].must_be :empty?
+        subject.errors.messages[:divisions].must_be :empty?
       end
 
       # it 'should ensure chosen contact people belong to a chosen orga' do

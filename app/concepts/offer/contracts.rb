@@ -8,6 +8,7 @@ module Offer::Contracts
     property :comment
     property :encounter
     property :section
+    property :solution_category
     property :language_filters
     property :target_audience_filters_offers
     property :trait_filters
@@ -17,7 +18,7 @@ module Offer::Contracts
     property :contact_people
     property :next_steps
     property :logic_version
-    property :split_base
+    property :divisions
     property :starts_at
     property :ends_at
     property :section
@@ -36,6 +37,7 @@ module Offer::Contracts
     validates :description, presence: true
     validates :encounter, presence: true
     validates :section, presence: true
+    validates :solution_category, presence: true
     validates :code_word, length: { maximum: 140 }
 
     # Needs to be true before approval possible. Called in custom validation.
@@ -50,11 +52,11 @@ module Offer::Contracts
     validate :location_and_area_fit_encounter
     validate :contact_people_are_choosable
     validate :no_more_than_10_next_steps
-    validate :split_base_if_version_greater_7
+    validate :divisions_if_version_greater_7
 
     # association getter
     def organizations
-      split_base&.organizations || []
+      divisions&.map { |d| d.organization }.flatten.uniq || []
     end
 
     private
@@ -121,9 +123,9 @@ module Offer::Contracts
       custom_error :next_steps, 'no_more_than_10_next_steps'
     end
 
-    def split_base_if_version_greater_7
-      return if !logic_version || logic_version.version < 7 || split_base
-      errors.add :split_base, I18n.t('offer.validations.is_needed')
+    def divisions_if_version_greater_7
+      return if !logic_version || logic_version.version < 7 || !divisions.empty?
+      errors.add :divisions, I18n.t('offer.validations.is_needed')
     end
 
     def personal?

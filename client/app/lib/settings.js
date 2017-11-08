@@ -47,7 +47,7 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', { 'split-base': ['label'] }, 'aasm-state', 'created-by',
+        'id', 'name', { 'divisions': ['label'] }, 'aasm-state', 'created-by',
         'expires-at', 'logic-version-id', { section: ['name'] }
       ],
       general_actions: [
@@ -283,18 +283,6 @@ export default {
       ],
     },
 
-    categories: {
-      fields: [
-        'id', 'name-de', 'sort-order', 'visible', 'parent-id'
-      ],
-      general_actions: [
-        'index'
-      ],
-      member_actions: [
-        'show', 'delete'
-      ]
-    },
-
     websites: {
       fields: [
         'id', 'host', 'url'
@@ -304,19 +292,6 @@ export default {
       ],
       member_actions: [
         'show', 'open_url', 'delete'
-      ]
-    },
-
-    'split-bases': {
-      fields: [
-        'id', 'title', 'clarat-addition', 'comments',
-        { divisions: ['label'] }, { 'solution-category': ['name'] }
-      ],
-      general_actions: [
-        'index', 'export', 'new'
-      ],
-      member_actions: [
-        'show', 'edit', 'delete'
       ]
     },
 
