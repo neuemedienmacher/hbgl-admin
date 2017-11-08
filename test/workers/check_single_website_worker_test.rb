@@ -22,7 +22,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
-    Assignment.last.message == "[Offer-website unreachable] | #{website.url}"
+    Assignment.last.message.must_equal "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should create an assignment, expire and index offer with timeout '\
@@ -35,7 +35,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
-    Assignment.last.message == "[Offer-website unreachable] | #{website.url}"
+    Assignment.last.message.must_equal "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should increment unreachable_count but not create an assignment for the second time' do
@@ -60,7 +60,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
     single_worker.perform website.id
     offer.reload.must_be :website_unreachable?
     website.reload.unreachable_count.must_equal 2
-    Assignment.last.message == "[Offer-website unreachable] | #{website.url}"
+    Assignment.last.message.must_equal "[Offer-website unreachable] | #{website.url}"
   end
 
   it 'should ignore offers with reachable website and reset unreachable flag' do
@@ -85,7 +85,7 @@ class CheckSingleWebsiteWorkerTest < ActiveSupport::TestCase # to have fixtures
            .to_return(status: 404, body: '', headers: {}) # 404 stub
     single_worker.perform website.id
     orga.must_be :approved?
-    Assignment.last.message == "[Orga-website unreachable] | #{website.url}"
+    Assignment.last.message.must_equal "[Orga-website unreachable] | #{website.url}"
   end
 
   describe '#url_unreachable_with_httparty?' do
