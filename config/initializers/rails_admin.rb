@@ -36,7 +36,7 @@ RailsAdmin.config do |config|
      Email UpdateRequest LanguageFilter User Contact
     Tag Definition Note Area SearchLocation ContactPerson
     Subscription Section NextStep SolutionCategory
-    LogicVersion SplitBase City TargetAudienceFiltersOffer
+    LogicVersion City TargetAudienceFiltersOffer
     Division
   )
 
@@ -46,7 +46,7 @@ RailsAdmin.config do |config|
     new do
       except [
         'User', 'FederalState', 'Section', 'Division', 'Organization',
-        'Opening', 'Tag', 'Definition', 'Offer', 'SplitBase', 'Location'
+        'Opening', 'Tag', 'Definition', 'Offer', 'Location'
       ]
     end
     # export
@@ -57,7 +57,7 @@ RailsAdmin.config do |config|
     edit do
       except [
         'Section', 'Division', 'Organization', 'Opening', 'Tag', 'Definition',
-        'Offer', 'SplitBase', 'Location'
+        'Offer', 'Location'
       ]
     end
     delete do
@@ -67,7 +67,7 @@ RailsAdmin.config do |config|
     clone do
       except [
         'Section', 'City', 'TargetAudienceFiltersOffer', 'Division',
-        'Organization', 'Opening', 'Tag', 'Definition', 'SplitBase', 'Offer',
+        'Organization', 'Opening', 'Tag', 'Definition', 'Offer',
         'Location'
       ]
     end
@@ -285,39 +285,6 @@ RailsAdmin.config do |config|
       end
       field :name
     end
-  end
-
-  config.model 'SplitBase' do
-    weight(-4)
-    # field(:id) { read_only true }
-    # field :title do
-    #   help do
-    #     'Erforderlich. Anbieterwording. Direkt von der Anbieterseite kopieren.'
-    #   end
-    # end
-    # field :clarat_addition do
-    #   help { 'Optional. Auszufüllen bei überschneidenden Titeln.' }
-    # end
-    # field :divisions do
-    #   queryable true
-    #   searchable [:id, :addition]
-    # end
-    # field :solution_category do
-    #   help { 'Erforderlich ab Version 8.'}
-    # end
-    # field :comments
-    # field :code_word
-
-    list do
-      field :offers
-    end
-
-    show do
-      field :offers
-      field :label
-    end
-
-    object_label_method :label
   end
 
   config.model 'Offer' do

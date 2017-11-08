@@ -63,7 +63,7 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     email.contact_people.update_all position: 'superior'
     # .. but one orga has an approved offer
     approved_offer = FactoryGirl.create(:offer, :approved)
-    approved_offer.split_base.divisions.first
+    approved_offer.divisions.first
                   .update_columns organization_id: email.organizations.first.id
     UninformedEmailMailingWorker.expects(:perform_async).with(email.id)
     worker.perform
@@ -77,7 +77,7 @@ class UninformedEmailsMailingsSpawnerWorkerTest < ActiveSupport::TestCase
     email.contact_people.update_all position: 'superior'
     # .. but one orga has an expired offer
     expired_offer = FactoryGirl.create(:offer, aasm_state: 'expired')
-    expired_offer.split_base.divisions.first
+    expired_offer.divisions.first
                  .update_columns organization_id: email.organizations.first.id
     UninformedEmailMailingWorker.expects(:perform_async).with(email.id)
     worker.perform

@@ -13,8 +13,8 @@ FactoryGirl.define do
       %w[personal personal personal personal hotline chat forum email online-course portal].sample
     end
     area { Area.first unless encounter == 'personal' }
+    solution_category { SolutionCategory.all.sample || FactoryGirl.create(:solution_category) }
     approved_at nil
-    split_base nil
     # every offer should have a creator!
     created_by { User.all.sample.id || FactoryGirl.create(:researcher).id }
 
@@ -27,17 +27,17 @@ FactoryGirl.define do
       fake_address false
       section nil
       organizations nil
+      divisions nil
     end
 
     after :build do |offer, evaluator|
       # SplitBase => Division(s) => Organization(s)
-      organizations = evaluator.organizations || [Organization.all.sample]
-      unless offer.split_base
-        offer.split_base =
-          FactoryGirl.create :split_base, section: evaluator.section,
-                                          organizations: organizations
-      end
-      organization = offer.organizations[0]
+      organizations = evaluator.organizations ||
+                      [FactoryGirl.create(:organization, :approved)]
+      organization = organizations.first
+      div = organization.divisions.first ||
+            FactoryGirl.create(:division, organization: organization)
+      offer.divisions << div
 
       # location
       if offer.personal?
@@ -55,7 +55,7 @@ FactoryGirl.define do
       if evaluator.section
         offer.section = Section.find_by(identifier: evaluator.section)
       else
-        offer.section_id = offer.split_base.divisions.pluck(:section_id).sample
+        offer.section_id = offer.divisions.first.section_id
       end
 
       evaluator.language_count.times do

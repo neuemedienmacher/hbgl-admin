@@ -42,7 +42,6 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
     result['associations'][:offers]['key'].must_equal ['organizations.id']
     result['associations'][:emails]['key'].must_equal ['organizations.id']
     result['associations'][:sections]['key'].must_equal ['organizations.id']
-    result['associations'][:split_bases]['key'].must_equal ['organizations.id']
     result['associations'][:cities]['key'].must_equal ['organizations.id']
     result['associations'][:definitions]['key'].must_equal ['organizations.id']
   end

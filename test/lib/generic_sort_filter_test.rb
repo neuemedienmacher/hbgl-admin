@@ -10,15 +10,15 @@ class GenericSortFilterTest < ActiveSupport::TestCase
   describe '#snake_case_contents' do
     it 'should transform kebab-case contents to snake_case' do
       params = {
-        sort_field: 'foo-bar', sort_model: %w[split-base baz-fuz],
+        sort_field: 'foo-bar', sort_model: %w[logic-version baz-fuz],
         sort_direction: 'ASC',
-        filters: { 'split-base.foo-bar' => 'dont-touch' }
+        filters: { 'logic-version.foo-bar' => 'dont-touch' }
       }
       result = subject.send(:snake_case_contents, params)
       result.must_equal(
-        sort_field: 'foo_bar', sort_model: %w[split_base baz_fuz],
+        sort_field: 'foo_bar', sort_model: %w[logic_version baz_fuz],
         sort_direction: 'ASC',
-        filters: { 'split_base.foo_bar' => 'dont-touch' }
+        filters: { 'logic_version.foo_bar' => 'dont-touch' }
       )
     end
   end
@@ -63,8 +63,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
     it 'eager_loads with a filter' do
       params =
-        { filters: { 'split_base.foo' => 'a', 'logic_version.bar' => 'b' } }
-      query.expects(:eager_load).with('split_base').returns(query)
+        { filters: { 'solution_category.foo' => 'a', 'logic_version.bar' => 'b' } }
+      query.expects(:eager_load).with('solution_category').returns(query)
       query.expects(:eager_load).with('logic_version').returns(query)
       result = subject.send(:transform_by_joining, query, params)
       result.must_equal query
@@ -98,8 +98,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
     it 'will order respecting sort_field, sort_model, and sort_direction' do
       params =
-        { sort_field: 'bar', sort_model: 'split_base', sort_direction: 'ASC' }
-      query.expects(:order).with('split_bases.bar ASC')
+        { sort_field: 'bar', sort_model: 'solution_category', sort_direction: 'ASC' }
+      query.expects(:order).with('solution_categories.bar ASC')
       subject.send(:transform_by_ordering, query, params)
     end
   end
@@ -182,8 +182,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
     end
 
     it 'filters with a nullable value' do
-      params = { filters: { 'split_base.baz' => 'nil' } }
-      query.expects(:where).with('split_bases.baz IS NULL')
+      params = { filters: { 'solution_category.baz' => 'nil' } }
+      query.expects(:where).with('solution_categories.baz IS NULL')
       subject.send(:transform_by_filtering, query, params)
     end
 
