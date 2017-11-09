@@ -42,7 +42,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   end
 
   it 'should create only one translation-team-assignment for a '\
-  'new english translation' do
+     'new english translation' do
     orga = refugees_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -172,7 +172,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   end
 
   it 'should only create initial system-assignment for German translation'\
-  ' that belongs to a family-only offer' do
+     ' that belongs to a family-only offer' do
     operation.({}, 'locale' => :de, 'fields' => :all,
                    'object_to_translate' => family_offer)
     assignments = family_offer.translations.where(
@@ -187,7 +187,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   end
 
   it 'should only create the initial system-assignment for English '\
-  'translation that belongs to a family-only offer' do
+     'translation that belongs to a family-only offer' do
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => family_offer)
     assignments = family_offer.translations.where(
