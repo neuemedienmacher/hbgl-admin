@@ -89,6 +89,7 @@ module API::V1
       class Update < Create
         has_many :umbrella_filters,
                  decorator: API::V1::Filter::Representer::Show,
+                 populator: API::V1::Lib::Populators::Find,
                  class: ::UmbrellaFilter
       end
     end
