@@ -37,7 +37,7 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
     result['associations'][:notes]['key'].must_equal %w[notable_id notable_type]
     result['associations'][:locations]['key'].must_equal ['organization_id']
     result['associations'][:divisions]['key'].must_equal ['organization_id']
-    result['associations'][:website]['key'].must_equal [''] # ignores belongs_to to associations
+    result['associations'][:website]['key'].must_equal ['organizations.id']
     result['associations'][:contact_people]['key'].must_equal ['organization_id']
     result['associations'][:offers]['key'].must_equal ['organizations.id']
     result['associations'][:emails]['key'].must_equal ['organizations.id']
@@ -49,10 +49,10 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
   it 'should provide the correct associations for Division class' do
     result = subject.new(Division).to_hash
     result['associations'][:assignments]['key'].must_equal %w[assignable_id assignable_type]
-    result['associations'][:organization]['key'].must_equal [''] # ignores belongs_to to associations
-    result['associations'][:section]['key'].must_equal [''] # ignores belongs_to to associations
-    result['associations'][:city]['key'].must_equal [''] # ignores belongs_to to associations
-    result['associations'][:area]['key'].must_equal [''] # ignores belongs_to to associations
+    result['associations'][:organization]['key'].must_equal ['divisions.id']
+    result['associations'][:section]['key'].must_equal ['divisions.id']
+    result['associations'][:city]['key'].must_equal ['divisions.id']
+    result['associations'][:area]['key'].must_equal ['divisions.id']
     result['associations'][:divisions_presumed_tags]['key'].must_equal ['division_id']
     result['associations'][:presumed_tags]['key'].must_equal ['presuming_divisions.id'] # TODO?!
     result['associations'][:divisions_presumed_solution_categories]['key'].must_equal ['division_id']
