@@ -125,8 +125,9 @@ module Translation
       when :old_next_steps, :opening_specification
         MarkdownRenderer.render object.send(field)
       else
-        raise 'Translation::AutomaticUpsert:'\
-        " #{field} needs translation strategy"
+        raise(
+          "Translation::AutomaticUpsert: #{field} needs translation strategy"
+        )
       end
     end
 
