@@ -15,7 +15,6 @@ class Organization < ApplicationRecord
   include StateMachine
 
   # Concerns
-  include RailsAdminParamHack
   include Translations
 
   # Validation Hack

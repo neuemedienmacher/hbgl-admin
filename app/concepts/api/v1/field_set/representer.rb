@@ -40,8 +40,7 @@ module API::V1
 
         def ignored_association?(assoc)
           (!assoc.options[:inverse_of] && !assoc.options[:as]) ||
-            assoc.options[:polymorphic] ||
-            assoc.is_a?(::ActiveRecord::Reflection::BelongsToReflection)
+            assoc.options[:polymorphic].present?
         end
 
         def polymorphic_inverse_assoc(assoc)
