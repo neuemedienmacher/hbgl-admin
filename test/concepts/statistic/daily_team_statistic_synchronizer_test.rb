@@ -21,8 +21,14 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: [1, 2])
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 1))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
@@ -34,9 +40,12 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: [1, 2])
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
-      Statistic.create!(spec_attrs.merge(date: now + 1.day, trackable_id: 2, trackable_type: 'User', count: 3))
-      Statistic.create!(spec_attrs.merge(date: now + 2.days, trackable_id: 2, trackable_type: 'User', count: 7))
+      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1,
+                                         trackable_type: 'User', count: 1))
+      Statistic.create!(spec_attrs.merge(date: now + 1.day, trackable_id: 2,
+                                         trackable_type: 'User', count: 3))
+      Statistic.create!(spec_attrs.merge(date: now + 2.days, trackable_id: 2,
+                                         trackable_type: 'User', count: 7))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
@@ -50,8 +59,14 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: 1)
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 1))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
@@ -63,8 +78,15 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: [1, 2])
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3, time_frame: 'weekly'))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 1))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3,
+                                         time_frame: 'weekly'))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
@@ -76,8 +98,15 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: [1, 2])
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 42))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3, model: 'SomeOtherModel'))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 42))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3,
+                                         model: 'SomeOtherModel'))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
@@ -90,14 +119,25 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: [1, 2])
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 42))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3, field_name: 'SomeOtherField'))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 42))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3,
+                                         field_name: 'SomeOtherField'))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
       team_statistics.count.must_equal 2
-      team_statistics.where(field_name: 'SomeField').first.count.must_equal 42.0
-      team_statistics.where(field_name: 'SomeOtherField').first.count.must_equal 3.0
+      team_statistics.where(
+        field_name: 'SomeField'
+      ).first.count.must_equal 42.0
+      team_statistics.where(
+        field_name: 'SomeOtherField'
+      ).first.count.must_equal 3.0
     end
 
     it 'should create two team_statistics for different days and then delete '\
@@ -105,9 +145,18 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       Statistic.where(trackable_type: 'UserTeam').count.must_equal 0
 
       UserTeam.find(1).users = User.where(id: [1, 2])
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3))
-      Statistic.create!(spec_attrs.merge(date: now + 1.day, trackable_id: 2, trackable_type: 'User', count: 7))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 1))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3))
+      Statistic.create!(spec_attrs.merge(date: now + 1.day,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 7))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')
@@ -133,9 +182,18 @@ class DailyTeamStatisticSynchronizerTest < ActiveSupport::TestCase
       sub_team =
         UserTeam.create! classification: 'family', parent_id: 2, name: 'SubTeam'
       sub_team.users = User.where(id: 2)
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 1))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 3))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 2, trackable_type: 'User', count: 7))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 1))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 3))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 2,
+                                         trackable_type: 'User',
+                                         count: 7))
 
       subject.new(1, now.year).record!
       team_statistics = Statistic.where(trackable_type: 'UserTeam')

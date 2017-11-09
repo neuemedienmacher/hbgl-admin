@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # This represents the entire stamp-generation and should stay together
-# rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/PerceivedComplexity
+# rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity
 class TargetAudienceFiltersOfferStamp
   def self.generate_stamp filters_offer, section, locale
     # generate stamp
@@ -255,4 +256,5 @@ class TargetAudienceFiltersOfferStamp
     end
   end
 end
-# rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:enable Metrics/ClassLength, Metrics/MethodLength
+# rubocop:enable Metrics/PerceivedComplexity

@@ -20,17 +20,6 @@ module Assignment::Contracts
     # TODO: check if model instance exists!! here or somewhere else?!
     validates :assignable_id, presence: true, numericality: true
     validates :assignable_type, presence: true
-    # validates :topic, presence: true
-    # validates :assignable_field_type, presence: true # TODO: force empty string?!
-    # uniqueness validation: make sure there is only one open assignment
-    # w/o a parent (base assignment) per assignable model & field
-    # validates_uniqueness_of :assignable_id, scope: [:assignable_type, :assignable_field_type], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
-    # validates_uniqueness_of :assignable_type, scope: [:assignable_id, :assignable_field_type], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
-    # validates_uniqueness_of :assignable_field_type, scope: [:assignable_type, :assignable_id], conditions: -> { where(aasm_state: 'open').where(parent_id: nil) }
-    # creator or creator_team must be present
-    # validates :creator_id, presence: true
-    # validates :creator_team_id, presence: true, unless: :creator_id
-    # receiver or receiver_team must be present
     validate :receiver_or_receiver_team_id_must_be_present
 
     def receiver_or_receiver_team_id_must_be_present

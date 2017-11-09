@@ -19,7 +19,8 @@ class ContactPersonTranslationUpdateTest < ActiveSupport::TestCase
 
   describe '::ContactPersonTranslation::Update' do
     it 'must update an ContactPersonTranslation given valid data' do
-      result = operation_must_work ::ContactPersonTranslation::Update, basic_params
+      result =
+        operation_must_work ::ContactPersonTranslation::Update, basic_params
       result['model'].responsibility.must_equal(
         'UpdatedContactPersonResponsibility'
       )

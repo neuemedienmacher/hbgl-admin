@@ -37,14 +37,31 @@ module RailsAdmin
             elsif request.delete? # DESTROY
 
               redirect_path = nil
-              # NOTE Hacky hack: change redirect path for TargetAudienceFiltersOffer (redirect to connected offer)
-              redirect_to_special_path = @object.class == TargetAudienceFiltersOffer
-              @auditing_adapter && @auditing_adapter.delete_object(@object, @abstract_model, _current_user)
+              # NOTE Hacky hack: change redirect path for
+              # TargetAudienceFiltersOffer (redirect to connected offer)
+              redirect_to_special_path =
+                @object.class == TargetAudienceFiltersOffer
+              @auditing_adapter && @auditing_adapter.delete_object(
+                @object, @abstract_model, _current_user
+              )
               if @object.destroy
-                flash[:success] = t('admin.flash.successful', name: @model_config.label, action: t('admin.actions.delete.done'))
-                redirect_path = redirect_to_special_path && @object.offer_id.present? ? "/offers/#{@object.offer_id}/edit" : index_path
+                flash[:success] = t(
+                  'admin.flash.successful', name: @model_config.label,
+                                            action: t(
+                                              'admin.actions.delete.done'
+                                            )
+                )
+                if redirect_to_special_path && @object.offer_id.present?
+                  redirect_path = "/offers/#{@object.offer_id}/edit"
+                else
+                  redirect_path = index_path
+                end
               else
-                flash[:error] = t('admin.flash.error', name: @model_config.label, action: t('admin.actions.delete.done'))
+                flash[:error] = t(
+                  'admin.flash.error', name: @model_config.label, action: t(
+                    'admin.actions.delete.done'
+                  )
+                )
                 redirect_path = back_or_index
               end
 

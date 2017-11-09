@@ -63,7 +63,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
     it 'eager_loads with a filter' do
       params =
-        { filters: { 'solution_category.foo' => 'a', 'logic_version.bar' => 'b' } }
+        { filters: { 'solution_category.foo' => 'a',
+                     'logic_version.bar' => 'b' } }
       query.expects(:eager_load).with('solution_category').returns(query)
       query.expects(:eager_load).with('logic_version').returns(query)
       result = subject.send(:transform_by_joining, query, params)
@@ -98,7 +99,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
     it 'will order respecting sort_field, sort_model, and sort_direction' do
       params =
-        { sort_field: 'bar', sort_model: 'solution_category', sort_direction: 'ASC' }
+        { sort_field: 'bar', sort_model: 'solution_category',
+          sort_direction: 'ASC' }
       query.expects(:order).with('solution_categories.bar ASC')
       subject.send(:transform_by_ordering, query, params)
     end
@@ -224,7 +226,8 @@ class GenericSortFilterTest < ActiveSupport::TestCase
 
     it 'filters and sorts a range when range consists of dates' do
       params = {
-        filters: { 'foo' => { 'first' => '2017-08-15', 'second' => '2017-08-09' } },
+        filters: { 'foo' => { 'first' => '2017-08-15',
+                              'second' => '2017-08-09' } },
         operators: { 'foo' => '...' }
       }
       query.expects(:where).with("foo BETWEEN '2017-08-09' AND '2017-08-15'")
@@ -246,8 +249,10 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
-    it 'filters for a single value when empty second value is given for range' do
-      params = { filters: { 'foo' => ['5', ''] }, operators: { 'foo' => '...' } }
+    it 'filters for a single value when empty second'\
+    ' value is given for range' do
+      params = { filters: { 'foo' => ['5', ''] },
+                 operators: { 'foo' => '...' } }
       query.expects(:where).with("foo = '5'")
       subject.send(:transform_by_filtering, query, params)
     end

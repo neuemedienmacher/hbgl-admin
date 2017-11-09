@@ -43,13 +43,17 @@ module API::V1
       def self.previous_href(collection, params)
         return nil unless collection.previous_page
         '/' + params['controller'] + '?' +
-          nonstandard_params(params).merge(page: collection.previous_page).to_query
+          nonstandard_params(params).merge(
+            page: collection.previous_page
+          ).to_query
       end
 
       def self.next_href(collection, params)
         return nil unless collection.next_page
         '/' + params['controller'] + '?' +
-          nonstandard_params(params).merge(page: collection.next_page).to_query
+          nonstandard_params(params).merge(
+            page: collection.next_page
+          ).to_query
       end
     end
   end

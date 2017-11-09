@@ -7,7 +7,8 @@ class CheckForNewContactsWorkerTest < ActiveSupport::TestCase
 
   it 'should deliver internal mail for new contact and toggle bool flag' do
     new_contact = Contact.create! name: 'Jim Panse', message: 'TestMessage',
-                                  email: 'test@example.com', url: 'www.example.com'
+                                  email: 'test@example.com',
+                                  url: 'www.example.com'
 
     ContactMailer.expect_chain(:admin_notification, :deliver_now)
     worker.perform

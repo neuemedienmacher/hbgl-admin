@@ -34,9 +34,10 @@ module Translation
     end
 
     def assign_to_creator_or_approver(options)
+      # for de-translations (generated post-approve!)
       if (options['object_to_translate'].created_by &&
          User.find(options['object_to_translate'].created_by).active) ||
-         options['object_to_translate'].approved_by.nil? # for de-translations (generated post-approve!)
+         options['object_to_translate'].approved_by.nil?
         options['object_to_translate'].created_by
       else
         options['object_to_translate'].approved_by
@@ -55,8 +56,12 @@ module Translation
       options['params'][id_field(options)] = options['object_to_translate'].id
     end
 
-    def call_nested_specific_create_or_update(options, params:, last_acting_user:, **)
-      result = options['nested.operation'].(params, 'current_user' => last_acting_user)
+    def call_nested_specific_create_or_update(
+      options, params:, last_acting_user:, **
+    )
+      result = options['nested.operation'].(
+        params, 'current_user' => last_acting_user
+      )
       options['nested.result'] = result
       result.success?
     end
@@ -120,7 +125,9 @@ module Translation
       when :old_next_steps, :opening_specification
         MarkdownRenderer.render object.send(field)
       else
-        raise "Translation::AutomaticUpsert: #{field} needs translation strategy"
+        raise(
+          "Translation::AutomaticUpsert: #{field} needs translation strategy"
+        )
       end
     end
 

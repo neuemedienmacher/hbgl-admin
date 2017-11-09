@@ -30,7 +30,8 @@ module Offer::Contracts
     property :code_word
 
     validates :name, presence: true
-    # TODO: replace with complicated custom validation OR save stamp text in model
+    # TODO: replace with complicated custom validation OR
+    # save stamp text in model
     # validates :name,
     #           uniqueness: { scope: :location },
     #           unless: ->(offer) { offer.location.nil? }
@@ -91,22 +92,6 @@ module Offer::Contracts
         "offer.validations.#{string}"
       ), optional
     end
-
-    # NOTE: taking this out because organizations are no longer directly associated
-    # # Fail if an organization added to this offer is not visible in frontend
-    # def only_visible_organizations
-    #   # return unless association_instance_get(:organizations) # tests fail w/o
-    #   if visible_in_frontend? && organizations.to_a.count { |orga| !orga.visible_in_frontend? }.positive?
-    #     problematic_organization_names = invisible_orga_names
-    #     custom_error :organizations, 'only_visible_organizations',
-    #                  list: problematic_organization_names
-    #   end
-    # end
-    #
-    # def invisible_orga_names
-    #   (organizations - organizations.visible_in_frontend)
-    #     .map(&:name).join(', ')
-    # end
 
     # Contact people either belong to one of the Organizations or are SPoC
     def contact_people_are_choosable

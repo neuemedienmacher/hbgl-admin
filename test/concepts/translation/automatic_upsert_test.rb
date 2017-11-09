@@ -41,7 +41,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
   end
 
-  it 'should create only one translation-team-assignment for a new english translation' do
+  it 'should create only one translation-team-assignment for a '\
+     'new english translation' do
     orga = refugees_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -50,7 +51,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 1
     assignments.last.creator_id.must_equal orga.created_by
     assert_nil assignments.last.receiver_id
-    assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    assignments.last.receiver_team_id.must_equal 1
     assignments.last.aasm_state.must_equal 'open'
   end
 
@@ -77,7 +79,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
                    'object_to_translate' => orga)
     assignments.count.must_equal 2
     assignments.last.creator_id.must_equal orga.created_by
-    assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    assignments.last.receiver_team_id.must_equal 1
     assignments.last.aasm_state.must_equal 'open'
   end
 
@@ -121,7 +124,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     first_assignment.reload.aasm_state.must_equal 'closed'
     second_assignment = assignments.where.not(id: first_assignment.id).first
     second_assignment.creator_id.must_equal refugees_offer.created_by
-    second_assignment.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    second_assignment.receiver_team_id.must_equal 1
     second_assignment.aasm_state.must_equal 'open'
 
     # running again does not generate a new orga-assignment (already existing)
@@ -161,15 +165,19 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments = orga.translations.where(locale: 'en').first.assignments
     assignments.count.must_equal 1
     assignments.first.creator_id.must_equal orga.created_by
-    assignments.first.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    assignments.first.receiver_team_id.must_equal 1
     assignments.first.message.must_equal "(#{user.name}) GoogleTranslate"
     assignments.first.aasm_state.must_equal 'open'
   end
 
-  it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
+  it 'should only create initial system-assignment for German translation'\
+     ' that belongs to a family-only offer' do
     operation.({}, 'locale' => :de, 'fields' => :all,
                    'object_to_translate' => family_offer)
-    assignments = family_offer.translations.where(locale: 'de').first.assignments
+    assignments = family_offer.translations.where(
+      locale: 'de'
+    ).first.assignments
     assignments.count.must_equal 1
     assignments.first.creator_id.must_equal User.system_user.id
     assignments.first.receiver_id.must_equal User.system_user.id
@@ -178,10 +186,13 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
   end
 
-  it 'should only create the initial system-assignment for English translation that belongs to a family-only offer' do
+  it 'should only create the initial system-assignment for English '\
+     'translation that belongs to a family-only offer' do
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => family_offer)
-    assignments = family_offer.translations.where(locale: 'en').first.assignments
+    assignments = family_offer.translations.where(
+      locale: 'en'
+    ).first.assignments
     assignments.count.must_equal 1
     assignments.first.creator_id.must_equal User.system_user.id
     assignments.first.receiver_id.must_equal User.system_user.id

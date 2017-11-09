@@ -55,7 +55,8 @@ class AssignmentCreateTest < ActiveSupport::TestCase
     describe 'methods' do
       it 'must set current_user to creator if empty' do
         basic_params[:creator_id] = nil
-        result = operation_must_work ::Assignment::Create, basic_params, current_user: other_user
+        result = operation_must_work ::Assignment::Create, basic_params,
+                                     current_user: other_user
         result['model'].creator_id.must_equal other_user.id
       end
 

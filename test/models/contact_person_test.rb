@@ -132,7 +132,8 @@ describe ContactPerson do
         new_cont.responsibility_ar.must_equal 'GET READY FOR CANADA'
         # changing untranslated field => translations must stay the same
         new_cont.reload.responsibility_ar.must_equal 'GET READY FOR CANADA'
-        new_cont.responsibility = 'changing responsibility, should update translation'
+        new_cont.responsibility =
+          'changing responsibility, should update translation'
         new_cont.save!
         new_cont.run_callbacks(:commit) # Hotfix: force commit callback
         new_cont.reload.responsibility_ar.must_equal 'CHANGED'

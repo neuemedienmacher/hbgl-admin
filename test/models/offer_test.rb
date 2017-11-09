@@ -19,7 +19,9 @@ describe Offer do
         it 'includes offers that are approved or expired' do
           approved_offer = FactoryGirl.create :offer, :approved
           expired = FactoryGirl.create :offer, aasm_state: 'expired'
-          Offer.visible_in_frontend.to_a.include?(approved_offer).must_equal true
+          Offer.visible_in_frontend.to_a.include?(
+            approved_offer
+          ).must_equal true
           Offer.visible_in_frontend.to_a.include?(expired).must_equal true
         end
 
@@ -32,7 +34,8 @@ describe Offer do
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
           offer = FactoryGirl.create :offer, aasm_state: 'internal_feedback'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
-          offer = FactoryGirl.create :offer, aasm_state: 'organization_deactivated'
+          offer = FactoryGirl.create :offer, aasm_state: 'organization_'\
+                                                         'deactivated'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
           offer = FactoryGirl.create :offer, aasm_state: 'website_unreachable'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
@@ -40,7 +43,8 @@ describe Offer do
       end
 
       describe 'seasonal' do
-        it 'should correctly retrieve only seasonal offers with seasonal scope' do
+        it 'should correctly retrieve only seasonal offers with'\
+           'seasonal scope' do
           seasonal_offer =
             FactoryGirl.create :offer, starts_at: Time.zone.now - 30.days,
                                        ends_at: Time.zone.now + 30.days
@@ -129,7 +133,8 @@ describe Offer do
         remote_offer.remote_or_belongs_to_informable_city?.must_equal true
       end
 
-      it 'must be true for a remote offer with area that does not match a city' do
+      it 'must be true for a remote offer with area that does'\
+         ' not match a city' do
         remote_offer = FactoryGirl.create :offer, :approved, encounter: 'chat'
         remote_offer.area = FactoryGirl.create :area, name: 'NotACity'
         remote_offer.organizations.first.update_columns aasm_state: 'approved'
@@ -202,17 +207,23 @@ describe Offer do
       describe '#seasonal_offer_not_yet_to_be_approved' do
         it 'should be false without a start date' do
           basicOffer.starts_at = nil
-          basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+          basicOffer.send(
+            :seasonal_offer_not_yet_to_be_approved?
+          ).must_equal false
         end
 
         it 'should be false with a start date in the past' do
           basicOffer.starts_at = Time.zone.now - 1.day
-          basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+          basicOffer.send(
+            :seasonal_offer_not_yet_to_be_approved?
+          ).must_equal false
         end
 
         it 'should be true with a start date in the future' do
           basicOffer.starts_at = Time.zone.now + 1.day
-          basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal true
+          basicOffer.send(
+            :seasonal_offer_not_yet_to_be_approved?
+          ).must_equal true
         end
       end
     end

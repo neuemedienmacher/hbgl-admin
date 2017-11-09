@@ -7,8 +7,9 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   include OperationTestUtils
 
   let(:user) { users(:researcher) }
+  let(:translation) { offer_translations(:en) }
   let(:basic_options) do
-    { assignable: offer_translations(:en), last_acting_user: user }
+    { assignable: translation, last_acting_user: user }
   end
   # let(:faked_assignable) { OpenStruct.new( assignments: [] ) }
 
@@ -25,6 +26,15 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     assignment.creator_id.must_equal User.system_user.id
     assert_nil assignment.creator_team_id
     assignment.message.must_equal 'Managed by system'
+  end
+
+  it 'must create the a system-assignment for a family-offer-translation' do
+    translation.update_attributes(possibly_outdated: true)
+    Offer.first.update_attributes(section: Section.second)
+    result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
+    assignment = result['model']
+    assignment.must_be :persisted?
+    assignment.message.must_equal '(researcherName) possibly_outdated'
   end
 
   it 'must create assignments with correct messages when called two times' do
@@ -57,14 +67,4 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
     refute_nil result['errors']
     result['errors'].messages.must_equal foo: ['baz']
   end
-
-  # NOTE trying to create an invalid assignment.. not yet working
-  # it 'wont work with a none-assignable model and add errors to options' do
-  #   basic_options[:assignable] = users(:researcher)
-  #   result = operation_wont_work ::Assignment::CreateBySystem, {}, basic_options
-  #   result['errors'].any?.must_equal true
-  # end
-
-  # NOTE: more tests not really required because the logic is indirectly tested
-  # by automatic_upsert_test
 end
