@@ -20,9 +20,19 @@ class WeeklyStatisticAggregatorTest < ActiveSupport::TestCase # to get fixtures
       Statistic.create!(
         spec_attrs.merge(date: now, trackable_id: 1, count: 1)
       )
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 3))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 5, field_name: 'other'))
-      Statistic.create!(spec_attrs.merge(date: now, trackable_id: 1, trackable_type: 'User', count: 7, model: 'foo'))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 3))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 5,
+                                         field_name: 'other'))
+      Statistic.create!(spec_attrs.merge(date: now,
+                                         trackable_id: 1,
+                                         trackable_type: 'User',
+                                         count: 7, model: 'foo'))
       subject.new(1, now.year, now.cweek, 10).record!
       weeklies = Statistic.where(time_frame: 'weekly').order(:count)
       weeklies.count.must_equal 3
@@ -35,10 +45,18 @@ class WeeklyStatisticAggregatorTest < ActiveSupport::TestCase # to get fixtures
   describe '#all_statistics_from_week' do
     it 'should fetch all statistics in a certain time frame' do
       week = now.all_week
-      found1 = Statistic.create!(spec_attrs.merge(date: week.first, trackable_id: 1, trackable_type: 'User'))
-      found2 = Statistic.create!(spec_attrs.merge(date: week.last, trackable_id: 1, trackable_type: 'User'))
-      Statistic.create!(spec_attrs.merge(date: week.last + 1.day, trackable_id: 1, trackable_type: 'User'))
-      Statistic.create!(spec_attrs.merge(date: week.first - 1.week, trackable_id: 1, trackable_type: 'User'))
+      found1 = Statistic.create!(spec_attrs.merge(date: week.first,
+                                                  trackable_id: 1,
+                                                  trackable_type: 'User'))
+      found2 = Statistic.create!(spec_attrs.merge(date: week.last,
+                                                  trackable_id: 1,
+                                                  trackable_type: 'User'))
+      Statistic.create!(spec_attrs.merge(date: week.last + 1.day,
+                                         trackable_id: 1,
+                                         trackable_type: 'User'))
+      Statistic.create!(spec_attrs.merge(date: week.first - 1.week,
+                                         trackable_id: 1,
+                                         trackable_type: 'User'))
       subject.new(1, now.year, now.cweek, 0).send(:all_statistics_from_week)
              .must_equal([found1, found2])
     end

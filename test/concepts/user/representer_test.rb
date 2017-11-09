@@ -12,7 +12,9 @@ class API::V1::User::RepresenterTest < ActiveSupport::TestCase
     )
     UserTeam.last.update(lead_id: record.id)
     result = subject.new(record).to_hash
-    result['included'].first['attributes']['label'].must_equal UserTeam.first.name
-    result['included'].second['attributes']['label'].must_equal UserTeam.last.name
+    result['included'].first['attributes']['label']
+                      .must_equal UserTeam.first.name
+    result['included'].second['attributes']['label']
+                      .must_equal UserTeam.last.name
   end
 end

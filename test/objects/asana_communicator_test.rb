@@ -14,7 +14,8 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
         projects: %w[44856824806357], workspace: '41140436022602',
-        name: 'foobar,bazfuz - 10000-01-01 01:00:00 +0100 - fam - basicOfferName',
+        name: 'foobar,bazfuz - 10000-01-01 01:00:00 +0100'\
+              ' - fam - basicOfferName',
         notes: 'Expired: http://claradmin.herokuapp.com/offers/1/edit'
       )
 

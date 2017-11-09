@@ -28,7 +28,8 @@ class Creator::TwinTest < ActiveSupport::TestCase
 
     it 'should return false when created_by is the same as current_actor' do
       twin = Creator::Twin.new(subject)
-      Creator::Twin.any_instance.stubs(:current_actor).returns(subject.created_by)
+      Creator::Twin.any_instance.stubs(:current_actor)
+                   .returns(subject.created_by)
       twin.send(:different_actor?).must_equal false
     end
 

@@ -32,7 +32,8 @@ module Offer::SearchAlgolia
           attribute(:lang) { lang(locale) }
           attribute(:definitions) { definitions_string(locale) }
           attribute(:tags) { tag_names(locale) }
-          attribute(:_tags) { tag_names(locale) } # NOTE _tags is algolia-intern (not redundant with tags)
+          # NOTE _tags is algolia-intern (not redundant with tags)
+          attribute(:_tags) { tag_names(locale) }
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }

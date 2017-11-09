@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../../test_helper'
-
-class UserAndParentTeamsCountHandlerTest < ActiveSupport::TestCase # to have fixtures
+# to have fixtures
+class UserAndParentTeamsCountHandlerTest < ActiveSupport::TestCase
   subject { Statistic::UserAndParentTeamsCountHandler }
 
   describe '#record' do

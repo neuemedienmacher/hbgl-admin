@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../test_helper'
-class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtures
+# to have fixtures
+class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase
   let(:worker) { CheckUnreachableOffersWorker.new }
 
   it 'should re-activate deactivated valid offer if website is reachable' do
@@ -14,7 +15,8 @@ class CheckUnreachableOffersWorkerTest < ActiveSupport::TestCase # to have fixtu
     offer.reload.must_be :approved?
   end
 
-  it 'should NOT re-activate deactivated invalid offer with reachable website' do
+  it 'should NOT re-activate deactivated'\
+     'invalid offer with reachable website' do
     website = FactoryGirl.create :website, :own, unreachable_count: 0
     invalid_offer = FactoryGirl.create :offer, :approved
     invalid_offer.update_columns(

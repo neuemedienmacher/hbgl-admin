@@ -4,7 +4,8 @@ class ExpiringOffersWorker
   include Sidekiq::Worker
 
   def perform
-    # Find expiring offers (ignore seasonal offers - another worker handles these)
+    # Find expiring offers (ignore seasonal offers -
+    # another worker handles these)
     expiring = Offer.should_be_expired.where(aasm_state: 'approved')
     return if expiring.count < 1
 

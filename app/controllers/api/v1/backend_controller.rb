@@ -52,25 +52,6 @@ module API::V1
       }]
     end
 
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-    # def default_endpoints
-    #   proc do |m|
-    #     m.created do |result|
-    #       render json: result['representer.default.class'].new(result['model']),
-    #              status: 201
-    #     end
-    #     m.present { |_| raise 'Endpoint: presented' }
-    #     m.not_found { |_| raise 'Endpoint: not_found' }
-    #     m.unauthenticated { |r| render json: jsonapi_errors(r), status: 403 }
-    #     m.success do |result|
-    #       render json: result['representer.default.class'].new(result['model']),
-    #              status: 200
-    #     end
-    #     m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
-    #   end
-    # end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-
     def custom_endpoint(result, success_status)
       if result.success?
         render json: show_representer.new(result['model']),

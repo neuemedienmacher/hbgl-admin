@@ -114,7 +114,9 @@ describe OfferMailer do
 
     describe 'CONTENT TEST' do
       it 'must contain stuff' do
-        subject.must have_body_text 'Das ist ein neues kostenloses Onlineverzeichnis mit Unterstützungsangeboten.'
+        subject.must have_body_text 'Das ist ein neues kostenloses'\
+                                    ' Onlineverzeichnis mit '\
+                                    'Unterstützungsangeboten.'
       end
     end
   end
@@ -184,7 +186,9 @@ describe OfferMailer do
 
     describe 'CONTENT TEST' do
       it 'must contain stuff' do
-        subject.must have_body_text 'Das ist ein neues kostenloses Onlineverzeichnis mit Unterstützungsangeboten.'
+        subject.must have_body_text 'Das ist ein neues kostenloses '\
+                                    'Onlineverzeichnis mit '\
+                                    'Unterstützungsangeboten.'
         subject.must have_body_text 'http://www.clarat.org/organisationen/'
         subject.must have_body_text 'clarat gGmbH'
       end
@@ -205,7 +209,8 @@ describe OfferMailer do
         subject.must deliver_to email.address
         subject.header['X-SMTPAPI'].value.must_include 'newly approved offer'
         subject.header['X-SMTPAPI'].value.must_include offer.section.identifier
-        subject.must have_subject "clarat #{offer.section.identifier} – Ihr neues Angebot"
+        subject.must have_subject "clarat #{offer.section.identifier}"\
+                                  ' – Ihr neues Angebot'
         subject.must have_body_text 'ein neues Angebot'
         subject.must have_body_text '/unsubscribe/'
         subject.must have_body_text email.security_code
@@ -222,8 +227,11 @@ describe OfferMailer do
       end
 
       it 'must correctly mention them' do
-        section_name_array = offerArray.map { |o| o.section.identifier }.flatten.compact.uniq.sort
-        subject.must have_subject "clarat #{section_name_array.join(' und clarat ')} – Ihre neuen Angebote"
+        section_name_array = offerArray.map { |o| o.section.identifier }
+                                       .flatten.compact.uniq.sort
+        subject.must have_subject 'clarat '\
+                                  "#{section_name_array.join(' und clarat ')} "\
+                                  '– Ihre neuen Angebote'
         subject.must have_body_text 'neue Angebote'
         subject.must have_body_text 'Ihre Angebote'
       end
