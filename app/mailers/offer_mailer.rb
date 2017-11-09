@@ -112,13 +112,13 @@ class OfferMailer < ActionMailer::Base
 
   def get_sub_or_unsub_href email, sub_or_unsub
     'http://www.clarat.org/emails/'\
-    "#{email.id}/#{sub_or_unsub}/#{email.security_code}"
+      "#{email.id}/#{sub_or_unsub}/#{email.security_code}"
   end
 
   # creates a link for a single offer with bias to refugees section
   def get_offer_href_for_single_offer offer, section_suffix
     'http://www.clarat.org/'\
-    "#{section_suffix.split('_').last}/angebote/#{offer.slug || offer.id.to_s}"
+      "#{section_suffix.split('_').last}/angebote/#{offer.slug || offer.id.to_s}"
   end
 
   # this method retrieves max_count offers out of offers_hash, distributing the
@@ -173,7 +173,7 @@ class OfferMailer < ActionMailer::Base
         offers.count < 5 ? 'EP' : 'FP'
       end
     '?utm_source=Sendgrid&utm_medium=E-Mail&utm_campaign='\
-    "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
+      "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
   end
 end
 # rubocop:enable Metrics/ClassLength
