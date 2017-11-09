@@ -2,9 +2,7 @@
 
 # Monkeypatch clarat_base Email
 unless defined?(Email)
-  require ClaratBase::Engine.root.join(
-    'app', 'models', 'email'
-  )
+  require ClaratBase::Engine.root.join('app', 'models', 'email')
 end
 
 class Email < ApplicationRecord
