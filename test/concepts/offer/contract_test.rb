@@ -165,6 +165,27 @@ class OfferContractTest < ActiveSupport::TestCase
         subject.errors.messages[:divisions].must_be :empty?
       end
 
+      it 'should validate that divisions have same section' do
+        section = FactoryGirl.create(:section)
+        division1 = FactoryGirl.create(:division, section: section)
+        division2 = FactoryGirl.create(:division, section: section)
+        subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
+        subject.divisions = [division2, division1]
+        subject.valid?
+        subject.errors.messages[:divisions].must_be :empty?
+      end
+
+      it 'should fail if divisions have different section' do
+        division1 = FactoryGirl.create(:division,
+                                       section: FactoryGirl.create(:section))
+        division2 = FactoryGirl.create(:division,
+                                       section: FactoryGirl.create(:section))
+        subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
+        subject.divisions << [division2, division1]
+        subject.valid?
+        subject.errors.messages[:divisions].wont_be :empty?
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   subject.reload.wont_be :valid?
       #   subject.reload.must_be :valid?

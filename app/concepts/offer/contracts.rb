@@ -54,6 +54,7 @@ module Offer::Contracts
     validate :contact_people_are_choosable
     validate :no_more_than_10_next_steps
     validate :divisions_if_version_greater_7
+    validate :divisions_must_have_same_sections
 
     # association getter
     def organizations
@@ -111,6 +112,13 @@ module Offer::Contracts
     def divisions_if_version_greater_7
       return if !logic_version || logic_version.version < 7 || !divisions.empty?
       errors.add :divisions, I18n.t('offer.validations.is_needed')
+    end
+
+    def divisions_must_have_same_sections
+      return if divisions.empty? || divisions.pluck(:section_id).uniq.count < 2
+      errors.add :divisions, I18n.t(
+        'offer.validations.divisions_must_have_same_sections'
+      )
     end
 
     def personal?
