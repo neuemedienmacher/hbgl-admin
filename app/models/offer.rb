@@ -16,7 +16,6 @@ class Offer < ApplicationRecord
   include ReformedValidationHack
 
   # Concerns
-  include RailsAdminParamHack
   include Translations
 
   # Callbacks

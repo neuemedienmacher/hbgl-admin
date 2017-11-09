@@ -33,6 +33,7 @@ module API::V1
         has_one :organization do
           type :organizations
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -40,6 +41,7 @@ module API::V1
         has_one :federal_state do
           type :federal_states
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -47,6 +49,7 @@ module API::V1
         has_one :city do
           type :cities
           attributes do
+            property :label, getter: ->(o) { o[:represented].name }
             property :name
           end
         end
@@ -58,13 +61,15 @@ module API::V1
       class Create < Show
         has_one :organization,
                 decorator: API::V1::Organization::Representer::Show,
-                populator: API::V1::Lib::Populators::Find,
-                class: ::Organization
+                populator: API::V1::Lib::Populators::Find, class: ::Organization
+
         has_one :federal_state,
                 decorator: API::V1::FederalState::Representer::Show,
                 populator: API::V1::Lib::Populators::Find, class: ::FederalState
-        has_one :city, decorator: API::V1::City::Representer::Show,
-                       populator: API::V1::Lib::Populators::Find, class: ::City
+
+        has_one :city,
+                decorator: API::V1::City::Representer::Show,
+                populator: API::V1::Lib::Populators::Find, class: ::City
       end
 
       # class Update < Roar::Decorator
