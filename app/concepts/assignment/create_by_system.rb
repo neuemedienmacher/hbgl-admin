@@ -145,7 +145,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'Division'
       if assignable.done == false
         'Bitte die'\
-        " #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
+          " #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
       else
         'Managed by system'
       end
