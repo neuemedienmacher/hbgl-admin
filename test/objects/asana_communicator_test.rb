@@ -14,14 +14,15 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       object.expects(:post_to_api).with(
         '/api/1.0/tasks',
         projects: %w[44856824806357], workspace: '41140436022602',
-        name: 'foobar,bazfuz - 10000-01-01 01:00:00 +0100 - fam - basicOfferName',
+        name: 'foobar,bazfuz - 10000-01-01 01:00:00 +0100'\
+              ' - fam - basicOfferName',
         notes: 'Expired: http://claradmin.herokuapp.com/offers/1/edit'
       )
 
       offer = offers(:basic)
       division = FactoryGirl.create :division
       division.organization.update_columns name: 'bazfuz'
-      offer.split_base.divisions << division
+      offer.divisions << division
 
       object.create_expire_task offer
     end
@@ -46,7 +47,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       offer.starts_at = offer.expires_at - 1.year
       division = FactoryGirl.create :division
       division.organization.update_columns name: 'bazfuz'
-      offer.split_base.divisions << division
+      offer.divisions << division
 
       object.create_seasonal_offer_ready_for_checkup_task offer
     end

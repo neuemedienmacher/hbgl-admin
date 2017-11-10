@@ -14,7 +14,8 @@ module Organization::StateMachine
       state :completed # organization information is complete
       state :approval_process # indicates the beginning of the approval process
       state :approved
-      state :all_done # indicates that the organization with all its offers is done
+      # indicates that the organization with all its offers is done
+      state :all_done
 
       # Special states object might enter before it is approved
       state :under_construction_pre, # Website under construction pre approve
@@ -39,13 +40,14 @@ module Organization::StateMachine
       end
 
       event :start_approval_process do
-        # TODO: reactivate guard!!!
-        transitions from: :completed, to: :approval_process # , guard: :different_actor?
+        # TODO: reactivate guard!!! # , guard: :different_actor?
+        transitions from: :completed, to: :approval_process
       end
 
-      event :approve, before: :set_approved_information do # , success: :generate_translations!
-        # TODO: reactivate guard!!!
-        transitions from: :approval_process, to: :approved # , guard: :different_actor?
+      # , success: :generate_translations!
+      event :approve, before: :set_approved_information do
+        # TODO: reactivate guard!!! # , guard: :different_actor?
+        transitions from: :approval_process, to: :approved
         transitions from: :internal_feedback, to: :approved
         transitions from: :external_feedback, to: :approved
         transitions from: :under_construction, to: :approved
@@ -54,8 +56,8 @@ module Organization::StateMachine
       event :approve_with_deactivated_offers,
             before: :set_approved_information,
             success: :reactivate_offers! do
-        # TODO: reactivate guard!!!
-        transitions from: :approval_process, to: :approved # , guard: :different_actor?
+        # TODO: reactivate guard!!! # , guard: :different_actor?
+        transitions from: :approval_process, to: :approved
         transitions from: :internal_feedback, to: :approved
         transitions from: :external_feedback, to: :approved
         transitions from: :under_construction, to: :approved

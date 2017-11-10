@@ -57,12 +57,6 @@ describe Organization do
         organization.must_be :approval_process?
       end
 
-      # it 'wont enter approval_process with the same actor' do
-      #   organization.stubs(:different_actor?).returns(false)
-      #   assert_raises(AASM::InvalidTransition) { organization.start_approval_process }
-      #   organization.must_be :completed?
-      # end
-
       it 'should enter under_construction_pre' do
         organization.website_under_construction
         organization.must_be :under_construction_pre?
@@ -96,12 +90,6 @@ describe Organization do
         organization.approve
         organization.must_be :approved?
       end
-
-      # it 'wont approve with the same actor' do
-      #   organization.stubs(:different_actor?).returns(false)
-      #   assert_raises(AASM::InvalidTransition) { organization.start_approval_process }
-      #   organization.must_be :completed?
-      # end
 
       it 'wont complete' do
         assert_raises(AASM::InvalidTransition) { organization.complete }
@@ -257,7 +245,7 @@ describe Organization do
       it 'wont approve offers that have another deactivated orga' do
         offer.update_column :aasm_state, :organization_deactivated
         division = FactoryGirl.create(:division) # new division with orga
-        offer.split_base.divisions << division
+        offer.divisions << division
         division.organization.update_columns aasm_state: 'external_feedback'
         orga.reactivate_offers!
         offer.reload.must_be :organization_deactivated?
@@ -291,7 +279,9 @@ describe Organization do
         Offer.any_instance.expects(:website_under_construction!)
              .returns(false)
 
-        assert_raise(RuntimeError) { orga.deactivate_offers_to_under_construction! }
+        assert_raise(RuntimeError) do
+          orga.deactivate_offers_to_under_construction!
+        end
       end
     end
 

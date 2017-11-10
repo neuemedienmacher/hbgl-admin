@@ -41,7 +41,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
   end
 
-  it 'should create only one translation-team-assignment for a new english translation' do
+  it 'should create only one translation-team-assignment for a '\
+     'new english translation' do
     orga = refugees_offer.organizations.first
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => orga)
@@ -50,7 +51,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 1
     assignments.last.creator_id.must_equal orga.created_by
     assert_nil assignments.last.receiver_id
-    assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    assignments.last.receiver_team_id.must_equal 1
     assignments.last.aasm_state.must_equal 'open'
   end
 
@@ -70,20 +72,21 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.count.must_equal 1
 
     # add a refugees offer to the organization and start Operation again
-    refugees_offer.split_base.divisions.first
+    refugees_offer.divisions.first
                   .update_columns organization_id: orga.id
     orga.in_section?('refugees').must_equal true
     operation.({}, 'locale' => :ar, 'fields' => :all,
                    'object_to_translate' => orga)
     assignments.count.must_equal 2
     assignments.last.creator_id.must_equal orga.created_by
-    assignments.last.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    assignments.last.receiver_team_id.must_equal 1
     assignments.last.aasm_state.must_equal 'open'
   end
 
   it 'should assign to approver if creator is inactive' do
     orga = family_offer.organizations.first
-    refugees_offer.split_base.divisions.first
+    refugees_offer.divisions.first
                   .update_columns organization_id: orga.id
     User.find(orga.created_by).update_attributes(active: false)
     operation.({}, 'locale' => :ar, 'fields' => :all,
@@ -105,7 +108,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     first_assignment.aasm_state.must_equal 'open'
 
     # add a refugees offer to the organization and start Operation again
-    refugees_offer.split_base.divisions.first
+    refugees_offer.divisions.first
                   .update_columns organization_id: orga.id
     refugees_offer.update_columns aasm_state: 'initialized'
     orga.sections.pluck(:identifier).include?('refugees').must_equal true
@@ -121,7 +124,8 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     first_assignment.reload.aasm_state.must_equal 'closed'
     second_assignment = assignments.where.not(id: first_assignment.id).first
     second_assignment.creator_id.must_equal refugees_offer.created_by
-    second_assignment.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    second_assignment.receiver_team_id.must_equal 1
     second_assignment.aasm_state.must_equal 'open'
 
     # running again does not generate a new orga-assignment (already existing)
@@ -161,15 +165,19 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments = orga.translations.where(locale: 'en').first.assignments
     assignments.count.must_equal 1
     assignments.first.creator_id.must_equal orga.created_by
-    assignments.first.receiver_team_id.must_equal 1 # test default for translator teams
+    # test default for translator teams
+    assignments.first.receiver_team_id.must_equal 1
     assignments.first.message.must_equal "(#{user.name}) GoogleTranslate"
     assignments.first.aasm_state.must_equal 'open'
   end
 
-  it 'should only create initial system-assignment for German translation that belongs to a family-only offer' do
+  it 'should only create initial system-assignment for German translation'\
+     ' that belongs to a family-only offer' do
     operation.({}, 'locale' => :de, 'fields' => :all,
                    'object_to_translate' => family_offer)
-    assignments = family_offer.translations.where(locale: 'de').first.assignments
+    assignments = family_offer.translations.where(
+      locale: 'de'
+    ).first.assignments
     assignments.count.must_equal 1
     assignments.first.creator_id.must_equal User.system_user.id
     assignments.first.receiver_id.must_equal User.system_user.id
@@ -178,10 +186,13 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
     assignments.first.aasm_state.must_equal 'open'
   end
 
-  it 'should only create the initial system-assignment for English translation that belongs to a family-only offer' do
+  it 'should only create the initial system-assignment for English '\
+     'translation that belongs to a family-only offer' do
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => family_offer)
-    assignments = family_offer.translations.where(locale: 'en').first.assignments
+    assignments = family_offer.translations.where(
+      locale: 'en'
+    ).first.assignments
     assignments.count.must_equal 1
     assignments.first.creator_id.must_equal User.system_user.id
     assignments.first.receiver_id.must_equal User.system_user.id

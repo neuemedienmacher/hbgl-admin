@@ -14,7 +14,6 @@ import OpeningFormObject from '../forms/OpeningFormObject'
 import DefinitionFormObject from '../forms/DefinitionFormObject'
 import TagFormObject from '../forms/TagFormObject'
 import SolutionCategoryFormObject from '../forms/SolutionCategoryFormObject'
-import SplitBaseFormObject from '../forms/SplitBaseFormObject'
 import TargetAudienceFiltersOfferFormObject
   from '../forms/TargetAudienceFiltersOfferFormObject'
 
@@ -48,8 +47,6 @@ export default function formObjectSelect(model, editing) {
     return DefinitionFormObject
   case 'solution-categories':
     return SolutionCategoryFormObject
-  case 'split-bases':
-    return SplitBaseFormObject
   case 'target-audience-filters-offers':
     return TargetAudienceFiltersOfferFormObject
   default:

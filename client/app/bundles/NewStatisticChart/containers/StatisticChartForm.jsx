@@ -102,7 +102,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 const translations = {
   Offer: 'Offers',
   Organization: 'Organizations',
-  SplitBase: 'SplitBases',
   aasm_state: 'Status',
   logic_version: 'Version',
   'id?': 'Existenz',

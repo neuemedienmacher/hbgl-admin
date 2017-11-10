@@ -18,7 +18,8 @@ describe TargetAudienceFiltersOffer do
       subject.target_audience_filter_id =
         TargetAudienceFilter.first.id
       subject.offer_id = Offer.first.id
-      subject.name.must_equal "#{TargetAudienceFilter.first.name} (Offer##{Offer.first.id})"
+      subject.name.must_equal "#{TargetAudienceFilter.first.name}"\
+                              " (Offer##{Offer.first.id})"
     end
 
     it 'should generate a name even without an offer and filter' do
@@ -35,7 +36,8 @@ describe TargetAudienceFiltersOffer do
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Kinder und Jugendliche'
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'Flüchtlinge', identifier: 'refugees_general').id
+        TargetAudienceFilter.create(name: 'Flüchtlinge',
+                                    identifier: 'refugees_general').id
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Flüchtlinge'
@@ -47,7 +49,8 @@ describe TargetAudienceFiltersOffer do
       subject.generate_stamps!
       subject.stamp_en.must_equal 'for children and adolescents'
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'Flüchtlinge', identifier: 'refugees_general').id
+        TargetAudienceFilter.create(name: 'Flüchtlinge',
+                                    identifier: 'refugees_general').id
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.generate_stamps!
       subject.stamp_en.must_equal 'for refugees'
@@ -59,7 +62,8 @@ describe TargetAudienceFiltersOffer do
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Kinder und Jugendliche'
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'Flüchtlinge', identifier: 'refugees_general').id
+        TargetAudienceFilter.create(name: 'Flüchtlinge',
+                                    identifier: 'refugees_general').id
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Flüchtlinge'
@@ -300,7 +304,8 @@ describe TargetAudienceFiltersOffer do
       subject.age_from = 1
       subject.age_to = 2
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für Angehörige (Alter des Kindes: 1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für Angehörige (Alter des'\
+                                  ' Kindes: 1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = nil
       subject.generate_stamps!
@@ -315,7 +320,8 @@ describe TargetAudienceFiltersOffer do
     it 'should behave correctly for refugees_children target_audience' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_children').id
+        TargetAudienceFilter.create(name: 'ref_1',
+                                    identifier: 'refugees_children').id
       subject.age_from = 1
       subject.age_to = 10
       subject.generate_stamps!
@@ -333,7 +339,8 @@ describe TargetAudienceFiltersOffer do
       subject.age_from = 13
       subject.age_to = 17
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Kinder und Jugendliche (13 – 17 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Kinder '\
+                                  'und Jugendliche (13 – 17 Jahre)'
 
       subject.gender_first_part_of_stamp = 'male'
       subject.generate_stamps!
@@ -346,10 +353,12 @@ describe TargetAudienceFiltersOffer do
       # neutral equals nil
       subject.gender_first_part_of_stamp = 'neutral'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Kinder und Jugendliche (13 – 17 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Kinder und Jugendliche'\
+                                  ' (13 – 17 Jahre)'
     end
 
-    it "should return 'für unbegleitete minderjährige Flüchtlinge' for minor refugees_uf target_audience " do
+    it "should return 'für unbegleitete minderjährige Flüchtlinge' for "\
+       'minor refugees_uf target_audience ' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
         TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_uf').id
@@ -371,7 +380,8 @@ describe TargetAudienceFiltersOffer do
       subject.stamp_de.must_equal 'für unbegleitete minderjährige Flüchtlinge'
     end
 
-    it "should return 'für unbegleitete Flüchtlinge' for non-minor refugees_uf target_audience " do
+    it "should return 'für unbegleitete Flüchtlinge' for non-minor "\
+       'refugees_uf target_audience ' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
         TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_uf').id
@@ -396,7 +406,8 @@ describe TargetAudienceFiltersOffer do
     it 'should behave correctly for refugees_parents_to_be target_audience' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_parents_to_be').id
+        TargetAudienceFilter.create(name: 'ref_1',
+                                    identifier: 'refugees_parents_to_be').id
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete werdende Eltern'
 
@@ -417,7 +428,8 @@ describe TargetAudienceFiltersOffer do
     it 'should behave correctly for refugees_parents target_audience' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_parents').id
+        TargetAudienceFilter.create(name: 'ref_1',
+                                    identifier: 'refugees_parents').id
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete Eltern'
 
@@ -434,27 +446,33 @@ describe TargetAudienceFiltersOffer do
       subject.age_from = 1
       subject.age_to = 2
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Eltern (Alter des Kindes: 1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Eltern (Alter des '\
+                                  'Kindes: 1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = 'female'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Eltern von Töchtern (1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Eltern von '\
+                                  'Töchtern (1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = 'male'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Eltern von Söhnen (1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Eltern von'\
+                                  ' Söhnen (1 – 2 Jahre)'
 
       subject.gender_first_part_of_stamp = 'male'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Väter von Söhnen (1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Väter von'\
+                                  ' Söhnen (1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = 'female'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Väter von Töchtern (1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Väter von'\
+                                  ' Töchtern (1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = 'neutral'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Väter (Alter des Kindes: 1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Väter '\
+                                  '(Alter des Kindes: 1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = nil
       subject.generate_stamps!
@@ -466,21 +484,25 @@ describe TargetAudienceFiltersOffer do
 
       subject.gender_second_part_of_stamp = 'neutral'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Mütter (Alter des Kindes: 1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Mütter '\
+                                  '(Alter des Kindes: 1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = 'male'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Mütter von Söhnen (1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Mütter von'\
+                                  ' Söhnen (1 – 2 Jahre)'
 
       subject.gender_second_part_of_stamp = 'female'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Mütter von Töchtern (1 – 2 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Mütter von '\
+                                  'Töchtern (1 – 2 Jahre)'
     end
 
     it 'should behave correctly for refugees_families target_audience' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_families').id
+        TargetAudienceFilter.create(name: 'ref_1',
+                                    identifier: 'refugees_families').id
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für geflüchtete Familien'
 
@@ -492,12 +514,14 @@ describe TargetAudienceFiltersOffer do
       subject.age_visible = true
       subject.gender_second_part_of_stamp = 'neutral' # neutral equals nil
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Familien und ihre Kinder (bis 20 Jahre)'
+      subject.stamp_de.must_equal 'für geflüchtete Familien und'\
+                                  ' ihre Kinder (bis 20 Jahre)'
 
       subject.age_from = 0
       subject.age_to = 1
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Familien und ihre Babys (bis 1 Jahr)'
+      subject.stamp_de.must_equal 'für geflüchtete Familien und'\
+                                  ' ihre Babys (bis 1 Jahr)'
 
       subject.age_visible = false
       subject.gender_second_part_of_stamp = 'female'
@@ -546,7 +570,8 @@ describe TargetAudienceFiltersOffer do
     it 'should behave correctly for refugees_general target_audience' do
       subject.offer.section = Section.find_by(identifier: 'refugees')
       subject.target_audience_filter_id =
-        TargetAudienceFilter.create(name: 'ref_1', identifier: 'refugees_general').id
+        TargetAudienceFilter.create(name: 'ref_1',
+                                    identifier: 'refugees_general').id
       subject.generate_stamps!
       subject.stamp_de.must_equal 'für Flüchtlinge'
 
@@ -582,11 +607,13 @@ describe TargetAudienceFiltersOffer do
       # simple residency_status tests
       subject.residency_status = 'before_the_asylum_decision'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Frauen – vor der Asylentscheidung'
+      subject.stamp_de.must_equal 'für geflüchtete Frauen – '\
+                                  'vor der Asylentscheidung'
 
       subject.residency_status = 'with_a_residence_permit'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Frauen – mit Aufenthaltserlaubnis'
+      subject.stamp_de.must_equal 'für geflüchtete Frauen – '\
+                                  'mit Aufenthaltserlaubnis'
 
       subject.residency_status = 'with_temporary_suspension_of_deportation'
       subject.generate_stamps!
@@ -594,7 +621,8 @@ describe TargetAudienceFiltersOffer do
 
       subject.residency_status = 'with_deportation_decision'
       subject.generate_stamps!
-      subject.stamp_de.must_equal 'für geflüchtete Frauen – mit Abschiebebescheid'
+      subject.stamp_de.must_equal 'für geflüchtete Frauen – '\
+                                  'mit Abschiebebescheid'
     end
   end
 end

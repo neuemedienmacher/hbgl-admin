@@ -7,8 +7,8 @@ module API::V1
         include Roar::JSON::JSONAPI.resource :target_audience_filters_offers
 
         attributes do
-          property :label, getter: ->(split_base) {
-            split_base[:represented].name
+          property :label, getter: ->(obj) {
+            obj[:represented].stamp_de
           }
           property :residency_status
           property :gender_first_part_of_stamp

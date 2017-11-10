@@ -18,10 +18,12 @@ module Offer::StateMachine
       state :completed
       state :approval_process # indicates the beginning of the approval process
       state :approved
-      state :checkup_process # indicates the beginning of the checkup_process (after deactivation)
+      # indicates the beginning of the checkup_process (after deactivation)
+      state :checkup_process
 
       # # Special states object might enter before it is approved
-      state :disapproved # when a completed offer can not be approved it is disapproved
+      # when a completed offer can not be approved it is disapproved
+      state :disapproved
       state :edit # editing-state after disapproved or (unintended) completed
 
       # Special states object might enter after it was approved
@@ -32,7 +34,7 @@ module Offer::StateMachine
       state :organization_deactivated # An associated orga was deactivated
       state :under_construction # Website under construction
       state :seasonal_pending # seasonal offer is reviewed but out of TimeFrame
-      state :website_unreachable # crawler could not reach website twice in a row
+      state :website_unreachable # crawler could not reach website 2 in a row
 
       ## Transitions
 
@@ -43,8 +45,8 @@ module Offer::StateMachine
       end
 
       event :start_approval_process, guard: :approvable? do
-        # TODO: reactivate guard!!!
-        transitions from: :completed, to: :approval_process # , guard: :different_actor?
+        # TODO: reactivate guard!!! # , guard: :different_actor?
+        transitions from: :completed, to: :approval_process
       end
 
       event :approve, before: :set_approved_information, guards: :approvable? do
@@ -52,9 +54,10 @@ module Offer::StateMachine
                     guard: :seasonal_offer_not_yet_to_be_approved?
         transitions from: :checkup_process, to: :seasonal_pending,
                     guard: :seasonal_offer_not_yet_to_be_approved?
-        # TODO: reactivate guard!!!
-        transitions from: :approval_process, to: :approved # , guard: :different_actor?
-        transitions from: :checkup_process, to: :approved # , guard: :different_actor?
+        # TODO: reactivate guard!!! # , guard: :different_actor?
+        transitions from: :approval_process, to: :approved
+        # , guard: :different_actor?
+        transitions from: :checkup_process, to: :approved
         transitions from: :organization_deactivated, to: :approved
       end
 

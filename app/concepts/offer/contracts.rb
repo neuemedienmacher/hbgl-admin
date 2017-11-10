@@ -8,6 +8,7 @@ module Offer::Contracts
     property :comment
     property :encounter
     property :section
+    property :solution_category
     property :language_filters
     property :target_audience_filters_offers
     property :trait_filters
@@ -17,7 +18,7 @@ module Offer::Contracts
     property :contact_people
     property :next_steps
     property :logic_version
-    property :split_base
+    property :divisions
     property :starts_at
     property :ends_at
     property :section
@@ -29,13 +30,15 @@ module Offer::Contracts
     property :code_word
 
     validates :name, presence: true
-    # TODO: replace with complicated custom validation OR save stamp text in model
+    # TODO: replace with complicated custom validation OR
+    # save stamp text in model
     # validates :name,
     #           uniqueness: { scope: :location },
     #           unless: ->(offer) { offer.location.nil? }
     validates :description, presence: true
     validates :encounter, presence: true
     validates :section, presence: true
+    validates :solution_category, presence: true
     validates :code_word, length: { maximum: 140 }
 
     # Needs to be true before approval possible. Called in custom validation.
@@ -50,11 +53,12 @@ module Offer::Contracts
     validate :location_and_area_fit_encounter
     validate :contact_people_are_choosable
     validate :no_more_than_10_next_steps
-    validate :split_base_if_version_greater_7
+    validate :divisions_if_version_greater_7
+    validate :divisions_must_have_same_sections
 
     # association getter
     def organizations
-      split_base&.organizations || []
+      divisions&.map { |d| d.organization }.flatten.uniq || []
     end
 
     private
@@ -90,22 +94,6 @@ module Offer::Contracts
       ), optional
     end
 
-    # NOTE: taking this out because organizations are no longer directly associated
-    # # Fail if an organization added to this offer is not visible in frontend
-    # def only_visible_organizations
-    #   # return unless association_instance_get(:organizations) # tests fail w/o
-    #   if visible_in_frontend? && organizations.to_a.count { |orga| !orga.visible_in_frontend? }.positive?
-    #     problematic_organization_names = invisible_orga_names
-    #     custom_error :organizations, 'only_visible_organizations',
-    #                  list: problematic_organization_names
-    #   end
-    # end
-    #
-    # def invisible_orga_names
-    #   (organizations - organizations.visible_in_frontend)
-    #     .map(&:name).join(', ')
-    # end
-
     # Contact people either belong to one of the Organizations or are SPoC
     def contact_people_are_choosable
       contact_people.each do |contact_person|
@@ -121,9 +109,16 @@ module Offer::Contracts
       custom_error :next_steps, 'no_more_than_10_next_steps'
     end
 
-    def split_base_if_version_greater_7
-      return if !logic_version || logic_version.version < 7 || split_base
-      errors.add :split_base, I18n.t('offer.validations.is_needed')
+    def divisions_if_version_greater_7
+      return if !logic_version || logic_version.version < 7 || !divisions.empty?
+      errors.add :divisions, I18n.t('offer.validations.is_needed')
+    end
+
+    def divisions_must_have_same_sections
+      return if divisions.empty? || divisions.pluck(:section_id).uniq.count < 2
+      errors.add :divisions, I18n.t(
+        'offer.validations.divisions_must_have_same_sections'
+      )
     end
 
     def personal?

@@ -20,38 +20,6 @@ Rails.application.routes.draw do
   get 'organizations/new', controller: :pages, action: :react
   get 'offers/new', controller: :pages, action: :react
 
-  # resources :organizations do
-  #   collection do
-  #     get 'export', controller: :pages, action: :react
-  #   end
-  # end
-  #
-  # resources :divisions, controller: :pages, action: :react do
-  #   collection do
-  #     get 'export', controller: :pages, action: :react
-  #   end
-  # end
-
-  # resources :offer_translations, only: [:index, :edit, :update] do
-  #   collection do
-  #     get 'export', controller: :pages, action: :react
-  #   end
-  # end
-  # resources :offer_translations, only: [:show], controller: :pages, action: :react
-  # resources :organization_translations, only: [:index, :edit, :update] do
-  #   collection do
-  #     get 'export', controller: :pages, action: :react
-  #   end
-  # end
-  # resources :organization_translations, only: [:show], controller: :pages, action: :react
-  # resources :statistic_charts
-  # resources :users, only: [:index, :show], controller: :pages, action: :react
-  # resources :user_teams, only: [:index, :show, :new, :edit],
-  #                        controller: :pages, action: :react
-  # resources :assignments, only: [:index, :show], controller: :pages, action: :react
-  # get 'time_allocations(/:year/:week_number)', controller: :time_allocations,
-  #                                              action: :index
-
   resources :next_steps_offers, only: [:index]
 
   # Export
@@ -77,16 +45,10 @@ Rails.application.routes.draw do
   # API
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :categories do
-        collection do
-          put 'sort'
-        end
-      end
       def api_resources name, options = {}
         resources name, options.merge(path: name.to_s.dasherize)
       end
       api_resources :offers
-      api_resources :split_bases
       api_resources :locations
       api_resources :organizations
       api_resources :divisions
@@ -117,8 +79,8 @@ Rails.application.routes.draw do
       api_resources :tags
       api_resources :logic_versions, only: %i[index show]
       api_resources :assignments, only: %i[index show create update]
-      post 'time_allocations/:year/:week_number',  controller: :time_allocations,
-                                                   action: :report_actual
+      post 'time_allocations/:year/:week_number', controller: :time_allocations,
+                                                  action: :report_actual
       # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
       get 'field_set/:model', controller: :field_set, action: :show
       get 'possible_events/:model/:id', controller: :possible_events,

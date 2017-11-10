@@ -15,7 +15,8 @@ class City < ApplicationRecord
 
   # Admin specific methods
   def thresholds_reached?
-    organizations.where(aasm_state: 'all_done').count >= ORGANIZATION_THRESHOLD &&
+    organizations.where(aasm_state: 'all_done')
+                 .count >= ORGANIZATION_THRESHOLD &&
       offers.visible_in_frontend.count >= OFFER_THRESHOLD
   end
 

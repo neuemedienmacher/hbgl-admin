@@ -11,7 +11,8 @@ describe ExportsController do
 
     it 'should start a streaming export' do
       sign_in user
-      post :create, params: { object_name: 'cities', export: working_export_hash }
+      post :create, params: { object_name: 'cities',
+                              export: working_export_hash }
       assert_response :success
       response.header['Content-Type'].must_equal 'text/csv'
       response.header['Content-disposition'].must_include 'attachment;'

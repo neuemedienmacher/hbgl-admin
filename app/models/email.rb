@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 # Monkeypatch clarat_base Email
-require ClaratBase::Engine.root.join('app', 'models', 'email') unless defined?(Email)
+unless defined?(Email)
+  require ClaratBase::Engine.root.join('app', 'models', 'email')
+end
 
 class Email < ApplicationRecord
   include ReformedValidationHack
@@ -20,7 +22,9 @@ class Email < ApplicationRecord
   #                   trigram: { only: [:address], threshold: 0.3 }
   #                 }
   # NOTE Hack: use manual scope with LIKE query for containing search
-  scope :search_pg, ->(input) { where('address LIKE ?', "%#{input}%").limit(30) }
+  scope :search_pg, ->(input) {
+    where('address LIKE ?', "%#{input}%").limit(30)
+  }
 
   # State Machine
   aasm do
@@ -39,7 +43,8 @@ class Email < ApplicationRecord
   end
 
   # NOTE: for later use
-  # orga.first is okay because an orga-contact may only belong to one organization
+  # orga.first is okay because an orga-contact may
+  # only belong to one organization
   # def newly_approved_offers_from_orga_context
   #   organizations.first.offers.visible_in_frontend
   #                .select(&:remote_or_belongs_to_informable_city?) -
@@ -79,7 +84,9 @@ class Email < ApplicationRecord
   end
 
   def belongs_to_at_least_one_informable_offer?
-    offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?).any?
+    offers.visible_in_frontend.select(
+      &:remote_or_belongs_to_informable_city?
+    ).any?
   end
 
   private
@@ -95,6 +102,8 @@ class Email < ApplicationRecord
 
   def informable_orga? orga
     orga.aasm_state == 'all_done' && orga.mailings_enabled? &&
-      !orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?).empty?
+      !orga.offers.visible_in_frontend.select(
+        &:remote_or_belongs_to_informable_city?
+      ).empty?
   end
 end

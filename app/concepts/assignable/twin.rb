@@ -20,7 +20,8 @@ module Assignable
 
     # NOTE: for later use
     # def current_field_assignment field
-    #   # return nil if the required field is not existing on the assignable model
+    #   # return nil if the required field is not
+    #  # existing on the assignable model
     #   return nil unless respond_to?(field)
     #   # return open field assignment if one exists or current model assignment
     #   assignments.active.root.where(assignable_field_type: field).first ||
@@ -32,7 +33,8 @@ module Assignable
       when 'OfferTranslation', 'OrganizationTranslation'
         model.locale == 'de' || !model.translated_model.in_section?('refugees')
       else
-        false # NOTE: this is not used yet - rethink when other models become assignable!
+        false # NOTE: this is not used yet -
+        # rethink when other models become assignable!
       end
     end
 
@@ -49,7 +51,8 @@ module Assignable
       when 'Division'
         model.done == true && assigned_to_system? == false
       else
-        false # NOTE: this is not used yet - rethink when other models become assignable!
+        false # NOTE: this is not used yet -
+        # rethink when other models become assignable!
       end
     end
 

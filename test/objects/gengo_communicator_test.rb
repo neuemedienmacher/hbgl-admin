@@ -54,8 +54,12 @@ class GengoCommunicatorTest < ActiveSupport::TestCase # to have fixtures
   describe '#fetch_order' do
     it 'calls getTranslationOrderJobs and returns the order response' do
       Gengo::API.any_instance.expects(:getTranslationOrderJobs)
-                .with(order_id: 123).returns('response' => { 'order' => { 'total_jobs' => '1', 'jobs_approved' => ['1'] } })
-      communicator.fetch_order(123).must_equal('total_jobs' => '1', 'jobs_approved' => ['1'])
+                .with(order_id: 123).returns('response' => { 'order' => {
+                                               'total_jobs' => '1',
+                                               'jobs_approved' => ['1']
+                                             } })
+      communicator.fetch_order(123).must_equal('total_jobs' => '1',
+                                               'jobs_approved' => ['1'])
     end
   end
 end

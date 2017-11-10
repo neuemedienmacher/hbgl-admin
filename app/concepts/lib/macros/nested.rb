@@ -21,7 +21,8 @@ module Lib
         step = ->(_input, options) do
           each_nested(:operation, field, options, [operation]) do |result|
             if result['params'][:id]
-              [result['model.class'].find(result['params'][:id]), true] # breaks on update?
+              # breaks on update?
+              [result['model.class'].find(result['params'][:id]), true]
             else
               [result['model'], result]
             end
@@ -193,11 +194,6 @@ module Lib
           error
         end
       end
-
-      # def self.relevant_contract_errors parent_contract, field, nested_contract
-      #   error = nested_contract.errors.to_h
-      #   error
-      # end
 
       def self.inverse_association(model, field)
         model.association(field).reflection.inverse_of.name
