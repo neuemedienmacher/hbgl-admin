@@ -18,10 +18,10 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'section', 'divisions', 'name', 'code-word', 'description',
-      'comment', 'next-steps', 'contact-people',
+      'section', 'divisions', 'name',  'solution-category', 'code-word',
+      'description', 'comment', 'next-steps', 'contact-people',
       'hide-contact-people', 'encounter', 'location', 'area',
-      'tags', 'solution-category', 'trait-filters', 'language-filters',
+      'tags', 'trait-filters', 'language-filters',
       'target-audience-filters-offers', 'openings', 'opening-specification',
       'websites', 'starts-at', 'ends-at', 'logic-version'
     ]
