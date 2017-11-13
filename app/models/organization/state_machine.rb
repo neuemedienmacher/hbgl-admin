@@ -14,8 +14,7 @@ module Organization::StateMachine
       state :completed # organization information is complete
       state :approval_process # indicates the beginning of the approval process
       state :approved
-      # indicates that the organization with all its offers is done
-      state :all_done
+      state :all_done # indicates that the organization with all its offers is done
 
       # Special states object might enter before it is approved
       state :under_construction_pre, # Website under construction pre approve
@@ -39,7 +38,7 @@ module Organization::StateMachine
         transitions from: :initialized, to: :completed
       end
 
-      event :start_approval_process do
+      event :start_approval_process, guard: :orga_valid? do
         # TODO: reactivate guard!!! # , guard: :different_actor?
         transitions from: :completed, to: :approval_process
       end
@@ -130,6 +129,10 @@ module Organization::StateMachine
 
     def different_actor?
       Creator::Twin.new(self).different_actor?
+    end
+
+    def orga_valid?
+      self.valid?
     end
   end
 end
