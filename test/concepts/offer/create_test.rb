@@ -37,7 +37,6 @@ class OfferCreateTest < ActiveSupport::TestCase
           'language-filters': { data: [{ type: 'filters', id: '1' }] },
           location: { data: { type: 'locations', id: '1' } },
           'divisions': { data: [{ type: 'divisions', id: '1' }] },
-          section: { data: { type: 'sections', id: '1' } },
           'solution-category': { data: { type: 'solution-categories', id: '1' } }
         }
       }
@@ -66,7 +65,6 @@ class OfferCreateTest < ActiveSupport::TestCase
       description: 'yarr',
       encounter: 'online',
       language_filters: [LanguageFilter.first],
-      section: Section.first,
       solution_category: SolutionCategory.first,
       area: Area.first,
       divisions: [Division.first]

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# frozen_string_literal: true
 
 class Division::Update < Trailblazer::Operation
   include SyncOrganization
@@ -25,7 +26,7 @@ class Division::Update < Trailblazer::Operation
 
   def generate_label(options, model:, **)
     contract = options['contract.default']
-    model.label = build_label(contract)
+    model.label = build_label(contract, model)
   end
 
   def meta_event_side_effects(_, model:, params:, current_user:, **)
@@ -43,8 +44,8 @@ class Division::Update < Trailblazer::Operation
 
   private
 
-  def build_label(contract)
-    label = "#{contract.organization.name} (#{contract.section.identifier})"
+  def build_label(contract, model)
+    label = "#{contract.organization.name} (#{model.section.identifier})"
     label += ", City: #{contract.city.name}" if contract.city
     label += ", Area: #{contract.area.name}" if contract.area
     label += ", Addition: #{contract.addition}" if contract.addition.present?

@@ -13,7 +13,6 @@ module Division::Contracts
     property :size
 
     validate ::Lib::Validators::UnnestedPresence :organization
-    validates :section, presence: true
     validate :city_or_area_must_be_present
 
     private
@@ -31,6 +30,8 @@ module Division::Contracts
 
   class Create < Base
     property :section
+
+    validates :section, presence: true
   end
 
   class Update < Base
