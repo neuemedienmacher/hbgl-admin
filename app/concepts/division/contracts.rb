@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module Division::Contracts
-  class Create < Reform::Form
+  class Base < Reform::Form
     property :addition
     property :organization
     property :websites
-    property :section
     property :city
     property :area
     property :presumed_tags
@@ -30,7 +29,11 @@ module Division::Contracts
     end
   end
 
-  class Update < Create
+  class Create < Base
+    property :section
+  end
+
+  class Update < Base
     property :id, writeable: false
     # update-specific validations?
   end
