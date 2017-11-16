@@ -31,8 +31,8 @@ class Offer::Update < Trailblazer::Operation
   step :generate_translations!
 
   def save_section_id(options)
-    options['model'].section_id = options['contract.default']
-                                  .divisions.first.section.id
+    options['model'].section_id =
+      options['contract.default'].divisions.first.section.id
   end
 
   def change_state_side_effect(options, model:, params:, current_user:, **)
