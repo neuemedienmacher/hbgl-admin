@@ -73,22 +73,25 @@ class DivisionUpdateFormObject extends GenericFormObject {
 
 class DivisionCreateFormObject extends DivisionUpdateFormObject {
   static get properties() {
-    return concat( DivisionUpdateFormObject.properties, ['section'])
+    return concat(['section'], DivisionUpdateFormObject.properties)
   }
 
   static get submodels() {
-    return concat( DivisionUpdateFormObject.submodels, ['section'])
+    return concat(['section'], DivisionUpdateFormObject.submodels)
   }
+  merge({}, variablenName)
 
   static get submodelConfig() {
-    return merge(DivisionUpdateFormObject.submodelConfig,
-      { section: { relationship: 'oneToOne' } }
+    return merge(
+      { section: { relationship: 'oneToOne' } },
+      DivisionUpdateFormObject.submodelConfig
     )
   }
 
   static get formConfig() {
-    return merge(DivisionUpdateFormObject.formConfig,
-      { section: { type: 'filtering-select' } }
+    return merge(
+      { section: { type: 'filtering-select' } },
+      DivisionUpdateFormObject.formConfig
     )
   }
 
