@@ -34,7 +34,7 @@ class Offer::Create < Trailblazer::Operation
   end
 
   def save_section_id(options)
-    options['model'].section_id = 
+    options['model'].section_id =
       options['contract.default'].divisions.first.section.id
   end
 
