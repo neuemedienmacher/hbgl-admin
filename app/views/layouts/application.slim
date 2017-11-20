@@ -1,7 +1,7 @@
 doctype html
 html class='no-js' lang=I18n.locale
   head
-    title Admin
+    title = request.fullpath[1..-1]
     = stylesheet_link_tag 'application',
                           media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
