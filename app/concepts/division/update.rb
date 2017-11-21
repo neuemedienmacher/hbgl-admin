@@ -10,7 +10,6 @@ class Division::Update < Trailblazer::Operation
   step Contract::Validate()
   step Wrap(::Lib::Transaction) {
     step ::Lib::Macros::Nested::Create(:websites, Website::Create)
-    step ::Lib::Macros::Nested::Find(:section, ::Section)
     step ::Lib::Macros::Nested::Find(:city, ::City)
     step ::Lib::Macros::Nested::Find(:area, ::Area)
     step ::Lib::Macros::Nested::Find(:organization, ::Organization)
@@ -27,7 +26,7 @@ class Division::Update < Trailblazer::Operation
 
   def generate_label(options, model:, **)
     contract = options['contract.default']
-    model.label = build_label(contract)
+    model.label = build_label(contract, model)
   end
 
   def meta_event_side_effects(_, model:, params:, current_user:, **)
@@ -45,8 +44,8 @@ class Division::Update < Trailblazer::Operation
 
   private
 
-  def build_label(contract)
-    label = "#{contract.organization.name} (#{contract.section.identifier})"
+  def build_label(contract, model)
+    label = "#{contract.organization.name} (#{model.section.identifier})"
     label += ", City: #{contract.city.name}" if contract.city
     label += ", Area: #{contract.area.name}" if contract.area
     label += ", Addition: #{contract.addition}" if contract.addition.present?

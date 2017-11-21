@@ -5,11 +5,10 @@ class Offer::Create < Trailblazer::Operation
 
   step Model(::Offer, :new)
   step Policy::Pundit(PermissivePolicy, :create?)
-
   step Contract::Build(constant: Offer::Contracts::Create)
   step Contract::Validate()
+  step :save_section_id
   step Wrap(::Lib::Transaction) {
-    step ::Lib::Macros::Nested::Find :section, ::Section
     step ::Lib::Macros::Nested::Find :solution_category, ::SolutionCategory
     step ::Lib::Macros::Nested::Find :divisions, ::Division
     step ::Lib::Macros::Nested::Find :next_steps, ::NextStep
@@ -32,6 +31,11 @@ class Offer::Create < Trailblazer::Operation
 
   def generate_slug(_, model:, **)
     model.update_column :slug, model.send(:set_slug)
+  end
+
+  def save_section_id(options)
+    options['model'].section_id =
+      options['contract.default'].divisions.first.section.id
   end
 
   def set_creating_user(_, current_user:, model:, **)

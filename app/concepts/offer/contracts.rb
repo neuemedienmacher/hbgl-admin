@@ -7,7 +7,6 @@ module Offer::Contracts
     property :description
     property :comment
     property :encounter
-    property :section
     property :solution_category
     property :language_filters
     property :target_audience_filters_offers
@@ -21,7 +20,6 @@ module Offer::Contracts
     property :divisions
     property :starts_at
     property :ends_at
-    property :section
     property :tags
     property :openings
     property :opening_specification
@@ -37,7 +35,6 @@ module Offer::Contracts
     #           unless: ->(offer) { offer.location.nil? }
     validates :description, presence: true
     validates :encounter, presence: true
-    validates :section, presence: true
     validates :solution_category, presence: true
     validates :code_word, length: { maximum: 140 }
 

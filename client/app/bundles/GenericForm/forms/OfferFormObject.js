@@ -18,7 +18,7 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'section', 'divisions', 'name',  'solution-category', 'code-word',
+      'divisions', 'name',  'solution-category', 'code-word',
       'description', 'comment', 'next-steps', 'contact-people',
       'hide-contact-people', 'encounter', 'location', 'area',
       'tags', 'trait-filters', 'language-filters',
@@ -29,7 +29,7 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get submodels() {
     return [
-      'section', 'divisions', 'next-steps', 'contact-people', 'location',
+      'divisions', 'next-steps', 'contact-people', 'location',
       'area', 'tags', 'solution-category', 'trait-filters',
       'language-filters', 'target-audience-filters-offers', 'openings',
       'websites', 'logic-version'
@@ -38,9 +38,6 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get submodelConfig() {
     return {
-      section: {
-        relationship: 'oneToOne'
-      },
       'divisions': {
         relationship: 'oneToMany',
       },
@@ -90,7 +87,6 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get formConfig() {
     return {
-      section: { type: 'filtering-select' },
       divisions: { type: 'filtering-multiselect' },
       name: { type: 'string', addons: ['counter'] },
       description: { type: 'textarea', addons: ['counter'] },
@@ -136,7 +132,7 @@ class OfferCreateFormObject extends GenericFormObject {
 
   static get requiredInputs() {
     return [
-      'section', 'solution-category', 'divisions', 'name',
+      'solution-category', 'divisions', 'name',
       'target-audience-filters-offers', 'language-filters', 'description'
     ]
   }

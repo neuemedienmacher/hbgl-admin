@@ -23,6 +23,10 @@ module API::V1
           property :website_ids
           property :presumed_tag_ids
           property :presumed_solution_category_ids
+
+          property :section_identifier, getter: ->(o) {
+            o[:represented].section.identifier
+          }
         end
 
         has_one :organization, class: ::Organization do
