@@ -29,6 +29,7 @@ class Offer::Update < Trailblazer::Operation
   step :change_state_side_effect # prevents persist on faulty state change
   step :set_next_steps_sort_value
   step :generate_translations!
+  step ::Lib::Macros::Live::SendChanges()
 
   def change_state_side_effect(options, model:, params:, current_user:, **)
     commit = params['meta'] && params['meta']['commit']

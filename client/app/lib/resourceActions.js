@@ -10,10 +10,11 @@ export function actionsFromSettings(model, id, entity) {
   return modelSettings.member_actions.filter(
     action => visibleFor(action, model, id, entity)
   ).map(action => ({
+    name: action,
     icon: iconFor(action),
     href: routeForAction(action, model, id, entity),
     target: targetFor(action),
-    text: textFor(action)
+    text: textFor(action),
   }))
 }
 

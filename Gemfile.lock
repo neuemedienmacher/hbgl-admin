@@ -58,6 +58,8 @@ GEM
   specs:
     aasm (4.12.3)
       concurrent-ruby (~> 1.0)
+    action-cable-testing (0.1.1)
+      actioncable (~> 5.0)
     actioncable (5.1.4)
       actionpack (= 5.1.4)
       nio4r (~> 2.0)
@@ -1148,6 +1150,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  action-cable-testing
   better_errors
   binding_of_caller
   brakeman

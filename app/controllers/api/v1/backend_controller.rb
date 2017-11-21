@@ -32,9 +32,16 @@ module API::V1
     end
 
     def destroy
-      @model = model_class_name.constantize.find(params[:id])
-      @model.destroy!
-      render json: {}, status: 200
+      result = delete_operation.(
+        params,
+        'current_user' => current_user,
+        'model_class': model_class_name.constantize
+      )
+      if result.success?
+        render json: {}, status: 200
+      else
+        render json: jsonapi_errors(result), status: 403
+      end
     end
 
     # --- Non-Action Helper methods --- #
@@ -87,6 +94,12 @@ module API::V1
 
     def update_operation
       "#{base_module}::Update".constantize
+    end
+
+    def delete_operation
+      "::#{model_class_name}::Delete".constantize
+    rescue NameError
+      ::Default::Delete
     end
 
     def jsonapi_errors(result)

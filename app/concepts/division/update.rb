@@ -23,6 +23,7 @@ class Division::Update < Trailblazer::Operation
   step Contract::Persist()
   step :meta_event_side_effects
   step :syncronize_organization_approve_or_done_state
+  step ::Lib::Macros::Live::SendChanges()
 
   def generate_label(options, model:, **)
     contract = options['contract.default']

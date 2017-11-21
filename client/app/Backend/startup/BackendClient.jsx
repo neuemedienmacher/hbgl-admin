@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 
 import getStore from '../store/store'
-import Routes from '../components/Routes'
+import Routes from '../containers/Routes'
 
 // See documentation for https://github.com/rackt/react-redux.
 // This is how you get props from the Rails view into the redux store.
