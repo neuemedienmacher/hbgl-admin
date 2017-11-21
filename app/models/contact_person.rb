@@ -33,12 +33,17 @@ class ContactPerson < ApplicationRecord
 
   # For rails_admin display
   def label
-    if first_name.blank? && last_name.blank?
-      "#{position_label}##{id} #{operational_name} (#{organization_name})"
-    else
-      "#{position_label}##{id} #{first_name} #{last_name} "\
-      "(#{organization_name})".squeeze(' ')
-    end
+    label = if first_name.blank? && last_name.blank?
+              "#{position_label}##{id} #{operational_name} "
+            else
+              "#{position_label}##{id} #{first_name} #{last_name} "
+            end
+    label + label_suffix
+  end
+
+  def label_suffix
+    "(#{organization_name}) #{email&.address}"\
+    " #{area_code_1} #{local_number_1}".squeeze(' ')
   end
 
   def position_label
