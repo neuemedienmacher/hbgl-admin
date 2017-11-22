@@ -8,9 +8,7 @@ import { singularize } from '../../../lib/inflection'
 import Duplicate from '../components/Duplicate'
 
 const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.params.id
-  const pathname = ownProps.location.pathname
-  const model = pathname.split('/')[1]
+  const { model, id } = ownProps
   const heading = `${singularize(model)} #${id} duplizieren`
 
   return {
