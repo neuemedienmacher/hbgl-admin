@@ -79,7 +79,6 @@ class DivisionCreateFormObject extends DivisionUpdateFormObject {
   static get submodels() {
     return concat(['section'], DivisionUpdateFormObject.submodels)
   }
-  merge({}, variablenName)
 
   static get submodelConfig() {
     return merge(
