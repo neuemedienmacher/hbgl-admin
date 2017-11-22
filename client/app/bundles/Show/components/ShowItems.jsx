@@ -5,7 +5,7 @@ import AssociationItems from '../containers/AssociationItems'
 import ShowFieldItem from '../containers/ShowFieldItem'
 import History from '../containers/History'
 
-export default class ShowItems extends React.Component {
+export default class ShowItems extends Component {
   render() {
     const {
       modelInstance, associations, columnNames, loaded, model

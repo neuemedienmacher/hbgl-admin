@@ -27,6 +27,7 @@ class Organization::Update < Trailblazer::Operation
   step :assign_to_system_on_approve
   step :syncronize_done_state
   step :generate_translations!
+  step ::Lib::Macros::Live::SendChanges()
 
   def change_state_side_effect(options, model:, params:, **)
     commit = params['meta'] && params['meta']['commit']

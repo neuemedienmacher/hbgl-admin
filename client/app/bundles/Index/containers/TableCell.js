@@ -31,7 +31,7 @@ function getContentFromAssociation(row, field) {
   }
   if (!row) return null
   if (isArray(row)) {
-    return row.map(singleObject => singleObject[field.field])
+    return row.map(singleObject => singleObject && singleObject[field.field])
   } else {
     return row[field.field]
   }

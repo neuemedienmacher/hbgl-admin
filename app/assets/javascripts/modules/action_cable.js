@@ -1,0 +1,1 @@
+this.Cable = ActionCable.createConsumer();

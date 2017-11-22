@@ -47,6 +47,12 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   end
 
   it 'must correctly use default logic for faked assignable' do
+    # stub areas that can't handle faked object
+    ::Lib::Macros::Live.expects(:broadcast_to_changes_channel).twice
+    API::V1::Assignment::Representer::Show.any_instance.expects(:to_hash).twice
+    ::Assignment::Create.any_instance.expects(:send_current_assignment_changes)
+                        .twice.returns(true)
+    # start test
     result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options
     assignment = result['model']
     assignment.must_be :persisted?

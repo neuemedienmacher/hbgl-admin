@@ -23,6 +23,14 @@ module API::V1::BackendTest
     end
   end
 
+  class TestOperation < Trailblazer::Operation
+    step :one
+
+    def one(*)
+      true
+    end
+  end
+
   module Representer
     class Show < Roar::Decorator
       include Roar::JSON::JSONAPI.resource :tests
@@ -38,8 +46,9 @@ module API::V1::BackendTest
 end
 
 describe API::V1::BackendController do
+  subject { API::V1::BackendController.new }
+
   describe 'index_endpoint' do
-    subject { API::V1::BackendController.new }
     it 'should handle a successful query' do
       expected_hash = {
         data: [
@@ -55,6 +64,29 @@ describe API::V1::BackendController do
       subject.expects(:render).with(json: expected_hash.to_json, status: 200)
       subject.expects(:base_module).returns('API::V1::BackendTest').twice
       subject.index
+    end
+  end
+
+  describe 'destroy' do
+    before do
+      subject.expects(:delete_operation).returns(
+        API::V1::BackendTest::TestOperation
+      )
+      subject.expects(:params).returns({})
+      subject.expects(:current_user).returns(users(:researcher))
+      subject.expects(:model_class_name).returns('API::V1::Default')
+    end
+
+    it 'should only render an empty json hash on success' do
+      subject.expects(:render).with(json: {}, status: 200)
+      subject.destroy
+    end
+
+    it 'should render errors on failure' do
+      API::V1::BackendTest::TestOperation
+        .any_instance.expects(:one).returns(false)
+      subject.expects(:render).with(json: { errors: [] }, status: 403)
+      subject.destroy
     end
   end
 end

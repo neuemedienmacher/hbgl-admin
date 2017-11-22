@@ -1,14 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { FormButton, JsonApiAdapter } from 'rform'
-import MemberActionsNavBar from
-  '../../MemberActionsNavBar/containers/MemberActionsNavBar'
 
 export default class Delete extends Component {
-
-  componentDidMount() {
-    this.props.loadData()
-  }
-
   render() {
     const {
       action, afterSuccess, afterError, model, id, location
@@ -17,8 +10,6 @@ export default class Delete extends Component {
     return(
       <div className='content Delete'>
         <div className="jumbotron">
-          <MemberActionsNavBar model={model} id={id} location={location} />
-          <hr />
           <p>
             Hinweis: Du bist im Begriff, ein Objekt fast unwiederbringlich zu
             löschen. Wenn du dir nicht sicher bist, ob du den nachfolgenden

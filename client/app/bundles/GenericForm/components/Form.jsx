@@ -9,10 +9,6 @@ import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 import AssignableContainer from '../../Assignable/containers/AssignableContainer'
 
 export default class GenericFormForm extends React.Component {
-  static contextTypes = {
-    disableUiElements: PropTypes.bool
-  }
-
   render() {
     const {
       seedData, action, method, formId, formObjectClass, submodelPath,

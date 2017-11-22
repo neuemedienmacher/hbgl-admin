@@ -29,6 +29,12 @@ class Offer::Update < Trailblazer::Operation
   step :change_state_side_effect # prevents persist on faulty state change
   step :set_next_steps_sort_value
   step :generate_translations!
+  step ::Lib::Macros::Live::SendChanges()
+
+  def save_section_id(options)
+    options['model'].section_id =
+      options['contract.default'].divisions.first.section.id
+  end
 
   def save_section_id(options)
     options['model'].section_id =

@@ -12,4 +12,5 @@ class SolutionCategory::Update < Trailblazer::Operation
     )
   }
   step Contract::Persist()
+  step ::Lib::Macros::Live::SendChanges()
 end

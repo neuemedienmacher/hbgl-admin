@@ -34,7 +34,7 @@ class OfferUpdateTest < ActiveSupport::TestCase
     result['model'].description.must_equal 'changed'
     result['model'].contact_people.count.must_equal 1
     contact_person = result['model'].contact_people.last
-    contact_person.label.must_equal("##{contact_person.id} New Guy (foobar)")
+    contact_person.label.must_equal("##{contact_person.id} New Guy (foobar) ")
   end
 
   describe 'translation side effect' do

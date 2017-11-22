@@ -4,11 +4,10 @@ import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
 export default class MemberActionsNavBar extends React.Component {
   render() {
-    const { actions, heading } = this.props
+    const { actions } = this.props
 
     return(
       <div className='MemberActionsNavBar'>
-        <h3>{heading}</h3>
         <Nav bsStyle='pills'>
           {actions.map(action => this.renderLinkContainer(action))}
         </Nav>
@@ -17,17 +16,23 @@ export default class MemberActionsNavBar extends React.Component {
   }
 
   renderLinkContainer(action) {
-    if (action.target) {
+    if (action.target) { // is external link
       return(
         <NavItem key={action.text} href={action.href} target={action.target}>
           <span className={action.icon} /> {action.text}
         </NavItem>
       )
-    } else {
+    } else { // is internal link
       return(
-        <IndexLinkContainer key={action.text} to={action.href}>
+        <IndexLinkContainer key={action.name} to={action.href}>
           <NavItem>
             <span className={action.icon} /> {action.text}
+            <span
+              className='MemberActionsNavBar-ViewingCount badge badge-pill'
+              title={`ist gerade in ${action.viewing} Tabs geöffnet`}
+            >
+              {action.viewing}
+            </span>
           </NavItem>
         </IndexLinkContainer>
       )
