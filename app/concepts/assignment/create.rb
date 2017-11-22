@@ -13,6 +13,8 @@ class Assignment::Create < Trailblazer::Operation
   step Contract::Persist()
   step :reset_translation_if_returned_to_system_user
   step :create_optional_assignment_for_organization!
+  step ::Lib::Macros::Live::SendCreation()
+  step :send_current_assignment_changes
 
   # def decorate_assignable(options, model:, **)
   #   options['model'] = ::Assignable::Twin.new(model)
@@ -44,6 +46,14 @@ class Assignment::Create < Trailblazer::Operation
         source: 'researcher', possibly_outdated: false
       )
     end
+    true
+  end
+
+  def send_current_assignment_changes(_, model:, **)
+    ::Lib::Macros::Live.broadcast_change(
+      model.assignable,
+      'current-assignment-id' => model.id, 'assignment-ids' => [model.id]
+    )
     true
   end
 end

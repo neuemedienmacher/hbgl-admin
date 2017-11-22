@@ -1,8 +1,5 @@
 import React, { PropTypes, Component } from 'react'
 import LoadingForm from '../../GenericForm/containers/LoadingForm'
-import MemberActionsNavBar from
-  '../../MemberActionsNavBar/containers/MemberActionsNavBar'
-
 
 export default class Duplicate extends Component {
   render() {
@@ -11,8 +8,7 @@ export default class Duplicate extends Component {
     } = this.props
 
     return(
-      <div className='content Duplicate'>
-        <MemberActionsNavBar model={model} id={id} location={location} />
+      <div className='Duplicate'>
         <LoadingForm forceCreate
           modifySeedData={modifySeedData} model={model} editId={id}
           formStateDidMount={formStateDidMount} formIdSpecification='duplicate'

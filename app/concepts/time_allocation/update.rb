@@ -6,4 +6,5 @@ class TimeAllocation::Update < Trailblazer::Operation
   step Contract::Build(constant: TimeAllocation::Contracts::Update)
   step Contract::Validate()
   step Contract::Persist()
+  step ::Lib::Macros::Live::SendChanges()
 end

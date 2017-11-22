@@ -8,8 +8,8 @@ class Offer::Update < Trailblazer::Operation
 
   step Contract::Build(constant: Offer::Contracts::Update)
   step Contract::Validate()
+  step :save_section_id
   step Wrap(::Lib::Transaction) {
-    step ::Lib::Macros::Nested::Find :section, ::Section
     step ::Lib::Macros::Nested::Find :solution_category, ::SolutionCategory
     step ::Lib::Macros::Nested::Find :divisions, ::Division
     step ::Lib::Macros::Nested::Find :next_steps, ::NextStep
@@ -29,6 +29,12 @@ class Offer::Update < Trailblazer::Operation
   step :change_state_side_effect # prevents persist on faulty state change
   step :set_next_steps_sort_value
   step :generate_translations!
+  step ::Lib::Macros::Live::SendChanges()
+
+  def save_section_id(options)
+    options['model'].section_id =
+      options['contract.default'].divisions.first.section.id
+  end
 
   def change_state_side_effect(options, model:, params:, current_user:, **)
     commit = params['meta'] && params['meta']['commit']

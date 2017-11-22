@@ -7,4 +7,5 @@ class Email::Update < Trailblazer::Operation
   step Contract::Build(constant: Email::Contracts::Update)
   step Contract::Validate()
   step Contract::Persist()
+  step ::Lib::Macros::Live::SendChanges()
 end

@@ -16,7 +16,5 @@
               %dd.well
                 - if field.label == 'Notes'
                   = render '/rails_admin/custom/notes', object: @object, title: false
-                - elsif field.label == 'Offers' && @object.class == SplitBase
-                  = render '/rails_admin/custom/section_offers', object: @object
                 - else
                   = field.pretty_value

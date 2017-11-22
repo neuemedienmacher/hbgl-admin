@@ -32,6 +32,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({ })
 function filterFields(fields, modelInstance) {
   let fieldNames = fields.map(field => field.name)
   return fieldNames.filter(field => modelInstance[field] != undefined )
-}
+ }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowItems)

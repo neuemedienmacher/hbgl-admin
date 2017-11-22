@@ -6,6 +6,7 @@ class ContactPersonTranslation::Update < Trailblazer::Operation
   step Contract::Build()
   step Contract::Validate()
   step Contract::Persist()
+  step ::Lib::Macros::Live::SendChanges()
 
   extend Contract::DSL
   contract do
