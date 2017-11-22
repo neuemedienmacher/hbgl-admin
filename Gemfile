@@ -182,6 +182,9 @@ group :test do
 
   # js tests
   gem 'capybara-selenium'
+
+  # ActionCable tests - remove once their PRs are merged by rails
+  gem 'action-cable-testing'
 end
 
 group :development, :test do

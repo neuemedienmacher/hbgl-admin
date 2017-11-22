@@ -16,7 +16,6 @@ const mapStateToProps = (state, ownProps) => {
     ) || []
 
   historyItems = historyItems.map(transformHistoryItem(state.entities))
-  console.log('items', historyItems)
 
   return {
     hasHistory: settings.HISTORY_ENABLED.includes(model),

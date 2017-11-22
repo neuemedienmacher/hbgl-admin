@@ -31,6 +31,7 @@ class Organization::Update < Trailblazer::Operation
   step :assign_to_system_on_approve
   step :syncronize_done_state
   step :generate_translations!
+  step ::Lib::Macros::Live::SendChanges()
 
   def epic_logging1(options, **)
     Rails.logger.debug "DEBUGGING Contract: #{options.inspect}"

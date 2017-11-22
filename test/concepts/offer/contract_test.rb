@@ -17,7 +17,6 @@ class OfferContractTest < ActiveSupport::TestCase
       it { subject.must validate_presence_of :name }
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :encounter }
-      it { subject.must validate_presence_of :section }
       it { must_validate_length_of :code_word, maximum: 140 }
 
       it 'should fails if personal offer has no location' do

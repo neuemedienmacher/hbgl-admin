@@ -9,32 +9,24 @@ const mapStateToProps = (state, ownProps) => {
   let splittedPathName = location.pathname.split('/')
   let currentAction = splittedPathName[splittedPathName.length - 1]
   let entity = state.entities[model] && state.entities[model][id]
-  const heading = headingFor(model, id, currentAction)
-  const actions = actionsFromSettings(pluralize(model), id, entity)
+  const viewingHash =
+    state.cable.live.viewing[model] &&
+    state.cable.live.viewing[model][id] || {}
+
+  const actions =
+    actionsFromSettings(pluralize(model), id, entity).map(action => {
+      const viewingUsers = viewingHash[action.name]
+      action.viewing =
+        viewingUsers && !!viewingUsers.length && viewingUsers.length
+      return action
+    })
 
   return {
     actions,
-    heading
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
-
-function headingFor(model, id, action) {
-  let singularModelName = singularize(model)
-  switch(action) {
-  case 'edit':
-    return `${singularModelName}#${id} bearbeiten`
-  case 'delete':
-    return  `${singularModelName}#${id} löschen`
-  case 'duplicate':
-    return  `${singularModelName}#${id} duplizieren`
-  case 'new':
-    return  `Neue ${singularModelName} anlegen`
-  default:
-    return `Details für ${singularModelName}#${id}`
-  }
-}
 
 export default connect(
   mapStateToProps,

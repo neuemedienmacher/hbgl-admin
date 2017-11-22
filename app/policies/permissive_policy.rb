@@ -12,4 +12,8 @@ class PermissivePolicy < ApplicationPolicy
   def change_state?
     true
   end
+
+  def delete?
+    true
+  end
 end

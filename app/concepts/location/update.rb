@@ -3,6 +3,7 @@
 class Location::Update < Location::Create
   step Model(::Location, :find_by), replace: 'model.build'
   step :reindex_offers_on_visible_change
+  step ::Lib::Macros::Live::SendChanges()
 
   def geocode!(options, model:, **)
     contract = options['contract.default']

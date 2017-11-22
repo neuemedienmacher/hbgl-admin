@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module Division::Contracts
-  class Create < Reform::Form
+  class Base < Reform::Form
     property :addition
     property :organization
     property :websites
-    property :section
     property :city
     property :area
     property :presumed_tags
@@ -14,7 +13,6 @@ module Division::Contracts
     property :size
 
     validate ::Lib::Validators::UnnestedPresence :organization
-    validates :section, presence: true
     validate :city_or_area_must_be_present
 
     private
@@ -30,7 +28,13 @@ module Division::Contracts
     end
   end
 
-  class Update < Create
+  class Create < Base
+    property :section
+
+    validates :section, presence: true
+  end
+
+  class Update < Base
     property :id, writeable: false
     # update-specific validations?
   end

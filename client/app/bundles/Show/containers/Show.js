@@ -15,9 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({ dispatch })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
@@ -44,12 +42,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
           }
         )
       )
+
       // load data of current model_instance
       dispatchProps.dispatch(
-        loadAjaxData(
-          `${nextModel}/${nextID}`, '', nextModel,
-          { onError: handleError(nextModel, dispatchProps.dispatch) }
-        )
+        loadAjaxData(`${nextModel}/${nextID}`, '', nextModel)
       )
     }
   }

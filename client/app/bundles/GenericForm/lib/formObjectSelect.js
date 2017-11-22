@@ -1,5 +1,6 @@
 import UserTeamFormObject from '../forms/UserTeamFormObject'
-import DivisionFormObject from '../forms/DivisionFormObject'
+import { DivisionCreateFormObject, DivisionUpdateFormObject }
+  from '../forms/DivisionFormObject'
 import { OrgaCreateFormObject, OrgaUpdateFormObject }
   from '../forms/OrganizationFormObject'
 import WebsiteFormObject from '../forms/WebsiteFormObject'
@@ -22,7 +23,7 @@ export default function formObjectSelect(model, editing) {
   case 'user-teams':
     return UserTeamFormObject
   case 'divisions':
-    return DivisionFormObject
+    return editing ? DivisionUpdateFormObject : DivisionCreateFormObject
   case 'organizations':
     return editing ? OrgaUpdateFormObject : OrgaCreateFormObject
   case 'websites':
