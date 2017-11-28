@@ -24,6 +24,9 @@ module API::V1
 
       class Index < Show
       end
+
+      class Create < Show
+      end
     end
   end
 end

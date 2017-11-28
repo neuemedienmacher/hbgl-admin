@@ -68,16 +68,17 @@ Rails.application.routes.draw do
       api_resources :subscriptions, only: %i[index show destroy]
       api_resources :update_requests, only: %i[index show]
       api_resources :cities, only: %i[index show]
-      api_resources :areas, only: %i[index show]
+      api_resources :areas
       api_resources :topics, only: %i[index show]
       api_resources :federal_states, only: %i[index show]
       api_resources :contact_people
       api_resources :emails
       api_resources :filters, only: %i[index show]
+      api_resources :search_locations, only: %i[index show]
       api_resources :target_audience_filters_offers, only: %i[index show]
       api_resources :next_steps
       api_resources :tags
-      api_resources :logic_versions, only: %i[index show]
+      api_resources :logic_versions
       api_resources :assignments, only: %i[index show create update]
       post 'time_allocations/:year/:week_number', controller: :time_allocations,
                                                   action: :report_actual

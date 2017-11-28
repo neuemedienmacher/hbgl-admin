@@ -18,6 +18,7 @@ FactoryGirl.define do
     end
 
     after :create do |division, _evaluator|
+      division.label = division.label + ' ' + division.organization.name
       division.assignments << ::Assignment::CreateBySystem.(
         {},
         assignable: division,
