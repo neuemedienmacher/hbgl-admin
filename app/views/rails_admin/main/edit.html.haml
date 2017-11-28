@@ -1,6 +1,5 @@
 / !Keep up to date with https://github.com/sferik/rails_admin/blob/master/app/views/rails_admin/main/edit.html.haml
 = render '/rails_admin/custom/state_machine', object: @object
-= render '/rails_admin/custom/notes', object: @object, title: true
 
 / render editing forms only in specific states (enforce approval & checkup processes)
 - if @object.class != Offer || @object.editable?

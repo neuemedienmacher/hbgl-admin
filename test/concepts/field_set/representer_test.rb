@@ -41,7 +41,6 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
     result['associations'][:assignments]['key']
       .must_equal %w[assignable_id assignable_type]
     result['associations'][:translations]['key'].must_equal ['organization_id']
-    result['associations'][:notes]['key'].must_equal %w[notable_id notable_type]
     result['associations'][:locations]['key'].must_equal ['organization_id']
     result['associations'][:divisions]['key'].must_equal ['organization_id']
     result['associations'][:website]['key'].must_equal ['organizations.id']
