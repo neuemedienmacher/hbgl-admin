@@ -36,12 +36,15 @@ class Organization::Update < Trailblazer::Operation
   def epic_logging1(options, **)
     Rails.logger.debug "DEBUGGING Contract: #{options.inspect}"
   end
+
   def epic_logging2(options, **)
     Rails.logger.debug "DEBUGGING Build: #{options.inspect}"
   end
+
   def epic_logging3(options, **)
     Rails.logger.debug "DEBUGGING Validate: #{options.inspect}"
   end
+
   def epic_logging4(options, **)
     Rails.logger.debug "DEBUGGING Transaction: #{options.inspect}"
   end

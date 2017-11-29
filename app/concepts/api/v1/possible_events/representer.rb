@@ -24,7 +24,7 @@ module API::V1
             }
           end
         elsif r[:represented].is_a?(::Division)
-          events = [:mark_as_done, :mark_as_not_done].map do |event|
+          events = %i[mark_as_done mark_as_not_done].map do |event|
             {
               name: event,
               possible: r[:represented].event_possible?(event),
