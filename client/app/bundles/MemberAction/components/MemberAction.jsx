@@ -24,11 +24,13 @@ export default class MemberAction extends Component {
     if (nextProps.entity._deleted)
       this.props.redirectOnDelete(nextProps.model)()
 
-    // We need to reload the data on state-changes because the possible-events
-    // will have changed and the current_assignment_id may have changed
+    // We need to reload the data on state-changes and done-changes because the
+    // possible-events will have changed and the assignment may have changed
     if (
       this.props.entity['aasm-state'] && nextProps.entity['aasm-state'] &&
-      this.props.entity['aasm-state'] != nextProps.entity['aasm-state']
+      this.props.entity['aasm-state'] != nextProps.entity['aasm-state'] ||
+      nextProps.entity['done'] != undefined &&
+      this.props.entity['done'] != nextProps.entity['done']
     )
       this.props.loadData(nextProps.model, nextProps.id, nextProps.view)
   }
