@@ -64,7 +64,7 @@ const mapStateToProps = (state, ownProps) => {
     afterSaveActions,
     afterSaveActiveKey,
     editId,
-    errorMessages
+    errorMessages,
     id
   }
 }
