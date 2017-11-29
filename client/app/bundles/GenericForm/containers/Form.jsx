@@ -170,26 +170,28 @@ function buildActionButtonData(
   // iterate additional actions (e.g. state-changes) only for editing
   if (state.settings.actions[model]) {
     let textPrefix = (changes ? 'Speichern & ' : '')
-    state.settings.actions[model].forEach(action => {
-      if(state.entities['possible-events'] &&
-         state.entities['possible-events'][model] &&
-         state.entities['possible-events'][model][id] &&
-         state.entities['possible-events'][model][id].data.includes(action)
-      ){
-        buttonData.push({
-          className: model == 'divisions' ? 'warning' : 'default',
-          buttonLabel: textPrefix + textForActionName(action, model),
-          actionName: action
-        })
-      }
-    })
+
+    if(state.entities['possible-events'] &&
+      state.entities['possible-events'][model] &&
+      state.entities['possible-events'][model][id] &&
+      state.entities['possible-events'][model][id]
+    ){
+      state.entities['possible-events'][model][id].data.map(function(e) {
+        if(e.possible === true) {
+          buttonData.push({
+            className: model == 'divisions' ? 'warning' : 'default',
+            buttonLabel: textPrefix + textForActionName(e.name, model),
+            actionName: e.name
+          })
+        }
+      })
+    }
   }
 
   // add special form-defined buttons
   if (formObject.additionalButtons) {
     buttonData.push(...formObject.additionalButtons(instance))
   }
-
   return buttonData
 }
 
@@ -246,7 +248,7 @@ function checkforErrors(state, model, id) {
      state.entities['possible-events'][model][id] &&
      state.entities['possible-events'][model][id]
      ) {
-      state.entities['possible-events'][model][id].data.map(function(e) {
+    state.entities['possible-events'][model][id].data.map(function(e) {
       if(e.failing_guards.length > 0) {
         errors.push(textForFailingGuard(e.failing_guards[0]))
       }
