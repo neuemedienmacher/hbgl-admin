@@ -11,37 +11,6 @@
   background-color: #d9534f;
 }
 
-// Custom styling for Notes section
-.Notes {
-  h2 { font-size: 24px; }
-  h3 { font-size: 14px; }
-
-  .Notes-List {
-    margin-left: 20px;
-    padding-left: 10px;
-    border-left: 1px solid #eee;
-  }
-
-  .Note {
-    position: relative;
-
-    .Note__Edit {
-      position: absolute;
-      right: 50px;
-      top: 0;
-    }
-
-    .topic {
-      padding: 2px 3px;
-      color: white;
-      font-size: 12px;
-
-      &.internal_info { background-color: #8CBD86; }
-      &.external_info { background-color: #a586bb; }
-    }
-  }
-}
-
 // Custom Styling for StateMachine section
 .StateMachine {
   h2 { font-size: 24px; }

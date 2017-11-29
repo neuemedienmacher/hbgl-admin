@@ -30,10 +30,6 @@ export default class WebsiteFormObject extends GenericFormObject {
     }
   }
 
-  static get ajaxAdapter() {
-    return JsonApiAdapter
-  }
-
   static get requiredInputs() {
     return ['host', 'url']
   }

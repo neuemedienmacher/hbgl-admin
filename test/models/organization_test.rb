@@ -51,9 +51,17 @@ describe Organization do
     describe 'completed' do
       before { organization.aasm_state = :completed }
 
-      it 'should enter approval_process with a different actor' do
-        organization.stubs(:different_actor?).returns(true)
+      it 'should not enter approval_process when orga is not valid' do
+        assert_raises(AASM::InvalidTransition) do
+          organization.start_approval_process
+        end
+        organization.orga_valid?.must_equal false
+      end
+
+      it 'should enter approval_process when orga is valid' do
+        organization.website = websites(:basic)
         organization.start_approval_process
+        organization.orga_valid?.must_equal true
         organization.must_be :approval_process?
       end
 

@@ -21,8 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 
   afterError(response) {
+    const message = 'Objekt kann nicht gelöscht werden, da andere mit ihm verknüpfte Objekte nicht mehr valide wären. Bei Fragen wende dich an die IT.'
     response.text().then((errorMessage) => console.error(errorMessage))
-    dispatch(addFlashMessage('error', 'Es gab einen Fehler beim Löschen.'))
+    dispatch(addFlashMessage('error', message))
   }
 })
 

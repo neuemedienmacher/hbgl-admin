@@ -202,10 +202,10 @@ class GenericSortFilterTest < ActiveSupport::TestCase
       subject.send(:transform_by_filtering, query, params)
     end
 
-    it 'includes NULL values for a "!=" string search' do
+    it 'performs case insensitive search with "ILIKE" operator' do
       params =
-        { filters: { 'title' => 'smth' }, operators: { 'title' => 'LIKE' } }
-      query.expects(:where).with("CAST(title AS TEXT) LIKE '%smth%'")
+        { filters: { 'title' => 'Smth' }, operators: { 'title' => 'ILIKE' } }
+      query.expects(:where).with("CAST(title AS TEXT) ILIKE '%Smth%'")
       subject.send(:transform_by_filtering, query, params)
     end
 

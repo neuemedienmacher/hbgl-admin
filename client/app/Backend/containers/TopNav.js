@@ -125,7 +125,28 @@ const routes = [
     pathname: '/websites',
     anchor: 'Webseiten',
     access: all,
-  }/*,
+  }, {
+    id: 22,
+    pathname: '/next-steps',
+    anchor: 'NextSteps',
+    access: all,
+  }, {
+    id: 23,
+    pathname: '/areas',
+    anchor: 'Areas',
+    access: all,
+  }, {
+    id: 25,
+    pathname: '/logic-versions',
+    anchor: 'LogicVersions',
+    access: all,
+  }, {
+    id: 26,
+    pathname: '/search-locations',
+    anchor: 'SearchLocations',
+    access: all,
+  }
+  /*,
   {
     id: 10,
     pathname: '/statistic-charts',

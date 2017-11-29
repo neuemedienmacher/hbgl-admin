@@ -10,7 +10,9 @@ class API::V1::Division::RepresenterTest < ActiveSupport::TestCase
                                 addition: 'foo',
                                 organization: Organization.find(1)
     result = subject.new(record).to_hash
-    result['data']['attributes']['label'].must_equal('default division label')
+    result['data']['attributes']['label'].must_equal(
+      'default division label foobar'
+    )
     result['data']['relationships']['organization']['data']['id'].must_equal '1'
   end
 end

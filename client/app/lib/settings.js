@@ -159,6 +159,43 @@ export default {
       ]
     },
 
+    'logic-versions': {
+      fields: [
+        'id', 'name', 'version'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit', 'delete'
+      ]
+    },
+
+    areas: {
+      fields: [
+        'id', 'name', 'minlat', 'maxlat', 'minlong', 'maxlong'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit', 'delete'
+      ]
+    },
+
+    'next-steps': {
+      fields: [
+        'id', 'text-de', 'text-en', 'text-ar', 'text-fr', 'text-pl',
+        'text-tr', 'text-ru', 'text-fa'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit', 'delete'
+      ]
+    },
+
     'solution-categories': {
       association_model_mapping: { parent: 'solution-categories' },
       fields: [
@@ -179,6 +216,18 @@ export default {
       fields: [
         'id', 'name', 'email', { 'user-teams': ['name'] },
         { 'observed-user-teams': ['name'] }
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'search-locations': {
+      fields: [
+        'id', 'query', 'latitude', 'longitude', 'created-at', 'updated-at'
       ],
       general_actions: [
         'index'
@@ -291,7 +340,7 @@ export default {
         'index'
       ],
       member_actions: [
-        'show', 'open_url', 'delete'
+        'show', 'open_url', 'delete', 'edit'
       ]
     },
 
@@ -328,7 +377,7 @@ export default {
     },
   },
 
-  OPERATORS: ['=', '!=', '<', '>', '...', 'LIKE', 'NOT LIKE'],
+  OPERATORS: ['=', '!=', '<', '>', '...', 'ILIKE', 'NOT LIKE'],
   SECTIONS: ['family', 'refugees'],
   AFTER_SAVE_ACTIONS: {
     'to_edit': 'Bei dieser Instanz bleiben',

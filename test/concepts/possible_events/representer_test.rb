@@ -9,15 +9,24 @@ class API::V1::PossibleEvents::RepresenterTest < ActiveSupport::TestCase
     organization = organizations(:basic)
     organization.aasm_state = 'initialized'
     result = subject.new(organization).to_hash
-    result['data'].must_equal %i[complete website_under_construction]
+    result['data'].map { |k| k[:name] if k[:possible] }.compact
+                  .must_equal %i[complete website_under_construction]
   end
 
   it 'should return possible events for an approved offer' do
     result = subject.new(offers(:basic)).to_hash
-    result['data'].must_equal %i[
-      expire deactivate_internal deactivate_external
-      website_under_construction start_checkup_process
-    ]
+    result['data'].map { |k| k[:name] if k[:possible] }.compact
+                  .must_equal %i[expire deactivate_internal deactivate_external
+                                 website_under_construction
+                                 start_checkup_process]
+  end
+
+  it 'should return failing guards for an invalid orga' do
+    organization = organizations(:basic)
+    organization.update_columns(aasm_state: 'completed', website_id: nil)
+    result = subject.new(organization).to_hash
+    result['data'].map { |k| k[:failing_guards] }.flatten
+                  .compact.must_equal %i[orga_valid?]
   end
 
   it 'should return possible events for a Division' do

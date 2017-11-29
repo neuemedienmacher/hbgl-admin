@@ -111,6 +111,14 @@ function headingFor(model) {
     return 'Update Requests'
   case 'websites':
     return 'Webseiten'
+  case 'next-steps':
+    return 'NextSteps'
+  case 'areas':
+    return 'Areas'
+  case 'logic-versions':
+    return 'LogicVersions'
+  case 'search-locations':
+    return 'SearchLocations'
   default:
     throw new Error(`Please provide a heading for ${model}`)
   }
