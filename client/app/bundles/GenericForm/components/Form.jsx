@@ -15,7 +15,7 @@ export default class GenericFormForm extends React.Component {
       afterResponse, model, nestingModel, instance, loadData,
       isAssignable, buttonData, afterRequireValid, afterSaveActions,
       beforeSubmit, splitButtonMenuItemOnclick, onSubmitButtonClick,
-      afterError, formStateDidMount, editId, errorMessages
+      afterError, formStateDidMount, id, errorMessages
     } = this.props
 
     return(
@@ -33,7 +33,7 @@ export default class GenericFormForm extends React.Component {
           <FormInputs
             model={model} formObjectClass={formObjectClass} formId={formId}
             nestingModel={nestingModel} submodelPath={submodelPath}
-            id={editId}
+            id={id}
           />
           <ReadOnlyProperties
             instance={instance} formObjectClass={formObjectClass}

@@ -44,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
   const buttonData = buildActionButtonData(
     state, model, id, instance, formObjectClass, formData
   )
-  const errorMessages = checkforErrors(state, model, editId)
+  const errorMessages = checkforErrors(state, model, id)
 
   // Changes in case the form updates instead of creating
   if (id && !ownProps.forceCreate) {
@@ -63,7 +63,6 @@ const mapStateToProps = (state, ownProps) => {
     buttonData,
     afterSaveActions,
     afterSaveActiveKey,
-    editId,
     errorMessages,
     id
   }
@@ -239,15 +238,15 @@ function textForActionName(action, model){
   }
 }
 
-function checkforErrors(state, model, editId) {
+function checkforErrors(state, model, id) {
   let errors = []
 
   if(state.entities['possible-events'] &&
      state.entities['possible-events'][model] &&
-     state.entities['possible-events'][model][editId] &&
-     state.entities['possible-events'][model][editId]
+     state.entities['possible-events'][model][id] &&
+     state.entities['possible-events'][model][id]
      ) {
-      state.entities['possible-events'][model][editId].data.map(function(e) {
+      state.entities['possible-events'][model][id].data.map(function(e) {
       if(e.failing_guards.length > 0) {
         errors.push(textForFailingGuard(e.failing_guards[0]))
       }
