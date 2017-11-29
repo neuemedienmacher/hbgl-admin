@@ -20,7 +20,6 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
     result = subject.new(User).to_hash
     result['associations'][:statistics]['key']
       .must_equal %w[trackable_id trackable_type]
-    result['associations'][:authored_notes]['key'].must_equal ['user_id']
     result['associations'][:user_team_users]['key'].must_equal ['user_id']
     result['associations'][:user_teams]['key'].must_equal ['users.id']
     result['associations'][:led_teams]['key'].must_equal ['lead_id']
