@@ -24,14 +24,13 @@ module API::V1
             }
           end
         elsif r[:represented].is_a?(::Division)
-          events =
-            if r[:represented].done
-              [:mark_as_not_done]
-            elsif !r[:represented].done && r[:represented].organization.approved?
-              [:mark_as_done]
-            else
-              []
-            end
+          events = [:mark_as_done, :mark_as_not_done].map do |event|
+            {
+              name: event,
+              possible: r[:represented].event_possible?(event),
+              failing_guards: []
+            }
+          end
         end
         events
       end
