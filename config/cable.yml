@@ -1,0 +1,16 @@
+# Configuration for Rails 5+ Action Cable
+
+development:
+  adapter: redis
+  url: redis://localhost:6379
+
+test:
+  adapter: async
+
+staging:
+  adapter: redis
+  url: <%= Rails.application.secrets.redis_url %>
+
+production:
+  adapter: redis
+  url: <%= Rails.application.secrets.redis_url %>

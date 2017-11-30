@@ -16,6 +16,9 @@
 # = require vendor/js-mindmap
 # = require vendor/raphael-min
 #
+# = require action_cable
+# = require modules/action_cable
+#
 # require modules/namespace
 # require modules/statistics/bar_graph
 #

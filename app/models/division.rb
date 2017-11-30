@@ -9,4 +9,9 @@ class Division < ApplicationRecord
   pg_search_scope :search_pg,
                   against: %i[id addition size label],
                   using: { tsearch: { prefix: true } }
+
+  def event_possible?(event)
+    (event.eql?(:mark_as_not_done) && self.done) ||
+      (event.eql?(:mark_as_done) && !self.done && self.organization.approved?)
+  end
 end

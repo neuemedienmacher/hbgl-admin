@@ -41,6 +41,7 @@ class UserTeam < ApplicationRecord
     }
     step Contract::Persist()
     step :update_team_statistic_on_user_change
+    step ::Lib::Macros::Live::SendChanges()
 
     def update_team_statistic_on_user_change options
       if options['contract.default'].changed?('users')

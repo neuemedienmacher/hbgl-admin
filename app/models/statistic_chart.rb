@@ -13,12 +13,11 @@ class StatisticChart < ApplicationRecord
                   ],
                   using: { tsearch: { prefix: true } }
 
-  TARGET_MODELS = %w[Offer Organization SplitBase].freeze
+  TARGET_MODELS = %w[Offer Organization].freeze
 
   TARGET_FIELD_NAMES = {
     'Offer' => %w[aasm_state logic_version id?],
-    'Organization' => %w[aasm_state id?],
-    'SplitBase' => %w[id?]
+    'Organization' => %w[aasm_state id?]
   }.freeze
 
   TARGET_FIELD_VALUES = {
@@ -29,9 +28,6 @@ class StatisticChart < ApplicationRecord
     },
     'Organization' => {
       'aasm_state' => Organization.aasm.states.map(&:name),
-      'id?' => [true]
-    },
-    'SplitBase' => {
       'id?' => [true]
     }
   }.freeze

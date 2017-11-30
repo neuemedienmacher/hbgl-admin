@@ -32,11 +32,12 @@ module API::V1
           property :completed_at
           property :completed_by
           property :comment
+          property :code_word
 
           property :section_id
           property :logic_version_id
-          property :split_base_id
-          property :category_ids
+          property :solution_category_id
+          property :division_ids
           property :location_id
           property :area_id
           property :contact_person_ids
@@ -59,8 +60,17 @@ module API::V1
           end
         end
 
-        has_one :split_base do
-          type :split_bases
+        has_one :solution_category do
+          type :solution_categories
+
+          attributes do
+            property :label, getter: ->(o) { o[:represented].name }
+            property :name
+          end
+        end
+
+        has_many :divisions do
+          type :divisions
 
           attributes do
             property :label
@@ -114,15 +124,10 @@ module API::V1
                 populator: API::V1::Lib::Populators::FindOrInstantiate,
                 class: ::Area
 
-        has_one :split_base,
-                decorator: API::V1::SplitBase::Representer::Show,
-                populator: API::V1::Lib::Populators::FindOrInstantiate,
-                class: ::SplitBase
-
-        has_many :categories,
-                 decorator: API::V1::Category::Representer::Show,
-                 # populator: API::V1::Lib::Populators::FindOrInstantiate,
-                 class: ::Category
+        has_many :divisions,
+                 decorator: API::V1::Division::Representer::Show,
+                 populator: API::V1::Lib::Populators::FindOrInstantiate,
+                 class: ::Division
 
         has_many :tags,
                  decorator: API::V1::Tag::Representer::Show,
@@ -131,8 +136,13 @@ module API::V1
 
         has_one :section,
                 decorator: API::V1::Section::Representer::Show,
-                populator: API::V1::Lib::Populators::FindOrInstantiate,
+                populator: API::V1::Lib::Populators::Find,
                 class: ::Section
+
+        has_one :solution_category,
+                decorator: API::V1::SolutionCategory::Representer::Show,
+                populator: API::V1::Lib::Populators::Find,
+                class: ::SolutionCategory
 
         has_many :openings,
                  decorator: API::V1::Opening::Representer::Show,

@@ -1,20 +1,14 @@
 import React, { PropTypes, Component } from 'react'
 import LoadingForm from '../../GenericForm/containers/LoadingForm'
-import MemberActionsNavBar from
-  '../../MemberActionsNavBar/containers/MemberActionsNavBar'
-
 
 export default class Duplicate extends Component {
   render() {
-    const {
-      model, id, heading, modifySeedData, formStateDidMount, location
-    } = this.props
+    const { model, id, heading, modifySeedData, formStateDidMount } = this.props
 
     return(
-      <div className='content Duplicate'>
-        <MemberActionsNavBar model={model} id={id} location={location} />
+      <div className='Duplicate'>
         <LoadingForm forceCreate
-          modifySeedData={modifySeedData} model={model} editId={id}
+          modifySeedData={modifySeedData} model={model} id={id}
           formStateDidMount={formStateDidMount} formIdSpecification='duplicate'
         />
       </div>

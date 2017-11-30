@@ -73,8 +73,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field-set', transformResponse,
-          nextModel
+          'field_set/' + singularModel, {}, 'field-set',
+          {
+            transformer: transformResponse, nextModel
+          }
         )
       )
     },
@@ -214,7 +216,7 @@ function textForOperator(operator) {
       return 'nicht gleich'
     case '...':
       return 'zwischen'
-    case 'LIKE':
+    case 'ILIKE':
       return 'enthält'
     case 'NOT LIKE':
       return 'enthält nicht'
@@ -226,7 +228,7 @@ function textForOperator(operator) {
 function filterOpperators(settings, filterType) {
   if (filterType == 'text') {
     return settings.OPERATORS.filter(operator =>
-      operator == '=' || operator == '!=' || operator == 'LIKE' ||
+      operator == '=' || operator == '!=' || operator == 'ILIKE' ||
       operator == 'NOT LIKE'
     ).map(operator => {
       return {

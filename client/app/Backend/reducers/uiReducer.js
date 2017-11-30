@@ -1,4 +1,5 @@
 import merge from 'lodash/merge'
+import uuid from 'js-uuid'
 
 export const initialState = {
   index: {
@@ -9,7 +10,8 @@ export const initialState = {
       query: null,
     },
   },
-  afterSaveActiveKey: 'to_edit'
+  afterSaveActiveKey: 'to_edit',
+  sessionID: uuid(), // Generate a unique session ID
 }
 
 export default function uiReducer(state = initialState, action) {

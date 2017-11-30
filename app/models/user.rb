@@ -13,7 +13,8 @@ class User < ApplicationRecord
 
   def self.system_user
     find_by(name: 'System') || create!(
-      name: 'System', password: SecureRandom.base64, email: 'dev@clarat.org', role: 'super'
+      name: 'System', password: SecureRandom.base64, email: 'dev@clarat.org',
+      role: 'super'
     )
   end
 

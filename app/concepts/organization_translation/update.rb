@@ -13,4 +13,5 @@ class OrganizationTranslation::Update < Trailblazer::Operation
   step Contract::Persist()
   step :create_new_assignment_if_assignable_should_be_reassigned!
   step :create_new_assignment_if_save_and_close_clicked!
+  step ::Lib::Macros::Live::SendChanges()
 end

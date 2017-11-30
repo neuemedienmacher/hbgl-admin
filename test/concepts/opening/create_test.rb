@@ -19,8 +19,7 @@ class OpeningCreateTest < ActiveSupport::TestCase
     end
 
     it 'must create a Opening given valid data open = close = nil' do
-      # needed because this test is randomly failing
-      Opening.delete_all
+      Opening.delete_all # needed because this test is randomly failing
       params = { day: 'mon', open: nil, close: nil }
       result = operation_must_work ::Opening::Create, params
       result['model'].name.must_equal 'Mon (appointment)'

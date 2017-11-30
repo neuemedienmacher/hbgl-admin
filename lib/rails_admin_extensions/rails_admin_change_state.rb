@@ -12,7 +12,8 @@ module RailsAdmin
       class ChangeState < RailsAdmin::Config::Actions::Base
         RailsAdmin::Config::Actions.register(self)
         # There are several options that you can set here.
-        # Check https://github.com/sferik/rails_admin/blob/master/lib/rails_admin/config/actions/base.rb for more info.
+        # Check https://github.com/sferik/rails_admin
+        # /blob/master/lib/rails_admin/config/actions/base.rb for more info.
 
         register_instance_option :visible? do
           false
@@ -27,17 +28,29 @@ module RailsAdmin
             old_state = @object.aasm_state
             contract = @object.class::Contracts::ChangeState.new(@object)
             object_valid_for_state_change = contract.valid?
-            # NOTE Hacky hack hack: allow forced state-change to checkup and edit for invalid objects (e.g. expired offers are invalid)
-            if !object_valid_for_state_change && %w[start_checkup_process return_to_editing].include?(params[:event])
-              @object.update_columns(aasm_state: params[:event] == 'return_to_editing' ? 'edit' : 'checkup_process')
+            # NOTE Hacky hack hack: allow forced state-change to checkup and
+            # edit for invalid objects (e.g. expired offers are invalid)
+            if !object_valid_for_state_change &&
+               %w[start_checkup_process return_to_editing].include?(
+                 params[:event]
+               )
+              state = if params[:event] == 'return_to_editing'
+                        'edit'
+                      else
+                        'checkup_process'
+                      end
+              @object.update_columns(aasm_state: state)
               flash[:success] = t('.success')
               Statistic::UserAndParentTeamsCountHandler.record(
                 current_user, @object.class.name, 'aasm_state',
                 old_state, @object.aasm_state
               )
-            elsif object_valid_for_state_change && @object.send("#{params[:event]}!")
+            elsif object_valid_for_state_change && @object.send(
+              "#{params[:event]}!"
+            )
               flash[:success] = t('.success')
-              if @object.respond_to?(:generate_translations!) && params[:event] == 'approve'
+              if @object.respond_to?(:generate_translations!) &&
+                 params[:event] == 'approve'
                 @object.generate_translations!
               end
               Statistic::UserAndParentTeamsCountHandler.record(

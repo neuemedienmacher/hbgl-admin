@@ -32,9 +32,16 @@ module API::V1
     end
 
     def destroy
-      @model = model_class_name.constantize.find(params[:id])
-      @model.destroy!
-      render json: {}, status: 200
+      result = delete_operation.(
+        params,
+        'current_user' => current_user,
+        'model_class': model_class_name.constantize
+      )
+      if result.success?
+        render json: {}, status: 200
+      else
+        render json: jsonapi_errors(result), status: 403
+      end
     end
 
     # --- Non-Action Helper methods --- #
@@ -51,25 +58,6 @@ module API::V1
         'document' => request.raw_post
       }]
     end
-
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-    # def default_endpoints
-    #   proc do |m|
-    #     m.created do |result|
-    #       render json: result['representer.default.class'].new(result['model']),
-    #              status: 201
-    #     end
-    #     m.present { |_| raise 'Endpoint: presented' }
-    #     m.not_found { |_| raise 'Endpoint: not_found' }
-    #     m.unauthenticated { |r| render json: jsonapi_errors(r), status: 403 }
-    #     m.success do |result|
-    #       render json: result['representer.default.class'].new(result['model']),
-    #              status: 200
-    #     end
-    #     m.invalid { |res| render json: jsonapi_errors(res), status: 403 }
-    #   end
-    # end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def custom_endpoint(result, success_status)
       if result.success?
@@ -106,6 +94,12 @@ module API::V1
 
     def update_operation
       "#{base_module}::Update".constantize
+    end
+
+    def delete_operation
+      "::#{model_class_name}::Delete".constantize
+    rescue NameError
+      ::Default::Delete
     end
 
     def jsonapi_errors(result)

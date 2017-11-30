@@ -18,15 +18,15 @@ import { denormalizeStateEntity } from '../../../lib/denormalizeUtils'
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    model, editId, submodelKey, modifySeedData, formIdSpecification
+    model, id, submodelKey, modifySeedData, formIdSpecification
   } = ownProps
   const submodelPath = ownProps.submodelPath || []
   const formId = generateFormId(
-    model, submodelPath, submodelKey, editId, formIdSpecification
+    model, submodelPath, submodelKey, id, formIdSpecification
   )
   const formSettings = state.settings[model]
   const formData = state.rform[formId] || {}
-  const instance = denormalizeStateEntity(state.entities, model, editId)
+  const instance = denormalizeStateEntity(state.entities, model, id)
   const isAssignable =
     instance && instance['current-assignment-id'] !== undefined
   const afterSaveActiveKey = state.ui.afterSaveActiveKey
@@ -34,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
     mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => ({
       action: key, name: value, active: afterSaveActiveKey == key
     }))
-  const formObjectClass = formObjectSelect(model, !!editId)
+  const formObjectClass = formObjectSelect(model, !!id)
   const seedData = {
     fields: seedDataFromEntity(instance, formObjectClass, modifySeedData)
   }
@@ -42,12 +42,13 @@ const mapStateToProps = (state, ownProps) => {
   let action = `/api/v1/${model}`
   let method = 'POST'
   const buttonData = buildActionButtonData(
-    state, model, editId, instance, formObjectClass, formData
+    state, model, id, instance, formObjectClass, formData, ownProps.forceCreate
   )
+  const errorMessages = checkforErrors(state, model, id)
 
   // Changes in case the form updates instead of creating
-  if (editId && !ownProps.forceCreate) {
-    action += '/' + editId
+  if (id && !ownProps.forceCreate) {
+    action += '/' + id
     method = 'PUT'
   }
 
@@ -62,7 +63,8 @@ const mapStateToProps = (state, ownProps) => {
     buttonData,
     afterSaveActions,
     afterSaveActiveKey,
-    editId
+    errorMessages,
+    id
   }
 }
 
@@ -72,10 +74,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
-  const { model, editId } = ownProps // , onSuccessfulSubmit
+  const { model, id } = ownProps // , onSuccessfulSubmit
 
   const resetForm = (changes, response) => {
-    const entity = changes[model][editId]
+    const entity = changes[model][id]
     const desiredFormData = seedDataFromEntity(
       entity, stateProps.formObjectClass, ownProps.modifySeedData
     )
@@ -88,7 +90,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     afterResponse(_formId, changes, errors, _meta, response) {
-      dispatch(setUiLoaded(true, 'GenericForm', model, editId))
+      dispatch(setUiLoaded(true, 'GenericForm', model, id))
       if (response.data && response.data.id) {
         const successMessages =
           ['Läuft bei dir!', 'Passt!', 'War jut', 'Ging durch']
@@ -127,7 +129,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatch(addFlashMessage('error', errorFlashMessage))
     },
 
-    loadData(modelToLoad = model, id = editId) {
+    loadData(modelToLoad = model, id = id) {
       if (modelToLoad && id)
         dispatch(loadAjaxData(`${modelToLoad}/${id}`, '', modelToLoad))
     },
@@ -145,7 +147,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     beforeSubmit() {
-      dispatch(setUiLoaded(false, 'GenericForm', model, editId))
+      dispatch(setUiLoaded(false, 'GenericForm', model, id))
     }
   }
 }
@@ -154,7 +156,7 @@ const errorFlashMessage =
   ' und versuche es erneut.'
 
 function buildActionButtonData(
-  state, model, editId, instance, formObject, formData
+  state, model, id, instance, formObject, formData, forceCreate
 ) {
   let changes = formData && formData._changes &&
     formData._changes.length || hasAtLeastOneSubmodelForm(formData)
@@ -168,26 +170,29 @@ function buildActionButtonData(
   // iterate additional actions (e.g. state-changes) only for editing
   if (state.settings.actions[model]) {
     let textPrefix = (changes ? 'Speichern & ' : '')
-    state.settings.actions[model].forEach(action => {
-      if(state.entities['possible-events'] &&
-         state.entities['possible-events'][model] &&
-         state.entities['possible-events'][model][editId] &&
-         state.entities['possible-events'][model][editId].data.includes(action)
-      ){
-        buttonData.push({
-          className: model == 'divisions' ? 'warning' : 'default',
-          buttonLabel: textPrefix + textForActionName(action, model),
-          actionName: action
-        })
-      }
-    })
+
+    if(!forceCreate &&
+      state.entities['possible-events'] &&
+      state.entities['possible-events'][model] &&
+      state.entities['possible-events'][model][id] &&
+      state.entities['possible-events'][model][id]
+    ){
+      state.entities['possible-events'][model][id].data.map(function(e) {
+        if(e.possible === true) {
+          buttonData.push({
+            className: model == 'divisions' ? 'warning' : 'default',
+            buttonLabel: textPrefix + textForActionName(e.name, model),
+            actionName: e.name
+          })
+        }
+      })
+    }
   }
 
   // add special form-defined buttons
   if (formObject.additionalButtons) {
     buttonData.push(...formObject.additionalButtons(instance))
   }
-
   return buttonData
 }
 
@@ -233,6 +238,36 @@ function textForActionName(action, model){
     return 'als unvollständig markieren'
   default:
     return action
+  }
+}
+
+function checkforErrors(state, model, id) {
+  let errors = []
+
+  if(state.entities['possible-events'] &&
+     state.entities['possible-events'][model] &&
+     state.entities['possible-events'][model][id] &&
+     state.entities['possible-events'][model][id]
+     ) {
+    state.entities['possible-events'][model][id].data.map(function(e) {
+      if(e.failing_guards.length > 0) {
+        errors.push(textForFailingGuard(e.failing_guards[0]))
+      }
+    })
+  }
+  return errors
+}
+
+function textForFailingGuard(guard) {
+  switch(guard) {
+  case 'orga_valid?':
+    return 'Orga is not valid'
+  case 'all_organizations_visible?':
+    return 'Please check unapproved Orga(s)'
+  case 'expiration_date_in_future?':
+    return 'Offer has expired'
+  default:
+    return guard
   }
 }
 

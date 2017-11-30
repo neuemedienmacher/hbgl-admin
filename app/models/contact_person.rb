@@ -31,24 +31,6 @@ class ContactPerson < ApplicationRecord
     end
   end
 
-  # For rails_admin display
-  def label
-    if first_name.blank? && last_name.blank?
-      "#{position_label}##{id} #{operational_name} (#{organization_name})"
-    else
-      "#{position_label}##{id} #{first_name} #{last_name} "\
-      "(#{organization_name})".squeeze(' ')
-    end
-  end
-
-  def position_label
-    if position.present?
-      I18n.t("enumerize.contact_person.position.#{position}") + ': '
-    else
-      ''
-    end
-  end
-
   # TODO: move callsbacks to operations!
   # Callbacks
   after_create :after_create

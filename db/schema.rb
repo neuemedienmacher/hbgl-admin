@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012135856) do
+ActiveRecord::Schema.define(version: 20171128160611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "areas", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
+    t.string "name", null: false
     t.float "minlat", null: false
     t.float "maxlat", null: false
     t.float "minlong", null: false
@@ -58,63 +58,6 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.index ["receiver_team_id"], name: "index_assignments_on_receiver_team_id"
   end
 
-  create_table "categories", id: :serial, force: :cascade do |t|
-    t.string "name_de", limit: 255, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "icon", limit: 12
-    t.integer "parent_id"
-    t.integer "sort_order"
-    t.boolean "visible", default: true
-    t.string "name_en"
-    t.string "name_ar"
-    t.string "name_fr"
-    t.string "name_pl"
-    t.string "name_tr"
-    t.string "name_ru"
-    t.string "name_fa"
-    t.text "keywords_de"
-    t.text "keywords_en"
-    t.text "keywords_ar"
-    t.text "keywords_fa"
-    t.text "explanations_de"
-    t.text "explanations_en"
-    t.text "explanations_ar"
-    t.text "explanations_fa"
-    t.index ["name_de"], name: "index_categories_on_name_de"
-  end
-
-  create_table "categories_offers", id: false, force: :cascade do |t|
-    t.integer "offer_id", null: false
-    t.integer "category_id", null: false
-    t.index ["category_id"], name: "index_categories_offers_on_category_id"
-    t.index ["offer_id"], name: "index_categories_offers_on_offer_id"
-  end
-
-  create_table "categories_section_filters", id: :serial, force: :cascade do |t|
-    t.integer "category_id"
-    t.integer "section_filter_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "categories_sections", id: false, force: :cascade do |t|
-    t.integer "section_id", null: false
-    t.integer "category_id", null: false
-    t.index ["category_id"], name: "index_categories_sections_on_category_id"
-    t.index ["category_id"], name: "index_filters_categories_on_category_id"
-    t.index ["section_id"], name: "index_categories_sections_on_section_id"
-    t.index ["section_id"], name: "index_filters_categories_on_filter_id"
-  end
-
-  create_table "category_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id", null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations", null: false
-    t.index ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true
-    t.index ["descendant_id"], name: "category_desc_idx"
-  end
-
   create_table "cities", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at"
@@ -131,17 +74,18 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.string "local_number_2", limit: 32
     t.string "fax_area_code", limit: 6
     t.string "fax_number", limit: 32
-    t.string "first_name", limit: 255
-    t.string "last_name", limit: 255
-    t.string "operational_name", limit: 255
-    t.string "academic_title", limit: 255
-    t.string "gender", limit: 255
-    t.string "responsibility", limit: 255
+    t.string "first_name"
+    t.string "last_name"
+    t.string "operational_name"
+    t.string "academic_title"
+    t.string "gender"
+    t.string "responsibility"
     t.integer "email_id"
     t.boolean "spoc", default: false, null: false
     t.string "position"
     t.string "street", limit: 255
     t.string "zip_and_city", limit: 255
+    t.string "label"
     t.index ["email_id"], name: "index_contact_people_on_email_id"
     t.index ["organization_id"], name: "index_contact_people_on_organization_id"
   end
@@ -165,8 +109,8 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "email", limit: 255
+    t.string "name"
+    t.string "email"
     t.text "message"
     t.string "url", limit: 1000
     t.datetime "created_at"
@@ -214,18 +158,18 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.index ["section_id"], name: "index_divisions_on_section_id"
   end
 
-  create_table "divisions_presumed_categories", id: false, force: :cascade do |t|
-    t.integer "division_id", null: false
-    t.integer "category_id", null: false
-    t.index ["category_id"], name: "index_divisions_presumed_categories_on_category_id"
-    t.index ["division_id"], name: "index_divisions_presumed_categories_on_division_id"
-  end
-
-  create_table "divisions_presumed_solution_categories", id: false, force: :cascade do |t|
+  create_table "divisions_presumed_solution_categories", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "solution_category_id", null: false
     t.index ["division_id"], name: "index_divisions_presumed_solution_categories_on_division_id"
     t.index ["solution_category_id"], name: "index_presumed_s_categories_on_s_category"
+  end
+
+  create_table "divisions_presumed_tags", force: :cascade do |t|
+    t.integer "division_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["division_id"], name: "index_divisions_presumed_tags_on_division_id"
+    t.index ["tag_id"], name: "index_divisions_presumed_tags_on_tag_id"
   end
 
   create_table "emails", id: :serial, force: :cascade do |t|
@@ -237,29 +181,29 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "federal_states", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
+    t.string "name", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "filters", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
+    t.string "name", null: false
     t.string "identifier", limit: 35, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "type", limit: 255, null: false
+    t.string "type", null: false
     t.integer "section_id"
     t.index ["section_id"], name: "index_filters_on_section_id"
   end
 
-  create_table "filters_offers", id: false, force: :cascade do |t|
+  create_table "filters_offers", force: :cascade do |t|
     t.integer "filter_id", null: false
     t.integer "offer_id", null: false
     t.index ["filter_id"], name: "index_filters_offers_on_filter_id"
     t.index ["offer_id"], name: "index_filters_offers_on_offer_id"
   end
 
-  create_table "filters_organizations", id: false, force: :cascade do |t|
+  create_table "filters_organizations", force: :cascade do |t|
     t.integer "filter_id", null: false
     t.integer "organization_id", null: false
     t.index ["filter_id"], name: "index_filters_organizations_on_filter_id"
@@ -282,9 +226,9 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
-    t.string "street", limit: 255, null: false
+    t.string "street", null: false
     t.text "addition"
-    t.string "zip", limit: 255, null: false
+    t.string "zip", null: false
     t.boolean "hq"
     t.float "latitude"
     t.float "longitude"
@@ -292,8 +236,8 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.integer "federal_state_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "name", limit: 255
-    t.string "label", limit: 255, null: false
+    t.string "name"
+    t.string "label", null: false
     t.boolean "visible", default: true
     t.boolean "in_germany", default: true
     t.integer "city_id"
@@ -331,19 +275,13 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.index ["offer_id"], name: "index_organization_translations_on_offer_id"
   end
 
-  create_table "notes", id: :serial, force: :cascade do |t|
-    t.text "text", null: false
-    t.string "topic", limit: 32
-    t.integer "user_id", null: false
-    t.integer "notable_id", null: false
-    t.string "notable_type", limit: 64, null: false
-    t.integer "referencable_id"
-    t.string "referencable_type", limit: 64
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["notable_id", "notable_type"], name: "index_notes_on_notable_id_and_notable_type"
-    t.index ["referencable_id", "referencable_type"], name: "index_notes_on_referencable_id_and_referencable_type"
-    t.index ["user_id"], name: "index_notes_on_user_id"
+  create_table "offer_divisions", force: :cascade do |t|
+    t.integer "offer_id", null: false
+    t.integer "division_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_offer_divisions_on_division_id"
+    t.index ["offer_id"], name: "index_offer_divisions_on_offer_id"
   end
 
   create_table "offer_mailings", id: :serial, force: :cascade do |t|
@@ -375,8 +313,8 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.string "name", limit: 120, null: false
     t.text "description", null: false
     t.text "old_next_steps"
-    t.string "encounter", limit: 255
-    t.string "slug", limit: 255
+    t.string "encounter"
+    t.string "slug"
     t.integer "location_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -389,13 +327,12 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.text "description_html"
     t.text "next_steps_html"
     t.text "opening_specification_html"
-    t.string "target_audience", limit: 255
+    t.string "target_audience"
     t.string "aasm_state", limit: 32
     t.boolean "hide_contact_people", default: false
     t.string "code_word", limit: 140
     t.integer "solution_category_id"
     t.integer "logic_version_id"
-    t.integer "split_base_id"
     t.boolean "all_inclusive", default: false
     t.date "starts_at"
     t.datetime "completed_at"
@@ -410,10 +347,9 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.index ["logic_version_id"], name: "index_offers_on_logic_version_id"
     t.index ["section_id"], name: "index_offers_on_section_id"
     t.index ["solution_category_id"], name: "index_offers_on_solution_category_id"
-    t.index ["split_base_id"], name: "index_offers_on_split_base_id"
   end
 
-  create_table "offers_openings", id: false, force: :cascade do |t|
+  create_table "offers_openings", force: :cascade do |t|
     t.integer "offer_id", null: false
     t.integer "opening_id", null: false
     t.index ["offer_id"], name: "index_offers_openings_on_offer_id"
@@ -422,12 +358,12 @@ ActiveRecord::Schema.define(version: 20171012135856) do
 
   create_table "openings", id: :serial, force: :cascade do |t|
     t.string "day", limit: 3, null: false
-    t.time "open"
-    t.time "close"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "sort_value"
-    t.string "name", limit: 255, null: false
+    t.string "name", null: false
+    t.string "open"
+    t.string "close"
     t.index ["day"], name: "index_openings_on_day"
     t.index ["name"], name: "index_openings_on_name"
   end
@@ -452,12 +388,12 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "organizations", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
+    t.string "name", null: false
     t.text "description"
     t.text "legal_form"
     t.boolean "charitable", default: false
     t.integer "founded"
-    t.string "slug", limit: 255
+    t.string "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "approved_at"
@@ -480,7 +416,7 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "search_locations", id: :serial, force: :cascade do |t|
-    t.string "query", limit: 255, null: false
+    t.string "query", null: false
     t.float "latitude", null: false
     t.float "longitude", null: false
     t.datetime "created_at"
@@ -498,7 +434,7 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "sitemaps", id: :serial, force: :cascade do |t|
-    t.string "path", limit: 255, null: false
+    t.string "path", null: false
     t.text "content"
     t.index ["path"], name: "index_sitemaps_on_path", unique: true
   end
@@ -518,37 +454,14 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.index ["descendant_id"], name: "solution_category_desc_idx"
   end
 
-  create_table "split_base_divisions", id: :serial, force: :cascade do |t|
-    t.integer "split_base_id", null: false
-    t.integer "division_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["division_id"], name: "index_split_base_divisions_on_division_id"
-    t.index ["split_base_id"], name: "index_split_base_divisions_on_split_base_id"
-  end
-
-  create_table "split_bases", id: :serial, force: :cascade do |t|
-    t.string "title", null: false
-    t.string "clarat_addition"
-    t.text "comments"
-    t.integer "organization_id"
-    t.integer "solution_category_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "code_word", limit: 140
-    t.string "label"
-    t.index ["organization_id"], name: "index_split_bases_on_organization_id"
-    t.index ["solution_category_id"], name: "index_split_bases_on_solution_category_id"
-  end
-
-  create_table "statistic_chart_goals", id: false, force: :cascade do |t|
+  create_table "statistic_chart_goals", force: :cascade do |t|
     t.integer "statistic_chart_id", null: false
     t.integer "statistic_goal_id", null: false
     t.index ["statistic_chart_id"], name: "index_statistic_chart_goals_on_statistic_chart_id"
     t.index ["statistic_goal_id"], name: "index_statistic_chart_goals_on_statistic_goal_id"
   end
 
-  create_table "statistic_chart_transitions", id: false, force: :cascade do |t|
+  create_table "statistic_chart_transitions", force: :cascade do |t|
     t.integer "statistic_chart_id", null: false
     t.integer "statistic_transition_id", null: false
     t.index ["statistic_chart_id"], name: "index_statistic_chart_transitions_on_statistic_chart_id"
@@ -590,13 +503,13 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
-    t.string "email", limit: 255
+    t.string "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name_de", limit: 255
+    t.string "name_de"
     t.text "keywords_de"
     t.text "keywords_en"
     t.text "keywords_ar"
@@ -614,7 +527,7 @@ ActiveRecord::Schema.define(version: 20171012135856) do
     t.text "explanations_fa"
   end
 
-  create_table "tags_offers", id: false, force: :cascade do |t|
+  create_table "tags_offers", force: :cascade do |t|
     t.integer "tag_id", null: false
     t.integer "offer_id", null: false
     t.index ["offer_id"], name: "index_tags_offers_on_offer_id"
@@ -666,8 +579,8 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "update_requests", id: :serial, force: :cascade do |t|
-    t.string "search_location", limit: 255, null: false
-    t.string "email", limit: 255, null: false
+    t.string "search_location", null: false
+    t.string "email", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -698,25 +611,25 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "email", limit: 255, default: "", null: false
-    t.string "encrypted_password", limit: 255, default: "", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "role", limit: 255, default: "standard"
+    t.string "role", default: "standard"
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
-    t.string "provider", limit: 255
-    t.string "uid", limit: 255
-    t.string "name", limit: 255
+    t.string "provider"
+    t.string "uid"
+    t.string "name"
     t.boolean "active", default: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   create_table "versions", id: :serial, force: :cascade do |t|
-    t.string "item_type", limit: 255, null: false
+    t.string "item_type", null: false
     t.integer "item_id", null: false
-    t.string "event", limit: 255, null: false
-    t.string "whodunnit", limit: 255
+    t.string "event", null: false
+    t.string "whodunnit"
     t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
@@ -724,8 +637,8 @@ ActiveRecord::Schema.define(version: 20171012135856) do
   end
 
   create_table "websites", id: :serial, force: :cascade do |t|
-    t.string "host", limit: 255, null: false
-    t.string "url", limit: 255, null: false
+    t.string "host", null: false
+    t.string "url", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "unreachable_count", default: 0, null: false

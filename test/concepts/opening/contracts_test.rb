@@ -9,8 +9,8 @@ class OpeningContractsTest < ActiveSupport::TestCase
   describe 'Create' do
     let(:opening) do
       Opening.create!(
-        name: 'mon 00:00-01:00', day: 'mon', open: Time.zone.now,
-        close: Time.zone.now + 1.hour
+        name: 'mon 00:00-01:00', day: 'mon', open: '01:00',
+        close: '02:00'
       )
     end
     let(:subject_opening) { Opening.new }
@@ -22,7 +22,7 @@ class OpeningContractsTest < ActiveSupport::TestCase
       end
 
       describe 'when close is set' do
-        before { subject_opening.close = Time.zone.now }
+        before { subject_opening.close = '12:00' }
         it { must_validate_presence_of :open }
       end
 

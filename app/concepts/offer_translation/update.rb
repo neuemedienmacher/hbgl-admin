@@ -16,6 +16,7 @@ class OfferTranslation::Update < Trailblazer::Operation
   step :create_new_assignment_if_assignable_should_be_reassigned!
   step :create_optional_assignment_for_organization_translation!
   step :create_new_assignment_if_save_and_close_clicked!
+  step ::Lib::Macros::Live::SendChanges()
 
   def reindex_offer(*, model:, **)
     model.offer.reload.algolia_index!

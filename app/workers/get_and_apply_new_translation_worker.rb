@@ -33,10 +33,8 @@ class GetAndApplyNewTranslationWorker
     end.first
 
     # reindex affected offers if category translation was updated
-    if updated_model.class == Category
-      updated_model.self_and_descendants.find_each.map do |category|
-        category.offers.visible_in_frontend.each(&:index!)
-      end
+    if updated_model.class == Tag
+      updated_model.offers.visible_in_frontend.each(&:index!)
     end
   end
 

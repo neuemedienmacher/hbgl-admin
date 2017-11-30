@@ -85,7 +85,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         pluralize(model),
         entryCountGrabberParams(aasm_state, section, cityId),
         'lastData',
-        entryCountGrabberTransformer(aasm_state, section, cityId)
+        { transformer:
+          entryCountGrabberTransformer(aasm_state, section, cityId)
+        }
       )
     )
   }
@@ -109,7 +111,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     loadStatesAndSections() {
       dispatch(
         loadAjaxData(
-          `states/${model}`, {}, stateProps.stateKey, () => ({})
+          `states/${model}`, {}, stateProps.stateKey,
+          {
+            transformer: () => ({})
+          }
         )
       ),
       dispatch(

@@ -58,6 +58,7 @@
     "lodash": "^4.15.0",
     "mirror-creator": "0.0.1",
     "moment": "^2.13.0",
+    "js-uuid": "^0.0.6",
     "normalizr": "^2.2.1",
     "querystring": "^0.2.0",
     "react": "^15.4.2",

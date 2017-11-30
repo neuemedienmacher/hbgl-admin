@@ -15,6 +15,36 @@ class ContactPersonCreateTest < ActiveSupport::TestCase
     }
   end
 
+  describe 'methods' do
+    describe '#label' do
+      it 'should show ID, name and organization name and phone number' do
+        email = Email.create!(address: 'bla@blub.de')
+        params = {
+          first_name: 'John',
+          last_name: 'Doe',
+          position: 'superior',
+          area_code_1: '123',
+          local_number_1: '456767',
+          email: { id: email.id },
+          organization: orga
+        }
+        result = operation_must_work ::ContactPerson::Create, params
+        result['model'].label.must_equal "Chef: ##{result['model'].id} John"\
+          ' Doe (foobar) bla@blub.de 123 456767'
+      end
+
+      it 'should show ID, name and organization name and email' do
+        params = {
+          operational_name: 'Headquarters',
+          organization: orga
+        }
+        result = operation_must_work ::ContactPerson::Create, params
+        result['model'].label.must_equal "##{result['model'].id} Headquarters"\
+          ' (foobar) '
+      end
+    end
+  end
+
   describe '::ContactPerson::Create' do
     it 'must create a ContactPerson given valid data' do
       operation_must_work ::ContactPerson::Create, basic_params

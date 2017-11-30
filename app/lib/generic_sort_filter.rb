@@ -72,7 +72,8 @@ module GenericSortFilter
     params[:filters]&.each do |filter, _value|
       next unless filter['.']
       split_filter = filter.split('.')
-      next if referring_to_own_table?(query, split_filter.first) # dont join self
+      # dont join self
+      next if referring_to_own_table?(query, split_filter.first)
       query = join! query, split_filter[0..-2] # [-1] is filtered attribute
     end
     query
@@ -84,7 +85,8 @@ module GenericSortFilter
 
   def self.join_string_or_hash(request_array)
     if request_array.length > 1
-      { request_array[0] => request_array[1] } # assuming depth of 2, can't yet handle more
+      # assuming depth of 2, can't yet handle more
+      { request_array[0] => request_array[1] }
     else
       request_array[0]
     end
@@ -189,7 +191,7 @@ module GenericSortFilter
   end
 
   def self.cast_if_needed(filter_string, operator, value, new_value)
-    if ['LIKE', 'NOT LIKE'].include?(operator)
+    if ['ILIKE', 'NOT LIKE'].include?(operator)
       'CAST(' + filter_string + ' AS TEXT) ' + operator + " '%" + value + "%'"
     else
       puts 'DEBUG =========> ' + filter_string.inspect
@@ -229,7 +231,11 @@ module GenericSortFilter
 
   # retrives the given operator or falls back to '='. Special case for 'nil'
   def self.process_operator(operators, filter, value)
-    operator = operators && operators[filter] && operators[filter] != '...' ? operators[filter] : '='
+    operator = if operators && operators[filter] && operators[filter] != '...'
+                 operators[filter]
+               else
+                 '='
+               end
     if nullable_value?(value)
       operator = operator == '=' ? 'IS' : 'IS NOT'
     end
@@ -264,8 +270,6 @@ module GenericSortFilter
     if column_data && !nullable_value?(value) && !value.empty?
       if column_data.type == :datetime
         return parse_datetime(value)
-      elsif column_data.type == :time
-        return parse_time(value)
       end
     end
     value
@@ -274,10 +278,6 @@ module GenericSortFilter
   def self.parse_datetime(value)
     # TODO: does this work in DST?
     Time.zone.parse(value).to_datetime.to_s
-  end
-
-  def self.parse_time(value)
-    Time.zone.parse('01.01.2000 ' + value).to_s(:db)
   end
 
   def self.optional_query_addition(operator, value, filter_key)

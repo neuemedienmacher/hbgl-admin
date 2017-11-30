@@ -12,19 +12,25 @@ module API::V1
       property :data, getter: ->(r) do
         events = []
         if r[:represented].respond_to?(:aasm)
-          events = r[:represented].aasm.events.select do |event|
-            r[:represented].send("may_#{event.name}?") &&
-              event.name != :mark_as_done
-          end.map(&:name)
+          events = r[:represented].aasm.events.map do |event|
+            {
+              name: event.name,
+              possible: r[:represented].send("may_#{event.name}?") &&
+                event.name != :mark_as_done,
+              failing_guards: event.instance_variable_get(:@guards)
+                                   .reject do |guard|
+                                     r[:represented].send(guard)
+                                   end
+            }
+          end
         elsif r[:represented].is_a?(::Division)
-          events =
-            if r[:represented].done
-              [:mark_as_not_done]
-            elsif !r[:represented].done && r[:represented].organization.approved?
-              [:mark_as_done]
-            else
-              []
-            end
+          events = %i[mark_as_done mark_as_not_done].map do |event|
+            {
+              name: event,
+              possible: r[:represented].event_possible?(event),
+              failing_guards: []
+            }
+          end
         end
         events
       end

@@ -48,11 +48,9 @@ function parseUrlParams(params) {
 }
 
 // INFO: optional nextModel is required for different transformer (field_sets)
-export default function loadAjaxData(
-  basePath, params, key, transformer = transformJsonApi, nextModel = undefined,
-  callback = ()=>{}
-) {
-  console.log('loadAjaxData params:', params)
+export default function loadAjaxData(basePath, params, key, options = {}) {
+  const { nextModel, onSuccess, onError } = options
+  const transformer = options.transformer || transformJsonApi
   const path = `/api/v1/${basePath}?${parseUrlParams(params)}`
   console.log('loadAjaxData path:', path)
   return function(dispatch) {
@@ -66,6 +64,7 @@ export default function loadAjaxData(
         const { status, statusText } = response
         if (status >= 400) {
           dispatch(loadAjaxDataFailure(response, key))
+          onError && onError(response)
           throw new Error(`Load Ajax Data Error ${status}: ${statusText}`)
         }
         return response.json()
@@ -73,7 +72,7 @@ export default function loadAjaxData(
     ).then(json => {
       dispatch(loadAjaxDataSuccess(json, key))
       dispatch(addEntities(transformer(json, nextModel)))
-      callback()
+      onSuccess && onSuccess()
     })
   }
 }

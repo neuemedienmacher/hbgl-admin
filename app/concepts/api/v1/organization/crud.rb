@@ -15,7 +15,9 @@ module API::V1
 
       def assign_to_system_via_button(options, model:, params:, **)
         meta = params['meta'] && params['meta']['commit']
-        if meta.to_s == 'toSystem' && %w[approved all_done].include?(model.aasm_state)
+        if meta.to_s == 'toSystem' && %w[approved all_done].include?(
+          model.aasm_state
+        )
           ::Assignment::CreateBySystem.(
             {}, assignable: model, last_acting_user: options['current_user']
           ).success?

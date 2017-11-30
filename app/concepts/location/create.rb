@@ -13,13 +13,19 @@ class Location::Create < Trailblazer::Operation
   }
   step :generate_label
   step Contract::Persist()
+  step :geocode!
 
   def generate_label(options, model:, **)
     contract = options['contract.default']
     # NOTE: only works of inline creation of location in organization
     orga_or_contract =
       contract.organization || options['nesting_operation']['contract.default']
-    model.label = build_label(orga_or_contract.name, contract)
+    model.label = build_label(orga_or_contract.name, contract).first(255)
+  end
+
+  def geocode!(_, model:, **)
+    GeocodingWorker.perform_async model.id
+    true
   end
 
   private

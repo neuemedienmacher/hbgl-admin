@@ -10,10 +10,6 @@ module ReformedValidationHack
     before_validation(on: :update) { _rvhack_validate(:update) }
 
     def _rvhack_validate event
-      # run other callbacks before validations
-      @@before_hacks[self.class.name]&.each do |func|
-        self.send(func)
-      end
       contract = _rvhacky_contract_for(event).new(self)
       result = contract.validate(attributes)
       @errors = contract.errors
@@ -26,14 +22,6 @@ module ReformedValidationHack
       else
         self.class::Contracts::Create
       end
-    end
-
-    def self.before_hack function
-      # rubocop:disable Style/ClassVars
-      @@before_hacks ||= {}
-      @@before_hacks[self.name] ||= []
-      @@before_hacks[self.name] << function
-      # rubocop:enable Style/ClassVars
     end
 
     # Epic Hax: don't use model validations for operation persisting

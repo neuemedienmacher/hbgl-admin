@@ -16,4 +16,8 @@ module Website::Contracts
     validates_uniqueness_of :url
     validates :unreachable_count, presence: true
   end
+
+  class Update < Create
+    property :id, writeable: false
+  end
 end

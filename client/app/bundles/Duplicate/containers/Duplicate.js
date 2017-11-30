@@ -8,9 +8,7 @@ import { singularize } from '../../../lib/inflection'
 import Duplicate from '../components/Duplicate'
 
 const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.params.id
-  const pathname = ownProps.location.pathname
-  const model = pathname.split('/')[1]
+  const { model, id } = ownProps
   const heading = `${singularize(model)} #${id} duplizieren`
 
   return {
@@ -50,6 +48,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         }
       }
 
+      // customize fields of duplicated object
+      duplicationCustomizations(ownProps.model, entity)
+
       return seedData
     },
 
@@ -70,13 +71,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-// const duplicationCustomizations = (model, entity) => { // unused
-//   switch(model) {
-//   case 'offer':
-//     entity['expires-at'] = DateTime.now + 1.year // ...
-//     break
-//   }
-// }
+const duplicationCustomizations = (model, entity) => {
+  switch(model) {
+  case 'offers':
+    // entity['expires-at'] = DateTime.now + 1.year // ...
+    entity['aasm-state'] = 'initialized'
+    break
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
   Duplicate

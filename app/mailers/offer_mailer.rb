@@ -38,7 +38,8 @@ class OfferMailer < ActionMailer::Base
     @utm_tagging_suffix = generate_utm_suffix usable_offers, 'AO'
     @vague_title = email.vague_contact_title?
     @mainly_portal = mainly_portal_offers? usable_offers
-    headers['X-SMTPAPI'] = { 'category': ['inform offer', @section_suffix] }.to_json
+    headers['X-SMTPAPI'] =
+      { 'category': ['inform offer', @section_suffix] }.to_json
     send_emails email, usable_offers, :inform, t(".subject.#{@section_suffix}")
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -51,7 +52,9 @@ class OfferMailer < ActionMailer::Base
   def inform_organization_context email
     # okay, because all contact_persons belong to the same organization
     orga = email.contact_people.first.organization
-    offers = orga.offers.visible_in_frontend.select(&:remote_or_belongs_to_informable_city?)
+    offers = orga.offers.visible_in_frontend.select(
+      &:remote_or_belongs_to_informable_city?
+    )
     @contact_person = email.contact_people.first
     @vague_title = email.vague_contact_title?
     @mainly_portal = mainly_portal_offers?(offers)
@@ -66,7 +69,7 @@ class OfferMailer < ActionMailer::Base
   # Inform email addresses about new offers after they have subscribed.
   # A lot of variables have to be prepared for the email, so we are OK with
   # a slightly higher assignment branch condition size and disable rubocop
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def newly_approved_offers email, offers
     @contact_person = email.contact_people.first
     @offer = offers.count == 1 ? offers.first : nil
@@ -76,12 +79,15 @@ class OfferMailer < ActionMailer::Base
     @vague_title = email.vague_contact_title?
     @overview_href_suffix = "/emails/#{email.id}/angebote"
     @utm_tagging_suffix = generate_utm_suffix offers, 'AO', 'FU'
-    headers['X-SMTPAPI'] = { category: ['newly approved offer', @section_suffix] }.to_json
+    headers['X-SMTPAPI'] =
+      { category: ['newly approved offer', @section_suffix] }.to_json
     send_emails email, offers, :newly_approved,
                 t('.subject', count: offers.count,
-                              name: t(".clarat_name_subject.#{@section_suffix}"))
+                              name: t(
+                                ".clarat_name_subject.#{@section_suffix}"
+                              ))
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   private
 
@@ -105,12 +111,14 @@ class OfferMailer < ActionMailer::Base
   end
 
   def get_sub_or_unsub_href email, sub_or_unsub
-    "http://www.clarat.org/emails/#{email.id}/#{sub_or_unsub}/#{email.security_code}"
+    'http://www.clarat.org/emails/'\
+      "#{email.id}/#{sub_or_unsub}/#{email.security_code}"
   end
 
   # creates a link for a single offer with bias to refugees section
   def get_offer_href_for_single_offer offer, section_suffix
-    "http://www.clarat.org/#{section_suffix.split('_').last}/angebote/#{offer.slug || offer.id.to_s}"
+    'http://www.clarat.org/'\
+      "#{section_suffix.split('_').last}/angebote/#{offer.slug || offer.id.to_s}"
   end
 
   # this method retrieves max_count offers out of offers_hash, distributing the
@@ -165,7 +173,7 @@ class OfferMailer < ActionMailer::Base
         offers.count < 5 ? 'EP' : 'FP'
       end
     '?utm_source=Sendgrid&utm_medium=E-Mail&utm_campaign='\
-    "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
+      "#{first_char_of_sections}_#{receiver_type}_#{offers_text}_#{mailing_type}"
   end
 end
 # rubocop:enable Metrics/ClassLength

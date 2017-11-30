@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { singularize } from '../../../lib/inflection'
+import { handleError } from '../../../lib/ajaxRedirectHandler'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import Show from '../components/Show'
 
@@ -14,9 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({ dispatch })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
@@ -38,10 +37,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(
         loadAjaxData(
-          'field_set/' + singularModel, {}, 'field-set', transformResponse,
-          nextModel
+          'field_set/' + singularModel, {}, 'field-set', {
+            transformer: transformResponse, nextModel
+          }
         )
       )
+
       // load data of current model_instance
       dispatchProps.dispatch(
         loadAjaxData(`${nextModel}/${nextID}`, '', nextModel)

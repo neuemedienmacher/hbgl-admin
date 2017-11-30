@@ -8,10 +8,10 @@ module Offer::SearchAlgolia
   included do
     include AlgoliaSearch
 
-    algoliasearch do
+    algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
       I18n.available_locales.each do |locale|
         index = %w[
-          name code_word tags tag_keywords tag_explanations description definitions
+          name code_word tags tag_keywords description definitions
           organization_names solution_category trait_filter language_filter
         ]
         attributes = %i[organization_count location_address location_name
@@ -32,12 +32,12 @@ module Offer::SearchAlgolia
           attribute(:lang) { lang(locale) }
           attribute(:definitions) { definitions_string(locale) }
           attribute(:tags) { tag_names(locale) }
-          attribute(:_tags) { tag_names(locale) } # NOTE _tags is algolia-intern (not redundant with tags)
+          # NOTE _tags is algolia-intern (not redundant with tags)
+          attribute(:_tags) { tag_names(locale) }
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
-          attribute(:tag_explanations) { tag_explanations(locale) }
-          attribute(:solution_category) { solution_category.name }
+          attribute(:solution_category) { solution_category&.name }
           attribute(:trait_filter) { trait_filters.map(&:name) }
           attribute(:language_filter) { language_filters.map(&:name) }
           add_attribute(*attributes)
@@ -60,8 +60,7 @@ module Offer::SearchAlgolia
           attribute(:stamps_string) { stamps_string(locale) }
           attribute(:singular_stamp) { singular_stamp(locale) }
           attribute(:tag_keywords) { tag_keywords(locale) }
-          attribute(:tag_explanations) { tag_explanations(locale) }
-          attribute(:solution_category) { solution_category.name }
+          attribute(:solution_category) { solution_category&.name }
           attribute(:trait_filter) { trait_filters.map(&:name) }
           attribute(:language_filter) { language_filters.map(&:name) }
           add_attribute(*attributes)

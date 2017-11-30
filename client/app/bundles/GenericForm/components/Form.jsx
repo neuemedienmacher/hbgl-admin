@@ -9,17 +9,13 @@ import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'
 import AssignableContainer from '../../Assignable/containers/AssignableContainer'
 
 export default class GenericFormForm extends React.Component {
-  static contextTypes = {
-    disableUiElements: PropTypes.bool
-  }
-
   render() {
     const {
       seedData, action, method, formId, formObjectClass, submodelPath,
       afterResponse, model, nestingModel, instance, loadData,
       isAssignable, buttonData, afterRequireValid, afterSaveActions,
       beforeSubmit, splitButtonMenuItemOnclick, onSubmitButtonClick,
-      afterError, formStateDidMount, editId
+      afterError, formStateDidMount, id, errorMessages
     } = this.props
 
     return(
@@ -37,7 +33,7 @@ export default class GenericFormForm extends React.Component {
           <FormInputs
             model={model} formObjectClass={formObjectClass} formId={formId}
             nestingModel={nestingModel} submodelPath={submodelPath}
-            id={editId}
+            id={id}
           />
           <ReadOnlyProperties
             instance={instance} formObjectClass={formObjectClass}
@@ -46,6 +42,7 @@ export default class GenericFormForm extends React.Component {
             formId, nestingModel, buttonData, afterSaveActions,
             splitButtonMenuItemOnclick, onSubmitButtonClick
           )}
+          {this.renderNotice(errorMessages)}
         </div>), isAssignable, model, instance, loadData
       )
     )
@@ -92,5 +89,17 @@ export default class GenericFormForm extends React.Component {
         ))}
       </div>
     )
+  }
+
+  renderNotice(errorMessages) {
+    if (errorMessages.length > 0) {
+      return(
+        <div className='missing-approval'>
+          {errorMessages.map(function(e) {
+            return e + ' '
+          })}
+        </div>
+      )
+    }
   }
 }

@@ -47,7 +47,7 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', { 'split-base': ['label'] }, 'aasm-state', 'created-by',
+        'id', 'name', { 'divisions': ['label'] }, 'aasm-state', 'created-by',
         'expires-at', 'logic-version-id', { section: ['name'] }
       ],
       general_actions: [
@@ -159,6 +159,43 @@ export default {
       ]
     },
 
+    'logic-versions': {
+      fields: [
+        'id', 'name', 'version'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit', 'delete'
+      ]
+    },
+
+    areas: {
+      fields: [
+        'id', 'name', 'minlat', 'maxlat', 'minlong', 'maxlong'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit', 'delete'
+      ]
+    },
+
+    'next-steps': {
+      fields: [
+        'id', 'text-de', 'text-en', 'text-ar', 'text-fr', 'text-pl',
+        'text-tr', 'text-ru', 'text-fa'
+      ],
+      general_actions: [
+        'index', 'export', 'new'
+      ],
+      member_actions: [
+        'show', 'edit', 'delete'
+      ]
+    },
+
     'solution-categories': {
       association_model_mapping: { parent: 'solution-categories' },
       fields: [
@@ -179,6 +216,18 @@ export default {
       fields: [
         'id', 'name', 'email', { 'user-teams': ['name'] },
         { 'observed-user-teams': ['name'] }
+      ],
+      general_actions: [
+        'index'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'search-locations': {
+      fields: [
+        'id', 'query', 'latitude', 'longitude', 'created-at', 'updated-at'
       ],
       general_actions: [
         'index'
@@ -212,7 +261,7 @@ export default {
     divisions: {
       association_model_mapping: {
         'current-assignment': 'assignments', receiver: 'users',
-        'receiver-team': 'user-teams', 'presumed-categories': 'categories',
+        'receiver-team': 'user-teams', 'presumed-tags': 'tags',
         'presumed-solution-categories': 'solution-categories'
       },
       fields: [
@@ -283,18 +332,6 @@ export default {
       ],
     },
 
-    categories: {
-      fields: [
-        'id', 'name-de', 'sort-order', 'visible', 'parent-id'
-      ],
-      general_actions: [
-        'index'
-      ],
-      member_actions: [
-        'show', 'delete'
-      ]
-    },
-
     websites: {
       fields: [
         'id', 'host', 'url'
@@ -303,20 +340,7 @@ export default {
         'index'
       ],
       member_actions: [
-        'show', 'open_url', 'delete'
-      ]
-    },
-
-    'split-bases': {
-      fields: [
-        'id', 'title', 'clarat-addition', 'comments',
-        { divisions: ['label'] }, { 'solution-category': ['name'] }
-      ],
-      general_actions: [
-        'index', 'export', 'new'
-      ],
-      member_actions: [
-        'show', 'edit', 'delete'
+        'show', 'open_url', 'delete', 'edit'
       ]
     },
 
@@ -353,7 +377,7 @@ export default {
     },
   },
 
-  OPERATORS: ['=', '!=', '<', '>', '...', 'LIKE', 'NOT LIKE'],
+  OPERATORS: ['=', '!=', '<', '>', '...', 'ILIKE', 'NOT LIKE'],
   SECTIONS: ['family', 'refugees'],
   AFTER_SAVE_ACTIONS: {
     'to_edit': 'Bei dieser Instanz bleiben',

@@ -7,31 +7,6 @@ describe ContactPerson do
 
   subject { contact_person }
 
-  describe 'methods' do
-    describe '#label' do
-      it 'should show ID, name and organization name' do
-        contact_person.assign_attributes id: 1, first_name: 'John'
-        contact_person.assign_attributes id: 1, last_name: 'Doe'
-        contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.label.must_equal '#1 John Doe (ABC)'
-      end
-
-      it 'should show ID, name and organization name' do
-        contact_person.assign_attributes id: 1, operational_name: 'Headquarters'
-        contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.label.must_equal '#1 Headquarters (ABC)'
-      end
-
-      it 'should show ID, name, position and organization name' do
-        contact_person.assign_attributes id: 1, first_name: 'John'
-        contact_person.assign_attributes id: 1, last_name: 'Doe'
-        contact_person.assign_attributes id: 1, position: 'superior'
-        contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.label.must_equal 'Chef: #1 John Doe (ABC)'
-      end
-    end
-  end
-
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of(:organization) }
@@ -132,7 +107,8 @@ describe ContactPerson do
         new_cont.responsibility_ar.must_equal 'GET READY FOR CANADA'
         # changing untranslated field => translations must stay the same
         new_cont.reload.responsibility_ar.must_equal 'GET READY FOR CANADA'
-        new_cont.responsibility = 'changing responsibility, should update translation'
+        new_cont.responsibility =
+          'changing responsibility, should update translation'
         new_cont.save!
         new_cont.run_callbacks(:commit) # Hotfix: force commit callback
         new_cont.reload.responsibility_ar.must_equal 'CHANGED'

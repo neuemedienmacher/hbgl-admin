@@ -18,7 +18,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     result.success?
   end
 
-  def collect_initial_params(options, assignable:, last_acting_user:, **)
+  def collect_initial_params(options, assignable:, last_acting_user:,
+                             message: nil, **)
     options['params'] = {
       assignable_id: assignable.id,
       assignable_type: assignable.class.name,
@@ -26,25 +27,36 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       creator_team_id: nil,
       receiver_id: receiver_id(assignable, last_acting_user),
       receiver_team_id: receiver_team_id(assignable, last_acting_user),
-      message: message_for_new_assignment(assignable, last_acting_user),
+      message: message || message_for_new_assignment(assignable,
+                                                     last_acting_user),
       created_by_system: true,
       topic: topic(assignable)
     }
   end
 
   # --- Utils describing default logic --- #
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength,
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def creator(assignable, last_acting_user)
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       assignable_twin = ::Assignable::Twin.new(assignable)
-      assignable_twin.should_be_created_by_system? ? ::User.system_user : last_acting_user
+      if assignable_twin.should_be_created_by_system?
+        ::User.system_user
+      else
+        last_acting_user
+      end
     when 'ContactPersonTranslation'
       ::User.system_user
     when 'Organization'
-      assignable.initialized? && assignable.assignments.any? ? ::User.system_user : last_acting_user
+      if assignable.initialized? && assignable.assignments.any?
+        ::User.system_user
+      else
+        last_acting_user
+      end
     else
-      last_acting_user # NOTE: this is not used yet - rethink when other models become assignable!
+      last_acting_user # NOTE: this is not used yet -
+      # rethink when other models become assignable!
     end
   end
 
@@ -67,8 +79,11 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       else
         assignable.aasm_state != 'completed' ? ::User.system_user.id : nil
       end
+    when 'Website' # crawler
+      nil
     else
-      last_acting_user.id # NOTE: this is not used yet - rethink when other models become assignable!
+      last_acting_user.id # NOTE: this is not used yet -
+      # rethink when other models become assignable!
     end
   end
 
@@ -83,6 +98,9 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       if assignable.done == false
         AssignmentDefaults.screening_team
       end
+    when 'Website' # website crawler errors
+      AssignmentDefaults.screening_team
+
       # when 'Organization'
       #   if assignable.completed?
       #     AssignmentDefaults.section_teams[
@@ -97,6 +115,8 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     case assignable.class.to_s
     when 'OfferTranslation', 'OrganizationTranslation'
       'translation'
+    when 'Website'
+      'crawler'
     # when 'Organization'
     #   if assignable.aasm_state == 'completed'
     #     'approval'
@@ -113,14 +133,19 @@ class Assignment::CreateBySystem < Trailblazer::Operation
     when 'OfferTranslation', 'OrganizationTranslation'
       translation_twin = ::Translation::Twin.new(assignable)
       if translation_twin.should_be_reviewed_by_translator?
-        reason = assignable.possibly_outdated? ? 'possibly_outdated' : 'GoogleTranslate'
+        reason = if assignable.possibly_outdated?
+                   'possibly_outdated'
+                 else
+                   'GoogleTranslate'
+                 end
         "(#{last_acting_user.name}) #{reason}"
       else
         'Managed by system'
       end
     when 'Division'
       if assignable.done == false
-        "Bitte die #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
+        'Bitte die'\
+          " #{assignable.section.identifier.capitalize}-Angebote aufnehmen"
       else
         'Managed by system'
       end
@@ -136,6 +161,7 @@ class Assignment::CreateBySystem < Trailblazer::Operation
       'Assigned by system'
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength,
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 # rubocop:enable Metrics/ClassLength

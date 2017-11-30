@@ -13,6 +13,8 @@ class Assignment::Create < Trailblazer::Operation
   step Contract::Persist()
   step :reset_translation_if_returned_to_system_user
   step :create_optional_assignment_for_organization!
+  step ::Lib::Macros::Live::SendCreation()
+  step :send_current_assignment_changes
 
   # def decorate_assignable(options, model:, **)
   #   options['model'] = ::Assignable::Twin.new(model)
@@ -36,12 +38,22 @@ class Assignment::Create < Trailblazer::Operation
   def reset_translation_if_returned_to_system_user(_options, model:, **)
     sys_user_id = User.system_user.id
     if model.receiver_id == sys_user_id && model.creator_id != sys_user_id &&
-       %w[OfferTranslation OrganizationTranslation].include?(model.assignable_type) &&
+       %w[OfferTranslation OrganizationTranslation].include?(
+         model.assignable_type
+       ) &&
        model.created_by_system == false
       model.assignable.update_columns(
         source: 'researcher', possibly_outdated: false
       )
     end
+    true
+  end
+
+  def send_current_assignment_changes(_, model:, **)
+    ::Lib::Macros::Live.broadcast_change(
+      model.assignable,
+      'current-assignment-id' => model.id, 'assignment-ids' => [model.id]
+    )
     true
   end
 end

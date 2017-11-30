@@ -16,7 +16,7 @@ class Division::Create < Trailblazer::Operation
     step ::Lib::Macros::Nested::Find(:city, ::City)
     step ::Lib::Macros::Nested::Find(:area, ::Area)
     step ::Lib::Macros::Nested::Find(:organization, ::Organization)
-    step ::Lib::Macros::Nested::Find(:presumed_categories, ::Category)
+    step ::Lib::Macros::Nested::Find(:presumed_tags, ::Tag)
     step ::Lib::Macros::Nested::Find(
       :presumed_solution_categories, ::SolutionCategory
     )
