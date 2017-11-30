@@ -11,11 +11,7 @@ class Division < ApplicationRecord
                   using: { tsearch: { prefix: true } }
 
   def event_possible?(event)
-    if (event.eql?(:mark_as_not_done) && self.done) ||
-       (event.eql?(:mark_as_done) && !self.done && self.organization.approved?)
-      true
-    else
-      false
-    end
+    (event.eql?(:mark_as_not_done) && self.done) ||
+      (event.eql?(:mark_as_done) && !self.done && self.organization.approved?)
   end
 end
