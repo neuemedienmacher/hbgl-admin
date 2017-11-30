@@ -27,22 +27,22 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    // loadData(model = ownProps.model, editId = ownProps.editId) {
-    //   if (!editId) return
+    // loadData(model = ownProps.model, id = ownProps.id) {
+    //   if (!id) return
     //   const { dispatch } = dispatchProps
     //
     //   dispatch(
     //     loadAjaxData(
-    //       `${model}/${editId}`, '', model, { onSuccess:
-    //         () => { dispatch(setUiLoaded(true, 'GenericForm', model, editId)) },
+    //       `${model}/${id}`, '', model, { onSuccess:
+    //         () => { dispatch(setUiLoaded(true, 'GenericForm', model, id)) },
     //         onError: handleError(model, dispatchProps.dispatch)
     //       }
     //     )
     //   )
     // },
     //
-    // loadPossibleEvents(model = ownProps.model, editId = ownProps.editId) {
-    //   if (!editId) return
+    // loadPossibleEvents(model = ownProps.model, id = ownProps.id) {
+    //   if (!id) return
     //   const singularModel = singularize(model)
     //
     // }

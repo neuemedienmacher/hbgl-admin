@@ -8,9 +8,9 @@ export default class LoadingForm extends React.Component {
   // }
 
   // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.model != this.props.model || nextProps.editId != this.props.editId ||
+  //   if (nextProps.model != this.props.model || nextProps.id != this.props.id ||
   //       nextProps.loadedOriginalData == false) {
-  //     this.props.loadData(nextProps.model, nextProps.editId)
+  //     this.props.loadData(nextProps.model, nextProps.id)
   //   }
   // }
 

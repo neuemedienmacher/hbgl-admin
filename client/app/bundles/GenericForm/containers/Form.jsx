@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
   let action = `/api/v1/${model}`
   let method = 'POST'
   const buttonData = buildActionButtonData(
-    state, model, id, instance, formObjectClass, formData
+    state, model, id, instance, formObjectClass, formData, ownProps.forceCreate
   )
   const errorMessages = checkforErrors(state, model, id)
 
@@ -156,7 +156,7 @@ const errorFlashMessage =
   ' und versuche es erneut.'
 
 function buildActionButtonData(
-  state, model, id, instance, formObject, formData
+  state, model, id, instance, formObject, formData, forceCreate
 ) {
   let changes = formData && formData._changes &&
     formData._changes.length || hasAtLeastOneSubmodelForm(formData)
@@ -171,7 +171,8 @@ function buildActionButtonData(
   if (state.settings.actions[model]) {
     let textPrefix = (changes ? 'Speichern & ' : '')
 
-    if(state.entities['possible-events'] &&
+    if(!forceCreate &&
+      state.entities['possible-events'] &&
       state.entities['possible-events'][model] &&
       state.entities['possible-events'][model][id] &&
       state.entities['possible-events'][model][id]
