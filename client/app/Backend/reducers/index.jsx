@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import merge from 'lodash/merge'
 import ui from './uiReducer'
+import query from './queryReducer'
 import settings from './settingsReducer'
 import form from './formReducer'
 import { reducer as rform, initialState as initialRformState } from 'rform'
@@ -17,6 +18,7 @@ export default combineReducers({
   entities,
   form,
   ui,
+  query,
   ajax,
   statistics,
   settings,

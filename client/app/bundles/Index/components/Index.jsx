@@ -2,15 +2,22 @@ import React, { PropTypes, Component } from 'react'
 import IndexHeader from '../containers/IndexHeader'
 import IndexTable from '../containers/IndexTable'
 import Pagination from '../containers/Pagination'
+import merge from 'lodash/merge'
+import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'
 
 export default class Index extends Component {
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.query)
-    console.log(this.props.query)
-    debugger;
-    if (isEqual(nextProps.query, this.props.query) == false ||
+    console.log('Index componentWillReceiveProps this.params:', this.props.params && this.props.params['filters[assignable-id]'])
+    console.log('Index componentWillReceiveProps next.params', nextProps.params && nextProps.params['filters[assignable-id]'])
+    console.log('Index componentWillReceiveProps this.query', this.props.query && this.props.query['filters[assignable-id]'])
+    console.log('Index componentWillReceiveProps next.query', nextProps.query && nextProps.query['filters[assignable-id]'])
+    // console.log('Index componentWillReceiveProps query', newParams)
+    // debugger;
+    if (isEqual(nextProps.params, this.props.params) == false ||
+        // isEqual(nextProps.lockedParams, this.props.lockedParams) == false || // NOTE: Hotfix!!
         isEqual(nextProps.lockedParams, this.props.lockedParams) == false || // NOTE: Hotfix!!
+        isEqual(nextProps.optionalParams, this.props.optionalParams) == false || // NOTE: Hotfix!!
         nextProps.model != this.props.model
     ) {
       this.props.loadData(nextProps.query, nextProps.model)

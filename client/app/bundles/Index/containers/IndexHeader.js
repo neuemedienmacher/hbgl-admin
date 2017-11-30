@@ -3,6 +3,7 @@ import merge from 'lodash/merge'
 import clone from 'lodash/clone'
 import pickBy from 'lodash/pickBy'
 import toPairs from 'lodash/toPairs'
+import { setQuery } from '../../../Backend/actions/setQuery'
 import { encode } from 'querystring'
 import { browserHistory } from 'react-router'
 import settings from '../../../lib/settings'
@@ -40,6 +41,7 @@ let lastQueryChangeTimer = null
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onQueryChange(event) {
+      console.log('onQueryChange')
       const value = event.target.value
 
       if (lastQueryChangeTimer) clearTimeout(lastQueryChangeTimer)
@@ -48,21 +50,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         const params = merge(clone(ownProps.params), { query: value })
         if (window.location.pathname.length > 1) {
-          browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
+          // browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
           // browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
+          dispatch(setQuery('params', params))
         } else {
-          browserHistory.replace(`/?${encode(params)}`)
+          // browserHistory.replace(`/?${encode(params)}`)
           // browserHistory.replace(`/?${jQuery.param(params)}`)
+          dispatch(setQuery('params', params))
         }
       }, 400)
     },
 
     onPlusClick(event) {
+      console.log('onPlusClick')
       let params = clone(ownProps.params)
       merge(params, { 'filters[id][]': [''] })
 
-      let query = searchString(ownProps.model, params)
-      browserHistory.replace(`/${query}`)
+      // let query = searchString(ownProps.model, params)
+      // browserHistory.replace(`/${query}`)
+      dispatch(setQuery('params', params))
     }
   }
 }
@@ -97,61 +103,61 @@ function filterName(key) {
   }
 }
 
-function searchString(model, params) {
-  // let bla = merge({}, clone(params), { 'filters[id]': ['1', '2']})
-  // let bla2 = merge({}, clone(params), { 'filters[id]': {'first': '1', 'second': '2'}})
-  // let test = encode(bla)
-  // let test2 = encode(bla2)
-  // console.log(test)
-  // console.log(test2)
-  // debugger;
-  if(window.location.href.includes(model)) {
-    // return `${model}?${jQuery.param(params)}`
-    return `${model}?${encode(params)}`
-  } else {
-    // return `?${jQuery.param(params)}`
-    return `?${encode(params)}`
-  }
-}
+// function searchString(model, params) {
+//   // let bla = merge({}, clone(params), { 'filters[id]': ['1', '2']})
+//   // let bla2 = merge({}, clone(params), { 'filters[id]': {'first': '1', 'second': '2'}})
+//   // let test = encode(bla)
+//   // let test2 = encode(bla2)
+//   // console.log(test)
+//   // console.log(test2)
+//   // debugger;
+//   if(window.location.href.includes(model)) {
+//     // return `${model}?${jQuery.param(params)}`
+//     return `${model}?${encode(params)}`
+//   } else {
+//     // return `?${jQuery.param(params)}`
+//     return `?${encode(params)}`
+//   }
+// }
 
-function toObject(filters) {
-  // if (filters && filters.length){
-  //   debugger;
-  // }
-  var filterArray = filters.map(function(filter) {
-    if (filter[0].includes("first")) {
-      const newKey = filter[0].replace("[first]", "")
-      return [ newKey, { "first": filter[1] } ]
-    } else if(filter[0].includes("second")) {
-      const newKey =  filter[0].replace("[second]", "")
-      return [ newKey, { "second":  filter[1] } ]
-    } else {
-      return [ filter[0], filter[1] ]
-    }
-  })
-  return filterArray
-}
-
-function filterParams(params) {
-  Object.keys(params).map(function(key) {
-    if (key.includes("first")) {
-      replaceKey(params, key, "[first]")
-    } else if(key.includes("second")) {
-      replaceKey(params, key, "[second]")
-    }
-    return params
-  })
-}
-
-function replaceKey(params, filterKey, objectKey) {
-  let newKey =  filterKey.replace(objectKey, '')
-  let newObjectKey = objectKey.replace('[', '').replace(']', '')
-  if(params.hasOwnProperty(newKey)) {
-    params[newKey][newObjectKey] = params[filterKey]
-  } else {
-    params[newKey] = { [newObjectKey] : params[filterKey] }
-  }
-  delete params[filterKey]
-}
+// function toObject(filters) {
+//   // if (filters && filters.length){
+//   //   debugger;
+//   // }
+//   var filterArray = filters.map(function(filter) {
+//     if (filter[0].includes("first")) {
+//       const newKey = filter[0].replace("[first]", "")
+//       return [ newKey, { "first": filter[1] } ]
+//     } else if(filter[0].includes("second")) {
+//       const newKey =  filter[0].replace("[second]", "")
+//       return [ newKey, { "second":  filter[1] } ]
+//     } else {
+//       return [ filter[0], filter[1] ]
+//     }
+//   })
+//   return filterArray
+// }
+//
+// function filterParams(params) {
+//   Object.keys(params).map(function(key) {
+//     if (key.includes("first")) {
+//       replaceKey(params, key, "[first]")
+//     } else if(key.includes("second")) {
+//       replaceKey(params, key, "[second]")
+//     }
+//     return params
+//   })
+// }
+//
+// function replaceKey(params, filterKey, objectKey) {
+//   let newKey =  filterKey.replace(objectKey, '')
+//   let newObjectKey = objectKey.replace('[', '').replace(']', '')
+//   if(params.hasOwnProperty(newKey)) {
+//     params[newKey][newObjectKey] = params[filterKey]
+//   } else {
+//     params[newKey] = { [newObjectKey] : params[filterKey] }
+//   }
+//   delete params[filterKey]
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexHeader)

@@ -9,12 +9,12 @@ export default class AssignmentsContainer extends Component {
 
   render() {
     const {
-      heading, model, lockedParams, optionalParams, scope, params, defaultParams
+      heading, model, lockedParams, optionalParams, scope, params
     } = this.props
 
     return (
       <div className="panel-group">
-        {this.teamSelectOrNull(this.props.selectableData, params)}
+        {this.teamSelectOrNull(this.props.selectableData)}
         <b>{heading}</b>
         <Index
           model={model} identifierAddition={scope} params={params}
@@ -24,7 +24,7 @@ export default class AssignmentsContainer extends Component {
     )
   }
 
-  teamSelectOrNull(teamData, params) {
+  teamSelectOrNull(teamData) {
     if (teamData && teamData.length != 0) {
       return (
         <div className="select-set">

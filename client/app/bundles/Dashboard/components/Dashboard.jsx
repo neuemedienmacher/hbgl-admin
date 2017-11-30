@@ -10,6 +10,16 @@ export default class Dashboard extends React.Component {
     outstandingTimeAllocations: PropTypes.array.isRequired,
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('Dashboard componentWillReceiveProps', this.props.params)
+    console.log('Dashboard componentWillReceiveProps', nextProps.params)
+    // if (isEqual(nextProps.query, this.props.query) == false ||
+    //     nextProps.model != this.props.model
+    // ) {
+    //   this.props.loadData(nextProps.query, nextProps.model)
+    // }
+  }
+
   render() {
 
     const {
@@ -27,7 +37,7 @@ export default class Dashboard extends React.Component {
           title={`Willkommen, ${user.name}`} identifier='dashboard'
           visible={true}
         >
-          <OverviewPanel params={this.props.location.query}/>
+          <OverviewPanel params={this.props.params}/>
         </CollapsiblePanel>
         <CollapsiblePanel
           title='W&A Statistiken' identifier='overall-statistic-charts'

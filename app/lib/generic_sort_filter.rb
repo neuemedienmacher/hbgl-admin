@@ -5,6 +5,7 @@ module GenericSortFilter
   def self.transform(base_query, params)
     adjusted_params = snake_case_contents(params)
     adjusted_params = fill_param_defaults(adjusted_params)
+    binding.pry
     query = ensure_query(base_query)
     query = transform_by_joining(query, adjusted_params)
     query = transform_by_ordering(query, adjusted_params)
@@ -191,6 +192,9 @@ module GenericSortFilter
     if ['LIKE', 'NOT LIKE'].include?(operator)
       'CAST(' + filter_string + ' AS TEXT) ' + operator + " '%" + value + "%'"
     else
+      puts 'DEBUG =========> ' + filter_string.inspect
+      puts 'DEBUG =========> ' + operator.inspect
+      puts 'DEBUG =========> ' + new_value.inspect
       filter_string + ' ' + operator + ' ' + new_value
     end
   end

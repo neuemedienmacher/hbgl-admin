@@ -13,11 +13,14 @@ const mapStateToProps = (state, ownProps) => {
   const outstandingTimeAllocations = getOutstandingTimeAllocations(
     valuesIn(state.entities['time-allocations']), user
   )
+  const params = state.query.params
+  console.log('Dashboard', params)
 
   return {
     user,
     hasOutstandingTimeAllocations: !!outstandingTimeAllocations.length,
     outstandingTimeAllocations,
+    params
   }
 }
 

@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
     { 'sort_field': 'updated-at', 'sort_direction': 'DESC' }
   // console.log('ownProps.params before', ownProps.params)
   // merge(ownProps.params, merge(clone(optionalParams), ownProps.params, lockedParams))
-  // console.log('ownProps.params after', ownProps.params)
+  console.log('ownProps.params after', ownProps.params)
   // const defaultParams = merge({}, merge(clone(optionalParams), lockedParams))
   // console.log('defaultParams', defaultParams)
   const heading = headingFor(scope)

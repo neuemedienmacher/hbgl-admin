@@ -7,25 +7,31 @@ import merge from 'lodash/merge'
 import clone from 'lodash/clone'
 import size from 'lodash/size'
 import forIn from 'lodash/forIn'
+import { setQuery } from '../../../Backend/actions/setQuery'
 
 const mapStateToProps = (state, ownProps) => {
-  const pathname = window.location.pathname
-  let model = ownProps.model
+  // const pathname = window.location.pathname
   // let query = ownProps.params
   // const defaultParams = ownProps.defaultParams
+  let model = ownProps.model
   let optional =
     ownProps.identifierAddition ? '_' + ownProps.identifierAddition : ''
   const identifier = 'indexResults_' + model + optional
-  let query = merge({},
-    merge(clone(ownProps.optionalParams), ownProps.params, ownProps.lockedParams)
+  console.log('ownProps.optionalParams:', clone(ownProps.optionalParams))
+  console.log('ownProps.params:', clone(ownProps.params))
+  console.log('ownProps.lockedParams:', clone(ownProps.lockedParams))
+  const query = merge(
+    {}, clone(ownProps.optionalParams), clone(ownProps.params), clone(ownProps.lockedParams)
   )
-  const defaultParams = merge({}, merge(clone(ownProps.optionalParams), ownProps.lockedParams))
+  console.log('query:', clone(query))
+  // const defaultParams =
+  //   merge({}, merge(clone(ownProps.optionalParams), ownProps.lockedParams))
   const uiKey = 'index_' + model + optional
 
-  if(pathname.length > 1 && ownProps.location) {
-    model = pathname.substr(1, pathname.length)
-    query = ownProps.location.query
-  }
+  // if(pathname.length > 1 && ownProps.location) {
+  //   model = pathname.substr(1, pathname.length)
+  //   query = ownProps.location.query
+  // }
   const isLoading = state.ajax.isLoading[identifier]
   let metaText = 'Suche...'
   if (!isLoading && state.ajax[identifier]) {
@@ -38,15 +44,15 @@ const mapStateToProps = (state, ownProps) => {
       `Zeige Ergebnisse ${startValue + 1} bis ${toValue}` +
         ` von insgesamt ${totalEntries}.`
   }
-  // console.log('query', query)
   // console.log('params', ownProps.params)
+  // console.log('query', query)
   return {
     model,
     heading: headingFor(model),
     query,
     identifier,
     uiKey,
-    defaultParams,
+    // defaultParams,
     metaText,
     isLoading
   }
@@ -62,26 +68,32 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 
   loadData(query, nextModel = stateProps.model) {
+    console.log('Index loadData Call! query:', query)
     // Ugly hack but we don't want to render all assignments in the dashboard
-    if (
-        !(nextModel == 'assignments' && query == undefined &&
-          this.defaultParams !== undefined)
-       )
-    {
+    // if (
+    //     !(nextModel == 'assignments' && query == undefined &&
+    //       this.defaultParams !== undefined)
+    //    )
+    // {
+      console.log('DATA LOAD!!')
       dispatchProps.dispatch(
         loadAjaxData(nextModel, query, stateProps.identifier)
       )
-    }
+    // }
   },
 
   onMount() {
     // console.log(this.model)
     // console.log(stateProps.defaultParams)
     // console.log(this.identifier)
-    dispatchProps.dispatch(
-      loadAjaxData(this.model, stateProps.defaultParams, this.identifier)
-    )
-    browserHistory.replace(`/?${jQuery.param(stateProps.defaultParams)}`)
+    // dispatchProps.dispatch(
+    //   loadAjaxData(
+    //     stateProps.model, stateProps.defaultParams, stateProps.identifier
+    //   )
+    // )
+    console.log('Index.js onMount', stateProps)
+    // browserHistory.replace(`/?${jQuery.param(stateProps.defaultParams)}`)
+    dispatchProps.dispatch(setQuery('params', stateProps.query))
   }
 })
 
