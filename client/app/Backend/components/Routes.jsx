@@ -275,6 +275,19 @@ export default class Routes extends React.Component {
 
           <Route path='search-locations'>
             <IndexRoute component={Index} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={MemberAction} />
+          </Route>
+
+          <Route path='language-filters'>
+            <IndexRoute component={Index} />
+            <Route path='export' component={Export} />
+            <Route path=':id' component={MemberAction} />
+          </Route>
+
+          <Route path='contacts'>
+            <IndexRoute component={Index} />
+            <Route path='export' component={Export} />
             <Route path=':id' component={MemberAction} />
           </Route>
 
