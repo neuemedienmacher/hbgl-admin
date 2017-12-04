@@ -47,8 +47,10 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', { 'divisions': ['label'] }, 'aasm-state', 'created-by',
-        'expires-at', 'logic-version-id', { section: ['name'] }
+        'id', 'name', { 'divisions': ['label'] },
+        { 'solution-category': ['label'] },
+        'aasm-state', 'created-by', 'expires-at', 'logic-version-id',
+        { section: ['name'] }
       ],
       general_actions: [
         'index', 'export', 'new'
