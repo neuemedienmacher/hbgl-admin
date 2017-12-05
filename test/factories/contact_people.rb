@@ -24,8 +24,8 @@ FactoryGirl.define do
       label nil
     end
 
-    after :build do |division, evaluator|
-      division.label =
+    after :build do |contact_person, evaluator|
+      contact_person.label =
         "(#{evaluator.organization&.name}) #{evaluator.email&.address}"\
         " #{evaluator.area_code_1} #{evaluator.local_number_1}".squeeze(' ')
     end
