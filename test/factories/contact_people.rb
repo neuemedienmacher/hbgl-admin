@@ -24,11 +24,10 @@ FactoryGirl.define do
       label nil
     end
 
-
     after :build do |division, evaluator|
       division.label =
-      "(#{evaluator.organization&.name}) #{evaluator.email&.address}"\
-      " #{evaluator.area_code_1} #{evaluator.local_number_1}".squeeze(' ')
+        "(#{evaluator.organization&.name}) #{evaluator.email&.address}"\
+        " #{evaluator.area_code_1} #{evaluator.local_number_1}".squeeze(' ')
     end
 
     after :create do |contact_person, evaluator|
