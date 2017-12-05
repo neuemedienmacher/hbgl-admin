@@ -21,6 +21,13 @@ FactoryGirl.define do
 
     transient do
       offers []
+      label nil
+    end
+
+    after :build do |contact_person, evaluator|
+      contact_person.label =
+        "(#{evaluator.organization&.name}) #{evaluator.email&.address}"\
+        " #{evaluator.area_code_1} #{evaluator.local_number_1}".squeeze(' ')
     end
 
     after :create do |contact_person, evaluator|
