@@ -136,14 +136,24 @@ const routes = [
     anchor: 'Areas',
     access: all,
   }, {
-    id: 25,
+    id: 24,
     pathname: '/logic-versions',
     anchor: 'LogicVersions',
     access: all,
   }, {
-    id: 26,
+    id: 25,
     pathname: '/search-locations',
     anchor: 'SearchLocations',
+    access: all,
+  }, {
+    id: 26,
+    pathname: '/language-filters',
+    anchor: 'Language Filters',
+    access: all,
+  }, {
+    id: 27,
+    pathname: '/contacts',
+    anchor: 'Kontaktanfragen',
     access: all,
   }
   /*,

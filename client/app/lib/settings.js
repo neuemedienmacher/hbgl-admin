@@ -47,8 +47,10 @@ export default {
 
     offers: {
       fields: [
-        'id', 'name', { 'divisions': ['label'] }, 'aasm-state', 'created-by',
-        'expires-at', 'logic-version-id', { section: ['name'] }
+        'id', 'name', { 'divisions': ['label'] },
+        { 'solution-category': ['label'] },
+        'aasm-state', 'created-by', 'expires-at', 'logic-version-id',
+        { section: ['name'] }
       ],
       general_actions: [
         'index', 'export', 'new'
@@ -230,7 +232,32 @@ export default {
         'id', 'query', 'latitude', 'longitude', 'created-at', 'updated-at'
       ],
       general_actions: [
-        'index'
+        'index', 'export'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'language-filters': {
+      fields: [
+        'id', 'name', 'identifier'
+      ],
+      general_actions: [
+        'index', 'export'
+      ],
+      member_actions: [
+        'show'
+      ]
+    },
+
+    'contacts': {
+      fields: [
+        'id', 'name', 'email', 'message', 'city', 'url', 'internal_mail',
+        'created-at', 'updated-at'
+      ],
+      general_actions: [
+        'index', 'export'
       ],
       member_actions: [
         'show'
