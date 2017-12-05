@@ -12,8 +12,15 @@ describe API::V1::DivisionsController do
     api_get_works_for :index
   end
 
-  it 'deletes an object' do
+  it 'does not delete a division if there are  dependent offers' do
     sign_in user
+    delete_fails_for ::Division, 1
+  end
+
+  it 'deletes a division if there are no dependent objects' do
+    sign_in user
+    d = Division.find 1
+    d.offers.delete_all
     delete_works_for ::Division, 1
   end
 end
