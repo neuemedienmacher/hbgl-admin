@@ -12,7 +12,7 @@ export default class CityFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'area-code-1', 'local-number-1',
+      'operational-name', 'area-code-1', 'local-number-1',
       'area-code-2', 'local-number-2',
       'email', 'organization', 'spoc'
     ]
@@ -28,7 +28,7 @@ export default class CityFormObject extends GenericFormObject {
       // 'fax-number': { type: 'number' },
       // 'first-name': { type: 'string' },
       // 'last-name': { type: 'string' },
-      // 'operational-name': { type: 'string' },
+      'operational-name': { type: 'string' },
       // 'academic-title': { type: 'select', options: ['', 'dr', 'prof_dr'] },
       // gender: { type: 'select', options: ['', 'male', 'female'] },
       // responsibility: { type: 'string' },
