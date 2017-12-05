@@ -20,80 +20,80 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const all = ['researcher', 'super']
 const superuser = ['super']
 const routes = [
-  {
+ {
     id: 1,
-    pathname: '/offer-translations',
-    anchor: 'Offer Translations',
-    access: all,
-  }, {
-    id: 2,
-    pathname: '/organization-translations',
-    anchor: 'Orga Translations',
-    access: all,
-  }, {
-    id: 3,
     pathname: '/organizations',
     anchor: 'Organisationen',
     access: all,
   }, {
-    id: 4,
+    id: 2,
     pathname: '/divisions',
     anchor: 'Divisions',
     access: all,
   }, {
-    id: 5,
+    id: 3,
     pathname: '/offers',
     anchor: 'Angebote',
     access: all,
   }, {
-    id: 6,
-    pathname: '/statistics',
-    anchor: 'Statistiken',
-    access: all,
-  }, {
-    id: 7,
-    pathname: '/user-teams',
-    anchor: 'Teams',
-    access: superuser,
-  }, {
-    id: 8,
-    pathname: '/users',
-    anchor: 'Nutzer',
-    access: superuser,
-  }, {
-    id: 9,
-    pathname: '/assignments',
-    anchor: 'Zuweisungen',
-    access: all,
-  }, {
-    id: 10,
+    id: 4,
     pathname: '/locations',
     anchor: 'Standorte',
     access: all,
   }, {
-    id: 11,
-    pathname: '/cities',
-    anchor: 'Städte',
-    access: all,
-  }, {
-    id: 12,
-    pathname: '/federal-states',
-    anchor: 'Bundesländer',
-    access: all,
-  }, {
-    id: 13,
+    id: 5,
     pathname: '/contact-people',
     anchor: 'Kontaktpersonen',
     access: all,
   }, {
-    id: 14,
+    id: 6,
     pathname: '/emails',
     anchor: 'Emails',
     access: all,
   }, {
-    id: 15,
+    id: 7,
     pathname: '/openings',
     anchor: 'Öffnungszeiten',
+    access: all,
+  }, {
+    id: 8,
+    pathname: '/websites',
+    anchor: 'Webseiten',
+    access: all,
+  }, {
+    id: 9,
+    pathname: '/next-steps',
+    anchor: 'NextSteps',
+    access: all,
+  }, {
+    id: 10,
+    pathname: '/organization-translations',
+    anchor: 'Orga Translations',
+    access: all,
+  }, {
+    id: 11,
+    pathname: '/offer-translations',
+    anchor: 'Offer Translations',
+    access: all,
+  }, {
+    id: 12,
+    pathname: '/tags',
+    anchor: 'Tags',
+    access: all,
+  }, {
+    id: 13,
+    pathname: '/solution-categories',
+    anchor: 'Lösungskategorien',
+    access: all,
+  }, {
+    id: 14,
+    pathname: '/logic-versions',
+    anchor: 'LogicVersions',
+    access: all,
+  }, {
+    id: 15,
+    pathname: '/assignments',
+    anchor: 'Zuweisungen',
     access: all,
   }, {
     id: 16,
@@ -102,59 +102,54 @@ const routes = [
     access: all,
   }, {
     id: 17,
-    pathname: '/tags',
-    anchor: 'Tags',
-    access: all,
-  }, {
-    id: 18,
-    pathname: '/solution-categories',
-    anchor: 'Lösungskategorien',
-    access: all,
-  }, {
-    id: 19,
     pathname: '/subscriptions',
     anchor: 'Newsletter Abos',
     access: all,
   }, {
-    id: 20,
+    id: 18,
+    pathname: '/contacts',
+    anchor: 'Kontaktanfragen',
+    access: all,
+  }, {
+    id: 19,
     pathname: '/update-requests',
     anchor: 'Update Requests',
     access: all,
   }, {
+    id: 20,
+    pathname: '/cities',
+    anchor: 'Städte',
+    access: all,
+  }, {
     id: 21,
-    pathname: '/websites',
-    anchor: 'Webseiten',
-    access: all,
-  }, {
-    id: 22,
-    pathname: '/next-steps',
-    anchor: 'NextSteps',
-    access: all,
-  }, {
-    id: 23,
     pathname: '/areas',
     anchor: 'Areas',
     access: all,
   }, {
-    id: 24,
-    pathname: '/logic-versions',
-    anchor: 'LogicVersions',
+    id: 22,
+    pathname: '/federal-states',
+    anchor: 'Bundesländer',
     access: all,
   }, {
-    id: 25,
+    id: 23,
     pathname: '/search-locations',
     anchor: 'SearchLocations',
     access: all,
   }, {
-    id: 26,
+    id: 24,
     pathname: '/language-filters',
     anchor: 'Language Filters',
     access: all,
   }, {
-    id: 27,
-    pathname: '/contacts',
-    anchor: 'Kontaktanfragen',
-    access: all,
+    id: 25,
+    pathname: '/user-teams',
+    anchor: 'Teams',
+    access: superuser,
+  }, {
+    id: 26,
+    pathname: '/users',
+    anchor: 'Nutzer',
+    access: superuser,
   }
   /*,
   {

@@ -28,6 +28,11 @@ export default class TopNav extends Component {
             })}
           </NavDropdown>
           <li>
+            <a href='/statistics'>
+              Statistiken
+            </a>
+          </li>
+          <li>
             <a href='/admin'>
               Altes Backend
             </a>
