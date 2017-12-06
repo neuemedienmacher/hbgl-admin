@@ -48,7 +48,7 @@ export default {
     offers: {
       fields: [
         'id', 'name', { 'divisions': ['label'] },
-        { 'solution-category': ['label'] },
+        { 'solution-category': ['name'] },
         'aasm-state', 'created-by', 'expires-at', 'logic-version-id',
         { section: ['name'] }
       ],
