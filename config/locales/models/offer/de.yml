@@ -25,6 +25,7 @@ de:
         "Alle Divisions müssen die gleiche Welt haben!"
       age_from_be_smaller: "darf nicht größer sein als Age to"
       age_not_within_bounds: "muss zwischen 0 und 99 liegen"
+      parent_from_age_too_low: "muss über 11 sein"
       contact_person_not_choosable: |
         müssen alle zu einer der ausgewählten Organisationen gehören oder
         als SPoC markiert sein

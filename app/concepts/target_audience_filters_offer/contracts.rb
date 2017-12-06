@@ -23,6 +23,7 @@ module TargetAudienceFiltersOffer::Contracts
     validate :age_from_within_bounds
     validate :age_to_within_bounds
     validate :age_from_fits_age_to
+    validate :min_age_for_parents
 
     ## Custom Validation Methods ##
     # Age From has to be smaller than Age To (if both exist)
@@ -39,6 +40,14 @@ module TargetAudienceFiltersOffer::Contracts
     def age_to_within_bounds
       return if age_to && age_to >= min_age && age_to <= max_age
       errors.add :age_to, I18n.t('offer.validations.age_not_within_bounds')
+    end
+
+    def min_age_for_parents
+      return if age_visible == false || age_from > 11 ||
+                !(TargetAudienceFilter.find(
+                  target_audience_filter[:id]
+                ).identifier.include? 'parents')
+      errors.add :age_from, I18n.t('offer.validations.parent_from_age_too_low')
     end
 
     private

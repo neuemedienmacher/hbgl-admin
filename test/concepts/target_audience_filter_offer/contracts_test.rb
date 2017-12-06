@@ -53,6 +53,27 @@ class TargetAudienceFiltersOfferContractsTest < ActiveSupport::TestCase
                  .must_include 'muss ausgefüllt werden'
         end
 
+        it 'should validate age_from for parents' do
+          subject.age_from = 10
+          subject.age_visible = true
+          subject.target_audience_filter =
+            TargetAudienceFilter.where(identifier: 'family_parents').first
+          subject.valid?
+          subject.errors.messages[:age_from]
+                 .must_include 'muss über 11 sein'
+
+          subject.age_visible = false
+          subject.errors.delete :age_from
+          subject.valid?
+          assert_empty subject.errors.messages[:age_from]
+
+          subject.age_visible = true
+          subject.errors.delete :age_from
+          subject.age_from = 12
+          subject.valid?
+          assert_empty subject.errors.messages[:age_from]
+        end
+
         it 'should validate age_to' do
           subject.age_to = 10
           subject.valid?

@@ -251,7 +251,7 @@ export default {
       ]
     },
 
-    'contacts': {
+    contacts: {
       fields: [
         'id', 'name', 'email', 'message', 'city', 'url', 'internal_mail',
         'created-at', 'updated-at'
