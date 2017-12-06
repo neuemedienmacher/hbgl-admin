@@ -119,6 +119,10 @@ function headingFor(model) {
     return 'LogicVersions'
   case 'search-locations':
     return 'SearchLocations'
+  case 'contacts':
+    return 'Contacts'
+  case 'language-filters':
+    return 'LanguageFilters'
   default:
     throw new Error(`Please provide a heading for ${model}`)
   }

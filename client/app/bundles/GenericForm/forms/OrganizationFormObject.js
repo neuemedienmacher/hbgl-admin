@@ -2,7 +2,7 @@ import GenericFormObject from '../lib/GenericFormObject'
 import merge from 'lodash/merge'
 import concat from 'lodash/concat'
 import WebsiteFormObject from './WebsiteFormObject'
-import DivisionFormObject from './DivisionFormObject'
+import { DivisionCreateFormObject } from './DivisionFormObject'
 import LocationFormObject from './LocationFormObject'
 import ContactPersonFormObject from './ContactPersonFormObject'
 
@@ -33,7 +33,7 @@ class OrgaCreateFormObject extends GenericFormObject {
         relationship: 'oneToOne'
       },
       divisions: {
-        object: DivisionFormObject,
+        object: DivisionCreateFormObject,
         relationship: 'oneToMany',
         inverseRelationship: 'belongsTo'
       },

@@ -4,7 +4,7 @@ module Default
   class Delete < Trailblazer::Operation
     step :find_model
     step Policy::Pundit(PermissivePolicy, :delete?)
-    step :destroy!
+    step :destroy!, name: 'destroy_record'
     step ::Lib::Macros::Live::SendDeletion()
 
     def find_model(options, params:, model_class:, **)

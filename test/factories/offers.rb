@@ -14,6 +14,7 @@ FactoryGirl.define do
          chat forum email online-course portal].sample
     end
     area { Area.first unless encounter == 'personal' }
+    next_steps { [NextStep.first || FactoryGirl.create(:next_step)] }
     solution_category do
       SolutionCategory.all.sample ||
         FactoryGirl.create(:solution_category)

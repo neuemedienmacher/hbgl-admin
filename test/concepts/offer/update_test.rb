@@ -139,6 +139,15 @@ class OfferUpdateTest < ActiveSupport::TestCase
   end
 
   describe 'state change side-effects' do
+    it 'wont approve if next_steps is empty' do
+      # Setup
+      new_offer.next_steps = []
+      operation_wont_work(
+        ::Offer::Update, id: new_offer.id, description: 'doesntMatter',
+                         'meta' => { 'commit' => 'approve' }
+      )
+    end
+
     it 'wont change state without a correct meta commit action' do
       new_offer.aasm_state.must_equal 'initialized'
       assert_no_difference 'Statistic.count' do

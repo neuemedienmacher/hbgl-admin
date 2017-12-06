@@ -72,9 +72,11 @@ Rails.application.routes.draw do
       api_resources :topics, only: %i[index show]
       api_resources :federal_states, only: %i[index show]
       api_resources :contact_people
+      api_resources :contacts, only: %i[export index show]
+      api_resources :language_filters, only: %i[export index show]
       api_resources :emails
       api_resources :filters, only: %i[index show]
-      api_resources :search_locations, only: %i[index show]
+      api_resources :search_locations, only: %i[export index show]
       api_resources :target_audience_filters_offers, only: %i[index show]
       api_resources :next_steps
       api_resources :tags

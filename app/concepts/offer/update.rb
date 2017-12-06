@@ -6,7 +6,12 @@ class Offer::Update < Trailblazer::Operation
   step Model(::Offer, :find_by)
   step Policy::Pundit(PermissivePolicy, :update?)
 
-  step Contract::Build(constant: Offer::Contracts::Update)
+  step ::Lib::Macros::State::Contract(
+    approve: Offer::Contracts::Approve,
+    else: Offer::Contracts::Update
+  )
+
+  step Contract::Build()
   step Contract::Validate()
   step :save_section_id
   step Wrap(::Lib::Transaction) {

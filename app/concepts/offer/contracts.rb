@@ -160,9 +160,7 @@ module Offer::Contracts
     # end
   end
 
-  class ChangeState < Update # rails admin hack only
-    # replace this with something useful
-    delegate :valid?, to: :model, prefix: false
-    delegate :errors, to: :model, prefix: false
+  class Approve < Update
+    validates :next_steps, presence: true
   end
 end
