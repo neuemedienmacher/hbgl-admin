@@ -21,6 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   view = view || 'show'
   const heading = headingFor(model, id, view)
   const entity = state.entities[model] && state.entities[model][id] || {}
+  const indexPath = '/' + model
 
   const viewingUserIDs =
     state.cable.live.viewing[model] &&
@@ -46,7 +47,8 @@ const mapStateToProps = (state, ownProps) => {
     heading,
     viewingUsers,
     sessionID: state.ui.sessionID,
-    ChildComponent: componentForView(view)
+    ChildComponent: componentForView(view),
+    indexPath
   }
 }
 

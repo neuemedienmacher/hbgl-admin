@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import MemberActionsNavBar from '../containers/MemberActionsNavBar'
+import { IndexLinkContainer } from 'react-router-bootstrap'
 
 export default class MemberAction extends Component {
   componentDidMount() {
@@ -37,11 +38,15 @@ export default class MemberAction extends Component {
 
   render() {
     const {
-      model, id, location, view, ChildComponent, heading, viewingUsers
+      model, id, location, view, ChildComponent, heading, viewingUsers,
+      indexPath
     } = this.props
 
     return(
       <div className={`content MemberAction MemberAction-${view} ${model}`}>
+        <IndexLinkContainer key={model} to={indexPath}>
+          <a> &larr; zurück zu {model}</a>
+        </IndexLinkContainer>
         <h3>{heading}</h3>
         <ul className='MemberAction-Viewers'>
           {viewingUsers.map(this.renderViewingUser.bind(this))}
