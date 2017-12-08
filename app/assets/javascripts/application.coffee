@@ -18,6 +18,7 @@
 #
 # = require action_cable
 # = require modules/action_cable
+# = require modules/gmaps
 #
 # require modules/namespace
 # require modules/statistics/bar_graph
