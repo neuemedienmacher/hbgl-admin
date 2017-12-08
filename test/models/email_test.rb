@@ -13,7 +13,7 @@ describe Email do
 
   describe 'methods' do
     it 'should find all newly approved offers for an email' do
-      email = FactoryGirl.create :email, :with_approved_and_unapproved_offer
+      email = FactoryBot.create :email, :with_approved_and_unapproved_offer
       email.newly_approved_offers_from_offer_context.count.must_equal 1
     end
 
@@ -24,24 +24,24 @@ describe Email do
 
     describe '#informable_offers?' do
       it 'should be true if it has approved offers & a mailings=enabled orga' do
-        email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer, :approved
+        email = FactoryBot.create :email
+        offer = FactoryBot.create :offer, :approved
         offer.contact_people.first.update_column :email_id, email.id
         email.organizations.first.update_column :mailings, 'enabled'
         email.send(:informable_offers?).must_equal true
       end
 
       it 'should be false if it has no approved offers' do
-        email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer
+        email = FactoryBot.create :email
+        offer = FactoryBot.create :offer
         offer.contact_people.first.update_column :email_id, email.id
         email.organizations.first.update_column :mailings, 'enabled'
         email.send(:informable_offers?).must_equal false
       end
 
       it 'should be false if it has no mailings=enabled orga' do
-        email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer, :approved
+        email = FactoryBot.create :email
+        offer = FactoryBot.create :offer, :approved
         offer.contact_people.first.update_column :email_id, email.id
         email.organizations.first.update_column :mailings, 'force_disabled'
         email.send(:informable_offers?).must_equal false
@@ -80,7 +80,7 @@ describe Email do
       subject { email.inform }
 
       describe 'when assigned to contact people with approved offers' do
-        let(:email) { FactoryGirl.create :email, :with_approved_offer }
+        let(:email) { FactoryBot.create :email, :with_approved_offer }
 
         it 'should be possible from uninformed' do
           OfferMailer.expect_chain(:inform_offer_context, :deliver_now)
@@ -124,7 +124,7 @@ describe Email do
       end
 
       describe 'when there are no approved offers' do
-        let(:email) { FactoryGirl.create :email, :with_unapproved_offer }
+        let(:email) { FactoryBot.create :email, :with_unapproved_offer }
 
         it 'should be impossible from uninformed and wont send an info mail' do
           OfferMailer.expects(:inform_offer_context).never
@@ -142,7 +142,7 @@ describe Email do
 
       it 'should send an offer context mailing when it has approved offers'\
          ' and is in a mailings=enabled organization' do
-        email = FactoryGirl.create :email, :with_approved_offer
+        email = FactoryBot.create :email, :with_approved_offer
         email.organizations.first.update_column :mailings, 'enabled'
         OfferMailer.expect_chain(:inform_offer_context, :deliver_now)
         email.send_mailing!
@@ -150,11 +150,11 @@ describe Email do
 
       it 'should send an orga context mailing when it is an orga contact'\
          ', when orga is mailings=enabled and has approved offers' do
-        email = FactoryGirl.create :email, :with_approved_offer
+        email = FactoryBot.create :email, :with_approved_offer
         email.organizations.first.update_column :mailings, 'enabled'
-        superior_mail = FactoryGirl.create :email
+        superior_mail = FactoryBot.create :email
         superior_mail.contact_people <<
-          FactoryGirl.create(
+          FactoryBot.create(
             :contact_person,
             organization: email.organizations.first,
             position: 'superior',
@@ -167,7 +167,7 @@ describe Email do
 
       it 'should send an offer context mailing even when the contact qualifies'\
          ' for an orga-mailing (higher priority on offer-mailings)' do
-        mail = FactoryGirl.create :email, :with_approved_offer
+        mail = FactoryBot.create :email, :with_approved_offer
         mail.contact_people.first.update_column :position, 'superior'
         mail.organizations.first.update_column :mailings, 'enabled'
         # mail.contact_people.first.organization = mail.organizations.first
@@ -185,7 +185,7 @@ describe Email do
 
       it 'wont send an offer context mailing when it has approved offers'\
          ' but the orga is not mailings=enabled' do
-        email = FactoryGirl.create :email, :with_approved_offer
+        email = FactoryBot.create :email, :with_approved_offer
         email.organizations.first.update_column :mailings, 'force_disabled'
         OfferMailer.expects(:inform_offer_context).never
         assert_raises { email.send_mailing! }
@@ -193,7 +193,7 @@ describe Email do
 
       it 'wont send an offer context mailing when it has no approved offers'\
          ' but the orga is mailings=enabled' do
-        email = FactoryGirl.create :email, :with_unapproved_offer
+        email = FactoryBot.create :email, :with_unapproved_offer
         email.organizations.first.update_column :mailings, 'enabled'
         OfferMailer.expects(:inform_offer_context).never
         assert_raises { email.send_mailing! }
@@ -201,10 +201,10 @@ describe Email do
 
       it 'wont send an orga context mailing when it is in a position contact'\
          ' but is in more than one organization' do
-        email = FactoryGirl.create :email, :with_unapproved_offer
+        email = FactoryBot.create :email, :with_unapproved_offer
         email.contact_people.first.update_column :position, 'superior'
         email.contact_people <<
-          FactoryGirl.create(:contact_person, position: 'superior')
+          FactoryBot.create(:contact_person, position: 'superior')
         OfferMailer.expects(:inform_organization_context).never
         assert_raises { email.send_mailing! }
       end

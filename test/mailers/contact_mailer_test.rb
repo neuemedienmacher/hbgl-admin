@@ -6,7 +6,7 @@ describe ContactMailer do
   include EmailSpec::Helpers
   include EmailSpec::Matchers
 
-  let(:contact) { FactoryGirl.create(:contact) }
+  let(:contact) { FactoryBot.create(:contact) }
 
   describe '#admin_notification' do
     it 'must deliver' do

@@ -7,7 +7,7 @@ module API
       let(:subject) { API::V1::ContactPersonTranslation::Representer::Show }
 
       it 'contact person Representer label test' do
-        object = FactoryGirl.create :contact_person
+        object = FactoryBot.create :contact_person
         translation = object.translations.first
         result = subject.new(translation).to_hash
         result['data']['attributes']['label']

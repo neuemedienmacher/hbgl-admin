@@ -6,27 +6,27 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
   let(:operation) { Translation::AutomaticUpsert }
 
   let(:family_section_orga) do
-    FactoryGirl.create(:organization, :approved, section: :family)
+    FactoryBot.create(:organization, :approved, section: :family)
   end
 
   let(:refugees_section_orga) do
-    FactoryGirl.create(:organization, :approved, section: :refugees)
+    FactoryBot.create(:organization, :approved, section: :refugees)
   end
 
   let(:family_offer) do
-    offer = FactoryGirl.create :offer, :approved,
-                               organizations: [family_section_orga]
-    # offer.section = FactoryGirl.create(:section, :family)
-    offer.tags = [FactoryGirl.create(:tag)]
+    offer = FactoryBot.create :offer, :approved,
+                              organizations: [family_section_orga]
+    # offer.section = FactoryBot.create(:section, :family)
+    offer.tags = [FactoryBot.create(:tag)]
     offer.save
     offer
   end
 
   let(:refugees_offer) do
-    offer = FactoryGirl.create :offer, :approved,
-                               organizations: [refugees_section_orga]
-    # offer.section = FactoryGirl.create(:section, :refugees)
-    offer.tags = [FactoryGirl.create(:tag)]
+    offer = FactoryBot.create :offer, :approved,
+                              organizations: [refugees_section_orga]
+    # offer.section = FactoryBot.create(:section, :refugees)
+    offer.tags = [FactoryBot.create(:tag)]
     offer.save
     offer
   end
@@ -147,7 +147,7 @@ class AutomaticUpsertTest < ActiveSupport::TestCase
 
   it 'should create system-assignment for contact_person' do
     cont =
-      FactoryGirl.create :contact_person, responsibility: 'Geduld und Disziplin'
+      FactoryBot.create :contact_person, responsibility: 'Geduld und Disziplin'
     operation.({}, 'locale' => :en, 'fields' => :all,
                    'object_to_translate' => cont)
     assignments = cont.translations.where(locale: 'en').first.assignments

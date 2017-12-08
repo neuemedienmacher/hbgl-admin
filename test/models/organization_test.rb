@@ -13,7 +13,7 @@ describe Organization do
 
   describe 'partial_dup' do
     it 'should correctly duplicate an organization' do
-      organization = FactoryGirl.create :organization, :approved
+      organization = FactoryBot.create :organization, :approved
       duplicate = organization.partial_dup
       assert_nil duplicate.name
       assert_nil duplicate.founded
@@ -252,7 +252,7 @@ describe Organization do
 
       it 'wont approve offers that have another deactivated orga' do
         offer.update_column :aasm_state, :organization_deactivated
-        division = FactoryGirl.create(:division) # new division with orga
+        division = FactoryBot.create(:division) # new division with orga
         offer.divisions << division
         division.organization.update_columns aasm_state: 'external_feedback'
         orga.reactivate_offers!
@@ -312,7 +312,7 @@ describe Organization do
     end
 
     it 'should transition from approved to all_done and call mailings method' do
-      organization = FactoryGirl.create :organization, aasm_state: 'approved'
+      organization = FactoryBot.create :organization, aasm_state: 'approved'
       organization.expects(:enable_mailings!).once
       organization.mark_as_done!
       organization.reload.must_be :all_done?
@@ -321,15 +321,15 @@ describe Organization do
 
   describe '#enable_mailings!' do
     it 'will enable mailings for orga' do
-      organization = FactoryGirl.create :organization, :approved,
-                                        mailings: 'disabled'
+      organization = FactoryBot.create :organization, :approved,
+                                       mailings: 'disabled'
       organization.send(:enable_mailings!)
       organization.reload.mailings.must_equal 'enabled'
     end
 
     it 'wont do anything for force_disabled organization' do
-      organization = FactoryGirl.create :organization, :approved,
-                                        mailings: 'force_disabled'
+      organization = FactoryBot.create :organization, :approved,
+                                       mailings: 'force_disabled'
       organization.send(:enable_mailings!)
       organization.reload.mailings.must_equal 'force_disabled'
     end

@@ -6,7 +6,7 @@ require_relative '../../support/utils/api_controller_test_utils'
 describe API::V1::ContactPeopleController do
   include API::ControllerTestUtils
   before { sign_in users(:researcher) }
-  let(:contact_person) { FactoryGirl.create(:contact_person) }
+  let(:contact_person) { FactoryBot.create(:contact_person) }
 
   it { api_get_works_for :index }
   it { api_get_works_for :show, id: contact_person.id }

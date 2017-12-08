@@ -6,7 +6,7 @@ describe Ability do
   describe 'User' do
     describe 'abilities' do
       it 'should be able to access everything as researcher' do
-        user = FactoryGirl.create :researcher
+        user = FactoryBot.create :researcher
         ability = Ability.new(user)
 
         assert ability.can?(:access, :rails_admin)

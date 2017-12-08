@@ -7,7 +7,7 @@ describe Location do
 
   describe 'partial_dup' do
     it 'should correctly duplicate an location' do
-      location = FactoryGirl.create :location, :hq
+      location = FactoryBot.create :location, :hq
       duplicate = location.partial_dup
       duplicate.hq.must_equal false
       duplicate.offers.must_equal []

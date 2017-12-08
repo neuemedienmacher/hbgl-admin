@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :offer_mailing do
     mailing_type do
       OfferMailing.enumerized_attributes.attributes['mailing_type']

@@ -9,7 +9,7 @@ class ContactPersonTranslationUpdateTest < ActiveSupport::TestCase
   include OperationTestUtils
 
   let(:user) { users(:super) }
-  let(:cont) { FactoryGirl.create :contact_person }
+  let(:cont) { FactoryBot.create :contact_person }
   let(:basic_params) do
     {
       id: cont.translations.find_by(locale: I18n.locale).id,

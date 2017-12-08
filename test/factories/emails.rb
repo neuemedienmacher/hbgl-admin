@@ -2,15 +2,15 @@
 
 require 'ffaker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :email do
     address { FFaker::Internet.email }
 
     trait :with_approved_offer do
       after :create do |email, _evaluator|
-        offers = [FactoryGirl.create(:offer, :approved)]
-        email.contact_people << FactoryGirl.create(:contact_person,
-                                                   offers: offers)
+        offers = [FactoryBot.create(:offer, :approved)]
+        email.contact_people << FactoryBot.create(:contact_person,
+                                                  offers: offers)
         email.contact_people.first.organization.update_columns(
           aasm_state: 'all_done'
         )
@@ -19,9 +19,9 @@ FactoryGirl.define do
 
     trait :with_unapproved_offer do
       after :create do |email, _evaluator|
-        offers = [FactoryGirl.create(:offer)]
-        email.contact_people << FactoryGirl.create(:contact_person,
-                                                   offers: offers)
+        offers = [FactoryBot.create(:offer)]
+        email.contact_people << FactoryBot.create(:contact_person,
+                                                  offers: offers)
         email.contact_people.first.organization.update_columns(
           aasm_state: 'all_done'
         )
@@ -30,10 +30,10 @@ FactoryGirl.define do
 
     trait :with_approved_and_unapproved_offer do
       after :create do |email, _evaluator|
-        offers = [FactoryGirl.create(:offer),
-                  FactoryGirl.create(:offer, :approved)]
-        email.contact_people << FactoryGirl.create(:contact_person,
-                                                   offers: offers)
+        offers = [FactoryBot.create(:offer),
+                  FactoryBot.create(:offer, :approved)]
+        email.contact_people << FactoryBot.create(:contact_person,
+                                                  offers: offers)
         email.contact_people.first.organization.update_columns(
           aasm_state: 'all_done'
         )

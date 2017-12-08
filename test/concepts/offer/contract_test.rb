@@ -84,25 +84,25 @@ class OfferContractTest < ActiveSupport::TestCase
       # end
 
       it 'should fail when chosen contact people not SPoC nor belong to orga' do
-        cp = FactoryGirl.create :contact_person, spoc: false,
-                                                 organization_id:
+        cp = FactoryBot.create :contact_person, spoc: false,
+                                                organization_id:
                                                  organizations(:second).id
         subject.contact_people << cp
         subject.wont_be :valid?
       end
 
       it 'should ensure chosen contact people are SPoC' do
-        cp = FactoryGirl.create :contact_person, spoc: true,
-                                                 organization_id:
+        cp = FactoryBot.create :contact_person, spoc: true,
+                                                organization_id:
                                                  organizations(:second).id
         subject.contact_people << cp
         subject.must_be :valid?
       end
 
       it 'should ensure chosen contact people belong to orga' do
-        cp = FactoryGirl.create :contact_person,
-                                spoc: false, offers: [subject.model],
-                                organization: organizations(:basic)
+        cp = FactoryBot.create :contact_person,
+                               spoc: false, offers: [subject.model],
+                               organization: organizations(:basic)
         subject.contact_people << cp
         subject.must_be :valid?
       end
@@ -165,9 +165,9 @@ class OfferContractTest < ActiveSupport::TestCase
       end
 
       it 'should validate that divisions have same section' do
-        section = FactoryGirl.create(:section)
-        division1 = FactoryGirl.create(:division, section: section)
-        division2 = FactoryGirl.create(:division, section: section)
+        section = FactoryBot.create(:section)
+        division1 = FactoryBot.create(:division, section: section)
+        division2 = FactoryBot.create(:division, section: section)
         subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
         subject.divisions = [division2, division1]
         subject.valid?
@@ -175,10 +175,10 @@ class OfferContractTest < ActiveSupport::TestCase
       end
 
       it 'should fail if divisions have different section' do
-        division1 = FactoryGirl.create(:division,
-                                       section: FactoryGirl.create(:section))
-        division2 = FactoryGirl.create(:division,
-                                       section: FactoryGirl.create(:section))
+        division1 = FactoryBot.create(:division,
+                                      section: FactoryBot.create(:section))
+        division2 = FactoryBot.create(:division,
+                                      section: FactoryBot.create(:section))
         subject.logic_version = LogicVersion.create(name: 'bacon', version: 7)
         subject.divisions << [division2, division1]
         subject.valid?

@@ -38,7 +38,7 @@ class AssignmentCreateBySystemTest < ActiveSupport::TestCase
   end
 
   it 'must create assignments with correct messages when called two times' do
-    basic_options[:assignable] = FactoryGirl.create(:division)
+    basic_options[:assignable] = FactoryBot.create(:division)
     operation_must_work ::Assignment::CreateBySystem, {}, basic_options
     basic_options[:assignable].done = true
     result = operation_must_work ::Assignment::CreateBySystem, {}, basic_options

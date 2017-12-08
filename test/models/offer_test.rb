@@ -17,8 +17,8 @@ describe Offer do
     describe 'scopes' do
       describe 'visible_in_frontend' do
         it 'includes offers that are approved or expired' do
-          approved_offer = FactoryGirl.create :offer, :approved
-          expired = FactoryGirl.create :offer, aasm_state: 'expired'
+          approved_offer = FactoryBot.create :offer, :approved
+          expired = FactoryBot.create :offer, aasm_state: 'expired'
           Offer.visible_in_frontend.to_a.include?(
             approved_offer
           ).must_equal true
@@ -26,18 +26,18 @@ describe Offer do
         end
 
         it 'excludes offers that are not approved or expired' do
-          offer = FactoryGirl.create :offer, aasm_state: 'completed'
+          offer = FactoryBot.create :offer, aasm_state: 'completed'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
-          offer = FactoryGirl.create :offer, aasm_state: 'initialized'
+          offer = FactoryBot.create :offer, aasm_state: 'initialized'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
-          offer = FactoryGirl.create :offer, aasm_state: 'paused'
+          offer = FactoryBot.create :offer, aasm_state: 'paused'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
-          offer = FactoryGirl.create :offer, aasm_state: 'internal_feedback'
+          offer = FactoryBot.create :offer, aasm_state: 'internal_feedback'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
-          offer = FactoryGirl.create :offer, aasm_state: 'organization_'\
+          offer = FactoryBot.create :offer, aasm_state: 'organization_'\
                                                          'deactivated'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
-          offer = FactoryGirl.create :offer, aasm_state: 'website_unreachable'
+          offer = FactoryBot.create :offer, aasm_state: 'website_unreachable'
           Offer.visible_in_frontend.to_a.include?(offer).must_equal false
         end
       end
@@ -46,9 +46,9 @@ describe Offer do
         it 'should correctly retrieve only seasonal offers with'\
            'seasonal scope' do
           seasonal_offer =
-            FactoryGirl.create :offer, starts_at: Time.zone.now - 30.days,
-                                       ends_at: Time.zone.now + 30.days
-          FactoryGirl.create :offer # additional normal offer
+            FactoryBot.create :offer, starts_at: Time.zone.now - 30.days,
+                                      ends_at: Time.zone.now + 30.days
+          FactoryBot.create :offer # additional normal offer
           Offer.seasonal.must_equal [seasonal_offer]
         end
       end
@@ -57,7 +57,7 @@ describe Offer do
     describe 'observers' do
       describe 'after create' do
         it 'should try to set a creator' do
-          new_offer = FactoryGirl.create :offer, created_by: nil
+          new_offer = FactoryBot.create :offer, created_by: nil
           assert_not_nil new_offer.created_by
         end
       end
@@ -65,7 +65,7 @@ describe Offer do
 
     describe 'partial_dup' do
       it 'should correctly duplicate an offer' do
-        offer = FactoryGirl.create :offer, :approved, :with_location
+        offer = FactoryBot.create :offer, :approved, :with_location
         duplicate = offer.partial_dup
         assert_nil duplicate.created_by
         duplicate.location.must_equal offer.location
@@ -84,7 +84,7 @@ describe Offer do
 
     describe '_residency_status_filters' do
       it 'should correctly return all residence_status identifiers' do
-        offer = FactoryGirl.create :offer, :approved, section_id: 2
+        offer = FactoryBot.create :offer, :approved, section_id: 2
         TargetAudienceFiltersOffer.create!(
           offer_id: offer.id, target_audience_filter_id: 4,
           residency_status: 'with_deportation_decision',
@@ -114,29 +114,29 @@ describe Offer do
 
     describe '#remote_or_belongs_to_informable_city?' do
       it 'must be true for a personal offer with all_done organization' do
-        location_offer = FactoryGirl.create :offer, :approved, :with_location
+        location_offer = FactoryBot.create :offer, :approved, :with_location
         location_offer.organizations.first.update_columns aasm_state: 'all_done'
         location_offer.remote_or_belongs_to_informable_city?.must_equal true
       end
 
       it 'must be false for a personal offer with approved organization' do
-        location_offer = FactoryGirl.create :offer, :approved, :with_location
+        location_offer = FactoryBot.create :offer, :approved, :with_location
         location_offer.location.city = City.new(name: 'Bielefeld')
         location_offer.organizations.first.update_columns aasm_state: 'approved'
         location_offer.remote_or_belongs_to_informable_city?.must_equal false
       end
 
       it 'must be true for a remote offer with a city-area' do
-        remote_offer = FactoryGirl.create :offer, :approved, encounter: 'chat'
-        remote_offer.area = FactoryGirl.create :area, name: 'Berlin'
+        remote_offer = FactoryBot.create :offer, :approved, encounter: 'chat'
+        remote_offer.area = FactoryBot.create :area, name: 'Berlin'
         remote_offer.organizations.first.update_columns aasm_state: 'all_done'
         remote_offer.remote_or_belongs_to_informable_city?.must_equal true
       end
 
       it 'must be true for a remote offer with area that does'\
          ' not match a city' do
-        remote_offer = FactoryGirl.create :offer, :approved, encounter: 'chat'
-        remote_offer.area = FactoryGirl.create :area, name: 'NotACity'
+        remote_offer = FactoryBot.create :offer, :approved, encounter: 'chat'
+        remote_offer.area = FactoryBot.create :area, name: 'NotACity'
         remote_offer.organizations.first.update_columns aasm_state: 'approved'
         remote_offer.remote_or_belongs_to_informable_city?.must_equal true
       end
@@ -231,15 +231,15 @@ describe Offer do
     describe 'translation' do
       it 'should get translated name, description, and old_next_steps' do
         Offer.any_instance.stubs(:generate_translations!)
-        offer = FactoryGirl.create :offer
+        offer = FactoryBot.create :offer
         offer.translations <<
-          FactoryGirl.create(:offer_translation, locale: :de, name: 'de name',
-                                                 description: 'de desc',
-                                                 old_next_steps: 'de next')
+          FactoryBot.create(:offer_translation, locale: :de, name: 'de name',
+                                                description: 'de desc',
+                                                old_next_steps: 'de next')
         offer.translations <<
-          FactoryGirl.create(:offer_translation, locale: :en, name: 'en name',
-                                                 description: 'en desc',
-                                                 old_next_steps: 'en next')
+          FactoryBot.create(:offer_translation, locale: :en, name: 'en name',
+                                                description: 'en desc',
+                                                old_next_steps: 'en next')
         old_locale = I18n.locale
 
         I18n.locale = :de

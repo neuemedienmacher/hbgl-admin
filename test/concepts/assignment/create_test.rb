@@ -107,7 +107,7 @@ class AssignmentCreateTest < ActiveSupport::TestCase
 
       describe 'side-effects' do
         it 'wont create a new orga-assignment when the conditions dont match' do
-          division = FactoryGirl.create(:division)
+          division = FactoryBot.create(:division)
           basic_params[:assignable_id] = division.id
           basic_params[:assignable_type] = 'Division'
           orga = division.organization
@@ -130,7 +130,7 @@ class AssignmentCreateTest < ActiveSupport::TestCase
         end
 
         it 'also creates a new organization-assignment for special division' do
-          division = FactoryGirl.create(:division)
+          division = FactoryBot.create(:division)
           basic_params[:assignable_id] = division.id
           basic_params[:assignable_type] = 'Division'
           orga = division.organization

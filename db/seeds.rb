@@ -58,38 +58,38 @@ SearchLocation.create query: 'Berlin', latitude: 52.520007,
                                        longitude: 13.404954,
                                        geoloc: '52.520007,13.404954'
 
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                          name_de: 'Familie'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                            name_de: 'Asyl und Recht'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                             name_de: 'Gesundheit'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                            name_de: 'Lernen und Arbeiten'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                           name_de: 'Sorgen im Alltag'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                           name_de: 'Leben in Deutschland'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                               name_de: 'Gewalt'
-FactoryGirl.create :tag, :with_dummy_translations,
+FactoryBot.create :tag, :with_dummy_translations,
                             name_de: 'Notfall'
 
 20.times do
-    FactoryGirl.create :tag, :with_dummy_translations
+    FactoryBot.create :tag, :with_dummy_translations
 end
 
 tags = Tag.all
-FactoryGirl.create :offer, :approved, :with_dummy_translations,
+FactoryBot.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokales Angebot',
                    encounter: 'personal', tags: [tags.sample]
-FactoryGirl.create :offer, :approved, :with_dummy_translations,
+FactoryBot.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Lokale Hotline',
                    encounter: 'hotline', area: berlin, tags: [tags.sample]
-FactoryGirl.create :offer, :approved, :with_dummy_translations,
+FactoryBot.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweiter Chat',
                    encounter: 'chat', area: schland, tags: [tags.sample]
-FactoryGirl.create :offer, :approved, :with_dummy_translations,
+FactoryBot.create :offer, :approved, :with_dummy_translations,
                    approved_by: user, name: 'Bundesweite Hotline',
                    encounter: 'hotline', area: schland, tags: [tags.sample]
 
@@ -154,11 +154,11 @@ end
 team.users.find_each do |member|
   date_start = Date.new(2017,1,1)
   10.times do
-    FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
+    FactoryBot.create :statistic, date: date_start, count: rand(1..10),
                        trackable_id: member.id, trackable_type: 'User', model: 'Offer',
                        field_name: 'aasm_state', field_start_value:'initialized',
                        field_end_value: 'completed'
-    FactoryGirl.create :statistic, date: date_start, count: rand(1..10),
+    FactoryBot.create :statistic, date: date_start, count: rand(1..10),
                        trackable_id: member.id, trackable_type: 'User', model: 'Offer',
                        field_name: 'aasm_state', field_end_value: 'approved',
                        field_start_value:'approval_process'
@@ -170,25 +170,25 @@ end
 # # A running goal
 # now = Date.current
 # date = now - 4.weeks
-# goal = FactoryGirl.create(
+# goal = FactoryBot.create(
 #   :statistic_chart, :running,
 #   title: 'Approve 1000 Offers', target_field_name: 'aasm_state',
 #   target_field_value: 'approved', target_count: 1000, target_model: 'Offer'
 # )
 # goal.user_team.users << user
-# FactoryGirl.create(
+# FactoryBot.create(
 #   :statistic, goal: goal, count: 10, date: goal.starts_at + 1.day
 # )
-# FactoryGirl.create(
+# FactoryBot.create(
 #   :statistic, goal: goal, count: 7, date: goal.starts_at + 2.day
 # )
-# FactoryGirl.create(
+# FactoryBot.create(
 #   :statistic, goal: goal, count: 8, date: goal.starts_at + 3.days
 # )
-# FactoryGirl.create(
+# FactoryBot.create(
 #   :statistic, goal: goal, count: 20, date: goal.starts_at + 3.days
 # )
-# FactoryGirl.create(
+# FactoryBot.create(
 #   :statistic, goal: goal, count: 25, date: now - 1.days
 # )
 
@@ -205,7 +205,7 @@ end
 #                   model: 'Offer', field_name: 'aasm_state',
 #                   field_start_value: 'approval_process',
 #                   field_end_value: 'approved', date: date, count: 1.7
-# team_mate = goal.user_team.users.create FactoryGirl.attributes_for(:researcher)
+# team_mate = goal.user_team.users.create FactoryBot.attributes_for(:researcher)
 # TimeAllocation.create! user: team_mate, year: date.year,
 #                        week_number: date.cweek,
 #                        desired_wa_hours: 50,

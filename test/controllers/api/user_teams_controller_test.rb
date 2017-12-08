@@ -26,7 +26,7 @@ describe API::V1::UserTeamsController do
   end
 
   describe '#update' do
-    let(:team) { FactoryGirl.create(:user_team, user_ids: [1]) }
+    let(:team) { FactoryBot.create(:user_team, user_ids: [1]) }
     it { update_works_with UserTeam, team.id, name: 'foob' }
 
     it 'unauthenticates a regular user' do

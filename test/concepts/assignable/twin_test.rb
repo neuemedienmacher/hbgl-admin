@@ -23,7 +23,7 @@ class Assignable::TwinTest < ActiveSupport::TestCase
     end
 
     it 'should be false for undone-division' do
-      subject = Assignable::Twin.new(FactoryGirl.create(:division))
+      subject = Assignable::Twin.new(FactoryBot.create(:division))
       subject.should_create_new_assignment?.must_equal false
     end
 

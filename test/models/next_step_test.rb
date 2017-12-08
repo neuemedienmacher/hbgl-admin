@@ -9,14 +9,14 @@ describe NextStep do
   describe 'callbacks' do
     describe 'after_save' do
       it 'should request new translations when saved for the first time' do
-        next_step = FactoryGirl.build(:next_step)
+        next_step = FactoryBot.build(:next_step)
         GengoCommunicator.any_instance.expects(:create_translation_jobs)
                          .with(next_step, 'text')
         next_step.save!
       end
 
       it 'should request new translations when text_en has changed' do
-        next_step = FactoryGirl.create(:next_step)
+        next_step = FactoryBot.create(:next_step)
         next_step.text_en = 'hi'
         GengoCommunicator.any_instance.expects(:create_translation_jobs)
                          .with(next_step, 'text')
@@ -24,7 +24,7 @@ describe NextStep do
       end
 
       it 'wont request new translations when text_en has not changed' do
-        next_step = FactoryGirl.create(:next_step)
+        next_step = FactoryBot.create(:next_step)
         GengoCommunicator.any_instance.expects(:create_translation_jobs).never
         next_step.text_fr = 'salut'
         next_step.save!

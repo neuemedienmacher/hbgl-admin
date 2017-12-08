@@ -4,8 +4,8 @@ require_relative '../test_helper'
 include Warden::Test::Helpers
 
 feature 'Backend 2.0' do
-  let(:researcher) { FactoryGirl.create :researcher }
-  let(:superuser) { FactoryGirl.create :super }
+  let(:researcher) { FactoryBot.create :researcher }
+  let(:superuser) { FactoryBot.create :super }
 
   describe 'as logged out user' do
     scenario 'I need to login first' do

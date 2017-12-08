@@ -7,7 +7,7 @@ require_relative '../../support/utils/operation_test_utils'
 class OfferUpdateTest < ActiveSupport::TestCase
   include OperationTestUtils
 
-  let(:new_offer) { FactoryGirl.create(:offer) }
+  let(:new_offer) { FactoryBot.create(:offer) }
 
   it 'gets updated with a submodel' do
     params = {

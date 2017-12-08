@@ -7,11 +7,11 @@ describe OfferMailer do
   include EmailSpec::Matchers
 
   let(:offer) do
-    FactoryGirl.create(:offer, :approved)
+    FactoryBot.create(:offer, :approved)
   end
   let(:contact_person) do
-    FactoryGirl.create(:contact_person,
-                       { email: email, offers: [offer] }.merge(options))
+    FactoryBot.create(:contact_person,
+                      { email: email, offers: [offer] }.merge(options))
   end
   let(:options) { {} }
 
@@ -26,7 +26,7 @@ describe OfferMailer do
 
   describe '#inform_offer_context' do
     let(:email) do
-      FactoryGirl.create :email, :with_security_code, address: 'foo@bar.baz'
+      FactoryBot.create :email, :with_security_code, address: 'foo@bar.baz'
     end
 
     subject { OfferMailer.inform_offer_context email }
@@ -43,17 +43,17 @@ describe OfferMailer do
     end
 
     it 'only informs about offers by mailings=enabled organizations' do
-      orga2 = FactoryGirl.create :organization, :approved
-      offer2 = FactoryGirl.create :offer, :approved,
-                                  organizations: [orga2],
-                                  name: 'By mailings=enabled organization'
+      orga2 = FactoryBot.create :organization, :approved
+      offer2 = FactoryBot.create :offer, :approved,
+                                 organizations: [orga2],
+                                 name: 'By mailings=enabled organization'
       offer2.contact_people.first.update_column :email_id, email.id
 
       orga3 =
-        FactoryGirl.create :organization, :approved, mailings: 'force_disabled'
-      offer3 = FactoryGirl.create :offer, :approved,
-                                  organizations: [orga3],
-                                  name: 'By mailings=disabled organization'
+        FactoryBot.create :organization, :approved, mailings: 'force_disabled'
+      offer3 = FactoryBot.create :offer, :approved,
+                                 organizations: [orga3],
+                                 name: 'By mailings=disabled organization'
       offer3.contact_people.first.update_column :email_id, email.id
 
       assert_difference 'OfferMailing.count', 2 do # lists offer and offer2
@@ -75,7 +75,7 @@ describe OfferMailer do
 
     describe 'for an email with multiple contact people' do
       it 'must address them correctly' do
-        FactoryGirl.create :contact_person, email: email
+        FactoryBot.create :contact_person, email: email
         subject.must have_body_text 'Sehr geehrte Damen und Herren,'
       end
     end
@@ -123,7 +123,7 @@ describe OfferMailer do
 
   describe '#inform_organization_context' do
     let(:email) do
-      FactoryGirl.create :email, :with_security_code, address: 'foo@bar.baz'
+      FactoryBot.create :email, :with_security_code, address: 'foo@bar.baz'
     end
 
     subject { OfferMailer.inform_organization_context email }
@@ -147,7 +147,7 @@ describe OfferMailer do
 
     describe 'for an email with multiple contact people' do
       it 'must address them correctly' do
-        FactoryGirl.create :contact_person, email: email
+        FactoryBot.create :contact_person, email: email
         subject.must have_body_text 'Sehr geehrte Damen und Herren,'
       end
     end
@@ -196,7 +196,7 @@ describe OfferMailer do
   end
 
   describe '#newly_approved_offers' do
-    let(:email) { FactoryGirl.create(:email, :with_security_code, :subscribed) }
+    let(:email) { FactoryBot.create(:email, :with_security_code, :subscribed) }
     subject { OfferMailer.newly_approved_offers(email, offerArray) }
 
     before { contact_person }
@@ -222,7 +222,7 @@ describe OfferMailer do
       let(:offerArray) do
         [
           offer,
-          FactoryGirl.create(:offer, :approved, name: 'another named offer')
+          FactoryBot.create(:offer, :approved, name: 'another named offer')
         ]
       end
 

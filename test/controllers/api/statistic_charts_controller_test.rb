@@ -14,7 +14,7 @@ describe API::V1::StatisticChartsController do
 
   describe '#create' do
     let(:correct_params) do
-      FactoryGirl.build(:statistic_chart).attributes
+      FactoryBot.build(:statistic_chart).attributes
     end
 
     it 'should successfully handle a create request from super' do

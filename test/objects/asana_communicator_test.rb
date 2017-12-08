@@ -20,7 +20,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
       )
 
       offer = offers(:basic)
-      division = FactoryGirl.create :division
+      division = FactoryBot.create :division
       division.organization.update_columns name: 'bazfuz'
       offer.divisions << division
 
@@ -45,7 +45,7 @@ class AsanaCommunicatorTest < ActiveSupport::TestCase # to have fixtures
 
       offer = offers(:basic)
       offer.starts_at = offer.expires_at - 1.year
-      division = FactoryGirl.create :division
+      division = FactoryBot.create :division
       division.organization.update_columns name: 'bazfuz'
       offer.divisions << division
 

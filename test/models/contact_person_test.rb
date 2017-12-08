@@ -20,7 +20,7 @@ describe ContactPerson do
       describe 'custom' do
         describe '#at_least_one_field_present' do
           let(:contact_person) do
-            FactoryGirl.build :contact_person, :all_fields
+            FactoryBot.build :contact_person, :all_fields
           end
           before { contact_person.organization_id = 1 }
 
@@ -88,7 +88,7 @@ describe ContactPerson do
 
   describe 'translation' do
     it 'should create initial translatins' do
-      new_cont = FactoryGirl.create(
+      new_cont = FactoryBot.create(
         :contact_person, responsibility: 'responsibility text'
       )
       new_cont.translations.count.must_equal I18n.available_locales.count
@@ -98,7 +98,7 @@ describe ContactPerson do
 
     it 'should update an existing translation only when the field changed' do
       # Setup
-      new_cont = FactoryGirl.create(:contact_person, responsibility: 'whatever')
+      new_cont = FactoryBot.create(:contact_person, responsibility: 'whatever')
       new_cont.run_callbacks(:commit) # Hotfix: force commit callback
       new_cont.translations.count.must_equal I18n.available_locales.count
 

@@ -12,7 +12,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       offer.save!
       offer.definitions.count.must_equal 0
 
-      defn = FactoryGirl.create :definition, key: 'little', explanation: 'small'
+      defn = FactoryBot.create :definition, key: 'little', explanation: 'small'
 
       Definition::LinkAndInfuse.(
         {},
@@ -29,7 +29,7 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
     it 'infusing should be case insensitive' do
       orga.description = 'My sexual identity is great.'
       orga.save!
-      defn = FactoryGirl.create :definition, key: 'Sexual Identity'
+      defn = FactoryBot.create :definition, key: 'Sexual Identity'
 
       Definition::LinkAndInfuse.(
         {},
@@ -46,8 +46,8 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
        ' mutliple comma seperated keys are given' do
       orga.description = 'The big brown fox jumps over the apathetic, lazy dog.'
       orga.save!
-      first = FactoryGirl.create :definition, key: 'big', explanation: 'huge'
-      second = FactoryGirl.create :definition, key: 'lethargic, lazy, apathetic'
+      first = FactoryBot.create :definition, key: 'big', explanation: 'huge'
+      second = FactoryBot.create :definition, key: 'lethargic, lazy, apathetic'
 
       Definition::LinkAndInfuse.(
         {},
@@ -65,8 +65,8 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
       orga.description = 'The big brown fox jumps over the dog.'
       orga.save!
       orga.definitions.count.must_equal 0
-      defn = FactoryGirl.create :definition, key: 'big', explanation: 'huge'
-      FactoryGirl.create :definition, key: 'lethargic, lazy, apathetic'
+      defn = FactoryBot.create :definition, key: 'big', explanation: 'huge'
+      FactoryBot.create :definition, key: 'lethargic, lazy, apathetic'
 
       Definition::LinkAndInfuse.(
         {},
@@ -85,8 +85,8 @@ class LinkAndInfuseTest < ActiveSupport::TestCase
        'first in key list' do
       orga.description = 'Die Weisungen'
       orga.save!
-      defn = FactoryGirl.create :definition, key: 'Weisung, Weisungen',
-                                             explanation: 'Eine Weisung ist...'
+      defn = FactoryBot.create :definition, key: 'Weisung, Weisungen',
+                                            explanation: 'Eine Weisung ist...'
 
       Definition::LinkAndInfuse.(
         {},

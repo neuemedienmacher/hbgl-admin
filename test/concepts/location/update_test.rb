@@ -7,7 +7,7 @@ class LocationUpdateTest < ActiveSupport::TestCase
   include OperationTestUtils
 
   let(:user) { users(:researcher) }
-  let(:loc) { FactoryGirl.create(:location) }
+  let(:loc) { FactoryBot.create(:location) }
 
   describe '::Location::Update' do
     it 'must update a Location given valid data' do

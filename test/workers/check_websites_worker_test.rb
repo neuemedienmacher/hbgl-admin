@@ -5,8 +5,8 @@ class CheckWebsitesWorkerTest < ActiveSupport::TestCase # to have fixtures
   let(:spawner_worker) { CheckWebsitesWorker.new }
 
   it 'should correctly spawn single workers' do
-    website = FactoryGirl.create :website, :own
-    offer = FactoryGirl.create :offer, :approved
+    website = FactoryBot.create :website, :own
+    offer = FactoryBot.create :offer, :approved
     # remove faked random websites to ensure single invocation of perform_async
     Website.find_each do |faked_website|
       faked_website.offers = []
@@ -18,8 +18,8 @@ class CheckWebsitesWorkerTest < ActiveSupport::TestCase # to have fixtures
   end
 
   it 'should not spawn for ignored_by_crawler-boolean' do
-    website = FactoryGirl.create :website, :own, ignored_by_crawler: true
-    offer = FactoryGirl.create :offer, :approved
+    website = FactoryBot.create :website, :own, ignored_by_crawler: true
+    offer = FactoryBot.create :offer, :approved
     # remove faked random websites to ensure single invocation of perform_async
     Website.find_each do |faked_website|
       faked_website.offers = []

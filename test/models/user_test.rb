@@ -21,7 +21,7 @@ describe User do
   describe 'methods' do
     describe '::system_user' do
       it 'should find an existing system user' do
-        factory_user = FactoryGirl.create :user, name: 'System'
+        factory_user = FactoryBot.create :user, name: 'System'
         assert_no_difference 'User.count' do
           user = User.system_user
           user.must_equal factory_user

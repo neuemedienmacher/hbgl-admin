@@ -13,7 +13,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
         name: '*foo*', description: '*foo*', old_next_steps: '*foo*',
         opening_specification: '*foo*'
       )
-      definition = FactoryGirl.create :definition, key: 'foo'
+      definition = FactoryBot.create :definition, key: 'foo'
       worker.perform :de, 'Offer', offer.id
       translation = offer.translations.where(locale: 'de').first
       translation.name.must_equal '*foo*'

@@ -2,7 +2,7 @@
 
 require 'ffaker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :contact_person do
     gender { [:male, :female, nil].sample }
     first_name { FFaker::NameDE.first_name }

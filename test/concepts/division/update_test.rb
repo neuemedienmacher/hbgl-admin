@@ -10,7 +10,7 @@ class DivisionUpdateTest < ActiveSupport::TestCase
 
   let(:user) { users(:researcher) }
   let(:orga) { organizations(:basic) }
-  let(:division) { FactoryGirl.create :division, organization: orga }
+  let(:division) { FactoryBot.create :division, organization: orga }
   let(:basic_params) do
     {
       id: division.id,

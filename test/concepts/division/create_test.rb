@@ -26,8 +26,8 @@ class DivisionCreateTest < ActiveSupport::TestCase
     end
 
     it 'must create a division with presumed (solution) categories and label' do
-      tag1 = FactoryGirl.create(:tag)
-      tag2 = FactoryGirl.create(:tag)
+      tag1 = FactoryBot.create(:tag)
+      tag2 = FactoryBot.create(:tag)
 
       params = basic_params.merge(
         presumed_tags: [{ id: tag1.id }, { id: tag2.id }],

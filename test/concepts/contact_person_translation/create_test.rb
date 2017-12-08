@@ -9,7 +9,7 @@ class ContactPersonTranslationCreateTest < ActiveSupport::TestCase
   include OperationTestUtils
 
   let(:user) { users(:researcher) }
-  let(:cont) { FactoryGirl.create :contact_person }
+  let(:cont) { FactoryBot.create :contact_person }
   let(:basic_params) do
     {
       contact_person_id: cont.id,

@@ -9,13 +9,13 @@ class RegenerateHtmlWorkerTest < ActiveSupport::TestCase
 
   describe 'perform' do
     it 'should infuse german offer and orga translation where key is found' do
-      offer = FactoryGirl.create :offer, description: 'xy foo bar'
-      orga = FactoryGirl.create :organization, :with_translation,
-                                description: 'xy foo bar'
+      offer = FactoryBot.create :offer, description: 'xy foo bar'
+      orga = FactoryBot.create :organization, :with_translation,
+                               description: 'xy foo bar'
       Offer.stub_chain(:visible_in_frontend, :where).returns([offer])
       Organization.stub_chain(:visible_in_frontend, :where).returns([orga])
 
-      df = FactoryGirl.create :definition, key: 'foo', explanation: 'x'
+      df = FactoryBot.create :definition, key: 'foo', explanation: 'x'
 
       worker.perform
 

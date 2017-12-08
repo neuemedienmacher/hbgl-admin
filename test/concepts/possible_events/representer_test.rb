@@ -30,7 +30,7 @@ class API::V1::PossibleEvents::RepresenterTest < ActiveSupport::TestCase
   end
 
   it 'should return possible events for a Division' do
-    division = FactoryGirl.create :division
+    division = FactoryBot.create :division
     # division with not-approved orga return an empty array
     division.organization.update_columns aasm_state: 'initialized'
     result = subject.new(division).to_hash

@@ -7,7 +7,7 @@ class API::V1::City::RepresenterTest < ActiveSupport::TestCase
   let(:record) { cities(:basic) }
 
   it 'should provide its fields' do
-    record.divisions << FactoryGirl.create(:division)
+    record.divisions << FactoryBot.create(:division)
     result = subject.new(record).to_hash
     result['data']['attributes']['label'].must_equal 'Berlin'
   end

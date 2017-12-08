@@ -8,7 +8,7 @@ class JsonifyCollectionTest < ActiveSupport::TestCase
   it 'calls #for_collection on the representer and adds meta information' do
     collection = Tag.paginate(page: 2, per_page: 1)
     4.times do
-      FactoryGirl.create :tag
+      FactoryBot.create :tag
     end
     params = {
       'controller' => 'controller', 'action' => 'action',

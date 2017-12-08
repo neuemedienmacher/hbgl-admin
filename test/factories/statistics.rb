@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :statistic do
     transient do
       goal nil
@@ -23,7 +23,7 @@ FactoryGirl.define do
     #   if goal
     #     goal.user_team.users.sample
     #   else
-    #     FactoryGirl.create :researcher
+    #     FactoryBot.create :researcher
     #   end
     # end
 
@@ -31,7 +31,7 @@ FactoryGirl.define do
     #   if goal
     #     goal.user_team
     #   else
-    #     FactoryGirl.create :user_team, users: [user]
+    #     FactoryBot.create :user_team, users: [user]
     #   end
     # end
 
@@ -39,7 +39,7 @@ FactoryGirl.define do
       if goal
         goal.user_team
       else
-        FactoryGirl.create :user_team, users: [user]
+        FactoryBot.create :user_team, users: [user]
       end
     end
 

@@ -20,7 +20,7 @@ end
 puts "Before: Offer count #{Offer.count}"
 10.times do
   begin
-    FactoryGirl.create :offer, :approved, :with_dummy_translations,
+    FactoryBot.create :offer, :approved, :with_dummy_translations,
                        approved_by: User.where(active: true).sample.id, fake_address: true,
                        tags: [Tag.all.sample]
   rescue ActiveRecord::RecordInvalid

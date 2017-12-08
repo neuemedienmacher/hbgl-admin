@@ -7,7 +7,7 @@ require_relative '../../support/utils/operation_test_utils'
 class OrganizationUpdateTest < ActiveSupport::TestCase
   include OperationTestUtils
 
-  let(:new_orga) { FactoryGirl.create(:organization) }
+  let(:new_orga) { FactoryBot.create(:organization) }
 
   it 'gets updated with a submodel' do
     params = {
@@ -51,7 +51,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
     end
 
     it 'should always get de translation, others only on approval and change' do
-      new_orga = FactoryGirl.create(:organization)
+      new_orga = FactoryBot.create(:organization)
       new_orga.translations.count.must_equal 0
       new_orga.aasm_state.must_equal 'initialized'
 
@@ -155,7 +155,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
     it 'validates description and legal_form with approve state change param' do
       # complete & start_approval_process work without data
       orga =
-        FactoryGirl.create(:organization, description: nil, legal_form: nil)
+        FactoryBot.create(:organization, description: nil, legal_form: nil)
       operation_must_work(
         ::Organization::Update,
         id: orga.id, 'meta' => { 'commit' => 'complete' }
