@@ -13,11 +13,12 @@ init = ->
       componentRestrictions:
         country: 'de'
     
-    debugger
     # instantiate autocomplete field
     autocomplete =
       new google.maps.places.Autocomplete location_input, options
-    debugger
+
+    autocomplete.addListener('place_changed', fillInAddress)
+
     # MORE CALLBACKS
 
     # register event listener that pushes to GA when field is changed
@@ -28,4 +29,11 @@ init = ->
     #   @handleGooglePlaceChanged
     # )
 
-$(document).ready(init);
+
+fillInAddress = ->
+  #debugger
+  # Get the place details from the autocomplete object.
+  place = autocomplete.getPlace()
+  #debugger
+
+$(window).load init
