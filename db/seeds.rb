@@ -1,11 +1,5 @@
 Offer.clear_index!
 
-## Stubs
-class GengoCommunicator
-  def create_translation_jobs *attrs; true; end
-end
-## /Stubs
-
 user = User.create! email: 'user@user.com', password: 'password',
                     role: 'researcher', name: 'Regina Research'
 admin = User.create! email: 'admin@admin.com', password: 'password',

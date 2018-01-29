@@ -81,9 +81,6 @@ gem 'sinatra', '>= 1.3.0'
 gem 'sidekiq-cron', '~> 0.4.0'
 gem 'rufus-scheduler', '3.2.2'
 
-# 3rd Party APIs
-gem 'gengo', '0.2.0'
-
 # converting between unicode and ascii urls
 gem 'simpleidn'
 # Faraday for http requests and middleware for redirects
