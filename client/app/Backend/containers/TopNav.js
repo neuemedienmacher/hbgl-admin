@@ -151,19 +151,6 @@ const routes = [
     anchor: 'Nutzer',
     access: superuser,
   }
-  /*,
-  {
-    id: 10,
-    pathname: '/statistic-charts',
-    anchor: 'Produktivitätsziele',
-    access: superuser,
-  }, {
-    id: 11,
-    pathname: '/time-allocations',
-    anchor: 'Ressourcenplanung',
-    access: superuser,
-  }
-  */
 ]
 
 function routesForRole(role) {
