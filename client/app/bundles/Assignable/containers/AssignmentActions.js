@@ -87,16 +87,15 @@ function visibleFor(action, entities, model, id, systemUser) {
       return !isTeamOfCurrentUserAssignedToModel(entities, model, id) &&
         !isCurrentUserAssignedToModel(entities, model, id)
     case 'assign-to-system':
-      // NOTE: only assigned users in translator-teams may directly assign the
-      // systemUser (only to Translations)
+      // NOTE: only assigned users in may directly assign Translations to the
+      // system-user
       let currentUser = entities.users[entities['current-user-id']]
       let teamRoles = filter(
         entities['user-teams'],
         team => { return currentUser['user-team-ids'].includes(team.id) }
       ).map( team => team.classification )
       return isCurrentUserAssignedToModel(entities, model, id) && systemUser &&
-        ['offer-translations', 'organization-translations'].includes(model) &&
-        teamRoles.includes('translator')
+        ['offer-translations', 'organization-translations'].includes(model)
     default:
       return false
   }
