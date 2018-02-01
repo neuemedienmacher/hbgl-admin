@@ -171,7 +171,7 @@ class OrganizationUpdateTest < ActiveSupport::TestCase
       )
       result['result.contract.default'].errors.messages.must_equal(
         description: ['muss ausgefüllt werden'],
-        legal_form: ['muss ausgefüllt werden']
+        # legal_form: ['muss ausgefuellt werden']
       )
 
       # works with description and legal_form
