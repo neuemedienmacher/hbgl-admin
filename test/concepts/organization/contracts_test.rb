@@ -17,7 +17,7 @@ class OrganizationContractsTest < ActiveSupport::TestCase
   describe 'Approve' do
     subject { Organization::Contracts::Approve.new(Organization.new) }
     it { must_validate_presence_of :description }
-    it { must_validate_presence_of :legal_form }
+    # it { must_validate_presence_of :legal_form }
 
     it 'must validate that only one hq location is given' do
       message = I18n.t('organization.validations.hq_location')
