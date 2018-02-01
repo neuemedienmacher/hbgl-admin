@@ -574,8 +574,7 @@ RailsAdmin.config do |config|
     field :text_ar
     field :text_fa
     field :text_tr
-    field :text_pl
-    field :text_ru
+    field :text_ps
     field :text_fr
     field(:id) { read_only true }
 
@@ -805,8 +804,7 @@ RailsAdmin.config do |config|
     field :keywords_fa
     field :explanations_fa
     field :name_tr
-    field :name_pl
-    field :name_ru
+    field :name_ps
 
     object_label_method :name_de
   end

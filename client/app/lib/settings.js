@@ -174,8 +174,8 @@ export default {
 
     'next-steps': {
       fields: [
-        'id', 'text-de', 'text-en', 'text-ar', 'text-fr', 'text-pl',
-        'text-tr', 'text-ru', 'text-fa'
+        'id', 'text-de', 'text-en', 'text-ar', 'text-fr', 'text-ps',
+        'text-tr', 'text-fa'
       ],
       general_actions: [
         'index', 'export', 'new'

@@ -1,0 +1,133 @@
+fr:
+  offer:
+    stamp:
+      age:
+        age_from:
+          one: à partir d'%{count} an
+          other: à partir de %{count} ans
+        age_of_child: 'âge de l''enfant : %{age}'
+        age_to:
+          one: jusqu'à %{count} an
+          other: jusqu'à %{count} ans
+        suffix: ans
+      format: "%{stamp}%{optional_age}%{optional_status}"
+      status:
+        before_the_asylum_application: avant la demande d'asile
+        before_the_asylum_decision: avant la décision d'asile
+        during_the_asylum_procedure: dans une procédure de demande d'asile
+        with_a_residence_permit: avec permis de séjour
+        with_deportation_decision: avec décision d'expulsion
+        with_temporary_suspension_of_deportation: avec un certificat de tolérance
+      target_audience:
+        family_children:
+          adolescents: pour des ados
+          and_adolescents: pour des enfants et des ados
+          default: pour des enfants
+          female: pour des filles
+          male: pour des garçons
+        family_everyone: pour tous
+        family_nuclear_family:
+          default: pour des familles
+          female:
+            female: pour des mères et leurs filles
+            male: pour des mères et leurs fils
+            neutral: pour des mères et leurs enfants
+            with_baby: pour des mères et leurs bébés
+          male:
+            female: pour des pères et leurs filles
+            male: pour des pères et leurs fils
+            neutral: pour des pères et leurs enfants
+            with_baby: pour des pères  et leurs bébés
+          neutral:
+            female: pour des familles et leurs filles
+            male: pour des familles et leurs fils
+            neutral: pour des familles et leurs enfants
+            with_baby: pour des familles et leurs bébés
+        family_parents:
+          female:
+            female: pour des mères de la part de leurs filles
+            male: pour des mères de la part de leurs fils
+            neutral: pour des mères
+          male:
+            female: pour des pères de la part de leurs filles
+            male: pour des pères de la part de leurs fils
+            neutral: pour des pères
+          neutral:
+            female: pour des parents de la part de leurs filles
+            male: pour des parents de la part de leurs fils
+            neutral: pour des parents
+        family_parents_to_be:
+          default: pour de futurs parents
+          female:
+            default: pour des femmes enceintes
+            female: pour des femmes enceintes et leurs filles
+            male: pour des femmes enceintes et leurs fils
+            neutral: pour des femmes enceintes et leurs enfants
+          male:
+            default: pour de futurs pères
+            female: pour de futurs pères et leurs filles
+            male: pour de futurs pères et leurs fils
+            neutral: pour de futurs pères et leurs enfants
+          neutral:
+            female: pour de futurs parents et leurs filles
+            male: pour de futurs parents et leurs fils
+            neutral: pour de futurs parents et leurs enfants
+        family_relatives: pour les proches
+        refugees_children:
+          adolescents: pour des ados réfugiés
+          and_adolescents: pour des enfants et des ados réfugiés
+          default: pour des enfants réfugiés
+          female: pour des filles réfugiées
+          male: pour des garçons réfugiés
+        refugees_families:
+          default: pour des familles réfugiées
+          female:
+            female: pour des mères réfugiées et leurs filles
+            male: pour des mères réfugiées et leurs fils
+            neutral: pour des mères réfugiées et leurs enfants
+            with_baby: pour des mères réfugiées et leurs bébés
+          male:
+            female: pour des pères réfugiés et leurs filles
+            male: pour des pères réfugiés et leurs fils
+            neutral: pour des pères réfugiés et leurs enfants
+            with_baby: pour des pères réfugiés et leurs bébés
+          neutral:
+            female: pour des familles réfugiées et leurs filles
+            male: pour des familles réfugiées et leurs fils
+            neutral: pour des familles réfugiées et leurs enfants
+            with_baby: pour des familles réfugiées et leurs bébés
+        refugees_general:
+          female:
+            default: pour des femmes réfugiées
+            special: pour des filles et des femmes réfugiées
+          male:
+            default: pour des hommes réfugiés
+            special: pour des garçons et des hommes réfugiés
+          neutral:
+            adults: pour des adultes réfugiés
+            neutral: pour des réfugiés
+        refugees_parents:
+          female:
+            female: pour des mères réfugiées de la part de leurs filles
+            male: pour des mères réfugiées de la part de leurs fils
+            neutral: pour des mères réfugiées
+          male:
+            female: pour des pères réfugiés de la part de leurs filles
+            male: pour des pères réfugiés de la part de leurs fils
+            neutral: pour des pères réfugiés
+          neutral:
+            female: pour des parents réfugiés de la part de leurs filles
+            male: pour des parents réfugiés de la part de leurs fils
+            neutral: pour des parents réfugiés
+        refugees_parents_to_be:
+          female: pour des femmes enceintes réfugiées
+          male: pour des futurs pères réfugiés
+          neutral: pour des futurs parents réfugiés
+        refugees_uf:
+          minor:
+            neutral: pour des réfugiés mineurs non-accompagnés
+          neutral: pour des réfugiés non-accompagnés
+        refugees_umf:
+          female: pour des filles mineures non accompagnées
+          male: pour des gaarçons mineurs non accompagnés
+          neutral: pour des réfugiés mineurs non-accompagnés

@@ -126,11 +126,11 @@ class OfferUpdateTest < ActiveSupport::TestCase
       EasyTranslate.translated_with 'CHANGED' do
         new_offer.reload.name_ar.must_equal 'MANUAL EDIT'
         new_offer.description_ar.must_equal 'GET READY FOR CANADA'
-        new_offer.name_ru.must_equal 'GET READY FOR CANADA'
+        new_offer.name_tr.must_equal 'GET READY FOR CANADA'
         update_description(
           new_offer, 'changing descr, should update some translation'
         )
-        new_offer.reload.description_ru.must_equal 'CHANGED'
+        new_offer.reload.description_tr.must_equal 'CHANGED'
         new_offer.reload.name_ar.must_equal 'MANUAL EDIT'
         new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
         ar_translation.reload.possibly_outdated?.must_equal true
