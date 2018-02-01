@@ -1,55 +1,133 @@
-en:
-  errors:
-    array?: must be an array
-    attr?: is missing
-    bool?: must be boolean
-    correct?: muss mit Passwort übereinstimmen
-    date?: must be a date
-    date_time?: must be a date time
-    decimal?: must be a decimal
-    empty?: must be empty
-    eql?: must be equal to %{left}
-    even?: must be even
-    excluded_from?:
-      arg:
-        default: 'must not be one of: %{list}'
-        range: 'must not be one of: %{list_left} - %{list_right}'
-    excludes?: must not include %{value}
-    exclusion?: 'must not be one of: %{list}'
-    false?: must be false
-    filled?: muss ausgefüllt werden
-    float?: must be a float
-    format?: is in invalid format
-    gt?: muss größer als %{num} sein
-    gteq?: must be greater than or equal to %{num}
-    hash?: must be a hash
-    included_in?:
-      arg:
-        default: 'must be one of: %{list}'
-        range: 'must be one of: %{list_left} - %{list_right}'
-    includes?: must include %{value}
-    inclusion?: 'must be one of: %{list}'
-    int?: 'muss eine Zahl sein'
-    key?: is missing
-    lt?: must be less than %{num}
-    lteq?: must be less than or equal to %{num}
-    max_size?: muss weniger als %{num} Zeichen enthalten
-    min_size?: size cannot be less than %{num}
-    none?: cannot be defined
-    not_eql?: must not be equal to %{left}
-    number?: must be a number
-    odd?: must be odd
-    size?:
-      arg:
-        default: size must be %{size}
-        range: muss %{size_left} - %{size_right} Zeichen enthalten
-      value:
-        string:
-          arg:
-            default: length must be %{size}
-            range: muss %{size_left} - %{size_right} Zeichen enthalten
-    str?: must be a string
-    time?: must be a time
-    true?: must be true
-    type?: must be %{type}
-    unique?: darf noch nicht benutzt worden sein
+de:
+  offer:
+    stamp:
+      age:
+        age_from:
+          one: ab %{count} Jahr
+          other: ab %{count} Jahren
+        age_of_child: 'Alter des Kindes: %{age}'
+        age_to:
+          one: bis %{count} Jahr
+          other: bis %{count} Jahre
+        suffix: Jahre
+      format: "%{stamp}%{optional_age}%{optional_status}"
+      status:
+        before_the_asylum_application: "– vor dem Asylantrag"
+        before_the_asylum_decision: "– vor der Asylentscheidung"
+        during_the_asylum_procedure: "– im Asylverfahren"
+        with_a_residence_permit: "– mit Aufenthaltserlaubnis"
+        with_deportation_decision: "– mit Abschiebebescheid"
+        with_temporary_suspension_of_deportation: "– mit Duldung"
+      target_audience:
+        family_children:
+          adolescents: für Jugendliche
+          and_adolescents: für Kinder und Jugendliche
+          default: für Kinder
+          female: für Mädchen
+          male: für Jungen
+        family_everyone: für alle
+        family_nuclear_family:
+          default: für Familien
+          female:
+            female: für Mütter und ihre Töchter
+            male: für Mütter und ihre Söhne
+            neutral: für Mütter und ihre Kinder
+            with_baby: für Mütter und ihre Babys
+          male:
+            female: für Väter und ihre Töchter
+            male: für Väter und ihre Söhne
+            neutral: für Väter und ihre Kinder
+            with_baby: für Väter und ihre Babys
+          neutral:
+            female: für Familien und ihre Töchter
+            male: für Familien und ihre Söhne
+            neutral: für Familien und ihre Kinder
+            with_baby: für Familien und ihre Babys
+        family_parents:
+          female:
+            female: für Mütter von Töchtern
+            male: für Mütter von Söhnen
+            neutral: für Mütter
+          male:
+            female: für Väter von Töchtern
+            male: für Väter von Söhnen
+            neutral: für Väter
+          neutral:
+            female: für Eltern von Töchtern
+            male: für Eltern von Söhnen
+            neutral: für Eltern
+        family_parents_to_be:
+          default: für werdende Eltern
+          female:
+            default: für Schwangere
+            female: für Schwangere und ihre Töchter
+            male: für Schwangere und ihre Söhne
+            neutral: für Schwangere und ihre Kinder
+          male:
+            default: für werdende Väter
+            female: für werdende Väter und ihre Töchter
+            male: für werdende Väter und ihre Söhne
+            neutral: für werdende Väter und ihre Kinder
+          neutral:
+            female: für werdende Eltern und ihre Töchter
+            male: für werdende Eltern und ihre Söhne
+            neutral: für werdende Eltern und ihre Kinder
+        family_relatives: für Angehörige
+        refugees_children:
+          adolescents: für geflüchtete Jugendliche
+          and_adolescents: für geflüchtete Kinder und Jugendliche
+          default: für geflüchtete Kinder
+          female: für geflüchtete Mädchen
+          male: für geflüchtete Jungen
+        refugees_families:
+          default: für geflüchtete Familien
+          female:
+            female: für geflüchtete Mütter und ihre Töchter
+            male: für geflüchtete Mütter und ihre Söhne
+            neutral: für geflüchtete Mütter und ihre Kinder
+            with_baby: für geflüchtete Mütter und ihre Babys
+          male:
+            female: für geflüchtete Väter und ihre Töchter
+            male: für geflüchtete Väter und ihre Söhne
+            neutral: für geflüchtete Väter und ihre Kinder
+            with_baby: für geflüchtete Väter und ihre Babys
+          neutral:
+            female: für geflüchtete Familien und ihre Töchter
+            male: für geflüchtete Familien und ihre Söhne
+            neutral: für geflüchtete Familien und ihre Kinder
+            with_baby: für geflüchtete Familien und ihre Babys
+        refugees_general:
+          female:
+            default: für geflüchtete Frauen
+            special: für geflüchtete Mädchen und Frauen
+          male:
+            default: für geflüchtete Männer
+            special: für geflüchtete Jungen und Männer
+          neutral:
+            adults: für geflüchtete Erwachsene
+            neutral: für Flüchtlinge
+        refugees_parents:
+          female:
+            female: für geflüchtete Mütter von Töchtern
+            male: für geflüchtete Mütter von Söhnen
+            neutral: für geflüchtete Mütter
+          male:
+            female: für geflüchtete Väter von Töchtern
+            male: für geflüchtete Väter von Söhnen
+            neutral: für geflüchtete Väter
+          neutral:
+            female: für geflüchtete Eltern von Töchtern
+            male: für geflüchtete Eltern von Söhnen
+            neutral: für geflüchtete Eltern
+        refugees_parents_to_be:
+          female: für geflüchtete Schwangere
+          male: für geflüchtete werdende Väter
+          neutral: für geflüchtete werdende Eltern
+        refugees_uf:
+          minor:
+            neutral: für unbegleitete minderjährige Flüchtlinge
+          neutral: für unbegleitete Flüchtlinge
+        refugees_umf:
+          female: für unbegleitete minderjährige Mädchen
+          male: für unbegleitete minderjährige Jungen
+          neutral: für unbegleitete minderjährige Flüchtlinge

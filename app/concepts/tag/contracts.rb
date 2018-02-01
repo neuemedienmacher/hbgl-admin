@@ -16,8 +16,7 @@ module Tag::Contracts
     property :explanations_fa
     property :name_fr
     property :name_tr
-    property :name_pl
-    property :name_ru
+    property :name_ps
 
     # Validations
     validates :name_de, presence: true
