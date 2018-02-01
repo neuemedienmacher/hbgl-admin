@@ -11,7 +11,7 @@ fi
 
 echo 'Downloading dump of production database...'
 dumpfile="$(pwd)/tmp/latest.dump"
-curl -o $dumpfile `heroku pg:backups public-url --app clarat`
+curl -o $dumpfile `heroku pg:backups public-url --app hbg-local`
 echo 'Done!'
 
 echo 'PG_RESTORE on development database...'

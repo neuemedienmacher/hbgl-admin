@@ -112,11 +112,11 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
     )
   }
 
-  static get requiredInputs() {
-    return concat(
-      OrgaCreateFormObject.requiredInputs, ['legal-form']
-    )
-  }
+  // static get requiredInputs() {
+  //   return concat(
+  //     OrgaCreateFormObject.requiredInputs, ['legal-form']
+  //   )
+  // }
 
   static get submodels() {
     return concat(OrgaCreateFormObject.submodels, 'umbrella-filters')

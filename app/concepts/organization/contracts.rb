@@ -43,7 +43,7 @@ module Organization::Contracts
 
   class Approve < Update # before: ChangeState
     validates :description, presence: true
-    validates :legal_form, presence: true
+    # validates :legal_form, presence: true
 
     validate :one_hq_location?
     def one_hq_location?
