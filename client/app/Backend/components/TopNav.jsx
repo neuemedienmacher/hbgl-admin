@@ -33,11 +33,6 @@ export default class TopNav extends Component {
             </a>
           </li>
           <li>
-            <a href='/admin'>
-              Altes Backend
-            </a>
-          </li>
-          <li>
             <a href='/users/sign_out' data-method='delete'>
               <span className='label label-important'>Abmelden</span>
             </a>
