@@ -28,9 +28,8 @@ module API::V1
           property :explanations_fa
 
           property :name_fr
-          property :name_pl
+          property :name_ps
           property :name_tr
-          property :name_ru
         end
       end
 

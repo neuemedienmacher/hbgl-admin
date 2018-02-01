@@ -1,23 +1,133 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  offer:
+    stamp:
+      age:
+        age_from:
+          one: from %{count} year of age
+          other: from %{count} years of age
+        age_of_child: 'age of child: %{age}'
+        age_to:
+          one: up to %{count} year
+          other: up to %{count} years
+        suffix: years
+      format: "%{stamp}%{optional_age}%{optional_status}"
+      status:
+        before_the_asylum_application: before the asylum procedure
+        before_the_asylum_decision: before the asylum decision
+        during_the_asylum_procedure: during the asylum procedure
+        with_a_residence_permit: with a residence permit
+        with_deportation_decision: with deportation notice
+        with_temporary_suspension_of_deportation: with temporary suspension of deportation
+      target_audience:
+        family_children:
+          adolescents: for adolescents
+          and_adolescents: for children and adolescents
+          default: for children
+          female: for girls
+          male: for boys
+        family_everyone: for everyone
+        family_nuclear_family:
+          default: for families
+          female:
+            female: for mothers and their daughters
+            male: for mothers and their sons
+            neutral: for mothers and their children
+            with_baby: for mothers with baby
+          male:
+            female: for fathers and their daughters
+            male: for fathers and their sons
+            neutral: for fathers and their children
+            with_baby: for fathers with babies
+          neutral:
+            female: for families and their daughters
+            male: for families and their sons
+            neutral: for families and their children
+            with_baby: for families and their babies
+        family_parents:
+          female:
+            female: for mothers of daughters
+            male: for mothers of sons
+            neutral: for mothers
+          male:
+            female: for fathers of daughters
+            male: for fathers of sons
+            neutral: for fathers
+          neutral:
+            female: for parents of daughters
+            male: for parents of sons
+            neutral: for parents
+        family_parents_to_be:
+          default: for parents to be
+          female:
+            default: for pregnant women
+            female: for pregnant women and their daughters
+            male: for pregnant women and their sons
+            neutral: for pregnant women and their children
+          male:
+            default: for fathers to be
+            female: for fathers to be and their daughters
+            male: for fathers to be and their sons
+            neutral: for fathers to be and their children
+          neutral:
+            female: for parents to be and their daughters
+            male: for parents to be and their sons
+            neutral: for parents to be and their children
+        family_relatives: for relatives
+        refugees_children:
+          adolescents: for adolescent refugees
+          and_adolescents: for refugee children and adolescents
+          default: for refugee children
+          female: for refugee girls
+          male: for refugee boys
+        refugees_families:
+          default: for refugee families
+          female:
+            female: for refugee mothers and their daughters
+            male: for refugee mothers and their sons
+            neutral: for refugee mothers and their children
+            with_baby: for refugee mothers and their babies
+          male:
+            female: for refugee fathers and their daughters
+            male: for refugee fathers and their sons
+            neutral: for refugee fathers and their children
+            with_baby: for refugee fathers and their babies
+          neutral:
+            female: for refugee families and their daughters
+            male: for refugee families and their sons
+            neutral: for refugee families and their children
+            with_baby: for refugee families and their babies
+        refugees_general:
+          female:
+            default: for refugee women
+            special: for refugee girls and women
+          male:
+            default: for refugee men
+            special: for refugee boys and men
+          neutral:
+            adults: for adult refugees
+            neutral: for refugees
+        refugees_parents:
+          female:
+            female: for refugee mothers of daughters
+            male: for refugee mothers of sons
+            neutral: for refugee mothers
+          male:
+            female: for refugee fathers of daughters
+            male: for refugee fathers of sons
+            neutral: for refugee fathers
+          neutral:
+            female: for refugee parents of daughters
+            male: for refugee parents of sons
+            neutral: for refugee parents
+        refugees_parents_to_be:
+          female: for pregnant refugees
+          male: for refugee expectant fathers
+          neutral: for refugee expectant parents
+        refugees_uf:
+          minor:
+            neutral: for unaccompanied minor refugees
+          neutral: for unaccompanied refugees
+        refugees_umf:
+          female: for unaccompanied female minors
+          male: for unaccompanied male minors
+          neutral: for unaccompanied minor refugees

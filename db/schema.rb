@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128160611) do
+ActiveRecord::Schema.define(version: 20180201100104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -258,9 +258,8 @@ ActiveRecord::Schema.define(version: 20171128160611) do
     t.string "text_en"
     t.string "text_ar"
     t.string "text_fr"
-    t.string "text_pl"
+    t.string "text_ps"
     t.string "text_tr"
-    t.string "text_ru"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "text_fa"
@@ -516,8 +515,7 @@ ActiveRecord::Schema.define(version: 20171128160611) do
     t.text "keywords_fa"
     t.string "name_en"
     t.string "name_fr"
-    t.string "name_pl"
-    t.string "name_ru"
+    t.string "name_ps"
     t.string "name_ar"
     t.string "name_fa"
     t.string "name_tr"
@@ -551,8 +549,7 @@ ActiveRecord::Schema.define(version: 20171128160611) do
     t.string "stamp_fa"
     t.string "stamp_fr"
     t.string "stamp_tr"
-    t.string "stamp_ru"
-    t.string "stamp_pl"
+    t.string "stamp_ps"
     t.index ["offer_id"], name: "index_target_audience_filters_offers_on_offer_id"
     t.index ["target_audience_filter_id"], name: "index_ta_filters_offers_on_target_audience_filter_id"
   end

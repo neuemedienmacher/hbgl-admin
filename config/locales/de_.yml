@@ -1,0 +1,55 @@
+en:
+  errors:
+    array?: must be an array
+    attr?: is missing
+    bool?: must be boolean
+    correct?: muss mit Passwort übereinstimmen
+    date?: must be a date
+    date_time?: must be a date time
+    decimal?: must be a decimal
+    empty?: must be empty
+    eql?: must be equal to %{left}
+    even?: must be even
+    excluded_from?:
+      arg:
+        default: 'must not be one of: %{list}'
+        range: 'must not be one of: %{list_left} - %{list_right}'
+    excludes?: must not include %{value}
+    exclusion?: 'must not be one of: %{list}'
+    false?: must be false
+    filled?: muss ausgefüllt werden
+    float?: must be a float
+    format?: is in invalid format
+    gt?: muss größer als %{num} sein
+    gteq?: must be greater than or equal to %{num}
+    hash?: must be a hash
+    included_in?:
+      arg:
+        default: 'must be one of: %{list}'
+        range: 'must be one of: %{list_left} - %{list_right}'
+    includes?: must include %{value}
+    inclusion?: 'must be one of: %{list}'
+    int?: 'muss eine Zahl sein'
+    key?: is missing
+    lt?: must be less than %{num}
+    lteq?: must be less than or equal to %{num}
+    max_size?: muss weniger als %{num} Zeichen enthalten
+    min_size?: size cannot be less than %{num}
+    none?: cannot be defined
+    not_eql?: must not be equal to %{left}
+    number?: must be a number
+    odd?: must be odd
+    size?:
+      arg:
+        default: size must be %{size}
+        range: muss %{size_left} - %{size_right} Zeichen enthalten
+      value:
+        string:
+          arg:
+            default: length must be %{size}
+            range: muss %{size_left} - %{size_right} Zeichen enthalten
+    str?: must be a string
+    time?: must be a time
+    true?: must be true
+    type?: must be %{type}
+    unique?: darf noch nicht benutzt worden sein

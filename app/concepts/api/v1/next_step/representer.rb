@@ -15,9 +15,8 @@ module API::V1
           property :text_en
           property :text_ar
           property :text_fr
-          property :text_pl
+          property :text_ps
           property :text_tr
-          property :text_ru
           property :text_fa
         end
       end

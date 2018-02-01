@@ -18,8 +18,7 @@ class NextStepContractsTest < ActiveSupport::TestCase
         it { must_validate_length_of :text_ar, maximum: 255 }
         it { must_validate_length_of :text_fr, maximum: 255 }
         it { must_validate_length_of :text_tr, maximum: 255 }
-        it { must_validate_length_of :text_pl, maximum: 255 }
-        it { must_validate_length_of :text_ru, maximum: 255 }
+        it { must_validate_length_of :text_ps, maximum: 255 }
         it { must_validate_length_of :text_fa, maximum: 255 }
       end
     end

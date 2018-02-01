@@ -104,7 +104,7 @@ describe ContactPerson do
 
       # Now changes to the model change the corresponding translated fields
       EasyTranslate.translated_with 'CHANGED' do
-        new_cont.responsibility_ar.must_equal 'GET READY FOR CANADA'
+        new_cont.responsibility_tr.must_equal 'GET READY FOR CANADA'
         # changing untranslated field => translations must stay the same
         new_cont.reload.responsibility_ar.must_equal 'GET READY FOR CANADA'
         new_cont.responsibility =

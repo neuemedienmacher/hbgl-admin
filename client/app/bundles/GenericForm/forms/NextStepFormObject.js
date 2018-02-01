@@ -12,7 +12,7 @@ export default class NextStepFormObject extends GenericFormObject {
   static get properties() {
     return [
       'text-de', 'text-en', 'text-ar', 'text-fa', 'text-fr', 'text-tr',
-      'text-pl', 'text-ru'
+      'text-ps'
     ]
   }
 
@@ -24,8 +24,7 @@ export default class NextStepFormObject extends GenericFormObject {
        'text-fa': { type: 'string' },
        'text-fr': { type: 'string' },
        'text-tr': { type: 'string' },
-       'text-pl': { type: 'string' },
-       'text-ru': { type: 'string' }
+       'text-ps': { type: 'string' }
     }
   }
 

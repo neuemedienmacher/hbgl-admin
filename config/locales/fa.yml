@@ -1,0 +1,129 @@
+fa:
+  offer:
+    stamp:
+      age:
+        age_from: "از %{count} سال\n\n"
+        age_of_child: 'سن کودک: %{age}'
+        age_to: تا %{count} سال
+        suffix: سال
+      format: "%{stamp}%{optional_age}%{optional_status}"
+      status:
+        before_the_asylum_application: قبل از درخواست پناهندگی
+        before_the_asylum_decision: قبل از تصمیم گیری در مورد پناهندگی
+        during_the_asylum_procedure: در طول پروسه روند رسیدگی به پناهندگی
+        with_a_residence_permit: با اجازه اقامت
+        with_deportation_decision: با برگه ترک خاک
+        with_temporary_suspension_of_deportation: با دولدونگ
+      target_audience:
+        family_children:
+          adolescents: برای نوجوانان
+          and_adolescents: برای کودکان و نو جوانان
+          default: برای کودکان
+          female: برای دختران
+          male: برای پسران
+        family_everyone: برای همه
+        family_nuclear_family:
+          default: برای خانواده ها
+          female:
+            female: برای مادران و دختران آنها
+            male: برای مادران و پسران آنها
+            neutral: برای ماران و فرزندان آنها
+            with_baby: برای مادران و کودکان آنها
+          male:
+            female: برای پدران و دختران آنها
+            male: برای پدران و پسران آنها
+            neutral: برای پدران و فرزندان آنها
+            with_baby: برای پدران و کودکان آنها
+          neutral:
+            female: برای خانواده ها و دختران آنها
+            male: برای خانواده ها و پسران آنها
+            neutral: برای خانواده ها و فرزندان آنها
+            with_baby: برای خانواده ها و کودکان آنها
+        family_parents:
+          female:
+            female: برای مادران دختران
+            male: برای مادران پسران
+            neutral: برای مادران
+          male:
+            female: برای پدران دختران
+            male: برای پدران پسران
+            neutral: برای پدران
+          neutral:
+            female: برای والدین دختران
+            male: برای والدین پسران
+            neutral: برای والدین
+        family_parents_to_be:
+          default: برای والدین چشم به راه کودک
+          female:
+            default: برای بارداران
+            female: برای بارداران با دختران آنها
+            male: برای بارداران با پسران آنها
+            neutral: برای بارداران با فرزندان آنها
+          male:
+            default: برای پدران چشم به راه کودک
+            female: برای پدران چشم به راه کودک و دختران آنها
+            male: برای پدران چشم به راه کودک و پسران آنها
+            neutral: برای پدران چشم به راه کودک و فرزندان آنها
+          neutral:
+            female: برای پدران چشم به راه کودک و دختران آنها
+            male: برای والدین چشم به راه کودک و پسران آنها
+            neutral: برای والدین چشم به راه کودک و فرزندان آنها
+        family_relatives: برای بستگان
+        refugees_children:
+          adolescents: برای نوجوانان پناهنده
+          and_adolescents: برای کودکان و نوجوانان پناهنده
+          default: برای کودکان پناهنده
+          female: برای دختران پناهنده
+          male: برای پسران پناهنده
+        refugees_families:
+          default: برای خانواده های پناهنده
+          female:
+            female: برای مادران پناهنده و دختران آنها
+            male: برای مادران پناهنده و پسران آنها
+            neutral: برای مادران پناهنده و فرزندان آنها
+            with_baby: برای مادران پناهنده و کودکان آنها
+          male:
+            female: برای پدران پناهنده و دختران آنها
+            male: برای پدران پناهنده و پسران آنها
+            neutral: برای پدران پناهنده و فرزندان آنها
+            with_baby: برای پدران پناهنده و کودکان آنها
+          neutral:
+            female: برای خانواده های پناهنده و دختران آنها
+            male: برای خانواده های پناهنده با پسران آنها
+            neutral: برای خانواده های پناهنده و دختران آنها
+            with_baby: برای خانواده های پناهنده و کودکان آنها
+        refugees_general:
+          female:
+            default: برای زنهای پناهنده
+            special: برای دختران و زنان پناهنده
+          male:
+            default: برای مردان پناهنده
+            special: برای پسران و مردان پناهنده
+          neutral:
+            adults: برای پناهندگان بزگسال
+            neutral: برای پناهندگان
+        refugees_parents:
+          female:
+            female: برای مادران پناهنده دختران
+            male: برای مادران پناهنده پسران
+            neutral: برای مادران پناهنده
+          male:
+            female: برای پدران پناهنده دختران
+            male: برای پدران پناهنده پسران
+            neutral: برای پدران پناهنده
+          neutral:
+            female: برای والدیدن پناهنده دختران
+            male: برای والدین پناهنده پسران
+            neutral: برای والدین پناهنده
+        refugees_parents_to_be:
+          female: برای زنان باردار پناهنده
+          male: برای پدران پناهنده چشم به راه کودک
+          neutral: برای والدین پناهنده چشم به راه کودک
+        refugees_uf:
+          minor:
+            neutral: برای پناهندگان زیر سن و بدون همراه
+          neutral: برای پناهندگان بدون همراه
+        refugees_umf:
+          female: برای دختران زیر سن و بدون همراه
+          male: برای پسران زیر سن و بدون همراه
+          neutral: برای پناهندگان زیر سن و بدون همراه
