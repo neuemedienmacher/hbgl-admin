@@ -175,5 +175,17 @@ class OrganizationCreateTest < ActiveSupport::TestCase
     result = operation_must_work ::Organization::Create, params
     result['model'].slug.must_equal 'best-orga-name-ever'
   end
+
+  it 'must create a generic default division if none was created/selected' do
+    params = {
+      name: 'Best Orga Name Ever',
+      website: { id: Website.first.id }
+    }
+    result = operation_must_work ::Organization::Create, params
+    orga_divisions = result['model'].reload.divisions
+    orga_divisions.count.must_equal 1
+    orga_divisions.first.addition.must_equal 'Generic'
+    orga_divisions.first.websites.first.must_equal Website.first
+  end
 end
 # rubocop:enable Metrics/ClassLength
