@@ -19,6 +19,7 @@ class Organization::Create < Trailblazer::Operation
   step Contract::Persist()
   step :generate_slug
   step :create_initial_assignment!
+  step :create_generic_division
 
   def set_creating_user(_, current_user:, model:, **)
     model.created_by = current_user.id
@@ -26,5 +27,20 @@ class Organization::Create < Trailblazer::Operation
 
   def generate_slug(_, model:, **)
     model.update_column :slug, model.send(:set_slug)
+  end
+
+  def create_generic_division(_, current_user:, model:, **)
+    if model.divisions.empty?
+      location_city = model.locations.where(hq: true).first&.city
+      params = {
+        addition: 'Generic', comment: 'Generic default division',
+        organization: model, websites: [{ id: model.website.id }],
+        area: location_city ? nil : ::Area.find_by(name: 'Deutschland'),
+        city: location_city
+      }
+      ::Division::Create.(params, 'current_user' => current_user).success?
+    else
+      true
+    end
   end
 end
