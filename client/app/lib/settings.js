@@ -33,18 +33,6 @@ export default {
       ]
     },
 
-    'statistic-charts': {
-      fields: [
-        'id', 'title', 'ends-at', 'target-model', 'target-field-name'
-      ],
-      general_actions: [
-        'index', 'new'
-      ],
-      member_actions: [
-        'show'
-      ]
-    },
-
     offers: {
       fields: [
         'id', 'name', { 'divisions': ['label'] },

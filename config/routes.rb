@@ -57,8 +57,6 @@ Rails.application.routes.draw do
       api_resources :websites
       api_resources :offer_translations, only: %i[index show update]
       api_resources :organization_translations, only: %i[index show update]
-      api_resources :statistic_charts, except: [:destroy]
-      api_resources :time_allocations, only: %i[create update]
       api_resources :user_teams
       api_resources :openings
       api_resources :tags
@@ -78,9 +76,6 @@ Rails.application.routes.draw do
       api_resources :next_steps
       api_resources :tags
       api_resources :assignments, only: %i[index show create update]
-      post 'time_allocations/:year/:week_number', controller: :time_allocations,
-                                                  action: :report_actual
-      # get '/statistics/:topic/:user_id(/:start/:end)' => 'statistics#index'
       get 'field_set/:model', controller: :field_set, action: :show
       get 'possible_events/:model/:id', controller: :possible_events,
                                         action: :show
