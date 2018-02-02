@@ -65,13 +65,11 @@ Rails.application.routes.draw do
       api_resources :definitions
       api_resources :solution_categories
       api_resources :sections, only: %i[index show]
-      api_resources :update_requests, only: %i[index show]
       api_resources :cities, only: %i[index show]
       api_resources :areas
       api_resources :topics, only: %i[index show]
       api_resources :federal_states, only: %i[index show]
       api_resources :contact_people
-      api_resources :contacts, only: %i[export index show]
       api_resources :language_filters, only: %i[export index show]
       api_resources :emails
       api_resources :filters, only: %i[index show]

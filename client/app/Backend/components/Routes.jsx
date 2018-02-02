@@ -68,19 +68,6 @@ export default class Routes extends React.Component {
             <Route path=':id/duplicate' component={MemberAction} />
           </Route>
 
-          <Route path='subscriptions'>
-            <IndexRoute component={Index}/>
-            <Route path='export' component={Export} />
-            <Route path=':id' component={MemberAction} />
-            <Route path=':id/delete' component={MemberAction} />
-          </Route>
-
-          <Route path='update-requests'>
-            <IndexRoute component={Index}/>
-            <Route path='export' component={Export} />
-            <Route path=':id' component={MemberAction} />
-          </Route>
-
           <Route path='locations'>
             <IndexRoute component={Index}/>
             <Route path='new' component={StandaloneGenericForm} />
@@ -242,12 +229,6 @@ export default class Routes extends React.Component {
           </Route>
 
           <Route path='language-filters'>
-            <IndexRoute component={Index} />
-            <Route path='export' component={Export} />
-            <Route path=':id' component={MemberAction} />
-          </Route>
-
-          <Route path='contacts'>
             <IndexRoute component={Index} />
             <Route path='export' component={Export} />
             <Route path=':id' component={MemberAction} />
