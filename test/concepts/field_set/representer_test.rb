@@ -27,7 +27,6 @@ class API::V1::FieldSet::RepresenterTest < ActiveSupport::TestCase
       .must_equal ['user_id']
     result['associations'][:observed_user_teams]['key']
       .must_equal ['observing_users.id']
-    result['associations'][:statistic_charts]['key'].must_equal ['user_id']
     result['associations'][:created_assignments]['key']
       .must_equal ['creator_id']
     result['associations'][:received_assignments]['key']

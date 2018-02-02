@@ -97,46 +97,36 @@ const routes = [
     access: all,
   }, {
     id: 16,
-    pathname: '/subscriptions',
-    anchor: 'Newsletter Abos',
-    access: all,
-  }, {
-    id: 17,
-    pathname: '/update-requests',
-    anchor: 'Update Requests',
-    access: all,
-  }, {
-    id: 18,
     pathname: '/cities',
     anchor: 'Städte',
     access: all,
   }, {
-    id: 19,
+    id: 17,
     pathname: '/areas',
     anchor: 'Areas',
     access: all,
   }, {
-    id: 20,
+    id: 18,
     pathname: '/federal-states',
     anchor: 'Bundesländer',
     access: all,
   }, {
-    id: 21,
+    id: 19,
     pathname: '/search-locations',
     anchor: 'SearchLocations',
     access: all,
   }, {
-    id: 22,
+    id: 20,
     pathname: '/language-filters',
     anchor: 'Language Filters',
     access: all,
   }, {
-    id: 23,
+    id: 21,
     pathname: '/user-teams',
     anchor: 'Teams',
     access: superuser,
   }, {
-    id: 24,
+    id: 22,
     pathname: '/users',
     anchor: 'Nutzer',
     access: superuser,
