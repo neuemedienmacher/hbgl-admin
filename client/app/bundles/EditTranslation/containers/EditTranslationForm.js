@@ -21,8 +21,10 @@ const mapStateToProps = (state, ownProps) => {
     (model == 'offer') ? OfferTranslationFormObject
                        : OrganizationTranslationFormObject
   const properties = formObjectClass.properties
-  const editLink = `/${pluralize(model)}/${ownProps.source.id}/edit`
-  const previewLink = ownProps.source.links && ownProps.source.links.preview
+  const editLink =
+    ownProps.source ? `/${pluralize(model)}/${ownProps.source.id}/edit` : '/'
+  const previewLink =
+    ownProps.source && ownProps.source.links && ownProps.source.links.preview
   const stamp = ownProps.translation['offer-stamp'] ?
                 ownProps.translation['offer-stamp'].join(', ') : 'nicht angegeben'
   const buttonData = BUTTON_DATA
