@@ -89,6 +89,8 @@ gem 'faraday_middleware'
 # ActiveRecord Extension
 gem 'rails_or'
 
+gem 'sprockets', '3.7.2'
+
 ########################
 # For Heroku & Add-Ons #
 ########################
