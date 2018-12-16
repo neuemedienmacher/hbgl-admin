@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# hotfixing load order leading to 'uninitialized constant' error
+require_dependency "app/concepts/api/v1/possible_events/representer"
+
 # NON-JSON-API getter for all currently possible events of a model
 module API::V1
   class PossibleEventsController < API::V1::BackendController

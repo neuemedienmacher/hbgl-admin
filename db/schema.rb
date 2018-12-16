@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201100104) do
+ActiveRecord::Schema.define(version: 20181202082818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "areas", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.float "minlat", null: false
     t.float "maxlat", null: false
     t.float "minlong", null: false
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.index ["receiver_team_id"], name: "index_assignments_on_receiver_team_id"
   end
 
+  create_table "categories_section_filters", id: :serial, force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "section_filter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "cities", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at"
@@ -74,12 +81,12 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.string "local_number_2", limit: 32
     t.string "fax_area_code", limit: 6
     t.string "fax_number", limit: 32
-    t.string "first_name"
-    t.string "last_name"
-    t.string "operational_name"
-    t.string "academic_title"
-    t.string "gender"
-    t.string "responsibility"
+    t.string "first_name", limit: 255
+    t.string "last_name", limit: 255
+    t.string "operational_name", limit: 255
+    t.string "academic_title", limit: 255
+    t.string "gender", limit: 255
+    t.string "responsibility", limit: 255
     t.integer "email_id"
     t.boolean "spoc", default: false, null: false
     t.string "position"
@@ -109,8 +116,8 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "email"
+    t.string "name", limit: 255
+    t.string "email", limit: 255
     t.text "message"
     t.string "url", limit: 1000
     t.datetime "created_at"
@@ -178,20 +185,21 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.string "security_code", limit: 36
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "tos", default: "uninformed", null: false
   end
 
   create_table "federal_states", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "filters", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.string "identifier", limit: 35, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "type", null: false
+    t.string "type", limit: 255, null: false
     t.integer "section_id"
     t.index ["section_id"], name: "index_filters_on_section_id"
   end
@@ -226,9 +234,9 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
-    t.string "street", null: false
+    t.string "street", limit: 255, null: false
     t.text "addition"
-    t.string "zip", null: false
+    t.string "zip", limit: 255, null: false
     t.boolean "hq"
     t.float "latitude"
     t.float "longitude"
@@ -236,8 +244,8 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.integer "federal_state_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "name"
-    t.string "label", null: false
+    t.string "name", limit: 255
+    t.string "label", limit: 255, null: false
     t.boolean "visible", default: true
     t.boolean "in_germany", default: true
     t.integer "city_id"
@@ -312,8 +320,8 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.string "name", limit: 120, null: false
     t.text "description", null: false
     t.text "old_next_steps"
-    t.string "encounter"
-    t.string "slug"
+    t.string "encounter", limit: 255
+    t.string "slug", limit: 255
     t.integer "location_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -326,7 +334,7 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.text "description_html"
     t.text "next_steps_html"
     t.text "opening_specification_html"
-    t.string "target_audience"
+    t.string "target_audience", limit: 255
     t.string "aasm_state", limit: 32
     t.boolean "hide_contact_people", default: false
     t.string "code_word", limit: 140
@@ -360,7 +368,7 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "sort_value"
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.string "open"
     t.string "close"
     t.index ["day"], name: "index_openings_on_day"
@@ -387,12 +395,12 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "organizations", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.text "description"
     t.text "legal_form"
     t.boolean "charitable", default: false
     t.integer "founded"
-    t.string "slug"
+    t.string "slug", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "approved_at"
@@ -415,7 +423,7 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "search_locations", id: :serial, force: :cascade do |t|
-    t.string "query", null: false
+    t.string "query", limit: 255, null: false
     t.float "latitude", null: false
     t.float "longitude", null: false
     t.datetime "created_at"
@@ -433,7 +441,7 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "sitemaps", id: :serial, force: :cascade do |t|
-    t.string "path", null: false
+    t.string "path", limit: 255, null: false
     t.text "content"
     t.index ["path"], name: "index_sitemaps_on_path", unique: true
   end
@@ -502,13 +510,13 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
-    t.string "email"
+    t.string "email", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name_de"
+    t.string "name_de", limit: 255
     t.text "keywords_de"
     t.text "keywords_en"
     t.text "keywords_ar"
@@ -576,8 +584,8 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "update_requests", id: :serial, force: :cascade do |t|
-    t.string "search_location", null: false
-    t.string "email", null: false
+    t.string "search_location", limit: 255, null: false
+    t.string "email", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -608,25 +616,25 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "email", limit: 255, default: "", null: false
+    t.string "encrypted_password", limit: 255, default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "role", default: "standard"
+    t.string "role", limit: 255, default: "standard"
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
-    t.string "provider"
-    t.string "uid"
-    t.string "name"
+    t.string "provider", limit: 255
+    t.string "uid", limit: 255
+    t.string "name", limit: 255
     t.boolean "active", default: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   create_table "versions", id: :serial, force: :cascade do |t|
-    t.string "item_type", null: false
+    t.string "item_type", limit: 255, null: false
     t.integer "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
+    t.string "event", limit: 255, null: false
+    t.string "whodunnit", limit: 255
     t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
@@ -634,8 +642,8 @@ ActiveRecord::Schema.define(version: 20180201100104) do
   end
 
   create_table "websites", id: :serial, force: :cascade do |t|
-    t.string "host", null: false
-    t.string "url", null: false
+    t.string "host", limit: 255, null: false
+    t.string "url", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "unreachable_count", default: 0, null: false

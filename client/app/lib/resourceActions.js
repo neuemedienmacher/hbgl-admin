@@ -41,6 +41,8 @@ function routeForAction(action, model, id, entity) {
       }
     case 'open_url':
       return entity.url // is the url from the label in this case
+    case 'mailing':
+      return `/${model}/${id}/mailing`
   }
 }
 
@@ -50,6 +52,8 @@ function visibleFor(action, model, id, entity) {
     case 'show-assignable':
     case 'open_url':
       return !!entity
+    case 'mailing':
+      return !!entity && entity.tos === 'uninformed'
     default:
       return !!id
   }
@@ -74,6 +78,8 @@ function iconFor(action) {
       return 'fa fa-external-link'
     case 'duplicate':
       return 'fa fa-files-o'
+    case 'mailing':
+      return 'fa fa-envelope'
   }
 }
 
@@ -102,6 +108,8 @@ function textFor(action) {
       return 'Duplizieren'
     case 'old-backend-edit':
       return 'Im alten Backend editieren'
+    case 'mailing':
+      return 'ToS Mailing'
     default:
       return action
   }
