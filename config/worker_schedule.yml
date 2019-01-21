@@ -18,3 +18,8 @@ seasonal_offers_job:
   cron: "0 5 * * * Europe/Berlin" # every day at 05:00
   class: "SeasonalOffersWorker"
   queue: default
+
+process_tos_declined_emails_job:
+  cron: "0 22 * * * Europe/Berlin" # every day at 22:00
+  class: "ProcessTosDeclinedEmailsWorker"
+  queue: heavy_load
