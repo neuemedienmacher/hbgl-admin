@@ -40,13 +40,10 @@ module Organization::StateMachine
       end
 
       event :start_approval_process, guards: %i[orga_valid?] do
-        # TODO: reactivate guard!!! # , guard: :different_actor?
         transitions from: :completed, to: :approval_process
       end
 
-      # , success: :generate_translations!
-      event :approve, before: :set_approved_information do
-        # TODO: reactivate guard!!! # , guard: :different_actor?
+      event :approve, after: :set_approved_information! do
         transitions from: :approval_process, to: :approved
         transitions from: :internal_feedback, to: :approved
         transitions from: :external_feedback, to: :approved
@@ -56,7 +53,6 @@ module Organization::StateMachine
       event :approve_with_deactivated_offers,
             before: :set_approved_information,
             success: :reactivate_offers! do
-        # TODO: reactivate guard!!! # , guard: :different_actor?
         transitions from: :approval_process, to: :approved
         transitions from: :internal_feedback, to: :approved
         transitions from: :external_feedback, to: :approved
@@ -123,13 +119,11 @@ module Organization::StateMachine
       end
     end
 
-    def set_approved_information
-      self.approved_at = Time.zone.now
-      self.approved_by = Creator::Twin.new(self).current_actor
-    end
-
-    def different_actor?
-      Creator::Twin.new(self).different_actor?
+    def set_approved_information!
+      self.update_columns(
+        approved_by: Creator::Twin.new(self).current_actor,
+        approved_at: Time.zone.now
+      )
     end
 
     def orga_valid?
