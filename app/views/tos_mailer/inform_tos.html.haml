@@ -5,22 +5,23 @@
   Handbook Germany (
   = link_to 'www.handbookgermany.de', 'https://www.handbookgermany.de/'
   ) ist eine von der Beauftragten der Bundesregierung für Migration, Flüchtlinge
-  und Integration geförderte Plattform für Geflüchtete und Migrant*innen, die
-  Informationen und Hilfsangebote zum Ankommen und Leben in Deutschland in sieben
-  verschiedenen Sprachen zur Verfügung stellt. Wir sind ein Projekt der Neuen
-  deutschen Medienmacher (
+  und Integration geförderte Plattform für Zugewanderte (Geflüchtete und
+  Migrant*innen), die Informationen und Hilfsangebote zum Ankommen und Leben in
+  Deutschland in sieben verschiedenen Sprachen zur Verfügung stellt. Wir sind
+  ein Projekt der Neuen deutschen Medienmacher (
   = link_to 'www.neuemedienmacher.de', 'https://www.neuemedienmacher.de/'
   ).
 
 %p
-  Auf der Plattform gibt es eine Suchmaschine, mit deren Hilfe Migrant*innen und
-  Geflüchtete mit Unterstützungsbedarf konkrete und zielgruppenspezifisch
-  aufbereitete Hilfsangebote in ihrer Nähe finden können. Auf diese Weise
-  schließen wir die Lücke zwischen Angebot und Nachfrage und bringen soziale
-  Organisationen und Hilfesuchende zusammen. Aktuell haben wir fast 5000
-  Angebote aus 11 Städten in unserer Datenbank und planen in naher Zukunft auch
-  die noch fehlenden Städte und Regionen aufzunehmen. Die Aufnahme in die
-  Datenbank und die Nutzung der Suchmaschine sind und bleiben kostenlos.
+  Auf der Plattform gibt es eine Suchmaschine, mit deren Hilfe Zugewanderte mit
+  Unterstützungsbedarf konkrete und zielgruppenspezifisch aufbereitete
+  Hilfsangebote in ihrer Nähe finden können. Auf diese Weise schließen wir die
+  Lücke zwischen Angebot und Nachfrage und bringen soziale Organisationen und
+  Hilfesuchende zusammen. Aktuell haben wir fast 5000 Angebote aus 11 Städten in
+  unserer Datenbank und planen in naher Zukunft weitere Städte und Regionen
+  aufzunehmen. Die Aufnahme in die Datenbank und die Nutzung der Suchmaschine
+  sind und bleiben kostenlos.
+
 
 %p
   Für jedes Angebot erfassen wir die auf Ihrer Webseite angegebenen Informationen
@@ -32,33 +33,27 @@
   Gewalt & Rassismus auf.
 
 %p
-  Ihre bisher von uns aufgenommenen Angebote können Sie
-  = succeed ' ' do
-    = link_to 'über diesen Link', @overview_href
-  einsehen. Aus datenschutzrechtlichen Gründen haben wir die Namen von
-  Kontaktpersonen und deren Email-Adressen aktuell entfernt. Im Fall Ihrer
-  Zustimmung bleiben Ihre Angebote in der Datenbank sichtbar und werden in
-  naher Zukunft ergänzt und aktualisiert.
-
-%p
   %b
     Aufgrund der aktuellen Datenschutzbestimmungen möchten wir Ihre Einwilligung
-    einholen, dass wir Ihre oben genannten Daten sowie die Namen von
-    Kontaktpersonen und deren Email-Adresse aufnehmen dürfen. Ihre Zustimmung
-    oder Ablehnung können Sie bis zum
+    einholen, dass wir Ihre Angebote aufnehmen dürfen. Ihre Zustimmung oder
+    Ablehnung können Sie bis zum
     = succeed ' ' do
       = @reply_date
     über
     = succeed ' ' do
       = link_to 'diesen Link', @tos_href
-    ausdrücken.
+    ausdrücken. Dort sehen Sie auch Ihre bereits aufgenommenen Angebote. Bitte
+    beachten Sie, dass wir Ihre Emailadresse und Ihren Namen aus
+    datenschutzrechtlichen Gründen aktuell entfernt haben. Im Fall Ihrer
+    Zustimmung bleiben Ihre Angebote in der Datenbank sichtbar und werden in
+    naher Zukunft ergänzt und aktualisiert.
 
 %p
   %b
     Falls Sie Fragen dazu oder Änderungswünsche bezüglich Ihrer Daten haben,
     melden Sie sich gerne bei uns unter
     = succeed '.' do
-      = link_to 'localsearch@neuemedienmacher.de', 'mailto:localsearch@neuemedienmacher.de'
+      = link_to 'localsearch@handbookgermany.de', 'mailto:localsearch@handbookgermany.de'
 
 %p
   Mit der Einwilligung werden Sie weiterhin:
@@ -93,5 +88,3 @@
     localsearch@handbookgermany.de
     %br
     = link_to 'www.handbookgermany.de/', 'http://www.handbookgermany.de/'
-
-= email_image_tag('logo_hbg_local_search.png')
