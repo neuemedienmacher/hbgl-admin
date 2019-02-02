@@ -23,3 +23,8 @@ process_tos_declined_emails_job:
   cron: "0 22 * * * Europe/Berlin" # every day at 22:00
   class: "ProcessTosDeclinedEmailsWorker"
   queue: heavy_load
+
+process_tos_accepted_emails_job:
+  cron: "0 21 * * * Europe/Berlin" # every day at 21:00
+  class: "ProcessTosAcceptedEmailsWorker"
+  queue: heavy_load

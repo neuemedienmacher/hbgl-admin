@@ -6,7 +6,7 @@
 class OfferMailing < ApplicationRecord
   # Enumerization
   extend Enumerize
-  enumerize :mailing_type, in: %w[inform newly_approved orga_inform tos]
+  enumerize :mailing_type, in: %w[inform newly_approved orga_inform tos tos_accepted]
 
   # Associations
   belongs_to :offer, inverse_of: :offer_mailings

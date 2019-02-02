@@ -32,4 +32,11 @@ class Email < ApplicationRecord
                            mailing_type: 'tos'
     end
   end
+
+  def create_tos_accepted_mailings offers
+    offers.each do |offer|
+      OfferMailing.create! offer_id: offer.id, email_id: id,
+                           mailing_type: 'tos_accepted'
+    end
+  end
 end

@@ -8,7 +8,7 @@ class TosMailer < ActionMailer::Base
     # Loads of variables in preparation for view models (email view)
     # @offers = email.offers.visible_in_frontend
     @offers = email.offers
-    @tos_href = "https://local.handbookgermany.de/emails/#{email.id}/angebote"
+    @tos_href = "https://local.handbookgermany.de/emails/#{email.token}/angebote"
     @reply_date = date.strftime("%d.%m.%Y")
 
     send_tos_email email, @offers
