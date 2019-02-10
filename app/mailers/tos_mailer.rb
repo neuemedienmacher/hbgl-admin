@@ -19,7 +19,7 @@ class TosMailer < ActionMailer::Base
   def send_tos_email email, offers
     email.create_tos_mailings offers
     mail subject: 'Ihre Aufnahme in Deutschlands größte Datenbank für soziale Organisationen',
-         from: 'Sabine Roßmann <localsearch@handbookgermany.de>',
+         from: 'Handbook Germany <localsearch@handbookgermany.de>',
          to: email.address
   end
 end
