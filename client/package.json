@@ -4,8 +4,8 @@
   "description": "Built using the react_on_rails generator.",
   "main": "server.js",
   "engines": {
-    "node": "^6",
-    "npm": "3.5.0"
+    "node": "10.24.1",
+    "npm": "6.14.12"
   },
   "repository": {
     "type": "git",
