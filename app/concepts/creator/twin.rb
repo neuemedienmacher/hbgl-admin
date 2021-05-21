@@ -3,6 +3,7 @@
 module Creator
   class Twin < Disposable::Twin
     property :created_by
+    property :paper_trail
 
     def creator
       User.find(created_by).name
@@ -12,6 +13,8 @@ module Creator
 
     def current_actor
       ::PaperTrail.whodunnit
+    rescue
+      !paper_trail.nil? ? paper_trail.originator : created_by
     end
 
     def different_actor?

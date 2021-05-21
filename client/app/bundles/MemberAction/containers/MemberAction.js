@@ -12,6 +12,7 @@ import removeSubscription from '../../../Backend/actions/removeSubscription'
 import channelPerform from '../../../Backend/actions/channelPerform'
 import ShowItems from '../../Show/containers/ShowItems'
 import Delete from '../../Delete/containers/Delete'
+import Mailing from '../../Mailing/containers/Mailing'
 import Duplicate from '../../Duplicate/containers/Duplicate'
 import LoadingForm from '../../GenericForm/containers/LoadingForm'
 import MemberAction from '../components/MemberAction'
@@ -151,6 +152,8 @@ function componentForView(view) {
       return Duplicate
     case 'edit':
       return LoadingForm
+    case 'mailing':
+      return Mailing
     default:
       throw new Error(`No View "${view}" found.`)
   }
@@ -168,8 +171,10 @@ function headingFor(model, id, view) {
     return  `${singularModelName}#${id} duplizieren`
   case 'new':
     return  `Neue ${singularModelName} anlegen`
+  case 'mailing':
+    return  `Neue ${singularModelName} anlegen`
   default:
-    return `Details für ${singularModelName}#${id}`
+    return `ToS-Mail für ${singularModelName}#${id} verschicken`
   }
 }
 

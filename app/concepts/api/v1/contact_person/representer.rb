@@ -41,6 +41,7 @@ module API::V1
           attributes do
             property :label, getter: ->(o) { o[:represented].address }
             property :address
+            property :tos
           end
         end
       end

@@ -150,6 +150,7 @@ export default class Routes extends React.Component {
             <Route path='export' component={Export} />
             <Route path=':id' component={MemberAction} />
             <Route path=':id/delete' component={MemberAction} />
+            <Route path=':id/mailing' component={MemberAction} />
           </Route>
 
           <Route path='solution-categories'>

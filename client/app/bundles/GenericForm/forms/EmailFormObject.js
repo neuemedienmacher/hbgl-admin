@@ -25,6 +25,10 @@ export default class EmailFormObject extends GenericFormObject {
     return ['address']
   }
 
+  static get readOnlyProperties() {
+    return ['tos']
+  }
+
   static get additionalValidations() {
     return {
       address: { 'format?': EMAIL_REGEX }

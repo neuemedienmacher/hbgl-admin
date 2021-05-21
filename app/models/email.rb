@@ -26,12 +26,17 @@ class Email < ApplicationRecord
     where('address LIKE ?', "%#{input}%").limit(30)
   }
 
-  # NOTE: for later use
-  # orga.first is okay because an orga-contact may
-  # only belong to one organization
-  # def newly_approved_offers_from_orga_context
-  #   organizations.first.offers.visible_in_frontend
-  #                .select(&:remote_or_belongs_to_informable_city?) -
-  #     known_offers.all
-  # end
+  def create_tos_mailings offers
+    offers.each do |offer|
+      OfferMailing.create! offer_id: offer.id, email_id: id,
+                           mailing_type: 'tos'
+    end
+  end
+
+  def create_tos_accepted_mailings offers
+    offers.each do |offer|
+      OfferMailing.create! offer_id: offer.id, email_id: id,
+                           mailing_type: 'tos_accepted'
+    end
+  end
 end

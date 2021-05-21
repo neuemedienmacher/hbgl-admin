@@ -125,7 +125,7 @@ export default {
     'contact-people': {
       fields: [
         'id', 'first-name', 'last-name', { organization: ['name'] },
-        { email: ['address'] }, 'area-code-1', 'local-number-1', 'area-code-2',
+        { email: ['address', 'tos'] }, 'area-code-1', 'local-number-1', 'area-code-2',
         'local-number-2'
       ],
       general_actions: [
@@ -138,13 +138,13 @@ export default {
 
     emails: {
       fields: [
-        'id', 'address'
+        'id', 'address', 'tos'
       ],
       general_actions: [
         'index', 'export', 'new'
       ],
       member_actions: [
-        'show', 'delete'
+        'show', 'delete', 'mailing'
       ]
     },
 

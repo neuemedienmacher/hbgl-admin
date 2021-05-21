@@ -11,6 +11,7 @@ module API::V1
           property :aasm_state
           property :created_at
           property :updated_at
+          property :tos
 
           property :contact_person_ids
           property :offer_ids

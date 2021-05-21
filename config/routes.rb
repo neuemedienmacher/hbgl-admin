@@ -81,6 +81,7 @@ Rails.application.routes.draw do
                                         action: :show
       get 'states/:model', controller: :states, action: :show
       get ':item_type/:item_id/versions', controller: :versions, action: :index
+      post 'mailings/:id', controller: :emails, action: :send_tos_mailing
     end
   end
 

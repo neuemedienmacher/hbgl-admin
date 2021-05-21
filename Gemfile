@@ -12,7 +12,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 5.1'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'handbook-germany/hbg-base'
+gem 'clarat_base', github: 'handbook-germany/hbg-base', branch: 'feature/tos-mailings'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -88,6 +88,8 @@ gem 'faraday_middleware'
 
 # ActiveRecord Extension
 gem 'rails_or'
+
+gem 'sprockets', '3.7.2'
 
 ########################
 # For Heroku & Add-Ons #
