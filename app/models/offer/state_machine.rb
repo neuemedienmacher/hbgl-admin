@@ -38,7 +38,9 @@ module Offer::StateMachine
 
       ## Transitions
 
-      event :complete, before: :set_completed_information do
+      event :complete,
+            before: :set_completed_information,
+            after: :set_completed_by! do
         transitions from: :initialized, to: :completed
         transitions from: :checkup_process, to: :completed
         transitions from: :edit, to: :completed
@@ -48,12 +50,12 @@ module Offer::StateMachine
             guards: %i[
               expiration_date_in_future? all_organizations_visible?
             ] do
-        # TODO: reactivate guard!!! # , guard: :different_actor?
         transitions from: :completed, to: :approval_process
       end
 
       event :approve,
             before: :set_approved_information,
+            after: :set_approved_by!,
             guards: %i[
               expiration_date_in_future? all_organizations_visible?
             ] do
@@ -61,9 +63,7 @@ module Offer::StateMachine
                     guard: :seasonal_offer_not_yet_to_be_approved?
         transitions from: :checkup_process, to: :seasonal_pending,
                     guard: :seasonal_offer_not_yet_to_be_approved?
-        # TODO: reactivate guard!!! # , guard: :different_actor?
         transitions from: :approval_process, to: :approved
-        # , guard: :different_actor?
         transitions from: :checkup_process, to: :approved
         transitions from: :organization_deactivated, to: :approved
       end
@@ -139,24 +139,26 @@ module Offer::StateMachine
 
     def set_approved_information
       self.approved_at = Time.zone.now
-      self.approved_by = Creator::Twin.new(self).current_actor
       # update to current LogicVersion
       self.logic_version_id = LogicVersion.last.id
+    end
+
+    def set_approved_by!
+      self.update_columns approved_by: Creator::Twin.new(self).current_actor
     end
 
     def set_completed_information
       self.completed_at = Time.zone.now
-      self.completed_by = Creator::Twin.new(self).current_actor
       # update to current LogicVersion
       self.logic_version_id = LogicVersion.last.id
     end
 
-    def different_actor?
-      Creator::Twin.new(self).different_actor?
+    def set_completed_by!
+      self.update_columns completed_by: Creator::Twin.new(self).current_actor
     end
 
     def seasonal_offer_not_yet_to_be_approved?
-      !starts_at.nil? && starts_at > Time.zone.now # && different_actor?
+      !starts_at.nil? && starts_at > Time.zone.now
     end
   end
 end
