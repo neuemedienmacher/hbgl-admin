@@ -12,7 +12,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 5.1'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', :git 'https://github.com/neuemedienmacher/hbg-base.git', ref: 'e6527d37f6651a509c68432e6ba9a233f0eefdf8'
+gem 'clarat_base', :git => 'https://github.com/neuemedienmacher/hbg-base.git', :ref => '7e9f568513078f8cadd982c6f63449831ef073c8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -45,7 +45,7 @@ gem 'rails_admin'
 # gem 'rails_admin_nested_set'
 gem 'rails_admin_nestable'
 gem 'cancan' # role based auth for rails_admin
-
+0
 gem 'devise'
 gem 'pundit'
 
@@ -131,7 +131,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-jquery', '2.2.4' # version cap only for rails_admin
   gem 'rails-assets-qtip2'
   gem 'rails-assets-shariff'
-  gem 'rails-assets-algoliasearch' # search client
+  gem 'rails-assets-algoliasearch', '3.24.5' # search client
   gem 'rails-assets-bootstrap'
   gem 'rails-assets-font-awesome'
   gem 'rails-assets-d3'
