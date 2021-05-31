@@ -12,7 +12,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '~> 5.1'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', github: 'handbook-germany/hbg-base', branch: 'chore/update-ruby'
+gem 'clarat_base', :git 'https://github.com/neuemedienmacher/hbg-base.git', ref: 'e6527d37f6651a509c68432e6ba9a233f0eefdf8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -49,14 +49,14 @@ gem 'cancan' # role based auth for rails_admin
 gem 'devise'
 gem 'pundit'
 
-gem 'trailblazer', '2.0.7'
+gem 'trailblazer'
 # gem 'trailblazer-loader'
-gem 'trailblazer-rails', '1.0.4'
+gem 'trailblazer-rails'
 gem 'trailblazer-endpoint', github: 'trailblazer/trailblazer-endpoint'
 gem 'trailblazer-cells'
 gem 'cells'
 gem 'cells-slim'
-gem 'cells-rails', '0.0.8'
+gem 'cells-rails'
 gem 'reform' # , '~> 2.1.0'
 # gem 'reform-rails'
 gem 'roar', github: 'apotonick/roar', branch: 'master'
