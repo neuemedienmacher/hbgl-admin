@@ -1236,8 +1236,8 @@ GEM
       declarative-option (< 0.2.0)
       tilt (>= 1.4, < 3)
       uber (< 0.2.0)
-    cells-rails (0.1.4)
-      actionpack (>= 5.0)
+    cells-rails (0.0.8)
+      actionpack (>= 3.0)
       cells (>= 4.1.6, < 5.0.0)
     cells-slim (0.1.1)
       cells (>= 4.0.1, < 6.0.0)
@@ -1517,6 +1517,7 @@ GEM
     pg_search (2.3.5)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    pipetree (0.1.1)
     powerpack (0.1.3)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -1658,6 +1659,9 @@ GEM
       disposable (>= 0.4.2, < 0.5.0)
       representable (>= 2.4.0, < 3.1.0)
       uber (< 0.2.0)
+    reform-rails (0.1.7)
+      activemodel (>= 3.2)
+      reform (>= 2.2.0)
     remotipart (1.4.4)
     representable (3.0.4)
       declarative (< 0.1.0)
@@ -1773,10 +1777,10 @@ GEM
     timecop (0.9.4)
     tins (1.29.1)
       sync
-    trailblazer (2.1.0)
-      trailblazer-macro (>= 2.1.0, < 2.2.0)
-      trailblazer-macro-contract (>= 2.1.0, < 2.2.0)
-      trailblazer-operation
+    trailblazer (2.0.7)
+      declarative
+      reform (>= 2.2.0, < 3.0.0)
+      trailblazer-operation (>= 0.0.12, < 0.1.0)
     trailblazer-activity (0.12.1)
       trailblazer-context (>= 0.4.0, < 0.5.0)
     trailblazer-activity-dsl-linear (0.4.0)
@@ -1785,25 +1789,14 @@ GEM
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-context (0.4.0)
       hashie (>= 3.0.0)
-    trailblazer-developer (0.0.21)
-      hirb
-      representable
-      trailblazer-activity (>= 0.11.0, < 1.0.0)
-      trailblazer-activity-dsl-linear
     trailblazer-loader (0.1.2)
-    trailblazer-macro (2.1.6)
-      trailblazer-activity-dsl-linear (>= 0.4.0, < 0.5.0)
-      trailblazer-operation (>= 0.7.0)
-    trailblazer-macro-contract (2.1.1)
-      reform (>= 2.2.0, < 3.0.0)
-      trailblazer-activity-dsl-linear (>= 0.4.0, < 0.5.0)
-    trailblazer-operation (0.7.4)
-      trailblazer-activity (>= 0.12.1, < 1.0.0)
-      trailblazer-activity-dsl-linear (>= 0.4.0, < 1.0.0)
-      trailblazer-developer (>= 0.0.21, < 1.0.0)
-    trailblazer-rails (2.1.7)
-      railties (>= 4.0.0)
-      trailblazer (>= 2.1.0.beta1, < 2.2.0)
+    trailblazer-operation (0.0.13)
+      declarative
+      pipetree (>= 0.1.1, < 0.2.0)
+      uber
+    trailblazer-rails (1.0.4)
+      reform-rails (>= 0.1.4, < 0.2.0)
+      trailblazer (>= 2.0.0, < 2.1.0)
       trailblazer-loader (>= 0.1.0)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
@@ -1849,7 +1842,7 @@ DEPENDENCIES
   cancan
   capybara-selenium
   cells
-  cells-rails
+  cells-rails (= 0.0.8)
   cells-slim
   clarat_base!
   codeclimate-test-reporter
@@ -1942,10 +1935,10 @@ DEPENDENCIES
   therubyracer
   thin
   timecop
-  trailblazer
+  trailblazer (= 2.0.7)
   trailblazer-cells
   trailblazer-endpoint!
-  trailblazer-rails
+  trailblazer-rails (= 1.0.4)
   uglifier (>= 1.3.0)
   webmock
   will_paginate
