@@ -1653,10 +1653,9 @@ GEM
     redis-namespace (1.8.1)
       redis (>= 3.0.4)
     ref (2.0.0)
-    reform (2.5.0)
-      disposable (>= 0.4.2, < 0.5.0)
+    reform (2.2.4)
+      disposable (>= 0.4.1)
       representable (>= 2.4.0, < 3.1.0)
-      uber (< 0.2.0)
     reform-rails (0.1.7)
       activemodel (>= 3.2)
       reform (>= 2.2.0)
@@ -1915,7 +1914,8 @@ DEPENDENCIES
   rails_or
   rake
   react_on_rails (< 7.0.0)
-  reform
+  reform (= 2.2.4)
+  reform-rails (= 0.1.7)
   roar!
   roar-jsonapi!
   rubocop (= 0.49.1)
