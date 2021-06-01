@@ -9,10 +9,11 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 # General #
 ###########
 
-gem 'rails', '~> 5.1'
+gem 'rails', '5.1.6.1'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', :git => 'https://github.com/neuemedienmacher/hbg-base.git', :ref => '7e9f568513078f8cadd982c6f63449831ef073c8'
+gem 'clarat_base', :git => 'https://github.com/neuemedienmacher/hbg-base.git', :ref => '83847bbf08215ea49a3903d65e898d8b963d652b'
+# gem 'clarat_base', path: "../hbg-base"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 4.1.12'
@@ -49,27 +50,35 @@ gem 'cancan' # role based auth for rails_admin
 gem 'devise'
 gem 'pundit'
 
-gem 'trailblazer'
-# gem 'trailblazer-loader'
-gem 'trailblazer-rails'
-gem 'trailblazer-endpoint', github: 'trailblazer/trailblazer-endpoint'
-gem 'trailblazer-cells'
+gem 'trailblazer', '2.0.7'
+gem 'trailblazer-loader', '0.1.2'
+gem 'trailblazer-rails', '1.0.4'
+gem 'trailblazer-endpoint', :git => 'https://github.com/trailblazer/trailblazer-endpoint.git', :ref => '9ec75c0'
+gem 'trailblazer-cells', '0.0.3'
+gem 'trailblazer-operation', '0.0.13'
 gem 'cells'
 gem 'cells-slim'
 gem 'cells-rails'
 gem 'reform', '2.2.4'
 gem 'reform-rails', '0.1.7'
 gem 'roar', github: 'apotonick/roar', branch: 'master'
-gem 'roar-jsonapi', github: 'trailblazer/roar-jsonapi'
+gem 'roar-jsonapi', :git => 'https://github.com/trailblazer/roar-jsonapi', :tag => 'v0.0.3'
 gem 'multi_json'
 gem 'will_paginate'
+gem 'activesupport', '5.1.6.1'
 
-gem 'simple_form'
-gem 'dry-validation'
-gem 'dry-types'
+gem 'simple_form', '3.5.0'
+gem 'dry-validation', '0.11.1'
+gem 'dry-types', '0.12.2'
+gem 'dry-core', '0.4.1'
+gem 'dry-logic', '0.4.2'
+gem 'dry-equalizer', '0.2.0'
+gem 'dry-container', '0.6.0'
+gem 'dry-configurable', '0.7.0'
+gem 'dry-matcher', '0.6.0'
 
 # Internal Search Implementation
-gem 'pg_search'
+gem 'pg_search', '2.1.1'
 
 # for sidekiq web interface
 gem 'sinatra', '>= 1.3.0'
@@ -133,7 +142,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-shariff'
   gem 'rails-assets-algoliasearch', '3.24.5' # search client
   gem 'rails-assets-bootstrap'
-  gem 'rails-assets-font-awesome'
+  gem 'rails-assets-font-awesome', '4.7.0'
   gem 'rails-assets-d3'
   gem 'rails-assets-nestable2'
 end

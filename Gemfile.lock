@@ -15,12 +15,28 @@ GIT
       aws-sdk
 
 GIT
-  remote: https://github.com/neuemedienmacher/hbg-base.git
-  revision: 7e9f568513078f8cadd982c6f63449831ef073c8
-  ref: 7e9f568513078f8cadd982c6f63449831ef073c8
+  remote: https://github.com/trailblazer/roar-jsonapi
+  revision: 09db6e294b44f8ee6cd9a00d773623e1757eb745
+  tag: v0.0.3
+  specs:
+    roar-jsonapi (0.0.3)
+      representable (~> 3.0, >= 3.0.3)
+      roar (~> 1.1)
+
+GIT
+  remote: https://github.com/trailblazer/trailblazer-endpoint.git
+  revision: 9ec75c05425a5447893e67c47042a98026f3c94b
+  ref: 9ec75c0
+  specs:
+    trailblazer-endpoint (0.0.1)
+      dry-matcher
+
+PATH
+  remote: ../hbg-base
   specs:
     clarat_base (0.1.4)
       aasm
+      activesupport (= 5.1.6.1)
       algoliasearch-rails (= 1.20.6)
       bundler (>= 1.8.4)
       closure_tree
@@ -30,7 +46,7 @@ GIT
       geocoder
       localeapp
       paper_trail (= 10.2.0)
-      rails (~> 5.1)
+      rails (= 5.1.6.1)
       rails-i18n
       rails-observers
       redcarpet
@@ -38,70 +54,69 @@ GIT
       sidekiq (~> 4.1.2)
       web-console (~> 2.0)
 
-GIT
-  remote: https://github.com/trailblazer/roar-jsonapi.git
-  revision: deaf86f2ce364a15e969da5d43f2cfe2965dcf0a
+GEM
+  remote: https://rails-assets.org/
   specs:
-    roar-jsonapi (0.0.3)
-      representable (~> 3.0, >= 3.0.3)
-      roar (~> 1.1)
-
-GIT
-  remote: https://github.com/trailblazer/trailblazer-endpoint.git
-  revision: aa4e07fad17584c9cc158e7435a5c40cd5e92bf4
-  specs:
-    trailblazer-endpoint (0.0.8)
-      trailblazer-activity-dsl-linear (>= 0.4.0, < 0.5.0)
+    rails-assets-algoliasearch (3.24.5)
+    rails-assets-bootstrap (4.3.1)
+    rails-assets-d3 (5.9.7)
+    rails-assets-ev-emitter (1.1.1)
+    rails-assets-font-awesome (4.7.0)
+    rails-assets-imagesloaded (4.1.4)
+      rails-assets-ev-emitter (>= 1.0.0, < 2)
+    rails-assets-jquery (2.2.4)
+    rails-assets-lodash (4.17.15)
+    rails-assets-nestable2 (1.6.0)
+      rails-assets-jquery (>= 1.7.2)
+    rails-assets-qtip2 (2.2.1)
+      rails-assets-imagesloaded (>= 3.0.0)
+      rails-assets-jquery (>= 1.6.0)
+    rails-assets-shariff (3.2.0)
 
 GEM
   remote: https://rubygems.org/
-  remote: https://rails-assets.org/
   specs:
     aasm (5.2.0)
       concurrent-ruby (~> 1.0)
     action-cable-testing (0.6.1)
       actioncable (>= 5.0)
-    actioncable (5.2.6)
-      actionpack (= 5.2.6)
+    actioncable (5.1.6.1)
+      actionpack (= 5.1.6.1)
       nio4r (~> 2.0)
-      websocket-driver (>= 0.6.1)
-    actionmailer (5.2.6)
-      actionpack (= 5.2.6)
-      actionview (= 5.2.6)
-      activejob (= 5.2.6)
+      websocket-driver (~> 0.6.1)
+    actionmailer (5.1.6.1)
+      actionpack (= 5.1.6.1)
+      actionview (= 5.1.6.1)
+      activejob (= 5.1.6.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.6)
-      actionview (= 5.2.6)
-      activesupport (= 5.2.6)
-      rack (~> 2.0, >= 2.0.8)
+    actionpack (5.1.6.1)
+      actionview (= 5.1.6.1)
+      activesupport (= 5.1.6.1)
+      rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.2.6)
-      activesupport (= 5.2.6)
+    actionview (5.1.6.1)
+      activesupport (= 5.1.6.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.6)
-      activesupport (= 5.2.6)
+    activejob (5.1.6.1)
+      activesupport (= 5.1.6.1)
       globalid (>= 0.3.6)
-    activemodel (5.2.6)
-      activesupport (= 5.2.6)
+    activemodel (5.1.6.1)
+      activesupport (= 5.1.6.1)
     activemodel-serializers-xml (1.0.2)
       activemodel (> 5.x)
       activesupport (> 5.x)
       builder (~> 3.1)
-    activerecord (5.2.6)
-      activemodel (= 5.2.6)
-      activesupport (= 5.2.6)
-      arel (>= 9.0)
-    activestorage (5.2.6)
-      actionpack (= 5.2.6)
-      activerecord (= 5.2.6)
-      marcel (~> 1.0.0)
-    activesupport (5.2.6)
+    activerecord (5.1.6.1)
+      activemodel (= 5.1.6.1)
+      activesupport (= 5.1.6.1)
+      arel (~> 8.0)
+    activesupport (5.1.6.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -114,7 +129,7 @@ GEM
     algoliasearch-rails (1.20.6)
       algoliasearch (>= 1.17.0, < 2.0.0)
       json (>= 1.5.1)
-    arel (9.0.0)
+    arel (8.0.0)
     ast (2.4.2)
     aws-eventstream (1.1.1)
     aws-partitions (1.465.0)
@@ -1235,8 +1250,8 @@ GEM
       declarative-option (< 0.2.0)
       tilt (>= 1.4, < 3)
       uber (< 0.2.0)
-    cells-rails (0.0.8)
-      actionpack (>= 3.0)
+    cells-rails (0.1.4)
+      actionpack (>= 5.0)
       cells (>= 4.1.6, < 5.0.0)
     cells-slim (0.1.1)
       cells (>= 4.0.1, < 6.0.0)
@@ -1302,40 +1317,34 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    dry-configurable (0.12.1)
+    dry-configurable (0.7.0)
       concurrent-ruby (~> 1.0)
-      dry-core (~> 0.5, >= 0.5.0)
-    dry-container (0.7.2)
+    dry-container (0.6.0)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.1, >= 0.1.3)
-    dry-core (0.5.0)
+    dry-core (0.4.1)
       concurrent-ruby (~> 1.0)
-    dry-equalizer (0.3.0)
-    dry-inflector (0.2.0)
-    dry-initializer (3.0.4)
-    dry-logic (1.2.0)
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 0.5, >= 0.5)
-    dry-schema (1.6.2)
-      concurrent-ruby (~> 1.0)
-      dry-configurable (~> 0.8, >= 0.8.3)
-      dry-core (~> 0.5, >= 0.5)
-      dry-initializer (~> 3.0)
-      dry-logic (~> 1.0)
-      dry-types (~> 1.5)
-    dry-types (1.5.1)
-      concurrent-ruby (~> 1.0)
-      dry-container (~> 0.3)
-      dry-core (~> 0.5, >= 0.5)
-      dry-inflector (~> 0.1, >= 0.1.2)
-      dry-logic (~> 1.0, >= 1.0.2)
-    dry-validation (1.6.0)
-      concurrent-ruby (~> 1.0)
-      dry-container (~> 0.7, >= 0.7.1)
-      dry-core (~> 0.4)
+    dry-equalizer (0.2.0)
+    dry-logic (0.4.2)
+      dry-container (~> 0.2, >= 0.2.6)
+      dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
-      dry-initializer (~> 3.0)
-      dry-schema (~> 1.5, >= 1.5.2)
+    dry-matcher (0.6.0)
+    dry-types (0.12.2)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.1)
+      dry-container (~> 0.3)
+      dry-core (~> 0.2, >= 0.2.1)
+      dry-equalizer (~> 0.2)
+      dry-logic (~> 0.4, >= 0.4.2)
+      inflecto (~> 0.0.0, >= 0.0.2)
+    dry-validation (0.11.1)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.1, >= 0.1.3)
+      dry-core (~> 0.2, >= 0.2.1)
+      dry-equalizer (~> 0.2)
+      dry-logic (~> 0.4, >= 0.4.0)
+      dry-types (~> 0.12.0)
     easy_translate (0.5.1)
       thread
       thread_safe
@@ -1391,7 +1400,6 @@ GEM
       html2haml (>= 1.0.1)
       railties (>= 5.1)
     hashdiff (1.0.1)
-    hashie (4.1.0)
     heroku-deflater (0.6.3)
       rack (>= 1.4.5)
     hirb (0.7.3)
@@ -1416,6 +1424,7 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n-js (3.8.3)
       i18n (>= 0.6.6)
+    inflecto (0.0.2)
     interception (0.5)
     jmespath (1.4.0)
     jquery-rails (4.4.0)
@@ -1458,7 +1467,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.1)
     memcachier (0.0.2)
     memory_test_fix (1.5.1)
       activerecord (~> 5.0)
@@ -1512,9 +1520,10 @@ GEM
     parser (2.7.2.0)
       ast (~> 2.4.1)
     pg (1.2.3)
-    pg_search (2.3.5)
-      activerecord (>= 5.2)
-      activesupport (>= 5.2)
+    pg_search (2.1.1)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
+      arel (>= 6)
     pipetree (0.1.1)
     powerpack (0.1.3)
     pry (0.13.1)
@@ -1551,34 +1560,18 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rails (5.2.6)
-      actioncable (= 5.2.6)
-      actionmailer (= 5.2.6)
-      actionpack (= 5.2.6)
-      actionview (= 5.2.6)
-      activejob (= 5.2.6)
-      activemodel (= 5.2.6)
-      activerecord (= 5.2.6)
-      activestorage (= 5.2.6)
-      activesupport (= 5.2.6)
+    rails (5.1.6.1)
+      actioncable (= 5.1.6.1)
+      actionmailer (= 5.1.6.1)
+      actionpack (= 5.1.6.1)
+      actionview (= 5.1.6.1)
+      activejob (= 5.1.6.1)
+      activemodel (= 5.1.6.1)
+      activerecord (= 5.1.6.1)
+      activesupport (= 5.1.6.1)
       bundler (>= 1.3.0)
-      railties (= 5.2.6)
+      railties (= 5.1.6.1)
       sprockets-rails (>= 2.0.0)
-    rails-assets-algoliasearch (3.24.5)
-    rails-assets-bootstrap (4.3.1)
-    rails-assets-d3 (5.9.7)
-    rails-assets-ev-emitter (1.1.1)
-    rails-assets-font-awesome (5.10.1)
-    rails-assets-imagesloaded (4.1.4)
-      rails-assets-ev-emitter (>= 1.0.0, < 2)
-    rails-assets-jquery (2.2.4)
-    rails-assets-lodash (4.17.15)
-    rails-assets-nestable2 (1.6.0)
-      rails-assets-jquery (>= 1.7.2)
-    rails-assets-qtip2 (2.2.1)
-      rails-assets-imagesloaded (>= 3.0.0)
-      rails-assets-jquery (>= 1.6.0)
-    rails-assets-shariff (3.2.0)
     rails-controller-testing (1.0.5)
       actionpack (>= 5.0.1.rc1)
       actionview (>= 5.0.1.rc1)
@@ -1633,12 +1626,12 @@ GEM
       activerecord (>= 3)
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
-    railties (5.2.6)
-      actionpack (= 5.2.6)
-      activesupport (= 5.2.6)
+    railties (5.1.6.1)
+      actionpack (= 5.1.6.1)
+      activesupport (= 5.1.6.1)
       method_source
       rake (>= 0.8.7)
-      thor (>= 0.19.0, < 2.0)
+      thor (>= 0.18.1, < 2.0)
     rainbow (2.2.2)
       rake
     rake (13.0.3)
@@ -1724,9 +1717,9 @@ GEM
       redis-namespace (>= 1.5.2)
       rufus-scheduler (>= 2.0.24)
       sidekiq (>= 4.0.0)
-    simple_form (5.1.0)
-      actionpack (>= 5.2)
-      activemodel (>= 5.2)
+    simple_form (3.5.0)
+      actionpack (> 4, < 5.2)
+      activemodel (> 4, < 5.2)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -1778,14 +1771,8 @@ GEM
       declarative
       reform (>= 2.2.0, < 3.0.0)
       trailblazer-operation (>= 0.0.12, < 0.1.0)
-    trailblazer-activity (0.12.1)
-      trailblazer-context (>= 0.4.0, < 0.5.0)
-    trailblazer-activity-dsl-linear (0.4.0)
-      trailblazer-activity (>= 0.12.0, < 1.0.0)
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
-    trailblazer-context (0.4.0)
-      hashie (>= 3.0.0)
     trailblazer-loader (0.1.2)
     trailblazer-operation (0.0.13)
       declarative
@@ -1816,7 +1803,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    websocket-driver (0.7.4)
+    websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (3.3.0)
@@ -1831,6 +1818,7 @@ PLATFORMS
 
 DEPENDENCIES
   action-cable-testing
+  activesupport (= 5.1.6.1)
   better_errors
   binding_of_caller
   brakeman
@@ -1850,8 +1838,14 @@ DEPENDENCIES
   database_cleaner
   devise
   dotenv-rails
-  dry-types
-  dry-validation
+  dry-configurable (= 0.7.0)
+  dry-container (= 0.6.0)
+  dry-core (= 0.4.1)
+  dry-equalizer (= 0.2.0)
+  dry-logic (= 0.4.2)
+  dry-matcher (= 0.6.0)
+  dry-types (= 0.12.2)
+  dry-validation (= 0.11.1)
   dynamic_sitemaps!
   easy_translate
   email_spec
@@ -1883,7 +1877,7 @@ DEPENDENCIES
   multi_json
   nokogiri (= 1.6.7.2)
   pg
-  pg_search
+  pg_search (= 2.1.1)
   pry-byebug
   pry-doc
   pry-rails
@@ -1892,11 +1886,11 @@ DEPENDENCIES
   puma
   pundit
   rack-cache
-  rails (~> 5.1)
+  rails (= 5.1.6.1)
   rails-assets-algoliasearch (= 3.24.5)!
   rails-assets-bootstrap!
   rails-assets-d3!
-  rails-assets-font-awesome!
+  rails-assets-font-awesome (= 4.7.0)!
   rails-assets-jquery (= 2.2.4)!
   rails-assets-lodash!
   rails-assets-nestable2!
@@ -1922,7 +1916,7 @@ DEPENDENCIES
   rufus-scheduler (= 3.2.2)
   shoulda
   sidekiq-cron (~> 0.4.0)
-  simple_form
+  simple_form (= 3.5.0)
   simplecov
   simpleidn
   sinatra (>= 1.3.0)
@@ -1933,10 +1927,12 @@ DEPENDENCIES
   therubyracer
   thin
   timecop
-  trailblazer
-  trailblazer-cells
+  trailblazer (= 2.0.7)
+  trailblazer-cells (= 0.0.3)
   trailblazer-endpoint!
-  trailblazer-rails
+  trailblazer-loader (= 0.1.2)
+  trailblazer-operation (= 0.0.13)
+  trailblazer-rails (= 1.0.4)
   uglifier (>= 1.3.0)
   webmock
   will_paginate
