@@ -15,24 +15,9 @@ GIT
       aws-sdk
 
 GIT
-  remote: https://github.com/trailblazer/roar-jsonapi
-  revision: 09db6e294b44f8ee6cd9a00d773623e1757eb745
-  tag: v0.0.3
-  specs:
-    roar-jsonapi (0.0.3)
-      representable (~> 3.0, >= 3.0.3)
-      roar (~> 1.1)
-
-GIT
-  remote: https://github.com/trailblazer/trailblazer-endpoint.git
-  revision: 9ec75c05425a5447893e67c47042a98026f3c94b
-  ref: 9ec75c0
-  specs:
-    trailblazer-endpoint (0.0.1)
-      dry-matcher
-
-PATH
-  remote: ../hbg-base
+  remote: https://github.com/neuemedienmacher/hbg-base.git
+  revision: 83847bbf08215ea49a3903d65e898d8b963d652b
+  ref: 83847bbf08215ea49a3903d65e898d8b963d652b
   specs:
     clarat_base (0.1.4)
       aasm
@@ -53,6 +38,23 @@ PATH
       sanitize
       sidekiq (~> 4.1.2)
       web-console (~> 2.0)
+
+GIT
+  remote: https://github.com/trailblazer/roar-jsonapi
+  revision: 09db6e294b44f8ee6cd9a00d773623e1757eb745
+  tag: v0.0.3
+  specs:
+    roar-jsonapi (0.0.3)
+      representable (~> 3.0, >= 3.0.3)
+      roar (~> 1.1)
+
+GIT
+  remote: https://github.com/trailblazer/trailblazer-endpoint.git
+  revision: 9ec75c05425a5447893e67c47042a98026f3c94b
+  ref: 9ec75c0
+  specs:
+    trailblazer-endpoint (0.0.1)
+      dry-matcher
 
 GEM
   remote: https://rails-assets.org/
