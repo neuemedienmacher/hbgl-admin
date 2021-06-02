@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import IndexHeaderFilterOption from '../containers/IndexHeaderFilterOption'
 import IndexHeaderFilterValueOption from '../containers/IndexHeaderFilterValueOption'
 import IndexHeaderOperatorOption from '../containers/IndexHeaderOperatorOption'

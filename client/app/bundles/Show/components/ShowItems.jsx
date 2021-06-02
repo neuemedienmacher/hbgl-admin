@@ -1,6 +1,4 @@
-import React, { PropTypes, Component } from 'react'
-import { Link } from 'react-router'
-import isArray from 'lodash/isArray'
+import React, { Component } from 'react'
 import AssociationItems from '../containers/AssociationItems'
 import ShowFieldItem from '../containers/ShowFieldItem'
 import History from '../containers/History'

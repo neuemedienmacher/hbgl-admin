@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React  from 'react'
 import { Link } from 'react-router'
 import { Label, Input, Errors } from 'rform'
 import VirtualizedSelect from 'react-virtualized-select'

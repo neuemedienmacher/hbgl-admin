@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { Form, InputSet } from 'rform'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import InlineForm from '../../GenericForm/wrappers/Inline'

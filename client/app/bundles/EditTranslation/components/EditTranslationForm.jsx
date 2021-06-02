@@ -1,7 +1,7 @@
-import React, { PropTypes, Component } from 'react'
-import { Form, InputSet, Button } from 'rform'
-import EditTranslationRow from '../containers/EditTranslationRow'
-import { Link } from 'react-router'
+import React, { Component } from 'react';
+import { Form, Button } from 'rform';
+import EditTranslationRow from '../containers/EditTranslationRow';
+import { Link } from 'react-router';
 
 export default class EditTranslationForm extends Component {
   render() {

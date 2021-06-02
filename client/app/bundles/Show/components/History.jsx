@@ -1,9 +1,9 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import CollapsiblePanel
   from '../../CollapsiblePanel/containers/CollapsiblePanel'
 import TableCell from '../../Index/containers/TableCell'
 
-export default class History extends React.Component {
+export default class History extends Component {
   componentDidMount() {
     this.props.loadData()
   }

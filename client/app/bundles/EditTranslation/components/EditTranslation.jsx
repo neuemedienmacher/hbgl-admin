@@ -1,6 +1,6 @@
-import React, { PropTypes, Component } from 'react'
-import EditTranslationForm from '../containers/EditTranslationForm'
-import AssignableContainer from '../../Assignable/containers/AssignableContainer'
+import React, { Component } from 'react';
+import EditTranslationForm from '../containers/EditTranslationForm';
+import AssignableContainer from '../../Assignable/containers/AssignableContainer';
 
 export default class EditTranslation extends Component {
   componentDidMount() {

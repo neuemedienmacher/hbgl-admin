@@ -1,5 +1,5 @@
 // DEPRECATED
-import React, { PropTypes } from 'react'
+import React from 'react';
 import { Label, Input, Errors } from 'rform'
 import Form from '../containers/Form'
 

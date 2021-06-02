@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { FormButton, JsonApiAdapter } from 'rform'
 
 export default class Mailing extends Component {

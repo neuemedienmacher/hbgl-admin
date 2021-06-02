@@ -1,5 +1,6 @@
-import React, { PropTypes, Component } from 'react'
-import { Form, InputSet } from 'rform'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { InputSet } from 'rform';
 
 export default class EditTranslationForm extends Component {
   static contextTypes = {

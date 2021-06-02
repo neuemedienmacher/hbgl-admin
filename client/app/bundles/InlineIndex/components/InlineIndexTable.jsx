@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { Table } from 'react-bootstrap'
 import InlineTableHeadCell from '../containers/InlineTableHeadCell'
 import TableRow from '../../Index/containers/TableRow'

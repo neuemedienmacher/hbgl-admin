@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import FilteringSelect from '../wrappers/FilteringSelect'
 import FormInputs from '../../GenericForm/wrappers/FormInputs'
 import Form from '../../GenericForm/containers/Form'

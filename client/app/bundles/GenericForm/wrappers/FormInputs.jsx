@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react'
-import FormInputs from '../containers/FormInputs'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import FormInputs from '../containers/FormInputs';
 
 export default class FormInputsWrapper extends Component {
   static contextTypes = {

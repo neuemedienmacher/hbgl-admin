@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
-import Navigation from './Navigation'
+import React, { Component } from 'react';
+import Navigation from './Navigation';
 
-export default class Layout extends React.Component {
+export default class Layout extends Component {
   render() {
     return (
       <div className='container-fluid'>

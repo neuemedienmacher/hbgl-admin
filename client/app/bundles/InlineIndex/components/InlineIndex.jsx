@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import isEqual from 'lodash/isEqual'
 import InlineIndexTable from '../containers/InlineIndexTable'
 import InlinePagination from '../containers/InlinePagination'

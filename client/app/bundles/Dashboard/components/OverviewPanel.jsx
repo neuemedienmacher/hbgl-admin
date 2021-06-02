@@ -1,6 +1,6 @@
-import React, { PropTypes, Component } from 'react'
-import ControlledTabView from '../../ControlledTabView/containers/ControlledTabView'
-import AssignmentsContainer from '../containers/AssignmentsContainer'
+import React, { Component } from 'react';
+import ControlledTabView from '../../ControlledTabView/containers/ControlledTabView';
+import AssignmentsContainer from '../containers/AssignmentsContainer';
 
 export default class OverviewPanel extends Component {
   render() {

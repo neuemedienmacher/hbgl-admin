@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
-import OverviewPanel from '../components/OverviewPanel'
-import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
+import React from 'react';
+import OverviewPanel from '../components/OverviewPanel';
+import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel';
 
 export default class Dashboard extends React.Component {
   render() {

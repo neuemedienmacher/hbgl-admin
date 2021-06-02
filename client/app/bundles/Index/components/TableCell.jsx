@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import isArray from 'lodash/isArray'
 
 export default class TableCell extends Component {

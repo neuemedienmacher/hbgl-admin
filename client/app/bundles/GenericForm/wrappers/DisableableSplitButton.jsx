@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react'
-import { SplitButton } from 'react-bootstrap'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { SplitButton } from 'react-bootstrap';
 
 export default class DisableableSplitButton extends Component {
   static contextTypes = {

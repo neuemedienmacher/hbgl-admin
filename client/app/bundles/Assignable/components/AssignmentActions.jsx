@@ -1,6 +1,6 @@
-import React, { PropTypes, Component } from 'react'
-import { Form, InputSet} from 'rform'
-import AssignmentFormObject from '../../NewAssignment/forms/AssignmentFormObject'
+import React, { Component } from 'react';
+import { Form, InputSet } from 'rform';
+import AssignmentFormObject from '../../NewAssignment/forms/AssignmentFormObject';
 
 export default class AssignmentActions extends Component {
 

@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import AssignmentActions from '../containers/AssignmentActions'
 
 export default class CurrentAssignment extends Component {

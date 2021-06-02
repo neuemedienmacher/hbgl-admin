@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import MemberActionsNavBar from '../containers/MemberActionsNavBar'
 
 export default class MemberAction extends Component {

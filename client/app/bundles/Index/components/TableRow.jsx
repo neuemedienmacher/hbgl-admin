@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import TableCell from '../containers/TableCell'
 import ActionList from '../../ActionList/containers/ActionList'
 

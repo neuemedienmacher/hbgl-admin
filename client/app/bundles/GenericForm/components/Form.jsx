@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react';
 import { Form, InputSet, Input, Button, Errors } from 'rform'
 import { MenuItem } from 'react-bootstrap'
 import FormInputs from '../containers/FormInputs'

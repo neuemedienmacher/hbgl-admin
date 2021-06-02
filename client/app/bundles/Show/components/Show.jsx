@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import ShowItems from '../containers/ShowItems'
 import MemberActionsNavBar from
   '../../MemberActionsNavBar/containers/MemberActionsNavBar'

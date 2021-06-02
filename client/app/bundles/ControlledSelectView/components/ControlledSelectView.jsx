@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from 'react'
-import { FormControl } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { FormControl } from 'react-bootstrap';
 
 export default class ControlledSelectView extends Component {
 

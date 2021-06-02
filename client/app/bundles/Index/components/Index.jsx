@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import IndexHeader from '../containers/IndexHeader'
 import IndexTable from '../containers/IndexTable'
 import Pagination from '../containers/Pagination'

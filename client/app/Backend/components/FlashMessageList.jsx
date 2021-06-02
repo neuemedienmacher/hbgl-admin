@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import FlashMessage from './FlashMessage'
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import FlashMessage from './FlashMessage';
+import PropTypes from 'prop-types';
 
 /* UI Behaviour, related to CSS */
 // export const TRANSITION_TIME = 250

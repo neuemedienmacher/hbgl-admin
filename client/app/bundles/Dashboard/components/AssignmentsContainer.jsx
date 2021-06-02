@@ -1,6 +1,6 @@
-import React, { PropTypes, Component } from 'react'
-import Index from '../../Index/containers/Index'
-import ControlledSelectView from '../../ControlledSelectView/containers/ControlledSelectView'
+import React, { Component } from 'react';
+import Index from '../../Index/containers/Index';
+import ControlledSelectView from '../../ControlledSelectView/containers/ControlledSelectView';
 
 export default class AssignmentsContainer extends Component {
   componentDidMount() {

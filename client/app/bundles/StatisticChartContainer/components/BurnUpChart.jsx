@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import ReactFauxDOM from 'react-faux-dom'
 import { line } from 'd3-shape'
 import { max, extent } from 'd3-array'
-import { select } from 'd3-selection'
 import * as d3 from 'd3'
 
 export default class BurnUpChart extends React.Component {

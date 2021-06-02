@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from 'react'
-import { Link } from 'react-router'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import CurrentAssignment from '../components/CurrentAssignment'
 import ControlledTabView from '../../ControlledTabView/containers/ControlledTabView'
 import InlineIndex from '../../InlineIndex/containers/InlineIndex'

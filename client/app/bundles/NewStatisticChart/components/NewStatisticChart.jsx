@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import StatisticChartForm from '../containers/StatisticChartForm'
 import PreviewBurnUpChart from '../containers/PreviewBurnUpChart'
 

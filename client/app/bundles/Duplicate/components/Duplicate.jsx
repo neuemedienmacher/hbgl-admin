@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from 'react'
-import LoadingForm from '../../GenericForm/containers/LoadingForm'
+import React, { Component } from 'react';
+import LoadingForm from '../../GenericForm/containers/LoadingForm';
 
 export default class Duplicate extends Component {
   render() {

@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from 'react'
-import { FormButton, JsonApiAdapter } from 'rform'
+import React, { Component } from 'react';
+import { FormButton, JsonApiAdapter } from 'rform';
 
 export default class Delete extends Component {
   render() {

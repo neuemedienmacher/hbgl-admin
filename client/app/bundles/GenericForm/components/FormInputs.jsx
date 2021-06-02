@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react'
-import { Form, Input, InputSet } from 'rform'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Input, InputSet } from 'rform'
 import Counter from '../addons/containers/Counter'
 import FilteringSelect from '../../FilteringSelect/wrappers/FilteringSelect'
 import CreatingSelect from '../../FilteringSelect/containers/CreatingSelect'

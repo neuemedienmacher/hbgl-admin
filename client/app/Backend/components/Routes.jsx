@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import React from 'react';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 import Layout from './Layout'
 import Index from '../../bundles/Index/containers/Index'

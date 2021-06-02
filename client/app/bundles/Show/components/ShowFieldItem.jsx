@@ -1,7 +1,7 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 
-export default class ShowFieldItem extends React.Component {
+export default class ShowFieldItem extends Component {
   render() {
     const {
       name, content, contentType

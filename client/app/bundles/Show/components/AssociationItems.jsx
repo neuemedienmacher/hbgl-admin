@@ -1,10 +1,10 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 import isArray from 'lodash/isArray'
 import InlineIndex from '../../InlineIndex/containers/InlineIndex'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
-export default class AssociationItems extends React.Component {
+export default class AssociationItems extends Component {
   render() {
     const { associations, model, modelInstance } = this.props
 
