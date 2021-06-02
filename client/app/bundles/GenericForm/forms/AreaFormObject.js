@@ -1,18 +1,18 @@
-import GenericFormObject from '../lib/GenericFormObject'
+import GenericFormObject from '../lib/GenericFormObject';
 
 export default class AreaFormObject extends GenericFormObject {
   static get model() {
-    return 'area'
+    return 'area';
   }
 
   static get type() {
-    return 'areas'
+    return 'areas';
   }
 
   static get properties() {
     return [
-      'name', 'minlat', 'maxlat', 'minlong', 'maxlong'
-    ]
+      'name', 'minlat', 'maxlat', 'minlong', 'maxlong',
+    ];
   }
 
   static get formConfig() {
@@ -21,15 +21,15 @@ export default class AreaFormObject extends GenericFormObject {
       minlat: { type: 'number' },
       maxlat: { type: 'number' },
       minlong: { type: 'number' },
-      maxlong: { type: 'number' }
-    }
+      maxlong: { type: 'number' },
+    };
   }
 
   static get requiredInputs() {
-    return ['name']
+    return ['name', 'minlat', 'maxlat', 'minlong', 'maxlong'];
   }
 
   validation() {
-    this.applyRequiredInputs()
+    this.applyRequiredInputs();
   }
 }
