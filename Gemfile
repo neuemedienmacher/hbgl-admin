@@ -136,15 +136,15 @@ group :assets do # TODO: deprecated!
 end # TODO: deprecated!
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-lodash' # (aka underscore) diverse js methods
-  gem 'rails-assets-jquery', '2.2.4' # version cap only for rails_admin
-  gem 'rails-assets-qtip2'
-  gem 'rails-assets-shariff'
-  gem 'rails-assets-algoliasearch', '3.24.5' # search client
-  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-lodash'
+  gem 'rails-assets-jquery', '2.2.4'
+  gem 'rails-assets-qtip2', '2.2.1'
+  gem 'rails-assets-shariff', '2.0.4'
+  gem 'rails-assets-algoliasearch', '3.24.5'
+  gem 'rails-assets-bootstrap', '3.3.7'
   gem 'rails-assets-font-awesome', '4.7.0'
-  gem 'rails-assets-d3'
-  gem 'rails-assets-nestable2'
+  gem 'rails-assets-d3', '4.11.0'
+  gem 'rails-assets-nestable2', '1.6.0'
 end
 
 gem 'react_on_rails', '< 7.0.0'

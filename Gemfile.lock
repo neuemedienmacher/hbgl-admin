@@ -60,8 +60,9 @@ GEM
   remote: https://rails-assets.org/
   specs:
     rails-assets-algoliasearch (3.24.5)
-    rails-assets-bootstrap (4.3.1)
-    rails-assets-d3 (5.9.7)
+    rails-assets-bootstrap (3.3.7)
+      rails-assets-jquery (>= 1.9.1, < 4)
+    rails-assets-d3 (4.11.0)
     rails-assets-ev-emitter (1.1.1)
     rails-assets-font-awesome (4.7.0)
     rails-assets-imagesloaded (4.1.4)
@@ -73,7 +74,7 @@ GEM
     rails-assets-qtip2 (2.2.1)
       rails-assets-imagesloaded (>= 3.0.0)
       rails-assets-jquery (>= 1.6.0)
-    rails-assets-shariff (3.2.0)
+    rails-assets-shariff (2.0.4)
 
 GEM
   remote: https://rubygems.org/
@@ -1890,14 +1891,14 @@ DEPENDENCIES
   rack-cache
   rails (= 5.1.6.1)
   rails-assets-algoliasearch (= 3.24.5)!
-  rails-assets-bootstrap!
-  rails-assets-d3!
+  rails-assets-bootstrap (= 3.3.7)!
+  rails-assets-d3 (= 4.11.0)!
   rails-assets-font-awesome (= 4.7.0)!
   rails-assets-jquery (= 2.2.4)!
   rails-assets-lodash!
-  rails-assets-nestable2!
-  rails-assets-qtip2!
-  rails-assets-shariff!
+  rails-assets-nestable2 (= 1.6.0)!
+  rails-assets-qtip2 (= 2.2.1)!
+  rails-assets-shariff (= 2.0.4)!
   rails-controller-testing
   rails-erd
   rails-i18n
