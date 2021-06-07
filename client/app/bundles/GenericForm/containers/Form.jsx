@@ -1,31 +1,32 @@
-import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import { setupAction, updateAction } from 'rform';
-import mapCollection from 'lodash/map';
-import some from 'lodash/some';
-import formObjectSelect from '../lib/formObjectSelect';
-import generateFormId from '../lib/generateFormId';
-import seedDataFromEntity from '../lib/seedDataFromEntity';
-import { setUi, setUiLoaded } from '../../../Backend/actions/setUi';
-import addFlashMessage from '../../../Backend/actions/addFlashMessage';
-import loadAjaxData from '../../../Backend/actions/loadAjaxData';
-import addEntities from '../../../Backend/actions/addEntities';
-import Form from '../components/Form';
-import settings from '../../../lib/settings';
-import { denormalizeStateEntity } from '../../../lib/denormalizeUtils';
+import { connect } from "react-redux";
+import { browserHistory } from "react-router";
+import { setupAction, updateAction } from "rform";
+import mapCollection from "lodash/map";
+import some from "lodash/some";
+import formObjectSelect from "../lib/formObjectSelect";
+import generateFormId from "../lib/generateFormId";
+import seedDataFromEntity from "../lib/seedDataFromEntity";
+import { setUi, setUiLoaded } from "../../../Backend/actions/setUi";
+import addFlashMessage from "../../../Backend/actions/addFlashMessage";
+import loadAjaxData from "../../../Backend/actions/loadAjaxData";
+import addEntities from "../../../Backend/actions/addEntities";
+import Form from "../components/Form";
+import settings from "../../../lib/settings";
+import { denormalizeStateEntity } from "../../../lib/denormalizeUtils";
+
+const successMessage = "Aktion erfolgreich ausgeführt";
 
 const errorFlashMessage =
-  'Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese' +
-  ' und versuche es erneut.';
+  "Es gab Fehler beim Absenden des Formulars. Bitte korrigiere diese und versuche es erneut.";
 
 function textForFailingGuard(guard) {
   switch (guard) {
-    case 'orga_valid?':
-      return 'Orga is not valid';
-    case 'all_organizations_visible?':
-      return 'Please check unapproved Orga(s)';
-    case 'expiration_date_in_future?':
-      return 'Offer has expired';
+    case "orga_valid?":
+      return "Orga is not valid";
+    case "all_organizations_visible?":
+      return "Please check unapproved Orga(s)";
+    case "expiration_date_in_future?":
+      return "Offer has expired";
     default:
       return guard;
   }
@@ -34,12 +35,12 @@ function textForFailingGuard(guard) {
 function checkforErrors(state, model, id) {
   const errors = [];
 
-  if (state.entities['possible-events'] &&
-    state.entities['possible-events'][model] &&
-    state.entities['possible-events'][model][id] &&
-    state.entities['possible-events'][model][id]
+  if (state.entities["possible-events"] &&
+    state.entities["possible-events"][model] &&
+    state.entities["possible-events"][model][id] &&
+    state.entities["possible-events"][model][id]
   ) {
-    state.entities['possible-events'][model][id].data.map(function (e) {
+    state.entities["possible-events"][model][id].data.map(function (e) {
       if (e.failing_guards.length > 0) {
         errors.push(textForFailingGuard(e.failing_guards[0]));
       }
@@ -51,29 +52,29 @@ function checkforErrors(state, model, id) {
 // TODO: use translations
 function textForActionName(action, model) {
   switch (action) {
-    case 'reinitialize':
-      return 'Re-initialisieren';
-    case 'complete':
-      return 'als komplett markieren';
-    case 'start_approval_process':
-      return 'Approval starten';
-    case 'approve':
-      return 'Freischalten';
-    case 'approve_with_deactivated_offers':
-      return 'Freischalten (Comms-Only)';
-    case 'approve':
-      return 'Freischalten';
-    case 'deactivate_internal':
-      return 'Deaktivieren (Internal Feedback)';
-    case 'deactivate_external':
-      return 'Deaktivieren (External Feedback)';
-    case 'website_under_construction':
-      return 'Webseite im Aufbau';
-    case 'mark_as_done':
-      return model === 'divisions' ?
-        'als erledigt markieren' : 'Orga ist fertig (all done)';
-    case 'mark_as_not_done':
-      return 'als unvollständig markieren';
+    case "reinitialize":
+      return "Re-initialisieren";
+    case "complete":
+      return "als komplett markieren";
+    case "start_approval_process":
+      return "Approval starten";
+    case "approve":
+      return "Freischalten";
+    case "approve_with_deactivated_offers":
+      return "Freischalten (Comms-Only)";
+    case "approve":
+      return "Freischalten";
+    case "deactivate_internal":
+      return "Deaktivieren (Internal Feedback)";
+    case "deactivate_external":
+      return "Deaktivieren (External Feedback)";
+    case "website_under_construction":
+      return "Webseite im Aufbau";
+    case "mark_as_done":
+      return model === "divisions" ?
+        "als erledigt markieren" : "Orga ist fertig (all done)";
+    case "mark_as_not_done":
+      return "als unvollständig markieren";
     default:
       return action;
   }
@@ -100,25 +101,25 @@ function buildActionButtonData(
     formData._changes.length || hasAtLeastOneSubmodelForm(formData);
   // start with default save button (might be extended)
   const buttonData = changes ? [{
-    className: 'default',
-    buttonLabel: 'Speichern',
-    actionName: '',
+    className: "default",
+    buttonLabel: "Speichern",
+    actionName: "",
   }] : [];
 
   // iterate additional actions (e.g. state-changes) only for editing
   if (state.settings.actions[model]) {
-    const textPrefix = (changes ? 'Speichern & ' : '');
+    const textPrefix = (changes ? "Speichern & " : "");
 
     if (!forceCreate &&
-      state.entities['possible-events'] &&
-      state.entities['possible-events'][model] &&
-      state.entities['possible-events'][model][id] &&
-      state.entities['possible-events'][model][id]
+      state.entities["possible-events"] &&
+      state.entities["possible-events"][model] &&
+      state.entities["possible-events"][model][id] &&
+      state.entities["possible-events"][model][id]
     ) {
-      state.entities['possible-events'][model][id].data.map(function (e) {
+      state.entities["possible-events"][model][id].data.map(function (e) {
         if (e.possible === true) {
           buttonData.push({
-            className: model === 'divisions' ? 'warning' : 'default',
+            className: model === "divisions" ? "warning" : "default",
             buttonLabel: textPrefix + textForActionName(e.name, model),
             actionName: e.name,
           });
@@ -146,7 +147,7 @@ const mapStateToProps = (state, ownProps) => {
   const formData = state.rform[formId] || {};
   const instance = denormalizeStateEntity(state.entities, model, id);
   const isAssignable =
-    instance && instance['current-assignment-id'] !== undefined;
+    instance && instance["current-assignment-id"] !== undefined;
   const afterSaveActiveKey = state.ui.afterSaveActiveKey;
   const afterSaveActions =
     mapCollection(settings.AFTER_SAVE_ACTIONS, (value, key) => ({
@@ -158,7 +159,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 
   let action = `/api/v1/${model}`;
-  let method = 'POST';
+  let method = "POST";
   const buttonData = buildActionButtonData(
     state, model, id, instance, formObjectClass, formData, ownProps.forceCreate
   );
@@ -166,8 +167,8 @@ const mapStateToProps = (state, ownProps) => {
 
   // Changes in case the form updates instead of creating
   if (id && !ownProps.forceCreate) {
-    action += '/' + id;
-    method = 'PUT';
+    action += "/" + id;
+    method = "PUT";
   }
 
   const newState = {
@@ -185,7 +186,6 @@ const mapStateToProps = (state, ownProps) => {
     id,
   };
 
-  console.log('Form.jsx::props', newState);
   return newState;
 };
 
@@ -211,11 +211,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     afterResponse(_formId, changes, errors, _meta, response) {
-      dispatch(setUiLoaded(true, 'GenericForm', model, id));
+      dispatch(setUiLoaded(true, "GenericForm", model, id));
       if (response.data && response.data.id) {
-        const successMessages =
-          ['Läuft bei dir!', 'Passt!', 'War jut', 'Ging durch'];
-        dispatch(addFlashMessage('success', successMessages[Math.floor(Math.random() * successMessages.length)]));
+        dispatch(addFlashMessage("success", successMessage));
         // if (onSuccessfulSubmit)
         //   return onSuccessfulSubmit(response)
 
@@ -223,52 +221,52 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         resetForm(changes, response);
 
         // after-save actions (redirects)
-        if (stateProps.afterSaveActiveKey === 'to_edit') {
+        if (stateProps.afterSaveActiveKey === "to_edit") {
           browserHistory.push(`/${model}/${response.data.id}/edit`);
-        } else if (stateProps.afterSaveActiveKey === 'to_table') {
+        } else if (stateProps.afterSaveActiveKey === "to_table") {
           browserHistory.push(`/${model}`);
-        } else if (stateProps.afterSaveActiveKey === 'to_new') {
+        } else if (stateProps.afterSaveActiveKey === "to_new") {
           browserHistory.push(`/${model}/new`);
         }
       } else if (some(errors)) {
-        dispatch(addFlashMessage('error', errorFlashMessage));
+        dispatch(addFlashMessage("error", errorFlashMessage));
       }
     },
 
     afterError(_formId, response) {
       if (response.status < 500) return;
       dispatch(
-        addFlashMessage('error', 'Es ist ein Serverfehler aufgetreten.')
+        addFlashMessage("error", "Es ist ein Serverfehler aufgetreten.")
       );
       response.text().then((errorMessage) =>
-        console.error(errorMessage.split('\n').splice(0, 30).join('\n'))
+        console.error(errorMessage.split("\n").splice(0, 30).join("\n"))
       );
     },
 
     afterRequireValid(result) {
       if (result.valid) return;
-      dispatch(addFlashMessage('error', errorFlashMessage));
+      dispatch(addFlashMessage("error", errorFlashMessage));
     },
 
     loadData(modelToLoad = model, id = id) {
       if (modelToLoad && id)
-        dispatch(loadAjaxData(`${modelToLoad}/${id}`, '', modelToLoad));
+        dispatch(loadAjaxData(`${modelToLoad}/${id}`, "", modelToLoad));
     },
 
     splitButtonMenuItemOnclick(eventKey, event) {
-      dispatch(setUi('afterSaveActiveKey', eventKey));
+      dispatch(setUi("afterSaveActiveKey", eventKey));
     },
 
     onSubmitButtonClick(e) {
       const formId = stateProps.formId;
       if (e.target.value) {
-        dispatch(updateAction(formId, 'commit', [], e.target.value));
+        dispatch(updateAction(formId, "commit", [], e.target.value));
       }
       return true;
     },
 
     beforeSubmit() {
-      dispatch(setUiLoaded(false, 'GenericForm', model, id));
+      dispatch(setUiLoaded(false, "GenericForm", model, id));
     },
   };
 };
