@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       api_resources :definitions
       api_resources :solution_categories
       api_resources :sections, only: %i[index show]
-      api_resources :cities, only: %i[index show]
+      api_resources :cities, only: %i[index show create update]
       api_resources :areas
       api_resources :topics, only: %i[index show]
       api_resources :federal_states, only: %i[index show]

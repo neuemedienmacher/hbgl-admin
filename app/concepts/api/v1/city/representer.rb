@@ -3,6 +3,8 @@
 module API::V1
   module City
     module Representer
+      # NOTE for heroku deploy :|
+      require_relative '../lib/populators.rb'
       class Show < Roar::Decorator
         include Roar::JSON::JSONAPI.resource :cities
 
