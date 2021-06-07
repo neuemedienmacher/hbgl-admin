@@ -82,6 +82,8 @@ export default class Routes extends React.Component {
             <Route path="new" component={StandaloneGenericForm} />
             <Route path="export" component={Export} />
             <Route path=":id" component={MemberAction} />
+            <Route path=":id/edit" component={MemberAction} />
+            <Route path=":id/delete" component={MemberAction} />
           </Route>
 
           <Route path="openings">
