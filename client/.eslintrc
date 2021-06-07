@@ -19,6 +19,7 @@ rules:
   ### Variables
   no-undef: 2
   no-unused-vars: [2, { vars: all, args: none }]
+  quotes: [2, "double"]
 
   ### Stylistic issues
   indent: [1, 2, { SwitchCase: 1, VariableDeclarator: 2 }]
