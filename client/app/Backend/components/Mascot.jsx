@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export default class Mascot extends Component {
   render() {
@@ -33,6 +33,6 @@ export default class Mascot extends Component {
           </g>
         </g>
       </svg>
-    )
+    );
   }
 }

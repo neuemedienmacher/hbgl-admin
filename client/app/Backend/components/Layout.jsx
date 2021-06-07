@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import TopNav from '../containers/TopNav';
-import FlashMessageList from '../containers/FlashMessageList';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import TopNav from "../containers/TopNav";
+import FlashMessageList from "../containers/FlashMessageList";
 
-import './layout.css';
+import "./layout.css";
 
-const DEFAULT_ROUTE = '/dashboard';
+const DEFAULT_ROUTE = "/dashboard";
 
 export default class Layout extends Component {
   componentDidUpdate() {

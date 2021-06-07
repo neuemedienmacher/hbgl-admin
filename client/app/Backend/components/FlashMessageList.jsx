@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import FlashMessage from './FlashMessage';
-import PropTypes from 'prop-types';
+import React from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import FlashMessage from "./FlashMessage";
+import PropTypes from "prop-types";
 
 /* UI Behaviour, related to CSS */
 // export const TRANSITION_TIME = 250
@@ -25,15 +25,15 @@ const FlashMessageList = ({ messages, onMessageExpire }) => (
       }
     </ReactCSSTransitionGroup>
   </ul>
-)
+);
 
 FlashMessageList.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
   }).isRequired).isRequired,
-  onMessageExpire: PropTypes.func.isRequired
-}
+  onMessageExpire: PropTypes.func.isRequired,
+};
 
-export default FlashMessageList
+export default FlashMessageList;
