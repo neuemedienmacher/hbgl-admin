@@ -2,6 +2,41 @@ import { connect } from "react-redux";
 import loadAjaxData from "../../../Backend/actions/loadAjaxData";
 import Index from "../components/Index";
 
+const headingTranslation = {
+  "organizations": "Organisationen",
+  "divisions": "Divisions",
+  "offers": "Angebote",
+  "offer-translations": "Angebotsübersetzungen",
+  "organization-translations": "Orga-Übersetzungen",
+  "statistics-charts": "Produktivitätsziele",
+  "user-teams": "Nutzer-Teams",
+  "users": "Nutzer",
+  "assignments": "Zuweisungen",
+  "locations": "Standorte",
+  "cities": "Städte",
+  "openings": "Öffnungszeiten",
+  "tags": "Tags",
+  "definitions": "Definitionen",
+  "federal-states": "Bundesländer",
+  "contact-people": "Kontaktpersonen",
+  "solution-categories": "Lösungskategorien",
+  "emails": "Emails",
+  "subscriptions": "Newsletter Abos",
+  "update-requests": "Update Anfragen",
+  "websites": "Webseiten",
+  "next-steps": "Nächste Schritte",
+  "areas": "Gebiete",
+  "search-locations": "SearchLocations",
+  "contacts": "Kontakte",
+  "language-filters": "Languagefilter",
+};
+
+const headingFor = (modelName) => {
+  const translation = headingTranslation[modelName];
+  if (translation) return translation;
+  throw new Error(`Please provide a headline for ${modelName}`);
+};
+
 const mapStateToProps = (state, ownProps) => {
   const pathname = window.location.pathname;
   let model = ownProps.model;
@@ -62,64 +97,5 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     }
   }
 });
-
-function headingFor(model) {
-  switch (model) {
-    case "organizations":
-      return "Organisationen";
-    case "divisions":
-      return "Divisions";
-    case "offers":
-      return "Angebote";
-    case "offer-translations":
-      return "Angebotsübersetzungen";
-    case "organization-translations":
-      return "Orga-Übersetzungen";
-    case "statistic-charts":
-      return "Produktivitätsziele";
-    case "user-teams":
-      return "Nutzer-Teams";
-    case "users":
-      return "Nutzer";
-    case "assignments":
-      return "Zuweisungen";
-    case "locations":
-      return "Standorte";
-    case "cities":
-      return "Städte";
-    case "openings":
-      return "Öffnungszeiten";
-    case "tags":
-      return "Tags";
-    case "definitions":
-      return "Definitions";
-    case "federal-states":
-      return "Bundesländer";
-    case "contact-people":
-      return "Kontaktpersonen";
-    case "solution-categories":
-      return "Lösungskategorien";
-    case "emails":
-      return "Emails";
-    case "subscriptions":
-      return "Newsletter Abos";
-    case "update-requests":
-      return "Update Requests";
-    case "websites":
-      return "Webseiten";
-    case "next-steps":
-      return "NextSteps";
-    case "areas":
-      return "Areas";
-    case "search-locations":
-      return "SearchLocations";
-    case "contacts":
-      return "Contacts";
-    case "language-filters":
-      return "LanguageFilters";
-    default:
-      throw new Error(`Please provide a heading for ${model}`);
-  }
-}
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Index);
