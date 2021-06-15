@@ -2,7 +2,9 @@ ps:
   offer:
     stamp:
       age:
+        age_from: 
         age_of_child: 
+        age_to: 
         suffix: 
       format: 
       status:
@@ -94,3 +96,34 @@ ps:
           female:
             default: 
             special: 
+          male:
+            default: 
+            special: 
+          neutral:
+            adults: 
+            neutral: 
+        refugees_parents:
+          female:
+            female: 
+            male: 
+            neutral: 
+          male:
+            female: 
+            male: 
+            neutral: 
+          neutral:
+            female: 
+            male: 
+            neutral: 
+        refugees_parents_to_be:
+          female: 
+          male: 
+          neutral: 
+        refugees_uf:
+          minor:
+            neutral: 
+          neutral: 
+        refugees_umf:
+          female: 
+          male: 
+          neutral: 
