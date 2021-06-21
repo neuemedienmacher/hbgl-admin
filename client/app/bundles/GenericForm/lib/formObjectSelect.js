@@ -42,7 +42,7 @@ const modelFormObjectMap = (editing) => ({
 
 
 export default function formObjectSelect(model, editing) {
-  const obj = modelFormObjectMap(editing);
+  const obj = modelFormObjectMap(editing)[model];
   if (obj) return obj;
   throw new Error(
   `Please provide a configuring FormObject for ${model} if you want to
