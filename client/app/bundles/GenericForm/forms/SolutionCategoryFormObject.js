@@ -1,5 +1,5 @@
 import GenericFormObject from "../lib/GenericFormObject";
-import { ONE_TO_ONE } from "../../../lib/constants";
+import { ONE_TO_ONE, } from "../../../lib/constants";
 
 export default class SolutionCategoryFormObject extends GenericFormObject {
   static get model() {
@@ -18,8 +18,8 @@ export default class SolutionCategoryFormObject extends GenericFormObject {
 
   static get formConfig() {
     return {
-      name: { type: "string" },
-      parent: { type: "filtering-select", resource: "solution-categories" },
+      name: { type: "string", },
+      parent: { type: "filtering-select", resource: "solution-categories", },
     };
   }
 
@@ -31,12 +31,12 @@ export default class SolutionCategoryFormObject extends GenericFormObject {
 
   static get submodelConfig() {
     return {
-      parent: { relationship: ONE_TO_ONE },
+      parent: { relationship: ONE_TO_ONE, },
     };
   }
 
   static get requiredInputs() {
-    return ["name"];
+    return ["name", ];
   }
 
   validation() {

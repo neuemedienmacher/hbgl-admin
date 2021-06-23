@@ -1,6 +1,6 @@
 import GenericFormObject from "../lib/GenericFormObject";
 import WebsiteFormObject from "./WebsiteFormObject";
-import { ONE_TO_ONE, ONE_TO_MANY } from "../../../lib/constants";
+import { ONE_TO_ONE, ONE_TO_MANY, } from "../../../lib/constants";
 
 class DivisionUpdateFormObject extends GenericFormObject {
   static get model() {
@@ -28,35 +28,35 @@ class DivisionUpdateFormObject extends GenericFormObject {
 
   static get submodelConfig() {
     return {
-      websites: { relationship: ONE_TO_MANY, object: WebsiteFormObject },
-      city: { relationship: ONE_TO_ONE },
-      area: { relationship: ONE_TO_ONE },
-      organization: { relationship: ONE_TO_ONE },
-      "presumed-tags": { relationship: ONE_TO_MANY },
-      "presumed-solution-categories": { relationship: ONE_TO_MANY },
+      websites: { relationship: ONE_TO_MANY, object: WebsiteFormObject, },
+      city: { relationship: ONE_TO_ONE, },
+      area: { relationship: ONE_TO_ONE, },
+      organization: { relationship: ONE_TO_ONE, },
+      "presumed-tags": { relationship: ONE_TO_MANY, },
+      "presumed-solution-categories": { relationship: ONE_TO_MANY, },
     };
   }
 
   static get formConfig() {
     return {
-      addition: { type: "string" },
-      organization: { type: "filtering-select" },
-      city: { type: "filtering-select" },
-      area: { type: "filtering-select" },
-      websites: { type: "creating-multiselect" },
+      addition: { type: "string", },
+      organization: { type: "filtering-select", },
+      city: { type: "filtering-select", },
+      area: { type: "filtering-select", },
+      websites: { type: "creating-multiselect", },
       "presumed-tags": {
-        type: "filtering-multiselect", resource: "tags"
+        type: "filtering-multiselect", resource: "tags",
       },
       "presumed-solution-categories": {
-        type: "filtering-multiselect", resource: "solution-categories"
+        type: "filtering-multiselect", resource: "solution-categories",
       },
-      comment: { type: "textarea" },
-      size: { type: "select", options: ["small", "medium", "large"] },
+      comment: { type: "textarea", },
+      size: { type: "select", options: ["small", "medium", "large", ], },
     };
   }
 
   static get readOnlyProperties() {
-    return ["section-identifier"];
+    return ["section-identifier", ];
   }
 
   static get requiredInputs() {
@@ -64,13 +64,14 @@ class DivisionUpdateFormObject extends GenericFormObject {
   }
 
   validation() {
-    for (let requiredInput of this.constructor.requiredInputs) {
-      this.required(requiredInput).filled();
+    for (const requiredInput of this.constructor.requiredInputs) {
+      this.required(requiredInput,).filled();
     }
   }
 }
 
 class DivisionCreateFormObject extends DivisionUpdateFormObject {
+
   // static get properties() {
   //   return concat(["section"], DivisionUpdateFormObject.properties)
   // }
@@ -103,5 +104,5 @@ class DivisionCreateFormObject extends DivisionUpdateFormObject {
 }
 
 export {
-  DivisionCreateFormObject, DivisionUpdateFormObject
+  DivisionCreateFormObject, DivisionUpdateFormObject,
 };

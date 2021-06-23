@@ -1,5 +1,5 @@
 import GenericFormObject from "../lib/GenericFormObject";
-import { URL_REGEX } from "../lib/formats";
+import { URL_REGEX, } from "../lib/formats";
 
 export default class WebsiteFormObject extends GenericFormObject {
   static get model() {
@@ -12,7 +12,7 @@ export default class WebsiteFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      "host", "url"
+      "host", "url",
     ];
   }
 
@@ -23,20 +23,20 @@ export default class WebsiteFormObject extends GenericFormObject {
         options: [
           "own", "facebook", "twitter", "youtube", "gplus", "pinterest",
           "document", "online_consulting", "chat", "forum", "online_course",
-          "application_form", "contact_form", "other"
-        ]
+          "application_form", "contact_form", "other",
+        ],
       },
-      url: { type: "string" },
+      url: { type: "string", },
     };
   }
 
   static get requiredInputs() {
-    return ["host", "url"];
+    return ["host", "url", ];
   }
 
   static get additionalValidations() {
     return {
-      url: { "format?": URL_REGEX }
+      url: { "format?": URL_REGEX, },
     };
   }
 

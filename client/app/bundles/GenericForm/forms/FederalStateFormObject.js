@@ -11,18 +11,18 @@ export default class FederalStateFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      "name"
+      "name",
     ];
   }
 
   static get formConfig() {
     return {
-      name: { type: "string" }
+      name: { type: "string", },
     };
   }
 
   static get requiredInputs() {
-    return ["name"];
+    return ["name", ];
   }
 
   validation() {

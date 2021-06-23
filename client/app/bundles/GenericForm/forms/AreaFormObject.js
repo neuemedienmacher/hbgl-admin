@@ -17,16 +17,16 @@ export default class AreaFormObject extends GenericFormObject {
 
   static get formConfig() {
     return {
-      name: { type: "string" },
-      minlat: { type: "number" },
-      maxlat: { type: "number" },
-      minlong: { type: "number" },
-      maxlong: { type: "number" }
+      name: { type: "string", },
+      minlat: { type: "number", },
+      maxlat: { type: "number", },
+      minlong: { type: "number", },
+      maxlong: { type: "number", },
     };
   }
 
   static get requiredInputs() {
-    return ["name", "minlat", "maxlat", "minlong", "maxlong"];
+    return ["name", "minlat", "maxlat", "minlong", "maxlong", ];
   }
 
   validation() {

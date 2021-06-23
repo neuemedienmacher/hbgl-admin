@@ -5,7 +5,7 @@ import LocationFormObject from "./LocationFormObject";
 import TargetAudienceFiltersOfferFormObject
   from "./TargetAudienceFiltersOfferFormObject";
 
-import { ONE_TO_ONE, ONE_TO_MANY, BELONGS_TO } from "../../../lib/constants";
+import { ONE_TO_ONE, ONE_TO_MANY, BELONGS_TO, } from "../../../lib/constants";
 
 class OfferCreateFormObject extends GenericFormObject {
   static get model() {
@@ -23,7 +23,7 @@ class OfferCreateFormObject extends GenericFormObject {
       "hide-contact-people", "encounter", "location", "area",
       "tags", "trait-filters", "language-filters",
       "target-audience-filters-offers", "openings", "opening-specification",
-      "websites", "starts-at", "ends-at"
+      "websites", "starts-at", "ends-at",
     ];
   }
 
@@ -32,13 +32,13 @@ class OfferCreateFormObject extends GenericFormObject {
       "divisions", "next-steps", "contact-people", "location",
       "area", "tags", "solution-category", "trait-filters",
       "language-filters", "target-audience-filters-offers", "openings",
-      "websites"
+      "websites",
     ];
   }
 
   static get submodelConfig() {
     return {
-      "divisions": {
+      divisions: {
         relationship: ONE_TO_MANY,
       },
       "next-steps": {
@@ -67,7 +67,7 @@ class OfferCreateFormObject extends GenericFormObject {
       "target-audience-filters-offers": {
         object: TargetAudienceFiltersOfferFormObject,
         relationship: ONE_TO_MANY,
-        inverseRelationship: BELONGS_TO
+        inverseRelationship: BELONGS_TO,
       },
       openings: {
         relationship: ONE_TO_MANY,
@@ -78,58 +78,59 @@ class OfferCreateFormObject extends GenericFormObject {
       },
       "solution-category": {
         relationship: ONE_TO_ONE,
-      }
+      },
     };
   }
 
   static get formConfig() {
     return {
-      divisions: { type: "filtering-multiselect" },
-      name: { type: "string", addons: ["counter"] },
-      description: { type: "textarea", addons: ["counter"] },
-      comment: { type: "textarea" },
-      "next-steps": { type: "filtering-multiselect", addons: ["counter"] },
-      "contact-people": { type: "creating-multiselect" },
-      "hide-contact-people": { type: "checkbox" },
-      "code-word": { type: "string" },
+      divisions: { type: "filtering-multiselect", },
+      name: { type: "string", addons: ["counter", ], },
+      description: { type: "textarea", addons: ["counter", ], },
+      comment: { type: "textarea", },
+      "next-steps": { type: "filtering-multiselect", addons: ["counter", ], },
+      "contact-people": { type: "creating-multiselect", },
+      "hide-contact-people": { type: "checkbox", },
+      "code-word": { type: "string", },
       encounter: {
-        type: "select", options: [
+        type: "select",
+        options: [
           "personal", "hotline", "email", "chat", "online-course", "forum",
-          "portal"
-        ]
+          "portal",
+        ],
       },
-      location: { type: "creating-select" },
-      area: { type: "filtering-select" },
-      tags: { type: "filtering-multiselect" },
+      location: { type: "creating-select", },
+      area: { type: "filtering-select", },
+      tags: { type: "filtering-multiselect", },
       "trait-filters": {
         type: "filtering-multiselect",
         resource: "filters",
-        params: { filters: { type: "TraitFilter" } }
+        params: { filters: { type: "TraitFilter", }, },
       },
       "language-filters": {
         type: "filtering-multiselect",
         resource: "filters",
-        params: { filters: { type: "LanguageFilter" } }
+        params: { filters: { type: "LanguageFilter", }, },
       },
       "target-audience-filters-offers": {
-        type: "creating-multiselect"
+        type: "creating-multiselect",
       },
       openings: {
         type: "filtering-multiselect",
-        params: { sort_field: "sort_value", sort_direction: "ASC" }
+        params: { sort_field: "sort_value", sort_direction: "ASC", },
       },
-      "opening-specification": { type: "textarea" },
-      "starts-at": { type: "date" },
-      "ends-at": { type: "date" },
-      websites: { type: "creating-multiselect" },
-      "solution-category": { type: "filtering-select" },
+      "opening-specification": { type: "textarea", },
+      "starts-at": { type: "date", },
+      "ends-at": { type: "date", },
+      websites: { type: "creating-multiselect", },
+      "solution-category": { type: "filtering-select", },
     };
   }
 
   static get requiredInputs() {
     return [
       "solution-category", "divisions", "name",
-      "target-audience-filters-offers", "language-filters", "description"
+      "target-audience-filters-offers", "language-filters", "description",
     ];
   }
 
@@ -137,20 +138,22 @@ class OfferCreateFormObject extends GenericFormObject {
     return {
       name: 80,
       description: 450,
+
       // NOTE: title and description max vals are only recommendations
-      "next-steps": 10
+      "next-steps": 10,
     };
   }
 
   validation() {
     this.applyRequiredInputs();
-    this.maybe("next-steps").filled({
-      "max_size?": this.constructor.inputMaxLengths["next-steps"]
-    });
+    this.maybe("next-steps",).filled({
+      "max_size?": this.constructor.inputMaxLengths["next-steps"],
+    },);
   }
 }
 
 class OfferUpdateFormObject extends OfferCreateFormObject {
+
   // static get properties() {
   //   return concat(
   //     OfferCreateFormObject.properties,
@@ -167,10 +170,10 @@ class OfferUpdateFormObject extends OfferCreateFormObject {
   // }
 
   static get readOnlyProperties() {
-    return ["aasm-state"];
+    return ["aasm-state", ];
   }
 }
 
 export {
-  OfferCreateFormObject, OfferUpdateFormObject
+  OfferCreateFormObject, OfferUpdateFormObject,
 };

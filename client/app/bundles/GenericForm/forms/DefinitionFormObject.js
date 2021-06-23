@@ -11,19 +11,19 @@ export default class DefinitionFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      "key", "explanation"
+      "key", "explanation",
     ];
   }
 
   static get formConfig() {
     return {
-      key: { type: "text" },
-      explanation: { type: "text" }
+      key: { type: "text", },
+      explanation: { type: "text", },
     };
   }
 
   static get requiredInputs() {
-    return ["key", "explanation"];
+    return ["key", "explanation", ];
   }
 
   validation() {

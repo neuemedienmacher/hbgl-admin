@@ -2,11 +2,11 @@ import GenericFormObject from "../lib/GenericFormObject";
 import merge from "lodash/merge";
 import concat from "lodash/concat";
 import WebsiteFormObject from "./WebsiteFormObject";
-import { DivisionCreateFormObject } from "./DivisionFormObject";
+import { DivisionCreateFormObject, } from "./DivisionFormObject";
 import LocationFormObject from "./LocationFormObject";
 import ContactPersonFormObject from "./ContactPersonFormObject";
 
-import { ONE_TO_MANY, ONE_TO_ONE, BELONGS_TO } from "../../../lib/constants";
+import { ONE_TO_MANY, ONE_TO_ONE, BELONGS_TO, } from "../../../lib/constants";
 
 class OrgaCreateFormObject extends GenericFormObject {
   static get model() {
@@ -20,59 +20,59 @@ class OrgaCreateFormObject extends GenericFormObject {
   static get properties() {
     return [
       "name", "website", "locations", "contact-people",
-      "comment", "priority", "pending-reason", "divisions", "topics"
+      "comment", "priority", "pending-reason", "divisions", "topics",
     ];
   }
 
   static get submodels() {
-    return ["website", "divisions", "locations", "contact-people", "topics"];
+    return ["website", "divisions", "locations", "contact-people", "topics", ];
   }
 
   static get submodelConfig() {
     return {
       website: {
         object: WebsiteFormObject,
-        relationship: ONE_TO_ONE
+        relationship: ONE_TO_ONE,
       },
       divisions: {
         object: DivisionCreateFormObject,
         relationship: ONE_TO_MANY,
-        inverseRelationship: BELONGS_TO
+        inverseRelationship: BELONGS_TO,
       },
       locations: {
         object: LocationFormObject,
         relationship: ONE_TO_MANY,
-        inverseRelationship: BELONGS_TO
+        inverseRelationship: BELONGS_TO,
       },
       "contact-people": {
         object: ContactPersonFormObject,
         relationship: ONE_TO_MANY,
-        inverseRelationship: BELONGS_TO
+        inverseRelationship: BELONGS_TO,
       },
       topics: {
-        relationship: ONE_TO_MANY
-      }
+        relationship: ONE_TO_MANY,
+      },
     };
   }
 
   static get formConfig() {
     return {
-      name: { type: "string" },
-      website: { type: "creating-select" },
-      locations: { type: "creating-multiselect" },
-      "contact-people": { type: "creating-multiselect" },
-      comment: { type: "textarea" },
-      priority: { type: "checkbox" },
-      divisions: { type: "creating-multiselect" },
+      name: { type: "string", },
+      website: { type: "creating-select", },
+      locations: { type: "creating-multiselect", },
+      "contact-people": { type: "creating-multiselect", },
+      comment: { type: "textarea", },
+      priority: { type: "checkbox", },
+      divisions: { type: "creating-multiselect", },
       "pending-reason": {
-        type: "select", options: ["", "unstable", "on_hold", "foreign"]
+        type: "select", options: ["", "unstable", "on_hold", "foreign", ],
       },
-      topics: { type: "filtering-multiselect" },
+      topics: { type: "filtering-multiselect", },
     };
   }
 
   static get requiredInputs() {
-    return ["name", "website"];
+    return ["name", "website", ];
   }
 
   validation() {
@@ -85,7 +85,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
     return concat(
       OrgaCreateFormObject.properties,
       ["description", "legal-form", "charitable", "umbrella-filters",
-        "accredited-institution", "mailings"]
+        "accredited-institution", "mailings", ],
     );
   }
 
@@ -93,23 +93,25 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
     return merge(
       OrgaCreateFormObject.formConfig,
       {
-        description: { type: "textarea" },
-        charitable: { type: "checkbox" },
+        description: { type: "textarea", },
+        charitable: { type: "checkbox", },
         "legal-form": {
           type: "select",
           options: [
             "", "ev", "ggmbh", "gag", "foundation", "gug", "gmbh", "ag", "ug",
-            "kfm", "gbr", "ohg", "kg", "eg", "sonstige", "state_entity"
-          ]
+            "kfm", "gbr", "ohg", "kg", "eg", "sonstige", "state_entity",
+          ],
         },
         "umbrella-filters": {
           type: "filtering-multiselect",
           resource: "filters",
-          params: { filters: { "type": "UmbrellaFilter" } }
+          params: { filters: { type: "UmbrellaFilter", }, },
         },
-        "accredited-institution": { type: "checkbox" },
-        mailings: { type: "select",
-                    options: ["disabled", "enabled", "force_disabled"] },
+        "accredited-institution": { type: "checkbox", },
+        mailings: {
+          type: "select",
+          options: ["disabled", "enabled", "force_disabled", ],
+        },
       },
     );
   }
@@ -121,7 +123,7 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
   // }
 
   static get submodels() {
-    return concat(OrgaCreateFormObject.submodels, "umbrella-filters");
+    return concat(OrgaCreateFormObject.submodels, "umbrella-filters",);
   }
 
   static get submodelConfig() {
@@ -129,32 +131,35 @@ class OrgaUpdateFormObject extends OrgaCreateFormObject {
       OrgaCreateFormObject.submodelConfig, {
         "umbrella-filters": {
           type: "filters",
-          relationship: ONE_TO_MANY
-        }
-      }
+          relationship: ONE_TO_MANY,
+        },
+      },
     );
   }
 
   static get readOnlyProperties() {
-    return ["aasm-state"];
+    return ["aasm-state", ];
   }
 
-  static additionalButtons(stateInstance) {
+  static additionalButtons(stateInstance,) {
     const buttons = [];
+
     if (
       stateInstance &&
-        ["approved", "all_done"].includes(stateInstance["aasm-state"])
-      // stateInstance['current-assignment']['receiver']...
+        ["approved", "all_done", ].includes(stateInstance["aasm-state"],)
+
+    // stateInstance['current-assignment']['receiver']...
     ) {
       buttons.push({
-        className: "default", buttonLabel: "Speichern & Zuweisung schließen",
-        actionName: "toSystem"
-      });
+        className: "default",
+        buttonLabel: "Speichern & Zuweisung schließen",
+        actionName: "toSystem",
+      },);
     }
     return buttons;
   }
 }
 
 export {
-  OrgaCreateFormObject, OrgaUpdateFormObject
+  OrgaCreateFormObject, OrgaUpdateFormObject,
 };
