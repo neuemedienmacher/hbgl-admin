@@ -147,7 +147,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-nestable2', '1.6.0'
 end
 
-gem 'react_on_rails', '< 7.0.0'
+gem 'react_on_rails', '6.10.1'
 
 #####################
 # Dev/Test Specific #
