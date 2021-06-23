@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   db:
-    image: postgres:13.1-alpine
+    image: postgres:11.12-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 111111
@@ -10,8 +10,7 @@ services:
     ports:
       - 127.0.0.1:5432:5432
     volumes:
-      - pg_ex:/var/lib/postgresql/data
-
+      - ./docker-container:/var/lib/postgresql/data
   pgadmin:
     image: thajeztah/pgadmin4
     ports:
@@ -20,10 +19,8 @@ services:
       - pg_admin:/pgadmin
     depends_on:
       - db
-
-
   psql:
-    image: postgres:13.1-alpine
+    image: postgres:11.12-alpine
     entrypoint: psql
     environment:
       PGHOST: db
@@ -37,5 +34,4 @@ services:
       - 127.0.0.1:6379:6379
 
 volumes:
-  pg_ex:
   pg_admin:
