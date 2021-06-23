@@ -1,38 +1,38 @@
-import GenericFormObject from '../lib/GenericFormObject'
+import GenericFormObject from "../lib/GenericFormObject";
 
 export default class NextStepFormObject extends GenericFormObject {
   static get model() {
-    return 'next-step'
+    return "next-step";
   }
 
   static get type() {
-    return 'next-steps'
+    return "next-steps";
   }
 
   static get properties() {
     return [
-      'text-de', 'text-en', 'text-ar', 'text-fa', 'text-fr', 'text-tr',
-      'text-ps'
-    ]
+      "text-de", "text-en", "text-ar", "text-fa", "text-fr", "text-tr",
+      "text-ps"
+    ];
   }
 
   static get formConfig() {
     return {
-       'text-de': { type: 'string' },
-       'text-en': { type: 'string' },
-       'text-ar': { type: 'string' },
-       'text-fa': { type: 'string' },
-       'text-fr': { type: 'string' },
-       'text-tr': { type: 'string' },
-       'text-ps': { type: 'string' }
-    }
+      "text-de": { type: "string" },
+      "text-en": { type: "string" },
+      "text-ar": { type: "string" },
+      "text-fa": { type: "string" },
+      "text-fr": { type: "string" },
+      "text-tr": { type: "string" },
+      "text-ps": { type: "string" }
+    };
   }
 
   static get requiredInputs() {
-    return ['text-de', 'text-en']
+    return ["text-de", "text-en"];
   }
 
   validation() {
-    this.applyRequiredInputs()
+    this.applyRequiredInputs();
   }
 }

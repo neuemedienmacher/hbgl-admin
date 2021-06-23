@@ -1,32 +1,32 @@
-import GenericFormObject from '../lib/GenericFormObject'
+import GenericFormObject from "../lib/GenericFormObject";
 
 export default class DefinitionFormObject extends GenericFormObject {
   static get model() {
-    return 'definition'
+    return "definition";
   }
 
   static get type() {
-    return 'definitions'
+    return "definitions";
   }
 
   static get properties() {
     return [
-      'key', 'explanation'
-    ]
+      "key", "explanation"
+    ];
   }
 
   static get formConfig() {
     return {
-      key: { type: 'text' },
-      explanation: { type: 'text' }
-    }
+      key: { type: "text" },
+      explanation: { type: "text" }
+    };
   }
 
   static get requiredInputs() {
-    return ['key', 'explanation']
+    return ["key", "explanation"];
   }
 
   validation() {
-    this.applyRequiredInputs()
+    this.applyRequiredInputs();
   }
 }

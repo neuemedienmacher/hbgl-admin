@@ -1,41 +1,41 @@
-import { JsonApiAdapter } from 'rform'
-import GenericFormObject from '../lib/GenericFormObject'
-import { EMAIL_REGEX } from '../lib/formats'
+import { JsonApiAdapter } from "rform";
+import GenericFormObject from "../lib/GenericFormObject";
+import { EMAIL_REGEX } from "../lib/formats";
 
 export default class EmailFormObject extends GenericFormObject {
   static get model() {
-    return 'email'
+    return "email";
   }
 
   static get type() {
-    return 'emails'
+    return "emails";
   }
 
   static get properties() {
-    return ['address']
+    return ["address"];
   }
 
   static get formConfig() {
     return {
-      address: { type: 'string' }
-    }
+      address: { type: "string" }
+    };
   }
 
   static get requiredInputs() {
-    return ['address']
+    return ["address"];
   }
 
   static get readOnlyProperties() {
-    return ['tos']
+    return ["tos"];
   }
 
   static get additionalValidations() {
     return {
-      address: { 'format?': EMAIL_REGEX }
-    }
+      address: { "format?": EMAIL_REGEX }
+    };
   }
 
   validation() {
-    this.applyRequiredInputs()
+    this.applyRequiredInputs();
   }
 }

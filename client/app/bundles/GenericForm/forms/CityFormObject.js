@@ -1,31 +1,31 @@
-import GenericFormObject from '../lib/GenericFormObject'
+import GenericFormObject from "../lib/GenericFormObject";
 
 export default class CityFormObject extends GenericFormObject {
   static get model() {
-    return 'city'
+    return "city";
   }
 
   static get type() {
-    return 'cities'
+    return "cities";
   }
 
   static get properties() {
     return [
-      'name'
-    ]
+      "name"
+    ];
   }
 
   static get formConfig() {
     return {
-      name: { type: 'string' }
-    }
+      name: { type: "string" }
+    };
   }
 
   static get requiredInputs() {
-    return ['name']
+    return ["name"];
   }
 
   validation() {
-    this.applyRequiredInputs()
+    this.applyRequiredInputs();
   }
 }
