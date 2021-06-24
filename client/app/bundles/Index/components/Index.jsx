@@ -1,34 +1,35 @@
-import React, { Component } from 'react'
-import IndexHeader from '../containers/IndexHeader'
-import IndexTable from '../containers/IndexTable'
-import Pagination from '../containers/Pagination'
-import isEqual from 'lodash/isEqual'
+import React, { Component } from "react";
+import cn from "classnames";
+
+import IndexHeader from "../containers/IndexHeader";
+import IndexTable from "../containers/IndexTable";
+import Pagination from "../containers/Pagination";
+import isEqual from "lodash/isEqual";
 
 export default class Index extends Component {
   componentWillReceiveProps(nextProps) {
-    if (isEqual(nextProps.query, this.props.query) == false ||
-        isEqual(nextProps.lockedParams, this.props.lockedParams) == false || // NOTE: Hotfix!!
-        nextProps.model != this.props.model
+    if (isEqual(nextProps.query, this.props.query) === false ||
+        isEqual(nextProps.lockedParams, this.props.lockedParams) === false || // NOTE: Hotfix!!
+        nextProps.model !== this.props.model
     ) {
-      this.props.loadData(nextProps.query, nextProps.model)
+      this.props.loadData(nextProps.query, nextProps.model);
     }
   }
 
   componentDidMount() {
-    this.props.loadData()
+    this.props.loadData();
   }
 
   render() {
     const {
-      location, model, heading, query, lockedParams, optionalParams, identifier,
+      model, heading, query, lockedParams, identifier,
       uiKey, metaText, isLoading
-    } = this.props
+    } = this.props;
 
-    let className = 'content Index table-header'
-    if (isLoading) className += ' Index--loading'
+    console.log(this.props);
 
     return (
-      <div className={className}>
+      <div className={cn("content", "Index", "table-header", { "Index--loading": isLoading })}>
         <p className="page-title">{heading}</p>
         <p className="index-title">{metaText}</p>
         <IndexHeader model={model} params={query} lockedParams={lockedParams} />
@@ -38,7 +39,10 @@ export default class Index extends Component {
         <Pagination
           model={model} params={query} identifier={identifier} uiKey={uiKey}
         />
-      </div>
-    )
+      </div>);
   }
 }
+
+Index.propTypes = {
+
+};

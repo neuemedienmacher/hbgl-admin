@@ -5,12 +5,11 @@ import addEntities from "../actions/addEntities";
 import transformJsonApi from "../transformers/json_api";
 import Routes from "../components/Routes";
 
-const mapStateToProps = (state, ownProps) => {
-  return {};
-};
+const mapStateToProps = (state, ownProps) => ({});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   initialSetup() {
+
     // Subscribe to model instance changes
     dispatch(setupSubscription({ channel: "ChangesChannel" }, {
       received(data) {
@@ -29,9 +28,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
             console.log(data);
             break;
         }
-      },
+      }
     }));
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Routes);
