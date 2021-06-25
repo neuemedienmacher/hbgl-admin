@@ -3,6 +3,7 @@ extends: eslint-config-eslint
 
 plugins:
   - react
+  - jsdoc
 
 globals:
   __DEBUG_SERVER_ERRORS__: true
@@ -10,6 +11,9 @@ globals:
 
 parserOptions:
   sourceType: module
+  ecmaVersion: 11
+  ecmaFeatures:
+    jsx: true
 
 settings:
   react:
@@ -22,13 +26,28 @@ env:
   es2020: true
   es2021: true
   node: true
+  jquery: true
+
 
 rules:
   ### Variables
+  no-prototype-builtins: 1
+  node/no-missing-import: 0
+  no-use-before-define: 1
+  no-console: 0
+  no-restricted-properties: 0
+  no-undefined: 0
   no-undef: 2
   no-unused-vars: [2, { vars: all, args: none }]
   quotes: [2, "double"]
-  comma-dangle: [ 2, "always" ]
+  func-style: 0
+  comma-dangle:
+    - 2
+    - "arrays": always
+    - "objects": always
+    - "imports": always
+    - "exports": always
+    - "functions": never
 
   ### Stylistic issues
   indent: [1, 2, { SwitchCase: 1, VariableDeclarator: 2 }]
@@ -54,6 +73,7 @@ rules:
   react/react-in-jsx-scope: 2
   react/self-closing-comp: 2
   react/sort-comp: 0
+  react/no-multi-comp: 0
   array-bracket-spacing: [0]
   jsx-a11y/anchor-has-content: [0]
   node/no-unsupported-features/es-syntax: [0]
