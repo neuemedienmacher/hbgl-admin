@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Router, Route, browserHistory, IndexRoute } from "react-router";
 
 import Layout from "./Layout";
@@ -29,220 +29,227 @@ import RatioOverviewPage
 import EditTranslation from
   "../../bundles/EditTranslation/containers/EditTranslation";
 
-export default class Routes extends React.Component {
-  componentDidMount() {
-    this.props.initialSetup();
-  }
+import FederalStates from "./v2/FederalStates";
 
-  render() {
-    return (
-      <Router history={browserHistory}>
-        <Route path="/" component={Layout}>
-          <IndexRoute component={DashboardContainer}/>
+const Routes = ({ initialSetup }) => {
+  useEffect(() => {
+    initialSetup();
+  });
 
-          <Route path="organizations">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+  return (
+    <Router history={browserHistory}>
+      <Route path="/" component={Layout}>
+        <IndexRoute component={DashboardContainer}/>
 
-          <Route path="divisions">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="v2/federal-states">
+          <IndexRoute component={FederalStates} />
+        </Route>
 
-          <Route path="offers">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-            <Route path=":id/duplicate" component={MemberAction} />
-          </Route>
+        <Route path="organizations">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="locations">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="divisions">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="cities">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="offers">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+          <Route path=":id/duplicate" component={MemberAction} />
+        </Route>
 
-          <Route path="openings">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="locations">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="tags">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="cities">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="definitions">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="openings">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="federal-states">
-            <IndexRoute component={Index}/>
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-          </Route>
+        <Route path="tags">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="contact-people">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="definitions">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="next-steps">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="federal-states">
+          <IndexRoute component={Index}/>
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+        </Route>
 
-          <Route path="areas">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="contact-people">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="emails">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-            <Route path=":id/mailing" component={MemberAction} />
-          </Route>
+        <Route path="next-steps">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="solution-categories">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="areas">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
 
-          <Route path="websites">
-            <IndexRoute component={Index}/>
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-            <Route path=":id/delete" component={MemberAction} />
-          </Route>
+        <Route path="emails">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+          <Route path=":id/mailing" component={MemberAction} />
+        </Route>
 
-          <Route path="statistics" component={StatisticsLayout}>
-            <IndexRoute component={Overview}/>
-            <Route path="offer-overview" component={OfferOverviewPage} />
-            <Route path="organization-overview" component={OrgaOverviewPage} />
-            <Route path="screening-overview" component={OrgaScreeningOverviewPage} />
-            <Route path="topic-overview" component={OrgaTopicOverviewPage} />
-            <Route path="orga-offer-cities-overview"
-              component={OrgaOfferCitiesOverview}
-            />
-            <Route path="ratio-overview" component={RatioOverviewPage} />
-            {/*
+        <Route path="solution-categories">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
+
+        <Route path="websites">
+          <IndexRoute component={Index}/>
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+          <Route path=":id/delete" component={MemberAction} />
+        </Route>
+
+        <Route path="statistics" component={StatisticsLayout}>
+          <IndexRoute component={Overview}/>
+          <Route path="offer-overview" component={OfferOverviewPage} />
+          <Route path="organization-overview" component={OrgaOverviewPage} />
+          <Route path="screening-overview" component={OrgaScreeningOverviewPage} />
+          <Route path="topic-overview" component={OrgaTopicOverviewPage} />
+          <Route path="orga-offer-cities-overview"
+            component={OrgaOfferCitiesOverview}
+          />
+          <Route path="ratio-overview" component={RatioOverviewPage} />
+          {/*
             <Route path="offer-created" component={OfferCreatedPage} />
             <Route path="offer-approved" component={OfferApprovedPage} />
             <Route path="organization-created" component={OrgaCreatedPage} />
             <Route path="organization-approved" component={OrgaApprovedPage} />
             */}
-          </Route>
-
-          <Route path="offer-translations">
-            <IndexRoute component={Index} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={EditTranslation} model="offer" />
-          </Route>
-
-          <Route path="organization-translations">
-            <IndexRoute component={Index} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={EditTranslation}
-              model="organization"
-            />
-          </Route>
-
-          <Route path="user-teams">
-            <IndexRoute component={Index} />
-            <Route path="new" component={StandaloneGenericForm} />
-            <Route path=":id" component={MemberAction} />
-            <Route path=":id/edit" component={MemberAction} />
-          </Route>
-
-          <Route path="users">
-            <IndexRoute component={Index} />
-            <Route path=":id" component={MemberAction} />
-          </Route>
-
-          <Route path="assignments">
-            <IndexRoute component={Index} />
-            <Route path="new" component={NewAssignment} />
-            <Route path=":id" component={MemberAction} />
-          </Route>
-
-          <Route path="search-locations">
-            <IndexRoute component={Index} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-          </Route>
-
-          <Route path="language-filters">
-            <IndexRoute component={Index} />
-            <Route path="export" component={Export} />
-            <Route path=":id" component={MemberAction} />
-          </Route>
-
-          <Route path="sections">
-            <IndexRoute component={Index}/>
-            <Route path=":id" component={MemberAction} />
-          </Route>
         </Route>
-      </Router>
-    );
-  }
-}
+
+        <Route path="offer-translations">
+          <IndexRoute component={Index} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={EditTranslation} model="offer" />
+        </Route>
+
+        <Route path="organization-translations">
+          <IndexRoute component={Index} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={EditTranslation}
+            model="organization"
+          />
+        </Route>
+
+        <Route path="user-teams">
+          <IndexRoute component={Index} />
+          <Route path="new" component={StandaloneGenericForm} />
+          <Route path=":id" component={MemberAction} />
+          <Route path=":id/edit" component={MemberAction} />
+        </Route>
+
+        <Route path="users">
+          <IndexRoute component={Index} />
+          <Route path=":id" component={MemberAction} />
+        </Route>
+
+        <Route path="assignments">
+          <IndexRoute component={Index} />
+          <Route path="new" component={NewAssignment} />
+          <Route path=":id" component={MemberAction} />
+        </Route>
+
+        <Route path="search-locations">
+          <IndexRoute component={Index} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+        </Route>
+
+        <Route path="language-filters">
+          <IndexRoute component={Index} />
+          <Route path="export" component={Export} />
+          <Route path=":id" component={MemberAction} />
+        </Route>
+
+        <Route path="sections">
+          <IndexRoute component={Index}/>
+          <Route path=":id" component={MemberAction} />
+        </Route>
+      </Route>
+    </Router>
+  );
+
+};
+
+export default Routes;
