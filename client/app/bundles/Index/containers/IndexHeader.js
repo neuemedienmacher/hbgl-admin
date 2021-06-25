@@ -3,6 +3,7 @@ import merge from "lodash/merge";
 import clone from "lodash/clone";
 import pickBy from "lodash/pickBy";
 import toPairs from "lodash/toPairs";
+import get from "lodash/get";
 import { browserHistory } from "react-router";
 import settings from "../../../lib/settings";
 import IndexHeader from "../components/IndexHeader";
@@ -14,10 +15,16 @@ const mapStateToProps = (state, ownProps) => {
         lockedParamsHaveKey(key, ownProps.lockedParams) === false)
   );
   const filters = toObject(filterArray);
-  const plusButtonDisabled = ownProps.params.hasOwnProperty("filters[id]");
+
+  let plusButtonDisabled = false;
+
+  if (ownProps.params && ownProps.params.hasOwnProperty) {
+    plusButtonDisabled = ownProps.params.hasOwnProperty("filters[id]");
+  }
 
   filterParams(ownProps.params);
-  const generalActions = settings.index[ownProps.model].general_actions;
+
+  const generalActions = get(settings.index[ownProps.model], "general_actions",[]);
   const routes = generalRoutes(ownProps.model, ownProps.params).filter(route =>
     generalActions.includes(route.action));
   const params = ownProps.params;
