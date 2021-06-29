@@ -16,14 +16,14 @@ export default class Layout extends Component {
     return (
       <div className="Layout claradmin">
         <TopNav />
-          <div className="content-wrapper">
-            <div className="container-fluid">
-              <div className="row">
-                <FlashMessageList />
-                {this.props.children}
-              </div>
+        <div className="content-wrapper">
+          <div className="container-fluid">
+            <div className="row">
+              <FlashMessageList />
+              {this.props.children}
             </div>
           </div>
+        </div>
       </div>
     );
   }
@@ -31,12 +31,12 @@ export default class Layout extends Component {
 
 Layout.propTypes = {
   location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+    pathname: PropTypes.string
+  })
 };
 
 Layout.defaultProps = {
   location: {
-    pathname: DEFAULT_ROUTE,
-  },
+    pathname: DEFAULT_ROUTE
+  }
 };

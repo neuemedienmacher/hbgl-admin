@@ -20,32 +20,34 @@ import SolutionCategoryFormObject from "../forms/SolutionCategoryFormObject";
 import TargetAudienceFiltersOfferFormObject
   from "../forms/TargetAudienceFiltersOfferFormObject";
 
-const modelFormObjectMap = (editing) => ({
+const modelFormObjectMap = editing => ({
   "user-teams": UserTeamFormObject,
-  "divisions": editing ? DivisionUpdateFormObject : DivisionCreateFormObject,
-  "organizations": editing ? OrgaUpdateFormObject : OrgaCreateFormObject,
-  "websites": WebsiteFormObject,
-  "locations": LocationFormObject,
-  "cities": CityFormObject,
-  "areas": AreaFormObject,
+  divisions: editing ? DivisionUpdateFormObject : DivisionCreateFormObject,
+  organizations: editing ? OrgaUpdateFormObject : OrgaCreateFormObject,
+  websites: WebsiteFormObject,
+  locations: LocationFormObject,
+  cities: CityFormObject,
+  areas: AreaFormObject,
   "federal-states": FederalStateFormObject,
   "contact-people": ContactPersonFormObject,
-  "emails": EmailFormObject,
+  emails: EmailFormObject,
   "next-steps": NextStepFormObject,
-  "offers": editing ? OfferUpdateFormObject : OfferCreateFormObject,
-  "openings": OpeningFormObject,
-  "tags": TagFormObject,
-  "definitions": DefinitionFormObject,
+  offers: editing ? OfferUpdateFormObject : OfferCreateFormObject,
+  openings: OpeningFormObject,
+  tags: TagFormObject,
+  definitions: DefinitionFormObject,
   "solution-categories": SolutionCategoryFormObject,
-  "target-audience-filters-offers": TargetAudienceFiltersOfferFormObject,
+  "target-audience-filters-offers": TargetAudienceFiltersOfferFormObject
 });
-
 
 export default function formObjectSelect(model, editing) {
   const obj = modelFormObjectMap(editing)[model];
-  if (obj) return obj;
+
+  if (obj) {
+    return obj;
+  }
   throw new Error(
-  `Please provide a configuring FormObject for ${model} if you want to
+    `Please provide a configuring FormObject for ${model} if you want to
    use the GenericForm bundle`
   );
 }
