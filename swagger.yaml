@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: Handbook Germany Admin API
+  version: 0.0.1
+
+servers:
+  - url: https://localhost:3000/api/v1
+    description: local development server
+
+
+paths:
+  /areas:
+    get:
+      summary: Returns a list of areas
+
+  /assignment:
+    get:
+      summary: Returns a list of assignments
+
+  /cities:
+    get:
+      summary: Returns a list of cities
+    post:
+      summary: Creates a new city
+
+  /contact-people:
+    get:
+      summary: Returns a list of contact persons
+    post:
+      summary: Create a new contact person
+
+  /definitions:
+    get:
+      summary: Returns a list of definitions
+    post:
+      summary: Create a new definition
+
+  /divisions:
+    get:
+      summary: Returns a list of divisions
+    post:
+      summary: Create new division
+
+  /emails:
+    get:
+      summary: Returns a list of emails
+    post:
+      summary: Create a new email
+
+  /federal-states:
+    get:
+      summary: Returns a list of federal states in Germany
+
+  /filters:
+    get:
+      summary: Returns a list of filter
+
+  /language-filters:
+    get:
+      summary: Returns a list of language filters
+
+  /locations:
+    get:
+      summary: Returns a list of locations
+    post:
+      summary: Create a new location
+
+  /next-steps:
+    get:
+      summary: Returns a list of next steps
+    post:
+      summary: Create a new next step
+
+  /offers:
+    get:
+      summary: Returns a list of offers
+    post:
+      summary: Creates a new offer
+
+  /offer-translations:
+    get:
+      summary: Returns a list of translations of offers
+
+  /openings:
+    get:
+      summary: Returns a list of opening hours
+    post:
+      summary: Create a new opening interval
+
+  /organizations:
+    get:
+      summary: Returns a list of organizations
+    post:
+      summary: Creates a new organization
+
+  /organization-translations:
+    get:
+      summary: Returns a list of translations of organizations
+
+  /search-locations:
+    get:
+      summary: Returns a list of search locations
+
+  /solution-categories:
+    get:
+      summary: Returns a list of solution categories
+    post:
+      summary: Create a new solution category
+
+  /tags:
+    get:
+      summary: Returns a list of tags
+    post:
+      summary: Create a new tag
+
+  /target-audience-filters-offers:
+    get:
+      summary: Returns a list of target audience filter
+
+  /topics:
+    get:
+      summary: Returns a list of topics
+
+  /users:
+    get:
+      summary: Returns a list of users
+
+  /user-teams:
+    get:
+      summary: Returns a list of user teams
+
+  /websites:
+    get:
+      summary: Returns a list of websites
+
+
