@@ -2,128 +2,144 @@ ps:
   offer:
     stamp:
       age:
-        age_from: 
-        age_of_child: 
-        age_to: 
-        suffix: 
-      format: 
+        age_from:
+        age_of_child:
+        age_to:
+        suffix:
+      format:
       status:
-        before_the_asylum_application: 
-        before_the_asylum_decision: 
-        during_the_asylum_procedure: 
-        with_a_residence_permit: 
-        with_deportation_decision: 
-        with_temporary_suspension_of_deportation: 
+        before_the_asylum_application:
+        before_the_asylum_decision:
+        during_the_asylum_procedure:
+        with_a_residence_permit:
+        with_deportation_decision:
+        with_temporary_suspension_of_deportation:
       target_audience:
         family_children:
-          adolescents: 
-          and_adolescents: 
-          default: 
-          female: 
-          male: 
-        family_everyone: 
-        family_nuclear_family:
-          default: 
+          adolescents:
+          and_adolescents:
+          default:
           female:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
           male:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+        family_everyone:
+        family_nuclear_family:
+          default:
+          female:
+            female:
+            male:
+            neutral:
+            with_baby:
+          male:
+            female:
+            male:
+            neutral:
+            with_baby:
           neutral:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+            female:
+            male:
+            neutral:
+            with_baby:
         family_parents:
           female:
-            female: 
-            male: 
-            neutral: 
+            female:
+            male:
+            neutral:
           male:
-            female: 
-            male: 
-            neutral: 
+            female:
+            male:
+            neutral:
           neutral:
-            female: 
-            male: 
-            neutral: 
+            female:
+            male:
+            neutral:
         family_parents_to_be:
-          default: 
+          default:
           female:
-            default: 
-            female: 
-            male: 
-            neutral: 
+            default:
+            female:
+            male:
+            neutral:
           male:
-            default: 
-            female: 
-            male: 
-            neutral: 
+            default:
+            female:
+            male:
+            neutral:
           neutral:
-            female: 
-            male: 
-            neutral: 
-        family_relatives: 
+            female:
+            male:
+            neutral:
+        family_relatives:
         refugees_children:
-          adolescents: 
-          and_adolescents: 
-          default: 
-          female: 
-          male: 
-        refugees_families:
-          default: 
+          adolescents:
+          and_adolescents:
+          default:
           female:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
           male:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+        refugees_families:
+          default:
+          female:
+            female:
+            male:
+            neutral:
+            with_baby:
+          male:
+            female:
+            male:
+            neutral:
+            with_baby:
           neutral:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+            female:
+            male:
+            neutral:
+            with_baby:
         refugees_general:
           female:
-            default: 
-            special: 
+            default:
+            special:
           male:
-            default: 
-            special: 
+            default:
+            special:
           neutral:
-            adults: 
-            neutral: 
+            adults:
+            neutral:
         refugees_parents:
           female:
-            female: 
-            male: 
-            neutral: 
+            female:
+            male:
+            neutral:
           male:
-            female: 
-            male: 
-            neutral: 
+            female:
+            male:
+            neutral:
           neutral:
-            female: 
-            male: 
-            neutral: 
+            female:
+            male:
+            neutral:
         refugees_parents_to_be:
-          female: 
-          male: 
-          neutral: 
+          female:
+          male:
+          neutral:
         refugees_uf:
           minor:
-            neutral: 
-          neutral: 
+            neutral:
+          neutral:
         refugees_umf:
-          female: 
-          male: 
-          neutral: 
+          female:
+          male:
+          neutral:
+        immigrants_general:
+          neutral:
+            adults: für zugewanderte Erwachsene
+            neutral: für Zugewanderte
+          female:
+              default: für zugewanderte Frauen
+              special: für zugewanderte Mädchen und Frauen
+          male:
+              default: für zugewanderte Männer
+              special: für zugewanderte Jungen und Männer
+        immigrants_children:
+          default: für zugewanderte Kinder und Jugendliche
+          adolescents: für zugewanderte Jugendliche
+          and_adolescents: für zugewanderte Kinder und Jugendliche
+          female: für zugewanderte Mädchen
+          male: für zugewanderte Jungen
