@@ -9,10 +9,12 @@ class CheckSingleWebsiteWorker
     website = Website.find(website_id)
     if check_website_unreachable? website
       website.unreachable_count += 1
+      logger.error "Website unreachable: #{website.url}"
       # expire if counts as unreachable now (only once)
       expire_and_create_assignments website if website.unreachable_count == 2
     else
       # reset count if website was reachable again
+      logger.info "Website reachable: #{website.url}"
       website.unreachable_count = 0
     end
     website.save
