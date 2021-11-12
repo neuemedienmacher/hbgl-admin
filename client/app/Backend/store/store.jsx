@@ -20,14 +20,16 @@ function initialDispatches(dispatch, props) {
   )))
 }
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 export default function getStore(props) {
   const store = createStore(
     combinedReducers,
     // initialStates,
-    applyMiddleware(
+    composeEnhancers(applyMiddleware(
       thunkMiddleware, errorHandlerMiddleware,
       // loggerMiddleware // for debugging
-    )
+    )),
   )
 
   initialDispatches(store.dispatch, props)
