@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Inline from '../containers/Inline';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Inline from '../containers/Inline'
 
 export default class InlineWrapper extends Component {
   static contextTypes = {
@@ -11,4 +11,3 @@ export default class InlineWrapper extends Component {
     return <Inline {...this.props} {...this.context} />
   }
 }
-

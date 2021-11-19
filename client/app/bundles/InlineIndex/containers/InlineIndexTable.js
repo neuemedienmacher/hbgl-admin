@@ -11,14 +11,17 @@ const mapStateToProps = (state, ownProps) => {
 
   const { model, identifier } = ownProps
   // specific inline_fields or fallback to normal index fields
-  let settings_fields = settings.index[model].inline_fields ||
-    settings.index[model].fields
+  let settings_fields =
+    settings.index[model].inline_fields || settings.index[model].fields
 
   const fields = analyzeFields(settings_fields, model)
-  const rows =
-    state.ajax[identifier] ? compact(state.ajax[identifier].data.map(datum =>
-      denormalizeStateEntity(state.entities, model, datum.id)
-    )) : []
+  const rows = state.ajax[identifier]
+    ? compact(
+        state.ajax[identifier].data.map((datum) =>
+          denormalizeStateEntity(state.entities, model, datum.id)
+        )
+      )
+    : []
 
   let tbodyClass
   if (state.ajax.isLoading[identifier]) tbodyClass = 'loading'
@@ -26,10 +29,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     rows,
     fields,
-    tbodyClass
+    tbodyClass,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({ })
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(InlineIndexTable)

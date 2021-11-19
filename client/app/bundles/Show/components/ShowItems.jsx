@@ -5,29 +5,31 @@ import History from '../containers/History'
 
 export default class ShowItems extends Component {
   render() {
-    const {
-      modelInstance, associations, columnNames, loaded, model
-    } = this.props
+    const { modelInstance, associations, columnNames, loaded, model } =
+      this.props
 
     if (loaded) {
-      return(
-        <div className="content ShowList">
-          <div className="panel-group">
-            <h5 className="section-title">Eigene Felder</h5>
-            {columnNames.map(name =>
+      return (
+        <div className='content ShowList'>
+          <div className='panel-group'>
+            <h5 className='section-title'>Eigene Felder</h5>
+            {columnNames.map((name) => (
               <ShowFieldItem
-                key={name} name={name} content={modelInstance[name]}
+                key={name}
+                name={name}
+                content={modelInstance[name]}
               />
-            )}
+            ))}
           </div>
           <AssociationItems
-            modelInstance={modelInstance} associations={associations}
+            modelInstance={modelInstance}
+            associations={associations}
             model={model}
           />
           <History model={model} parent={modelInstance} />
         </div>
       )
-    } else{
+    } else {
       return <div className='text-center'>Lade...</div>
     }
   }

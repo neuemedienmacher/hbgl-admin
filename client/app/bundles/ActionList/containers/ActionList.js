@@ -10,10 +10,10 @@ const mapStateToProps = (state, ownProps) => {
   let id = ownProps.id
 
   const entity =
-    ownProps.entity || state.entities[model] && state.entities[model][id]
+    ownProps.entity || (state.entities[model] && state.entities[model][id])
 
   return {
-    actions: actionsFromSettings(pluralize(model), id, entity)
+    actions: actionsFromSettings(pluralize(model), id, entity),
   }
 }
 

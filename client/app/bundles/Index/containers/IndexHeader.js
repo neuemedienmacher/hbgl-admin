@@ -1,98 +1,106 @@
-import { connect } from "react-redux";
-import merge from "lodash/merge";
-import clone from "lodash/clone";
-import pickBy from "lodash/pickBy";
-import toPairs from "lodash/toPairs";
-import get from "lodash/get";
-import { browserHistory } from "react-router";
-import settings from "../../../lib/settings";
-import IndexHeader from "../components/IndexHeader";
+import { connect } from 'react-redux'
+import merge from 'lodash/merge'
+import clone from 'lodash/clone'
+import pickBy from 'lodash/pickBy'
+import toPairs from 'lodash/toPairs'
+import get from 'lodash/get'
+import { browserHistory } from 'react-router'
+import settings from '../../../lib/settings'
+import IndexHeader from '../components/IndexHeader'
 
 const mapStateToProps = (state, ownProps) => {
   const filterArray = toPairs(
-    pickBy(ownProps.params, (value, key) =>
-      key.substr(0, 7) === "filters" &&
-        lockedParamsHaveKey(key, ownProps.lockedParams) === false)
-  );
-  const filters = toObject(filterArray);
+    pickBy(
+      ownProps.params,
+      (value, key) =>
+        key.substr(0, 7) === 'filters' &&
+        lockedParamsHaveKey(key, ownProps.lockedParams) === false
+    )
+  )
+  const filters = toObject(filterArray)
 
-  let plusButtonDisabled = false;
+  let plusButtonDisabled = false
 
   if (ownProps.params && ownProps.params.hasOwnProperty) {
-    plusButtonDisabled = ownProps.params.hasOwnProperty("filters[id]");
+    plusButtonDisabled = ownProps.params.hasOwnProperty('filters[id]')
   }
 
-  filterParams(ownProps.params);
+  filterParams(ownProps.params)
 
-  const generalActions = get(settings.index[ownProps.model], "general_actions",[]);
-  const routes = generalRoutes(ownProps.model, ownProps.params).filter(route =>
-    generalActions.includes(route.action));
-  const params = ownProps.params;
+  const generalActions = get(
+    settings.index[ownProps.model],
+    'general_actions',
+    []
+  )
+  const routes = generalRoutes(ownProps.model, ownProps.params).filter(
+    (route) => generalActions.includes(route.action)
+  )
+  const params = ownProps.params
 
   return {
     params,
     filters,
     plusButtonDisabled,
-    routes
-  };
-};
+    routes,
+  }
+}
 
-let lastQueryChangeTimer = null;
+let lastQueryChangeTimer = null
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onQueryChange(event) {
-    const value = event.target.value;
+    const value = event.target.value
 
     if (lastQueryChangeTimer) {
-      clearTimeout(lastQueryChangeTimer);
+      clearTimeout(lastQueryChangeTimer)
     }
     lastQueryChangeTimer = setTimeout(() => {
-      lastQueryChangeTimer = null;
+      lastQueryChangeTimer = null
 
-      const params = merge(clone(ownProps.params), { query: value });
+      const params = merge(clone(ownProps.params), { query: value })
 
       if (window.location.pathname.length > 1) {
-
         // browserHistory.replace(`/${ownProps.model}?${encode(params)}`)
-        browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`);
+        browserHistory.replace(`/${ownProps.model}?${jQuery.param(params)}`)
       } else {
-
         // browserHistory.replace(`/?${encode(params)}`)
-        browserHistory.replace(`/?${jQuery.param(params)}`);
+        browserHistory.replace(`/?${jQuery.param(params)}`)
       }
-    }, 400);
+    }, 400)
   },
 
   onPlusClick(event) {
-    const params = clone(ownProps.params);
+    const params = clone(ownProps.params)
 
-    merge(params, { "filters[id]": "" });
+    merge(params, { 'filters[id]': '' })
 
-    const query = searchString(ownProps.model, params);
+    const query = searchString(ownProps.model, params)
 
-    browserHistory.replace(`/${query}`);
-  }
-});
+    browserHistory.replace(`/${query}`)
+  },
+})
 
 const generalRoutes = (model, params) => [
   {
     id: 1,
-    action: "index",
+    action: 'index',
     pathname: `/${model}`,
-    anchor: "Liste"
-  }, {
+    anchor: 'Liste',
+  },
+  {
     id: 2,
-    action: "new",
+    action: 'new',
     pathname: `/${model}/new`,
-    anchor: "Erstellen"
-  }, {
+    anchor: 'Erstellen',
+  },
+  {
     id: 3,
-    action: "export",
+    action: 'export',
     pathname: `/${model}/export`,
     hash: `?${jQuery.param(params)}`,
-    anchor: "Export"
+    anchor: 'Export',
   },
-];
+]
 
 /**
  * @param key
@@ -102,13 +110,11 @@ const generalRoutes = (model, params) => [
 function lockedParamsHaveKey(key, lockedParams) {
   if (lockedParams) {
     if (lockedParams.hasOwnProperty(key)) {
-      return true;
+      return true
     }
-    return false;
-
+    return false
   }
-  return false;
-
+  return false
 }
 
 /**
@@ -117,50 +123,48 @@ function lockedParamsHaveKey(key, lockedParams) {
  */
 function searchString(model, params) {
   if (window.location.href.includes(model)) {
-    return `${model}?${jQuery.param(params)}`;
+    return `${model}?${jQuery.param(params)}`
 
     // return `${model}?${encode(params)}`
   }
-  return `?${jQuery.param(params)}`;
+  return `?${jQuery.param(params)}`
 
   // return `?${encode(params)}`
-
 }
 
 /**
  * @param filters
  */
 function toObject(filters) {
-  const filterArray = filters.map(filter => {
-    if (filter[0].includes("first")) {
-      const newKey = filter[0].replace("[first]", "");
+  const filterArray = filters.map((filter) => {
+    if (filter[0].includes('first')) {
+      const newKey = filter[0].replace('[first]', '')
 
-      return [ newKey, { first: filter[1] }, ];
+      return [newKey, { first: filter[1] }]
     }
-    if (filter[0].includes("second")) {
-      const newKey = filter[0].replace("[second]", "");
+    if (filter[0].includes('second')) {
+      const newKey = filter[0].replace('[second]', '')
 
-      return [ newKey, { second: filter[1] }, ];
+      return [newKey, { second: filter[1] }]
     }
-    return [ filter[0], filter[1], ];
+    return [filter[0], filter[1]]
+  })
 
-  });
-
-  return filterArray;
+  return filterArray
 }
 
 /**
  * @param params
  */
 function filterParams(params) {
-  Object.keys(params).map(key => {
-    if (key.includes("first")) {
-      replaceKey(params, key, "[first]");
-    } else if (key.includes("second")) {
-      replaceKey(params, key, "[second]");
+  Object.keys(params).map((key) => {
+    if (key.includes('first')) {
+      replaceKey(params, key, '[first]')
+    } else if (key.includes('second')) {
+      replaceKey(params, key, '[second]')
     }
-    return params;
-  });
+    return params
+  })
 }
 
 /**
@@ -169,15 +173,15 @@ function filterParams(params) {
  * @param objectKey
  */
 function replaceKey(params, filterKey, objectKey) {
-  const newKey = filterKey.replace(objectKey, "");
-  const newObjectKey = objectKey.replace("[", "").replace("]", "");
+  const newKey = filterKey.replace(objectKey, '')
+  const newObjectKey = objectKey.replace('[', '').replace(']', '')
 
   if (params.hasOwnProperty(newKey)) {
-    params[newKey][newObjectKey] = params[filterKey];
+    params[newKey][newObjectKey] = params[filterKey]
   } else {
-    params[newKey] = { [newObjectKey]: params[filterKey] };
+    params[newKey] = { [newObjectKey]: params[filterKey] }
   }
-  delete params[filterKey];
+  delete params[filterKey]
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(IndexHeader)

@@ -5,17 +5,19 @@ import CollapsiblePanel from '../components/CollapsiblePanel'
 const mapStateToProps = (state, ownProps) => {
   const uiKey = state.ui.collapsiblePanel
   const open =
-    uiKey && uiKey[ownProps.identifier] !== undefined ? uiKey[ownProps.identifier] : ownProps.visible
+    uiKey && uiKey[ownProps.identifier] !== undefined
+      ? uiKey[ownProps.identifier]
+      : ownProps.visible
 
   return {
     open,
     uiKey,
-    title: ownProps.title
+    title: ownProps.title,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -27,9 +29,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     let uiSettings = stateProps.uiKey || {}
     uiSettings[ownProps.identifier] = !stateProps.open
     dispatchProps.dispatch(setUi('collapsiblePanel', uiSettings))
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  CollapsiblePanel
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(CollapsiblePanel)

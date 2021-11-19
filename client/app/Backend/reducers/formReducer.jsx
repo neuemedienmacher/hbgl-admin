@@ -1,8 +1,7 @@
 import merge from 'lodash/merge'
 import moment from 'moment'
 
-export const initialState = {
-}
+export const initialState = {}
 
 export default function formReducer(state = initialState, action) {
   let form = merge({}, state)
@@ -13,7 +12,7 @@ export default function formReducer(state = initialState, action) {
       form[action.formId] = form[action.formId] || {}
       form[action.formId][action.name] = action.value
       return form
-    break
+      break
     //
     // case 'ADD_SUBMODEL_FORM':
     //   form[action.formId] = form[action.formId] || {}

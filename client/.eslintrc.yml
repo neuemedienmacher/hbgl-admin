@@ -28,7 +28,6 @@ env:
   node: true
   jquery: true
 
-
 rules:
   ### Variables
   no-prototype-builtins: 1
@@ -39,15 +38,15 @@ rules:
   no-undefined: 0
   no-undef: 2
   no-unused-vars: [2, { vars: all, args: none }]
-  quotes: [2, "double"]
+  quotes: [2, 'double']
   func-style: 0
   comma-dangle:
     - 2
-    - "arrays": always
-    - "objects": always
-    - "imports": always
-    - "exports": always
-    - "functions": never
+    - 'arrays': always
+    - 'objects': always
+    - 'imports': always
+    - 'exports': always
+    - 'functions': never
 
   ### Stylistic issues
   indent: [1, 2, { SwitchCase: 1, VariableDeclarator: 2 }]

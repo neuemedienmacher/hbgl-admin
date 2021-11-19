@@ -1,40 +1,39 @@
-import React, { Component } from "react";
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
-import { IndexLinkContainer, LinkContainer } from "react-router-bootstrap";
-import Mascot from "./Mascot";
+import React, { Component } from 'react'
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
+import Mascot from './Mascot'
 
 export default class TopNav extends Component {
   render() {
-    const {
-      onSelect, activeKey, routes,
-    } = this.props;
+    const { onSelect, activeKey, routes } = this.props
 
     return (
-      <Navbar className="top-bar" staticTop={true}>
+      <Navbar className='top-bar' staticTop={true}>
         <Mascot />
-        <Nav bsStyle="tabs" justified={true} onSelect={onSelect} activeKey={activeKey}>
-          <IndexLinkContainer to={{ pathname: "/" }}>
-            <NavItem eventKey="2">Dashboard</NavItem>
+        <Nav
+          bsStyle='tabs'
+          justified={true}
+          onSelect={onSelect}
+          activeKey={activeKey}
+        >
+          <IndexLinkContainer to={{ pathname: '/' }}>
+            <NavItem eventKey='2'>Dashboard</NavItem>
           </IndexLinkContainer>
-          <NavDropdown title="Administration" eventKey="1" id="actionDropdown">
-            {routes.map(route => {
+          <NavDropdown title='Administration' eventKey='1' id='actionDropdown'>
+            {routes.map((route) => {
               return (
                 <LinkContainer key={route.id} to={route}>
-                  <MenuItem eventKey={`1.${route.id}`}>
-                    {route.anchor}
-                  </MenuItem>
+                  <MenuItem eventKey={`1.${route.id}`}>{route.anchor}</MenuItem>
                 </LinkContainer>
-              );
+              )
             })}
           </NavDropdown>
           <li>
-            <a href="/statistics">
-              Statistiken
-            </a>
+            <a href='/statistics'>Statistiken</a>
           </li>
           <li>
-            <a href="/users/sign_out" data-method="delete">
-              <span className="label label-important">Abmelden</span>
+            <a href='/users/sign_out' data-method='delete'>
+              <span className='label label-important'>Abmelden</span>
             </a>
           </li>
           {/*
@@ -52,6 +51,6 @@ export default class TopNav extends Component {
           */}
         </Nav>
       </Navbar>
-    );
+    )
   }
 }

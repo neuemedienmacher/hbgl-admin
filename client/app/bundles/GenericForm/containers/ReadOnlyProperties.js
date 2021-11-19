@@ -7,13 +7,15 @@ const mapStateToProps = (state, ownProps) => {
   let propertyData = formObjectClass.readOnlyProperties || []
 
   if (instance) {
-    propertyData = compact(propertyData.map(property => {
-      if (!instance[property]) return
-      return {
-        property: property,
-        value: instance[property]
-      }
-    }))
+    propertyData = compact(
+      propertyData.map((property) => {
+        if (!instance[property]) return
+        return {
+          property: property,
+          value: instance[property],
+        }
+      })
+    )
   }
 
   return {
@@ -23,8 +25,4 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
 
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReadOnlyProperties)
+export default connect(mapStateToProps, mapDispatchToProps)(ReadOnlyProperties)

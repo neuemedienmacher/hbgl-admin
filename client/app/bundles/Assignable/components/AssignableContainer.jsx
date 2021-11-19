@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import CurrentAssignment from '../components/CurrentAssignment'
 import ControlledTabView from '../../ControlledTabView/containers/ControlledTabView'
 import InlineIndex from '../../InlineIndex/containers/InlineIndex'
 
 export default class AssignableContainer extends Component {
   static childContextTypes = {
-    disableUiElements: PropTypes.bool
+    disableUiElements: PropTypes.bool,
   }
 
   getChildContext() {
     return {
-      disableUiElements: this.props.disableUiElements
+      disableUiElements: this.props.disableUiElements,
     }
   }
 
@@ -26,35 +26,49 @@ export default class AssignableContainer extends Component {
   }
 
   render() {
-    const { model, heading, disableUiElements, assignment, involvedEntities,
-            loaded, assignableDataLoad } = this.props
-    const panelClass = disableUiElements ? 'panel panel-warning' : 'panel panel-info'
+    const {
+      model,
+      heading,
+      disableUiElements,
+      assignment,
+      involvedEntities,
+      loaded,
+      assignableDataLoad,
+    } = this.props
+    const panelClass = disableUiElements
+      ? 'panel panel-warning'
+      : 'panel panel-info'
 
     return (
       <div className='content Assignment'>
         <div key={model} className={panelClass}>
-          <div key={`${model}-heading`} className="panel-heading show--panel">
+          <div key={`${model}-heading`} className='panel-heading show--panel'>
             {heading}
           </div>
-          <div key={name} className="panel-body show--panel">
-            <ControlledTabView key={`${model}-current-assignment`}
+          <div key={name} className='panel-body show--panel'>
+            <ControlledTabView
+              key={`${model}-current-assignment`}
               identifier={`${model}-assignment-container`}
             >
-              <CurrentAssignment tabTitle='Aktuelle Zuweisung'
-                assignment={assignment} involvedEntities={involvedEntities}
-                loaded={loaded} assignableDataLoad={assignableDataLoad}
+              <CurrentAssignment
+                tabTitle='Aktuelle Zuweisung'
+                assignment={assignment}
+                involvedEntities={involvedEntities}
+                loaded={loaded}
+                assignableDataLoad={assignableDataLoad}
               />
               <InlineIndex
-                model={model} tabTitle='Zuweisungsverlauf'
-                identifierAddition={
-                  `${assignment['assignable-id']}-assignment-history`
-                }
+                model={model}
+                tabTitle='Zuweisungsverlauf'
+                identifierAddition={`${assignment['assignable-id']}-assignment-history`}
                 lockedParams={{
                   'filters[assignable-id]': assignment['assignable-id'],
                   'filters[assignable-type]': assignment['assignable-type'],
                   'per_page': 5,
-                }} optionalParams={{
-                  'sort_field': 'created-at', 'sort_direction': 'DESC'
+                }}
+                optionalParams={{
+                  sort_field: 'created-at',
+                  sort_direction: 'DESC',
                 }}
               />
             </ControlledTabView>

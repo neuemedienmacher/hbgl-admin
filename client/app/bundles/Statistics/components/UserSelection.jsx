@@ -1,20 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class UserSelection extends React.Component {
   static propTypes = {
-		users: PropTypes.array.isRequired,
-		selectedUsers: PropTypes.array.isRequired,
-	}
+    users: PropTypes.array.isRequired,
+    selectedUsers: PropTypes.array.isRequired,
+  }
 
   render() {
-    const {
-			users, selectedUsers, toggleUser
-    } = this.props
+    const { users, selectedUsers, toggleUser } = this.props
 
     return (
       <div className='UserSelection'>
-				{users.map( (user) => {
+        {users.map((user) => {
           return (
             <span key={user.id} className='UserSelection--User'>
               <input
@@ -24,12 +22,10 @@ export default class UserSelection extends React.Component {
                 checked={selectedUsers.includes(user.id)}
                 onClick={toggleUser(user.id)}
               />
-              <label htmlFor={`user-${user.id}`}>
-                {user.label}
-              </label>
+              <label htmlFor={`user-${user.id}`}>{user.label}</label>
             </span>
           )
-				})}
+        })}
       </div>
     )
   }

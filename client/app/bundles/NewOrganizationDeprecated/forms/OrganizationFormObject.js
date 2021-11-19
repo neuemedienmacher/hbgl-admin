@@ -6,9 +6,7 @@ export default class AssignmentFormObject extends FormObject {
   }
 
   static get properties() {
-    return [
-      'name'
-    ]
+    return ['name']
   }
 
   static get ajaxAdapter() {

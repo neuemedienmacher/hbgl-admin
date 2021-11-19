@@ -4,8 +4,8 @@ import forEach from 'lodash/forEach'
 export const initialState = {
   channels: {},
   live: {
-    viewing: {}
-  }
+    viewing: {},
+  },
 }
 
 export default function cableReducer(state = initialState, action) {
@@ -14,8 +14,10 @@ export default function cableReducer(state = initialState, action) {
   switch (action.type) {
     case 'ADD_CHANNEL':
       if (newState.channels[action.params.channel]) return newState
-      newState.channels[action.params.channel] =
-        Cable.subscriptions.create(action.params, action.options)
+      newState.channels[action.params.channel] = Cable.subscriptions.create(
+        action.params,
+        action.options
+      )
       return newState
 
     case 'REMOVE_CHANNEL':

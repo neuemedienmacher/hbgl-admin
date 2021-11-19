@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     currentPage,
-    totalPages
+    totalPages,
   }
 }
 
@@ -26,10 +26,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   jumpToPage(e) {
     var page = null
-    while(typeof page != 'number' || page > stateProps.totalPages) {
+    while (typeof page != 'number' || page > stateProps.totalPages) {
       page = Number(
         prompt(
-          "Springe zu 1-"+stateProps.totalPages+":", stateProps.currentPage
+          'Springe zu 1-' + stateProps.totalPages + ':',
+          stateProps.currentPage
         )
       )
     }
@@ -38,14 +39,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   onPageSelect(pageNumber) {
     gotoPage(pageNumber, ownProps, dispatchProps)
-  }
+  },
 })
 
 function gotoPage(page, ownProps, dispatchProps) {
-  let linkParams = merge(clone(ownProps.params), {page})
+  let linkParams = merge(clone(ownProps.params), { page })
   dispatchProps.dispatch(setUi(ownProps.uiKey, linkParams))
 }
 
 export default connect(
-  mapStateToProps, mapDispatchToProps, mergeProps
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
 )(Pagination)

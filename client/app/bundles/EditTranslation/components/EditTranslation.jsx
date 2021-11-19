@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import EditTranslationForm from '../containers/EditTranslationForm';
-import AssignableContainer from '../../Assignable/containers/AssignableContainer';
+import React, { Component } from 'react'
+import EditTranslationForm from '../containers/EditTranslationForm'
+import AssignableContainer from '../../Assignable/containers/AssignableContainer'
 
 export default class EditTranslation extends Component {
   componentDidMount() {
@@ -8,17 +8,16 @@ export default class EditTranslation extends Component {
   }
 
   render() {
-    const {
-      heading, t_model, loadData, translation
-    } = this.props
+    const { heading, t_model, loadData, translation } = this.props
 
     return (
       <AssignableContainer
-        assignable_type={t_model} assignable={translation}
+        assignable_type={t_model}
+        assignable={translation}
         assignableDataLoad={loadData}
       >
         <div className='content EditTranslation'>
-          <h2 className="page-title">{heading}</h2>
+          <h2 className='page-title'>{heading}</h2>
 
           {this.renderLoadingOrForm()}
         </div>
@@ -27,14 +26,15 @@ export default class EditTranslation extends Component {
   }
 
   renderLoadingOrForm() {
-    const {
-      model, source, id, translation, loaded
-    } = this.props
+    const { model, source, id, translation, loaded } = this.props
 
     if (loaded) {
-      return(
+      return (
         <EditTranslationForm
-          model={model} source={source} id={id} translation={translation}
+          model={model}
+          source={source}
+          id={id}
+          translation={translation}
         />
       )
     } else {

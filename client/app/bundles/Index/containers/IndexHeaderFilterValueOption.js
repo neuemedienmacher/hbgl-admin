@@ -1,17 +1,20 @@
-import { connect } from "react-redux";
-import IndexHeaderFilterOption from "../components/IndexHeaderFilterOption";
+import { connect } from 'react-redux'
+import IndexHeaderFilterOption from '../components/IndexHeaderFilterOption'
 
 const mapStateToProps = (state, ownProps) => {
-  const { operator } = ownProps;
-  const value = operator;
-  const displayName = operator;
+  const { operator } = ownProps
+  const value = operator
+  const displayName = operator
 
   return {
     value,
-    displayName
-  };
-};
+    displayName,
+  }
+}
 
-const mapDispatchToProps = (dispatch, ownProps) => ({});
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexHeaderFilterOption);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IndexHeaderFilterOption)

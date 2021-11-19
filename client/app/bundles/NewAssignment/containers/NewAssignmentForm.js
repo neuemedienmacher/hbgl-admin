@@ -13,23 +13,28 @@ const mapStateToProps = (state, ownProps) => {
 
   // TODO: match users to teams and vice versa
   const creatorUsers = valuesIn(state.entities.users).map((user) => ({
-    name: user.name, value: user.id
+    name: user.name,
+    value: user.id,
   }))
   const creatorTeams = valuesIn(state.entities.user_teams).map((team) => ({
-    name: team.name, value: team.id
+    name: team.name,
+    value: team.id,
   }))
   const receiverUsers = valuesIn(state.entities.users).map((user) => ({
-    name: user.name, value: user.id
+    name: user.name,
+    value: user.id,
   }))
   const receiverTeams = valuesIn(state.entities.user_teams).map((team) => ({
-    name: team.name, value: team.id
+    name: team.name,
+    value: team.id,
   }))
 
   const assignableModels = formSettings.assignable_models.map((model) => ({
-    name: model, value: model
+    name: model,
+    value: model,
   }))
-  const currentAssignableModel = formData.assignable_type ||
-    assignableModels[0].value
+  const currentAssignableModel =
+    formData.assignable_type || assignableModels[0].value
 
   // TODO: later: all available fields of model plus empty string as option
   // const assignableFields = formSettings.assignable_field_names[currentAssignableModel].map((field) => ({
@@ -47,7 +52,7 @@ const mapStateToProps = (state, ownProps) => {
       receiver_id: receiverUsers[1].value,
       receiver_team_id: receiverTeams[1].value,
       message: '',
-    }
+    },
   }
 
   return {
@@ -58,7 +63,7 @@ const mapStateToProps = (state, ownProps) => {
     creatorUsers,
     creatorTeams,
     receiverUsers,
-    receiverTeams
+    receiverTeams,
   }
 }
 
@@ -71,13 +76,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     if (response.data && response.data.id) {
       browserHistory.push(`/assignments/${response.data.id}`)
     }
-  }
+  },
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
-  ...ownProps
+  ...ownProps,
 })
 
 export default connect(

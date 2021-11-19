@@ -10,8 +10,8 @@ export default class OrgaTopicOverviewPage extends React.Component {
         <p>
           <small>
             Hier findest du die Anzahl von Orgas, nach ihnen zugewiesenen
-            Topics. Da eine Orga mehrere Topics haben kann, kann die
-            Gesamtzahl kleiner sein als die Summe der Zeilen.
+            Topics. Da eine Orga mehrere Topics haben kann, kann die Gesamtzahl
+            kleiner sein als die Summe der Zeilen.
           </small>
         </p>
         <p>

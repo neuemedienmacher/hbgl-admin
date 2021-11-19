@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { InputSet } from 'rform';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { InputSet } from 'rform'
 
 export default class EditTranslationForm extends Component {
   static contextTypes = {
-    disableUiElements: PropTypes.bool
+    disableUiElements: PropTypes.bool,
   }
 
   render() {
@@ -12,38 +12,36 @@ export default class EditTranslationForm extends Component {
 
     return (
       <tr>
-        <td>
-          {this.renderTextOrForm()}
-        </td>
-        <td>
-          {source && source[`${property}-de`]}
-        </td>
+        <td>{this.renderTextOrForm()}</td>
+        <td>{source && source[`${property}-de`]}</td>
       </tr>
     )
   }
 
-  renderTextOrForm(){
+  renderTextOrForm() {
     const { property, length, source, content, type } = this.props
     const { disableUiElements } = this.context
 
-    if (disableUiElements == false && (source && source[`${property}-de`] || content)) {
+    if (
+      disableUiElements == false &&
+      ((source && source[`${property}-de`]) || content)
+    ) {
       return (
         <div>
           <InputSet
-            attribute={property} type={type} label={property}
-            wrapperClassName='form-group' className='form-control'
-            wrapperErrorClassName='has-error' errorClassName='help-block'
+            attribute={property}
+            type={type}
+            label={property}
+            wrapperClassName='form-group'
+            className='form-control'
+            wrapperErrorClassName='has-error'
+            errorClassName='help-block'
           />
           Länge: {length}
         </div>
       )
-    }
-    else {
-      return (
-        <div>
-          {content}
-        </div>
-      )
+    } else {
+      return <div>{content}</div>
     }
   }
 }

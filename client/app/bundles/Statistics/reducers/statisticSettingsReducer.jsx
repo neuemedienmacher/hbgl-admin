@@ -17,7 +17,7 @@ export default function statisticSettingsReducer(state = initialState, action) {
         statisticSettings: {
           startDate: action.range.startDate,
           endDate: action.range.endDate,
-        }
+        },
       })
 
     case 'SELECT_USER':
@@ -27,12 +27,14 @@ export default function statisticSettingsReducer(state = initialState, action) {
 
     case 'UNSELECT_USER': {
       let newState = assign({}, state)
-      newState.statisticSettings.selectedUsers =
-        without(state.statisticSettings.selectedUsers, action.user_id)
+      newState.statisticSettings.selectedUsers = without(
+        state.statisticSettings.selectedUsers,
+        action.user_id
+      )
       return newState
     }
 
     default:
-      return state;
+      return state
   }
 }

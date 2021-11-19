@@ -5,8 +5,10 @@ import InlinePagination from '../containers/InlinePagination'
 
 export default class InlineIndex extends Component {
   componentWillReceiveProps(nextProps) {
-    if (isEqual(nextProps.params, this.props.params) == false ||
-        this.props.model != nextProps.model) {
+    if (
+      isEqual(nextProps.params, this.props.params) == false ||
+      this.props.model != nextProps.model
+    ) {
       this.props.loadData(nextProps.params, nextProps.model)
     }
   }
@@ -16,18 +18,21 @@ export default class InlineIndex extends Component {
   }
 
   render() {
-    const {
-      params, lockedParams, model, identifier, uiKey, count
-    } = this.props
+    const { params, lockedParams, model, identifier, uiKey, count } = this.props
 
     return (
       <div className='content InlineIndex table-header'>
-        <p className="index-title">Gefundene Daten: {count}</p>
+        <p className='index-title'>Gefundene Daten: {count}</p>
         <InlineIndexTable
-          model={model} params={params} identifier={identifier} uiKey={uiKey}
+          model={model}
+          params={params}
+          identifier={identifier}
+          uiKey={uiKey}
         />
         <InlinePagination
-          params={params} identifier={identifier} uiKey={uiKey}
+          params={params}
+          identifier={identifier}
+          uiKey={uiKey}
         />
       </div>
     )

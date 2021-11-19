@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 
 export default class InlineTableHeadCell extends Component {
   render() {
-    const {
-      onClick, href
-    } = this.props
+    const { onClick, href } = this.props
 
     return (
       <th>

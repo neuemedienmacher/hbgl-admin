@@ -1,15 +1,14 @@
 import merge from 'lodash/merge'
 
-export const initialState = {
-}
+export const initialState = {}
 
 export default function settingsReducer(state = initialState, action) {
   switch (action.type) {
     case 'ADD_SETTINGS':
       return merge({}, state, action.settings)
-    break
+      break
 
     default:
-      return state;
+      return state
   }
 }

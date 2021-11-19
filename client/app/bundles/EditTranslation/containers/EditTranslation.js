@@ -7,7 +7,9 @@ const mapStateToProps = (state, ownProps) => {
   const model = ownProps.route.model
   let t_model = model + '-translations'
   const translation = state.entities[t_model] && state.entities[t_model][id]
-  const source = state.entities[model + 's'] && translation &&
+  const source =
+    state.entities[model + 's'] &&
+    translation &&
     state.entities[model + 's'][translation[`${model}-id`]]
   const loaded = !!translation
   const heading = `${model} translation #${id}`
@@ -19,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
     source,
     heading,
     translation,
-    t_model
+    t_model,
   }
 }
 
@@ -37,7 +39,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     dispatchProps.dispatch(
       loadAjaxData(`${translationKey}/${stateProps.id}`, '', translationKey)
     )
-  }
+  },
 })
 
 export default connect(

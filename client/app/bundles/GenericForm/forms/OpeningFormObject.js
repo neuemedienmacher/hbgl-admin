@@ -1,36 +1,34 @@
-import GenericFormObject from "../lib/GenericFormObject";
+import GenericFormObject from '../lib/GenericFormObject'
 
 export default class OpeningFormObject extends GenericFormObject {
   static get model() {
-    return "opening";
+    return 'opening'
   }
 
   static get type() {
-    return "openings";
+    return 'openings'
   }
 
   static get properties() {
-    return [
-      "day", "open", "close",
-    ];
+    return ['day', 'open', 'close']
   }
 
   static get formConfig() {
     return {
       day: {
-        type: "select",
-        options: ["mon", "tue", "wed", "thu", "fri", "sat", "sun", ],
+        type: 'select',
+        options: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
       },
-      open: { type: "time", },
-      close: { type: "time", },
-    };
+      open: { type: 'time' },
+      close: { type: 'time' },
+    }
   }
 
   static get requiredInputs() {
-    return ["day", ];
+    return ['day']
   }
 
   validation() {
-    this.applyRequiredInputs();
+    this.applyRequiredInputs()
   }
 }

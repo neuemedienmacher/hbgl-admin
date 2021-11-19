@@ -14,7 +14,7 @@ export default class MemberAction extends Component {
   componentWillReceiveProps(nextProps) {
     // We need to reload the data when switching from one instance context to
     // another
-    if (nextProps.model != this.props.model || nextProps.id != this.props.id){
+    if (nextProps.model != this.props.model || nextProps.id != this.props.id) {
       this.props.loadData(nextProps.model, nextProps.id, nextProps.view)
       this.props.changeView(nextProps)
     } else if (nextProps.view != this.props.view) {
@@ -27,20 +27,20 @@ export default class MemberAction extends Component {
     // We need to reload the data on state-changes and done-changes because the
     // possible-events will have changed and the assignment may have changed
     if (
-      this.props.entity['aasm-state'] && nextProps.entity['aasm-state'] &&
-      this.props.entity['aasm-state'] != nextProps.entity['aasm-state'] ||
-      nextProps.entity['done'] != undefined &&
-      this.props.entity['done'] != nextProps.entity['done']
+      (this.props.entity['aasm-state'] &&
+        nextProps.entity['aasm-state'] &&
+        this.props.entity['aasm-state'] != nextProps.entity['aasm-state']) ||
+      (nextProps.entity['done'] != undefined &&
+        this.props.entity['done'] != nextProps.entity['done'])
     )
       this.props.loadData(nextProps.model, nextProps.id, nextProps.view)
   }
 
   render() {
-    const {
-      model, id, location, view, ChildComponent, heading, viewingUsers
-    } = this.props
+    const { model, id, location, view, ChildComponent, heading, viewingUsers } =
+      this.props
 
-    return(
+    return (
       <div className={`content MemberAction MemberAction-${view} ${model}`}>
         <h3>{heading}</h3>
         <ul className='MemberAction-Viewers'>
@@ -53,8 +53,8 @@ export default class MemberAction extends Component {
   }
 
   renderViewingUser(view, index) {
-    return(
-      <li key={index} title={view.title} style={{background: view.color}}>
+    return (
+      <li key={index} title={view.title} style={{ background: view.color }}>
         {view.shorthand}
         {this.renderOptionalTabCount(view.tabcount)}
       </li>
@@ -63,7 +63,7 @@ export default class MemberAction extends Component {
 
   renderOptionalTabCount(count) {
     if (count < 2) return
-    return(
+    return (
       <span className='MemberAction-Viewers__tabcount badge badge-pill'>
         {count}
       </span>

@@ -8,10 +8,8 @@ import ajax from './loadAjaxDataReducer'
 import entities from './entityReducer'
 import flashMessages from './flashMessagesReducer'
 import cable from './cableReducer'
-import filteringSelect
-  from '../../bundles/FilteringSelect/reducers/filteringSelectReducer'
-import statistics
-  from '../../bundles/Statistics/reducers/statisticSettingsReducer'
+import filteringSelect from '../../bundles/FilteringSelect/reducers/filteringSelectReducer'
+import statistics from '../../bundles/Statistics/reducers/statisticSettingsReducer'
 
 export default combineReducers({
   rform,
@@ -23,5 +21,5 @@ export default combineReducers({
   settings,
   filteringSelect,
   flashMessages,
-  cable
+  cable,
 })

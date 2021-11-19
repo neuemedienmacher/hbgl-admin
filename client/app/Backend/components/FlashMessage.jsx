@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 /* UI Behaviour, related to CSS */
 // export const TRANSITION_TIME = 250
@@ -13,41 +13,39 @@ export default class FlashMessage extends React.Component {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    const { onExpire } = this.props;
+    const { onExpire } = this.props
 
     setTimeout(function () {
-      onExpire();
-    }, 3000);
+      onExpire()
+    }, 3000)
   }
 
   render() {
-    const { type, text } = this.props;
+    const { type, text } = this.props
 
-    const className = `c-flash-list__item c-flash-list__item--${type}`;
+    const className = `c-flash-list__item c-flash-list__item--${type}`
 
-    let awesomeName = "c-flash-list__icon";
+    let awesomeName = 'c-flash-list__icon'
     switch (type) {
-      case "notice":
-      case "success":
-        awesomeName = awesomeName + " fa fa-check";
-        break;
-      case "alert":
-      case "error":
+      case 'notice':
+      case 'success':
+        awesomeName = awesomeName + ' fa fa-check'
+        break
+      case 'alert':
+      case 'error':
       default:
-        awesomeName = awesomeName + " fa fa-exclamation-triangle";
+        awesomeName = awesomeName + ' fa fa-exclamation-triangle'
     }
 
     return (
       <li className={className}>
         <p className={awesomeName} />
-        <p className="c-flash-list__text">
-          {text}
-        </p>
+        <p className='c-flash-list__text'>{text}</p>
       </li>
-    );
+    )
   }
 }

@@ -6,12 +6,14 @@ import InlineCreate from '../components/InlineCreate'
 
 const mapStateToProps = (state, ownProps) => {
   // remove last "-id" from attribute
-  let associatedModel = ownProps.associatedModel ||
+  let associatedModel =
+    ownProps.associatedModel ||
     ownProps.attribute.replace(/-id([^-id]*)$/, '$1')
   // pluralize
   if (associatedModel[associatedModel.length - 1] != 's') associatedModel += 's'
 
-  let value = state.rform[ownProps.formId] &&
+  let value =
+    state.rform[ownProps.formId] &&
     state.rform[ownProps.formId][ownProps.attribute]
 
   // Server gives array elements as list of ids. Transform it to simpleValue
@@ -41,8 +43,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     onChange(selected) {
-      const newValue =
-        isArray(selected) ? selected.map(e => e.value) : selected.value
+      const newValue = isArray(selected)
+        ? selected.map((e) => e.value)
+        : selected.value
 
       dispatch(
         updateAction(ownProps.formId, ownProps.attribute, null, newValue)
@@ -69,5 +72,5 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(InlineCreate)

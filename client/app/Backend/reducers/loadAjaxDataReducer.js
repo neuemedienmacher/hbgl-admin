@@ -6,8 +6,8 @@ export const initialState = {
   indexResults: {
     data: [],
     links: {},
-    meta: {}
-  }
+    meta: {},
+  },
 }
 
 export default function loadAjaxDataReducer(state = initialState, action) {
@@ -15,20 +15,20 @@ export default function loadAjaxDataReducer(state = initialState, action) {
   let newState = assign({}, state)
 
   switch (type) {
-  case 'LOAD_AJAX_DATA_REQUEST':
-    newState.isLoading[action.key] = true
-    return newState
+    case 'LOAD_AJAX_DATA_REQUEST':
+      newState.isLoading[action.key] = true
+      return newState
 
-  case 'LOAD_AJAX_DATA_FAILURE':
-    newState.isLoading[action.key] = false
-    return newState
+    case 'LOAD_AJAX_DATA_FAILURE':
+      newState.isLoading[action.key] = false
+      return newState
 
-  case 'LOAD_AJAX_DATA_SUCCESS':
-    newState.isLoading[action.key] = false
-    newState[action.key] = action.response
-    return newState
+    case 'LOAD_AJAX_DATA_SUCCESS':
+      newState.isLoading[action.key] = false
+      newState[action.key] = action.response
+      return newState
 
     default:
-      return state;
+      return state
   }
 }

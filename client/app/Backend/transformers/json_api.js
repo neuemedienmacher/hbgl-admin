@@ -25,8 +25,9 @@ function extractArrayIntoObject(array, object) {
 
 function extractDataPointIntoObject(datum, object) {
   if (!object[datum.type]) object[datum.type] = {}
-  object[datum.type][datum.id] = merge(
-    datum.attributes, {id: parseInt(datum.id), links: datum.links}
-  )
+  object[datum.type][datum.id] = merge(datum.attributes, {
+    id: parseInt(datum.id),
+    links: datum.links,
+  })
   return object
 }

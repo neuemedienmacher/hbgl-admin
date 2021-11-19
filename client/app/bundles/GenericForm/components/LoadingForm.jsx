@@ -1,5 +1,5 @@
-import React from 'react';
-import Form from '../containers/Form';
+import React from 'react'
+import Form from '../containers/Form'
 
 export default class LoadingForm extends React.Component {
   // componentDidMount() {

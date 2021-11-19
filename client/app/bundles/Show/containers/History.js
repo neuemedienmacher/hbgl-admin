@@ -11,15 +11,17 @@ const mapStateToProps = (state, ownProps) => {
   const klass = capitalize(camelCase(singularize(model)))
 
   let historyItems =
-    state.entities.versions && Object.values(state.entities.versions).filter(
-      (v) => v['item-type'] == klass && v['item-id'] == parent.id
-    ) || []
+    (state.entities.versions &&
+      Object.values(state.entities.versions).filter(
+        (v) => v['item-type'] == klass && v['item-id'] == parent.id
+      )) ||
+    []
 
   historyItems = historyItems.map(transformHistoryItem(state.entities))
 
   return {
     hasHistory: settings.HISTORY_ENABLED.includes(model),
-    historyItems
+    historyItems,
   }
 }
 
@@ -27,16 +29,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   loadData() {
     const basePath = `${ownProps.model}/${ownProps.parent.id}/versions`
     dispatch(loadAjaxData(basePath, {}, 'versions'))
-  }
+  },
 })
 
 function transformHistoryItem(entities) {
   return (item) => {
-    item.user =
-      entities.users && entities.users[item.whodunnit] || { label: 'Unknown' }
+    item.user = (entities.users && entities.users[item.whodunnit]) || {
+      label: 'Unknown',
+    }
     item.changes = []
-    const getChange =
-      (_, field, before, after) => item.changes.push({field, before, after})
+    const getChange = (_, field, before, after) =>
+      item.changes.push({ field, before, after })
     item['object-changes'].replace(/\n(.+):\n- (.*)\n- (.*)/g, getChange)
     item.date = new Date(item['created-at']).toLocaleString('de-de')
 

@@ -1,10 +1,10 @@
 // This file is used by the webpack HMR dev server to load your component without using Rails
 // It should simply match routes to basic HTML or jade files that render your component
 /* eslint-disable no-console, func-names, no-var */
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var jade = require('jade');
-var config = require('./webpack.client.hot.config');
+var webpack = require('webpack')
+var WebpackDevServer = require('webpack-dev-server')
+var jade = require('jade')
+var config = require('./webpack.client.hot.config')
 
 var server = new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
@@ -17,7 +17,7 @@ var server = new WebpackDevServer(webpack(config), {
     chunks: false,
     children: false,
   },
-});
+})
 
 // The following code is commented out because the HelloWorld example
 // does not use any asynchronous functionality. It is meant to serve
@@ -47,18 +47,18 @@ var server = new WebpackDevServer(webpack(config), {
 //   res.send(JSON.stringify(req.body.name));
 // });
 
-var initialName = 'Stranger';
+var initialName = 'Stranger'
 
 server.app.use('/', function routePath(req, res) {
   var locals = {
     props: JSON.stringify(initialName),
-  };
-  var layout = process.cwd() + '/index.jade';
-  var html = jade.compileFile(layout, { pretty: true })(locals);
-  res.send(html);
-});
+  }
+  var layout = process.cwd() + '/index.jade'
+  var html = jade.compileFile(layout, { pretty: true })(locals)
+  res.send(html)
+})
 
 server.listen(4000, 'localhost', function onListen(err) {
-  if (err) console.log(err);
-  console.log('Listening at localhost:4000...');
-});
+  if (err) console.log(err)
+  console.log('Listening at localhost:4000...')
+})

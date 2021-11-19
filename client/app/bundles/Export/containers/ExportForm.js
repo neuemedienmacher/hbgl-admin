@@ -8,9 +8,9 @@ import ExportForm from '../components/ExportForm'
 const mapStateToProps = (state, ownProps) => {
   const fieldSet =
     state.entities['field-sets'] && state.entities['field-sets'][ownProps.model]
-  const columns = fieldSet && fieldSet['columns'] || []
-  const columnNames = columns.map(field => field.name)
-  const associations = toPairs(fieldSet && fieldSet.associations || {})
+  const columns = (fieldSet && fieldSet['columns']) || []
+  const columnNames = columns.map((field) => field.name)
+  const associations = toPairs((fieldSet && fieldSet.associations) || {})
 
   const action = `/exports/${ownProps.model}?${jQuery.param(ownProps.params)}`
 
@@ -18,11 +18,10 @@ const mapStateToProps = (state, ownProps) => {
     associations,
     columnNames,
     action,
-    authToken: state.settings.authToken
+    authToken: state.settings.authToken,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExportForm)

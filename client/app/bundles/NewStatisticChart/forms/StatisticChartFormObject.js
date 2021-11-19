@@ -7,8 +7,14 @@ export default class StatisticChartFormObject extends FormObject {
 
   static get properties() {
     return [
-      'user-team-id', 'target-model', 'target-field-name', 'target-field-value',
-      'target-count', 'starts-at', 'ends-at', 'title'
+      'user-team-id',
+      'target-model',
+      'target-field-name',
+      'target-field-value',
+      'target-count',
+      'starts-at',
+      'ends-at',
+      'title',
     ]
   }
 

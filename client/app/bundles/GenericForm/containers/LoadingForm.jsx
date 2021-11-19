@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -49,6 +49,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  LoadingForm
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(LoadingForm)

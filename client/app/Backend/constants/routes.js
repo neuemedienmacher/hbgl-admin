@@ -1,8 +1,6 @@
-const API_BASE = "/api/v1";
+const API_BASE = '/api/v1'
 const api = {
-  federalStates: `${API_BASE}/federal-states`
-};
+  federalStates: `${API_BASE}/federal-states`,
+}
 
-export {
-  api
-};
+export { api }
