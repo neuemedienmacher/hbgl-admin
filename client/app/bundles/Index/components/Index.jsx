@@ -26,8 +26,6 @@ export default class Index extends Component {
       uiKey, metaText, isLoading
     } = this.props;
 
-    console.log(this.props);
-
     return (
       <div className={cn("content", "Index", "table-header", { "Index--loading": isLoading })}>
         <p className="page-title">{heading}</p>

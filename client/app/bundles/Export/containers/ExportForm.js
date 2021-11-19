@@ -13,7 +13,6 @@ const mapStateToProps = (state, ownProps) => {
   const associations = toPairs(fieldSet && fieldSet.associations || {})
 
   const action = `/exports/${ownProps.model}?${jQuery.param(ownProps.params)}`
-  console.log(action)
 
   return {
     associations,

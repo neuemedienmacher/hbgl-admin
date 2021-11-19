@@ -24,7 +24,6 @@ const mapStateToProps = (state, ownProps) => {
       x: endsAt, y: targetCount,
     }],
   }
-  // console.log('PreviewBurnUpChart container | data:', data)
 
   return {
     data

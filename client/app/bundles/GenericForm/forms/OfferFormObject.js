@@ -88,7 +88,7 @@ class OfferCreateFormObject extends GenericFormObject {
       name: { type: "string", addons: ["counter", ], },
       description: { type: "textarea", addons: ["counter", ], },
       comment: { type: "textarea", },
-      "next-steps": { type: "filtering-multiselect", addons: ["counter", ], },
+      "next-steps": { type: "filtering-multiselect", options: ["sortable"] , addons: ["counter", ], },
       "contact-people": { type: "creating-multiselect", },
       "hide-contact-people": { type: "checkbox", },
       "code-word": { type: "string", },

@@ -234,6 +234,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     afterError(_formId, response) {
+      console.error('error sending form')
+      console.error(response.status, response.text)
+      console.error(response)
       if (response.status < 500) return;
       dispatch(
         addFlashMessage("error", "Es ist ein Serverfehler aufgetreten.")

@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     modelInstance || {}
   )
   const associations = toPairs(fieldSet && fieldSet.associations || {})
-  // console.log('filtered:', associations)
+
   return {
     modelInstance,
     associations,
