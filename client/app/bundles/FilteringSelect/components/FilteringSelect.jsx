@@ -2,6 +2,8 @@ import React  from 'react'
 import { Link } from 'react-router'
 import { Label, Input, Errors } from 'rform'
 import VirtualizedSelect from 'react-virtualized-select'
+import Select from 'react-select'
+
 import ActionList from '../../ActionList/containers/ActionList'
 
 export default class FilteringSelect extends React.Component {
@@ -56,14 +58,23 @@ export default class FilteringSelect extends React.Component {
     multi, options, isLoading, onChange, onInputChange, value, placeholder,
     disabled, attribute, classNameWithChanged
   ) {
-    return(
-      <VirtualizedSelect multi={multi} className={classNameWithChanged}
-        options={options} isLoading={isLoading} onChange={onChange}
-        onInputChange={onInputChange} value={value}
-        placeholder={placeholder} disabled={disabled}
-        valueRenderer={this.renderValue(attribute)}
-      />
-    )
+    const existingIds = typeof value === 'string' ? value.split(',') : value
+    const existingValues = Array.isArray(existingIds) ? options.filter(({ value }) => existingIds.includes(value)) : options.filter(({ value }) => value === existingIds)
+
+      return (
+        <Select
+          className={classNameWithChanged}
+          defaultValue={existingValues}
+          isDisabled={disabled}
+          isLoading={isLoading}
+          isMulti={multi}
+          onChange={onChange}
+          onInputChange={onInputChange}
+          options={options}
+          placeholder={placeholder}
+        />
+      )
+
   }
 
   renderValue(attribute) {

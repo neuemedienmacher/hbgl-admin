@@ -39,6 +39,8 @@ const mapStateToProps = (state, ownProps) => {
   const classNameWithChanged =
     (ownProps.className || '') + (changed ? ' changed' : '')
 
+
+
   return {
     value,
     errors,
@@ -65,8 +67,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
 
     onChange(selected) {
-      let newValue
-      if (selected) newValue =
+      if (!selected) return
+      const newValue =
         isArray(selected) ? selected.map(e => e.value) : selected.value
 
       dispatch(
