@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       api_resources :definitions
       api_resources :solution_categories
       api_resources :sections, only: %i[index show]
-      api_resources :cities, only: %i[index show create update]
+      api_resources :cities
       api_resources :areas
       api_resources :topics, only: %i[index show]
       api_resources :federal_states, only: %i[index show]
@@ -74,7 +74,6 @@ Rails.application.routes.draw do
       api_resources :search_locations, only: %i[export index show]
       api_resources :target_audience_filters_offers, only: %i[index show]
       api_resources :next_steps
-      api_resources :tags
       api_resources :assignments, only: %i[index show create update]
       get 'field_set/:model', controller: :field_set, action: :show
       get 'possible_events/:model/:id', controller: :possible_events,
