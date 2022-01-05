@@ -59,10 +59,12 @@ module API::V1
       end
 
       class Create < Show
+=begin
         has_one :organization,
                 decorator: API::V1::Organization::Representer::Show,
                 populator: API::V1::Lib::Populators::Find, class: ::Organization
 
+=end
         has_one :federal_state,
                 decorator: API::V1::FederalState::Representer::Show,
                 populator: API::V1::Lib::Populators::Find, class: ::FederalState
