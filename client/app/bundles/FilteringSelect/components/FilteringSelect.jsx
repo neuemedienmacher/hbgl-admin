@@ -16,6 +16,9 @@ import {
   SortEndHandler,
   SortableHandle,
 } from 'react-sortable-hoc'
+import faker from 'faker'
+import chroma from 'chroma-js'
+import hash from 'object-hash'
 
 import ActionList from '../../ActionList/containers/ActionList'
 
@@ -49,6 +52,28 @@ const SortableMultiValueLabel = SortableHandle(
 );
 
 const SortableSelect = SortableContainer(Select)
+
+const expandToColor = (value) => {
+  return `#${hash(value, { algorithm: 'md5'}).slice(-6)}`
+}
+
+const colourStyles = {
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: chroma(expandToColor(data.value)).alpha(0.1).css(),
+    };
+  },
+  multiValueLabel: (styles, { data }) => {
+    return {
+      ...styles,
+      color: expandToColor(data.value),
+    }
+  },
+};
+
+
+
 
 export default class FilteringSelect extends React.Component {
   componentDidMount() {
@@ -164,6 +189,7 @@ export default class FilteringSelect extends React.Component {
           MultiValueLabel: SortableMultiValueLabel,
         }}
         closeMenuOnSelect={true}
+        styles={colourStyles}
       />
     );
 
