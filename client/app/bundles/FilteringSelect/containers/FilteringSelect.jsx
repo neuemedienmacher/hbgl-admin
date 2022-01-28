@@ -60,6 +60,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { alreadyLoadedInputs, resource, resourceKey } = stateProps
   const { params, inverseRelationship, model } = ownProps
 
+
   return {
     ...ownProps,
     ...stateProps,
@@ -69,7 +70,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       const newValue = isArray(selected)
         ? selected.map((e) => e.value)
         : selected.value
-
       dispatch(
         updateAction(
           ownProps.formId,

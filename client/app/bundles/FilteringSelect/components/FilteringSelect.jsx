@@ -16,9 +16,6 @@ import {
   SortEndHandler,
   SortableHandle,
 } from 'react-sortable-hoc'
-import faker from 'faker'
-import chroma from 'chroma-js'
-import hash from 'object-hash'
 
 import ActionList from '../../ActionList/containers/ActionList'
 
@@ -53,29 +50,11 @@ const SortableMultiValueLabel = SortableHandle(
 
 const SortableSelect = SortableContainer(Select)
 
-const expandToColor = (value) => {
-  return `#${hash(value, { algorithm: 'md5'}).slice(-6)}`
-}
-
-const colourStyles = {
-  multiValue: (styles, { data }) => {
-    return {
-      ...styles,
-      backgroundColor: chroma(expandToColor(data.value)).alpha(0.1).css(),
-    };
-  },
-  multiValueLabel: (styles, { data }) => {
-    return {
-      ...styles,
-      color: expandToColor(data.value),
-    }
-  },
-};
-
-
-
-
 export default class FilteringSelect extends React.Component {
+  constructor(props){
+    super(props);
+
+  };
   componentDidMount() {
     this.props.onMount()
 
@@ -170,6 +149,7 @@ export default class FilteringSelect extends React.Component {
       ? existingIds.map((id) => options.find(({ value }) => value === id))
       : options.filter(({ value }) => value === existingIds)
 
+
     return (
       <SortableSelect
         useDragHandle
@@ -188,24 +168,10 @@ export default class FilteringSelect extends React.Component {
           MultiValue: SortableMultiValue,
           MultiValueLabel: SortableMultiValueLabel,
         }}
-        closeMenuOnSelect={true}
-        styles={colourStyles}
+        closeMenuOnSelect
+        isClearable
       />
     );
-
-/*    return (
-      <Select
-        className={classNameWithChanged}
-        defaultValue={existingValues}
-        isDisabled={disabled}
-        isLoading={isLoading}
-        isMulti={multi}
-        onChange={(...args) => {console.log('onChange',...args);onChange(...args);}}
-        onInputChange={onInputChange}
-        options={options}
-        placeholder={placeholder}
-      />
-    )*/
   }
 
   renderValue(attribute) {
