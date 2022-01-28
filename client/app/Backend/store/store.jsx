@@ -9,24 +9,30 @@ import addSettings from '../actions/addSettings'
 import transformJsonApi from '../transformers/json_api'
 
 function initialDispatches(dispatch, props) {
-  dispatch(addEntities(merge(
-    transformJsonApi(props['user-teams']),
-    transformJsonApi(props.users),
-    { 'current-user-id': props['current-user-id'] }
-  )))
-  dispatch(addSettings(merge(
-    { authToken: props.authToken },
-    props.settings
-  )))
+  dispatch(
+    addEntities(
+      merge(
+        transformJsonApi(props['user-teams']),
+        transformJsonApi(props.users),
+        { 'current-user-id': props['current-user-id'] }
+      )
+    )
+  )
+  dispatch(addSettings(merge({ authToken: props.authToken }, props.settings)))
 }
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 export default function getStore(props) {
   const store = createStore(
     combinedReducers,
     // initialStates,
-    applyMiddleware(
-      thunkMiddleware, errorHandlerMiddleware,
-      // loggerMiddleware // for debugging
+    composeEnhancers(
+      applyMiddleware(
+        thunkMiddleware,
+        errorHandlerMiddleware
+        // loggerMiddleware // for debugging
+      )
     )
   )
 

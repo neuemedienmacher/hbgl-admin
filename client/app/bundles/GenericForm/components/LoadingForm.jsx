@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Form from '../containers/Form'
 
 export default class LoadingForm extends React.Component {

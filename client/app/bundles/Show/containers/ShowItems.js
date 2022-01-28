@@ -6,32 +6,33 @@ import { pluralize } from '../../../lib/inflection'
 
 const mapStateToProps = (state, ownProps) => {
   // read model instance
-  const modelInstance = state.entities[ownProps.model] &&
+  const modelInstance =
+    state.entities[ownProps.model] &&
     state.entities[ownProps.model][ownProps.id]
   const loaded = !!modelInstance
   // read own fields and associations of current model from the state
-  const fieldSet =  state.entities['field-sets'] &&
-    state.entities['field-sets'][ownProps.model]
+  const fieldSet =
+    state.entities['field-sets'] && state.entities['field-sets'][ownProps.model]
   const columnNames = filterFields(
-    fieldSet && fieldSet['columns'] || [],
+    (fieldSet && fieldSet['columns']) || [],
     modelInstance || {}
   )
-  const associations = toPairs(fieldSet && fieldSet.associations || {})
-  // console.log('filtered:', associations)
+  const associations = toPairs((fieldSet && fieldSet.associations) || {})
+
   return {
     modelInstance,
     associations,
     columnNames,
     loaded,
-    model: ownProps.model
+    model: ownProps.model,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({ })
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 function filterFields(fields, modelInstance) {
-  let fieldNames = fields.map(field => field.name)
-  return fieldNames.filter(field => modelInstance[field] != undefined )
- }
+  let fieldNames = fields.map((field) => field.name)
+  return fieldNames.filter((field) => modelInstance[field] != undefined)
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowItems)

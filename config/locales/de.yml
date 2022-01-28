@@ -105,7 +105,7 @@ de:
             special: für geflüchtete Jungen und Männer
           neutral:
             adults: für geflüchtete Erwachsene
-            neutral: für Geflüchtete
+            neutral: für Flüchtlinge
         refugees_parents:
           female:
             female: für geflüchtete Mütter von Töchtern
@@ -125,9 +125,27 @@ de:
           neutral: für geflüchtete werdende Eltern
         refugees_uf:
           minor:
-            neutral: für unbegleitete minderjährige Geflüchtete
-          neutral: für unbegleitete Geflüchtete
+            neutral: für unbegleitete minderjährige Flüchtlinge
+          neutral: für unbegleitete Flüchtlinge
         refugees_umf:
           female: für unbegleitete minderjährige Mädchen
           male: für unbegleitete minderjährige Jungen
-          neutral: für unbegleitete minderjährige Geflüchtete
+          neutral: für unbegleitete minderjährige Flüchtlinge
+        immigrants_general:
+          neutral:
+            adults: für zugewanderte Erwachsene
+            neutral: für Zugewanderte
+          female:
+            default: für zugewanderte Frauen
+            special: für zugewanderte Mädchen und Frauen
+          male:
+            default: für zugewanderte Männer
+            special: für zugewanderte Jungen und Männer
+        immigrants_children:
+          neutral: für zugewanderte Kinder und Jugendliche
+          adolescents: für zugewanderte Jugendliche
+          children_and_adolescents: für zugewanderte Kinder und Jugendliche
+          children: für zugewanderte Kinder
+          female: für zugewanderte Mädchen
+          male: für zugewanderte Jungen
+

@@ -1,4 +1,3 @@
-import { JsonApiAdapter } from 'rform'
 import GenericFormObject from '../lib/GenericFormObject'
 import { EMAIL_REGEX } from '../lib/formats'
 
@@ -17,7 +16,7 @@ export default class EmailFormObject extends GenericFormObject {
 
   static get formConfig() {
     return {
-      address: { type: 'string' }
+      address: { type: 'string' },
     }
   }
 
@@ -31,7 +30,7 @@ export default class EmailFormObject extends GenericFormObject {
 
   static get additionalValidations() {
     return {
-      address: { 'format?': EMAIL_REGEX }
+      address: { 'format?': EMAIL_REGEX },
     }
   }
 

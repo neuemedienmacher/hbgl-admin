@@ -9,11 +9,11 @@ const mapStateToProps = (state, ownProps) => {
   return {
     name,
     content,
-    contentType
+    contentType,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({ })
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 function evaluateContentType(content, name) {
   let contentType = typeof content

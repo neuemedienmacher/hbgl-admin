@@ -10,24 +10,33 @@ const mapStateToProps = (state, ownProps) => {
   const data = {
     actual: [],
 
-    ideal: [{
-      x: startsAt, y: 0,
-    }, {
-      x: endsAt, y: targetCount,
-    }],
+    ideal: [
+      {
+        x: startsAt,
+        y: 0,
+      },
+      {
+        x: endsAt,
+        y: targetCount,
+      },
+    ],
 
     projection: [],
 
-    scope: [{
-      x: startsAt, y: targetCount,
-    }, {
-      x: endsAt, y: targetCount,
-    }],
+    scope: [
+      {
+        x: startsAt,
+        y: targetCount,
+      },
+      {
+        x: endsAt,
+        y: targetCount,
+      },
+    ],
   }
-  // console.log('PreviewBurnUpChart container | data:', data)
 
   return {
-    data
+    data,
   }
 }
 

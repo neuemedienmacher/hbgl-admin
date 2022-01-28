@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import IndexHeader from '../../Index/containers/IndexHeader'
 import ExportForm from '../containers/ExportForm'
 
@@ -14,13 +14,11 @@ export default class Export extends Component {
   }
 
   render() {
-    const {
-      location, model, filterParams
-    } = this.props
+    const { location, model, filterParams } = this.props
 
     return (
       <div className='content Export table-header'>
-        <h2 className="page-title">{`Export: ${model}`}</h2>
+        <h2 className='page-title'>{`Export: ${model}`}</h2>
         <IndexHeader model={model} params={filterParams} />
         <ExportForm model={model} params={filterParams} />
       </div>

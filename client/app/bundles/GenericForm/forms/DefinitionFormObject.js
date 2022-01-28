@@ -10,15 +10,13 @@ export default class DefinitionFormObject extends GenericFormObject {
   }
 
   static get properties() {
-    return [
-      'key', 'explanation'
-    ]
+    return ['key', 'explanation']
   }
 
   static get formConfig() {
     return {
       key: { type: 'text' },
-      explanation: { type: 'text' }
+      explanation: { type: 'text' },
     }
   }
 

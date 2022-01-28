@@ -1,5 +1,5 @@
 // DEPRECATED
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { Label, Input, Errors } from 'rform'
 import Form from '../containers/Form'
 
@@ -16,8 +16,15 @@ export default class Inline extends React.Component {
 
   render() {
     const {
-      wrapperClassName, attribute, errorClassName, errors, label, model,
-      idOrNew, edit, formId
+      wrapperClassName,
+      attribute,
+      errorClassName,
+      errors,
+      label,
+      model,
+      idOrNew,
+      edit,
+      formId,
     } = this.props
 
     return (
@@ -25,12 +32,17 @@ export default class Inline extends React.Component {
         <Label attribute={attribute} content={label} />
 
         <Form
-          attribute={attribute} model={model} idOrNew={idOrNew} edit={edit}
+          attribute={attribute}
+          model={model}
+          idOrNew={idOrNew}
+          edit={edit}
           formId={formId}
         />
 
         <Errors
-          className={errorClassName} attribute={attribute} errors={errors}
+          className={errorClassName}
+          attribute={attribute}
+          errors={errors}
           formId={formId}
         />
       </div>

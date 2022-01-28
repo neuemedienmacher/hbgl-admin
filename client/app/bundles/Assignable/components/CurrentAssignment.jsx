@@ -1,8 +1,7 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import AssignmentActions from '../containers/AssignmentActions'
 
 export default class CurrentAssignment extends Component {
-
   render() {
     return (
       <div>
@@ -16,13 +15,13 @@ export default class CurrentAssignment extends Component {
     const { assignment, involvedEntities, loaded } = this.props
 
     if (loaded) {
-      return(
-        <div className="assignment-head">
-          <b>von:</b> {involvedEntities.creator},
-          Team: {involvedEntities.creatorTeam}
+      return (
+        <div className='assignment-head'>
+          <b>von:</b> {involvedEntities.creator}, Team:{' '}
+          {involvedEntities.creatorTeam}
           <br />
-          <b>für:</b> {involvedEntities.receiver},
-          Team: {involvedEntities.receiverTeam}
+          <b>für:</b> {involvedEntities.receiver}, Team:{' '}
+          {involvedEntities.receiverTeam}
           <br />
           <b>Nachricht:</b> {assignment.message}
         </div>
@@ -38,9 +37,12 @@ export default class CurrentAssignment extends Component {
     if (loaded) {
       return (
         <AssignmentActions
-          assignment={assignment} assignableDataLoad={assignableDataLoad}
+          assignment={assignment}
+          assignableDataLoad={assignableDataLoad}
         />
       )
-    } else {return null}
+    } else {
+      return null
+    }
   }
 }

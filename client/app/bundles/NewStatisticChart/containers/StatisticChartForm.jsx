@@ -13,20 +13,23 @@ const mapStateToProps = (state, ownProps) => {
   const formData = state.rform[formId] || {}
 
   const userTeams = valuesIn(state.entities['user-teams']).map((team) => ({
-    name: team.name, value: team.id
+    name: team.name,
+    value: team.id,
   }))
   const targetModels = formSettings.target_models.map(transformOptions)
   const currentTargetModel = formData.target_model || targetModels[0].value
   const targetFieldNames =
     formSettings.target_field_names[currentTargetModel].map(transformOptions)
-  const currentTargetFieldName = formData.target_field_name ||
-    targetFieldNames[0].value
+  const currentTargetFieldName =
+    formData.target_field_name || targetFieldNames[0].value
   let targetFieldValues
   if (
     formSettings.target_field_values[currentTargetModel][currentTargetFieldName]
   ) {
-    targetFieldValues = formSettings.target_field_values[currentTargetModel]
-      [currentTargetFieldName].map(transformOptions)
+    targetFieldValues =
+      formSettings.target_field_values[currentTargetModel][
+        currentTargetFieldName
+      ].map(transformOptions)
   } else {
     targetFieldValues = [{}]
   }
@@ -40,7 +43,7 @@ const mapStateToProps = (state, ownProps) => {
       target_model: currentTargetModel,
       target_field_name: currentTargetFieldName,
       target_field_value: targetFieldValues[0].value,
-    }
+    },
   }
 
   return {
@@ -64,7 +67,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     if (response.data && response.data.id) {
       browserHistory.push(`/statistic_charts/${response.data.id}`)
     }
-  }
+  },
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -84,32 +87,32 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       fieldName = availableFieldNames[0]
       dispatch(changeFormData(formId, 'target_field_name', fieldName))
     } else {
-      fieldName = availableFieldNames[
-        e.target.form['statistic_chart[target_field_name]'].value
-      ]
+      fieldName =
+        availableFieldNames[
+          e.target.form['statistic_chart[target_field_name]'].value
+        ]
     }
 
     const availableFieldValues =
       formSettings.target_field_values[model][fieldName]
 
-    dispatch(changeFormData(formId, 'target_field_value',
-      availableFieldValues[0]
-    ))
+    dispatch(
+      changeFormData(formId, 'target_field_value', availableFieldValues[0])
+    )
   },
 })
 
-
 const translations = {
-  Offer: 'Offers',
-  Organization: 'Organizations',
-  aasm_state: 'Status',
-  logic_version: 'Version',
+  'Offer': 'Offers',
+  'Organization': 'Organizations',
+  'aasm_state': 'Status',
+  'logic_version': 'Version',
   'id?': 'Existenz',
-  true: 'vorhanden'
+  'true': 'vorhanden',
 }
 
-const t = translation_key => translations[translation_key] || translation_key
-const transformOptions = element => ({ name: t(element), value: element })
+const t = (translation_key) => translations[translation_key] || translation_key
+const transformOptions = (element) => ({ name: t(element), value: element })
 
 export default connect(
   mapStateToProps,

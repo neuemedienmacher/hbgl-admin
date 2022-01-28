@@ -11,15 +11,16 @@ module API::V1
           property :label, getter: ->(area) {
             area[:represented].name
           }
+          property :minlat
+          property :maxlat
+          property :minlong
+          property :maxlong
           property :created_at
           property :updated_at
         end
       end
 
       class Index < Show
-      end
-
-      class Create < Show
       end
     end
   end

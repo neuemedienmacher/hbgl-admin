@@ -6,18 +6,19 @@ import Mailing from '../components/Mailing'
 
 const mapStateToProps = (state, ownProps) => {
   const action = `/api/v1/mailings/${ownProps.id}`
-  const modelInstance = state.entities[ownProps.model] &&
+  const modelInstance =
+    state.entities[ownProps.model] &&
     state.entities[ownProps.model][ownProps.id]
   const showSendButton =
-    modelInstance && modelInstance.tos === 'uninformed' || false
-  const explanationText = showSendButton ?
-    'Verschickt eine ToS-Mail an diese Addresse.' :
-    'ToS-Mail wurde bereits verschickt.'
+    (modelInstance && modelInstance.tos === 'uninformed') || false
+  const explanationText = showSendButton
+    ? 'Verschickt eine ToS-Mail an diese Addresse.'
+    : 'ToS-Mail wurde bereits verschickt.'
   return {
     action,
     showSendButton,
     explanationText,
-    authToken: state.settings.authToken
+    authToken: state.settings.authToken,
   }
 }
 
@@ -45,7 +46,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     const message = 'Es gab einen Fehler beim Versenden der Mail.'
     response.text().then((errorMessage) => console.error(errorMessage))
     dispatch(addFlashMessage('error', message))
-  }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Mailing)

@@ -1,28 +1,57 @@
 ---
-parser: babel-eslint
-
-extends: eslint-config-shakacode
+extends: eslint-config-eslint
 
 plugins:
   - react
+  - jsdoc
 
 globals:
   __DEBUG_SERVER_ERRORS__: true
   __SERVER_ERRORS__: true
 
+parserOptions:
+  sourceType: module
+  ecmaVersion: 11
+  ecmaFeatures:
+    jsx: true
+
+settings:
+  react:
+    version: detect
+
 env:
   browser: true
+  es6: true
+  es2017: true
+  es2020: true
+  es2021: true
   node: true
-  mocha: true
+  jquery: true
 
 rules:
   ### Variables
+  no-prototype-builtins: 1
+  node/no-missing-import: 0
+  no-use-before-define: 1
+  no-console: 0
+  no-restricted-properties: 0
+  no-undefined: 0
   no-undef: 2
   no-unused-vars: [2, { vars: all, args: none }]
+  quotes: [2, 'double']
+  func-style: 0
+  comma-dangle:
+    - 2
+    - 'arrays': always
+    - 'objects': always
+    - 'imports': always
+    - 'exports': always
+    - 'functions': never
 
   ### Stylistic issues
   indent: [1, 2, { SwitchCase: 1, VariableDeclarator: 2 }]
   id-length: [1, { min: 2, exceptions: [_, e, i, k, v] }]
+  class-methods-use-this: off
 
   ### React
   jsx-quotes: [1, prefer-double]
@@ -38,11 +67,12 @@ rules:
   react/no-danger: 0
   react/no-did-mount-set-state: 1
   react/no-did-update-set-state: 0
-  react/no-multi-comp: 2
+  react/no-multi-comp: 0
   react/no-unknown-property: 2
   react/prop-types: 1
   react/react-in-jsx-scope: 2
-  react/require-extension: [1, { extensions: [.js, .jsx] }]
   react/self-closing-comp: 2
-  react/sort-comp: 0                                                            # Should be 1. `statics` should be on top.
-  react/wrap-multilines: 2
+  react/sort-comp: 0
+  array-bracket-spacing: [0]
+  jsx-a11y/anchor-has-content: [0]
+  node/no-unsupported-features/es-syntax: [0]

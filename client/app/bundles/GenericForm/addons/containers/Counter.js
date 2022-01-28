@@ -5,11 +5,12 @@ const mapStateToProps = (state, ownProps) => {
   const { input, formId, formObjectClass } = ownProps
   const rformInputData =
     state.rform[formId] && state.rform[formId][input.attribute]
-  const count = rformInputData && rformInputData.length || 0
+  const count = (rformInputData && rformInputData.length) || 0
 
   const maximum =
-    formObjectClass.inputMaxLengths &&
-    formObjectClass.inputMaxLengths[input.attribute] || 0
+    (formObjectClass.inputMaxLengths &&
+      formObjectClass.inputMaxLengths[input.attribute]) ||
+    0
 
   let className = 'GenericFormAddon-Counter'
   if (maximum) {
@@ -22,14 +23,16 @@ const mapStateToProps = (state, ownProps) => {
   return {
     count,
     maximum,
-    className
+    className,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps, ...dispatchProps, ...ownProps
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter)

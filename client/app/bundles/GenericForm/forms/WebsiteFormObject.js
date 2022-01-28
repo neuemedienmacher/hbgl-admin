@@ -11,9 +11,7 @@ export default class WebsiteFormObject extends GenericFormObject {
   }
 
   static get properties() {
-    return [
-      'host', 'url'
-    ]
+    return ['host', 'url']
   }
 
   static get formConfig() {
@@ -21,10 +19,21 @@ export default class WebsiteFormObject extends GenericFormObject {
       host: {
         type: 'select',
         options: [
-          'own', 'facebook', 'twitter', 'youtube', 'gplus', 'pinterest',
-          'document', 'online_consulting', 'chat', 'forum', 'online_course',
-          'application_form', 'contact_form', 'other'
-        ]
+          'own',
+          'facebook',
+          'twitter',
+          'youtube',
+          'gplus',
+          'pinterest',
+          'document',
+          'online_consulting',
+          'chat',
+          'forum',
+          'online_course',
+          'application_form',
+          'contact_form',
+          'other',
+        ],
       },
       url: { type: 'string' },
     }
@@ -36,7 +45,7 @@ export default class WebsiteFormObject extends GenericFormObject {
 
   static get additionalValidations() {
     return {
-      url: { 'format?': URL_REGEX }
+      url: { 'format?': URL_REGEX },
     }
   }
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { actionsFromSettings } from '../../../lib/resourceActions'
+
 // import { isTeamOfCurrentUserAssignedToModel, isCurrentUserAssignedToModel }
 //   from '../../../lib/restrictionUtils'
 import TableRow from '../components/TableRow'

@@ -9,9 +9,11 @@ import CreatingSelect from '../components/CreatingSelect'
 
 const mapStateToProps = (state, ownProps) => {
   const attribute = ownProps.input.attribute
-  let additionalSubmodelForms = (state.rform[ownProps.formId] &&
-    state.rform[ownProps.formId]._registeredSubmodelForms &&
-    state.rform[ownProps.formId]._registeredSubmodelForms[attribute]) || []
+  let additionalSubmodelForms =
+    (state.rform[ownProps.formId] &&
+      state.rform[ownProps.formId]._registeredSubmodelForms &&
+      state.rform[ownProps.formId]._registeredSubmodelForms[attribute]) ||
+    []
   const hasSubmodelForm = !!additionalSubmodelForms.length
   const attributeWithoutId = attribute.replace(/-id(s?)/, '')
   const submodelName = pluralize(attributeWithoutId)
@@ -21,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
   const currentSelectValue = formState && formState[attribute]
 
   const showSelect = ownProps.multi || !hasSubmodelForm
-  const showButton = ownProps.multi || !hasSubmodelForm && !currentSelectValue
+  const showButton = ownProps.multi || (!hasSubmodelForm && !currentSelectValue)
 
   return {
     additionalSubmodelForms,
@@ -51,9 +53,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     onRemoveSubmodelFormClick(removedFormId) {
       return () => {
-        dispatch(
-          unregisterSubmodelForm(formId, input.attribute, removedFormId)
-        )
+        dispatch(unregisterSubmodelForm(formId, input.attribute, removedFormId))
       }
     },
   }
@@ -62,5 +62,5 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(CreatingSelect)

@@ -1,4 +1,5 @@
 import GenericFormObject from '../lib/GenericFormObject'
+import { ONE_TO_ONE } from '../../../lib/constants'
 
 export default class TagFormObject extends GenericFormObject {
   static get model() {
@@ -11,9 +12,14 @@ export default class TagFormObject extends GenericFormObject {
 
   static get properties() {
     return [
-      'target-audience-filter', 'offer', 'residency-status',
-      'gender-first-part-of-stamp', 'gender-second-part-of-stamp',
-      'age-from', 'age-to', 'age-visible'
+      'target-audience-filter',
+      'offer',
+      'residency-status',
+      'gender-first-part-of-stamp',
+      'gender-second-part-of-stamp',
+      'age-from',
+      'age-to',
+      'age-visible',
     ]
   }
 
@@ -26,36 +32,41 @@ export default class TagFormObject extends GenericFormObject {
       'target-audience-filter': {
         type: 'filtering-select',
         resource: 'filters',
-        params: { filters: { type: 'TargetAudienceFilter' } }
+        params: { filters: { type: 'TargetAudienceFilter' } },
       },
-      offer: { type: 'filtering-select' },
+      'offer': { type: 'filtering-select' },
       'residency-status': {
-        type: 'select', options: [
-          '', 'before_the_asylum_decision', 'with_a_residence_permit',
+        type: 'select',
+        options: [
+          '',
+          'before_the_asylum_decision',
+          'with_a_residence_permit',
           'with_temporary_suspension_of_deportation',
-          'with_deportation_decision'
-        ]
+          'with_deportation_decision',
+        ],
       },
       'gender-first-part-of-stamp': {
-        type: 'select', options: ['', 'female', 'male']
+        type: 'select',
+        options: ['', 'female', 'male'],
       },
       'gender-second-part-of-stamp': {
-        type: 'select', options: ['', 'female', 'male', 'neutral']
+        type: 'select',
+        options: ['', 'female', 'male', 'neutral'],
       },
       'age-from': { type: 'number' },
       'age-to': { type: 'number' },
-      'age-visible': { type: 'checkbox' }
+      'age-visible': { type: 'checkbox' },
     }
   }
 
   static get submodelConfig() {
     return {
       'target-audience-filter': {
-        relationship: 'oneToOne'
+        relationship: ONE_TO_ONE,
       },
-      offer: {
-        relationship: 'oneToOne'
-      }
+      'offer': {
+        relationship: ONE_TO_ONE,
+      },
     }
   }
 
@@ -70,7 +81,7 @@ export default class TagFormObject extends GenericFormObject {
   static get genericFormDefaults() {
     return {
       'age-from': '0',
-      'age-to': '99'
+      'age-to': '99',
     }
   }
 }

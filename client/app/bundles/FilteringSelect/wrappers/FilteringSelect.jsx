@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import FilteringSelect from '../containers/FilteringSelect'
 
 export default class FilteringSelectWrapper extends Component {
@@ -10,4 +11,3 @@ export default class FilteringSelectWrapper extends Component {
     return <FilteringSelect {...this.context} {...this.props} />
   }
 }
-

@@ -6,14 +6,12 @@ export default class ActionUpdateFormObject extends FormObject {
   }
 
   static get properties() {
-    return [
-      'receiver-id'
-    ]
+    return ['receiver-id']
   }
 
   static get ajaxAdapter() {
     return JsonApiAdapter
   }
 
-  validation() { }
+  validation() {}
 }

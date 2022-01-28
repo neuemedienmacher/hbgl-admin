@@ -55,6 +55,7 @@ rails_best_practices_output.html
 
 # generated sitemaps
 /public/sitemaps/*
+/public/assets/*
 
 # DB locks
 .lock-*
@@ -77,3 +78,7 @@ node_modules
 
 # Generated js bundles
 /app/assets/javascripts/generated/*
+
+.idea
+
+

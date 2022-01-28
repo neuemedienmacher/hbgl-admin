@@ -12,31 +12,37 @@ import { singularize } from '../../../lib/inflection'
 import loadAjaxData from '../../../Backend/actions/loadAjaxData'
 import IndexHeaderFilter from '../components/IndexHeaderFilter'
 
-
 const mapStateToProps = (state, ownProps) => {
   const model = ownProps.model
-  const filterName =
-    ownProps.filter[0].split('][first]').join('').split('][second]').join('').
-      substring(8, ownProps.filter[0].length -1)
-  const filterAttributes = state.entities['field-sets'] && state.entities['field-sets'][model] ?
-    state.entities['field-sets'][model]['columns'].find(field =>
-      field.name == filterName) : undefined
-  const filterOptions =
-    filterAttributes ? filterAttributes.options : []
-  const filterType =
-    filterAttributes ? setFilterType(filterAttributes.type) : ''
+  const filterName = ownProps.filter[0]
+    .split('][first]')
+    .join('')
+    .split('][second]')
+    .join('')
+    .substring(8, ownProps.filter[0].length - 1)
+  const filterAttributes =
+    state.entities['field-sets'] && state.entities['field-sets'][model]
+      ? state.entities['field-sets'][model].columns.find(
+          (field) => field.name == filterName
+        )
+      : undefined
+  const filterOptions = filterAttributes ? filterAttributes.options : []
+  const filterType = filterAttributes
+    ? setFilterType(filterAttributes.type)
+    : ''
   const filterValue = getValue(ownProps.filter[1], 0)
   const secondFilterValue = getValue(ownProps.filter[1], 1)
   const nilChecked = ownProps.filter[1] == 'nil'
+
   // only show filters that are not locked (currently InlineIndex only)
-  const fields =
-    analyzeFields(settings.index[model].fields, model).filter(value =>
+  const fields = analyzeFields(settings.index[model].fields, model).filter(
+    (value) =>
       !ownProps.lockedParams ||
-        !ownProps.lockedParams.hasOwnProperty(`filters[${value.field}]`)
-    )
+      !ownProps.lockedParams.hasOwnProperty(`filters[${value.field}]`)
+  )
   const operatorName = ownProps.params[`operators[${filterName}]`] || '='
   const range =
-    (operatorName == "..." && filterType != 'text') ? 'visible' : 'hidden'
+    operatorName == '...' && filterType != 'text' ? 'visible' : 'hidden'
   const operators = filterOpperators(settings, filterType)
 
   return {
@@ -49,15 +55,16 @@ const mapStateToProps = (state, ownProps) => {
     range,
     filterValue,
     secondFilterValue,
-    filterOptions
+    filterOptions,
   }
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
   // manually
-  const transformResponse = function(apiResponse, nextModel) {
-    let object = { 'field-sets': {} }
+  const transformResponse = function (apiResponse, nextModel) {
+    const object = { 'field-sets': {} }
+
     object['field-sets'][nextModel] = apiResponse
     return object
   }
@@ -72,88 +79,103 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       // load field_set (all fields and associations of current model)
       dispatchProps.dispatch(
-        loadAjaxData(
-          'field_set/' + singularModel, {}, 'field-set',
-          {
-            transformer: transformResponse, nextModel
-          }
-        )
+        loadAjaxData(`field_set/${singularModel}`, {}, 'field-set', {
+          transformer: transformResponse,
+          nextModel,
+        })
       )
-    }
+    },
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onTrashClick(event) {
-    let filterId = ownProps.filter[0].split('[')
-    const params = omit(clone(ownProps.params),
-                  [ownProps.filter[0], 'operators[' + filterId[1]])
-    let query = searchString(ownProps.model, params)
+    const filterId = ownProps.filter[0].split('[')
+    const params = omit(clone(ownProps.params), [
+      ownProps.filter[0],
+      `operators[${filterId[1]}`,
+    ])
+    const query = searchString(ownProps.model, params)
+
     browserHistory.replace(`/${query}`)
   },
 
   onFilterNameChange(event) {
     let params = omit(clone(ownProps.params), ownProps.filter[0])
-    let newParam = {}
+    const newParam = {}
+
     newParam[`filters[${event.target.value}]`] = ''
     params = merge(params, newParam)
-    let query = searchString(ownProps.model, params)
+    const query = searchString(ownProps.model, params)
+
     browserHistory.replace(`/${query}`)
   },
 
   onFilterOperatorChange(event) {
     let params = clone(ownProps.params)
-    let newParam = {}
-    let operator = event.target.value
-    let filterName =
-        ownProps.filter[0].substring(8, ownProps.filter[0].length - 1)
+    const newParam = {}
+    const operator = event.target.value
+    const filterName = ownProps.filter[0].substring(
+      8,
+      ownProps.filter[0].length - 1
+    )
+
     newParam[`operators[${filterName}]`] = operator
     params = merge(params, newParam)
-    let query = searchString(ownProps.model, params)
+    const query = searchString(ownProps.model, params)
+
     browserHistory.replace(`/${query}`)
   },
 
   onCheckboxChange(event) {
-    let params = clone(ownProps.params)
+    const params = clone(ownProps.params)
+
     if (event.target.checked) {
       params[ownProps.filter[0]] = 'nil'
     } else {
       params[ownProps.filter[0]] = ''
     }
-    let query = searchString(ownProps.model, params)
+    const query = searchString(ownProps.model, params)
+
     browserHistory.replace(`/${query}`)
   },
 
   onFilterValueChange(event) {
-    let params = clone(ownProps.params)
-    if(params[ownProps.filter[0]]['second'] != undefined) {
-      params[ownProps.filter[0]]['first'] = event.target.value
+    const params = clone(ownProps.params)
+
+    if (params[ownProps.filter[0]].second != undefined) {
+      params[ownProps.filter[0]].first = event.target.value
     } else {
-      params[ownProps.filter[0]] = { 'first': event.target.value }
+      params[ownProps.filter[0]] = { first: event.target.value }
     }
 
-    let query = searchString(ownProps.model, params)
+    const query = searchString(ownProps.model, params)
+
     browserHistory.replace(`/${query}`)
   },
 
   onSecondFilterValueChange(event) {
-    let params = clone(ownProps.params)
+    const params = clone(ownProps.params)
 
-    if(params[ownProps.filter[0]]['first'] != undefined) {
-      params[ownProps.filter[0]]['second'] = event.target.value
+    if (params[ownProps.filter[0]].first != undefined) {
+      params[ownProps.filter[0]].second = event.target.value
     } else {
-      alert('Bitte gib einen Anfangswert ein');
+      alert('Bitte gib einen Anfangswert ein')
     }
 
-    let query = searchString(ownProps.model, params)
+    const query = searchString(ownProps.model, params)
+
     browserHistory.replace(`/${query}`)
   },
 
-  dispatch
+  dispatch,
 })
 
-function setFilterType (filterType) {
-  switch(filterType) {
+/**
+ * @param filterType
+ */
+function setFilterType(filterType) {
+  switch (filterType) {
     case 'datetime':
       return 'date'
     case 'integer':
@@ -163,21 +185,25 @@ function setFilterType (filterType) {
   }
 }
 
+/**
+ * @param props
+ * @param index
+ */
 function getValue(props, index) {
-  if(props == Object(props)) {
+  if (props == Object(props)) {
     return Object.values(props)[index]
-  } else {
-    if(props == 'nil') {
-      return ''
-    } else {
-      return [props]
-    }
   }
+  if (props == 'nil') {
+    return ''
+  }
+  return [props]
 }
 
-
+/**
+ * @param operator
+ */
 function textForOperator(operator) {
-  switch(operator) {
+  switch (operator) {
     case '<':
       return 'kleiner als'
     case '>':
@@ -197,33 +223,42 @@ function textForOperator(operator) {
   }
 }
 
+/**
+ * @param settings
+ * @param filterType
+ */
 function filterOpperators(settings, filterType) {
   if (filterType == 'text') {
-    return settings.OPERATORS.filter(operator =>
-      operator == '=' || operator == '!=' || operator == 'ILIKE' ||
-      operator == 'NOT LIKE'
-    ).map(operator => {
-      return {
-        value: operator,
-        displayName: textForOperator(operator)
-      }
-    })
-  } else {
-    return settings.OPERATORS.map(operator => {
-      return {
-        value: operator,
-        displayName: textForOperator(operator)
-      }
-    })
+    return settings.OPERATORS.filter(
+      (operator) =>
+        operator == '=' ||
+        operator == '!=' ||
+        operator == 'ILIKE' ||
+        operator == 'NOT LIKE'
+    ).map((operator) => ({
+      value: operator,
+      displayName: textForOperator(operator),
+    }))
   }
+  return settings.OPERATORS.map((operator) => ({
+    value: operator,
+    displayName: textForOperator(operator),
+  }))
 }
 
+/**
+ * @param model
+ * @param params
+ */
 function searchString(model, params) {
-  if(window.location.href.includes(model)) {
+  if (window.location.href.includes(model)) {
     return `${model}?${jQuery.param(params)}`
-  } else {
-    return `?${jQuery.param(params)}`
   }
+  return `?${jQuery.param(params)}`
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(IndexHeaderFilter)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(IndexHeaderFilter)

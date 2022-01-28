@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 export default class CounterAddon extends React.Component {
   render() {
     const { count, maximum, className } = this.props
-    return(
+    return (
       <div className={className}>
         {this.props.count}
         {this.renderMaximum(maximum)}
@@ -12,7 +12,7 @@ export default class CounterAddon extends React.Component {
   }
 
   renderMaximum(maximum) {
-    if(!maximum) return
+    if (!maximum) return
     return `/${maximum}`
   }
 }

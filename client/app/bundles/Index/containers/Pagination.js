@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { encode } from 'querystring'
 import clone from 'lodash/clone'
 import merge from 'lodash/merge'
 import Pagination from '../components/Pagination'
@@ -16,8 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
@@ -25,12 +23,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 
   jumpToPage(event) {
-    var page = null
-    while(typeof page != 'number' || page > stateProps.totalPages) {
+    let page = null
+
+    while (typeof page !== 'number' || page > stateProps.totalPages) {
       page = Number(
-        prompt(
-          "Springe zu 1-"+stateProps.totalPages+":", stateProps.currentPage
-        )
+        prompt(`Springe zu 1-${stateProps.totalPages}:`, stateProps.currentPage)
       )
     }
     gotoPage(page, ownProps)
@@ -38,16 +35,25 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   onPageSelect(pageNumber) {
     gotoPage(pageNumber, ownProps)
-  }
+  },
 })
 
+/**
+ * @param page
+ * @param ownProps
+ */
 function gotoPage(page, ownProps) {
   const params = merge(clone(ownProps.params), { page })
   let href = `/?${jQuery.param(params)}`
+
   if (window.location.pathname.length > 1) {
     href = `/${ownProps.model}?${jQuery.param(params)}`
   }
   browserHistory.push(href)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Pagination)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Pagination)

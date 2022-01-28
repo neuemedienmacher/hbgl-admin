@@ -5,15 +5,15 @@ import FlashMessageList from '../components/FlashMessageList'
 
 const mapStateToProps = (state) => {
   return {
-    messages: values(state.flashMessages)
+    messages: values(state.flashMessages),
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onMessageExpire: function(id) {
+    onMessageExpire(id) {
       dispatch(removeFlashMessage(id))
-    }
+    },
   }
 }
 

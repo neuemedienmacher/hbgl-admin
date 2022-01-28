@@ -6,17 +6,17 @@ const mapStateToProps = (state, ownProps) => {
   const uniqIdentifier = 'controlled-tab-view-' + ownProps.identifier
   // selectedTab priority: ui-state > optional default > 0
   let selectedTab = state.ui[uniqIdentifier]
-  if (selectedTab === undefined) selectedTab = ownProps.startIndex;
-  if (selectedTab === undefined) selectedTab = 0;
+  if (selectedTab === undefined) selectedTab = ownProps.startIndex
+  if (selectedTab === undefined) selectedTab = 0
 
   return {
     uniqIdentifier,
-    selectedTab
+    selectedTab,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -24,13 +24,15 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
 
-  handleSelect(e){
+  handleSelect(e) {
     if (stateProps.selectedTab != e) {
       dispatchProps.dispatch(setUi(stateProps.uniqIdentifier, e))
     }
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  ControlledTabView
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(ControlledTabView)

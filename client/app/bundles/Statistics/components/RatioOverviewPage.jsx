@@ -5,9 +5,12 @@ export default class RatioOverviewPage extends React.Component {
     // Load sections unless they were already loaded
     if (!this.props.sections || !this.props.sections.length)
       this.props.loadSections()
-    else if (this.props.sections.length && (this.props.data == undefined ||
-             this.props.data.offer == undefined || 
-             this.props.data.organization == undefined)) {
+    else if (
+      this.props.sections.length &&
+      (this.props.data == undefined ||
+        this.props.data.offer == undefined ||
+        this.props.data.organization == undefined)
+    ) {
       this.props.loadData(this.props.sections)
     }
   }
@@ -19,9 +22,7 @@ export default class RatioOverviewPage extends React.Component {
   }
 
   render() {
-    const {
-      familyRatio, refugeesRatio, totalRatio
-    } = this.props
+    const { familyRatio, refugeesRatio, totalRatio } = this.props
 
     return (
       <div className='jumbotron overview'>
@@ -47,15 +48,13 @@ export default class RatioOverviewPage extends React.Component {
             Erklärung:
             <br />
             (Anzahl von Angeboten die mindestens einer Orga im state all_done
-              zugeordnet sind [und in clarat Welt <i>x</i> sind]) geteilt durch
+            zugeordnet sind [und in clarat Welt <i>x</i> sind]) geteilt durch
             (Anzahl der Organisationen im state all_done [mit Angeboten in
-              clarat Welt <i>x</i>])
+            clarat Welt <i>x</i>])
           </small>
         </p>
         <p>
-          <small>
-            Kooperationsangebote werden somit nur einfach gezählt.
-          </small>
+          <small>Kooperationsangebote werden somit nur einfach gezählt.</small>
         </p>
       </div>
     )

@@ -10,9 +10,7 @@ export default class AreaFormObject extends GenericFormObject {
   }
 
   static get properties() {
-    return [
-      'name', 'minlat', 'maxlat', 'minlong', 'maxlong'
-    ]
+    return ['name', 'minlat', 'maxlat', 'minlong', 'maxlong']
   }
 
   static get formConfig() {
@@ -21,12 +19,12 @@ export default class AreaFormObject extends GenericFormObject {
       minlat: { type: 'number' },
       maxlat: { type: 'number' },
       minlong: { type: 'number' },
-      maxlong: { type: 'number' }
+      maxlong: { type: 'number' },
     }
   }
 
   static get requiredInputs() {
-    return ['name']
+    return ['name', 'minlat', 'maxlat', 'minlong', 'maxlong']
   }
 
   validation() {

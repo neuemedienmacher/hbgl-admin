@@ -8,10 +8,13 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     value,
-    displayName
+    displayName,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexHeaderFilterOption)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IndexHeaderFilterOption)

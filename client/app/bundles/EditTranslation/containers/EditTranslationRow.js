@@ -4,18 +4,17 @@ import EditTranslationRow from '../components/EditTranslationRow'
 const mapStateToProps = (state, ownProps) => {
   const { property, formId } = ownProps
 
-  const type = (property == 'name') ? 'string' : 'textarea'
+  const type = property == 'name' ? 'string' : 'textarea'
   const content = state.rform[formId] && state.rform[formId][property]
-  const length = ( content && content.length ) || 0
+  const length = (content && content.length) || 0
 
   return {
     type,
     length,
-    content
+    content,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTranslationRow)

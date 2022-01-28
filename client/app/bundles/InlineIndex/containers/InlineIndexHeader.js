@@ -8,15 +8,16 @@ import IndexHeader from '../../Index/components/IndexHeader'
 
 const mapStateToProps = (state, ownProps) => {
   const filters = toPairs(
-    pickBy(ownProps.params, (value, key) =>
-      key.substr(0, 7) == 'filters' &&
+    pickBy(
+      ownProps.params,
+      (value, key) =>
+        key.substr(0, 7) == 'filters' &&
         ownProps.lockedParams.hasOwnProperty(key) == false
     )
   )
   let ownParams = pickBy(ownProps.params, (value, key) => {
-      return ownProps.lockedParams.hasOwnProperty(key) == false
-    }
-  )
+    return ownProps.lockedParams.hasOwnProperty(key) == false
+  })
   const plusButtonDisabled = ownParams.hasOwnProperty('filters[id]')
   // re-use IndexHeader container but don't support routes
   const routes = []
@@ -28,12 +29,12 @@ const mapStateToProps = (state, ownProps) => {
     filters,
     plusButtonDisabled,
     routes,
-    uiKey
+    uiKey,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -51,9 +52,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     if (params['filters[id]']) return // ID filtered - other filters not needed
     merge(params, { 'filters[id]': '' })
     dispatchProps.dispatch(setUi(stateProps.uiKey, params))
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  IndexHeader
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(IndexHeader)

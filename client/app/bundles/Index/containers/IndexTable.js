@@ -7,18 +7,24 @@ import IndexTable from '../components/IndexTable'
 
 const mapStateToProps = (state, ownProps) => {
   const { model, identifier } = ownProps
-  if (!settings.index[model])
+
+  if (!settings.index[model]) {
     throw new Error(`Add settings for ${model}`)
+  }
 
   const fields = analyzeFields(settings.index[model].fields, model)
-  let ajaxResult = state.ajax[identifier]
-  const rows = ajaxResult ? compact(ajaxResult.data.map(datum =>
-    denormalizeStateEntity(state.entities, model, datum.id)
-  )) : []
+  const ajaxResult = state.ajax[identifier]
+  const rows = ajaxResult
+    ? compact(
+        ajaxResult.data.map((datum) =>
+          denormalizeStateEntity(state.entities, model, datum.id)
+        )
+      )
+    : []
 
   return {
     rows,
-    fields
+    fields,
   }
 }
 

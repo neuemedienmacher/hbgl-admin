@@ -10,9 +10,7 @@ export default class OfferTranslationFormObject extends FormObject {
   }
 
   static get properties() {
-    return [
-      'name', 'description', 'opening-specification'
-    ]
+    return ['name', 'description', 'opening-specification']
   }
 
   static get ajaxAdapter() {
@@ -20,7 +18,7 @@ export default class OfferTranslationFormObject extends FormObject {
   }
 
   validation() {
-    this.required('name').filled({'max_size?': 255})
+    this.required('name').filled({ 'max_size?': 255 })
     this.required('description').filled()
   }
 }

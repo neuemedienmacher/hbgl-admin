@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import OverviewPanel from '../components/OverviewPanel'
 import CollapsiblePanel from '../../CollapsiblePanel/containers/CollapsiblePanel'
 
@@ -8,12 +8,13 @@ export default class Dashboard extends React.Component {
 
     return (
       <div className='Dashboard'>
-        <h1 className="page-title">Dashboard</h1>
+        <h1 className='page-title'>Dashboard</h1>
         <CollapsiblePanel
-          title={`Willkommen, ${user.name}`} identifier='dashboard'
+          title={`Willkommen, ${user.name}`}
+          identifier='dashboard'
           visible={true}
         >
-          <OverviewPanel params={this.props.location.query}/>
+          <OverviewPanel params={this.props.location.query} />
         </CollapsiblePanel>
       </div>
     )

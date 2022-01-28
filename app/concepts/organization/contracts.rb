@@ -11,10 +11,12 @@ module Organization::Contracts
     property :contact_people
     property :pending_reason
     property :topics
+    property :description
 
     validates :name, length: { maximum: 100 }, presence: true
     validates_uniqueness_of :name
     validates :website, presence: true
+    validates :locations, presence: true
 
     # TODO: ausschliesslich own erlauben in Auswahl und nested create
     # validate :validate_websites_hosts
@@ -30,7 +32,6 @@ module Organization::Contracts
 
   class Update < Create
     property :id, writeable: false
-    property :description
     property :legal_form
     property :charitable
     property :umbrella_filters
@@ -42,7 +43,6 @@ module Organization::Contracts
   # validates :mailings, presence: true
 
   class Approve < Update # before: ChangeState
-    validates :description, presence: true
     # validates :legal_form, presence: true
 
     validate :one_hq_location?

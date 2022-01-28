@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
   // pluralize
   resource = pluralize(resource)
   const filterString =
-    params && Object.keys(params).length && JSON.stringify(params) || ''
+    (params && Object.keys(params).length && JSON.stringify(params)) || ''
   const resourceKey = resource + filterString
 
   const formState = state.rform[ownProps.formId]
@@ -60,18 +60,22 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { alreadyLoadedInputs, resource, resourceKey } = stateProps
   const { params, inverseRelationship, model } = ownProps
 
+
   return {
     ...ownProps,
     ...stateProps,
 
     onChange(selected) {
-      let newValue
-      if (selected) newValue =
-        isArray(selected) ? selected.map(e => e.value) : selected.value
-
+      if (!selected) return
+      const newValue = isArray(selected)
+        ? selected.map((e) => e.value)
+        : selected.value
       dispatch(
         updateAction(
-          ownProps.formId, ownProps.attribute, ownProps.submodelPath, newValue
+          ownProps.formId,
+          ownProps.attribute,
+          ownProps.submodelPath,
+          newValue
         )
       )
 
@@ -79,9 +83,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onMount() {
-      dispatch(loadForFilteringSelect(
-        '', resource, resourceKey, model, inverseRelationship, params
-      ))
+      dispatch(
+        loadForFilteringSelect(
+          '',
+          resource,
+          resourceKey,
+          model,
+          inverseRelationship,
+          params
+        )
+      )
     },
 
     onUnmount() {
@@ -92,24 +103,40 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     onFirstValue(value) {
-      let filter_ids = value.split(',').filter(
-        value => alreadyLoadedInputs.includes(value) == false
-      ).join(',')
-      dispatch(loadForFilteringSelect(
-        '', resource, resourceKey, model, inverseRelationship, params, filter_ids
-      ))
+      let filter_ids = value
+        .split(',')
+        .filter((value) => alreadyLoadedInputs.includes(value) == false)
+        .join(',')
+      dispatch(
+        loadForFilteringSelect(
+          '',
+          resource,
+          resourceKey,
+          model,
+          inverseRelationship,
+          params,
+          filter_ids
+        )
+      )
     },
 
     onInputChange(input) {
       if (alreadyLoadedInputs.includes(input)) return
 
       if (lastInputChangeTimer) clearTimeout(lastInputChangeTimer)
-      lastInputChangeTimer = setTimeout(function() {
+      lastInputChangeTimer = setTimeout(function () {
         lastInputChangeTimer = null
 
-        dispatch(loadForFilteringSelect(
-          input, resource, resourceKey, model, inverseRelationship, params
-        ))
+        dispatch(
+          loadForFilteringSelect(
+            input,
+            resource,
+            resourceKey,
+            model,
+            inverseRelationship,
+            params
+          )
+        )
       }, 400)
     },
   }
@@ -120,5 +147,5 @@ let lastInputChangeTimer = null
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(FilteringSelect)

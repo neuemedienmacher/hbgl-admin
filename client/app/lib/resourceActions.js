@@ -7,25 +7,25 @@ export function actionsFromSettings(model, id, entity) {
   const modelSettings = settings.index[model]
   if (!modelSettings) return []
 
-  return modelSettings.member_actions.filter(
-    action => visibleFor(action, model, id, entity)
-  ).map(action => ({
-    name: action,
-    icon: iconFor(action),
-    href: routeForAction(action, model, id, entity),
-    target: targetFor(action),
-    text: textFor(action),
-  }))
+  return modelSettings.member_actions
+    .filter((action) => visibleFor(action, model, id, entity))
+    .map((action) => ({
+      name: action,
+      icon: iconFor(action),
+      href: routeForAction(action, model, id, entity),
+      target: targetFor(action),
+      text: textFor(action),
+    }))
 }
 
 function routeForAction(action, model, id, entity) {
-  switch(action) {
+  switch (action) {
     case 'old-backend-edit':
       return `/admin/${snakeCase(singularize(model))}/${id}/edit`
     case 'edit':
       return `/${model}/${id}/edit`
     case 'preview':
-      return entity && entity.links && entity.links.preview || ''
+      return (entity && entity.links && entity.links.preview) || ''
     case 'show':
       return `/${model}/${id}`
     case 'delete':
@@ -47,7 +47,7 @@ function routeForAction(action, model, id, entity) {
 }
 
 function visibleFor(action, model, id, entity) {
-  switch(action) {
+  switch (action) {
     case 'edit-assignable':
     case 'show-assignable':
     case 'open_url':
@@ -60,7 +60,7 @@ function visibleFor(action, model, id, entity) {
 }
 
 function iconFor(action) {
-  switch(action) {
+  switch (action) {
     case 'old-backend-edit':
     case 'edit':
       return 'fa fa-pencil-square'
@@ -84,7 +84,7 @@ function iconFor(action) {
 }
 
 function targetFor(action) {
-  switch(action) {
+  switch (action) {
     case 'old-backend-edit':
     case 'preview':
     case 'open_url':
@@ -95,7 +95,7 @@ function targetFor(action) {
 }
 
 function textFor(action) {
-  switch(action) {
+  switch (action) {
     case 'edit':
       return 'Bearbeiten'
     case 'show':

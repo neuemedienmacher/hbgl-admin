@@ -7,4 +7,11 @@ module City::Contracts
     validates :name, presence: true
     validates_uniqueness_of :name
   end
+
+  class Update < Create
+    property :name
+
+    validates :name, presence: true
+    validates_uniqueness_of :name
+  end
 end

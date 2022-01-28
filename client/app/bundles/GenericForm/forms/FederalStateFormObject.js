@@ -10,14 +10,12 @@ export default class FederalStateFormObject extends GenericFormObject {
   }
 
   static get properties() {
-    return [
-      'name'
-    ]
+    return ['name']
   }
 
   static get formConfig() {
     return {
-      name: { type: 'string' }
+      name: { type: 'string' },
     }
   }
 

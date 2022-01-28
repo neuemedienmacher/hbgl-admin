@@ -21,10 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     if (response.data && response.data.id) {
       browserHistory.push(`/assignments/${response.data.id}`)
     }
-  }
+  },
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewOrganizationForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewOrganizationForm)

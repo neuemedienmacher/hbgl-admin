@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { Link } from 'react-router'
 
 export default class Navigation extends React.Component {
@@ -10,16 +10,21 @@ export default class Navigation extends React.Component {
   render() {
     return (
       <div className='list-group'>
-        <Link to='/statistics' className='list-group-item'> Übersicht </Link>
+        <Link to='/statistics' className='list-group-item'>
+          {' '}
+          Übersicht{' '}
+        </Link>
         <Link to='/statistics/offer-overview' className='list-group-item '>
           Angebotsübersicht
         </Link>
-        <Link to='/statistics/organization-overview'
+        <Link
+          to='/statistics/organization-overview'
           className='list-group-item'
         >
           Orga-Übersicht (HQ)
         </Link>
-        <Link to='/statistics/orga-offer-cities-overview'
+        <Link
+          to='/statistics/orga-offer-cities-overview'
           className='list-group-item'
         >
           Orga-Übersicht (Angebotsstädte)

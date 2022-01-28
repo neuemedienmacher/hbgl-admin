@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import OfferTranslationFormObject from '../forms/OfferTranslationFormObject'
-import OrganizationTranslationFormObject from
-  '../forms/OrganizationTranslationFormObject'
+import OrganizationTranslationFormObject from '../forms/OrganizationTranslationFormObject'
 import EditTranslationForm from '../components/EditTranslationForm'
 import generateFormId from '../../GenericForm/lib/generateFormId'
 import addFlashMessage from '../../../Backend/actions/addFlashMessage'
@@ -15,18 +14,21 @@ const mapStateToProps = (state, ownProps) => {
   const formId = generateFormId(model, '', 'translation', id)
   const action = `/api/v1/${model}-translations/${id}`
   const seedData = {
-    fields: translation
+    fields: translation,
   }
   const formObjectClass =
-    (model == 'offer') ? OfferTranslationFormObject
-                       : OrganizationTranslationFormObject
+    model == 'offer'
+      ? OfferTranslationFormObject
+      : OrganizationTranslationFormObject
   const properties = formObjectClass.properties
-  const editLink =
-    ownProps.source ? `/${pluralize(model)}/${ownProps.source.id}/edit` : '/'
+  const editLink = ownProps.source
+    ? `/${pluralize(model)}/${ownProps.source.id}/edit`
+    : '/'
   const previewLink =
     ownProps.source && ownProps.source.links && ownProps.source.links.preview
-  const stamp = ownProps.translation['offer-stamp'] ?
-                ownProps.translation['offer-stamp'].join(', ') : 'nicht angegeben'
+  const stamp = ownProps.translation['offer-stamp']
+    ? ownProps.translation['offer-stamp'].join(', ')
+    : 'nicht angegeben'
   const buttonData = BUTTON_DATA
 
   return {
@@ -38,7 +40,7 @@ const mapStateToProps = (state, ownProps) => {
     editLink,
     previewLink,
     stamp,
-    buttonData
+    buttonData,
   }
 }
 
@@ -52,7 +54,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     } else if (errors && errors.length) {
       dispatch(addFlashMessage('error', 'Fehler beim speichern'))
     }
-  }
+  },
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -61,16 +63,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
 })
 
-const BUTTON_DATA = [{
-// start with default save button (might be extended)
-  className: 'btn btn-primary',
-  buttonLabel: 'Speichern',
-  actionName: ''
-},{
-  className: 'btn btn-primary',
-  buttonLabel: 'Speichern und Zuweisung schließen',
-  actionName: 'closeAssignment'
-}]
+const BUTTON_DATA = [
+  {
+    // start with default save button (might be extended)
+    className: 'btn btn-primary',
+    buttonLabel: 'Speichern',
+    actionName: '',
+  },
+  {
+    className: 'btn btn-primary',
+    buttonLabel: 'Speichern und Zuweisung schließen',
+    actionName: 'closeAssignment',
+  },
+]
 
 export default connect(
   mapStateToProps,

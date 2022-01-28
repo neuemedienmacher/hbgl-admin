@@ -1,18 +1,16 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 
-export default class ShowFieldItem extends React.Component {
+export default class ShowFieldItem extends Component {
   render() {
-    const {
-      name, content, contentType
-    } = this.props
+    const { name, content, contentType } = this.props
 
     return (
-      <div key={name} className="panel panel-default">
-        <div key={`${name}-heading`} className="panel-heading show--panel">
-          <h3 className="panel-title">{name}</h3>
+      <div key={name} className='panel panel-default'>
+        <div key={`${name}-heading`} className='panel-heading show--panel'>
+          <h3 className='panel-title'>{name}</h3>
         </div>
-        <div key={name} className="panel-body show--panel">
+        <div key={name} className='panel-body show--panel'>
           {this.renderContent(content, contentType)}
         </div>
       </div>
@@ -20,7 +18,7 @@ export default class ShowFieldItem extends React.Component {
   }
 
   renderContent(content, contentType) {
-    switch(contentType) {
+    switch (contentType) {
       case 'boolean':
         if (content) {
           return <span className='fa fa-check' title='Ja' />

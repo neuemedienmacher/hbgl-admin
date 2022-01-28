@@ -1,32 +1,31 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { Table } from 'react-bootstrap'
 import TableHeadCell from '../containers/TableHeadCell'
 import TableRow from '../containers/TableRow'
 
 export default class IndexTable extends Component {
   render() {
-    const {
-      fields, rows, model, params
-    } = this.props
+    const { fields, rows, model, params } = this.props
 
     return (
-      <Table condensed striped>
+      <Table condensed={true} striped={true}>
         <thead>
           <tr>
-            {fields.map((field, index) => {
-              return(
-                <TableHeadCell
-                  params={params} model={model} key={index} field={field}
-                />
-              )
-            })}
+            {fields.map((field, index) => (
+              <TableHeadCell
+                params={params}
+                model={model}
+                key={index}
+                field={field}
+              />
+            ))}
             <th title='actions' />
           </tr>
         </thead>
         <tbody>
-          {rows.map(row =>
+          {rows.map((row) => (
             <TableRow key={row.id} row={row} fields={fields} model={model} />
-          )}
+          ))}
         </tbody>
       </Table>
     )

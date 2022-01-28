@@ -15,18 +15,18 @@ const mapStateToProps = (state, ownProps) => {
   filterParams(ownParams)
   return {
     model,
-    filterParams: ownParams
+    filterParams: ownParams,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // This response does not follow JSON API format, we need to transform it
   // manually
-  const transformResponse = function(apiResponse, nextModel) {
+  const transformResponse = function (apiResponse, nextModel) {
     let object = { 'field-sets': {} }
     object['field-sets'][nextModel] = apiResponse
     return object
@@ -41,36 +41,34 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       const singularModel = singularize(stateProps.model)
 
       dispatchProps.dispatch(
-        loadAjaxData(
-          'field_set/' + singularModel, {}, 'field-set',
-          {
-            transformer: transformResponse, nextModel: stateProps.model
-          }
-        )
+        loadAjaxData('field_set/' + singularModel, {}, 'field-set', {
+          transformer: transformResponse,
+          nextModel: stateProps.model,
+        })
       )
-    }
+    },
   }
 }
 
 // TODO: refactor/remove this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function filterParams(params) {
-  Object.keys(params).map(function(key) {
-    if (key.includes("first")) {
-      replaceKey(params, key, "[first]")
-    } else if(key.includes("second")) {
-      replaceKey(params, key, "[second]")
+  Object.keys(params).map(function (key) {
+    if (key.includes('first')) {
+      replaceKey(params, key, '[first]')
+    } else if (key.includes('second')) {
+      replaceKey(params, key, '[second]')
     }
     return params
   })
 }
 
 function replaceKey(params, filterKey, objectKey) {
-  let newKey =  filterKey.replace(objectKey, '')
+  let newKey = filterKey.replace(objectKey, '')
   let newObjectKey = objectKey.replace('[', '').replace(']', '')
-  if(params.hasOwnProperty(newKey)) {
+  if (params.hasOwnProperty(newKey)) {
     params[newKey][newObjectKey] = params[filterKey]
   } else {
-    params[newKey] = { [newObjectKey] : params[filterKey] }
+    params[newKey] = { [newObjectKey]: params[filterKey] }
   }
   delete params[filterKey]
 }

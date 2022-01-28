@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     isCurrentSortField,
     currentDirection,
     displayName,
-    href
+    href,
   }
 }
 
@@ -26,25 +26,33 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let params = ownProps.params
     let field = ownProps.field
     // reset params and re-fill them, if required
-    let tempParams = merge(clone(params), {sort_field: field.field, sort_model: null})
-    if(field.relation != 'own'){
-      tempParams = merge(tempParams, {sort_model: field.model})
+    let tempParams = merge(clone(params), {
+      sort_field: field.field,
+      sort_model: null,
+    })
+    if (field.relation != 'own') {
+      tempParams = merge(tempParams, { sort_model: field.model })
     }
     if (_isCurrentSortField(params, field)) {
-      tempParams.sort_direction = params.sort_direction == 'ASC' ? 'DESC' : 'ASC'
+      tempParams.sort_direction =
+        params.sort_direction == 'ASC' ? 'DESC' : 'ASC'
     }
     // finalParams by rejecting null values to keep the params clean
     let finalParams = {}
-    forEach(tempParams, function(value, key) {
-      if(value != null) { finalParams[key] = value }
-    });
+    forEach(tempParams, function (value, key) {
+      if (value != null) {
+        finalParams[key] = value
+      }
+    })
     dispatch(setUi(ownProps.uiKey, finalParams))
-  }
+  },
 })
 
 function _isCurrentSortField(params, field) {
-  return params.sort_field == field.field &&
+  return (
+    params.sort_field == field.field &&
     (field.relation == 'own' || params.sort_model == field.model)
+  )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InlineTableHeadCell)

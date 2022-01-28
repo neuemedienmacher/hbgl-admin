@@ -21,23 +21,27 @@ const mapStateToProps = (state, ownProps) => {
   let [_, model, id, view] = ownProps.location.pathname.split('/')
   view = view || 'show'
   const heading = headingFor(model, id, view)
-  const entity = state.entities[model] && state.entities[model][id] || {}
+  const entity = (state.entities[model] && state.entities[model][id]) || {}
 
   const viewingUserIDs =
-    state.cable.live.viewing[model] &&
-    state.cable.live.viewing[model][id] &&
-    state.cable.live.viewing[model][id][view] || []
+    (state.cable.live.viewing[model] &&
+      state.cable.live.viewing[model][id] &&
+      state.cable.live.viewing[model][id][view]) ||
+    []
 
-  const viewingUsers = uniq(viewingUserIDs).map(userID =>
-    denormalizeStateEntity(state.entities, 'users', userID)
-  ).map(user => {
-    user.color = intToHSL(user.id)
-    user.shorthand = user.name.split(' ').map(s => s[0]).join('')
-    user.tabcount = viewingUserIDs.filter(e => e == user.id).length
-    user.title = `${user.name} hat diese Seite geöffnet`
-    if (user.tabcount > 1) user.title += ` (in ${user.tabcount} Tabs)`
-    return user
-  })
+  const viewingUsers = uniq(viewingUserIDs)
+    .map((userID) => denormalizeStateEntity(state.entities, 'users', userID))
+    .map((user) => {
+      user.color = intToHSL(user.id)
+      user.shorthand = user.name
+        .split(' ')
+        .map((s) => s[0])
+        .join('')
+      user.tabcount = viewingUserIDs.filter((e) => e === user.id).length
+      user.title = `${user.name} hat diese Seite geöffnet`
+      if (user.tabcount > 1) user.title += ` (in ${user.tabcount} Tabs)`
+      return user
+    })
 
   return {
     model,
@@ -47,7 +51,7 @@ const mapStateToProps = (state, ownProps) => {
     heading,
     viewingUsers,
     sessionID: state.ui.sessionID,
-    ChildComponent: componentForView(view)
+    ChildComponent: componentForView(view),
   }
 }
 
@@ -59,56 +63,54 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const redirectOnDelete = (nextModel) => () => {
     browserHistory.replace(`/${nextModel}`)
-    dispatch(
-      addFlashMessage('failure', 'Das Objekt gibt es nicht (mehr)!')
-    )
+    dispatch(addFlashMessage('failure', 'Das Objekt gibt es nicht (mehr)!'))
   }
 
   return {
-    ...stateProps, ...dispatchProps, ...ownProps,
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
     redirectOnDelete,
 
     loadData(nextModel = model, nextID = id, nextView = view) {
       // load data of current model_instance
       dispatch(
-        loadAjaxData(
-          `${nextModel}/${nextID}`, '', nextModel, {
-            onSuccess: () => {
-              dispatch(setUiLoaded(true, 'GenericForm', nextModel, nextID)) //!
-            },
-            onError: redirectOnDelete(nextModel)
-          }
-        )
+        loadAjaxData(`${nextModel}/${nextID}`, '', nextModel, {
+          onSuccess: () => {
+            dispatch(setUiLoaded(true, 'GenericForm', nextModel, nextID)) //!
+          },
+          onError: redirectOnDelete(nextModel),
+        })
       )
 
       const singularModel = singularize(nextModel)
 
       // load field_set (all fields and associations of current model)
       dispatch(
-        loadAjaxData(
-          'field_set/' + singularModel, {}, 'field-set', {
-            nextModel, transformer: (apiResponse, nextModel) => {
-              let object = { 'field-sets': {} }
-              object['field-sets'][nextModel] = apiResponse
-              return object
-            }
-          }
-        )
+        loadAjaxData('field_set/' + singularModel, {}, 'field-set', {
+          nextModel,
+          transformer: (apiResponse, nextModel) => {
+            let object = { 'field-sets': {} }
+            object['field-sets'][nextModel] = apiResponse
+            return object
+          },
+        })
       )
 
       // load possible events for current model
       dispatch(
         loadAjaxData(
-          `possible_events/${singularModel}/${nextID}`, {}, 'possible-events',
+          `possible_events/${singularModel}/${nextID}`,
+          {},
+          'possible-events',
           {
             nextModel,
             transformer: (apiResponse, nextModel) => {
               let object = { 'possible-events': {} }
               object['possible-events'][nextModel] = {}
-              object['possible-events'][nextModel][apiResponse.id] =
-                apiResponse
+              object['possible-events'][nextModel][apiResponse.id] = apiResponse
               return object
-            }
+            },
           }
         )
       )
@@ -117,33 +119,39 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     // Subscribe to information about other people who are viewing
     // and potentially modifying the currently shown object
     setupViewingSubscription() {
-      dispatch(setupSubscription(
-        { channel: 'ViewingChannel', model, id, view, sessionID },
-        {
-          received(data) {
-            dispatch(changeViewing(data.model, data.id, data.views))
+      dispatch(
+        setupSubscription(
+          { channel: 'ViewingChannel', model, id, view, sessionID },
+          {
+            received(data) {
+              dispatch(changeViewing(data.model, data.id, data.views))
+            },
           }
-        }
-      ))
+        )
+      )
     },
 
     // When the user changes between views, inform other subscribers
     changeView(nextProps) {
-      dispatch(channelPerform('ViewingChannel', 'change_view', {
-        model: nextProps.model, id: nextProps.id, view: nextProps.view,
-        sessionID
-      }))
+      dispatch(
+        channelPerform('ViewingChannel', 'change_view', {
+          model: nextProps.model,
+          id: nextProps.id,
+          view: nextProps.view,
+          sessionID,
+        })
+      )
     },
 
     // Unsubscribe when leaving the member context
     removeViewingSubscription() {
       dispatch(removeSubscription('ViewingChannel'))
-    }
+    },
   }
 }
 
 function componentForView(view) {
-  switch(view) {
+  switch (view) {
     case 'show':
       return ShowItems
     case 'delete':
@@ -159,22 +167,21 @@ function componentForView(view) {
   }
 }
 
-
 function headingFor(model, id, view) {
   let singularModelName = singularize(model)
-  switch(view) {
-  case 'edit':
-    return `${singularModelName}#${id} bearbeiten`
-  case 'delete':
-    return  `${singularModelName}#${id} löschen`
-  case 'duplicate':
-    return  `${singularModelName}#${id} duplizieren`
-  case 'new':
-    return  `Neue ${singularModelName} anlegen`
-  case 'mailing':
-    return  `Neue ${singularModelName} anlegen`
-  default:
-    return `ToS-Mail für ${singularModelName}#${id} verschicken`
+  switch (view) {
+    case 'edit':
+      return `${singularModelName}#${id} bearbeiten`
+    case 'delete':
+      return `${singularModelName}#${id} löschen`
+    case 'duplicate':
+      return `${singularModelName}#${id} duplizieren`
+    case 'new':
+      return `Neue ${singularModelName} anlegen`
+    case 'mailing':
+      return `Neue ${singularModelName} anlegen`
+    default:
+      return `ToS-Mail für ${singularModelName}#${id} verschicken`
   }
 }
 
@@ -200,6 +207,8 @@ function intToHSL(int) {
 //   return `rgb(${red},${green},${blue})`
 // }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  MemberAction
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(MemberAction)

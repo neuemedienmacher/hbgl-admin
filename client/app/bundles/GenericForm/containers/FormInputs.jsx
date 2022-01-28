@@ -9,24 +9,30 @@ const mapStateToProps = (state, ownProps) => {
   const { submodelConfig, properties } = formObjectClass
   const config = formObjectClass.formConfig
 
-  const inputs = properties.map(property => ({
+  const inputs = properties.map((property) => ({
     label:
       property + (formObjectClass.requiredInputs.includes(property) ? '*' : ''),
     attribute: property,
     config: config[property],
     type: config[property].type,
-    options: config[property].options &&
-      config[property].options.map(option => ({value: option, name: option})),
+    options:
+      config[property].options &&
+      config[property].options.map((option) => ({
+        value: option,
+        name: option,
+      })),
     resource: config[property].resource,
     params: config[property].params,
     addons: config[property].addons || [],
     inverseRelationship:
-      submodelConfig[property] && submodelConfig[property].inverseRelationship
+      submodelConfig[property] && submodelConfig[property].inverseRelationship,
   }))
   const blockedInputs = collectBlockedInputs(inputs, nestingModel)
   let editableState =
-    state.settings.editable_states[model] && state.entities[model] &&
-    state.entities[model][id] && state.entities[model][id]['aasm-state'] &&
+    state.settings.editable_states[model] &&
+    state.entities[model] &&
+    state.entities[model][id] &&
+    state.entities[model][id]['aasm-state'] &&
     state.settings.editable_states[model].includes(
       state.entities[model][id]['aasm-state']
     )
@@ -36,12 +42,12 @@ const mapStateToProps = (state, ownProps) => {
   return {
     inputs,
     blockedInputs,
-    nonEditableState
+    nonEditableState,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -64,11 +70,13 @@ function collectBlockedInputs(inputs, nestingModel) {
   if (nestingModel) {
     const singularModel = singularize(nestingModel)
     potentiallyBlockedInputs.push(
-      singularModel, `${singularModel}-id`, `${singularModel}-ids`
+      singularModel,
+      `${singularModel}-id`,
+      `${singularModel}-ids`
     )
   }
 
-  const attributes = inputs.map( input => input.attribute )
+  const attributes = inputs.map((input) => input.attribute)
   return intersection(attributes, potentiallyBlockedInputs)
 }
 

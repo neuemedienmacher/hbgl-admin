@@ -5,13 +5,21 @@ import isPlainObject from 'lodash/isPlainObject'
 // import isArray from 'lodash/isArray'
 
 export function analyzeFields(rawFields, model) {
-  return flatten(rawFields.map(rawField => {
-    if (typeof rawField == 'string') {
-      return { name: rawField, relation: 'own', model: model, field: rawField }
-    } else { // is object
-      return _analyzeAssociationField(rawField)
-    }
-  }))
+  return flatten(
+    rawFields.map((rawField) => {
+      if (typeof rawField == 'string') {
+        return {
+          name: rawField,
+          relation: 'own',
+          model: model,
+          field: rawField,
+        }
+      } else {
+        // is object
+        return _analyzeAssociationField(rawField)
+      }
+    })
+  )
 }
 
 function _analyzeAssociationField(associationObject, heritage = []) {
@@ -23,13 +31,14 @@ function _analyzeAssociationField(associationObject, heritage = []) {
       associations.push(
         _analyzeAssociationField(associatedFields, nestedHeritage)
       )
-    } else { // is array
+    } else {
+      // is array
       for (let associatedField of associatedFields) {
         associations.push({
-            name: `${nestedHeritage.join(' ')} ${associatedField}`,
+          name: `${nestedHeritage.join(' ')} ${associatedField}`,
           relation: 'association',
           model: nestedHeritage.join('.'),
-          field: associatedField
+          field: associatedField,
         })
       }
     }

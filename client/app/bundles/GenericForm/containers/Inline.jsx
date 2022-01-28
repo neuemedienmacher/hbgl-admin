@@ -7,11 +7,10 @@ const mapStateToProps = (state, ownProps) => {
   const formId = `GenericForm-Inline-${model}-${id || 'new'}`
 
   return {
-    formId
+    formId,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inline)

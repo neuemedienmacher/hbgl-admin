@@ -6,10 +6,10 @@ export default class ReadOnlyProperties extends React.Component {
 
     if (!propertyData.length) return null
 
-    return(
+    return (
       <div className='ReadOnlyProperties'>
-        {propertyData.map(datum => {
-          return(
+        {propertyData.map((datum) => {
+          return (
             <p key={datum.property}>
               {datum.property}: {datum.value}
             </p>

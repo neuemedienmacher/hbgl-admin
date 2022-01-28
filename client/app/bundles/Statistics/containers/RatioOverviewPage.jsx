@@ -8,18 +8,22 @@ const mapStateToProps = (state, ownProps) => {
   const data = state.entities.count
   const sections = values(state.entities.sections)
 
-  const allDataLoaded = (
-    data && data.offer != undefined && data.offer.ratio != undefined &&
-      data.offer.ratio.family != undefined &&
-      data.offer.ratio.refugees != undefined &&
-      data.organization != undefined && data.organization.ratio != undefined &&
-      data.organization.ratio.family != undefined &&
-      data.organization.ratio.refugees != undefined
-  )
+  const allDataLoaded =
+    data &&
+    data.offer != undefined &&
+    data.offer.ratio != undefined &&
+    data.offer.ratio.family != undefined &&
+    data.offer.ratio.refugees != undefined &&
+    data.organization != undefined &&
+    data.organization.ratio != undefined &&
+    data.organization.ratio.family != undefined &&
+    data.organization.ratio.refugees != undefined
 
   const calculateRatio = (section) => {
-    return data.offer.ratio[section] == 0 || data.organization.ratio[section] == 0 ? 0.0 :
-      round(data.offer.ratio[section] / data.organization.ratio[section], 2)
+    return data.offer.ratio[section] == 0 ||
+      data.organization.ratio[section] == 0
+      ? 0.0
+      : round(data.offer.ratio[section] / data.organization.ratio[section], 2)
   }
 
   let familyRatio = 'Lade…'
@@ -41,48 +45,47 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
+  dispatch,
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
 
-  const entryCountGrabberTransformer = function(model, section) {
-    return function(json) {
+  const entryCountGrabberTransformer = function (model, section) {
+    return function (json) {
       let obj = {}
       obj[model] = {}
       obj[model].ratio = {}
-      obj[model].ratio[section.identifier || section] =
-        json.meta.total_entries
+      obj[model].ratio[section.identifier || section] = json.meta.total_entries
       return { count: obj }
     }
   }
 
-  const entryCountGrabberParams = function(model, section) {
+  const entryCountGrabberParams = function (model, section) {
     let params = { per_page: 1 }
     params['filters[organizations.aasm-state]'] = 'all_done'
 
     if (typeof section == 'object') {
-      let sectionName =
-        model == 'offer' ? 'section-id' : 'sections.id'
+      let sectionName = model == 'offer' ? 'section-id' : 'sections.id'
       params[`filters[${sectionName}]`] = section.id
     }
 
     return params
   }
 
-  const dispatchDataLoad = function(section) {
+  const dispatchDataLoad = function (section) {
     for (let model of ['offer', 'organization'])
-    dispatch(
-      loadAjaxData(
-        `${model}s`, entryCountGrabberParams(model, section),
-        'lastData',
-        { transformer: entryCountGrabberTransformer(model, section) }
+      dispatch(
+        loadAjaxData(
+          `${model}s`,
+          entryCountGrabberParams(model, section),
+          'lastData',
+          { transformer: entryCountGrabberTransformer(model, section) }
+        )
       )
-    )
   }
 
-  return({
+  return {
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
@@ -96,10 +99,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         dispatchDataLoad(section)
       }
       dispatchDataLoad('total')
-    }
-  })
+    },
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  RatioOverviewPage
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(RatioOverviewPage)

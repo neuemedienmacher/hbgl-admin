@@ -10,9 +10,7 @@ export default class OrganizationTranslationFormObject extends FormObject {
   }
 
   static get properties() {
-    return [
-      'description'
-    ]
+    return ['description']
   }
 
   static get ajaxAdapter() {
