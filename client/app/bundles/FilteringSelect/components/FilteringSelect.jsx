@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { Label, Input, Errors } from 'rform'
 import Select, {
@@ -16,8 +17,6 @@ import {
   SortEndHandler,
   SortableHandle,
 } from 'react-sortable-hoc'
-
-import ActionList from '../../ActionList/containers/ActionList'
 
 function arrayMove(array, from, to) {
   const slicedArray = array.slice();
@@ -54,6 +53,7 @@ export default class FilteringSelect extends React.Component {
   constructor(props){
     super(props);
 
+    this._renderSelect = this._renderSelect.bind(this)
   };
   componentDidMount() {
     this.props.onMount()
@@ -81,7 +81,6 @@ export default class FilteringSelect extends React.Component {
       errorClassName,
       errors,
       label,
-      loadOptions,
       onChange,
       value,
       multi,
@@ -107,7 +106,7 @@ export default class FilteringSelect extends React.Component {
         />
 
         {showSelect &&
-          this._renderSelect(
+          this._renderSelect({
             multi,
             options,
             isLoading,
@@ -118,7 +117,7 @@ export default class FilteringSelect extends React.Component {
             disabled,
             attribute,
             classNameWithChanged
-          )}
+          })}
 
         {children}
 
@@ -131,7 +130,7 @@ export default class FilteringSelect extends React.Component {
     )
   }
 
-  _renderSelect(
+  _renderSelect({
     multi,
     options,
     isLoading,
@@ -142,13 +141,12 @@ export default class FilteringSelect extends React.Component {
     disabled,
     attribute,
     classNameWithChanged
-  ) {
+  }) {
 
     const existingIds = typeof value === 'string' ? value.split(',') : value
     const existingValues = Array.isArray(existingIds)
       ? existingIds.map((id) => options.find(({ value }) => value === id))
       : options.filter(({ value }) => value === existingIds)
-
 
     return (
       <SortableSelect
@@ -160,8 +158,8 @@ export default class FilteringSelect extends React.Component {
         // small fix for https://github.com/clauderic/react-sortable-hoc/pull/352:
         getHelperDimensions={({ node }) => node.getBoundingClientRect()}
         // react-select props:
-        isMulti
-        options={options}
+        isMulti={multi}
+        options={this.props.options}
         value={existingValues}
         onChange={onChange}
         components={{
@@ -170,26 +168,17 @@ export default class FilteringSelect extends React.Component {
         }}
         closeMenuOnSelect
         isClearable
+        cacheOptions
+        onInputChange={onInputChange}
       />
     );
   }
+}
 
-  renderValue(attribute) {
-    return (valueObject) => {
-      let entity
-      if (['website', 'websites'].includes(attribute))
-        entity = { url: valueObject.label } // label contains the url
+FilteringSelect.propTypes = {
+  multi: PropTypes.bool,
+}
 
-      return (
-        <span>
-          {valueObject.label}
-          <ActionList
-            model={attribute}
-            id={valueObject.value}
-            entity={entity}
-          />
-        </span>
-      )
-    }
-  }
+FilteringSelect.defaultProps = {
+  multi: false
 }
