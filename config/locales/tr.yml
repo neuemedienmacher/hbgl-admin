@@ -129,17 +129,17 @@ tr:
           neutral: sahipsiz, reşit olmayan mülteciler için
         immigrants_general:
           neutral:
-            adults: für zugewanderte Erwachsene
-            neutral: für Zugewanderte
+            adults: for adults immigrants
+            neutral: for immigrants
           female:
-              default: für zugewanderte Frauen
-              special: für zugewanderte Mädchen und Frauen
+            default: for immigrant women
+            special: for immigrant girls and women
           male:
-              default: für zugewanderte Männer
-              special: für zugewanderte Jungen und Männer
+            default: for immigrant men
+            special: for immigrant boys and men
         immigrants_children:
-          default: für zugewanderte Kinder und Jugendliche
-          adolescents: für zugewanderte Jugendliche
-          and_adolescents: für zugewanderte Kinder und Jugendliche
-          female: für zugewanderte Mädchen
-          male: für zugewanderte Jungen
+          adolescents: for immigrant teenager
+          and_adolescents: for immigrant children and teenager
+          default: for immigrant children
+          female: for immigrant girls
+          male: for immigrant boys

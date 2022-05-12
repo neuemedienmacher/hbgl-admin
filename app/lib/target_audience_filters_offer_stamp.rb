@@ -19,7 +19,7 @@ class TargetAudienceFiltersOfferStamp
 
     if %w[family_children family_parents family_nuclear_family refugees_general
           family_parents_to_be refugees_children refugees_parents_to_be
-          refugees_uf refugees_parents refugees_families ].include?(ta)
+          refugees_uf refugees_parents refugees_families immigrants_general immigrants_children].include?(ta)
       locale_entry += send("stamp_#{ta}", filters_offer)
     end
     # build separate parts of stamp and join them with locale-specific format
@@ -184,10 +184,10 @@ class TargetAudienceFiltersOfferStamp
        f_o.gender_first_part_of_stamp == 'female'
       locale_entry += f_o.age_from >= 18 ? '.default' : '.special'
     end
-    locale_entry + stamp_refugees_general_adult_special(f_o)
+    locale_entry + stamp_general_adult_special(f_o)
   end
 
-  def self.stamp_refugees_general_adult_special f_o
+  def self.stamp_general_adult_special f_o
     if f_o.gender_first_part_of_stamp.blank? ||
        f_o.gender_first_part_of_stamp == 'neutral'
       if f_o.age_to >= 18 && f_o.age_from >= 18
@@ -206,6 +206,32 @@ class TargetAudienceFiltersOfferStamp
       " #{I18n.t(locale_entry, locale: locale)}"
     else
       ''
+    end
+  end
+
+  def self.stamp_immigrants_general f_o
+    locale_entry =
+      if f_o.gender_first_part_of_stamp.nil?
+        '.neutral'
+      else
+        '.' + f_o.gender_first_part_of_stamp
+      end
+    if f_o.gender_first_part_of_stamp == 'male' ||
+       f_o.gender_first_part_of_stamp == 'female'
+      locale_entry += f_o.age_from >= 18 ? '.default' : '.special'
+    end
+    locale_entry + stamp_general_adult_special(f_o)
+  end
+
+  def self.stamp_immigrants_children f_o
+    if !f_o.gender_first_part_of_stamp.nil?
+      ".#{f_o.gender_first_part_of_stamp}"
+    elsif f_o.age_from >= 14 && f_o.age_to >= 14
+      '.adolescents'
+    elsif f_o.age_from < 14 && f_o.age_to >= 14
+      '.and_adolescents'
+    else
+      '.default'
     end
   end
 

@@ -142,10 +142,9 @@ de:
             default: für zugewanderte Männer
             special: für zugewanderte Jungen und Männer
         immigrants_children:
-          neutral: für zugewanderte Kinder und Jugendliche
           adolescents: für zugewanderte Jugendliche
-          children_and_adolescents: für zugewanderte Kinder und Jugendliche
-          children: für zugewanderte Kinder
+          and_adolescents: für zugewanderte Kinder und Jugendliche
+          default: für zugewanderte Kinder
           female: für zugewanderte Mädchen
           male: für zugewanderte Jungen
 
