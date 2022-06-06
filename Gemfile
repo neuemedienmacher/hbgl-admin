@@ -12,7 +12,7 @@ gem 'nokogiri', '1.6.7.2' # 1.6.8 doesnt install on some pcs. Remove when fixed
 gem 'rails', '5.1.6.1'
 gem 'bundler', '>= 1.8.4'
 
-gem 'clarat_base', :git => 'https://github.com/neuemedienmacher/hbg-base.git', :ref => '55e9aa0ecb558592d72bd23575f4d7f4e2d2fe33'
+gem 'clarat_base', :git => 'https://github.com/neuemedienmacher/hbg-base.git', :ref => 'dc674617bfc4fbe7641faf245805c8b6e77d3786'
 #gem 'clarat_base', path: "../hbg-base"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
