@@ -16,8 +16,8 @@ GIT
 
 GIT
   remote: https://github.com/neuemedienmacher/hbg-base.git
-  revision: 55e9aa0ecb558592d72bd23575f4d7f4e2d2fe33
-  ref: 55e9aa0ecb558592d72bd23575f4d7f4e2d2fe33
+  revision: dc674617bfc4fbe7641faf245805c8b6e77d3786
+  ref: dc674617bfc4fbe7641faf245805c8b6e77d3786
   specs:
     clarat_base (0.1.4)
       aasm
@@ -1541,7 +1541,7 @@ GEM
     foreman (0.87.2)
     friendly_id (5.2.1)
       activerecord (>= 4.0.0)
-    geocoder (1.7.5)
+    geocoder (1.8.0)
     gli (2.21.0)
     globalid (1.0.0)
       activesupport (>= 5.0)

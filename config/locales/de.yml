@@ -147,4 +147,21 @@ de:
           default: für zugewanderte Kinder
           female: für zugewanderte Mädchen
           male: für zugewanderte Jungen
+        immigrants_families:
+          default: für zugewanderte Familien
+          female:
+            female: für zugewanderte Mütter und ihre Töchter
+            male: für zugewanderte Mütter und ihre Söhne
+            neutral: für zugewanderte Mütter und ihre Kinder
+            with_baby: für zugewanderte Mütter und ihre Babys
+          male:
+            female: für zugewanderte Väter und ihre Töchter
+            male: für zugewanderte Väter und ihre Söhne
+            neutral: für zugewanderte Väter und ihre Kinder
+            with_baby: für zugewanderte Väter und ihre Babys
+          neutral:
+            female: für zugewanderte Familien und ihre Töchter
+            male: für zugewanderte Familien und ihre Söhne
+            neutral: für zugewanderte Familien und ihre Kinder
+            with_baby: für zugewanderte Familien und ihre Babys
 

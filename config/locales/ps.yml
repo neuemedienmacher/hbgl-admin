@@ -129,17 +129,17 @@ ps:
           neutral:
         immigrants_general:
           neutral:
-            adults: for adults immigrants
-            neutral: for immigrants
+            adults:
+            neutral:s
           female:
-            default: for immigrant women
-            special: for immigrant girls and women
+            default:
+            special:
           male:
-            default: for immigrant men
-            special: for immigrant boys and men
+            default:
+            special:
         immigrants_children:
-          adolescents: for immigrant teenager
-          and_adolescents: for immigrant children and teenager
-          default: for immigrant children
-          female: for immigrant girls
-          male: for immigrant boys
+          adolescents:
+          and_adolescents:
+          default:
+          female:
+          male:
