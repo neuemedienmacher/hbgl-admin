@@ -155,3 +155,20 @@ ar:
           default: for immigrant children
           female: for immigrant girls
           male: for immigrant boys
+        immigrants_families:
+          default: for immigrant families
+          female:
+            female: for immigrant mothers and their daughters
+            male: for immigrant mothers and their sons
+            neutral: for immigrant mothers and their children
+            with_baby: for immigrant mothers and their babies
+          male:
+            female: for immigrant fathers and their daughters
+            male: for immigrant fathers and their sons
+            neutral: for immigrant fathers and their children
+            with_baby: for immigrant fathers and their babies
+          neutral:
+            female: for immigrant families and their daughters
+            male: for immigrant families and their sons
+            neutral: for immigrant families and their children
+            with_baby: for immigrant families and their babies

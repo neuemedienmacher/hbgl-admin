@@ -235,6 +235,21 @@ class TargetAudienceFiltersOfferStamp
     end
   end
 
+  def self.stamp_immigrants_families f_o
+    if f_o.gender_first_part_of_stamp.nil? &&
+       f_o.gender_second_part_of_stamp.nil?
+      '.default'
+    else
+      locale_entry =
+        if f_o.gender_first_part_of_stamp.nil?
+          '.neutral'
+        else
+          '.' + f_o.gender_first_part_of_stamp
+        end
+      locale_entry + stamp_family_nuclear_family_gender_second_part(f_o)
+    end
+  end
+
   # --------- GENERAL (AGE)
 
   def self.stamp_optional_age filters_offer, ta, section, locale
