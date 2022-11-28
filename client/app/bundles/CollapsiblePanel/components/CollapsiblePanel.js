@@ -2,19 +2,24 @@ import React, { PropTypes, Component } from 'react'
 import { Panel } from 'react-bootstrap'
 
 export default class CollapsiblePanel extends Component {
+  constructor(props){
+    super(props)
+  }
   render() {
     return (
       <div className='ca-panel'>
         <Panel
           collapsible
           expanded={this.props.open}
-          header={this.renderCollapsibleHeader(
+        >
+          <Panel.Heading>{this.renderCollapsibleHeader(
             this.props.title,
             this.props.open,
             this.props.onClick
-          )}
-        >
-          {this.props.open && this.props.children ? this.props.children : null}
+          )}</Panel.Heading>
+          {this.props.open && this.props.children && (<Panel.Body>
+            {this.props.children ? this.props.children : null}
+           </Panel.Body>)}
         </Panel>
       </div>
     )
