@@ -130,7 +130,7 @@ ps:
         immigrants_general:
           neutral:
             adults:
-            neutral:s
+            neutral:
           female:
             default:
             special:
