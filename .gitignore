@@ -64,6 +64,7 @@ tags
 # development only files
 .env
 Procfile.development
+.env.*
 
 # staging only files
 .htaccess
@@ -80,5 +81,5 @@ node_modules
 /app/assets/javascripts/generated/*
 
 .idea
-
+.tar
 
