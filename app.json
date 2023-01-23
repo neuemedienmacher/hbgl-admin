@@ -1,0 +1,7 @@
+{
+    "environments": {
+        "review": {
+            "stack": "heroku-20"
+        }
+    }  
+}
