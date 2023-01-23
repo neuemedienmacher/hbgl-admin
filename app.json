@@ -1,7 +1,21 @@
 {
     "environments": {
         "review": {
-            "stack": "heroku-20"
+            "stack": "heroku-20",
+            "buildpacks": [
+                {
+                "url": "https://github.com/gregburek/heroku-buildpack-toolbelt.git"
+                },
+                {
+                "url": "https://github.com/fletom/heroku-buildpack-ssh"
+                },
+                {
+                "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+                },
+                {
+                "url": "https://github.com/heroku/heroku-buildpack-ruby.git"
+                }
+            ]
         }
     }  
 }
